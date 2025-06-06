@@ -117,9 +117,9 @@ class DropDownFieldWidget extends StatelessWidget {
               //   'assets/icons/Arrow - Right.svg',
               //   height: 25.h,
               // ),
-              // hint: hintText != null
-              //     ? Text(hintText!, style: FontPalette.hW500S12)
-              //     : null,
+              hint: hintText != null
+                  ? Text(hintText!, style: FontPalette.hW500S14)
+                  : null,
               decoration: InputDecoration(
                 floatingLabelBehavior: floatingLabelBehavior,
                 labelText: isHint ? null : labelText,
@@ -131,7 +131,7 @@ class DropDownFieldWidget extends StatelessWidget {
                 enabledBorder: inputBorder,
                 focusedErrorBorder: inputBorder,
                 errorBorder: inputBorder,
-                labelStyle: FontPalette.hW500S10,
+                labelStyle: FontPalette.hW500S12,
                 fillColor: fillColor,
                 filled: true,
                 prefixIcon: prefixIcon,

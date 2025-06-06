@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -194,18 +195,36 @@ class ProductScreen extends StatelessWidget {
                                 ),
                                 4.verticalSpace,
 
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 32.h,
-                                  width: 108.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6.r),
-                                    border: Border.all(color: kPrimaryColor),
-                                  ),
-                                  child: Text(
-                                    'Stock Update',
-                                    style: FontPalette.hW700S13.copyWith(
-                                      color: kPrimaryColor,
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(12.r),
+                                          topRight: Radius.circular(12.r),
+                                        ),
+                                      ),
+                                      backgroundColor: kWhite,
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return StockUpdateCard();
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 32.h,
+                                    width: 108.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6.r),
+                                      border: Border.all(color: kPrimaryColor),
+                                    ),
+                                    child: Text(
+                                      'Stock Update',
+                                      style: FontPalette.hW700S13.copyWith(
+                                        color: kPrimaryColor,
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -138,7 +138,7 @@ class TextFeildWidget extends StatelessWidget {
                 ),
             textAlign: textAlign,
             decoration: InputDecoration(
-              prefixIcon: prefix ?? SizedBox(),
+              prefixIcon: prefix,
               prefixStyle: FontPalette.hW700S16,
               counter: const Offstage(),
               floatingLabelBehavior: floatingLabelBehavior,
