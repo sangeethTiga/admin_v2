@@ -1,10 +1,12 @@
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
+import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -50,16 +52,18 @@ class DashboardScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: kPrimaryColor),
               child: Text(
-                'Navigation Menu',
+                'Admin',
                 style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {},
+              title: Text('Product offers'),
+              onTap: () {
+                context.push(routeProductOffers);
+              },
             ),
             ListTile(
               leading: Icon(Icons.settings),
