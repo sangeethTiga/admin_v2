@@ -62,7 +62,7 @@ List<AccountResponse> accountList = [
   AccountResponse(name: 'Expense', image: expense),
   AccountResponse(name: 'Orders', image: orders),
   AccountResponse(name: 'Product', image: product),
-  AccountResponse(name: 'Profit/loass ', image: profit),
+  AccountResponse(name: 'Profit/loss', image: profit),
   AccountResponse(name: 'Customers', image: customer),
   AccountResponse(name: 'Day Summary', image: daySummary),
   AccountResponse(name: 'Purchase', image: purchase),

@@ -142,6 +142,9 @@ class DashboardScreen extends StatelessWidget {
                         case 'Product':
                           context.push(routeProducts);
                           break;
+                        case 'Profit/loss':
+                          context.push(routeProfitloss);
+                          break;
                         default:
                       }
                     },
