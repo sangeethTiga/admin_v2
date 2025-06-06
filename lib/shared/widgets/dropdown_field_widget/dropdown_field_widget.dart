@@ -2,7 +2,6 @@ import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DropDownFieldWidget extends StatelessWidget {
@@ -118,9 +117,9 @@ class DropDownFieldWidget extends StatelessWidget {
               //   'assets/icons/Arrow - Right.svg',
               //   height: 25.h,
               // ),
-              hint: hintText != null
-                  ? Text(hintText!, style: FontPalette.hW700S14)
-                  : null,
+              // hint: hintText != null
+              //     ? Text(hintText!, style: FontPalette.hW500S12)
+              //     : null,
               decoration: InputDecoration(
                 floatingLabelBehavior: floatingLabelBehavior,
                 labelText: isHint ? null : labelText,
@@ -132,21 +131,22 @@ class DropDownFieldWidget extends StatelessWidget {
                 enabledBorder: inputBorder,
                 focusedErrorBorder: inputBorder,
                 errorBorder: inputBorder,
-                labelStyle: const TextStyle(color: kBlueColor, fontSize: 10),
+                labelStyle: FontPalette.hW500S10,
                 fillColor: fillColor,
                 filled: true,
                 prefixIcon: prefixIcon,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: SvgPicture.asset(
-                    'assets/icons/Arrow - Right.svg',
-                    height: 16.h,
-                  ),
-                ),
+                // suffix: suffixIcon,
+                suffixIcon: suffixIcon,
+                //   padding: const EdgeInsets.only(left: 4, right: 8),
+                //   child: SvgPicture.asset(
+                //     'assets/icons/Arrow - Right.svg',
+                //     height: 12.h,
+                //   ),
+                // ),
                 suffixIconConstraints: suffixIconConstraints,
                 hintStyle:
                     hintStyle ??
-                    TextStyle(fontSize: hintSize ?? 15.sp, color: kBlueColor1),
+                    TextStyle(fontSize: hintSize ?? 12.sp, color: kBlueColor1),
                 isDense: isDense,
                 errorStyle: errorStyle
                     ? TextStyle(color: errorColor)

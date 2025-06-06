@@ -136,23 +136,33 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 itemBuilder: (context, i) {
                   final data = accountList[i];
-                  return Container(
-                    height: 138.h,
-                    width: 170.w,
-                    decoration: BoxDecoration(
-                      color: Color(0XFFEFF1F1),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          data.image ?? '',
-                          width: 90.w,
-                          height: 66.h,
-                        ),
-                        Text(data.name ?? '', style: FontPalette.hW700S13),
-                      ],
+                  return GestureDetector(
+                    onTap: () {
+                      switch (data.name) {
+                        case 'Product':
+                          context.push(routeProducts);
+                          break;
+                        default:
+                      }
+                    },
+                    child: Container(
+                      height: 138.h,
+                      width: 170.w,
+                      decoration: BoxDecoration(
+                        color: Color(0XFFEFF1F1),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            data.image ?? '',
+                            width: 90.w,
+                            height: 66.h,
+                          ),
+                          Text(data.name ?? '', style: FontPalette.hW700S13),
+                        ],
+                      ),
                     ),
                   );
                 },

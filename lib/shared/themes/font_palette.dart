@@ -131,6 +131,12 @@ class FontPalette {
     letterSpacing: 0,
     // height: 40.8.h,
   );
+  static TextStyle hW500S12 = TextStyle(
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0,
+    // height: 40.8.h,
+  );
   static TextStyle hW500S10 = TextStyle(
     fontSize: 10.sp,
     fontWeight: FontWeight.w500,

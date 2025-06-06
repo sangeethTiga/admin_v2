@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/dashboard/screens/dashboard_screen.dart';
+import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
@@ -24,34 +25,10 @@ class RouteGenerator {
           path: routeProductOffers,
           builder: (context, state) => const ProductOffersScreen(),
         ),
-        // GoRoute(path: routeSignIn, builder: (context, state) => SigninScreen()),
-        // GoRoute(
-        //   path: routeOTPverify,
-        //   builder: (context, state) {
-        //     final data = state.extra as Map<String, dynamic>;
-        //     return OtpVerifyScreen(data: data);
-        //   },
-        // ),
-        // GoRoute(
-        //   path: routeFindYourStore,
-        //   builder: (context, state) => const FindYourStoreScreen(),
-        // ),
-
-        // GoRoute(
-        //   path: '/success',
-        //   builder: (context, state) {
-        //     final data = state.extra as Map<String, dynamic>;
-        //     final checkResponse = data['checkout'] as OrderDatum?;
-        //     return SuccessScreen(check: checkResponse);
-        //   },
-        // ),
-        // ShellRoute(
-        //   navigatorKey: _shellNavigatorKey,
-        //   builder: (context, state, child) {
-        //     // return ScreenMain(child: child);
-        //   },
-        //   routes: [],
-        // ),
+        GoRoute(
+          path: routeProducts,
+          builder: (context, state) => const ProductScreen(),
+        ),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),
