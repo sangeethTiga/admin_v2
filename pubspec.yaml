@@ -66,6 +66,7 @@ dependencies:
   flutter_widget_from_html: ^0.16.0
   html: ^0.15.6
   shared_preferences: ^2.5.3
+  fluentui_system_icons: ^1.1.273
 
 dev_dependencies:
   flutter_test:

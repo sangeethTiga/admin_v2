@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/dashboard/screens/dashboard_screen.dart';
+import 'package:admin_v2/features/orders/screens/order_detail_screen.dart';
 import 'package:admin_v2/features/orders/screens/order_screen.dart';
 import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
@@ -43,6 +44,10 @@ class RouteGenerator {
         GoRoute(
           path: routeOrders,
           builder: (context, state) => const OrderScreen(),
+        ),
+        GoRoute(
+          path: routeOrderDetail,
+          builder: (context, state) => const OrderDetailScreen(),
         ),
       ],
       errorBuilder: (context, state) =>

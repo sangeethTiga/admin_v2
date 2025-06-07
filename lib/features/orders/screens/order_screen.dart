@@ -1,4 +1,5 @@
 import 'package:admin_v2/shared/constants/colors.dart';
+import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
@@ -8,6 +9,7 @@ import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderScreen extends StatelessWidget {
   const OrderScreen({super.key});
@@ -212,22 +214,27 @@ class OrderScreen extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                top: 10.h,
-                                left: 10.w,
-                                right: 10.w,
-                              ),
-                              height: 44.h,
-                              decoration: BoxDecoration(
-                                color: kPrimaryColor,
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              child: Text(
-                                'View order',
-                                style: FontPalette.hW700S14.copyWith(
-                                  color: kWhite,
+                            child: GestureDetector(
+                              onTap: () {
+                                context.push(routeOrderDetail);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                  top: 10.h,
+                                  left: 10.w,
+                                  right: 10.w,
+                                ),
+                                height: 44.h,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Text(
+                                  'View order',
+                                  style: FontPalette.hW700S14.copyWith(
+                                    color: kWhite,
+                                  ),
                                 ),
                               ),
                             ),
