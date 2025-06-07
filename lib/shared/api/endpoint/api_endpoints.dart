@@ -36,4 +36,15 @@ class ApiEndpoints {
     String toDate,
   ) =>
       '/api/revenuereport?page_first_limit=$pageFirstResult&result_per_page=100&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=0';
+
+  static String expenseReport(
+    int pageFirstResult,
+    int resultPerPage,
+    int storeId,
+    String fromDate,
+    String toDate,
+    int account,
+  ) =>
+      "/api/expenseReport?page_first_limit=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=$account";
+  static String account = '/api/account-heads?trans_type_id=2';
 }

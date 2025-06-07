@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
@@ -119,6 +120,59 @@ class ReportCubit extends Cubit<ReportState> {
       emit(
         state.copyWith(
           revenueReport: newList,
+          isSaleReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isSaleReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadExpenseReport({
+    int? storeId,
+
+    String? fromDate,
+    String? toDate,
+    int page = 0,
+    int limit = 20,
+    bool isLoadMore = false,
+    required int accountId,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(isSaleReport: ApiFetchStatus.loading, revenueReport: []),
+      );
+    }
+    final int offset = page * limit;
+
+    final res = await _reportRepositories.loadExpenseReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      pageFirstResult: offset,
+      resultPerPage: limit,
+      accountId: accountId,
+    );
+    log("$offset $limit");
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<ExpenseReportResponse> fetchedList = rawList.map((element) {
+        if (element is ExpenseReportResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return ExpenseReportResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadRevenueReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      final List<ExpenseReportResponse> newList = isLoadMore
+          ? <ExpenseReportResponse>[...?state.expenseReport, ...fetchedList]
+          : fetchedList;
+      emit(
+        state.copyWith(
+          expenseReport: newList,
           isSaleReport: ApiFetchStatus.success,
         ),
       );

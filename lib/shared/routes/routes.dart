@@ -10,3 +10,7 @@ const String routeOrderDetail = '/order-detail';
 const String routeSign = '/signIn';
 const String routeSale = '/sale';
 const String routeRevenue = '/revenue';
+const String routeExpense = '/expense';
+const String routeCustomer = '/customer';
+const String routeDaySummary = '/day-summary';
+const String routePurchase = '/purchase';

@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
@@ -82,6 +83,39 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<ReveneReportResponse>.from(
             res.data.map((e) => ReveneReportResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<ExpenseReportResponse>>> loadExpenseReport({
+    required int pageFirstResult,
+    required int resultPerPage,
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int accountId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.expenseReport(
+        pageFirstResult,
+        resultPerPage,
+        storeId,
+        fromDate,
+        toDate,
+        accountId,
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ExpenseReportResponse>.from(
+            res.data.map((e) => ExpenseReportResponse.fromJson(e)),
           ).toList(),
         );
       default:

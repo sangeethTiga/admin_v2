@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
@@ -22,6 +23,24 @@ class CommonService implements CommonRepostories {
         return ResponseResult(
           data: List<StoreResponse>.from(
             res.data.map((e) => StoreResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<AccountDataResponse>>> account() async {
+    final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.get(ApiEndpoints.account);
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<AccountDataResponse>.from(
+            res.data.map((e) => AccountDataResponse.fromJson(e)),
           ).toList(),
         );
       default:

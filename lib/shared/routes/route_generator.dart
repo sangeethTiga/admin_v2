@@ -6,6 +6,7 @@ import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
+import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
@@ -60,6 +61,10 @@ class RouteGenerator {
         GoRoute(
           path: routeRevenue,
           builder: (context, state) => RevenueReportScreen(),
+        ),
+        GoRoute(
+          path: routeExpense,
+          builder: (context, state) => ExpenseReportScreen(),
         ),
       ],
       errorBuilder: (context, state) =>

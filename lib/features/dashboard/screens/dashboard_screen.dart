@@ -203,6 +203,17 @@ class DashboardScreen extends StatelessWidget {
                               );
                               context.push(routeRevenue);
                               break;
+                            case 'Expense':
+                              context.read<ReportCubit>().loadExpenseReport(
+                                accountId:
+                                    state.selectedAccount?.accountHeadId ?? 0,
+                                storeId: state.selectedStore?.storeId,
+                                fromDate: parsedDate(DateTime.now()),
+                                toDate: parsedDate(DateTime.now()),
+                              );
+                              context.read<CommonCubit>().account();
+                              context.push(routeExpense);
+                              break;
                             default:
                           }
                         },

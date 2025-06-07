@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -39,5 +40,28 @@ class CommonCubit extends Cubit<CommonState> {
 
   Future<void> selectedDate(ListOfDemo store) async {
     emit(state.copyWith(selectDate: store));
+  }
+
+  Future<void> account() async {
+    try {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+      final res = await _commonRepostories.account();
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.success,
+            accountList: res.data,
+            selectedAccount: res.data?.first,
+          ),
+        );
+      }
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    }
+  }
+
+  Future<void> selectedAccount(AccountDataResponse store) async {
+    emit(state.copyWith(selectedAccount: store));
   }
 }
