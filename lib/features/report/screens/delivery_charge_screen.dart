@@ -40,7 +40,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                   borderColor: kBlack,
                   items: [],
                   fillColor: Color(0XFFEFF1F1),
-                  suffixIcon: Padding(
+                  suffixWidget: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: SvgPicture.asset('assets/icons/Arrow - Right.svg'),
                   ),

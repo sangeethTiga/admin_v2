@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/auth/screens/sign_in_screen.dart';
 import 'package:admin_v2/features/dashboard/screens/dashboard_screen.dart';
 import 'package:admin_v2/features/orders/screens/order_detail_screen.dart';
 import 'package:admin_v2/features/orders/screens/order_screen.dart';
@@ -49,6 +50,7 @@ class RouteGenerator {
           path: routeOrderDetail,
           builder: (context, state) => const OrderDetailScreen(),
         ),
+        GoRoute(path: routeSign, builder: (context, state) => SignInScreen()),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),

@@ -1,9 +1,14 @@
+import 'package:admin_v2/features/common/cubit/common_cubit.dart';
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
+import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -83,45 +88,72 @@ class DashboardScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 44.h,
-                  width: 165.w,
-                  decoration: BoxDecoration(
-                    color: Color(0XFFEFF1F1),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Row(
-                    children: [
-                      12.horizontalSpace,
-                      SvgPicture.asset(
-                        'assets/icons/package-box-pin-location.svg',
-                        height: 20.h,
-                        width: 20.w,
-                      ),
-                      8.horizontalSpace,
-                      Text('My store', style: FontPalette.hW500S14),
-                      Spacer(),
-                      SvgPicture.asset('assets/icons/Arrow - Right.svg'),
-                      12.horizontalSpace,
-                    ],
+                Expanded(
+                  flex: 3,
+                  child: BlocBuilder<CommonCubit, CommonState>(
+                    builder: (context, state) {
+                      return DropDownFieldWidget(
+                        isLoading:
+                            state.apiFetchStatus == ApiFetchStatus.loading,
+                        prefixIcon: Container(
+                          margin: EdgeInsets.only(left: 12.w),
+                          child: SvgPicture.asset(
+                            'assets/icons/package-box-pin-location.svg',
+                            width: 20.w,
+                            height: 20.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+
+                        borderColor: kBlack,
+                        value: state.selectedStore,
+
+                        items:
+                            state.storeList?.map((e) {
+                              return DropdownMenuItem<StoreResponse>(
+                                value: e,
+                                child: Text(e.storeName ?? ''),
+                              );
+                            }).toList() ??
+                            [],
+                        fillColor: Color(0XFFEFF1F1),
+                        suffixWidget: SvgPicture.asset(
+                          'assets/icons/Arrow - Right.svg',
+                        ),
+                        onChanged: (p0) {
+                          context.read<CommonCubit>().selectedStore(p0);
+                        },
+                        labelText: '',
+                      );
+                    },
                   ),
                 ),
-                Container(
-                  height: 44.h,
-                  width: 98.w,
-                  decoration: BoxDecoration(
-                    color: Color(0XFFEFF1F1),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Row(
-                    children: [
-                      12.horizontalSpace,
 
-                      Text('Today', style: FontPalette.hW500S14),
-                      Spacer(),
-                      SvgPicture.asset('assets/icons/Arrow - Right.svg'),
-                      12.horizontalSpace,
-                    ],
+                36.horizontalSpace,
+                SizedBox(
+                  width: 120.w,
+                  child: BlocBuilder<CommonCubit, CommonState>(
+                    builder: (context, state) {
+                      return DropDownFieldWidget(
+                        borderColor: kBlack,
+
+                        value: state.selectDate,
+
+                        items: custDate.map((e) {
+                          return DropdownMenuItem<ListOfDemo>(
+                            value: e,
+                            child: Text(e.name ?? ''),
+                          );
+                        }).toList(),
+                        fillColor: Color(0XFFEFF1F1),
+                        suffixWidget: SvgPicture.asset(
+                          'assets/icons/Arrow - Right.svg',
+                        ),
+                        onChanged: (p0) {
+                          context.read<CommonCubit>().selectedDate(p0);
+                        },
+                      );
+                    },
                   ),
                 ),
               ],

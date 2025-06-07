@@ -50,7 +50,7 @@ class StockUpdateCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: BorderSide(color: Color(0XFFB7C6C2)),
                   ),
-                  suffixIcon: Padding(
+                  suffixWidget: Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: SvgPicture.asset(
                       'assets/icons/Arrow - Right (2).svg',

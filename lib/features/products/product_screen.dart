@@ -38,7 +38,7 @@ class ProductScreen extends StatelessWidget {
                   borderColor: kBlack,
                   items: [],
                   fillColor: Color(0XFFEFF1F1),
-                  suffixIcon: Padding(
+                  suffixWidget: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: SvgPicture.asset('assets/icons/Arrow - Right.svg'),
                   ),
@@ -57,7 +57,7 @@ class ProductScreen extends StatelessWidget {
                           borderSide: BorderSide(color: Color(0XFFB7C6C2)),
                         ),
                         items: [],
-                        suffixIcon: Padding(
+                        suffixWidget: Padding(
                           padding: const EdgeInsets.all(14.0),
                           child: SvgPicture.asset(
                             'assets/icons/Arrow - Right (2).svg',
@@ -76,13 +76,13 @@ class ProductScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                           borderSide: BorderSide(color: Color(0XFFB7C6C2)),
                         ),
-                        suffixIcon: Padding(
+                        suffixWidget: Padding(
                           padding: const EdgeInsets.all(14.0),
                           child: SvgPicture.asset(
                             'assets/icons/Arrow - Right (2).svg',
                           ),
                         ),
-                        // suffixIcon: Padding(
+                        // suffixWidget: Padding(
                         //   padding: const EdgeInsets.only(left: 1, right: 1),
                         //   child: SvgPicture.asset(
                         //     'assets/icons/Arrow - Right (2).svg',
@@ -101,13 +101,13 @@ class ProductScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: BorderSide(color: Color(0XFFB7C6C2)),
                   ),
-                  suffixIcon: Padding(
+                  suffixWidget: Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: SvgPicture.asset(
                       'assets/icons/Arrow - Right (2).svg',
                     ),
                   ),
-                  // suffixIcon: Padding(
+                  // suffixWidget: Padding(
                   //   padding: const EdgeInsets.only(left: 1, right: 1),
                   //   child: SvgPicture.asset(
                   //     'assets/icons/Arrow - Right (2).svg',
@@ -122,7 +122,7 @@ class ProductScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: BorderSide(color: Color(0XFFB7C6C2)),
                   ),
-                  suffixIcon: Padding(
+                  suffixWidget: Padding(
                     padding: const EdgeInsets.all(14.0),
                     child: SvgPicture.asset('assets/icons/Scaner.svg'),
                   ),

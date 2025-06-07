@@ -26,8 +26,7 @@ class DropDownFieldWidget extends StatelessWidget {
     ),
     this.borderColor,
     this.prefixIcon,
-    this.suffixIcon,
-    this.suffixIconConstraints,
+    this.suffixWidget,
     this.autovalidateMode,
     this.validator,
     this.errorStyle = true,
@@ -58,6 +57,7 @@ class DropDownFieldWidget extends StatelessWidget {
   final GlobalKey<FormFieldState>? dropdownKey;
   final dynamic value;
   final List items;
+  final Widget? suffixWidget;
   final String? labelText;
   final String? topLabelText;
   final String? hintText;
@@ -72,8 +72,6 @@ class DropDownFieldWidget extends StatelessWidget {
   final InputBorder? inputBorder;
   final Color? borderColor;
   final Widget? prefixIcon;
-  final Widget? suffixIcon;
-  final BoxConstraints? suffixIconConstraints;
   final TextEditingController? controller;
   final AutovalidateMode? autovalidateMode;
   final String? Function(dynamic)? validator;
@@ -97,14 +95,12 @@ class DropDownFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         5.verticalSpace,
         if (topLabelText != null)
-          Text(topLabelText!, style: FontPalette.hW500S13.copyWith()),
+          Text(topLabelText!, style: FontPalette.hW500S13),
         5.verticalSpace,
-        if (topLabelText != null) 8.horizontalSpace,
         ShimmerWidget(
           isLoading: isLoading,
           child: SizedBox(
@@ -112,11 +108,9 @@ class DropDownFieldWidget extends StatelessWidget {
             child: DropdownButtonFormField(
               key: dropdownKey,
               dropdownColor: dropdownColor,
-              iconDisabledColor: Colors.transparent,
-              // icon: SvgPicture.asset(
-              //   'assets/icons/Arrow - Right.svg',
-              //   height: 25.h,
-              // ),
+              iconDisabledColor: kRedColor,
+              icon: const SizedBox.shrink(), // Hides default icon in all states
+
               hint: hintText != null
                   ? Text(hintText!, style: FontPalette.hW500S14)
                   : null,
@@ -135,15 +129,11 @@ class DropDownFieldWidget extends StatelessWidget {
                 fillColor: fillColor,
                 filled: true,
                 prefixIcon: prefixIcon,
-                // suffix: suffixIcon,
-                suffixIcon: suffixIcon,
-                //   padding: const EdgeInsets.only(left: 4, right: 8),
-                //   child: SvgPicture.asset(
-                //     'assets/icons/Arrow - Right.svg',
-                //     height: 12.h,
-                //   ),
-                // ),
-                suffixIconConstraints: suffixIconConstraints,
+                prefixIconConstraints: BoxConstraints(
+                  minWidth: 30.w,
+                  minHeight: 20.h,
+                ),
+                suffix: suffixWidget,
                 hintStyle:
                     hintStyle ??
                     TextStyle(fontSize: hintSize ?? 12.sp, color: kBlueColor1),
@@ -164,16 +154,11 @@ class DropDownFieldWidget extends StatelessWidget {
               isExpanded: true,
               value: value,
               items: items.map<DropdownMenuItem<dynamic>>((item) {
+                if (item is DropdownMenuItem) return item;
                 if (item is String) {
-                  return DropdownMenuItem<dynamic>(
-                    value: item,
-                    child: Text(item),
-                  );
-                } else if (item is DropdownMenuItem<dynamic>) {
-                  return item;
-                } else {
-                  throw Exception("Invalid item type in dropdown items list");
+                  return DropdownMenuItem(value: item, child: Text(item));
                 }
+                throw Exception("Invalid dropdown item type");
               }).toList(),
               onChanged: onChanged,
               validator: validator,
@@ -209,9 +194,7 @@ class ShimmerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isError) {
-      return const SizedBox();
-    }
+    if (isError) return const SizedBox();
     if (isLoading) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(radius),
@@ -227,10 +210,7 @@ class ShimmerWidget extends StatelessWidget {
               : shimmerChild ?? child ?? const SizedBox(),
         ),
       );
-    } else if (!isLoading) {
-      return child ?? const SizedBox();
-    } else {
-      return const SizedBox();
     }
+    return child ?? const SizedBox();
   }
 }
