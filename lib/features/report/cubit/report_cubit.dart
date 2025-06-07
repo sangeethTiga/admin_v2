@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
@@ -173,6 +174,29 @@ class ReportCubit extends Cubit<ReportState> {
       emit(
         state.copyWith(
           expenseReport: newList,
+          isSaleReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isSaleReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadProfitAndLoss({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+  }) async {
+    emit(state.copyWith(isSaleReport: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadProfitAndLoss(
+      storeId: storeId ?? 0,
+
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+    );
+    if (res.data != null) {
+      emit(
+        state.copyWith(
+          profitlossReport: res.data,
           isSaleReport: ApiFetchStatus.success,
         ),
       );

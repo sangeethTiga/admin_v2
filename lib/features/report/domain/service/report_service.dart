@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
@@ -116,6 +117,29 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<ExpenseReportResponse>.from(
             res.data.map((e) => ExpenseReportResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<ProfitlossResponse>>> loadProfitAndLoss({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.profitLoss(storeId, fromDate, toDate),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ProfitlossResponse>.from(
+            res.data.map((e) => ProfitlossResponse.fromJson(e)),
           ).toList(),
         );
       default:

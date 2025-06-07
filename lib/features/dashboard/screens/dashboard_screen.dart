@@ -9,6 +9,7 @@ import 'package:admin_v2/shared/app/list/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
+import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:flutter/material.dart';
@@ -61,10 +62,34 @@ class DashboardScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
+              margin: EdgeInsets.only(bottom: 0, top: 0),
               decoration: BoxDecoration(color: kPrimaryColor),
-              child: Text(
-                'Admin',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+              child: FutureBuilder(
+                future: AuthUtils.instance.readUserData(),
+                builder: (context, asyncSnapshot) {
+                  return Column(
+                    spacing: 6.h,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Admin',
+                        style: TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                      Text(
+                        asyncSnapshot.data?.user?.userName ?? '',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      Text(
+                        asyncSnapshot.data?.user?.userEmail ?? '',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      Text(
+                        asyncSnapshot.data?.user?.userPhone.toString() ?? '',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
             ListTile(
@@ -184,6 +209,12 @@ class DashboardScreen extends StatelessWidget {
                               context.push(routeProducts);
                               break;
                             case 'Profit/loss':
+                              context.read<ReportCubit>().loadProfitAndLoss(
+                                storeId: state.selectedStore?.storeId,
+                                fromDate: parsedDate(DateTime.now()),
+                                toDate: parsedDate(DateTime.now()),
+                              );
+
                               context.push(routeProfitloss);
                               break;
                             case 'Orders':

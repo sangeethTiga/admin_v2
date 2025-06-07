@@ -8,6 +8,7 @@ class ReportState extends Equatable {
   final ListOfDemo? selectedMethod;
   final List<ReveneReportResponse>? revenueReport;
   final List<ExpenseReportResponse>? expenseReport;
+  final List<ProfitlossResponse>? profitlossReport;
   final int currentPage;
   final int pageSize;
 
@@ -21,6 +22,7 @@ class ReportState extends Equatable {
     this.currentPage = 0,
     this.pageSize = 20,
     this.expenseReport,
+    this.profitlossReport,
   });
 
   ReportState copyWith({
@@ -33,6 +35,7 @@ class ReportState extends Equatable {
     int? currentPage,
     int? pageSize,
     List<ExpenseReportResponse>? expenseReport,
+    List<ProfitlossResponse>? profitlossReport,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -44,6 +47,7 @@ class ReportState extends Equatable {
       currentPage: currentPage ?? this.currentPage,
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
+      profitlossReport: profitlossReport ?? this.profitlossReport,
     );
   }
 
@@ -58,6 +62,7 @@ class ReportState extends Equatable {
     currentPage,
     pageSize,
     expenseReport,
+    profitlossReport,
   ];
 }
 
