@@ -155,7 +155,7 @@ class OrderScreen extends StatelessWidget {
                             //     'assets/icons/Arrow - Right.svg',
                             //   ),
                             // ),
-                            labelText: 'Demo store',
+                            labelText: '',
                           );
                         },
                       ),
@@ -250,7 +250,7 @@ class OrderScreen extends StatelessWidget {
                                           firstDate:
                                               state.fromDate ?? DateTime.now(),
 
-                                          hintText: 'Pls',
+                                          hintText: '',
                                           changeDate: (DateTime pickedDate) {
                                             context
                                                 .read<OrderCubit>()
@@ -427,40 +427,44 @@ class OrderScreen extends StatelessWidget {
                                     children: [
                                       10.horizontalSpace,
                                       Expanded(
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(
-                                            top: 10.h,
-                                            left: 10.w,
-                                            right: 10.w,
-                                          ),
-                                          height: 44.h,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: kPrimaryColor,
+                                        child: InkWell(
+                                          onTap: () {
+                                            _dialogBuilder(context);
+                                          },
+                                          child: Container(
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(
+                                              top: 10.h,
+                                              left: 10.w,
+                                              right: 10.w,
                                             ),
-                                            color: kWhite,
-                                            borderRadius: BorderRadius.circular(
-                                              8.r,
-                                            ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                data?.orderStatusName ?? '',
-                                                style: FontPalette.hW700S14
-                                                    .copyWith(
-                                                      color: kPrimaryColor,
-                                                    ),
-                                              ),
-                                              4.horizontalSpace,
-                                              SvgPicture.asset(
-                                                'assets/icons/Arrow - Right.svg',
+                                            height: 44.h,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
                                                 color: kPrimaryColor,
                                               ),
-                                            ],
+                                              color: kWhite,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  data?.orderStatusName ?? '',
+                                                  style: FontPalette.hW700S14
+                                                      .copyWith(
+                                                        color: kPrimaryColor,
+                                                      ),
+                                                ),
+                                                4.horizontalSpace,
+                                                SvgPicture.asset(
+                                                  'assets/icons/Arrow - Right.svg',
+                                                  color: kPrimaryColor,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -667,5 +671,57 @@ Widget shimmerOrderCard() {
         ],
       ),
     ),
+  );
+}
+
+Future<void> _dialogBuilder(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return BlocBuilder<OrderCubit, OrderState>(
+        builder: (context, state) {
+          return AlertDialog(
+            backgroundColor: kWhite,
+            title: const Text('Status'),
+            content: SizedBox(
+              height: 260.h,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(
+                    state.statusList?.length ?? 0,
+                    (i) => MainPadding(
+                      top: 10.h,
+                      child: Text(state.statusList?[i].orderStatusName ?? ''),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('Disable'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('Enable'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    },
   );
 }
