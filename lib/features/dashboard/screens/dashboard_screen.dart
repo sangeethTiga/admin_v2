@@ -68,7 +68,9 @@ class DashboardScreen extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Delivery Charge'),
-              onTap: () {},
+              onTap: () {
+                context.push(routeDeliveryCharge);
+              },
             ),
           ],
         ),

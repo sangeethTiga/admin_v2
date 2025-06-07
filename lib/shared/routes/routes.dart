@@ -4,3 +4,4 @@ const String routeSignIn = '/signin';
 const String routeProductOffers = '/product-offers';
 const String routeProducts = '/product';
 const String routeProfitloss = '/profitloss';
+const String routeDeliveryCharge = '/delivery-charge';

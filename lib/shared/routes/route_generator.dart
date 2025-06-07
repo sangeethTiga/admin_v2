@@ -2,6 +2,7 @@ import 'package:admin_v2/features/dashboard/screens/dashboard_screen.dart';
 import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
+import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,10 @@ class RouteGenerator {
         GoRoute(
           path: routeProfitloss,
           builder: (context, state) => const ProfitLossScreen(),
+        ),
+        GoRoute(
+          path: routeDeliveryCharge,
+          builder: (context, state) => const DeliveryChargeScreen(),
         ),
       ],
       errorBuilder: (context, state) =>
