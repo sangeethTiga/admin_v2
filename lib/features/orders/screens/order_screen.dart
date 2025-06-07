@@ -471,6 +471,11 @@ class OrderScreen extends StatelessWidget {
                                       Expanded(
                                         child: GestureDetector(
                                           onTap: () {
+                                            context
+                                                .read<OrderCubit>()
+                                                .orderDetail(
+                                                  data?.prodOrderId ?? 0,
+                                                );
                                             context.push(routeOrderDetail);
                                           },
                                           child: Container(

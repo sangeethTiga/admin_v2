@@ -10,17 +10,19 @@ class OrderState extends Equatable {
   final DateTime? fromDate;
   final DateTime? toDate;
   final ApiFetchStatus? isLoading;
+  final OrderDetailResponse? orderDetail;
 
   const OrderState({
-    this.status,
+    this.status = ApiFetchStatus.idle,
     this.statusList,
     this.orderList,
     this.selectedIds,
     this.selectedStatuses,
     this.fromDate,
     this.toDate,
-    this.isLoading,
+    this.isLoading = ApiFetchStatus.idle,
     this.selectedOrder,
+    this.orderDetail,
   });
 
   OrderState copyWith({
@@ -33,6 +35,7 @@ class OrderState extends Equatable {
     DateTime? toDate,
     ApiFetchStatus? isLoading,
     OrderStatusResponse? selectedOrder,
+    OrderDetailResponse? orderDetail,
   }) {
     return OrderState(
       status: status ?? this.status,
@@ -44,6 +47,7 @@ class OrderState extends Equatable {
       toDate: toDate ?? this.toDate,
       isLoading: isLoading ?? this.isLoading,
       selectedOrder: selectedOrder ?? this.selectedOrder,
+      orderDetail: orderDetail ?? this.orderDetail,
     );
   }
 
@@ -58,6 +62,7 @@ class OrderState extends Equatable {
     toDate,
     isLoading,
     selectedOrder,
+    orderDetail,
   ];
 }
 

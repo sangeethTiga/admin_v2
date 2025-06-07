@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/orders/domain/models/order/order_response.dart';
+import 'package:admin_v2/features/orders/domain/models/order_detail/order_detail_response.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/features/orders/domain/repositories/order_repositories.dart';
@@ -47,6 +48,19 @@ class OrderService implements OrderRepositories {
         );
       default:
         return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<OrderDetailResponse>> orderDetail(int orderId) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(ApiEndpoints.orderDetail(orderId));
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(data: OrderDetailResponse.fromJson(res.data));
+      default:
+        return ResponseResult(error: 'error');
     }
   }
 }

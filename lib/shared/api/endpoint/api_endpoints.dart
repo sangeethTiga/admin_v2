@@ -51,4 +51,6 @@ class ApiEndpoints {
   static String status = '/api/orderstatus';
 
   static String orderList = '/api/productorder/get';
+
+  static String orderDetail(int orderId) => '/api/productorderitem/$orderId';
 }

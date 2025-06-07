@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:admin_v2/features/orders/domain/models/order/order_response.dart';
+import 'package:admin_v2/features/orders/domain/models/order_detail/order_detail_response.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/features/orders/domain/repositories/order_repositories.dart';
@@ -84,5 +85,23 @@ class OrderCubit extends Cubit<OrderState> {
 
   Future<void> chnageStatus(OrderStatusResponse status) async {
     emit(state.copyWith(selectedOrder: status));
+  }
+
+  Future<void> orderDetail(int id) async {
+    try {
+      emit(state.copyWith(isLoading: ApiFetchStatus.loading));
+      final res = await _orderRepositories.orderDetail(id);
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            isLoading: ApiFetchStatus.success,
+            orderDetail: res.data,
+          ),
+        );
+      }
+      emit(state.copyWith(isLoading: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(isLoading: ApiFetchStatus.failed));
+    }
   }
 }
