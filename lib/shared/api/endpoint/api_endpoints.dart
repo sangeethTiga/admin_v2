@@ -47,4 +47,8 @@ class ApiEndpoints {
   ) =>
       "/api/expenseReport?page_first_limit=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=$account";
   static String account = '/api/account-heads?trans_type_id=2';
+
+  static String status = '/api/orderstatus';
+
+  static String orderList = '/api/productorder/get';
 }

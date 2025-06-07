@@ -86,3 +86,16 @@ List<StatusName> statusList = [
   StatusName(name: 'Track', id: 3),
   StatusName(name: 'View', id: 4),
 ];
+class Item {
+  int id;
+  String title;
+  bool isSelected;
+
+  Item({required this.id, required this.title, this.isSelected = false});
+}
+
+List<Item> mapItems = [
+  Item(id: 0, title: 'Order Date'),
+  Item(id: 1, title: 'Delivery Date'),
+  Item(id: 2, title: 'Pick Up Date'),
+];

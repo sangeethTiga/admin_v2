@@ -1,5 +1,7 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
+import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
@@ -185,6 +187,14 @@ class DashboardScreen extends StatelessWidget {
                               context.push(routeProfitloss);
                               break;
                             case 'Orders':
+                              context.read<OrderCubit>().orderStatus();
+                              context.read<OrderCubit>().orders(
+                                req: OrderRequest(
+                                  storeId: state.selectedStore?.storeId,
+                                  fromDate: parsedDate(DateTime.now()),
+                                  toDate: parsedDate(DateTime.now()),
+                                ),
+                              );
                               context.push(routeOrders);
                               break;
                             case 'Sales':
@@ -214,6 +224,7 @@ class DashboardScreen extends StatelessWidget {
                               context.read<CommonCubit>().account();
                               context.push(routeExpense);
                               break;
+
                             default:
                           }
                         },
