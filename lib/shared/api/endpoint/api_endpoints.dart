@@ -27,4 +27,13 @@ class ApiEndpoints {
 
     return "/api/salesReport?store_id=$selectedStoreId$queryStrinng&del_agent_id=$selectedDeliveryPartner&delivery_partner_id=$selectedDeliveryPartner&pay_method_id=$selectedPaymentMethods&waiter_id=$selectedWaites&shift_id=$selectedShifts&day_close_based=${isDayClosed == true ? 1 : 0}&cashier_id=$selectedCashe&kiosk_id=$selectedKIOS&group_by=${selectedGroupBy ?? 'month'}";
   }
+
+  static String revenueReport(
+    int pageFirstResult,
+    int resultPerPage,
+    int storeId,
+    String fromDate,
+    String toDate,
+  ) =>
+      '/api/revenuereport?page_first_limit=$pageFirstResult&result_per_page=100&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=0';
 }

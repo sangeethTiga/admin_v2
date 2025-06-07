@@ -9,3 +9,4 @@ const String routeOrders = '/orders';
 const String routeOrderDetail = '/order-detail';
 const String routeSign = '/signIn';
 const String routeSale = '/sale';
+const String routeRevenue = '/revenue';

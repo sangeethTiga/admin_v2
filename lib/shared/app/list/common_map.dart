@@ -22,6 +22,11 @@ List<ListOfDemo> custDate = [
   ListOfDemo(name: 'Friday', id: 3),
   ListOfDemo(name: 'Saturday', id: 3),
 ];
+List<ListOfDemo> payMethod = [
+  ListOfDemo(name: 'Cash', id: 0),
+  ListOfDemo(name: 'Card', id: 1),
+  ListOfDemo(name: 'Online', id: 2),
+];
 
 class ListOfDemo {
   String? name;

@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/app/list/helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -65,5 +69,60 @@ class ReportCubit extends Cubit<ReportState> {
 
   Future<void> changeToDate(DateTime date) async {
     emit(state.copyWith(toDate: date));
+  }
+
+  Future<void> changeMethod(ListOfDemo method) async {
+    emit(state.copyWith(selectedMethod: method));
+  }
+
+  Future<void> loadReveneueReport({
+    int? storeId,
+
+    String? fromDate,
+    String? toDate,
+    int page = 0,
+    int limit = 20,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(isSaleReport: ApiFetchStatus.loading, revenueReport: []),
+      );
+    }
+    final int offset = page * limit;
+
+    final res = await _reportRepositories.loadRevenueReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      pageFirstResult: offset,
+      resultPerPage: limit,
+    );
+    log("$offset $limit");
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<ReveneReportResponse> fetchedList = rawList.map((element) {
+        if (element is ReveneReportResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return ReveneReportResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadRevenueReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      final List<ReveneReportResponse> newList = isLoadMore
+          ? <ReveneReportResponse>[...?state.revenueReport, ...fetchedList]
+          : fetchedList;
+      emit(
+        state.copyWith(
+          revenueReport: newList,
+          isSaleReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isSaleReport: ApiFetchStatus.failed));
   }
 }
