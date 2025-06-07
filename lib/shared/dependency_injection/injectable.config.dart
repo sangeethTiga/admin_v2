@@ -19,6 +19,10 @@ import '../../features/common/cubit/common_cubit.dart' as _i583;
 import '../../features/common/domain/repositores/common_repostories.dart'
     as _i350;
 import '../../features/common/domain/service/common_service.dart' as _i837;
+import '../../features/report/cubit/report_cubit.dart' as _i1051;
+import '../../features/report/domain/repositories/report_repositores.dart'
+    as _i11;
+import '../../features/report/domain/service/report_service.dart' as _i388;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -31,7 +35,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i698.AuthCubit>(
       () => _i698.AuthCubit(gh<_i233.AuthRepositories>()),
     );
+    gh.lazySingleton<_i11.ReportRepositories>(() => _i388.ReportService());
     gh.lazySingleton<_i350.CommonRepostories>(() => _i837.CommonService());
+    gh.factory<_i1051.ReportCubit>(
+      () => _i1051.ReportCubit(gh<_i11.ReportRepositories>()),
+    );
     gh.factory<_i583.CommonCubit>(
       () => _i583.CommonCubit(gh<_i350.CommonRepostories>()),
     );

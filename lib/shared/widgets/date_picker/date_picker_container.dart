@@ -70,7 +70,7 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
               context: context,
               initialDate:
                   widget.initialDate ?? widget.firstDate ?? DateTime.now(),
-              firstDate: widget.firstDate ?? DateTime(2015),
+              firstDate: DateTime(2015, 1, 1),
               lastDate: DateTime(2101),
               // builder: (BuildContext context, Widget? child) {
               //   return Theme(

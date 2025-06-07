@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Helper {
@@ -106,3 +107,5 @@ String truncateTo2Decimals(double? value) {
   int truncated = (value * 100).truncate();
   return (truncated / 100).toStringAsFixed(2);
 }
+
+String parsedDate(DateTime date) => DateFormat('yyyy-MM-dd').format(date);

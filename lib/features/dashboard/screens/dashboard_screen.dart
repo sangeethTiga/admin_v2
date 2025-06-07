@@ -1,5 +1,6 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -181,6 +182,14 @@ class DashboardScreen extends StatelessWidget {
                           break;
                         case 'Orders':
                           context.push(routeOrders);
+                          break;
+                        case 'Sales':
+                          context.read<ReportCubit>().loadSalesReport(
+                            storeId: 18,
+                            fromDate: '2024-06-07',
+                            toDate: '2025-06-07',
+                          );
+                          context.push(routeSale);
                           break;
                         default:
                       }

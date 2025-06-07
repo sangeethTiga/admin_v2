@@ -6,6 +6,7 @@ import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
+import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,10 @@ class RouteGenerator {
           builder: (context, state) => const OrderDetailScreen(),
         ),
         GoRoute(path: routeSign, builder: (context, state) => SignInScreen()),
+        GoRoute(
+          path: routeSale,
+          builder: (context, state) => SalesReportScreen(),
+        ),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),

@@ -1,0 +1,58 @@
+import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
+import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
+import 'package:admin_v2/shared/api/network/network.dart';
+import 'package:admin_v2/shared/utils/result.dart';
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: ReportRepositories)
+class ReportService implements ReportRepositories {
+  @override
+  Future<ResponseResult<List<SalesReportResponse>>> loadSalesReport({
+    required int storeId,
+    required String type,
+    required String duration,
+    required String paymentMethod,
+    required String waiter,
+    required String shift,
+    required String cashier,
+    required String status,
+    required String kiosks,
+    required String cashe,
+    required String groupBy,
+    required String deliveryPartner,
+    required String isDayClosed,
+    required String fromDate,
+    required String toDate,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.get(
+      ApiEndpoints.salesReport(
+        selectedStoreId: storeId,
+        selectedDeliveryPartner: deliveryPartner,
+        selectedPaymentMethods: paymentMethod,
+        selectedWaites: waiter,
+        selectedShifts: shift,
+        isDayClosed: isDayClosed == 'true' ? true : false,
+        selectedCashe: cashe,
+        selectedKIOS: kiosks,
+        selectedGroupBy: groupBy,
+        tempFromDate: fromDate,
+        toDate: toDate,
+        selectedDuration: duration,
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<SalesReportResponse>.from(
+            res.data.map((e) => SalesReportResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+}
