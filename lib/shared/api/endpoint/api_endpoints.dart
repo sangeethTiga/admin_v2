@@ -56,4 +56,15 @@ class ApiEndpoints {
 
   static String profitLoss(int storeId, String fromDate, String toDate) =>
       "/api/profitLoss?store_id=$storeId&from_date=$fromDate&to_date=$toDate";
+
+static String customersReport(
+  int pageFirstResult,
+  int resultPerPage,
+  int storeId,
+  String fromDate,
+  String toDate,
+  int filterId,
+  
+) => "/api/customerreport?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&filter_id=$filterId";
+
 }

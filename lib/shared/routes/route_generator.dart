@@ -5,6 +5,7 @@ import 'package:admin_v2/features/orders/screens/order_screen.dart';
 import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
+import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
@@ -66,6 +67,12 @@ class RouteGenerator {
           path: routeExpense,
           builder: (context, state) => ExpenseReportScreen(),
         ),
+
+        GoRoute(
+          path: routeCustomers,
+        builder:(context,state) => CustomersReportScreen())
+
+
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),

@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -43,5 +44,18 @@ abstract class ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
+  });
+
+
+  Future<ResponseResult<List<CustomersResponse>>> loadCustomersReport({
+    required int pageFirstResult,
+    required int resultPerPage,
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required String filterValue,
+    required int filterId,
+
+
   });
 }

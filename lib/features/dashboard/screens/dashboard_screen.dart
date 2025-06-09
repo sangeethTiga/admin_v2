@@ -36,22 +36,23 @@ class DashboardScreen extends StatelessWidget {
             right: 0,
             bottom: 8.h,
             child: Builder(
-              builder: (context) => Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.menu, color: kWhite),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
+              builder:
+                  (context) => Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.menu, color: kWhite),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                      ),
+                      4.horizontalSpace,
+                      SvgPicture.asset(
+                        'assets/icons/Logo.svg',
+                        height: 18,
+                        width: 18,
+                      ),
+                    ],
                   ),
-                  4.horizontalSpace,
-                  SvgPicture.asset(
-                    'assets/icons/Logo.svg',
-                    height: 18,
-                    width: 18,
-                  ),
-                ],
-              ),
             ),
           ),
         ),
@@ -209,12 +210,13 @@ class DashboardScreen extends StatelessWidget {
 
                             value: state.selectDate,
 
-                            items: custDate.map((e) {
-                              return DropdownMenuItem<ListOfDemo>(
-                                value: e,
-                                child: Text(e.name ?? ''),
-                              );
-                            }).toList(),
+                            items:
+                                custDate.map((e) {
+                                  return DropdownMenuItem<ListOfDemo>(
+                                    value: e,
+                                    child: Text(e.name ?? ''),
+                                  );
+                                }).toList(),
                             fillColor: Color(0XFFEFF1F1),
                             suffixWidget: SvgPicture.asset(
                               'assets/icons/Arrow - Right.svg',
@@ -293,6 +295,9 @@ class DashboardScreen extends StatelessWidget {
                               );
                               context.read<CommonCubit>().account();
                               context.push(routeExpense);
+                              break;
+                            case 'Customers':
+                              context.push(routeCustomers);
                               break;
 
                             default:

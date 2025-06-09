@@ -15,13 +15,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SalesReportScreen extends StatelessWidget {
-  const SalesReportScreen({super.key});
+class CustomersReportScreen extends StatelessWidget {
+  const CustomersReportScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Sales Report'),
+      appBar: AppbarWidget(title: 'Customers Report'),
       body: Column(
         children: [
           dividerWidget(height: 6.h),
@@ -63,8 +63,10 @@ class SalesReportScreen extends StatelessWidget {
                     );
                   },
                 ),
+
                 12.verticalSpace,
-                BlocBuilder<ReportCubit, ReportState>(  
+
+                BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(
                       children: [
@@ -99,7 +101,7 @@ class SalesReportScreen extends StatelessWidget {
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {
-                        context.read<ReportCubit>().loadSalesReport(
+                        context.read<ReportCubit>().loadCustomersReport(
                           storeId: state.selectedStore?.storeId,
                         );
                       },
@@ -114,32 +116,62 @@ class SalesReportScreen extends StatelessWidget {
 
           Expanded(
             child: MainPadding(
-              child: BlocBuilder<ReportCubit, ReportState>(
-                builder: (context, state) {
-                  return CommonTableWidget(
-                    isLoading: state.isSaleReport == ApiFetchStatus.loading,
-                    headers: [
-                      "#",
-                      "MONTH",
-                      "TOTAL ORDERS",
-                      "TOTAL SALES",
-                      "TAX PAYABLE",
-                    ],
-                    columnFlex: [1, 3, 4, 3, 3],
-                    data:
-                        state.salesReport?.map((e) {
-                          int index = state.salesReport?.indexOf(e) ?? 0;
-                          return {
-                            '#': index + 1,
-                            'MONTH': e.itemHeading ?? '',
-                            'TOTAL ORDERS': e.totalOrders ?? '',
-                            'TOTAL SALES':
-                                e.totalSales?.toStringAsFixed(2) ?? '',
-                            'TAX PAYABLE':
-                                e.taxPayable?.toStringAsFixed(2) ?? '',
-                          };
-                        }).toList() ??
-                        [],
+              child: BlocBuilder<CommonCubit, CommonState>(
+                builder: (context, store) {
+                  return BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      return NotificationListener<ScrollNotification>(
+                        onNotification: (ScrollNotification scrollInfo) {
+                          if (scrollInfo.metrics.pixels >=
+                                  scrollInfo.metrics.maxScrollExtent - 50 &&
+                              state.isCustomersReport != ApiFetchStatus.loading) {
+                            context.read<ReportCubit>().loadCustomersReport(
+                              page: state.currentPage + 1,
+                              limit: state.pageSize,
+                              isLoadMore: true,
+                              storeId: store.selectedStore?.storeId,
+                            );
+                          }
+                          return false;
+                        },
+
+                        child: CommonTableWidget(
+                          headers: [
+                            "#",
+                            "Customer ",
+                            "E-Mail",
+                            "Mobile",
+                            "Registration Date",
+                            "Order Count",
+                            "Purchase Amount(AED)",
+                            "Balance(AED)",
+                            "Action",
+                          ],
+
+                          columnFlex: [1, 2, 2, 2, 2, 2, 2, 2, 1],
+                          data:
+                              state.customersReport?.map((e) {
+                                int index =
+                                    state.customersReport?.indexOf(e) ?? 0;
+                                return {
+                                  '#': index + 1,
+                                  'Customer Name': e.custName ?? '',
+                                  'E-Mail': e.custEmail ?? '',
+                                  'Mobile': e.custMobile ?? '',
+                                  'Registration Date':
+                                      e.createdDate?.toString() ?? '',
+                                  'Order Count': e.orderCount.toString(),
+                                  'Purchase Amount(AED)':
+                                      e.totalPurchaseAmount.toString(),
+                                  'Balance(AED)': e.balanceAmt.toString(),
+                                  'Action':
+                                      'Action', // Placeholder for action button
+                                };
+                              }).toList() ??
+                              [],
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -150,3 +182,8 @@ class SalesReportScreen extends StatelessWidget {
     );
   }
 }
+ 
+
+    
+                
+ 

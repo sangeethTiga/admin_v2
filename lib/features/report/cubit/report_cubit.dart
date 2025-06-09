@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -103,21 +104,23 @@ class ReportCubit extends Cubit<ReportState> {
     log("$offset $limit");
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
-      final List<ReveneReportResponse> fetchedList = rawList.map((element) {
-        if (element is ReveneReportResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return ReveneReportResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadRevenueReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      final List<ReveneReportResponse> fetchedList =
+          rawList.map((element) {
+            if (element is ReveneReportResponse) {
+              return element;
+            } else if (element is Map<String, dynamic>) {
+              return ReveneReportResponse.fromJson(element);
+            } else {
+              throw Exception(
+                'Unexpected element type in loadRevenueReport: ${element.runtimeType}',
+              );
+            }
+          }).toList();
 
-      final List<ReveneReportResponse> newList = isLoadMore
-          ? <ReveneReportResponse>[...?state.revenueReport, ...fetchedList]
-          : fetchedList;
+      final List<ReveneReportResponse> newList =
+          isLoadMore
+              ? <ReveneReportResponse>[...?state.revenueReport, ...fetchedList]
+              : fetchedList;
       emit(
         state.copyWith(
           revenueReport: newList,
@@ -156,21 +159,23 @@ class ReportCubit extends Cubit<ReportState> {
     log("$offset $limit");
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
-      final List<ExpenseReportResponse> fetchedList = rawList.map((element) {
-        if (element is ExpenseReportResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return ExpenseReportResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadRevenueReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      final List<ExpenseReportResponse> fetchedList =
+          rawList.map((element) {
+            if (element is ExpenseReportResponse) {
+              return element;
+            } else if (element is Map<String, dynamic>) {
+              return ExpenseReportResponse.fromJson(element);
+            } else {
+              throw Exception(
+                'Unexpected element type in loadRevenueReport: ${element.runtimeType}',
+              );
+            }
+          }).toList();
 
-      final List<ExpenseReportResponse> newList = isLoadMore
-          ? <ExpenseReportResponse>[...?state.expenseReport, ...fetchedList]
-          : fetchedList;
+      final List<ExpenseReportResponse> newList =
+          isLoadMore
+              ? <ExpenseReportResponse>[...?state.expenseReport, ...fetchedList]
+              : fetchedList;
       emit(
         state.copyWith(
           expenseReport: newList,
@@ -203,4 +208,67 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isSaleReport: ApiFetchStatus.failed));
   }
+
+  Future<void> loadCustomersReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+
+    int? accountId,
+
+    int page = 0,
+    int limit = 20,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isCustomersReport: ApiFetchStatus.loading,
+          customersReport: [],
+        ),
+      );
+    }
+    emit(state.copyWith(isCustomersReport: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadCustomersReport(
+      filterId: 1,
+      filterValue: '',
+      pageFirstResult: state.currentPage,
+      resultPerPage: state.pageSize,
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+    );
+
+  log('Response data: ${res.data}');
+    if (res.data != null) {
+
+
+      final List<dynamic> rawList = res.data!;
+      final List<CustomersResponse> fetchedList =
+          rawList.map((element) {
+            if (element is CustomersResponse) {
+              return element;
+            } else if (element is Map<String, dynamic>) {
+              return CustomersResponse.fromJson(element);
+            } else {
+              throw Exception(
+                'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+              );
+            }
+          }).toList();
+   final List<CustomersResponse> newList =
+          isLoadMore
+              ? <CustomersResponse>[...?state.customersReport, ...fetchedList]
+              : fetchedList;
+
+      emit(
+        state.copyWith(
+          customersReport: newList,
+          isCustomersReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
+  }
 }
+
