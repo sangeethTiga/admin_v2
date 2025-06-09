@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
+import 'package:admin_v2/shared/routes/routes.dart';
+import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/failures/bad_request.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -84,13 +89,10 @@ class Helper {
 
   Future<void> logout(BuildContext context) async {
     try {
-      // await AuthUtils.instance.deleteAll();
-      // context.read<AuthBloc>().add(LogoutEventClear());
-      // context.read<AddressBloc>().add(InitStateOfAddressEvent());
-      // await AuthUtils.instance.deleteAddress();
-
+      await AuthUtils.instance.deleteAll();
+      context.read<AuthCubit>().clearLogin();
       if (!context.mounted) return;
-      // context.go(routeSignIn);
+      context.go(routeSign);
     } catch (e) {
       log('Error during logout: $e');
     }

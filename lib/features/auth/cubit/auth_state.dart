@@ -6,10 +6,14 @@ class AuthState extends Equatable {
 
   const AuthState({this.isLoading, this.authResponse});
 
-  AuthState copyWith({ApiFetchStatus? isLoading, AuthResponse? authResponse}) {
+  AuthState copyWith({
+    ApiFetchStatus? isLoading,
+    AuthResponse? authResponse,
+    bool isMakeItNull = false,
+  }) {
     return AuthState(
       isLoading: isLoading ?? this.isLoading,
-      authResponse: authResponse ?? this.authResponse,
+      authResponse: isMakeItNull ? null : authResponse ?? this.authResponse,
     );
   }
 

@@ -2,32 +2,21 @@ import 'dart:convert';
 
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthUtils {
   AuthUtils._();
   static AuthUtils? _instance;
   static final AuthUtils instance = (_instance ??= AuthUtils._());
 
+  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
   Future<void> writeUserData(AuthResponse user) async {
-    await _writePreference('user', jsonEncode(user.toJson()));
-  }
-
-  Future<void> writeStoreData(StoreResponse data) async {
-    await _writePreference('store', jsonEncode(data.toJson()));
-  }
-
-  Future<StoreResponse?> readStoreData() async {
-    final String? storeData = await _readPreference('store');
-    if (storeData != null) {
-      final Map<String, dynamic> storeMap = jsonDecode(storeData);
-      return StoreResponse.fromJson(storeMap);
-    }
-    return null;
+    await _writeSecure('user', jsonEncode(user.toJson()));
   }
 
   Future<AuthResponse?> readUserData() async {
-    final String? userData = await _readPreference('user');
+    final String? userData = await _readSecure('user');
     if (userData != null) {
       final Map<String, dynamic> userMap = jsonDecode(userData);
       return AuthResponse.fromJson(userMap);
@@ -35,78 +24,53 @@ class AuthUtils {
     return null;
   }
 
+  Future<void> writeStoreData(StoreResponse data) async {
+    await _writeSecure('store', jsonEncode(data.toJson()));
+  }
+
+  Future<void> deleteAccessToken() async {
+    await AuthUtils._secureStorage.delete(key: 'token');
+  }
+
+  Future<StoreResponse?> readStoreData() async {
+    final String? storeData = await _readSecure('store');
+    if (storeData != null) {
+      final Map<String, dynamic> storeMap = jsonDecode(storeData);
+      return StoreResponse.fromJson(storeMap);
+    }
+    return null;
+  }
+
   Future<void> writeAccessTokens(String token) async {
-    await _writePreference('token', token);
+    await _writeSecure('token', token);
   }
 
   Future<String?> get readAccessToken async {
-    return await _readPreference('token');
+    return await _readSecure('token');
   }
 
   Future<void> writeRefreshTokens(String token) async {
-    await _writePreference('refresh_token', token);
+    await _writeSecure('refresh_token', token);
   }
 
   Future<String?> get readRefreshTokens async {
-    return await _readPreference('refresh_token');
+    return await _readSecure('refresh_token');
   }
 
   Future<bool> get isSignedIn async {
-    final String? token = await _readPreference('token');
+    final String? token = await _readSecure('token');
     return token != null;
   }
 
   Future<void> deleteAll() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await _secureStorage.deleteAll();
   }
 
-  Future<void> _writePreference(String key, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
+  Future<void> _writeSecure(String key, String value) async {
+    await _secureStorage.write(key: key, value: value);
   }
 
-  Future<String?> _readPreference(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key);
+  Future<String?> _readSecure(String key) async {
+    return await _secureStorage.read(key: key);
   }
-
-  // Future<void> writeOfferToDate(DateTime offerToDate) async {
-  //   await _writePreference('offer_to_date', offerToDate.toIso8601String());
-  // }
-
-  // Future<DateTime?> readOfferToDate() async {
-  //   final String? dateString = await _readPreference('offer_to_date');
-  //   if (dateString != null) {
-  //     return DateTime.tryParse(dateString);
-  //   }
-  //   return null;
-  // }
-
-  // Future<void> writeAddress(AddressListResponse address) async {
-  //   await _writePreference('address', jsonEncode(address.toJson()));
-  // }
-
-  // Future<void> writeQty(ProductList product) async {
-  //   await _writePreference('product', jsonEncode(product.toJson()));
-  // }
-
-  // static Future<int?> readQty() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   return prefs.getInt('product_qty');
-  // }
-
-  // Future<AddressListResponse?> readAddress() async {
-  //   final String? addressData = await _readPreference('address');
-  //   if (addressData != null) {
-  //     final Map<String, dynamic> addressMap = jsonDecode(addressData);
-  //     return AddressListResponse.fromJson(addressMap);
-  //   }
-  //   return null;
-  // }
-
-  // Future<void> deleteAddress() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.remove('address');
-  // }
 }

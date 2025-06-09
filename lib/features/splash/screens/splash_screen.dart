@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (status) {
       ctx.go(routeMain);
     } else {
-      ctx.go(routeSignIn);
+      ctx.go(routeSign);
     }
   }
 

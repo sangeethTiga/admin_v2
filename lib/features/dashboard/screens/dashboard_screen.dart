@@ -106,6 +106,45 @@ class DashboardScreen extends StatelessWidget {
                 context.push(routeDeliveryCharge);
               },
             ),
+            GestureDetector(
+              onTap: () {
+                Helper().logout(context);
+              },
+              child: Container(
+                padding: EdgeInsets.only(left: 12.w, right: 12.w),
+                margin: EdgeInsets.only(
+                  left: 12.w,
+                  right: 12.w,
+                  bottom: 12.h,
+                  top: 8.h,
+                ),
+                height: 52.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r),
+                  color: kWhite,
+                ),
+                child: Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/Exit, Log out.svg'),
+                    5.horizontalSpace,
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Sign out',
+                            style: FontPalette.hW500S14.copyWith(
+                              color: Color(0XFFAE270F),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -33,4 +33,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> clearLogin() async {
+    emit(state.copyWith(authResponse: null, isMakeItNull: true));
+  }
 }

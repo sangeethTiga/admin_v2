@@ -1,8 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
+import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -53,12 +57,12 @@ class Helper {
     try {
       await _deleteCacheDir();
       await _deleteAppDir();
-      // await AuthUtils.instance.deleteAll();
-      // context.read<AuthBloc>().add(LogoutEventClear());
+      await AuthUtils.instance.deleteAll();
+      context.read<AuthCubit>().clearLogin();
 
       if (!context.mounted) return;
 
-      Navigator.pushNamedAndRemoveUntil(context, routeMain, (route) => false);
+      context.go(routeSign);
     } catch (e) {
       log('Error during logout: $e');
     }
