@@ -1,3 +1,7 @@
+import 'package:admin_v2/features/common/cubit/common_cubit.dart';
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
@@ -7,6 +11,7 @@ import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_wid
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -24,67 +29,149 @@ class DeliveryChargeScreen extends StatelessWidget {
             child: Column(
               spacing: 14.h,
               children: [
-                DropDownFieldWidget(
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.only(
-                      left: 12.h,
-                      top: 12.w,
-                      bottom: 6.h,
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/package-box-pin-location.svg',
-                      height: 20.h,
-                      width: 20.w,
-                    ),
-                  ),
-                  borderColor: kBlack,
-                  items: [],
-                  fillColor: Color(0XFFEFF1F1),
-                  suffixWidget: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SvgPicture.asset('assets/icons/Arrow - Right.svg'),
-                  ),
-                  labelText: 'Demo store',
-                ),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: DatePickerContainer(
-                        hintText: 'Pls',
-                        changeDate: () {},
+                BlocBuilder<CommonCubit, CommonState>(
+                  builder: (context, state) {
+                    return DropDownFieldWidget(
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(
+                          left: 12.h,
+                          top: 12.w,
+                          bottom: 6.h,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/icons/package-box-pin-location.svg',
+                          height: 20.h,
+                          width: 20.w,
+                        ),
                       ),
-                    ),
-                    12.horizontalSpace,
-                    Expanded(
-                      child: DatePickerContainer(
-                        hintText: 'Pls',
-                        changeDate: () {},
+                      borderColor: kBlack,
+                      items:
+                          state.storeList?.map((e) {
+                            return DropdownMenuItem<StoreResponse>(
+                              value: e,
+                              child: Text(e.storeName ?? ''),
+                            );
+                          }).toList() ??
+                          [],
+                      fillColor: Color(0XFFEFF1F1),
+                      suffixWidget: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: SvgPicture.asset(
+                          'assets/icons/Arrow - Right.svg',
+                        ),
                       ),
-                    ),
-                  ],
+                      onChanged: (p0) {
+                        context.read<CommonCubit>().selectedStore(p0);
+                      },
+                      labelText: 'Demo store',
+                    );
+                  },
                 ),
 
-                CustomMaterialBtton(
-                  onPressed: () {},
-                  buttonText: 'View Results',
+                BlocBuilder<ReportCubit, ReportState>(
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: DatePickerContainer(
+                            hintText: '',
+                            firstDate: state.fromDate ?? DateTime.now(),
+                            changeDate: (DateTime pickDate) {
+                              context.read<ReportCubit>().changeFromDate(
+                                pickDate,
+                              );
+                            },
+                          ),
+                        ),
+                        12.horizontalSpace,
+                        Expanded(
+                          child: DatePickerContainer(
+                            hintText: '',
+                            firstDate: state.fromDate ?? DateTime.now(),
+                            changeDate: (DateTime pickDate) {
+                              context.read<ReportCubit>().changeToDate(
+                                pickDate,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
 
-                SizedBox(
-                  height: 260.h,
-                  child: CommonTableWidget(
-                    headers: [
-                      "#",
-                      "BILL NO",
-                      "ORDER DATE",
-                      "COUNT",
-                      "PARCEL CHARGE",
-                    ],
-                    columnFlex: [2, 2, 2, 2, 2],
-                    data: [],
-                  ),
+                BlocBuilder<CommonCubit, CommonState>(
+                  builder: (context, state) {
+                    return CustomMaterialBtton(
+                      onPressed: () {
+                        context.read<ReportCubit>().loadDeliveryChargeReport(
+                          //accountId: state.selectedAccount?.accountHeadId ?? 0,
+                          storeId: state.selectedStore?.storeId,
+                        );
+                      },
+                      buttonText: 'View Results',
+                    );
+                  },
                 ),
               ],
+            ),
+          ),
+
+          Expanded(
+            child: MainPadding(
+              child: BlocBuilder<CommonCubit, CommonState>(
+                builder: (context, store) {
+                  return BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      return NotificationListener<ScrollEndNotification>(
+                        onNotification: (ScrollNotification scrollInfo) {
+                          if (scrollInfo.metrics.pixels >=
+                                  scrollInfo.metrics.maxScrollExtent - 50 &&
+                              state.isDeliverychargeReport !=
+                                  ApiFetchStatus.loading) {
+                            context
+                                .read<ReportCubit>()
+                                .loadDeliveryChargeReport(
+                                  pageSize: state.page,
+                                  offset: state.offset,
+                                  isLoadMore: true,
+
+                                  accountId:
+                                      store.selectedAccount?.accountHeadId ?? 0,
+
+                                  storeId: store.selectedStore?.storeId,
+                                );
+                          }
+                          return false;
+                        },
+
+                        child: CommonTableWidget(
+                          isLoading: state.isDeliverychargeReport == ApiFetchStatus.loading,
+                          headers: [
+                            "#",
+                            "BILL NO",
+                            "ORDER DATE",
+                            "COUNT",
+                            "SHIPPING CHARGE",
+                          ],
+                          columnFlex: [2, 2, 2, 2, 2],
+                          data:state.deliverychargeReport?.map((e){
+                            int index=state.deliverychargeReport?.indexOf(e) ?? 0;
+                            return{
+                               "#":index +1,
+                            "BILL NO":e.billNo ?? '',
+                            "ORDER DATE":e.orderDate ?? '',
+                            "COUNT":e.rawCount ?? '',
+                            "SHIPPING CHARGE":e.shippingCharge ?? '',
+                            };
+                          }).toList() ??
+                           [],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -43,5 +44,14 @@ abstract class ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
+  });
+  Future<ResponseResult<List<DeliveryChargeResponse>>> loadDeliveryCharge({
+    // required int pageFirstResult,
+    // required int resultPerPage,
+    required int storeId,
+    required int pageSize,
+    required int offset,
+    required String fromDate,
+    required String toDate
   });
 }

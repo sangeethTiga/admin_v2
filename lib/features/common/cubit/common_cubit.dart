@@ -18,6 +18,7 @@ class CommonCubit extends Cubit<CommonState> {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.storeList();
+      
       if (res.data != null) {
         emit(
           state.copyWith(
