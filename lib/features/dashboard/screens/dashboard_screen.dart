@@ -248,6 +248,10 @@ class DashboardScreen extends StatelessWidget {
                             case 'Product':
                               context.read<ProductCubit>().priduct(
                                 state.selectedStore?.storeId ?? 0,
+                                0,
+                              );
+                              context.read<ProductCubit>().catgeory(
+                                state.selectedStore?.storeId ?? 0,
                               );
                               context.push(routeProducts);
                               break;

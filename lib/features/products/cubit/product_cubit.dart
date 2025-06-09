@@ -1,5 +1,7 @@
+import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
+import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:bloc/bloc.dart';
@@ -13,11 +15,14 @@ class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
-  Future<void> priduct(int storeId) async {
+  Future<void> priduct(int storeId, int catId) async {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
 
-      final res = await _productRepositories.products(storeId: storeId);
+      final res = await _productRepositories.products(
+        storeId: storeId,
+        catId: state.selectCategory?.details?.categoryId ?? 0,
+      );
       if (res.data != null) {
         emit(
           state.copyWith(
@@ -30,5 +35,54 @@ class ProductCubit extends Cubit<ProductState> {
     } catch (e) {
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
     }
+  }
+
+  Future<void> stockStatus() async {
+    try {
+      emit(state.copyWith(isProduct: ApiFetchStatus.loading));
+      final res = await _productRepositories.stockStatus();
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            isProduct: ApiFetchStatus.success,
+            stockStatusList: res.data,
+          ),
+        );
+      }
+      emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+    }
+  }
+
+  Future<void> stockUpdate(StockUpdateRequest req) async {
+    try {
+      emit(state.copyWith(isProduct: ApiFetchStatus.loading));
+      final res = await _productRepositories.stockUpdate(request: req);
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            isProduct: ApiFetchStatus.success,
+            productList: res.data,
+          ),
+        );
+      }
+      emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+    }
+  }
+
+  Future<void> catgeory(int storeId) async {
+    try {
+      final res = await _productRepositories.category(storeId);
+      if (res.data != null) {
+        emit(state.copyWith(categoryList: res.data));
+      }
+    } catch (e) {}
+  }
+
+  Future<void> changeCategory(CategoryResponse cate) async {
+    emit(state.copyWith(selectCategory: cate));
   }
 }

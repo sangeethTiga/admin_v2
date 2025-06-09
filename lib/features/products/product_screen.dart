@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -32,81 +33,84 @@ class ProductScreen extends StatelessWidget {
                 MainPadding(
                   child: Column(
                     children: [
-                      DropDownFieldWidget(
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.only(
-                            left: 12.h,
-                            top: 12.w,
-                            bottom: 6.h,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/icons/package-box-pin-location.svg',
-                            height: 20.h,
-                            width: 20.w,
-                          ),
-                        ),
-                        borderColor: kBlack,
-                        items: [],
-                        fillColor: Color(0XFFEFF1F1),
-                        suffixWidget: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: SvgPicture.asset(
-                            'assets/icons/Arrow - Right.svg',
-                          ),
-                        ),
-                        labelText: 'Demo store',
+                      BlocBuilder<CommonCubit, CommonState>(
+                        builder: (context, state) {
+                          return DropDownFieldWidget(
+                            isLoading:
+                                state.apiFetchStatus == ApiFetchStatus.loading,
+                            prefixIcon: Container(
+                              margin: EdgeInsets.only(left: 12.w),
+                              child: SvgPicture.asset(
+                                'assets/icons/package-box-pin-location.svg',
+                                width: 20.w,
+                                height: 20.h,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            borderColor: kBlack,
+                            value: state.selectedStore,
+                            items:
+                                state.storeList?.map((e) {
+                                  return DropdownMenuItem<int>(
+                                    value: e.storeId,
+                                    child: Text(e.storeName ?? ''),
+                                  );
+                                }).toList() ??
+                                [],
+                            fillColor: const Color(0XFFEFF1F1),
+                            suffixWidget: SvgPicture.asset(
+                              'assets/icons/Arrow - Right.svg',
+                            ),
+                            onChanged: (p0) {
+                              context.read<CommonCubit>().selectedStore(p0);
+                              context.read<ProductCubit>().catgeory(
+                                p0?.storeId,
+                              );
+                            },
+                            labelText: '',
+                          );
+                        },
                       ),
                       14.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: DropDownFieldWidget(
-                              hintStyle: FontPalette.hW500S12,
-
-                              labelText: 'All business types',
-                              inputBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                                borderSide: BorderSide(
-                                  color: Color(0XFFB7C6C2),
-                                ),
-                              ),
-                              items: [],
-                              suffixWidget: Padding(
-                                padding: const EdgeInsets.all(14.0),
-                                child: SvgPicture.asset(
-                                  'assets/icons/Arrow - Right (2).svg',
-                                  height: 16.h,
-                                ),
+                      BlocBuilder<CommonCubit, CommonState>(
+                        builder: (context, common) {
+                          return DropDownFieldWidget(
+                            hintStyle: FontPalette.hW500S14,
+                            labelText: 'Select category',
+                            value: state.selectCategory,
+                            items:
+                                state.categoryList?.map((e) {
+                                  return DropdownMenuItem<int>(
+                                    value: e.details?.categoryId,
+                                    child: Text(e.details?.categoryName ?? ''),
+                                  );
+                                }).toList() ??
+                                [],
+                            onChanged: (p0) {
+                              context.read<ProductCubit>().changeCategory(p0);
+                              context.read<ProductCubit>().priduct(
+                                common.selectedStore?.storeId ?? 0,
+                                state.selectCategory?.details?.categoryId ?? 0,
+                              );
+                            },
+                            inputBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                            ),
+                            suffixWidget: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: SvgPicture.asset(
+                                'assets/icons/Arrow - Right (2).svg',
                               ),
                             ),
-                          ),
-                          10.horizontalSpace,
-                          Expanded(
-                            child: DropDownFieldWidget(
-                              hintStyle: FontPalette.hW500S14,
-                              labelText: 'Select category',
-                              items: [],
-                              inputBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                                borderSide: BorderSide(
-                                  color: Color(0XFFB7C6C2),
-                                ),
-                              ),
-                              suffixWidget: Padding(
-                                padding: const EdgeInsets.all(14.0),
-                                child: SvgPicture.asset(
-                                  'assets/icons/Arrow - Right (2).svg',
-                                ),
-                              ),
-                              // suffixWidget: Padding(
-                              //   padding: const EdgeInsets.only(left: 1, right: 1),
-                              //   child: SvgPicture.asset(
-                              //     'assets/icons/Arrow - Right (2).svg',
-                              //   ),
-                              // ),
-                            ),
-                          ),
-                        ],
+                            // suffixWidget: Padding(
+                            //   padding: const EdgeInsets.only(left: 1, right: 1),
+                            //   child: SvgPicture.asset(
+                            //     'assets/icons/Arrow - Right (2).svg',
+                            //   ),
+                            // ),
+                          );
+                        },
                       ),
 
                       DropDownFieldWidget(
