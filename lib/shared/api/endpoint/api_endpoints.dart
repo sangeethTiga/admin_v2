@@ -56,4 +56,7 @@ class ApiEndpoints {
 
   static String profitLoss(int storeId, String fromDate, String toDate) =>
       "/api/profitLoss?store_id=$storeId&from_date=$fromDate&to_date=$toDate";
+
+  static String proudtcList(int storeId) =>
+      '/api/product?query=&store_id=$storeId&category_id=0&filters=0&product_qty=0&page_first_result=0&result_per_page=50';
 }
