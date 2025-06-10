@@ -174,7 +174,7 @@ class ParcelCharge extends StatelessWidget {
 
                         child: CommonTableWidget(
                           isLoading:
-                              state.isDeliverychargeReport ==
+                              state.isParcelCharge ==
                               ApiFetchStatus.loading,
                           headers: [
                             "#",

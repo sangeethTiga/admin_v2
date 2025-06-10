@@ -100,4 +100,5 @@ class ApiEndpoints {
     String toDate,
   ) =>
       '/api/category-sales?store_id=$storeId&from_date=$fromDate&to_date=$toDate';
+
 }
