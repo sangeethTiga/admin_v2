@@ -50,8 +50,35 @@ class CommonService implements CommonRepostories {
   }
 
   @override
-  Future<ResponseResult<List<OptionResponse>>> orderOption() {
-    // TODO: implement orderOption
-    throw UnimplementedError();
+  Future<ResponseResult<List<OptionResponse>>> orderOption(
+    {required int storeId,
+      required int appTypeId}
+  ) async {
+    final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.get(
+      ApiEndpoints.orderOption(
+       storeId,
+       appTypeId
+
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<OptionResponse>.from(
+            res.data.map((e) => OptionResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
   }
+  
+  // @override
+  // Future<ResponseResult<List<OptionResponse>>> orderOption() {
+  //   // TODO: implement orderOption
+  //   throw UnimplementedError();
+  // }
 }

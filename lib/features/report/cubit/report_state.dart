@@ -19,6 +19,8 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
   final List<CategorySalesResponse>? categorySales;
+  final List<ParcelChargeResponse>? parcelChargeList;
+  final ApiFetchStatus? isParcelCharge;
 
   const ReportState({
     this.salesReport,
@@ -33,12 +35,14 @@ class ReportState extends Equatable {
     this.profitlossReport,
     this.deliverychargeReport,
     this.isDeliverychargeReport,
-    this.offset=0,
-    this.page=0,
+    this.offset = 0,
+    this.page = 0,
     this.customersReport,
     this.isCustomersReport,
     this.isCategorySales,
     this.categorySales,
+    this.isParcelCharge,
+    this.parcelChargeList
   });
 
   ReportState copyWith({
@@ -60,6 +64,7 @@ class ReportState extends Equatable {
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
     List<CategorySalesResponse>? categorySales,
+    List<ParcelChargeResponse>? parcelChargeList,ApiFetchStatus? isParcelCharge
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -75,12 +80,14 @@ class ReportState extends Equatable {
       deliverychargeReport: deliverychargeResponse ?? this.deliverychargeReport,
       isDeliverychargeReport:
           isDeliverychargeReport ?? this.isDeliverychargeReport,
-          page: page ?? this.page,
-          offset: offset?? this.offset,
+      page: page ?? this.page,
+      offset: offset ?? this.offset,
       customersReport: customersReport ?? this.customersReport,
       isCustomersReport: isCustomersReport ?? this.isCustomersReport,
       isCategorySales: isCategorySales ?? this.isCategorySales,
       categorySales: categorySales ?? this.categorySales,
+      isParcelCharge: isParcelCharge ?? this.isParcelCharge,
+      parcelChargeList: parcelChargeList?? this.parcelChargeList
     );
   }
 
@@ -104,6 +111,9 @@ class ReportState extends Equatable {
     isCustomersReport,
     isCategorySales,
     categorySales,
+    isParcelCharge,
+    parcelChargeList
+
   ];
 }
 

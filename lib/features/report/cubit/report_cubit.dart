@@ -1,13 +1,16 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
+import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/app/list/helper.dart';
@@ -397,27 +400,25 @@ class ReportCubit extends Cubit<ReportState> {
     int? storeId,
     String? fromDate,
     String? toDate,
+    int? pageFirstLimit,
+    int? resultPerPage,
+    int? orderOptionId,
 
-    int? accountId,
-
-    int page = 0,
-    int limit = 20,
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
       emit(
         state.copyWith(
-          isCustomersReport: ApiFetchStatus.loading,
-          customersReport: [],
+          isParcelCharge: ApiFetchStatus.loading,
+          parcelChargeList: [],
         ),
       );
     }
-    emit(state.copyWith(isCustomersReport: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadCustomersReport(
-      filterId: 1,
-      filterValue: '',
-      pageFirstResult: state.currentPage,
+    emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadParcelReport(
+      pageFirstLimit: state.page,
       resultPerPage: state.pageSize,
+      orderOptionId: orderOptionId ?? 0,
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
@@ -426,28 +427,28 @@ class ReportCubit extends Cubit<ReportState> {
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
-      final List<CustomersResponse> fetchedList = rawList.map((element) {
-        if (element is CustomersResponse) {
+      final List<ParcelChargeResponse> fetchedList = rawList.map((element) {
+        if (element is ParcelChargeResponse) {
           return element;
         } else if (element is Map<String, dynamic>) {
-          return CustomersResponse.fromJson(element);
+          return ParcelChargeResponse.fromJson(element);
         } else {
           throw Exception(
             'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
           );
         }
       }).toList();
-      final List<CustomersResponse> newList = isLoadMore
-          ? <CustomersResponse>[...?state.customersReport, ...fetchedList]
+      final List<ParcelChargeResponse> newList = isLoadMore
+          ? <ParcelChargeResponse>[...?state.parcelChargeList, ...fetchedList]
           : fetchedList;
 
       emit(
         state.copyWith(
-          customersReport: newList,
-          isCustomersReport: ApiFetchStatus.success,
+          parcelChargeList: newList,
+          isParcelCharge: ApiFetchStatus.success,
         ),
       );
     }
-    emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
+    emit(state.copyWith(isParcelCharge: ApiFetchStatus.failed));
   }
 }

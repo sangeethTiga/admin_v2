@@ -56,10 +56,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<SalesReportResponse>.from(
-                res.data.map((e) => SalesReportResponse.fromJson(e)),
-              ).toList(),
+          data: List<SalesReportResponse>.from(
+            res.data.map((e) => SalesReportResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -89,10 +88,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<ReveneReportResponse>.from(
-                res.data.map((e) => ReveneReportResponse.fromJson(e)),
-              ).toList(),
+          data: List<ReveneReportResponse>.from(
+            res.data.map((e) => ReveneReportResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -123,10 +121,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<ExpenseReportResponse>.from(
-                res.data.map((e) => ExpenseReportResponse.fromJson(e)),
-              ).toList(),
+          data: List<ExpenseReportResponse>.from(
+            res.data.map((e) => ExpenseReportResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -147,10 +144,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<ProfitlossResponse>.from(
-                res.data.map((e) => ProfitlossResponse.fromJson(e)),
-              ).toList(),
+          data: List<ProfitlossResponse>.from(
+            res.data.map((e) => ProfitlossResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -174,10 +170,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<DeliveryChargeResponse>.from(
-                res.data.map((e) => DeliveryChargeResponse.fromJson(e)),
-              ).toList(),
+          data: List<DeliveryChargeResponse>.from(
+            res.data.map((e) => DeliveryChargeResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -218,10 +213,6 @@ class ReportService implements ReportRepositories {
     }
   }
 
-
-
-
-
   @override
   Future<ResponseResult<List<CategorySalesResponse>>> loadCategorySalesReport({
     required int storeId,
@@ -238,6 +229,41 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<CategorySalesResponse>.from(
             res.data.map((e) => CategorySalesResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<ParcelChargeResponse>>> loadParcelReport({
+    required int pageFirstLimit,
+    required int resultPerPage,
+    required String fromDate,
+    required String toDate,
+    required int storeId,
+    required int orderOptionId,
+  }) async{
+final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.get(
+      ApiEndpoints.parcelCharge(
+       storeId,
+     pageFirstLimit,
+     fromDate,
+     toDate,
+     resultPerPage,
+     orderOptionId
+
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ParcelChargeResponse>.from(
+            res.data.map((e) => ParcelChargeResponse.fromJson(e)),
           ).toList(),
         );
       default:

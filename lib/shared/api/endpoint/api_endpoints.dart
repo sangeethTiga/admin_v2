@@ -81,7 +81,8 @@ class ApiEndpoints {
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
   static String category(int storeId) => '/api/categories?store_id=$storeId';
-  static String orderOption(
+
+  static String parcelCharge(
     int pageFirstLimit,
     int resultPerPage,
     String fromDate,
@@ -90,6 +91,8 @@ class ApiEndpoints {
     int orderOptionId,
   ) =>
       '/api/parcel_charge/report?page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&store_id=$storeId&from_date=$fromDate&to_date=$toDate&order_option_id=$orderOptionId';
+  static String orderOption(int storeId, int appTypeId) =>
+      '/api/order_options?store_id=$storeId&app_type_id=0';
 
   static String categorySalesReport(
     int storeId,
