@@ -8,6 +8,7 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
@@ -56,10 +57,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<SalesReportResponse>.from(
-                res.data.map((e) => SalesReportResponse.fromJson(e)),
-              ).toList(),
+          data: List<SalesReportResponse>.from(
+            res.data.map((e) => SalesReportResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -89,10 +89,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<ReveneReportResponse>.from(
-                res.data.map((e) => ReveneReportResponse.fromJson(e)),
-              ).toList(),
+          data: List<ReveneReportResponse>.from(
+            res.data.map((e) => ReveneReportResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -123,10 +122,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<ExpenseReportResponse>.from(
-                res.data.map((e) => ExpenseReportResponse.fromJson(e)),
-              ).toList(),
+          data: List<ExpenseReportResponse>.from(
+            res.data.map((e) => ExpenseReportResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -147,10 +145,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<ProfitlossResponse>.from(
-                res.data.map((e) => ProfitlossResponse.fromJson(e)),
-              ).toList(),
+          data: List<ProfitlossResponse>.from(
+            res.data.map((e) => ProfitlossResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -174,10 +171,9 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data:
-              List<DeliveryChargeResponse>.from(
-                res.data.map((e) => DeliveryChargeResponse.fromJson(e)),
-              ).toList(),
+          data: List<DeliveryChargeResponse>.from(
+            res.data.map((e) => DeliveryChargeResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -218,10 +214,6 @@ class ReportService implements ReportRepositories {
     }
   }
 
-
-
-
-
   @override
   Future<ResponseResult<List<CategorySalesResponse>>> loadCategorySalesReport({
     required int storeId,
@@ -238,6 +230,37 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<CategorySalesResponse>.from(
             res.data.map((e) => CategorySalesResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<UserShiftReportResponse>>> loadUserShiftReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.userShiftReport(
+        storeId,
+        fromDate,
+        toDate,
+        pageFirstResult,
+        resultPerPage,
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<UserShiftReportResponse>.from(
+            res.data.map((e) => UserShiftReportResponse.fromJson(e)),
           ).toList(),
         );
       default:

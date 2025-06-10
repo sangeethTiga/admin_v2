@@ -123,6 +123,14 @@ class DashboardScreen extends StatelessWidget {
                 context.push(routeCategorySales);
               },
             ),
+
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('User Shift'),
+              onTap: () {
+                context.push(userShift);
+              },
+            ),
             GestureDetector(
               onTap: () {
                 Helper().logout(context);

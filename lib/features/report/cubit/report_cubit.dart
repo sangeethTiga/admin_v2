@@ -7,6 +7,7 @@ import 'package:admin_v2/features/report/domain/models/expense/expense_report_re
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
@@ -449,5 +450,62 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
+  }
+  
+
+
+  Future<void> loadUserShiftReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+      int page = 0,
+    int limit = 20,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isUserShiftReport: ApiFetchStatus.loading,
+          userShiftReport: [],
+        ),
+      );
+    }
+    final int offset = page * limit;
+    final res = await _reportRepositories.loadUserShiftReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      pageFirstResult: offset,
+      resultPerPage: limit,
+    );
+
+
+
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<UserShiftReportResponse> fetchedList = rawList.map((element) {
+        if (element is UserShiftReportResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return UserShiftReportResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadUserShiftReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      final List<UserShiftReportResponse> newList = isLoadMore
+          ? <UserShiftReportResponse>[...?state.userShiftReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          userShiftReport: newList,
+          isUserShiftReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isUserShiftReport: ApiFetchStatus.failed));
   }
 }
