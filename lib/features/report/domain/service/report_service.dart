@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -157,7 +158,6 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required String filterValue,
     required int filterId,
-  
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
@@ -168,7 +168,6 @@ class ReportService implements ReportRepositories {
         fromDate,
         toDate,
         filterId,
-        
       ),
     );
     switch (res.statusCode) {
@@ -184,5 +183,26 @@ class ReportService implements ReportRepositories {
     }
   }
 
-
+  @override
+  Future<ResponseResult<List<CategorySalesResponse>>> loadCategorySalesReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.categorySalesReport(storeId, fromDate, toDate),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<CategorySalesResponse>.from(
+            res.data.map((e) => CategorySalesResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
 }

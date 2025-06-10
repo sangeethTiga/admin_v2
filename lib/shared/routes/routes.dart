@@ -14,3 +14,4 @@ const String routeExpense = '/expense';
 const String routeDaySummary = '/day-summary';
 const String routePurchase = '/purchase';
 const String routeCustomers = '/customers';
+const String routeCategorySales = '/category-sales';
