@@ -16,7 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class UserShiftReportScreen extends StatelessWidget {
-  const UserShiftReportScreen({Key? key}) : super(key: key);
+  const UserShiftReportScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -160,13 +160,16 @@ class UserShiftReportScreen extends StatelessWidget {
                                   'User': e.userName ?? '',
                                   'Device ': e.deviceName ?? '',
                                   'Open': e.openingTime ?? '',
-                                  'Opening Balance': e.openingBalance.toString(),
+                                  'Opening Balance': e.openingBalance
+                                      .toString(),
                                   'Close': e.closingTime ?? '',
-                                  'Closing Balance': e.closingBalance.toString(),
+                                  'Closing Balance': e.closingBalance
+                                      .toString(),
                                   'Action':
                                       'Action', // Placeholder for action button
                                 };
-                              }).toList() ?? [],
+                              }).toList() ??
+                              [],
                         ),
                       );
                     },
