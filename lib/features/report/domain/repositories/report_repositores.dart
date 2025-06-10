@@ -74,7 +74,7 @@ abstract class ReportRepositories {
     required String fromDate,
     required String toDate,
   });
-  Future<ResponseResult<List<ParcelChargeResponse>>> loadParcelReport({
+   Future<ResponseResult<List<ParcelChargeResponse>>> loadParcelReport({
     required int pageFirstLimit,
     required int resultPerPage,
     required String fromDate,
