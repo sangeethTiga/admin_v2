@@ -2,6 +2,7 @@ import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
+import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
@@ -245,6 +246,13 @@ class DashboardScreen extends StatelessWidget {
                         onTap: () {
                           switch (data.name) {
                             case 'Product':
+                              context.read<ProductCubit>().priduct(
+                                state.selectedStore?.storeId ?? 0,
+                                0,
+                              );
+                              context.read<ProductCubit>().catgeory(
+                                state.selectedStore?.storeId ?? 0,
+                              );
                               context.push(routeProducts);
                               break;
                             case 'Profit/loss':

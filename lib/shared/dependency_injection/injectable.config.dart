@@ -23,6 +23,10 @@ import '../../features/orders/cubit/order_cubit.dart' as _i1055;
 import '../../features/orders/domain/repositories/order_repositories.dart'
     as _i23;
 import '../../features/orders/domain/service/order_service.dart' as _i895;
+import '../../features/products/cubit/product_cubit.dart' as _i36;
+import '../../features/products/domain/repositories/product_repositories.dart'
+    as _i416;
+import '../../features/products/domain/service/product_service.dart' as _i944;
 import '../../features/report/cubit/report_cubit.dart' as _i1051;
 import '../../features/report/domain/repositories/report_repositores.dart'
     as _i11;
@@ -35,6 +39,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i416.ProductRepositories>(() => _i944.ProductService());
     gh.lazySingleton<_i233.AuthRepositories>(() => _i641.AuthService());
     gh.factory<_i698.AuthCubit>(
       () => _i698.AuthCubit(gh<_i233.AuthRepositories>()),
@@ -42,6 +47,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i11.ReportRepositories>(() => _i388.ReportService());
     gh.lazySingleton<_i23.OrderRepositories>(() => _i895.OrderService());
     gh.lazySingleton<_i350.CommonRepostories>(() => _i837.CommonService());
+    gh.factory<_i36.ProductCubit>(
+      () => _i36.ProductCubit(gh<_i416.ProductRepositories>()),
+    );
     gh.factory<_i1051.ReportCubit>(
       () => _i1051.ReportCubit(gh<_i11.ReportRepositories>()),
     );
