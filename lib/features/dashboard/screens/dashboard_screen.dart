@@ -115,6 +115,14 @@ class DashboardScreen extends StatelessWidget {
                 context.push(routeParcel);
               },
             ),
+
+            ListTile(
+              leading: Icon(Icons.shopping_cart),
+              title: Text('Category Sales '),
+              onTap: () {
+                context.push(routeCategorySales);
+              },
+            ),
             GestureDetector(
               onTap: () {
                 Helper().logout(context);

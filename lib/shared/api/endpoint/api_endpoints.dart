@@ -90,4 +90,11 @@ class ApiEndpoints {
     int orderOptionId,
   ) =>
       '/api/parcel_charge/report?page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&store_id=$storeId&from_date=$fromDate&to_date=$toDate&order_option_id=$orderOptionId';
+
+  static String categorySalesReport(
+    int storeId,
+    String fromDate,
+    String toDate,
+  ) =>
+      '/api/category-sales?store_id=$storeId&from_date=$fromDate&to_date=$toDate';
 }
