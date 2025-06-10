@@ -8,6 +8,7 @@ import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
+import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
@@ -70,9 +71,9 @@ class RouteGenerator {
 
         GoRoute(
           path: routeCustomers,
-        builder:(context,state) => CustomersReportScreen())
-
-
+          builder: (context, state) => CustomersReportScreen(),
+        ),
+        GoRoute(path: routeParcel, builder: (context, state) => ParcelCharge()),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),

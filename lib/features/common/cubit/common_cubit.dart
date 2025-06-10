@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
+import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -18,7 +19,7 @@ class CommonCubit extends Cubit<CommonState> {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.storeList();
-      
+
       if (res.data != null) {
         emit(
           state.copyWith(
@@ -43,6 +44,8 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectDate: store));
   }
 
+ 
+
   Future<void> account() async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
@@ -64,5 +67,29 @@ class CommonCubit extends Cubit<CommonState> {
 
   Future<void> selectedAccount(AccountDataResponse store) async {
     emit(state.copyWith(selectedAccount: store));
+  }
+
+ Future<void> orderOption() async {
+    try {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+      final res = await _commonRepostories.orderOption();
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.success,
+             optionList: res.data,
+            selectedOption: res.data?.first,
+          ),
+        );
+      }
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    }
+  }
+
+
+   Future<void> selectedOption(OptionResponse options) async {
+    emit(state.copyWith(selectedOption: options));
   }
 }

@@ -7,6 +7,8 @@ class CommonState extends Equatable {
   final ListOfDemo? selectDate;
   final List<AccountDataResponse>? accountList;
   final AccountDataResponse? selectedAccount;
+  final List<OptionResponse>? optionList;
+  final OptionResponse? selectedOption;
 
   const CommonState({
     this.apiFetchStatus = ApiFetchStatus.idle,
@@ -15,6 +17,8 @@ class CommonState extends Equatable {
     this.selectDate,
     this.accountList,
     this.selectedAccount,
+    this.selectedOption,
+    this.optionList,
   });
   CommonState copyWith({
     ApiFetchStatus? apiFetchStatus,
@@ -23,6 +27,8 @@ class CommonState extends Equatable {
     ListOfDemo? selectDate,
     List<AccountDataResponse>? accountList,
     AccountDataResponse? selectedAccount,
+    List<OptionResponse>? optionList,
+    OptionResponse? selectedOption,
   }) => CommonState(
     apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
     storeList: storeList ?? this.storeList,
@@ -30,6 +36,8 @@ class CommonState extends Equatable {
     selectDate: selectDate ?? this.selectDate,
     accountList: accountList ?? this.accountList,
     selectedAccount: selectedAccount ?? this.selectedAccount,
+    optionList: optionList ?? this.optionList,
+    selectedOption: selectedOption ?? this.selectedOption,
   );
 
   @override
@@ -40,6 +48,8 @@ class CommonState extends Equatable {
     selectDate,
     accountList,
     selectedAccount,
+    optionList,
+    selectedOption,
   ];
 }
 
