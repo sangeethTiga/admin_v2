@@ -65,6 +65,16 @@ class ApiEndpoints {
   ) =>
       "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$pageSize&offset=$offset";
 
+static String customersReport(
+  int pageFirstResult,
+  int resultPerPage,
+  int storeId,
+  String fromDate,
+  String toDate,
+  int filterId,
+  
+) => "/api/customerreport?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&filter_id=$filterId";
+
   static String proudtcList(int storeId, int catId) =>
       '/api/product?query=&store_id=$storeId&category_id=$catId&filters=0&product_qty=0&page_first_result=0&result_per_page=50';
 
