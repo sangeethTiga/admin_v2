@@ -67,4 +67,10 @@ static String customersReport(
   
 ) => "/api/customerreport?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&filter_id=$filterId";
 
+  static String proudtcList(int storeId, int catId) =>
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=0&product_qty=0&page_first_result=0&result_per_page=50';
+
+  static String stockStatus = '/api/product-item-conditions';
+  static String stockUpdate = '/api/bulk-stock-update';
+  static String category(int storeId) => '/api/categories?store_id=$storeId';
 }
