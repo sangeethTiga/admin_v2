@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -195,6 +196,7 @@ class ReportCubit extends Cubit<ReportState> {
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
     );
+
     if (res.data != null) {
       emit(
         state.copyWith(
@@ -206,112 +208,61 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isSaleReport: ApiFetchStatus.failed));
   }
 
-  Future<void> loadCustomersReport({
+  Future<void> loadDeliveryChargeReport({
     int? storeId,
     String? fromDate,
     String? toDate,
+    int pageSize = 0,
 
-    int? accountId,
-
-    int page = 0,
-    int limit = 20,
+    int offset = 0,
     bool isLoadMore = false,
+     int? accountId,
   }) async {
     if (!isLoadMore) {
       emit(
         state.copyWith(
-          isCustomersReport: ApiFetchStatus.loading,
-          customersReport: [],
+          isDeliverychargeReport: ApiFetchStatus.loading,
+          deliverychargeResponse: [],
         ),
       );
     }
-    emit(state.copyWith(isCustomersReport: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadCustomersReport(
-      filterId: 1,
-      filterValue: '',
-      pageFirstResult: state.currentPage,
-      resultPerPage: state.pageSize,
+    // final int offset = pageSize * limit;
+    final res = await _reportRepositories.loadDeliveryCharge(
+      pageSize: pageSize,
+      offset: offset,
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
     );
 
-    log('Response data: ${res.data}');
+  log('Response data: ${res.data}');
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
-      final List<CustomersResponse> fetchedList = rawList.map((element) {
-        if (element is CustomersResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return CustomersResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
-      final List<CustomersResponse> newList = isLoadMore
-          ? <CustomersResponse>[...?state.customersReport, ...fetchedList]
-          : fetchedList;
+      final List<CustomersResponse> fetchedList =
+          rawList.map((element) {
+            if (element is CustomersResponse) {
+              return element;
+            } else if (element is Map<String, dynamic>) {
+              return CustomersResponse.fromJson(element);
+            } else {
+              throw Exception(
+                'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+              );
+            }
+          }).toList();
+   final List<CustomersResponse> newList =
+          isLoadMore
+              ? <CustomersResponse>[...?state.customersReport, ...fetchedList]
+              : fetchedList;
 
       emit(
         state.copyWith(
-          customersReport: newList,
-          isCustomersReport: ApiFetchStatus.success,
+          deliverychargeResponse: newList,
+          isDeliverychargeReport: ApiFetchStatus.success,
         ),
       );
     }
-    emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
-  }
-
-  Future<void> loadCategorySalesReport({
-    int? storeId,
-    String? fromDate,
-    String? toDate,
-    // int page = 0,
-    // int limit = 20,
-    bool isLoadMore = false,
-  }) async {
-    if (!isLoadMore) {
-      emit(
-        state.copyWith(
-          isCategorySales: ApiFetchStatus.loading,
-          salesReport: [],
-        ),
-      );
-    }
-    // final int offset = page * limit;
-
-    final res = await _reportRepositories.loadCategorySalesReport(
-      storeId: storeId ?? 0,
-      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-      toDate: parsedDate(state.toDate ?? DateTime.now()),
-    );
-    // log("$offset $limit");
-    if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<CategorySalesResponse> fetchedList = rawList.map((element) {
-        if (element is CategorySalesResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return CategorySalesResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadCategorySalesReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
-
-      final List<CategorySalesResponse> newList = isLoadMore
-          ? <CategorySalesResponse>[...?state.categorySales, ...fetchedList]
-          : fetchedList;
-      emit(
-        state.copyWith(
-          categorySales: newList,
-          isCategorySales: ApiFetchStatus.success,
-        ),
-      );
-    }
-    emit(state.copyWith(isCategorySales: ApiFetchStatus.failed));
+    emit(state.copyWith(isDeliverychargeReport: ApiFetchStatus.failed));
   }
 }
+

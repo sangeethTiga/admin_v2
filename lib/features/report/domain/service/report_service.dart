@@ -1,4 +1,7 @@
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
+import 'dart:developer';
+
+import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -52,9 +55,10 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<SalesReportResponse>.from(
-            res.data.map((e) => SalesReportResponse.fromJson(e)),
-          ).toList(),
+          data:
+              List<SalesReportResponse>.from(
+                res.data.map((e) => SalesReportResponse.fromJson(e)),
+              ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -84,9 +88,10 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<ReveneReportResponse>.from(
-            res.data.map((e) => ReveneReportResponse.fromJson(e)),
-          ).toList(),
+          data:
+              List<ReveneReportResponse>.from(
+                res.data.map((e) => ReveneReportResponse.fromJson(e)),
+              ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -117,9 +122,10 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<ExpenseReportResponse>.from(
-            res.data.map((e) => ExpenseReportResponse.fromJson(e)),
-          ).toList(),
+          data:
+              List<ExpenseReportResponse>.from(
+                res.data.map((e) => ExpenseReportResponse.fromJson(e)),
+              ).toList(),
         );
       default:
         return ResponseResult(data: []);
@@ -140,9 +146,37 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<ProfitlossResponse>.from(
-            res.data.map((e) => ProfitlossResponse.fromJson(e)),
-          ).toList(),
+          data:
+              List<ProfitlossResponse>.from(
+                res.data.map((e) => ProfitlossResponse.fromJson(e)),
+              ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<DeliveryChargeResponse>>> loadDeliveryCharge({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageSize,
+    required int offset,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.deliveryCharge(storeId, fromDate, toDate, pageSize, offset),
+    );
+    log('result-=-=-=-=-=$res');
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data:
+              List<DeliveryChargeResponse>.from(
+                res.data.map((e) => DeliveryChargeResponse.fromJson(e)),
+              ).toList(),
         );
       default:
         return ResponseResult(data: []);
