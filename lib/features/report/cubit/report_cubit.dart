@@ -9,6 +9,7 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
@@ -504,5 +505,59 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     emit(state.copyWith(isUserShiftReport: ApiFetchStatus.failed));
+  }
+
+
+  Future<void> loadTaxReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    
+
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isTaxReport: ApiFetchStatus.loading,
+          taxReport: [],
+        ),
+      );
+    }
+    emit(state.copyWith(isTaxReport: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadTaxReport(
+      
+      
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+    );
+
+    log('Response data: ${res.data}');
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<TaxResponse> fetchedList = rawList.map((element) {
+        if (element is TaxResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return TaxResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadTaxReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+      final List<TaxResponse> newList = isLoadMore
+          ? <TaxResponse>[...?state.taxReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          taxReport: newList,
+          isTaxReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isTaxReport: ApiFetchStatus.failed));
   }
 }

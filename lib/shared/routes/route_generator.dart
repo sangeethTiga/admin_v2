@@ -12,6 +12,7 @@ import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
+import 'package:admin_v2/features/report/screens/tax_screen.dart';
 import 'package:admin_v2/features/report/screens/user_shift_report_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
@@ -70,7 +71,7 @@ class RouteGenerator {
           path: routeExpense,
           builder: (context, state) => ExpenseReportScreen(),
         ),
-
+        GoRoute(path: routeTax, builder: (context, state) => TaxScreen()),
         GoRoute(
           path: routeCustomers,
           builder: (context, state) => CustomersReportScreen(),

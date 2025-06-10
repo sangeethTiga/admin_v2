@@ -8,6 +8,7 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
@@ -298,6 +299,31 @@ class ReportService implements ReportRepositories {
             res.data.map((e) => UserShiftReportResponse.fromJson(e)),
           ).toList(),
         );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<TaxResponse>>> loadTaxReport({
+    required String fromDate,
+    required String toDate,
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.taxReport(fromDate, toDate, storeId),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: (res.data is List)
+              ? List<TaxResponse>.from(
+                  res.data.map((e) => TaxResponse.fromJson(e)),
+                )
+              : [],
+        ); 
       default:
         return ResponseResult(data: []);
     }

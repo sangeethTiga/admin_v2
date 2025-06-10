@@ -121,6 +121,13 @@ class DashboardScreen extends StatelessWidget {
                     context.push(routeParcel);
                   },
                 ),
+                ListTile(
+                  leading: Icon(Icons.money),
+                  title: Text('Tax Report'),
+                  onTap: () {
+                    context.push(routeTax);
+                  },
+                ),
 
                 ListTile(
                   leading: Icon(Icons.shopping_cart),
