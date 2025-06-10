@@ -9,6 +9,7 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -241,18 +242,18 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<CustomersResponse> fetchedList = rawList.map((element) {
-        if (element is CustomersResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return CustomersResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      // final List<dynamic> rawList = res.data!;
+      // final List<CustomersResponse> fetchedList = rawList.map((element) {
+      //   if (element is CustomersResponse) {
+      //     return element;
+      //   } else if (element is Map<String, dynamic>) {
+      //     return CustomersResponse.fromJson(element);
+      //   } else {
+      //     throw Exception(
+      //       'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+      //     );
+      //   }
+      // }).toList();
 
       log('ressssss99-=-=-=-=-=-${res.data}');
       if (res.data != null) {
@@ -450,5 +451,58 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     emit(state.copyWith(isParcelCharge: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadUserShiftReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int page = 0,
+    int limit = 20,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isUserShiftReport: ApiFetchStatus.loading,
+          userShiftReport: [],
+        ),
+      );
+    }
+    final int offset = page * limit;
+    final res = await _reportRepositories.loadUserShiftReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      pageFirstResult: offset,
+      resultPerPage: limit,
+    );
+
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<UserShiftReportResponse> fetchedList = rawList.map((element) {
+        if (element is UserShiftReportResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return UserShiftReportResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadUserShiftReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      final List<UserShiftReportResponse> newList = isLoadMore
+          ? <UserShiftReportResponse>[...?state.userShiftReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          userShiftReport: newList,
+          isUserShiftReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isUserShiftReport: ApiFetchStatus.failed));
   }
 }

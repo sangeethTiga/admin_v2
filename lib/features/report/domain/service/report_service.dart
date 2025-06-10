@@ -1,13 +1,14 @@
-import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'dart:developer';
 
-import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
@@ -244,26 +245,57 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required int storeId,
     required int orderOptionId,
-  }) async{
-final networkProvider = await NetworkProvider.create();
+  }) async {
+    final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(
       ApiEndpoints.parcelCharge(
-       storeId,
-     pageFirstLimit,
-     fromDate,
-     toDate,
-     resultPerPage,
-     orderOptionId
-
+        storeId,
+        pageFirstLimit,
+        fromDate,
+        toDate,
+        resultPerPage,
+        orderOptionId,
       ),
     );
+
     switch (res.statusCode) {
       case 200:
       case 201:
         return ResponseResult(
           data: List<ParcelChargeResponse>.from(
             res.data.map((e) => ParcelChargeResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<UserShiftReportResponse>>> loadUserShiftReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.userShiftReport(
+        storeId,
+        fromDate,
+        toDate,
+        pageFirstResult,
+        resultPerPage,
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<UserShiftReportResponse>.from(
+            res.data.map((e) => UserShiftReportResponse.fromJson(e)),
           ).toList(),
         );
       default:

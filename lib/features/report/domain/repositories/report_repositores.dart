@@ -6,6 +6,7 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ReportRepositories {
@@ -81,4 +82,13 @@ abstract class ReportRepositories {
     required int storeId,
     required int orderOptionId,
   });
+
+  Future<ResponseResult<List<UserShiftReportResponse>>> loadUserShiftReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+  });
+
 }

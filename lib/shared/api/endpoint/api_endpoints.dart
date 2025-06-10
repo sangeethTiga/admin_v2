@@ -101,4 +101,12 @@ class ApiEndpoints {
   ) =>
       '/api/category-sales?store_id=$storeId&from_date=$fromDate&to_date=$toDate';
 
+  static String userShiftReport(
+  int storeId,
+  String fromDate,
+  String toDate,
+  int pageFirstResult,
+  int resultPerPage,
+  ) =>
+      '/api/user_shift?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
 }

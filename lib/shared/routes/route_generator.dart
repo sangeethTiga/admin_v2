@@ -12,6 +12,7 @@ import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
+import 'package:admin_v2/features/report/screens/user_shift_report_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,10 @@ class RouteGenerator {
           path: routeCategorySales,
           builder: (context, state) => CategorySalesReportScreen(),
         ),
-
+        GoRoute(
+          path: userShift,
+          builder: (context, state) => UserShiftReportScreen(),
+        ),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),

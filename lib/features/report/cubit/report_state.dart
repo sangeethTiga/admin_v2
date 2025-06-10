@@ -21,6 +21,8 @@ class ReportState extends Equatable {
   final List<CategorySalesResponse>? categorySales;
   final List<ParcelChargeResponse>? parcelChargeList;
   final ApiFetchStatus? isParcelCharge;
+  final List<UserShiftReportResponse>? userShiftReport;
+  final ApiFetchStatus? isUserShiftReport;
 
   const ReportState({
     this.salesReport,
@@ -42,7 +44,9 @@ class ReportState extends Equatable {
     this.isCategorySales,
     this.categorySales,
     this.isParcelCharge,
-    this.parcelChargeList
+    this.parcelChargeList,
+  this.userShiftReport,
+  this.isUserShiftReport,
   });
 
   ReportState copyWith({
@@ -64,7 +68,9 @@ class ReportState extends Equatable {
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
     List<CategorySalesResponse>? categorySales,
-    List<ParcelChargeResponse>? parcelChargeList,ApiFetchStatus? isParcelCharge
+    List<ParcelChargeResponse>? parcelChargeList,ApiFetchStatus? isParcelCharge,
+    List<UserShiftReportResponse>? userShiftReport,
+    ApiFetchStatus? isUserShiftReport,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -87,7 +93,9 @@ class ReportState extends Equatable {
       isCategorySales: isCategorySales ?? this.isCategorySales,
       categorySales: categorySales ?? this.categorySales,
       isParcelCharge: isParcelCharge ?? this.isParcelCharge,
-      parcelChargeList: parcelChargeList?? this.parcelChargeList
+      parcelChargeList: parcelChargeList?? this.parcelChargeList,
+      userShiftReport: userShiftReport ?? this.userShiftReport,
+      isUserShiftReport: isUserShiftReport ?? this.isUserShiftReport,
     );
   }
 
@@ -112,8 +120,10 @@ class ReportState extends Equatable {
     isCategorySales,
     categorySales,
     isParcelCharge,
-    parcelChargeList
+    parcelChargeList,
 
+    userShiftReport,
+    isUserShiftReport,
   ];
 }
 
