@@ -174,6 +174,7 @@ class ReportCubit extends Cubit<ReportState> {
       final List<ExpenseReportResponse> newList = isLoadMore
           ? <ExpenseReportResponse>[...?state.expenseReport, ...fetchedList]
           : fetchedList;
+
       emit(
         state.copyWith(
           expenseReport: newList,
@@ -216,7 +217,7 @@ class ReportCubit extends Cubit<ReportState> {
 
     int offset = 0,
     bool isLoadMore = false,
-     int? accountId,
+    int? accountId,
   }) async {
     if (!isLoadMore) {
       emit(
@@ -235,34 +236,104 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
     );
 
-  log('Response data: ${res.data}');
+    log('Response data: ${res.data}');
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
-      final List<CustomersResponse> fetchedList =
-          rawList.map((element) {
-            if (element is CustomersResponse) {
-              return element;
-            } else if (element is Map<String, dynamic>) {
-              return CustomersResponse.fromJson(element);
-            } else {
-              throw Exception(
-                'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-              );
-            }
-          }).toList();
-   final List<CustomersResponse> newList =
-          isLoadMore
-              ? <CustomersResponse>[...?state.customersReport, ...fetchedList]
-              : fetchedList;
+      final List<CustomersResponse> fetchedList = rawList.map((element) {
+        if (element is CustomersResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return CustomersResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+      final List<CustomersResponse> newList = isLoadMore
+          ? <CustomersResponse>[...?state.customersReport, ...fetchedList]
+          : fetchedList;
+      log('ressssss99-=-=-=-=-=-${res.data}');
+      if (res.data != null) {
+        final List<dynamic> rawList = res.data!;
+        final List<DeliveryChargeResponse> fetchedList = rawList.map((element) {
+          if (element is DeliveryChargeResponse) {
+            return element;
+          } else if (element is Map<String, dynamic>) {
+            return DeliveryChargeResponse.fromJson(element);
+          } else {
+            throw Exception(
+              'Unexpected element type in loadDeliveryChargeReport: ${element.runtimeType}',
+            );
+          }
+        }).toList();
 
+        final List<DeliveryChargeResponse> newList = isLoadMore
+            ? <DeliveryChargeResponse>[
+                ...?state.deliverychargeReport,
+                ...fetchedList,
+              ]
+            : fetchedList;
+        log('neww-=-=-=-=-$newList');
+        emit(
+          state.copyWith(
+            deliverychargeResponse: newList,
+            isDeliverychargeReport: ApiFetchStatus.success,
+          ),
+        );
+      }
+      emit(state.copyWith(isDeliverychargeReport: ApiFetchStatus.failed));
+    }
+  }
+
+  Future<void> loadCategorySalesReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    // int page = 0,
+    // int limit = 20,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
       emit(
         state.copyWith(
-          deliverychargeResponse: newList,
-          isDeliverychargeReport: ApiFetchStatus.success,
+          isCategorySales: ApiFetchStatus.loading,
+          salesReport: [],
         ),
       );
     }
-    emit(state.copyWith(isDeliverychargeReport: ApiFetchStatus.failed));
+    // final int offset = page * limit;
+
+    final res = await _reportRepositories.loadCategorySalesReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+    );
+    // log("$offset $limit");
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<CategorySalesResponse> fetchedList = rawList.map((element) {
+        if (element is CategorySalesResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return CategorySalesResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadCategorySalesReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      final List<CategorySalesResponse> newList = isLoadMore
+          ? <CategorySalesResponse>[...?state.categorySales, ...fetchedList]
+          : fetchedList;
+      emit(
+        state.copyWith(
+          categorySales: newList,
+          isCategorySales: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isCategorySales: ApiFetchStatus.failed));
   }
 }
-
