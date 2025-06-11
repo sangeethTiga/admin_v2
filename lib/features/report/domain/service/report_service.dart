@@ -6,6 +6,7 @@ import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
+import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
@@ -322,7 +323,7 @@ class ReportService implements ReportRepositories {
           data: TaxResponse.fromJson(res.data)
         ); 
       default:
-        return ResponseResult(error: "Error");
+        return ResponseResult(error: '');
     }
   }
 
@@ -345,5 +346,11 @@ class ReportService implements ReportRepositories {
       default:
         return ResponseResult(data: []);
     }
+  }
+
+  @override
+  Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({required int storeId, required String fromDate, required String toDate, required int pageFirstLimit, required int resultPerPage, required int purchaseType, required int supplierId}) {
+    // TODO: implement loadPurchaseReport
+    throw UnimplementedError();
   }
 }

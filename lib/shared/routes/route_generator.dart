@@ -10,6 +10,7 @@ import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
+import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
 import 'package:admin_v2/features/report/screens/tax_screen.dart';
@@ -20,7 +21,7 @@ import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-final _shellNavigatorKey = GlobalKey<NavigatorState>();
+// final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class RouteGenerator {
   static GoRouter generateRoute() {
@@ -83,14 +84,21 @@ class RouteGenerator {
           builder: (context, state) => CategorySalesReportScreen(),
         ),
         GoRoute(
-          path: userShift,
+          path: routeUserShift,
           builder: (context, state) => UserShiftReportScreen(),
+        ),
+
+        GoRoute(
+          path: routePurchase,
+          builder: (context, state) => PurchaseScreen(),
         ),
         GoRoute(path: routeTopStores,builder: (context,state)=> Topstores() )
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),
     );
+
+      
   }
 
   static MaterialPageRoute errorRoute({String? error, bool argsError = false}) {

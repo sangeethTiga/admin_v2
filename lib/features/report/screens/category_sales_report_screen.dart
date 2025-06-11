@@ -16,7 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CategorySalesReportScreen extends StatelessWidget {
-  const CategorySalesReportScreen({Key? key}) : super(key: key);
+  const CategorySalesReportScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -120,13 +120,15 @@ class CategorySalesReportScreen extends StatelessWidget {
               child: BlocBuilder<ReportCubit, ReportState>(
                 builder: (context, state) {
                   return CommonTableWidget(
+                    isLoading: state.isCategorySales == ApiFetchStatus.loading,
+
                     headers: [
                       "#",
                       "Category Name",
                       "Order count",
                       "Total Amount",
                     ],
-                    columnFlex: [1, 2, 2,1],
+                    columnFlex: [1, 2, 2, 1],
                     data:
                         state.categorySales?.map((e) {
                           int index = state.categorySales?.indexOf(e) ?? 0;

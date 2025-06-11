@@ -136,6 +136,8 @@ class CustomersReportScreen extends StatelessWidget {
                         },
 
                         child: CommonTableWidget(
+                          isLoading:
+                              state.isCustomersReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
                             "Customer ",

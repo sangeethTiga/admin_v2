@@ -115,7 +115,7 @@ class DashboardScreen extends StatelessWidget {
                   title: Text('Parcel Charge'),
                   onTap: () {
                     context.read<CommonCubit>().orderOption(
-                      state.selectedStore?.storeId ?? 0,
+                      state.selectedStore?.storeId,
                       0,
                     );
                     context.push(routeParcel);
@@ -134,6 +134,14 @@ class DashboardScreen extends StatelessWidget {
                   title: Text('Category Sales '),
                   onTap: () {
                     context.push(routeCategorySales);
+                  },
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('User Shift'),
+                  onTap: () {
+                    context.push(routeUserShift);
                   },
                 ),
                 ListTile(
@@ -342,6 +350,11 @@ class DashboardScreen extends StatelessWidget {
                               break;
                             case 'Customers':
                               context.push(routeCustomers);
+                              break;
+
+                            case 'Purchase':
+                              context.push(routePurchase);
+                              context.read<CommonCubit>().purchaseType();
                               break;
 
                             default:

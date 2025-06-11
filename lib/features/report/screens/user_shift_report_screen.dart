@@ -136,6 +136,8 @@ class UserShiftReportScreen extends StatelessWidget {
                         },
 
                         child: CommonTableWidget(
+                          isLoading:
+                              state.isUserShiftReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
                             "Shift ",

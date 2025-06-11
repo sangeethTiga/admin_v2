@@ -1,8 +1,8 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
-import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
@@ -16,19 +16,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ParcelCharge extends StatelessWidget {
-  const ParcelCharge({super.key});
+class PurchaseScreen extends StatelessWidget {
+  const PurchaseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Parcel Charge'),
+      appBar: AppbarWidget(title: 'Purchase Report'),
       body: Column(
         children: [
           dividerWidget(height: 6.h),
           MainPadding(
             child: Column(
-              //spacing: 14.h,
               children: [
                 BlocBuilder<CommonCubit, CommonState>(
                   builder: (context, state) {
@@ -44,7 +43,7 @@ class ParcelCharge extends StatelessWidget {
                         ),
                       ),
                       borderColor: kBlack,
-                      value: state.selectedStore,
+                      value: state.selectedPurchaseType,
                       items:
                           state.storeList?.map((e) {
                             return DropdownMenuItem<StoreResponse>(
@@ -64,41 +63,40 @@ class ParcelCharge extends StatelessWidget {
                     );
                   },
                 ),
-                BlocBuilder<CommonCubit, CommonState>(
-                  builder: (context, state) {
-                    return DropDownFieldWidget(
-                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                      prefixIcon: Container(
-                        margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      borderColor: kBlack,
-                      fillColor: const Color(0XFFEFF1F1),
-                      value: state.selectedOption,
+                12.horizontalSpace,
 
-                      items:
-                          state.optionList?.map((e) {
-                            return DropdownMenuItem<OptionResponse>(
-                              value: e,
-                              child: Text(e.orderOptionName ?? ''),
-                            );
-                          }).toList() ??
-                          [],
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
-                      onChanged: (p0) {
-                        context.read<CommonCubit>().selectedOption(p0);
-                      },
-                      labelText: 'order option',
-                    );
-                  },
-                ),
+                // BlocBuilder<CommonCubit, CommonState>(
+                //   builder: (context, state) {
+                //     return DropDownFieldWidget(
+                //       isLoading: false,
+                //       prefixIcon: Container(
+                //         margin: EdgeInsets.only(left: 12.w),
+                //         child: SvgPicture.asset(
+                //           'assets/icons/package-box-pin-location.svg',
+                //           width: 20.w,
+                //           height: 20.h,
+                //           fit: BoxFit.contain,
+                //         ),
+                //       ),
+                //       borderColor: kBlack,
+                //       items:
+                //           purchaseTypes.map((type) {
+                //             return DropdownMenuItem<PurchaseType>(
+                //               value: type,
+                //               child: Text(type.name ?? ''),
+                //             );
+                //           }).toList() ??
+                //           [],
+                //       fillColor: const Color(0XFFEFF1F1),
+                //       suffixWidget: SvgPicture.asset(
+                //         'assets/icons/Arrow - Right.svg',
+                //       ),
+                //       onChanged: (p0) {
+                //         context.read<CommonCubit>().selectedPurchase(p0);
+                //       },
+                //     );
+                //   },
+                // ),
 
                 12.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
@@ -137,11 +135,13 @@ class ParcelCharge extends StatelessWidget {
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {
-                        context.read<ReportCubit>().loadParcelCharge(
+                        context.read<ReportCubit>().loadPurchaseReport(
                           storeId: state.selectedStore?.storeId,
-                          orderOptionId: state.selectedOption?.orderOptionId,
+                          purchaseType: state.selectedPurchaseType?.id,
                         );
-                        print('fghrhrh -=-=-=-=${state.selectedOption?.orderOptionId}');
+                        print(
+                          '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
+                        );
                       },
                       buttonText: 'View Report',
                     );
@@ -150,50 +150,44 @@ class ParcelCharge extends StatelessWidget {
               ],
             ),
           ),
+
           Expanded(
             child: MainPadding(
               child: BlocBuilder<CommonCubit, CommonState>(
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      return NotificationListener<ScrollEndNotification>(
+                      return NotificationListener<ScrollNotification>(
                         onNotification: (ScrollNotification scrollInfo) {
                           if (scrollInfo.metrics.pixels >=
                                   scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isParcelCharge != ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadParcelCharge(
-                              pageFirstLimit: state.page,
-                              resultPerPage: state.pageSize,
-                              isLoadMore: true,
-                              orderOptionId:
-                                  store.selectedOption?.orderOptionId,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
+                              state.isPurchaseReport !=
+                                  ApiFetchStatus.loading) {}
                           return false;
                         },
 
                         child: CommonTableWidget(
                           isLoading:
-                              state.isParcelCharge == ApiFetchStatus.loading,
+                              state.isPurchaseReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
-                            "Order"
-                                "ORDER DATE",
-
-                            "PARCEL CHARGE",
+                            "Purchase Date ",
+                            "Amount",
+                            "Payment Method",
+                            "Invoice",
                           ],
-                          columnFlex: [2, 2, 2, 2],
-                          data:
-                              state.parcelChargeList?.map((e) {
-                                int index =
-                                    state.parcelChargeList?.indexOf(e) ?? 0;
-                                return {
-                                  "#": index + 1,
-                                  "ORDER": e.billNo ?? '',
-                                  "ORDER DATE": e.orderDate ?? '',
 
-                                  "PARCEL CHARGE": e.parcelCharge ?? '',
+                          columnFlex: [1, 2, 2, 2, 2],
+                          data:
+                              state.purchaseReport?.map((e) {
+                                int index =
+                                    state.purchaseReport?.indexOf(e) ?? 0;
+                                return {
+                                  '#': index + 1,
+                                  'Purchase Date ': e.purchaseDate ?? '',
+                                  'Amount': e.totalamount.toString(),
+                                  'Payment Method': e.payMethodName ?? '',
+                                  'Invoice': e.invoiceNumber ?? '',
                                 };
                               }).toList() ??
                               [],
