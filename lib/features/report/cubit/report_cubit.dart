@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
@@ -11,9 +10,10 @@ import 'package:admin_v2/features/report/domain/models/purchase/purchase_respons
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
+import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
-import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/app/list/helper.dart';
@@ -481,7 +481,7 @@ class ReportCubit extends Cubit<ReportState> {
     );
 
     if (res.data != null) {
-       final List<dynamic> rawList = res.data!;
+      final List<dynamic> rawList = res.data!;
       final List<UserShiftReportResponse> fetchedList = rawList.map((element) {
         if (element is UserShiftReportResponse) {
           return element;
@@ -508,17 +508,14 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isUserShiftReport: ApiFetchStatus.failed));
   }
 
- Future<void> loadPurchaseReport({
-
-
-
+  Future<void> loadPurchaseReport({
     int? storeId,
     String? fromDate,
     String? toDate,
     int page = 0,
     int limit = 20,
     bool isLoadMore = false,
-    int? purchaseType 
+    int? purchaseType,
   }) async {
     if (!isLoadMore) {
       emit(
@@ -538,7 +535,6 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       pageFirstLimit: offset,
       resultPerPage: limit,
-  
     );
 
     if (res.data != null) {
@@ -567,41 +563,37 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     emit(state.copyWith(isPurchaseReport: ApiFetchStatus.failed));
-  } 
- 
+  }
 
-
- Future<void> loadSalesDealsReport({
-  int? storeId,
-  String? fromDate,
-  String? toDate,
-  int pageSize = 0,
+  Future<void> loadSalesDealsReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int pageSize = 0,
 
     int offset = 0,
-  bool isLoadMore = false,
- }) async {
+    bool isLoadMore = false,
+  }) async {
     if (!isLoadMore) {
       emit(
         state.copyWith(
           isSalesDealsReport: ApiFetchStatus.loading,
           salesDealsReport: [],
         ),
-       
       );
-     
     }
-   // final int offset = page * limit;
+    // final int offset = page * limit;
 
     final res = await _reportRepositories.loadSaleOnDealsReport(
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
-        pageSize: pageSize,
+      pageSize: pageSize,
       offset: offset,
       pageFirstResult: state.page,
       resultPerPage: state.pageSize,
     );
-    
+
     log('=-=-=-=-=-Response store code=-=-=-=-=- ${storeId ?? 0}');
     log('=-=-=-=-=-Response data=-=-=-=-=- ${res.data}');
 
@@ -632,5 +624,138 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     emit(state.copyWith(isSalesDealsReport: ApiFetchStatus.failed));
+  }
+
+  // Future<void> loadTaxReport({
+  //   int? storeId,
+  //   String? fromDate,
+  //   String? toDate,
+
+  //   bool isLoadMore = false,
+  // }) async {
+  //   if (!isLoadMore) {
+  //     emit(
+  //       state.copyWith(isTaxReport: ApiFetchStatus.loading, taxReport: null),
+  //     );
+  //   }
+  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.loading));
+  //   final res = await _reportRepositories.loadTaxReport(
+  //     storeId: storeId ?? 0,
+  //     fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+  //     toDate: parsedDate(state.toDate ?? DateTime.now()),
+  //   );
+
+  //   log('Response data: ${res.data}');
+  //   if (res.data != null) {
+  //     final dynamic raw = res.data;
+  //     if (raw is Map<String, dynamic>) {
+  //       final tax = TaxResponse.fromJson(raw);
+  //       emit(
+  //         state.copyWith(taxReport: tax, isTaxReport: ApiFetchStatus.success),
+  //       );
+  //       return;
+  //     }
+  //   }
+  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.failed, taxReport: null));
+  // }
+
+  // if (res.data != null) {
+  //   final List<dynamic> rawList = res.data!;
+  //   final List<TaxResponse> fetchedList = rawList.map((element) {
+  //     if (element is TaxResponse) {
+  //       return element;
+  //     } else if (element is Map<String, dynamic>) {
+  //       return TaxResponse.fromJson(element);
+  //     } else {
+  //       throw Exception(
+  //         'Unexpected element type in loadTaxReport: ${element.runtimeType}',
+  //       );
+  //     }
+  //   }).toList();
+
+  //     final List<TaxResponse> newList = isLoadMore
+  //         ? <TaxResponse>[...?state.taxReport, ...fetchedList]
+  //         : fetchedList;
+
+  //     emit(
+  //       state.copyWith(
+  //         taxReport: newList,
+  //         isTaxReport: ApiFetchStatus.success,
+  //       ),
+  //     );
+  //   }
+  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.failed,taxReport: res.data));
+  // }
+  Future<void> loadTaxReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(isTaxReport: ApiFetchStatus.loading, taxReport: null),
+      );
+    }
+
+    final res = await _reportRepositories.loadTaxReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+    );
+
+    log('Response data: ${res.data}');
+
+    if (res.data != null) {
+      emit(
+        state.copyWith(
+          taxReport: res.data,
+          isTaxReport: ApiFetchStatus.success,
+        ),
+      );
+      return;
+    }
+
+    emit(state.copyWith(isTaxReport: ApiFetchStatus.failed, taxReport: null));
+  }
+
+  Future<void> loadTopStores({
+    int? roleId,
+    int? userId,
+
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(state.copyWith(isTopStores: ApiFetchStatus.loading, topStores: []));
+    }
+    emit(state.copyWith(isTopStores: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadTopStores(
+      roleId: roleId ?? 0,
+      userId: userId ?? 0,
+    );
+
+    log('Response data: ${res.data}');
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<TopstoresResponse> fetchedList = rawList.map((element) {
+        if (element is TopstoresResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return TopstoresResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadTaxReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+      final List<TopstoresResponse> newList = isLoadMore
+          ? <TopstoresResponse>[...?state.topStores, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(topStores: newList, isTopStores: ApiFetchStatus.success),
+      );
+    }
+    emit(state.copyWith(isTopStores: ApiFetchStatus.failed));
   }
 }

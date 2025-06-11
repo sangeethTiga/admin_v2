@@ -1,6 +1,6 @@
 class ResponseResult<T> {
   final T? data;
-  final String? error;
+  final String? error; 
 
   ResponseResult({this.data, this.error});
 

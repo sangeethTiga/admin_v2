@@ -23,6 +23,10 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isParcelCharge;
   final List<UserShiftReportResponse>? userShiftReport;
   final ApiFetchStatus? isUserShiftReport;
+  final TaxResponse? taxReport;
+  final ApiFetchStatus? isTaxReport;
+  final List<TopstoresResponse>? topStores;
+  final ApiFetchStatus? isTopStores;
   final List<PurchaseResponse>? purchaseReport;
   final ApiFetchStatus? isPurchaseReport;
   final List<SaleOnDeals>? salesDealsReport;
@@ -55,6 +59,11 @@ class ReportState extends Equatable {
     this.parcelChargeList,
     this.salesDealsReport,
     this.isSalesDealsReport,
+   
+    this.isTaxReport,
+    this.taxReport,
+    this.topStores,
+    this.isTopStores
 
 
   });
@@ -78,9 +87,14 @@ class ReportState extends Equatable {
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
     List<CategorySalesResponse>? categorySales,
-    List<ParcelChargeResponse>? parcelChargeList,ApiFetchStatus? isParcelCharge,
+    List<ParcelChargeResponse>? parcelChargeList,
+    ApiFetchStatus? isParcelCharge,
     List<UserShiftReportResponse>? userShiftReport,
     ApiFetchStatus? isUserShiftReport,
+    TaxResponse? taxReport,
+    ApiFetchStatus? isTaxReport,
+    List<TopstoresResponse>? topStores,
+    ApiFetchStatus? isTopStores,
     List<PurchaseResponse>? purchaseReport,
     ApiFetchStatus? isPurchaseReport,
     List<SaleOnDeals>? salesDealsReport,
@@ -107,9 +121,13 @@ class ReportState extends Equatable {
       isCategorySales: isCategorySales ?? this.isCategorySales,
       categorySales: categorySales ?? this.categorySales,
       isParcelCharge: isParcelCharge ?? this.isParcelCharge,
-      parcelChargeList: parcelChargeList?? this.parcelChargeList,
+      parcelChargeList: parcelChargeList ?? this.parcelChargeList,
       userShiftReport: userShiftReport ?? this.userShiftReport,
       isUserShiftReport: isUserShiftReport ?? this.isUserShiftReport,
+      taxReport: taxReport ?? this.taxReport,
+      isTaxReport: isTaxReport ?? this.isTaxReport,
+      topStores: topStores?? this.topStores,
+      isTopStores: isTopStores ?? this.isTopStores,
       purchaseReport: purchaseReport ?? this.purchaseReport,
       isPurchaseReport: isPurchaseReport ?? this.isPurchaseReport,
       salesDealsReport: salesDealsReport ?? this.salesDealsReport,
@@ -142,6 +160,10 @@ class ReportState extends Equatable {
 
     userShiftReport,
     isUserShiftReport,
+    taxReport,
+    isTaxReport,
+    isTopStores,
+    topStores,
     purchaseReport,
     isPurchaseReport,
     salesDealsReport,

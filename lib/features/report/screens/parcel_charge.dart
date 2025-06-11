@@ -141,6 +141,7 @@ class ParcelCharge extends StatelessWidget {
                           storeId: state.selectedStore?.storeId,
                           orderOptionId: state.selectedOption?.orderOptionId,
                         );
+                        print('fghrhrh -=-=-=-=${state.selectedOption?.orderOptionId}');
                       },
                       buttonText: 'View Report',
                     );
