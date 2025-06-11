@@ -6,7 +6,6 @@ import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
-
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -337,7 +336,7 @@ class ReportService implements ReportRepositories {
     final networkProvider = await NetworkProvider.create();
     final user = await AuthUtils.instance.readUserData();
     final int userId = user?.user?.companyUsersId ?? 0;
-    final int roleId = user?.user?.userRoleId?? 0;
+    final int roleId = user?.user?.userRoleId ?? 0;
     final res = await networkProvider.get(
       ApiEndpoints.topStores(userId, roleId),
     );
@@ -356,6 +355,17 @@ class ReportService implements ReportRepositories {
     }
   }
 
+  // @override
+  // Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
+  //   required int storeId,
+  //   required String fromDate,
+  //   required String toDate,
+  //   required int pageFirstLimit,
+  //   required int resultPerPage,
+  //   required int purchaseType,
+  //   required int supplierId,
+  // })
+
   @override
   Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
     required int storeId,
@@ -369,25 +379,59 @@ class ReportService implements ReportRepositories {
     // TODO: implement loadPurchaseReport
     throw UnimplementedError();
   }
-   @override
+
+  @override
   Future<ResponseResult<List<OffersResponse>>> loadOffers({
-    
     required int storeId,
   }) async {
     final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider.get(
-      ApiEndpoints.offers( storeId),
-    );
+    final res = await networkProvider.get(ApiEndpoints.offers(storeId));
     switch (res.statusCode) {
       case 200:
       case 201:
-        return ResponseResult(data: (res.data is List)
+        return ResponseResult(
+          data: (res.data is List)
               ? List<OffersResponse>.from(
                   res.data.map((e) => OffersResponse.fromJson(e)),
                 )
-              : [],);
+              : [],
+        );
       default:
         return ResponseResult(error: '');
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+    required int pageSize,
+    required int offset,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.salesDealsReport(
+        storeId,
+        fromDate,
+        toDate,
+        pageFirstResult,
+        resultPerPage,
+      ),
+    );
+    print('SaleOnDeals res: $res');
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<SaleOnDeals>.from(
+            res.data.map((e) => SaleOnDeals.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
     }
   }
 }
