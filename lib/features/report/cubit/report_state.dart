@@ -29,6 +29,8 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isTopStores;
   final List<PurchaseResponse>? purchaseReport;
   final ApiFetchStatus? isPurchaseReport;
+  final List<SaleOnDeals>? salesDealsReport;
+  final ApiFetchStatus? isSalesDealsReport;
   final List<OffersResponse>? offerReport;
   final ApiFetchStatus? isOffersReport;
 
@@ -57,7 +59,7 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
-
+   
     this.isTaxReport,
     this.taxReport,
     this.topStores,
@@ -95,8 +97,6 @@ class ReportState extends Equatable {
     ApiFetchStatus? isTopStores,
     List<PurchaseResponse>? purchaseReport,
     ApiFetchStatus? isPurchaseReport,
-     List<OffersResponse>? offerReport,
-     ApiFetchStatus? isOffersReport
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -128,8 +128,6 @@ class ReportState extends Equatable {
       isTopStores: isTopStores ?? this.isTopStores,
       purchaseReport: purchaseReport ?? this.purchaseReport,
       isPurchaseReport: isPurchaseReport ?? this.isPurchaseReport,
-      offerReport: offerReport?? this.offerReport,
-      isOffersReport: isOffersReport?? this.isOffersReport
     );
   }
 
@@ -164,8 +162,6 @@ class ReportState extends Equatable {
     topStores,
     purchaseReport,
     isPurchaseReport,
-    offerReport,
-    isOffersReport
   ];
 }
 

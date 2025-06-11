@@ -17,6 +17,7 @@ const String routeCustomers = '/customers';
 const String routeParcel = '/parcel';
 const String routeCategorySales = '/category-sales';
 const String routeUserShift = '/user-shift';
+const String routeSaleDeals = '/sale-deals';
 
 const String routeTax = '/tax';
 const String routeTopStores = '/topStores';

@@ -7,6 +7,7 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart' show SaleOnDeals;
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
@@ -104,6 +105,18 @@ abstract class ReportRepositories {
     required int purchaseType,
     required int supplierId,
   });
+
+  Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+        required int pageSize,
+    required int offset,
+    
+  });
+
 
   Future<ResponseResult<TaxResponse>> loadTaxReport({
     required int storeId,

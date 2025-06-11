@@ -13,6 +13,7 @@ import 'package:admin_v2/features/report/screens/offers.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
+import 'package:admin_v2/features/report/screens/sale_on_deals_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
 import 'package:admin_v2/features/report/screens/tax_screen.dart';
 import 'package:admin_v2/features/report/screens/topStores.dart';
@@ -93,6 +94,7 @@ class RouteGenerator {
           path: routePurchase,
           builder: (context, state) => PurchaseScreen(),
         ),
+        GoRoute(path: routeSaleDeals, builder: (context, state) => SaleOnDealsScreen()),
         GoRoute(path: routeTopStores,builder: (context,state)=> Topstores() ),
         GoRoute(path: routeOffers,builder: (context,state) => ProductOffer())
       ],

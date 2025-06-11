@@ -79,6 +79,10 @@ class CommonService implements CommonRepostories {
 
   @override 
    Future<ResponseResult<List<PurchaseType>>>purchaseType(){
+
+    
+
+
        throw UnimplementedError();
    }
   

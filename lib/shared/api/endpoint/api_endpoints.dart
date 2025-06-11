@@ -110,7 +110,25 @@ class ApiEndpoints {
   ) =>
       '/api/user_shift?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
 
-  static String purchaseReport(
+  // static String purchaseReport(
+  //   int storeId,
+  //   String fromDate,
+  //   String toDate,
+  //   int pageFirstLimit,
+  //   int resultPerPage,
+  //   int purchaseType,
+  //   int supplierId,
+  // ) =>
+  //     '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&purchase_type=$purchaseType&supplier_id=$supplierId';
+
+  static String salesDealsReport(
+    int storeId,
+    String fromDate,
+    String toDate,
+    int pageFirstResult,
+    int resultPerPage,
+  ) =>
+      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';  static String purchaseReport(
     int storeId,
     String fromDate,
     String toDate,
