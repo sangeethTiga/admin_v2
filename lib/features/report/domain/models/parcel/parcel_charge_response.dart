@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'parcel_charge_response.freezed.dart';
 part 'parcel_charge_response.g.dart';

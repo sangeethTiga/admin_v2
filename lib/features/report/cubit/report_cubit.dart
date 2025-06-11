@@ -5,6 +5,7 @@ import 'package:admin_v2/features/report/domain/models/customers/customers_repor
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
+import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
@@ -478,7 +479,7 @@ class ReportCubit extends Cubit<ReportState> {
     );
 
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
+       final List<dynamic> rawList = res.data!;
       final List<UserShiftReportResponse> fetchedList = rawList.map((element) {
         if (element is UserShiftReportResponse) {
           return element;
@@ -504,4 +505,63 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isUserShiftReport: ApiFetchStatus.failed));
   }
+
+ Future<void> loadPurchaseReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int page = 0,
+    int limit = 20,
+    bool isLoadMore = false,
+    int? purchaseType 
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isPurchaseReport: ApiFetchStatus.loading,
+          purchaseReport: [],
+        ),
+      );
+    }
+    final int offset = page * limit;
+
+    final res = await _reportRepositories.loadPurchaseReport(
+      purchaseType: purchaseType ?? 0,
+      supplierId: 0,
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      pageFirstLimit: offset,
+      resultPerPage: limit,
+  
+    );
+
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<PurchaseResponse> fetchedList = rawList.map((element) {
+        if (element is PurchaseResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return PurchaseResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadPurchaseReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      final List<PurchaseResponse> newList = isLoadMore
+          ? <PurchaseResponse>[...?state.purchaseReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          purchaseReport: newList,
+          isPurchaseReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isPurchaseReport: ApiFetchStatus.failed));
+  } 
+
 }

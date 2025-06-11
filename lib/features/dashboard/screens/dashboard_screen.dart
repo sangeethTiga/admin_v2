@@ -128,7 +128,7 @@ class DashboardScreen extends StatelessWidget {
               leading: Icon(Icons.person),
               title: Text('User Shift'),
               onTap: () {
-                context.push(userShift);
+                context.push(routeUserShift);
               },
             ),
             GestureDetector(
@@ -328,6 +328,11 @@ class DashboardScreen extends StatelessWidget {
                               break;
                             case 'Customers':
                               context.push(routeCustomers);
+                              break;
+
+                            case 'Purchase':
+                              context.push(routePurchase);
+                              context.read<CommonCubit>().purchaseType();
                               break;
 
                             default:

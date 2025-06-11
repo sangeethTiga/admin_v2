@@ -21,6 +21,8 @@ class ReportState extends Equatable {
   final List<CategorySalesResponse>? categorySales;
   final List<UserShiftReportResponse>? userShiftReport;
   final ApiFetchStatus? isUserShiftReport;
+  final List<PurchaseResponse>? purchaseReport;
+  final ApiFetchStatus? isPurchaseReport;
 
   const ReportState({
     this.salesReport,
@@ -35,14 +37,16 @@ class ReportState extends Equatable {
     this.profitlossReport,
     this.deliverychargeReport,
     this.isDeliverychargeReport,
-    this.offset=0,
-    this.page=0,
+    this.offset = 0,
+    this.page = 0,
     this.customersReport,
     this.isCustomersReport,
     this.isCategorySales,
     this.categorySales,
-  this.userShiftReport,
-  this.isUserShiftReport,
+    this.userShiftReport,
+    this.isUserShiftReport,
+    this.purchaseReport,
+    this.isPurchaseReport,
   });
 
   ReportState copyWith({
@@ -66,6 +70,8 @@ class ReportState extends Equatable {
     List<CategorySalesResponse>? categorySales,
     List<UserShiftReportResponse>? userShiftReport,
     ApiFetchStatus? isUserShiftReport,
+    List<PurchaseResponse>? purchaseReport,
+    ApiFetchStatus? isPurchaseReport,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -78,17 +84,19 @@ class ReportState extends Equatable {
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
       profitlossReport: profitlossReport ?? this.profitlossReport,
-      deliverychargeReport: deliverychargeResponse ?? this.deliverychargeReport,
+      deliverychargeReport: deliverychargeResponse ?? deliverychargeReport,
       isDeliverychargeReport:
           isDeliverychargeReport ?? this.isDeliverychargeReport,
-          page: page ?? this.page,
-          offset: offset?? this.offset,
+      page: page ?? this.page,
+      offset: offset ?? this.offset,
       customersReport: customersReport ?? this.customersReport,
       isCustomersReport: isCustomersReport ?? this.isCustomersReport,
       isCategorySales: isCategorySales ?? this.isCategorySales,
       categorySales: categorySales ?? this.categorySales,
       userShiftReport: userShiftReport ?? this.userShiftReport,
       isUserShiftReport: isUserShiftReport ?? this.isUserShiftReport,
+      purchaseReport: purchaseReport ?? this.purchaseReport,
+      isPurchaseReport: isPurchaseReport ?? this.isPurchaseReport,
     );
   }
 
@@ -114,6 +122,8 @@ class ReportState extends Equatable {
     categorySales,
     userShiftReport,
     isUserShiftReport,
+    purchaseReport,
+    isPurchaseReport,
   ];
 }
 

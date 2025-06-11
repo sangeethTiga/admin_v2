@@ -3,7 +3,7 @@
 //     final welcome = welcomeFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+// import 'dart:convert';
 
 part 'delivery_charge_response.freezed.dart';
 part 'delivery_charge_response.g.dart';

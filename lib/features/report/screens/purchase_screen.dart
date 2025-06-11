@@ -2,6 +2,7 @@ import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
@@ -15,17 +16,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CustomersReportScreen extends StatelessWidget {
-  const CustomersReportScreen({super.key});
+class PurchaseScreen extends StatelessWidget {
+  const PurchaseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Customers Report'),
+      appBar: AppbarWidget(title: 'Purchase Report'),
       body: Column(
         children: [
           dividerWidget(height: 6.h),
-
           MainPadding(
             child: Column(
               children: [
@@ -43,7 +43,7 @@ class CustomersReportScreen extends StatelessWidget {
                         ),
                       ),
                       borderColor: kBlack,
-                      value: state.selectedStore,
+                      value: state.selectedPurchaseType,
                       items:
                           state.storeList?.map((e) {
                             return DropdownMenuItem<StoreResponse>(
@@ -63,20 +63,53 @@ class CustomersReportScreen extends StatelessWidget {
                     );
                   },
                 ),
+                12.horizontalSpace,
+
+                // BlocBuilder<CommonCubit, CommonState>(
+                //   builder: (context, state) {
+                //     return DropDownFieldWidget(
+                //       isLoading: false,
+                //       prefixIcon: Container(
+                //         margin: EdgeInsets.only(left: 12.w),
+                //         child: SvgPicture.asset(
+                //           'assets/icons/package-box-pin-location.svg',
+                //           width: 20.w,
+                //           height: 20.h,
+                //           fit: BoxFit.contain,
+                //         ),
+                //       ),
+                //       borderColor: kBlack,
+                //       items:
+                //           purchaseTypes.map((type) {
+                //             return DropdownMenuItem<PurchaseType>(
+                //               value: type,
+                //               child: Text(type.name ?? ''),
+                //             );
+                //           }).toList() ??
+                //           [],
+                //       fillColor: const Color(0XFFEFF1F1),
+                //       suffixWidget: SvgPicture.asset(
+                //         'assets/icons/Arrow - Right.svg',
+                //       ),
+                //       onChanged: (p0) {
+                //         context.read<CommonCubit>().selectedPurchase(p0);
+                //       },
+                //     );
+                //   },
+                // ),
 
                 12.verticalSpace,
-
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate ?? DateTime.now(),
                             hintText: '',
-                            changeDate: (DateTime pickedDate) {
+                            firstDate: state.fromDate ?? DateTime.now(),
+                            changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeFromDate(
-                                pickedDate,
+                                pickDate,
                               );
                             },
                           ),
@@ -85,9 +118,10 @@ class CustomersReportScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            changeDate: (DateTime pickedDate) {
+                            firstDate: state.fromDate ?? DateTime.now(),
+                            changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeToDate(
-                                pickedDate,
+                                pickDate,
                               );
                             },
                           ),
@@ -96,20 +130,23 @@ class CustomersReportScreen extends StatelessWidget {
                     );
                   },
                 ),
-                10.verticalSpace,
+                12.verticalSpace,
                 BlocBuilder<CommonCubit, CommonState>(
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {
-                        context.read<ReportCubit>().loadCustomersReport(
+                        context.read<ReportCubit>().loadPurchaseReport(
                           storeId: state.selectedStore?.storeId,
+                          purchaseType: state.selectedPurchaseType?.id,
+                        );
+                        print(
+                          '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
                         );
                       },
                       buttonText: 'View Report',
                     );
                   },
                 ),
-                10.verticalSpace,
               ],
             ),
           ),
@@ -124,50 +161,33 @@ class CustomersReportScreen extends StatelessWidget {
                         onNotification: (ScrollNotification scrollInfo) {
                           if (scrollInfo.metrics.pixels >=
                                   scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isCustomersReport != ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadCustomersReport(
-                              page: state.currentPage + 1,
-                              limit: state.pageSize,
-                              isLoadMore: true,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
+                              state.isPurchaseReport !=
+                                  ApiFetchStatus.loading) {}
                           return false;
                         },
 
                         child: CommonTableWidget(
                           isLoading:
-                              state.isCustomersReport == ApiFetchStatus.loading,
+                              state.isPurchaseReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
-                            "Customer ",
-                            "E-Mail",
-                            "Mobile",
-                            "Registration Date",
-                            "Order Count",
-                            "Purchase Amount(AED)",
-                            "Balance(AED)",
-                            "Action",
+                            "Purchase Date ",
+                            "Amount",
+                            "Payment Method",
+                            "Invoice",
                           ],
 
-                          columnFlex: [1, 2, 2, 2, 2, 2, 2, 2, 1],
+                          columnFlex: [1, 2, 2, 2, 2],
                           data:
-                              state.customersReport?.map((e) {
+                              state.purchaseReport?.map((e) {
                                 int index =
-                                    state.customersReport?.indexOf(e) ?? 0;
+                                    state.purchaseReport?.indexOf(e) ?? 0;
                                 return {
                                   '#': index + 1,
-                                  'Customer Name': e.custName ?? '',
-                                  'E-Mail': e.custEmail ?? '',
-                                  'Mobile': e.custMobile ?? '',
-                                  'Registration Date':
-                                      e.createdDate?.toString() ?? '',
-                                  'Order Count': e.orderCount.toString(),
-                                  'Purchase Amount(AED)':
-                                      e.totalPurchaseAmount.toString(),
-                                  'Balance(AED)': e.balanceAmt.toString(),
-                                  'Action':
-                                      'Action', // Placeholder for action button
+                                  'Purchase Date ': e.purchaseDate ?? '',
+                                  'Amount': e.totalamount.toString(),
+                                  'Payment Method': e.payMethodName ?? '',
+                                  'Invoice': e.invoiceNumber ?? '',
                                 };
                               }).toList() ??
                               [],
@@ -184,8 +204,3 @@ class CustomersReportScreen extends StatelessWidget {
     );
   }
 }
- 
-
-    
-                
- 

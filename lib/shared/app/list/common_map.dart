@@ -86,6 +86,7 @@ List<StatusName> statusList = [
   StatusName(name: 'Track', id: 3),
   StatusName(name: 'View', id: 4),
 ];
+
 class Item {
   int id;
   String title;
@@ -98,4 +99,17 @@ List<Item> mapItems = [
   Item(id: 0, title: 'Order Date'),
   Item(id: 1, title: 'Delivery Date'),
   Item(id: 2, title: 'Pick Up Date'),
+];
+
+class PurchaseType {
+  int? id;
+  String? name;
+  PurchaseType({this.id, this.name});
+}
+
+List<PurchaseType> purchaseTypes = [
+  
+  PurchaseType(name: 'All', id: 0),
+  PurchaseType(name: 'Cash', id: 1),
+  PurchaseType(name: 'Card', id: 2),
 ];

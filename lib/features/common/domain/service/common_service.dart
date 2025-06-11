@@ -4,6 +4,7 @@ import 'package:admin_v2/features/common/domain/models/store/store_response.dart
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 import 'package:injectable/injectable.dart';
@@ -54,4 +55,9 @@ class CommonService implements CommonRepostories {
     // TODO: implement orderOption
     throw UnimplementedError();
   }
+
+  @override 
+   Future<ResponseResult<List<PurchaseType>>>purchaseType(){
+       throw UnimplementedError();
+   }
 }

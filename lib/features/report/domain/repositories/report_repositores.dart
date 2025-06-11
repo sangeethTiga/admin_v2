@@ -3,6 +3,7 @@ import 'package:admin_v2/features/report/domain/models/customers/customers_repor
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
+import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
@@ -80,6 +81,16 @@ abstract class ReportRepositories {
     required String toDate,
     required int pageFirstResult,
     required int resultPerPage,
+  });
+
+  Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstLimit,
+    required int resultPerPage,
+    required int purchaseType,
+    required int supplierId,
   });
 
 }

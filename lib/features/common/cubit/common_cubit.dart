@@ -44,8 +44,6 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectDate: store));
   }
 
- 
-
   Future<void> account() async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
@@ -69,7 +67,7 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedAccount: store));
   }
 
- Future<void> orderOption() async {
+  Future<void> orderOption() async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.orderOption();
@@ -77,7 +75,7 @@ class CommonCubit extends Cubit<CommonState> {
         emit(
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
-             optionList: res.data,
+            optionList: res.data,
             selectedOption: res.data?.first,
           ),
         );
@@ -88,8 +86,32 @@ class CommonCubit extends Cubit<CommonState> {
     }
   }
 
-
-   Future<void> selectedOption(OptionResponse options) async {
+  Future<void> selectedOption(OptionResponse options) async {
     emit(state.copyWith(selectedOption: options));
   }
+
+  Future<void> purchaseType() async {
+    try {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+      final res = await _commonRepostories.purchaseType();
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.success,
+            purchaseType: res.data,
+            selectedPurchaseType: res.data?.first,
+          ),
+        );
+      }
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    }
+  }
+
+  Future<void> selectedPurchase(PurchaseType options) async {
+    emit(state.copyWith(selectedPurchaseType: options));
+  }
 }
+
+
