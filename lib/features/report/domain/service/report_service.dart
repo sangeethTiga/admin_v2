@@ -4,6 +4,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
@@ -365,5 +366,26 @@ class ReportService implements ReportRepositories {
   }) {
     // TODO: implement loadPurchaseReport
     throw UnimplementedError();
+  }
+   @override
+  Future<ResponseResult<List<OffersResponse>>> loadOffers({
+    
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.offers( storeId),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(data: (res.data is List)
+              ? List<OffersResponse>.from(
+                  res.data.map((e) => OffersResponse.fromJson(e)),
+                )
+              : [],);
+      default:
+        return ResponseResult(error: '');
+    }
   }
 }

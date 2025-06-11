@@ -156,6 +156,7 @@ class DashboardScreen extends StatelessWidget {
                   leading: Icon(Icons.local_offer),
                   title: Text('Offers'),
                   onTap: () {
+                    //context.read<ReportCubit>().loadOffers();
                     context.push(routeOffers);
                   },
                 ),

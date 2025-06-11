@@ -12,30 +12,27 @@ class Topstores extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       appBar: AppbarWidget(title: 'Top Performing Stores'),
       body: MainPadding(
- 
-                  child: BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return CommonTableWidget(
-                        headers: ["#", "STORES", "SALES"],
-                        columnFlex: [2, 2, 2],
-                        data:
-                            state.topStores?.map((e) {
-                              int index = state.topStores?.indexOf(e) ?? 0;
-                              return {
-                                "#": index + 1,
-                                "STORES": e.storeName ?? '',
-                                "SALES": e.totalorders ?? '',
-                              };
-                            }).toList() ??
-                            [],
-                      );
-                    },
-                  ),
-       
+        child: BlocBuilder<ReportCubit, ReportState>(
+          builder: (context, state) {
+            return CommonTableWidget(
+              headers: ["#", "STORES", "SALES"],
+              columnFlex: [2, 2, 2],
+              data:
+                  state.topStores?.map((e) {
+                    int index = state.topStores?.indexOf(e) ?? 0;
+                    return {
+                      "#": index + 1,
+                      "STORES": e.storeName ?? '',
+                      "SALES": e.totalorders ?? '',
+                    };
+                  }).toList() ??
+                  [],
+            );
+          },
+        ),
       ),
     );
   }
