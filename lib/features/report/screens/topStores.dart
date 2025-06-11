@@ -12,29 +12,11 @@ class Topstores extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      Future.microtask(() {
-    context.read<ReportCubit>().loadTopStores();
-  });
+  
     return Scaffold(
       appBar: AppbarWidget(title: 'Top Performing Stores'),
       body: MainPadding(
-        child: BlocBuilder<CommonCubit, CommonState>(
-          builder: (context, store) {
-            return BlocBuilder<ReportCubit, ReportState>(
-              builder: (context, state) {
-                return NotificationListener<ScrollEndNotification>(
-                  onNotification: (ScrollNotification scrollInfo) {
-                    if (scrollInfo.metrics.pixels >=
-                            scrollInfo.metrics.maxScrollExtent - 50 &&
-                        state.isDeliverychargeReport !=
-                            ApiFetchStatus.loading) {
-                      context.read<ReportCubit>().loadTopStores(
-                        isLoadMore: true,
-                      
-                      );
-                    }
-                    return false;
-                  },
+ 
                   child: BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return CommonTableWidget(
@@ -53,11 +35,7 @@ class Topstores extends StatelessWidget {
                       );
                     },
                   ),
-                );
-              },
-            );
-          },
-        ),
+       
       ),
     );
   }

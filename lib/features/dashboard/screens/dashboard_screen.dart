@@ -147,14 +147,15 @@ class DashboardScreen extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.home_filled),
                   title: Text('Top Stores'),
-                  onTap: (){
+                  onTap: () {
+                    context.read<ReportCubit>().loadTopStores();
                     context.push(routeTopStores);
                   },
                 ),
                 ListTile(
                   leading: Icon(Icons.local_offer),
                   title: Text('Offers'),
-                  onTap: (){
+                  onTap: () {
                     context.push(routeOffers);
                   },
                 ),
