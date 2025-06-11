@@ -67,10 +67,17 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedAccount: store));
   }
 
-  Future<void> orderOption() async {
+ Future<void> orderOption(
+  int? storeId,
+  int? appTypeId
+ ) async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.orderOption();
+      final res = await _commonRepostories.orderOption(
+        storeId:storeId?? 0,
+        appTypeId:appTypeId ?? 0
+        
+      );
       if (res.data != null) {
         emit(
           state.copyWith(

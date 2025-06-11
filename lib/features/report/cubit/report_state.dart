@@ -19,6 +19,8 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
   final List<CategorySalesResponse>? categorySales;
+  final List<ParcelChargeResponse>? parcelChargeList;
+  final ApiFetchStatus? isParcelCharge;
   final List<UserShiftReportResponse>? userShiftReport;
   final ApiFetchStatus? isUserShiftReport;
   final List<PurchaseResponse>? purchaseReport;
@@ -47,6 +49,10 @@ class ReportState extends Equatable {
     this.isUserShiftReport,
     this.purchaseReport,
     this.isPurchaseReport,
+    this.isParcelCharge,
+    this.parcelChargeList,
+
+
   });
 
   ReportState copyWith({
@@ -68,6 +74,7 @@ class ReportState extends Equatable {
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
     List<CategorySalesResponse>? categorySales,
+    List<ParcelChargeResponse>? parcelChargeList,ApiFetchStatus? isParcelCharge,
     List<UserShiftReportResponse>? userShiftReport,
     ApiFetchStatus? isUserShiftReport,
     List<PurchaseResponse>? purchaseReport,
@@ -93,6 +100,8 @@ class ReportState extends Equatable {
       isCustomersReport: isCustomersReport ?? this.isCustomersReport,
       isCategorySales: isCategorySales ?? this.isCategorySales,
       categorySales: categorySales ?? this.categorySales,
+      isParcelCharge: isParcelCharge ?? this.isParcelCharge,
+      parcelChargeList: parcelChargeList?? this.parcelChargeList,
       userShiftReport: userShiftReport ?? this.userShiftReport,
       isUserShiftReport: isUserShiftReport ?? this.isUserShiftReport,
       purchaseReport: purchaseReport ?? this.purchaseReport,
@@ -120,6 +129,9 @@ class ReportState extends Equatable {
     isCustomersReport,
     isCategorySales,
     categorySales,
+    isParcelCharge,
+    parcelChargeList,
+
     userShiftReport,
     isUserShiftReport,
     purchaseReport,

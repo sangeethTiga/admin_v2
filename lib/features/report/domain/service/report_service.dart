@@ -1,8 +1,8 @@
-import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'dart:developer';
 
-import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -231,6 +231,41 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<CategorySalesResponse>.from(
             res.data.map((e) => CategorySalesResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<ParcelChargeResponse>>> loadParcelReport({
+    required int pageFirstLimit,
+    required int resultPerPage,
+    required String fromDate,
+    required String toDate,
+    required int storeId,
+    required int orderOptionId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.get(
+      ApiEndpoints.parcelCharge(
+        storeId,
+        pageFirstLimit,
+        fromDate,
+        toDate,
+        resultPerPage,
+        orderOptionId,
+      ),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ParcelChargeResponse>.from(
+            res.data.map((e) => ParcelChargeResponse.fromJson(e)),
           ).toList(),
         );
       default:

@@ -59,118 +59,126 @@ class DashboardScreen extends StatelessWidget {
       ),
 
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              margin: EdgeInsets.only(bottom: 0, top: 0),
-              decoration: BoxDecoration(color: kPrimaryColor),
-              child: FutureBuilder(
-                future: AuthUtils.instance.readUserData(),
-                builder: (context, asyncSnapshot) {
-                  return Column(
-                    spacing: 6.h,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Admin',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
-                      ),
-                      Text(
-                        asyncSnapshot.data?.user?.userName ?? '',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      Text(
-                        asyncSnapshot.data?.user?.userEmail ?? '',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      Text(
-                        asyncSnapshot.data?.user?.userPhone.toString() ?? '',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Product offers'),
-              onTap: () {
-                context.push(routeProductOffers);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Delivery Charge'),
-              onTap: () {
-                context.push(routeDeliveryCharge);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Parcel Charge'),
-              onTap: () {
-                context.read<CommonCubit>().orderOption();
-                context.push(routeParcel);
-              },
-            ),
-
-            ListTile(
-              leading: Icon(Icons.shopping_cart),
-              title: Text('Category Sales '),
-              onTap: () {
-                context.push(routeCategorySales);
-              },
-            ),
-
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('User Shift'),
-              onTap: () {
-                context.push(routeUserShift);
-              },
-            ),
-            GestureDetector(
-              onTap: () {
-                Helper().logout(context);
-              },
-              child: Container(
-                padding: EdgeInsets.only(left: 12.w, right: 12.w),
-                margin: EdgeInsets.only(
-                  left: 12.w,
-                  right: 12.w,
-                  bottom: 12.h,
-                  top: 8.h,
-                ),
-                height: 52.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: kWhite,
-                ),
-                child: Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/Exit, Log out.svg'),
-                    5.horizontalSpace,
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+        child: BlocBuilder<CommonCubit, CommonState>(
+          builder: (context, state) {
+            return ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  margin: EdgeInsets.only(bottom: 0, top: 0),
+                  decoration: BoxDecoration(color: kPrimaryColor),
+                  child: FutureBuilder(
+                    future: AuthUtils.instance.readUserData(),
+                    builder: (context, asyncSnapshot) {
+                      return Column(
+                        spacing: 6.h,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Sign out',
-                            style: FontPalette.hW500S14.copyWith(
-                              color: Color(0XFFAE270F),
-                            ),
+                            'Admin',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Text(
+                            asyncSnapshot.data?.user?.userName ?? '',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                          Text(
+                            asyncSnapshot.data?.user?.userEmail ?? '',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                          Text(
+                            asyncSnapshot.data?.user?.userPhone.toString() ??
+                                '',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                         ],
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ),
-          ],
+                ListTile(
+                  leading: Icon(Icons.home),
+                  title: Text('Product offers'),
+                  onTap: () {
+                    context.push(routeProductOffers);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Delivery Charge'),
+                  onTap: () {
+                    context.push(routeDeliveryCharge);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Parcel Charge'),
+                  onTap: () {
+                    context.read<CommonCubit>().orderOption(
+                      state.selectedStore?.storeId,
+                      0,
+                    );
+                    context.push(routeParcel);
+                  },
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.shopping_cart),
+                  title: Text('Category Sales '),
+                  onTap: () {
+                    context.push(routeCategorySales);
+                  },
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('User Shift'),
+                  onTap: () {
+                    context.push(routeUserShift);
+                  },
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Helper().logout(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 12.w, right: 12.w),
+                    margin: EdgeInsets.only(
+                      left: 12.w,
+                      right: 12.w,
+                      bottom: 12.h,
+                      top: 8.h,
+                    ),
+                    height: 52.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.r),
+                      color: kWhite,
+                    ),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset('assets/icons/Exit, Log out.svg'),
+                        5.horizontalSpace,
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Sign out',
+                                style: FontPalette.hW500S14.copyWith(
+                                  color: Color(0XFFAE270F),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
 
