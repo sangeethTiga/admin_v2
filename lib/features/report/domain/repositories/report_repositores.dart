@@ -7,6 +7,7 @@ import 'package:admin_v2/features/report/domain/models/profit/profitloss_respons
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
+import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
@@ -92,9 +93,13 @@ abstract class ReportRepositories {
     required int resultPerPage,
   });
 
-  Future<ResponseResult<List<TaxResponse>>> loadTaxReport({
+  Future<ResponseResult<TaxResponse>> loadTaxReport({
     required int storeId,
     required String fromDate,
     required String toDate,
+  });
+  Future<ResponseResult<List<TopstoresResponse>>> loadTopStores({
+    required int roleId,
+    required int userId,
   });
 }

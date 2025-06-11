@@ -9,6 +9,7 @@ import 'package:admin_v2/features/report/domain/models/profit/profitloss_respons
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
+import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
@@ -305,7 +306,7 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<TaxResponse>>> loadTaxReport({
+  Future<ResponseResult<TaxResponse>> loadTaxReport({
     required String fromDate,
     required String toDate,
     required int storeId,
@@ -318,9 +319,26 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
+          data: TaxResponse.fromJson(res.data)
+        ); 
+      default:
+        return ResponseResult(error: "Error");
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<TopstoresResponse>>> loadTopStores({required int roleId, required int userId}) async{
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.topStores(userId,roleId),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
           data: (res.data is List)
-              ? List<TaxResponse>.from(
-                  res.data.map((e) => TaxResponse.fromJson(e)),
+              ? List<TopstoresResponse>.from(
+                  res.data.map((e) => TopstoresResponse.fromJson(e)),
                 )
               : [],
         ); 

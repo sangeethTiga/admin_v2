@@ -94,7 +94,6 @@ class ParcelCharge extends StatelessWidget {
                         'assets/icons/Arrow - Right.svg',
                       ),
                       onChanged: (p0) {
-                       
                         context.read<CommonCubit>().selectedOption(p0);
                       },
                       labelText: 'order option',
@@ -140,8 +139,9 @@ class ParcelCharge extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadParcelCharge(
                           storeId: state.selectedStore?.storeId,
-                          orderOptionId: state.selectedOption?.orderOptionId
+                          orderOptionId: state.selectedOption?.orderOptionId,
                         );
+                        print('fghrhrh -=-=-=-=${state.selectedOption?.orderOptionId}');
                       },
                       buttonText: 'View Report',
                     );
@@ -165,7 +165,8 @@ class ParcelCharge extends StatelessWidget {
                               pageFirstLimit: state.page,
                               resultPerPage: state.pageSize,
                               isLoadMore: true,
-                              orderOptionId: store.selectedOption?.orderOptionId,
+                              orderOptionId:
+                                  store.selectedOption?.orderOptionId,
                               storeId: store.selectedStore?.storeId,
                             );
                           }
@@ -174,8 +175,7 @@ class ParcelCharge extends StatelessWidget {
 
                         child: CommonTableWidget(
                           isLoading:
-                              state.isParcelCharge ==
-                              ApiFetchStatus.loading,
+                              state.isParcelCharge == ApiFetchStatus.loading,
                           headers: [
                             "#",
                             "Order"

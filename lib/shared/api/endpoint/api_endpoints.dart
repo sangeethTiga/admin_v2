@@ -111,4 +111,6 @@ class ApiEndpoints {
       '/api/user_shift?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
   static String taxReport(String fromDate, String toDate, int storeId) =>
       '/api/taxreport?from_date=$fromDate&to_date=$toDate&store_id=$storeId';
+  static String topStores(int roleId, int userId) =>
+      '/api/topallstores?role_id=$roleId&user_id=$userId';
 }
