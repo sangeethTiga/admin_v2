@@ -15,6 +15,7 @@ import 'package:admin_v2/features/report/domain/models/usershift/usershift_repor
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
+import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 import 'package:injectable/injectable.dart';
 
@@ -319,19 +320,23 @@ class ReportService implements ReportRepositories {
     switch (res.statusCode) {
       case 200:
       case 201:
-        return ResponseResult(
-          data: TaxResponse.fromJson(res.data)
-        ); 
+        return ResponseResult(data: TaxResponse.fromJson(res.data));
       default:
         return ResponseResult(error: '');
     }
   }
 
   @override
-  Future<ResponseResult<List<TopstoresResponse>>> loadTopStores({required int roleId, required int userId}) async{
+  Future<ResponseResult<List<TopstoresResponse>>> loadTopStores({
+    required int roleId,
+    required int userId,
+  }) async {
     final networkProvider = await NetworkProvider.create();
+    final user = await AuthUtils.instance.readUserData();
+    final int userId = user?.user?.companyUsersId ?? 0;
+    final int roleId = user?.user?.userRoleId?? 0;
     final res = await networkProvider.get(
-      ApiEndpoints.topStores(userId,roleId),
+      ApiEndpoints.topStores(userId, roleId),
     );
     switch (res.statusCode) {
       case 200:
@@ -342,14 +347,22 @@ class ReportService implements ReportRepositories {
                   res.data.map((e) => TopstoresResponse.fromJson(e)),
                 )
               : [],
-        ); 
+        );
       default:
         return ResponseResult(data: []);
     }
   }
 
   @override
-  Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({required int storeId, required String fromDate, required String toDate, required int pageFirstLimit, required int resultPerPage, required int purchaseType, required int supplierId}) {
+  Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstLimit,
+    required int resultPerPage,
+    required int purchaseType,
+    required int supplierId,
+  }) {
     // TODO: implement loadPurchaseReport
     throw UnimplementedError();
   }

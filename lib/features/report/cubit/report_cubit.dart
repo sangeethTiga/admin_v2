@@ -245,18 +245,7 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      // final List<dynamic> rawList = res.data!;
-      // final List<CustomersResponse> fetchedList = rawList.map((element) {
-      //   if (element is CustomersResponse) {
-      //     return element;
-      //   } else if (element is Map<String, dynamic>) {
-      //     return CustomersResponse.fromJson(element);
-      //   } else {
-      //     throw Exception(
-      //       'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-      //     );
-      //   }
-      // }).toList();
+   
 
       log('ressssss99-=-=-=-=-=-${res.data}');
       if (res.data != null) {
@@ -603,66 +592,7 @@ class ReportCubit extends Cubit<ReportState> {
   );
 }
 
-  // Future<void> loadTaxReport({
-  //   int? storeId,
-  //   String? fromDate,
-  //   String? toDate,
-
-  //   bool isLoadMore = false,
-  // }) async {
-  //   if (!isLoadMore) {
-  //     emit(
-  //       state.copyWith(isTaxReport: ApiFetchStatus.loading, taxReport: null),
-  //     );
-  //   }
-  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.loading));
-  //   final res = await _reportRepositories.loadTaxReport(
-  //     storeId: storeId ?? 0,
-  //     fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-  //     toDate: parsedDate(state.toDate ?? DateTime.now()),
-  //   );
-
-  //   log('Response data: ${res.data}');
-  //   if (res.data != null) {
-  //     final dynamic raw = res.data;
-  //     if (raw is Map<String, dynamic>) {
-  //       final tax = TaxResponse.fromJson(raw);
-  //       emit(
-  //         state.copyWith(taxReport: tax, isTaxReport: ApiFetchStatus.success),
-  //       );
-  //       return;
-  //     }
-  //   }
-  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.failed, taxReport: null));
-  // }
-
-  // if (res.data != null) {
-  //   final List<dynamic> rawList = res.data!;
-  //   final List<TaxResponse> fetchedList = rawList.map((element) {
-  //     if (element is TaxResponse) {
-  //       return element;
-  //     } else if (element is Map<String, dynamic>) {
-  //       return TaxResponse.fromJson(element);
-  //     } else {
-  //       throw Exception(
-  //         'Unexpected element type in loadTaxReport: ${element.runtimeType}',
-  //       );
-  //     }
-  //   }).toList();
-
-  //     final List<TaxResponse> newList = isLoadMore
-  //         ? <TaxResponse>[...?state.taxReport, ...fetchedList]
-  //         : fetchedList;
-
-  //     emit(
-  //       state.copyWith(
-  //         taxReport: newList,
-  //         isTaxReport: ApiFetchStatus.success,
-  //       ),
-  //     );
-  //   }
-  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.failed,taxReport: res.data));
-  // }
+ 
 
   Future<void> loadTopStores({
     int? roleId,

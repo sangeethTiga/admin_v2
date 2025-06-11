@@ -3,7 +3,7 @@ part of 'common_cubit.dart';
 class CommonState extends Equatable {
   final ApiFetchStatus? apiFetchStatus;
   final List<StoreResponse>? storeList;
-  final StoreResponse? selectedStore;
+  final StoreResponse?  selectedStore;
   final ListOfDemo? selectDate;
   final List<AccountDataResponse>? accountList;
   final AccountDataResponse? selectedAccount;

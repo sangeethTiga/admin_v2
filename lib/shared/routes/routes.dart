@@ -20,3 +20,4 @@ const String routeUserShift = '/user-shift';
 
 const String routeTax = '/tax';
 const String routeTopStores = '/topStores';
+const String routeOffers = '/offers';

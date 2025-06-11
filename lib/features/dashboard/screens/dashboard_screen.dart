@@ -151,6 +151,13 @@ class DashboardScreen extends StatelessWidget {
                     context.push(routeTopStores);
                   },
                 ),
+                ListTile(
+                  leading: Icon(Icons.local_offer),
+                  title: Text('Offers'),
+                  onTap: (){
+                    context.push(routeOffers);
+                  },
+                ),
                 GestureDetector(
                   onTap: () {
                     Helper().logout(context);
