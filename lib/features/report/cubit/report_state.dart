@@ -33,6 +33,8 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isSalesDealsReport;
   final List<OffersResponse>? offerReport;
   final ApiFetchStatus? isOffersReport;
+  // final List<OfferTypeResponse>? offerTypeList;
+  final ApiFetchStatus? isOfferTypeList;
 
   const ReportState({
     this.salesReport,
@@ -59,13 +61,16 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
-   
+
     this.isTaxReport,
     this.taxReport,
     this.topStores,
     this.isTopStores,
     this.offerReport,
-    this.isOffersReport
+    this.isOffersReport = ApiFetchStatus.idle,
+    this.salesDealsReport,
+    this.isSalesDealsReport = ApiFetchStatus.idle,
+    this.isOfferTypeList = ApiFetchStatus.idle,
   });
 
   ReportState copyWith({
@@ -97,6 +102,10 @@ class ReportState extends Equatable {
     ApiFetchStatus? isTopStores,
     List<PurchaseResponse>? purchaseReport,
     ApiFetchStatus? isPurchaseReport,
+    ApiFetchStatus? isOffersReport,
+    ApiFetchStatus? isOfferTypeList,
+    List<OffersResponse>? offerReport,
+    List<SaleOnDeals>? salesDealsReport,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -128,6 +137,11 @@ class ReportState extends Equatable {
       isTopStores: isTopStores ?? this.isTopStores,
       purchaseReport: purchaseReport ?? this.purchaseReport,
       isPurchaseReport: isPurchaseReport ?? this.isPurchaseReport,
+      offerReport: offerReport ?? offerReport,
+      isOffersReport: isOffersReport ?? this.isOffersReport,
+      isOfferTypeList: isOfferTypeList ?? this.isOfferTypeList,
+      salesDealsReport: salesDealsReport ?? this.salesDealsReport,
+      isSalesDealsReport: isSalesDealsReport ?? isSalesDealsReport,
     );
   }
 
@@ -153,7 +167,7 @@ class ReportState extends Equatable {
     categorySales,
     isParcelCharge,
     parcelChargeList,
-
+    offerReport,
     userShiftReport,
     isUserShiftReport,
     taxReport,
@@ -162,6 +176,10 @@ class ReportState extends Equatable {
     topStores,
     purchaseReport,
     isPurchaseReport,
+    isOffersReport,
+    isOfferTypeList,
+    salesDealsReport,
+    isSalesDealsReport,
   ];
 }
 

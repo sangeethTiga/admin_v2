@@ -120,8 +120,8 @@ class SaleOnDealsScreen extends StatelessWidget {
                               state.isSalesDealsReport !=
                                   ApiFetchStatus.loading) {
                             context.read<ReportCubit>().loadSalesDealsReport(
-                              pageSize: state.page,
-                              offset: state.offset,
+                              // pageSize: state.page,
+                              // offset: state.offset,
                               // page: state.currentPage + 1,
                               // limit: state.pageSize,
                               isLoadMore: true,
