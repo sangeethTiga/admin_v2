@@ -4,6 +4,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -428,6 +429,41 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<SaleOnDeals>.from(
             res.data.map((e) => SaleOnDeals.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<MessReportResponse>>> loadMessReport({
+    required int pageFirstResult,
+    required int resultPerPage,
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required String query,
+    required int mealPlansId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.messReport(
+        pageFirstResult,
+        resultPerPage,
+        storeId,
+        fromDate,
+        toDate,
+        query,
+        mealPlansId,
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<MessReportResponse>.from(
+            res.data.map((e) => MessReportResponse.fromJson(e)),
           ).toList(),
         );
       default:

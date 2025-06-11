@@ -35,6 +35,8 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isOffersReport;
   // final List<OfferTypeResponse>? offerTypeList;
   final ApiFetchStatus? isOfferTypeList;
+  final List<MessReportResponse>? messReport;
+  final ApiFetchStatus? isMessReport;
 
   const ReportState({
     this.salesReport,
@@ -71,6 +73,8 @@ class ReportState extends Equatable {
     this.salesDealsReport,
     this.isSalesDealsReport = ApiFetchStatus.idle,
     this.isOfferTypeList = ApiFetchStatus.idle,
+    this.isMessReport = ApiFetchStatus.idle,
+    this.messReport,
   });
 
   ReportState copyWith({
@@ -106,6 +110,9 @@ class ReportState extends Equatable {
     ApiFetchStatus? isOfferTypeList,
     List<OffersResponse>? offerReport,
     List<SaleOnDeals>? salesDealsReport,
+    List<MessReportResponse>? messReport,
+  
+    ApiFetchStatus? isMessReport,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -142,6 +149,8 @@ class ReportState extends Equatable {
       isOfferTypeList: isOfferTypeList ?? this.isOfferTypeList,
       salesDealsReport: salesDealsReport ?? this.salesDealsReport,
       isSalesDealsReport: isSalesDealsReport ?? isSalesDealsReport,
+      messReport: messReport ?? this.messReport,
+      isMessReport: isMessReport ?? this.isMessReport,
     );
   }
 
@@ -180,6 +189,8 @@ class ReportState extends Equatable {
     isOfferTypeList,
     salesDealsReport,
     isSalesDealsReport,
+    messReport,
+    isMessReport,
   ];
 }
 

@@ -128,7 +128,8 @@ class ApiEndpoints {
     int pageFirstResult,
     int resultPerPage,
   ) =>
-      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';  static String purchaseReport(
+      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';
+  static String purchaseReport(
     int storeId,
     String fromDate,
     String toDate,
@@ -143,4 +144,15 @@ class ApiEndpoints {
   static String topStores(int roleId, int userId) =>
       '/api/topallstores?role_id=$roleId&user_id=$userId';
   static String offers(storeId) => '/api/product_offer_type?store_id=$storeId';
+
+  static String messReport(
+    int pageFirstResult,
+    int resultPerPage,
+    int storeId,
+    String fromDate,
+    String toDate,
+    String query,
+    int mealPlansId,
+  ) =>
+      '/api/mess?page_first_result=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&query=$query&meal_plans_id=$mealPlansId';
 }

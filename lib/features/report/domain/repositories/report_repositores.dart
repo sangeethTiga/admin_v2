@@ -2,6 +2,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -129,5 +130,14 @@ abstract class ReportRepositories {
   });
   Future<ResponseResult<List<OffersResponse>>> loadOffers({
     required int storeId,
+  });
+  Future<ResponseResult<List<MessReportResponse>>> loadMessReport({
+    required int storeId,
+    required int pageFirstResult,
+    required int resultPerPage,
+    required String fromDate,
+    required String toDate,
+    required String query,
+    required int mealPlansId,
   });
 }
