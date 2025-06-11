@@ -9,6 +9,7 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
@@ -508,6 +509,9 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
  Future<void> loadPurchaseReport({
+
+
+
     int? storeId,
     String? fromDate,
     String? toDate,
@@ -564,5 +568,69 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isPurchaseReport: ApiFetchStatus.failed));
   } 
+ 
 
+
+ Future<void> loadSalesDealsReport({
+  int? storeId,
+  String? fromDate,
+  String? toDate,
+  int pageSize = 0,
+
+    int offset = 0,
+  bool isLoadMore = false,
+ }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isSalesDealsReport: ApiFetchStatus.loading,
+          salesDealsReport: [],
+        ),
+       
+      );
+     
+    }
+   // final int offset = page * limit;
+
+    final res = await _reportRepositories.loadSaleOnDealsReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+        pageSize: pageSize,
+      offset: offset,
+      pageFirstResult: state.page,
+      resultPerPage: state.pageSize,
+    );
+    
+    log('=-=-=-=-=-Response store code=-=-=-=-=- ${storeId ?? 0}');
+    log('=-=-=-=-=-Response data=-=-=-=-=- ${res.data}');
+
+    if (res.data != null) {
+      log('=-=-=-=-=-Response data 2=-=-=-=-=- ${res.data}');
+      final List<dynamic> rawList = res.data!;
+      final List<SaleOnDeals> fetchedList = rawList.map((element) {
+        if (element is SaleOnDeals) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return SaleOnDeals.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadSalesDealsReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      final List<SaleOnDeals> newList = isLoadMore
+          ? <SaleOnDeals>[...?state.salesDealsReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          salesDealsReport: newList,
+          isSalesDealsReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isSalesDealsReport: ApiFetchStatus.failed));
+  }
 }

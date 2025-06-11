@@ -137,6 +137,14 @@ class DashboardScreen extends StatelessWidget {
                     context.push(routeUserShift);
                   },
                 ),
+
+                ListTile(
+                  leading: Icon(Icons.attach_money),
+                  title: Text('Sale on Deals'),
+                  onTap: () {
+                    context.push(routeSaleDeals);
+                  },
+                ),
                 GestureDetector(
                   onTap: () {
                     Helper().logout(context);

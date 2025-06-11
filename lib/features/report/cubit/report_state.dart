@@ -25,6 +25,8 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isUserShiftReport;
   final List<PurchaseResponse>? purchaseReport;
   final ApiFetchStatus? isPurchaseReport;
+  final List<SaleOnDeals>? salesDealsReport;
+  final ApiFetchStatus? isSalesDealsReport;
 
   const ReportState({
     this.salesReport,
@@ -51,6 +53,8 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
+    this.salesDealsReport,
+    this.isSalesDealsReport,
 
 
   });
@@ -79,6 +83,8 @@ class ReportState extends Equatable {
     ApiFetchStatus? isUserShiftReport,
     List<PurchaseResponse>? purchaseReport,
     ApiFetchStatus? isPurchaseReport,
+    List<SaleOnDeals>? salesDealsReport,
+    ApiFetchStatus? isSalesDealsReport,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -106,6 +112,8 @@ class ReportState extends Equatable {
       isUserShiftReport: isUserShiftReport ?? this.isUserShiftReport,
       purchaseReport: purchaseReport ?? this.purchaseReport,
       isPurchaseReport: isPurchaseReport ?? this.isPurchaseReport,
+      salesDealsReport: salesDealsReport ?? this.salesDealsReport,
+      isSalesDealsReport: isSalesDealsReport ?? this.isSalesDealsReport,
     );
   }
 
@@ -136,6 +144,8 @@ class ReportState extends Equatable {
     isUserShiftReport,
     purchaseReport,
     isPurchaseReport,
+    salesDealsReport,
+    isSalesDealsReport,
   ];
 }
 

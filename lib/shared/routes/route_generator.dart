@@ -12,6 +12,7 @@ import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
+import 'package:admin_v2/features/report/screens/sale_on_deals_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
 import 'package:admin_v2/features/report/screens/user_shift_report_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
@@ -90,6 +91,7 @@ class RouteGenerator {
           path: routePurchase,
           builder: (context, state) => PurchaseScreen(),
         ),
+        GoRoute(path: routeSaleDeals, builder: (context, state) => SaleOnDealsScreen()),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),

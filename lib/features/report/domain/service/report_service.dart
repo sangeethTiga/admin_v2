@@ -4,10 +4,12 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
@@ -332,6 +334,40 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<PurchaseResponse>.from(
             res.data.map((e) => PurchaseResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+    required int pageSize,
+    required int offset,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.salesDealsReport(
+        storeId,
+        fromDate,
+        toDate,
+        pageFirstResult,
+        resultPerPage,
+      ),
+    );
+    print('SaleOnDeals res: $res');
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<SaleOnDeals>.from(
+            res.data.map((e) => SaleOnDeals.fromJson(e)),
           ).toList(),
         );
       default:
