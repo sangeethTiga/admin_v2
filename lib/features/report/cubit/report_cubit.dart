@@ -6,6 +6,7 @@ import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.da
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -829,5 +830,55 @@ class ReportCubit extends Cubit<ReportState> {
 
   Future<void> selectedStatus(ChequestatusResponse data) async {
     emit(state.copyWith(selectedStatus: data));
+  }
+
+  Future<void> loadMessReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(isMessReport: ApiFetchStatus.loading, messReport: []),
+      );
+    }
+    emit(state.copyWith(isMessReport: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadMessReport(
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      pageFirstResult: 0,
+      resultPerPage: 50,
+      query: '',
+      mealPlansId: 0,
+    );
+
+    log('Response data: ${res.data}');
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<MessReportResponse> fetchedList = rawList.map((element) {
+        if (element is MessReportResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return MessReportResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+      final List<MessReportResponse> newList = isLoadMore
+          ? <MessReportResponse>[...?state.messReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          messReport: newList,
+          isMessReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isMessReport: ApiFetchStatus.failed));
   }
 }

@@ -157,13 +157,23 @@ class ApiEndpoints {
       '/api/cheque-tracks?store_id=$storeId&status=$status&searchtext=$searchText&from_cheque_issue_date=$fromChequeIssueDate&to_cheque_issue_date=$toChequeIssueDate&from_cheque_date=$fromChequeDate&to_cheque_date=$toChequeDate';
 
   static String chequeStatus(
-     int storeId,
+    int storeId,
     String status,
-   
+
     String fromChequeIssueDate,
     String toChequeIssueDate,
     String fromChequeDate,
     String toChequeDate,
+  ) => '/api/cheque-statuses';
+
+  static String messReport(
+    int pageFirstResult,
+    int resultPerPage,
+    int storeId,
+    String fromDate,
+    String toDate,
+    String query,
+    int mealPlansId,
   ) =>
-      '/api/cheque-statuses';
+      '/api/mess?page_first_result=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&query=$query&meal_plans_id=$mealPlansId';
 }

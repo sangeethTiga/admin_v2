@@ -10,6 +10,7 @@ import 'package:admin_v2/features/report/screens/chequeTrans_screen.dart';
 import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
+import 'package:admin_v2/features/report/screens/mess_report_screen.dart';
 import 'package:admin_v2/features/report/screens/offers_screen.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
@@ -95,16 +96,24 @@ class RouteGenerator {
           path: routePurchase,
           builder: (context, state) => PurchaseScreen(),
         ),
-        GoRoute(path: routeSaleDeals, builder: (context, state) => SaleOnDealsScreen()),
-        GoRoute(path: routeTopStores,builder: (context,state)=> Topstores() ),
-        GoRoute(path: routeOffers,builder: (context,state) => ProductOffer()),
-        GoRoute(path: routeCheque,builder: (context,state)=>ChequetransScreen())
+        GoRoute(
+          path: routeSaleDeals,
+          builder: (context, state) => SaleOnDealsScreen(),
+        ),
+        GoRoute(path: routeTopStores, builder: (context, state) => Topstores()),
+        GoRoute(path: routeOffers, builder: (context, state) => ProductOffer()),
+        GoRoute(
+          path: routeCheque,
+          builder: (context, state) => ChequetransScreen(),
+        ),
+        GoRoute(
+          path: routeMess,
+          builder: (context, state) => MessReportScreen(),
+        ),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),
     );
-
-      
   }
 
   static MaterialPageRoute errorRoute({String? error, bool argsError = false}) {

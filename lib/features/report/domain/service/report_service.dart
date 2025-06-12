@@ -464,9 +464,10 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: (res.data['data'] as List)
-              .map((e) => ChequeTrans.fromJson(e))
-              .toList(),
+          data:
+              (res.data['data'] as List)
+                  .map((e) => ChequeTrans.fromJson(e))
+                  .toList()
         );
       default:
         return ResponseResult(data: []);
