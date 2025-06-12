@@ -5,6 +5,8 @@ import 'package:admin_v2/features/report/domain/models/customers/customers_repor
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -15,6 +17,7 @@ import 'package:admin_v2/features/report/domain/models/sales/sales_report_respon
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
+import 'package:admin_v2/features/report/screens/most_selling_products.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ReportRepositories {
@@ -156,5 +159,20 @@ abstract class ReportRepositories {
     required String toChequeIssueDate,
     required String fromChequeDate,
     required String toChequeDate,
+  });
+  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+    required int storeId,
+  });
+  Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
+     required int pageFirstResult,
+    required int resultPerPage,
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int roleId,
+    required int userId,
+    required int categoryId,
+    required String searchText,
+
   });
 }

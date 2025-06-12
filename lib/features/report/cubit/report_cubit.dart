@@ -7,6 +7,8 @@ import 'package:admin_v2/features/report/domain/models/customers/customers_repor
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
@@ -18,6 +20,7 @@ import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
+
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/app/list/helper.dart';
@@ -880,5 +883,59 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     emit(state.copyWith(isMessReport: ApiFetchStatus.failed));
+  }
+
+ 
+   Future<void> loadProductReport({
+   int page = 0,
+    int limit = 20,
+  int? storeId,
+   String? fromDate,
+    String? toDate,
+    int? roleId,
+    int? userId,
+    String? searchText,
+    int? categoryId,
+
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isProductReport: ApiFetchStatus.loading,
+          productsReport: [],
+        ),
+      );
+    }
+      final int offset = page * limit;
+    emit(state.copyWith(isProductReport: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadProductReport(
+     roleId: roleId ?? 0,
+      userId: userId ?? 0,
+      storeId: storeId ?? 0,
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      pageFirstResult: offset,
+      resultPerPage: limit,
+      searchText: searchText ?? '',
+      categoryId: categoryId?? 0
+    );
+
+    log('Response data: ${res.data}');
+    if (res.data != null) {
+      final List<ProductsResponse> fetchedList = res.data!;
+  
+      final List<ProductsResponse> newList = isLoadMore
+          ? <ProductsResponse>[...?state.productsReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          productsReport: newList,
+          isProductReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isProductReport: ApiFetchStatus.failed));
   }
 }

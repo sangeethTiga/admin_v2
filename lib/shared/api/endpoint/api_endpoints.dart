@@ -176,4 +176,19 @@ class ApiEndpoints {
     int mealPlansId,
   ) =>
       '/api/mess?page_first_result=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&query=$query&meal_plans_id=$mealPlansId';
+
+  static String sellingProducts(int storeId) =>
+      '/api/category?Admin&store_id=$storeId';
+  static String productReport(
+    int pageFirstResult,
+   int resultPerPage,
+  int storeId,
+   String fromDate,
+    String toDate,
+    int roleId,
+    int userId,
+    String searchText,
+    int categoryId,
+  ) =>
+      '/api/fastmovingpdt?role_id=$roleId&user_id=$userId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&store_id=$storeId&searchText=$searchText&category_id=$categoryId';
 }

@@ -137,7 +137,7 @@ class DashboardScreen extends StatelessWidget {
                   },
                 ),
 
-                    ListTile(
+                ListTile(
                   leading: Icon(Icons.shopping_cart),
                   title: Text('Mess Report '),
                   onTap: () {
@@ -175,6 +175,14 @@ class DashboardScreen extends StatelessWidget {
                   onTap: () {
                     context.read<ReportCubit>().loadStatus();
                     context.push(routeCheque);
+                  },
+                ),
+                ListTile(
+                  title: Text('Most Selling Products'),
+                  leading: Icon(Icons.gif_box_outlined),
+                  onTap: () {
+                    context.read<CommonCubit>().loadSellingProducts(state.selectedStore?.storeId,0);
+                    context.push(routeSellingProducts);
                   },
                 ),
                 GestureDetector(
@@ -382,7 +390,6 @@ class DashboardScreen extends StatelessWidget {
                               context.push(routePurchase);
                               context.read<CommonCubit>().purchaseType();
                               break;
-                     
 
                             default:
                           }

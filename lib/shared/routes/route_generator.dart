@@ -11,6 +11,7 @@ import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/mess_report_screen.dart';
+import 'package:admin_v2/features/report/screens/most_selling_products.dart';
 import 'package:admin_v2/features/report/screens/offers_screen.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
@@ -110,6 +111,7 @@ class RouteGenerator {
           path: routeMess,
           builder: (context, state) => MessReportScreen(),
         ),
+        GoRoute(path: routeSellingProducts,builder: (context,state)=> MostSellingProducts())
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),

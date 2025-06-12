@@ -24,3 +24,4 @@ const String routeTopStores = '/topStores';
 const String routeOffers = '/offers';
 const String routeCheque = '/cheque';
 const String routeMess = '/mess';
+const String routeSellingProducts = '/sellingProducts';
