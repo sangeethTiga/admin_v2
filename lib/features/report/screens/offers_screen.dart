@@ -65,18 +65,20 @@ class ProductOffer extends StatelessWidget {
                   return SizedBox(
                     height: 400,
                     child: CommonTableWidget(
-                      headers: ["#", "OFFER", "OFFER ARABIC NAME", "IMAGE"],
+                      headers: ["#", "IMAGE", "OFFER", "OFFER ARABIC NAME"],
                       columnFlex: [2, 2, 2, 2],
                       data:
                           state.offerReport?.map((e) {
                             int index = state.offerReport?.indexOf(e) ?? 0;
                             return {
                               "#": index + 1,
-                              "OFFER": e.offerTypeName ?? '',
-                              "OFFER ARABIC NAME": e.offerTypeArabicName ?? '',
                               "IMAGE": CachedNetworkImage(
                                 imageUrl: e.offerTypeImg ?? '',
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.photo),
                               ),
+                              "OFFER": e.offerTypeName ?? '',
+                              "OFFER ARABIC NAME": e.offerTypeArabicName ?? '',
                             };
                           }).toList() ??
                           [],

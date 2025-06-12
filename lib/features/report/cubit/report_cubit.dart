@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
+import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
+import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
@@ -586,67 +588,6 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isTaxReport: ApiFetchStatus.failed, taxReport: null));
   }
 
-  // Future<void> loadTaxReport({
-  //   int? storeId,
-  //   String? fromDate,
-  //   String? toDate,
-
-  //   bool isLoadMore = false,
-  // }) async {
-  //   if (!isLoadMore) {
-  //     emit(
-  //       state.copyWith(isTaxReport: ApiFetchStatus.loading, taxReport: null),
-  //     );
-  //   }
-  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.loading));
-  //   final res = await _reportRepositories.loadTaxReport(
-  //     storeId: storeId ?? 0,
-  //     fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-  //     toDate: parsedDate(state.toDate ?? DateTime.now()),
-  //   );
-
-  //   log('Response data: ${res.data}');
-  //   if (res.data != null) {
-  //     final dynamic raw = res.data;
-  //     if (raw is Map<String, dynamic>) {
-  //       final tax = TaxResponse.fromJson(raw);
-  //       emit(
-  //         state.copyWith(taxReport: tax, isTaxReport: ApiFetchStatus.success),
-  //       );
-  //       return;
-  //     }
-  //   }
-  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.failed, taxReport: null));
-  // }
-
-  // if (res.data != null) {
-  //   final List<dynamic> rawList = res.data!;
-  //   final List<TaxResponse> fetchedList = rawList.map((element) {
-  //     if (element is TaxResponse) {
-  //       return element;
-  //     } else if (element is Map<String, dynamic>) {
-  //       return TaxResponse.fromJson(element);
-  //     } else {
-  //       throw Exception(
-  //         'Unexpected element type in loadTaxReport: ${element.runtimeType}',
-  //       );
-  //     }
-  //   }).toList();
-
-  //     final List<TaxResponse> newList = isLoadMore
-  //         ? <TaxResponse>[...?state.taxReport, ...fetchedList]
-  //         : fetchedList;
-
-  //     emit(
-  //       state.copyWith(
-  //         taxReport: newList,
-  //         isTaxReport: ApiFetchStatus.success,
-  //       ),
-  //     );
-  //   }
-  //   emit(state.copyWith(isTaxReport: ApiFetchStatus.failed,taxReport: res.data));
-  // }
-
   Future<void> loadTopStores({
     int? roleId,
     int? userId,
@@ -770,5 +711,123 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     emit(state.copyWith(isOffersReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadChequeTrans({
+    int? storeId,
+    String? status,
+    String? searchText,
+    String? fromChequeIssueDate,
+    String? toChequeIssueDate,
+    String? fromChequeDate,
+    String? toChequeDate,
+
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isChequeReport: ApiFetchStatus.loading,
+          chequeTransReport: [],
+        ),
+      );
+    }
+    emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadCheque(
+      fromChequeDate: parsedDate(state.toDate ?? DateTime.now()),
+      fromChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
+      toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      storeId: storeId ?? 0,
+      status: status ?? '',
+      searchText: searchText ?? '',
+    );
+
+    log('Response data: ${res.data}');
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<ChequeTrans> fetchedList = rawList.map((element) {
+        if (element is ChequeTrans) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return ChequeTrans.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadChequeReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+      final List<ChequeTrans> newList = isLoadMore
+          ? <ChequeTrans>[...?state.chequeTransReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          chequeTransReport: newList,
+          isChequeReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isChequeReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadStatus({
+    int? storeId,
+    String? status,
+    String? fromChequeIssueDate,
+    String? toChequeIssueDate,
+    String? fromChequeDate,
+    String? toChequeDate,
+
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isChequeStatus: ApiFetchStatus.loading,
+          chequeStatus: [],
+        ),
+      );
+    }
+    emit(state.copyWith(isChequeStatus: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadStatus(
+      fromChequeDate: parsedDate(state.toDate ?? DateTime.now()),
+      fromChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
+      toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      storeId: storeId ?? 0,
+      status: state.status,
+    );
+
+    log('Response data: ${res.data}');
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<ChequestatusResponse> fetchedList = rawList.map((element) {
+        if (element is ChequestatusResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return ChequestatusResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadStatus: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+      final List<ChequestatusResponse> newList = isLoadMore
+          ? <ChequestatusResponse>[...?state.chequeStatus, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          chequeStatus: newList,
+          isChequeStatus: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isChequeStatus: ApiFetchStatus.failed));
+  }
+
+  Future<void> selectedStatus(ChequestatusResponse data) async {
+    emit(state.copyWith(selectedStatus: data));
   }
 }

@@ -161,6 +161,14 @@ class DashboardScreen extends StatelessWidget {
                     context.push(routeOffers);
                   },
                 ),
+                ListTile(
+                  leading: Icon(Icons.money_rounded),
+                  title: Text('Cheque Transaction'),
+                  onTap: () {
+                    context.read<ReportCubit>().loadStatus();
+                    context.push(routeCheque);
+                  },
+                ),
                 GestureDetector(
                   onTap: () {
                     Helper().logout(context);

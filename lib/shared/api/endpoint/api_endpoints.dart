@@ -128,7 +128,8 @@ class ApiEndpoints {
     int pageFirstResult,
     int resultPerPage,
   ) =>
-      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';  static String purchaseReport(
+      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';
+  static String purchaseReport(
     int storeId,
     String fromDate,
     String toDate,
@@ -142,5 +143,27 @@ class ApiEndpoints {
       '/api/taxreport?from_date=$fromDate&to_date=$toDate&store_id=$storeId';
   static String topStores(int roleId, int userId) =>
       '/api/topallstores?role_id=$roleId&user_id=$userId';
-  static String offers(storeId) => '/api/product_offer_type?store_id=$storeId';
+  static String offers(int storeId) =>
+      '/api/product_offer_type?store_id=$storeId';
+  static String cheque(
+    int storeId,
+    String status,
+    String searchText,
+    String fromChequeIssueDate,
+    String toChequeIssueDate,
+    String fromChequeDate,
+    String toChequeDate,
+  ) =>
+      '/api/cheque-tracks?store_id=$storeId&status=$status&searchtext=$searchText&from_cheque_issue_date=$fromChequeIssueDate&to_cheque_issue_date=$toChequeIssueDate&from_cheque_date=$fromChequeDate&to_cheque_date=$toChequeDate';
+
+  static String chequeStatus(
+     int storeId,
+    String status,
+   
+    String fromChequeIssueDate,
+    String toChequeIssueDate,
+    String fromChequeDate,
+    String toChequeDate,
+  ) =>
+      '/api/cheque-statuses';
 }

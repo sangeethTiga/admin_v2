@@ -29,22 +29,21 @@ class DeliveryChargeScreen extends StatelessWidget {
             child: Column(
               spacing: 14.h,
               children: [
-                BlocBuilder<CommonCubit, CommonState>(
+                 BlocBuilder<CommonCubit, CommonState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.only(
-                          left: 12.h,
-                          top: 12.w,
-                          bottom: 6.h,
-                        ),
+                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                      prefixIcon: Container(
+                        margin: EdgeInsets.only(left: 12.w),
                         child: SvgPicture.asset(
                           'assets/icons/package-box-pin-location.svg',
-                          height: 20.h,
                           width: 20.w,
+                          height: 20.h,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       borderColor: kBlack,
+                      value: state.selectedStore,
                       items:
                           state.storeList?.map((e) {
                             return DropdownMenuItem<StoreResponse>(
@@ -53,17 +52,14 @@ class DeliveryChargeScreen extends StatelessWidget {
                             );
                           }).toList() ??
                           [],
-                      fillColor: Color(0XFFEFF1F1),
-                      suffixWidget: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: SvgPicture.asset(
-                          'assets/icons/Arrow - Right.svg',
-                        ),
+                      fillColor: const Color(0XFFEFF1F1),
+                      suffixWidget: SvgPicture.asset(
+                        'assets/icons/Arrow - Right.svg',
                       ),
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedStore(p0);
                       },
-                      labelText: 'Demo store',
+                      labelText: '',
                     );
                   },
                 ),

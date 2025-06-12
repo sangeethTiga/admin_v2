@@ -15,6 +15,7 @@ class ReportState extends Equatable {
   final int pageSize;
   final int offset;
   final int page;
+  final String status;
   final List<CustomersResponse>? customersReport;
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
@@ -35,6 +36,12 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isOffersReport;
   // final List<OfferTypeResponse>? offerTypeList;
   final ApiFetchStatus? isOfferTypeList;
+  final List<ChequeTrans>? chequeTransReport;
+  final ApiFetchStatus? isChequeReport;
+  final List<ChequestatusResponse>? chequeStatus;
+  final ApiFetchStatus? isChequeStatus;
+  final ChequestatusResponse? selectedStatus;
+  final ApiFetchStatus? apiFetchStatus;
 
   const ReportState({
     this.salesReport,
@@ -61,7 +68,7 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
-
+    this.status = '',
     this.isTaxReport,
     this.taxReport,
     this.topStores,
@@ -71,6 +78,12 @@ class ReportState extends Equatable {
     this.salesDealsReport,
     this.isSalesDealsReport = ApiFetchStatus.idle,
     this.isOfferTypeList = ApiFetchStatus.idle,
+    this.chequeTransReport,
+    this.isChequeReport,
+    this.chequeStatus,
+    this.isChequeStatus,
+    this.selectedStatus,
+    this.apiFetchStatus,
   });
 
   ReportState copyWith({
@@ -88,6 +101,7 @@ class ReportState extends Equatable {
     ApiFetchStatus? isDeliverychargeReport,
     int? offset,
     int? page,
+    String? status,
     List<CustomersResponse>? customersReport,
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
@@ -106,6 +120,12 @@ class ReportState extends Equatable {
     ApiFetchStatus? isOfferTypeList,
     List<OffersResponse>? offerReport,
     List<SaleOnDeals>? salesDealsReport,
+    List<ChequeTrans>? chequeTransReport,
+    ApiFetchStatus? isChequeReport,
+    List<ChequestatusResponse>? chequeStatus,
+    ApiFetchStatus? isChequeStatus,
+    ChequestatusResponse? selectedStatus,
+    ApiFetchStatus? apiFetchStatus,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -137,11 +157,18 @@ class ReportState extends Equatable {
       isTopStores: isTopStores ?? this.isTopStores,
       purchaseReport: purchaseReport ?? this.purchaseReport,
       isPurchaseReport: isPurchaseReport ?? this.isPurchaseReport,
-      offerReport: offerReport ?? offerReport,
+      offerReport: offerReport ?? this.offerReport,
       isOffersReport: isOffersReport ?? this.isOffersReport,
       isOfferTypeList: isOfferTypeList ?? this.isOfferTypeList,
       salesDealsReport: salesDealsReport ?? this.salesDealsReport,
       isSalesDealsReport: isSalesDealsReport ?? isSalesDealsReport,
+      chequeTransReport: chequeTransReport ?? this.chequeTransReport,
+      isChequeReport: isChequeReport ?? this.isChequeReport,
+      chequeStatus: chequeStatus ?? this.chequeStatus,
+      isChequeStatus: isChequeStatus ?? this.isChequeStatus,
+      selectedStatus: selectedStatus ?? this.selectedStatus,
+      apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
+      status: status ?? this.status,
     );
   }
 
@@ -161,6 +188,7 @@ class ReportState extends Equatable {
     isDeliverychargeReport,
     page,
     offset,
+    status,
     customersReport,
     isCustomersReport,
     isCategorySales,
@@ -180,6 +208,12 @@ class ReportState extends Equatable {
     isOfferTypeList,
     salesDealsReport,
     isSalesDealsReport,
+    chequeTransReport,
+    isChequeReport,
+    isChequeStatus,
+    chequeStatus,
+    selectedStatus,
+    apiFetchStatus,
   ];
 }
 

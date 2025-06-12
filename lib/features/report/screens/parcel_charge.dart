@@ -179,7 +179,7 @@ class ParcelCharge extends StatelessWidget {
                           headers: [
                             "#",
                             "Order"
-                                "ORDER DATE",
+                            "ORDER DATE",
 
                             "PARCEL CHARGE",
                           ],
