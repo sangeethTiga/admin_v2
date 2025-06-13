@@ -19,6 +19,7 @@ import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
 import 'package:admin_v2/features/report/screens/sale_on_deals_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
+import 'package:admin_v2/features/report/screens/suppliers_screen.dart';
 import 'package:admin_v2/features/report/screens/tax_screen.dart';
 import 'package:admin_v2/features/report/screens/topStores_screen.dart';
 import 'package:admin_v2/features/report/screens/user_shift_report_screen.dart';
@@ -102,7 +103,7 @@ class RouteGenerator {
           path: routeSaleDeals,
           builder: (context, state) => SaleOnDealsScreen(),
         ),
-        GoRoute(path: routeTopStores, builder: (context, state) => Topstores()),
+        GoRoute(path: routeTopStores, builder: (context, state) => TopStores()),
         GoRoute(path: routeOffers, builder: (context, state) => ProductOffer()),
         GoRoute(
           path: routeCheque,
@@ -113,11 +114,15 @@ class RouteGenerator {
           builder: (context, state) => MessReportScreen(),
         ),
         GoRoute(path: routeSellingProducts,builder: (context,state)=> MostSellingProducts()),
-        GoRoute(path: routeRevenueGraph,builder: (context,state)=> GraphRevenue())
+         GoRoute(path: routeSupplier,builder: (context,state)=> SuppliersReportScreen()),
+
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),
     );
+    
+
+      
   }
 
   static MaterialPageRoute errorRoute({String? error, bool argsError = false}) {

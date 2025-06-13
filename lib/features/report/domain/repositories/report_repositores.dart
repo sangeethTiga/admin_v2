@@ -9,15 +9,21 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
+//import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart'
+    show SaleOnDeals;
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
+//import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 
+//import 'package:admin_v2/features/report/screens/most_selling_products.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ReportRepositories {
@@ -164,7 +170,7 @@ abstract class ReportRepositories {
     required int storeId,
   });
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
-     required int pageFirstResult,
+    required int pageFirstResult,
     required int resultPerPage,
     required int storeId,
     required String fromDate,
@@ -173,6 +179,11 @@ abstract class ReportRepositories {
     required int userId,
     required int categoryId,
     required String searchText,
+  });
 
+  Future<ResponseResult<List<SuppliersResponse>>> loadSuppliers({
+    required int storeId,
+    required int admin,
+    required String query,
   });
 }

@@ -165,10 +165,9 @@ class UserShiftReportScreen extends StatelessWidget {
                                   'Opening Balance': e.openingBalance
                                       .toString(),
                                   'Close': e.closingTime ?? '',
-                                  'Closing Balance': e.closingBalance
-                                      .toString(),
-                                  'Action':
-                                      'Action', // Placeholder for action button
+                                  'Closing Balance': e.closingBalance??''
+                          
+                                  // Placeholder for action button
                                 };
                               }).toList() ??
                               [],

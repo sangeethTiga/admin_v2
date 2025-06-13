@@ -138,9 +138,11 @@ class ApiEndpoints {
     int purchaseType,
     int supplierId,
   ) =>
-      '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&purchase_type=$purchaseType&supplier_id=$supplierId';
+      '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=0&result_per_page=50&purchase_type=$purchaseType&supplier_id=0';
+
   static String taxReport(String fromDate, String toDate, int storeId) =>
       '/api/taxreport?from_date=$fromDate&to_date=$toDate&store_id=$storeId';
+
   static String topStores(int roleId, int userId) =>
       '/api/topallstores?role_id=$roleId&user_id=$userId';
   static String offers(int storeId) =>
@@ -193,4 +195,11 @@ class ApiEndpoints {
       '/api/fastmovingpdt?role_id=$roleId&user_id=$userId&from_date=$fromDate&to_date=$toDate&page_first_result=0&result_per_page=20&store_id=$storeId&searchText=$searchText&category_id=$categoryId';
 
   static String graphRevenue() => '/api/graphforrevenue';
+      '/api/fastmovingpdt?role_id=$roleId&user_id=$userId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&store_id=$storeId&searchText=$searchText&category_id=$categoryId';
+
+  static String supplierReport(
+    int storeId,
+    int admin,
+    String query
+  ) => '/api/suppliers?store_id=$storeId&Admin=$admin&query=$query';
 }

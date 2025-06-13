@@ -8,7 +8,6 @@ import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 part 'common_state.dart';
 
 @injectable
@@ -98,7 +97,12 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedOption: options));
   }
 
-  Future<void> purchaseType() async {
+  Future<void> purchaseType({
+     int? id,
+     String? name
+        
+
+  }) async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.purchaseType();
@@ -107,7 +111,7 @@ class CommonCubit extends Cubit<CommonState> {
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
             purchaseType: res.data,
-            selectedPurchaseType: res.data?.first,
+           selectedPurchaseType: res.data?.first,
           ),
         );
       }
@@ -118,6 +122,8 @@ class CommonCubit extends Cubit<CommonState> {
   }
 
   Future<void> selectedPurchase(PurchaseType options) async {
+
+     
     emit(state.copyWith(selectedPurchaseType: options));
   }
     Future<void> loadSellingProducts(
