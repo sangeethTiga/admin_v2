@@ -181,7 +181,10 @@ class DashboardScreen extends StatelessWidget {
                   title: Text('Most Selling Products'),
                   leading: Icon(Icons.gif_box_outlined),
                   onTap: () {
-                    context.read<CommonCubit>().loadSellingProducts(state.selectedStore?.storeId,0);
+                    context.read<CommonCubit>().loadSellingProducts(
+                      state.selectedStore?.storeId,
+                      0,
+                    );
                     context.push(routeSellingProducts);
                   },
                 ),
@@ -419,6 +422,12 @@ class DashboardScreen extends StatelessWidget {
                       );
                     },
                   ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context.push(routeRevenueGraph);
+                  },
+                  child: Text('Marwa ~ Revenue'),
                 ),
               ],
             );

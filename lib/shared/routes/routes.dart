@@ -25,3 +25,4 @@ const String routeOffers = '/offers';
 const String routeCheque = '/cheque';
 const String routeMess = '/mess';
 const String routeSellingProducts = '/sellingProducts';
+const String routeRevenueGraph = '/revenueGraph';

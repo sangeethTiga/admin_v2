@@ -1,5 +1,6 @@
 import 'package:admin_v2/features/auth/screens/sign_in_screen.dart';
 import 'package:admin_v2/features/dashboard/screens/dashboard_screen.dart';
+import 'package:admin_v2/features/graphs/screens/revenue_graph_screen.dart';
 import 'package:admin_v2/features/orders/screens/order_detail_screen.dart';
 import 'package:admin_v2/features/orders/screens/order_screen.dart';
 import 'package:admin_v2/features/products/product_screen.dart';
@@ -111,7 +112,8 @@ class RouteGenerator {
           path: routeMess,
           builder: (context, state) => MessReportScreen(),
         ),
-        GoRoute(path: routeSellingProducts,builder: (context,state)=> MostSellingProducts())
+        GoRoute(path: routeSellingProducts,builder: (context,state)=> MostSellingProducts()),
+        GoRoute(path: routeRevenueGraph,builder: (context,state)=> GraphRevenue())
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),
