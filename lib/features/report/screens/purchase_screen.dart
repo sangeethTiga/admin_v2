@@ -2,6 +2,7 @@ import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -81,7 +82,7 @@ class PurchaseScreen extends StatelessWidget {
                       borderColor: kBlack,
                       value: state.selectedPurchaseType,
                       items:
-                          purchaseTypes.map((value) {
+                          state.purchaseType?.map((value) {
                             return DropdownMenuItem<PurchaseType>(
                               value: value,
                               child: Text(value.name ?? ''),
