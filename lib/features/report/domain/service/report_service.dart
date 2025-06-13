@@ -7,11 +7,13 @@ import 'package:admin_v2/features/report/domain/models/expense/expense_report_re
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
@@ -356,17 +358,6 @@ class ReportService implements ReportRepositories {
     }
   }
 
-  // @override
-  // Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
-  //   required int storeId,
-  //   required String fromDate,
-  //   required String toDate,
-  //   required int pageFirstLimit,
-  //   required int resultPerPage,
-  //   required int purchaseType,
-  //   required int supplierId,
-  // })
-
   @override
   Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
     required int storeId,
@@ -376,9 +367,31 @@ class ReportService implements ReportRepositories {
     required int resultPerPage,
     required int purchaseType,
     required int supplierId,
-  }) {
-    // TODO: implement loadPurchaseReport
-    throw UnimplementedError();
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.purchaseReport(
+        storeId,
+        fromDate,
+        toDate,
+        supplierId,
+        purchaseType,
+        pageFirstLimit,
+        resultPerPage,
+      ),
+    );
+    print('????purchaseDeals??? $res');
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<PurchaseResponse>.from(
+            res.data.map((e) => PurchaseResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
   }
 
   @override
@@ -464,6 +477,59 @@ class ReportService implements ReportRepositories {
         return ResponseResult(
           data: List<MessReportResponse>.from(
             res.data.map((e) => MessReportResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<ProductOffersResponse>>> loadProductOffers({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.productOffers(
+        storeId,
+        fromDate,
+        toDate,
+        pageFirstResult,
+        resultPerPage,
+      ),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ProductOffersResponse>.from(
+            res.data.map((e) => ProductOffersResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+   @override
+  Future<ResponseResult<List<SuppliersResponse>>> loadSuppliers({
+    required int storeId,
+    required int admin,
+    required String query,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.supplierReport(storeId, admin, query),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<SuppliersResponse>.from(
+            res.data.map((e) => SuppliersResponse.fromJson(e)),
           ).toList(),
         );
       default:

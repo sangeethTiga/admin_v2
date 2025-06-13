@@ -3,7 +3,6 @@
 //     final saleOnDeals = saleOnDealsFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'sale_on_deals_response.freezed.dart';
 part 'sale_on_deals_response.g.dart';

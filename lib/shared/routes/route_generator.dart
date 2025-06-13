@@ -16,6 +16,7 @@ import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
 import 'package:admin_v2/features/report/screens/sale_on_deals_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
+import 'package:admin_v2/features/report/screens/suppliers_screen.dart';
 import 'package:admin_v2/features/report/screens/tax_screen.dart';
 import 'package:admin_v2/features/report/screens/topStores.dart';
 import 'package:admin_v2/features/report/screens/user_shift_report_screen.dart';
@@ -96,13 +97,16 @@ class RouteGenerator {
           builder: (context, state) => PurchaseScreen(),
         ),
         GoRoute(path: routeSaleDeals, builder: (context, state) => SaleOnDealsScreen()),
-        GoRoute(path: routeTopStores,builder: (context,state)=> Topstores() ),
+        GoRoute(path: routeTopStores,builder: (context,state)=> TopStores() ),
         GoRoute(path: routeOffers,builder: (context,state) => ProductOffer()),
         GoRoute(path: routeMess,builder: (context,state) => MessReportScreen()),
+        GoRoute(path: routeSupplier,builder:(context,state) => SuppliersReportScreen()),
+
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),
     );
+    
 
       
   }

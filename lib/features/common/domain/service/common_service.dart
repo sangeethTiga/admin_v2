@@ -51,18 +51,14 @@ class CommonService implements CommonRepostories {
   }
 
   @override
-  Future<ResponseResult<List<OptionResponse>>> orderOption(
-    {required int storeId,
-      required int appTypeId}
-  ) async {
+  Future<ResponseResult<List<OptionResponse>>> orderOption({
+    required int storeId,
+    required int appTypeId,
+  }) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(
-      ApiEndpoints.orderOption(
-       storeId,
-       appTypeId
-
-      ),
+      ApiEndpoints.orderOption(storeId, appTypeId),
     );
     switch (res.statusCode) {
       case 200:
@@ -77,18 +73,9 @@ class CommonService implements CommonRepostories {
     }
   }
 
-  @override 
-   Future<ResponseResult<List<PurchaseType>>>purchaseType(){
-
+  @override
+  Future<ResponseResult<List<PurchaseType>>> purchaseType() {
     
-
-
-       throw UnimplementedError();
-   }
-  
-  // @override
-  // Future<ResponseResult<List<OptionResponse>>> orderOption() {
-  //   // TODO: implement orderOption
-  //   throw UnimplementedError();
-  // }
+    throw UnimplementedError();
+  }
 }

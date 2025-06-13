@@ -37,6 +37,12 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isOfferTypeList;
   final List<MessReportResponse>? messReport;
   final ApiFetchStatus? isMessReport;
+  final List<ProductOffersResponse>? productOffers;
+  final ApiFetchStatus? isProductOffers;
+  final List<SuppliersResponse>? suppliersReport;
+  final ApiFetchStatus? isSupplierReport;
+
+  final PurchaseType? selectedPurchaseType;
 
   const ReportState({
     this.salesReport,
@@ -75,6 +81,13 @@ class ReportState extends Equatable {
     this.isOfferTypeList = ApiFetchStatus.idle,
     this.isMessReport = ApiFetchStatus.idle,
     this.messReport,
+    this.isProductOffers = ApiFetchStatus.idle,
+    this.productOffers,
+    this.suppliersReport,
+    this.isSupplierReport,
+
+    //       this.purchaseType,
+    this.selectedPurchaseType,
   });
 
   ReportState copyWith({
@@ -111,8 +124,15 @@ class ReportState extends Equatable {
     List<OffersResponse>? offerReport,
     List<SaleOnDeals>? salesDealsReport,
     List<MessReportResponse>? messReport,
-  
+
     ApiFetchStatus? isMessReport,
+    List<ProductOffersResponse>? productOffers,
+    ApiFetchStatus? isProductOffers,
+    List<SuppliersResponse>? suppliersReport,
+    ApiFetchStatus? isSupplierReport,
+
+    //     List<PurchaseType>? purchaseType,
+    PurchaseType? selectedPurchaseType,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -151,6 +171,12 @@ class ReportState extends Equatable {
       isSalesDealsReport: isSalesDealsReport ?? isSalesDealsReport,
       messReport: messReport ?? this.messReport,
       isMessReport: isMessReport ?? this.isMessReport,
+      productOffers: productOffers ?? this.productOffers,
+      isProductOffers: isProductOffers ?? this.isProductOffers,
+      isSupplierReport: isSupplierReport ?? this.isSupplierReport,
+      suppliersReport: suppliersReport ?? this.suppliersReport,
+      //   purchaseType: purchaseType ?? this.purchaseType,
+      selectedPurchaseType: selectedPurchaseType ?? selectedPurchaseType,
     );
   }
 
@@ -191,6 +217,11 @@ class ReportState extends Equatable {
     isSalesDealsReport,
     messReport,
     isMessReport,
+    productOffers,
+    isProductOffers,
+    suppliersReport,
+    isSupplierReport,
+    selectedPurchaseType
   ];
 }
 

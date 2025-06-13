@@ -43,7 +43,7 @@ class PurchaseScreen extends StatelessWidget {
                         ),
                       ),
                       borderColor: kBlack,
-                      value: state.selectedPurchaseType,
+                      value: state.selectedStore,
                       items:
                           state.storeList?.map((e) {
                             return DropdownMenuItem<StoreResponse>(
@@ -65,38 +65,40 @@ class PurchaseScreen extends StatelessWidget {
                 ),
                 12.horizontalSpace,
 
-                // BlocBuilder<CommonCubit, CommonState>(
-                //   builder: (context, state) {
-                //     return DropDownFieldWidget(
-                //       isLoading: false,
-                //       prefixIcon: Container(
-                //         margin: EdgeInsets.only(left: 12.w),
-                //         child: SvgPicture.asset(
-                //           'assets/icons/package-box-pin-location.svg',
-                //           width: 20.w,
-                //           height: 20.h,
-                //           fit: BoxFit.contain,
-                //         ),
-                //       ),
-                //       borderColor: kBlack,
-                //       items:
-                //           purchaseTypes.map((type) {
-                //             return DropdownMenuItem<PurchaseType>(
-                //               value: type,
-                //               child: Text(type.name ?? ''),
-                //             );
-                //           }).toList() ??
-                //           [],
-                //       fillColor: const Color(0XFFEFF1F1),
-                //       suffixWidget: SvgPicture.asset(
-                //         'assets/icons/Arrow - Right.svg',
-                //       ),
-                //       onChanged: (p0) {
-                //         context.read<CommonCubit>().selectedPurchase(p0);
-                //       },
-                //     );
-                //   },
-                // ),
+                BlocBuilder<CommonCubit, CommonState>(
+                  builder: (context, state) {
+                    return DropDownFieldWidget(
+                      isLoading: false,
+                      prefixIcon: Container(
+                        margin: EdgeInsets.only(left: 12.w),
+                        child: SvgPicture.asset(
+                          'assets/icons/package-box-pin-location.svg',
+                          width: 20.w,
+                          height: 20.h,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      borderColor: kBlack,
+                      value: state.selectedPurchaseType,
+                      items:
+                          purchaseTypes.map((value) {
+                            return DropdownMenuItem<PurchaseType>(
+                              value: value,
+                              child: Text(value.name ?? ''),
+                            );
+                          }).toList() ??
+                          [],
+
+                      fillColor: const Color(0XFFEFF1F1),
+                      suffixWidget: SvgPicture.asset(
+                        'assets/icons/Arrow - Right.svg',
+                      ),
+                      onChanged: (p0) {
+                        context.read<CommonCubit>().selectedPurchase(p0);
+                      },
+                    );
+                  },
+                ),
 
                 12.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
@@ -139,6 +141,7 @@ class PurchaseScreen extends StatelessWidget {
                           storeId: state.selectedStore?.storeId,
                           purchaseType: state.selectedPurchaseType?.id,
                         );
+                        // context.read<ReportCubit>().changePucrhaeType( );
                         print(
                           '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
                         );
@@ -171,7 +174,7 @@ class PurchaseScreen extends StatelessWidget {
                               state.isPurchaseReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
-                            "Purchase Date ",
+                            "Purchase Date",
                             "Amount",
                             "Payment Method",
                             "Invoice",
@@ -184,7 +187,7 @@ class PurchaseScreen extends StatelessWidget {
                                     state.purchaseReport?.indexOf(e) ?? 0;
                                 return {
                                   '#': index + 1,
-                                  'Purchase Date ': e.purchaseDate ?? '',
+                                  'Purchase Date': e.purchaseDate ?? '',
                                   'Amount': e.totalamount.toString(),
                                   'Payment Method': e.payMethodName ?? '',
                                   'Invoice': e.invoiceNumber ?? '',

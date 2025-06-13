@@ -10,7 +10,7 @@ class CommonState extends Equatable {
   final List<OptionResponse>? optionList;
   final OptionResponse? selectedOption;
   final List<PurchaseType>? purchaseType;
-  final PurchaseType? selectedPurchaseType;
+final PurchaseType? selectedPurchaseType;
 
   const CommonState({
     this.apiFetchStatus = ApiFetchStatus.idle,
@@ -22,7 +22,7 @@ class CommonState extends Equatable {
     this.selectedOption,
     this.optionList,
     this.purchaseType,
-    this.selectedPurchaseType,
+   this.selectedPurchaseType,
   });
   CommonState copyWith({
     ApiFetchStatus? apiFetchStatus,
@@ -59,7 +59,7 @@ class CommonState extends Equatable {
     optionList,
     selectedOption,
     purchaseType,
-    selectedPurchaseType,
+   selectedPurchaseType,
   ];
 }
 

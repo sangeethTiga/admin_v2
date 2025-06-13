@@ -137,11 +137,18 @@ class DashboardScreen extends StatelessWidget {
                   },
                 ),
 
-                    ListTile(
+                ListTile(
                   leading: Icon(Icons.shopping_cart),
                   title: Text('Mess Report '),
                   onTap: () {
                     context.push(routeMess);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.shopping_cart),
+                  title: Text('Supplier '),
+                  onTap: () {
+                    context.push(routeSupplier);
                   },
                 ),
 
@@ -373,8 +380,8 @@ class DashboardScreen extends StatelessWidget {
                             case 'Purchase':
                               context.push(routePurchase);
                               context.read<CommonCubit>().purchaseType();
+
                               break;
-                     
 
                             default:
                           }

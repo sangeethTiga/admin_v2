@@ -108,7 +108,6 @@ class PurchaseType {
 }
 
 List<PurchaseType> purchaseTypes = [
-  
   PurchaseType(name: 'All', id: 0),
   PurchaseType(name: 'Cash', id: 1),
   PurchaseType(name: 'Card', id: 2),

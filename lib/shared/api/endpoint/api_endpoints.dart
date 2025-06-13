@@ -138,9 +138,11 @@ class ApiEndpoints {
     int purchaseType,
     int supplierId,
   ) =>
-      '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&purchase_type=$purchaseType&supplier_id=$supplierId';
+      '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=0&result_per_page=50&purchase_type=$purchaseType&supplier_id=0';
+
   static String taxReport(String fromDate, String toDate, int storeId) =>
       '/api/taxreport?from_date=$fromDate&to_date=$toDate&store_id=$storeId';
+
   static String topStores(int roleId, int userId) =>
       '/api/topallstores?role_id=$roleId&user_id=$userId';
   static String offers(storeId) => '/api/product_offer_type?store_id=$storeId';
@@ -155,4 +157,21 @@ class ApiEndpoints {
     int mealPlansId,
   ) =>
       '/api/mess?page_first_result=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&query=$query&meal_plans_id=$mealPlansId';
+
+  static String productOffers(
+    int storeId,
+    String fromDate,
+    String toDate,
+    int pageFirstResult,
+    int resultPerPage,
+  ) =>
+      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
+
+  static String supplierReport(
+    int storeId,
+    int admin,
+    String query
+
+
+  ) => '/api/suppliers?store_id=$storeId&Admin=$admin&query=$query';
 }

@@ -5,11 +5,14 @@ import 'package:admin_v2/features/report/domain/models/expense/expense_report_re
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
-import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart' show SaleOnDeals;
+import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart'
+    show SaleOnDeals;
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
@@ -113,11 +116,9 @@ abstract class ReportRepositories {
     required String toDate,
     required int pageFirstResult,
     required int resultPerPage,
-        required int pageSize,
+    required int pageSize,
     required int offset,
-    
   });
-
 
   Future<ResponseResult<TaxResponse>> loadTaxReport({
     required int storeId,
@@ -139,5 +140,18 @@ abstract class ReportRepositories {
     required String toDate,
     required String query,
     required int mealPlansId,
+  });
+  Future<ResponseResult<List<ProductOffersResponse>>> loadProductOffers({
+    required int storeId,
+    required String fromDate,
+    required String toDate,
+    required int pageFirstResult,
+    required int resultPerPage,
+  });
+
+  Future<ResponseResult<List<SuppliersResponse>>> loadSuppliers({
+    required int storeId,
+    required int admin,
+    required String query,
   });
 }

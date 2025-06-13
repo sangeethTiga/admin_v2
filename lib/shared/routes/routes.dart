@@ -23,3 +23,4 @@ const String routeTax = '/tax';
 const String routeTopStores = '/topStores';
 const String routeOffers = '/offers';
 const String routeMess = '/mess';
+const String routeSupplier = '/supplier';
