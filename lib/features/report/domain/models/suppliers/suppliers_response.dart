@@ -4,7 +4,7 @@
 //     final suppliersResponse = suppliersResponseFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'suppliers_response.freezed.dart';
 part 'suppliers_response.g.dart';

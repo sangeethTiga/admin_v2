@@ -196,10 +196,8 @@ class ApiEndpoints {
 
   static String graphRevenue() => '/api/graphforrevenue';
 
+  static String supplierReport(int storeId, int admin, String query) =>
+      '/api/suppliers?store_id=$storeId&Admin=$admin&query=$query';
 
-  static String supplierReport(
-    int storeId,
-    int admin,
-    String query
-  ) => '/api/suppliers?store_id=$storeId&Admin=$admin&query=$query';
+  static String ordersGraph() => '/api/graphfororder';
 }

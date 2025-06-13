@@ -11,7 +11,7 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
-import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -385,7 +385,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-    print('????purchaseDeals??? $res');
+   // print('????purchaseDeals??? $res');
     switch (res.statusCode) {
       case 200:
       case 201:

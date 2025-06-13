@@ -168,7 +168,7 @@ class DashboardScreen extends StatelessWidget {
                     context.push(routeSaleDeals);
                   },
                 ),
-                   ListTile(
+                ListTile(
                   leading: Icon(Icons.attach_money),
                   title: Text('Top Stores'),
                   onTap: () {
@@ -444,6 +444,13 @@ class DashboardScreen extends StatelessWidget {
                     context.push(routeRevenueGraph);
                   },
                   child: Text('Marwa ~ Revenue'),
+                ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    context.push(routeOrderGraph);
+                  },
+                  child: Text('ORDERS'),
                 ),
               ],
             );

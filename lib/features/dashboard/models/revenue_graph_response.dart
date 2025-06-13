@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'revenue_graph_response.freezed.dart';
 part 'revenue_graph_response.g.dart';

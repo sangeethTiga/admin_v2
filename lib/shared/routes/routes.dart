@@ -27,3 +27,4 @@ const String routeMess = '/mess';
 const String routeSupplier = '/supplier';
 const String routeSellingProducts = '/sellingProducts';
 const String routeRevenueGraph = '/revenueGraph';
+const String routeOrderGraph = '/orderGraph';
