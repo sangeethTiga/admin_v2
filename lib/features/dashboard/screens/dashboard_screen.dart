@@ -447,6 +447,13 @@ class DashboardScreen extends StatelessWidget {
                   },
                   child: Text('Marwa ~ Revenue'),
                 ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    context.push(routeOrderGraph);
+                  },
+                  child: Text('ORDERS'),
+                ),
               ],
             );
           },
