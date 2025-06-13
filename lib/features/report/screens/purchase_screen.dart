@@ -82,7 +82,7 @@ class PurchaseScreen extends StatelessWidget {
                       borderColor: kBlack,
                       value: state.selectedPurchaseType,
                       items:
-                         state.purchaseType?.map((value) {
+                          state.purchaseType?.map((value) {
                             return DropdownMenuItem<PurchaseType>(
                               value: value,
                               child: Text(value.name ?? ''),
