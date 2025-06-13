@@ -1,7 +1,7 @@
 
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'topStores_response.freezed.dart';
 part 'topStores_response.g.dart';

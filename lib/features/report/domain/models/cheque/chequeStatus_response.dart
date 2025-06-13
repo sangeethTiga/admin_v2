@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'chequeStatus_response.freezed.dart';
 part 'chequeStatus_response.g.dart';

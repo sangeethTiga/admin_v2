@@ -7,7 +7,6 @@ import 'package:admin_v2/features/report/domain/models/customers/customers_repor
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
-import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
@@ -253,18 +252,8 @@ class ReportCubit extends Cubit<ReportState> {
     if (res.data != null) {
       log('ressssss99-=-=-=-=-=-${res.data}');
       if (res.data != null) {
-        final List<dynamic> rawList = res.data!;
-        final List<DeliveryChargeResponse> fetchedList = rawList.map((element) {
-          if (element is DeliveryChargeResponse) {
-            return element;
-          } else if (element is Map<String, dynamic>) {
-            return DeliveryChargeResponse.fromJson(element);
-          } else {
-            throw Exception(
-              'Unexpected element type in loadDeliveryChargeReport: ${element.runtimeType}',
-            );
-          }
-        }).toList();
+        final List<DeliveryChargeResponse> fetchedList = res.data!;
+       
 
         final List<DeliveryChargeResponse> newList = isLoadMore
             ? <DeliveryChargeResponse>[
@@ -423,18 +412,8 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<ParcelChargeResponse> fetchedList = rawList.map((element) {
-        if (element is ParcelChargeResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return ParcelChargeResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      final List<ParcelChargeResponse> fetchedList = res.data!;
+     
       final List<ParcelChargeResponse> newList = isLoadMore
           ? <ParcelChargeResponse>[...?state.parcelChargeList, ...fetchedList]
           : fetchedList;
@@ -609,18 +588,8 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<TopstoresResponse> fetchedList = rawList.map((element) {
-        if (element is TopstoresResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return TopstoresResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadTaxReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      final List<TopstoresResponse> fetchedList = res.data!;
+    
       final List<TopstoresResponse> newList = isLoadMore
           ? <TopstoresResponse>[...?state.topStores, ...fetchedList]
           : fetchedList;
@@ -643,18 +612,8 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<OffersResponse> fetchedList = rawList.map((element) {
-        if (element is OffersResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return OffersResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      final List<OffersResponse> fetchedList = res.data!;
+    
       final List<OffersResponse> newList = isLoadMore
           ? <OffersResponse>[...?state.offerReport, ...fetchedList]
           : fetchedList;
@@ -749,18 +708,8 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<ChequeTrans> fetchedList = rawList.map((element) {
-        if (element is ChequeTrans) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return ChequeTrans.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadChequeReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      final List<ChequeTrans> fetchedList = res.data!;
+     
       final List<ChequeTrans> newList = isLoadMore
           ? <ChequeTrans>[...?state.chequeTransReport, ...fetchedList]
           : fetchedList;
@@ -805,18 +754,8 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<ChequestatusResponse> fetchedList = rawList.map((element) {
-        if (element is ChequestatusResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return ChequestatusResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadStatus: ${element.runtimeType}',
-          );
-        }
-      }).toList();
+      final List<ChequestatusResponse> fetchedList = res.data!;
+      
       final List<ChequestatusResponse> newList = isLoadMore
           ? <ChequestatusResponse>[...?state.chequeStatus, ...fetchedList]
           : fetchedList;
@@ -885,12 +824,11 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isMessReport: ApiFetchStatus.failed));
   }
 
- 
-   Future<void> loadProductReport({
-   int page = 0,
+  Future<void> loadProductReport({
+    int page = 0,
     int limit = 20,
-  int? storeId,
-   String? fromDate,
+    int? storeId,
+    String? fromDate,
     String? toDate,
     int? roleId,
     int? userId,
@@ -907,10 +845,10 @@ class ReportCubit extends Cubit<ReportState> {
         ),
       );
     }
-      final int offset = page * limit;
+    final int offset = page * limit;
     emit(state.copyWith(isProductReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadProductReport(
-     roleId: roleId ?? 0,
+      roleId: roleId ?? 0,
       userId: userId ?? 0,
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
@@ -918,13 +856,13 @@ class ReportCubit extends Cubit<ReportState> {
       pageFirstResult: offset,
       resultPerPage: limit,
       searchText: searchText ?? '',
-      categoryId: categoryId?? 0
+      categoryId: categoryId ?? 0,
     );
 
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<ProductsResponse> fetchedList = res.data!;
-  
+
       final List<ProductsResponse> newList = isLoadMore
           ? <ProductsResponse>[...?state.productsReport, ...fetchedList]
           : fetchedList;
@@ -935,6 +873,7 @@ class ReportCubit extends Cubit<ReportState> {
           isProductReport: ApiFetchStatus.success,
         ),
       );
+      return;
     }
     emit(state.copyWith(isProductReport: ApiFetchStatus.failed));
   }

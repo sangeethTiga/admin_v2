@@ -11,7 +11,7 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -140,7 +140,7 @@ class MostSellingProducts extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadProductReport(
                           storeId: state.selectedStore?.storeId,
-                         // categoryId: state.selectedProducts?.categoryId
+                          categoryId: state.selectedProducts?.categoryId
                         );
                       },
                       buttonText: 'View Report',

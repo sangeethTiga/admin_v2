@@ -1,9 +1,7 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
+
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'offers_response.freezed.dart';
 part 'offers_response.g.dart';
