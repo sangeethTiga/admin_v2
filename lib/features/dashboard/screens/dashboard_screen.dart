@@ -164,8 +164,16 @@ class DashboardScreen extends StatelessWidget {
                   leading: Icon(Icons.attach_money),
                   title: Text('Sale on Deals'),
                   onTap: () {
-                    context.read<ReportCubit>().loadTopStores();
+                    context.read<ReportCubit>().loadSalesDealsReport();
                     context.push(routeSaleDeals);
+                  },
+                ),
+                   ListTile(
+                  leading: Icon(Icons.attach_money),
+                  title: Text('Top Stores'),
+                  onTap: () {
+                    context.read<ReportCubit>().loadTopStores();
+                    context.push(routeTopStores);
                   },
                 ),
                 ListTile(
