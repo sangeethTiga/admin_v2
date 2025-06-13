@@ -2,6 +2,7 @@ import 'package:admin_v2/features/common/domain/models/account/account_response.
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
@@ -73,9 +74,39 @@ class CommonService implements CommonRepostories {
     }
   }
 
-  @override
-  Future<ResponseResult<List<PurchaseType>>> purchaseType() {
+  @override 
+   Future<ResponseResult<List<PurchaseType>>>purchaseType(){
+
     
-    throw UnimplementedError();
+
+
+       throw UnimplementedError();
+   }
+     @override
+  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+    required int storeId,
+    required int categoryId
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.sellingProducts(storeId),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<MostSellingResponse>.from(
+            res.data.map((e) => MostSellingResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
   }
+  
+  // @override
+  // Future<ResponseResult<List<OptionResponse>>> orderOption() {
+  //   // TODO: implement orderOption
+  //   throw UnimplementedError();
+  // }
 }

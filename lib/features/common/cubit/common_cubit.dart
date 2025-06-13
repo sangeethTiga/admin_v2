@@ -2,6 +2,7 @@ import 'package:admin_v2/features/common/domain/models/account/account_response.
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
@@ -124,6 +125,38 @@ class CommonCubit extends Cubit<CommonState> {
 
      
     emit(state.copyWith(selectedPurchaseType: options));
+  }
+    Future<void> loadSellingProducts(
+    int? storeId,
+    int? categoryId,
+  ) async {
+    try {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+      final res = await _commonRepostories.loadSellingProducts(
+        storeId:storeId?? 0,
+        categoryId: categoryId ?? 0
+     
+        
+      );
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.success,
+            sellingProductsReport: res.data,
+            selectedProducts: res.data?.first,
+          ),
+        );
+      }
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    }
+  }
+
+  
+
+  Future<void> selectedProducts(MostSellingResponse products) async {
+    emit(state.copyWith(selectedProducts: products));
   }
 }
 

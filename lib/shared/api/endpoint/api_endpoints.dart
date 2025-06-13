@@ -145,7 +145,28 @@ class ApiEndpoints {
 
   static String topStores(int roleId, int userId) =>
       '/api/topallstores?role_id=$roleId&user_id=$userId';
-  static String offers(storeId) => '/api/product_offer_type?store_id=$storeId';
+  static String offers(int storeId) =>
+      '/api/product_offer_type?store_id=$storeId';
+  static String cheque(
+    int storeId,
+    String status,
+    String searchText,
+    String fromChequeIssueDate,
+    String toChequeIssueDate,
+    String fromChequeDate,
+    String toChequeDate,
+  ) =>
+      '/api/cheque-tracks?store_id=$storeId&status=$status&searchtext=$searchText&from_cheque_issue_date=$fromChequeIssueDate&to_cheque_issue_date=$toChequeIssueDate&from_cheque_date=$fromChequeDate&to_cheque_date=$toChequeDate';
+
+  static String chequeStatus(
+    int storeId,
+    String status,
+
+    String fromChequeIssueDate,
+    String toChequeIssueDate,
+    String fromChequeDate,
+    String toChequeDate,
+  ) => '/api/cheque-statuses';
 
   static String messReport(
     int pageFirstResult,
@@ -158,20 +179,24 @@ class ApiEndpoints {
   ) =>
       '/api/mess?page_first_result=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&query=$query&meal_plans_id=$mealPlansId';
 
-  static String productOffers(
+  static String sellingProducts(int storeId) =>
+      '/api/category?Admin&store_id=$storeId';
+  static String productReport(
+    int pageFirstResult,
+    int resultPerPage,
     int storeId,
     String fromDate,
     String toDate,
-    int pageFirstResult,
-    int resultPerPage,
+    int roleId,
+    int userId,
+    String searchText,
+    int categoryId,
   ) =>
-      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
+      '/api/fastmovingpdt?role_id=$roleId&user_id=$userId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&store_id=$storeId&searchText=$searchText&category_id=$categoryId';
 
   static String supplierReport(
     int storeId,
     int admin,
     String query
-
-
   ) => '/api/suppliers?store_id=$storeId&Admin=$admin&query=$query';
 }

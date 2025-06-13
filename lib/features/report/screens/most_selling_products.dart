@@ -1,7 +1,7 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
-import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -11,18 +11,19 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ParcelCharge extends StatelessWidget {
-  const ParcelCharge({super.key});
+class MostSellingProducts extends StatelessWidget {
+  const MostSellingProducts({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Parcel Charge'),
+      appBar: AppbarWidget(title: 'Most Selling Products'),
       body: Column(
         children: [
           dividerWidget(height: 6.h),
@@ -79,13 +80,13 @@ class ParcelCharge extends StatelessWidget {
                       ),
                       borderColor: kBlack,
                       fillColor: const Color(0XFFEFF1F1),
-                      value: state.selectedOption,
+                      value: state.selectedProducts,
 
                       items:
-                          state.optionList?.map((e) {
-                            return DropdownMenuItem<OptionResponse>(
+                          state.sellingProductsReport?.map((e) {
+                            return DropdownMenuItem<MostSellingResponse>(
                               value: e,
-                              child: Text(e.orderOptionName ?? ''),
+                              child: Text(e.categoryName ?? ''),
                             );
                           }).toList() ??
                           [],
@@ -93,9 +94,9 @@ class ParcelCharge extends StatelessWidget {
                         'assets/icons/Arrow - Right.svg',
                       ),
                       onChanged: (p0) {
-                        context.read<CommonCubit>().selectedOption(p0);
+                        context.read<CommonCubit>().selectedProducts(p0);
                       },
-                      labelText: 'order option',
+                      labelText: 'select category',
                     );
                   },
                 ),
@@ -137,11 +138,10 @@ class ParcelCharge extends StatelessWidget {
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {
-                        context.read<ReportCubit>().loadParcelCharge(
+                        context.read<ReportCubit>().loadProductReport(
                           storeId: state.selectedStore?.storeId,
-                          orderOptionId: state.selectedOption?.orderOptionId,
+                         // categoryId: state.selectedProducts?.categoryId
                         );
-                        print('fghrhrh -=-=-=-=${state.selectedOption?.orderOptionId}');
                       },
                       buttonText: 'View Report',
                     );
@@ -150,60 +150,46 @@ class ParcelCharge extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            child: MainPadding(
-              child: BlocBuilder<CommonCubit, CommonState>(
-                builder: (context, store) {
-                  return BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return NotificationListener<ScrollEndNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isParcelCharge != ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadParcelCharge(
-                              pageFirstLimit: state.page,
-                              resultPerPage: state.pageSize,
-                              isLoadMore: true,
-                              orderOptionId:
-                                  store.selectedOption?.orderOptionId,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
-                          return false;
-                        },
 
-                        child: CommonTableWidget(
-                          isLoading:
-                              state.isParcelCharge == ApiFetchStatus.loading,
-                          headers: [
-                            "#",
-                            "Order"
-                            "ORDER DATE",
+          BlocBuilder<ReportCubit, ReportState>(
+            builder: (context, state) {
+              return SizedBox(
+                height: 500,
+                child: CommonTableWidget(
+                  isLoading: state.isProductReport == ApiFetchStatus.loading,
+                  headers: [
+                    "#",
+                    "Product",
+                    // "Cost Price",
+                    "Selling Price",
+                    "Order Quantity",
+                    "Total Cost",
+                    "Total Sales",
+                    "Profit",
 
-                            "PARCEL CHARGE",
-                          ],
-                          columnFlex: [2, 2, 2, 2],
-                          data:
-                              state.parcelChargeList?.map((e) {
-                                int index =
-                                    state.parcelChargeList?.indexOf(e) ?? 0;
-                                return {
-                                  "#": index + 1,
-                                  "ORDER": e.billNo ?? '',
-                                  "ORDER DATE": e.orderDate ?? '',
+                    // "Profit (%)"
+                  ],
+                  columnFlex: [1, 2, 2, 2, 2, 2, 2],
+                  data:
+                      state.productsReport?.map((e) {
+                        int index = state.productsReport?.indexOf(e) ?? 0;
+                        return {
+                          "#": index + 1,
+                          "Product": e.productName ?? '',
+                          // "Cost Price": e.costPrice ?? '',
+                          "Selling Price": e.sellingPrice ?? '',
+                          "Order Quantity": e.totalorderqty ?? '',
+                          "Total Cost": e.totalCostPrice ?? '',
+                          "Total Sales": e.totalAmount ?? '',
+                          "Profit": e.profit ?? '',
 
-                                  "PARCEL CHARGE": e.parcelCharge ?? '',
-                                };
-                              }).toList() ??
-                              [],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+                          // "Profit (%)":e.profitPercentage ?? ''
+                        };
+                      }).toList() ??
+                      [],
+                ),
+              );
+            },
           ),
         ],
       ),

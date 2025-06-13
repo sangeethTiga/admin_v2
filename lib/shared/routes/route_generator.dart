@@ -6,11 +6,13 @@ import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/category_sales_report_screen.dart';
+import 'package:admin_v2/features/report/screens/chequeTrans_screen.dart';
 import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/mess_report_screen.dart';
-import 'package:admin_v2/features/report/screens/offers.dart';
+import 'package:admin_v2/features/report/screens/most_selling_products.dart';
+import 'package:admin_v2/features/report/screens/offers_screen.dart';
 import 'package:admin_v2/features/report/screens/parcel_charge.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/features/report/screens/revenue_report_screen.dart';
@@ -18,7 +20,7 @@ import 'package:admin_v2/features/report/screens/sale_on_deals_screen.dart';
 import 'package:admin_v2/features/report/screens/sales_report_screen.dart';
 import 'package:admin_v2/features/report/screens/suppliers_screen.dart';
 import 'package:admin_v2/features/report/screens/tax_screen.dart';
-import 'package:admin_v2/features/report/screens/topStores.dart';
+import 'package:admin_v2/features/report/screens/topStores_screen.dart';
 import 'package:admin_v2/features/report/screens/user_shift_report_screen.dart';
 import 'package:admin_v2/features/splash/screens/splash_screen.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
@@ -96,11 +98,22 @@ class RouteGenerator {
           path: routePurchase,
           builder: (context, state) => PurchaseScreen(),
         ),
-        GoRoute(path: routeSaleDeals, builder: (context, state) => SaleOnDealsScreen()),
-        GoRoute(path: routeTopStores,builder: (context,state)=> TopStores() ),
-        GoRoute(path: routeOffers,builder: (context,state) => ProductOffer()),
-        GoRoute(path: routeMess,builder: (context,state) => MessReportScreen()),
-        GoRoute(path: routeSupplier,builder:(context,state) => SuppliersReportScreen()),
+        GoRoute(
+          path: routeSaleDeals,
+          builder: (context, state) => SaleOnDealsScreen(),
+        ),
+        GoRoute(path: routeTopStores, builder: (context, state) => TopStores()),
+        GoRoute(path: routeOffers, builder: (context, state) => ProductOffer()),
+        GoRoute(
+          path: routeCheque,
+          builder: (context, state) => ChequetransScreen(),
+        ),
+        GoRoute(
+          path: routeMess,
+          builder: (context, state) => MessReportScreen(),
+        ),
+        GoRoute(path: routeSellingProducts,builder: (context,state)=> MostSellingProducts()),
+         GoRoute(path: routeSupplier,builder: (context,state)=> SuppliersReportScreen()),
 
       ],
       errorBuilder: (context, state) =>

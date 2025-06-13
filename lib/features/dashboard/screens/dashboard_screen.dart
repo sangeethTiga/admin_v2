@@ -176,6 +176,22 @@ class DashboardScreen extends StatelessWidget {
                     context.push(routeOffers);
                   },
                 ),
+                ListTile(
+                  leading: Icon(Icons.money_rounded),
+                  title: Text('Cheque Transaction'),
+                  onTap: () {
+                    context.read<ReportCubit>().loadStatus();
+                    context.push(routeCheque);
+                  },
+                ),
+                ListTile(
+                  title: Text('Most Selling Products'),
+                  leading: Icon(Icons.gif_box_outlined),
+                  onTap: () {
+                    context.read<CommonCubit>().loadSellingProducts(state.selectedStore?.storeId,0);
+                    context.push(routeSellingProducts);
+                  },
+                ),
                 GestureDetector(
                   onTap: () {
                     Helper().logout(context);

@@ -22,5 +22,7 @@ const String routeSaleDeals = '/sale-deals';
 const String routeTax = '/tax';
 const String routeTopStores = '/topStores';
 const String routeOffers = '/offers';
+const String routeCheque = '/cheque';
 const String routeMess = '/mess';
 const String routeSupplier = '/supplier';
+const String routeSellingProducts = '/sellingProducts';

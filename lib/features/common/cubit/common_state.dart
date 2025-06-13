@@ -11,6 +11,9 @@ class CommonState extends Equatable {
   final OptionResponse? selectedOption;
   final List<PurchaseType>? purchaseType;
 final PurchaseType? selectedPurchaseType;
+    final List<MostSellingResponse>? sellingProductsReport;
+  final ApiFetchStatus? isMostSelling;
+  final MostSellingResponse? selectedProducts;
 
   const CommonState({
     this.apiFetchStatus = ApiFetchStatus.idle,
@@ -22,7 +25,10 @@ final PurchaseType? selectedPurchaseType;
     this.selectedOption,
     this.optionList,
     this.purchaseType,
-   this.selectedPurchaseType,
+    this.selectedPurchaseType,
+     this.isMostSelling,
+    this.sellingProductsReport,
+    this.selectedProducts,
   });
   CommonState copyWith({
     ApiFetchStatus? apiFetchStatus,
@@ -35,6 +41,9 @@ final PurchaseType? selectedPurchaseType;
     OptionResponse? selectedOption,
     List<PurchaseType>? purchaseType,
     PurchaseType? selectedPurchaseType,
+      List<MostSellingResponse>? sellingProductsReport,
+    ApiFetchStatus? isMostSelling,
+     MostSellingResponse? selectedProducts,
   }) => CommonState(
     apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
     storeList: storeList ?? this.storeList,
@@ -46,6 +55,10 @@ final PurchaseType? selectedPurchaseType;
     selectedOption: selectedOption ?? this.selectedOption,
     purchaseType: purchaseType ?? this.purchaseType,
     selectedPurchaseType: selectedPurchaseType ?? selectedPurchaseType,
+      sellingProductsReport:
+          sellingProductsReport ?? this.sellingProductsReport,
+      isMostSelling: isMostSelling ?? this.isMostSelling,
+      selectedProducts: selectedProducts ?? this.selectedProducts,
   );
 
   @override
@@ -59,7 +72,10 @@ final PurchaseType? selectedPurchaseType;
     optionList,
     selectedOption,
     purchaseType,
-   selectedPurchaseType,
+    selectedPurchaseType,
+    sellingProductsReport,
+    isMostSelling,
+    selectedProducts,
   ];
 }
 
