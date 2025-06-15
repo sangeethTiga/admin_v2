@@ -11,15 +11,15 @@ class DashboardService implements DashboardRepositories {
   Future<ResponseResult<List<RevenueResponse>>> loadRevenueGraph({
     required int dateRangeId,
     required int roleId,
-    required int storeArray,
+    required String storeArray,
     required int userId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final body = {
       "date_range_id": dateRangeId,
-      "roleId": roleId,
+      "role_id": roleId,
       "storeArray": storeArray,
-      "userId": userId,
+      "user_id": userId,
     };
     final res = await networkProvider.post(ApiEndpoints.graphRevenue(),data: body);
     switch (res.statusCode) {

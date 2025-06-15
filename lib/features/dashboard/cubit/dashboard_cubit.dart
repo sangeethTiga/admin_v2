@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
 part 'dashboard_state.dart';
+
 @injectable
 class DashboardCubit extends Cubit<DashboardState> {
   final DashboardRepositories _dashboardRepositories;
@@ -23,10 +24,10 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.loading));
     final res = await _dashboardRepositories.loadRevenueGraph(
-     dateRangeId: 1,
-     roleId: 1,
-     storeArray: 1043,
-     userId: 1
+      dateRangeId: 4,
+      roleId: 1,
+      storeArray: '18',
+      userId: 1,
     );
 
     // log('Response data: ${res.data}');
@@ -43,9 +44,8 @@ class DashboardCubit extends Cubit<DashboardState> {
           isRevenueGraph: ApiFetchStatus.success,
         ),
       );
+      return;
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.failed));
   }
-
- 
 }
