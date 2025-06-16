@@ -14,7 +14,7 @@ abstract class DashboardRepositories {
   Future<ResponseResult<List<RevenueResponse>>> loadRevenueGraph({
     required int dateRangeId,
     required int roleId,
-    required int storeArray,
-    required int userId,
-  });
+    required String storeArray,
+    required int userId,}
+  );
 }

@@ -16,37 +16,53 @@ class RevenueGraph extends StatelessWidget {
         child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
             return SizedBox(
-              height: 450,
+              height: 500,
               width: 450,
               child: SfCartesianChart(
                 title: ChartTitle(text: 'Revenue & Expense'),
-                legend: Legend(isVisible: false, position: LegendPosition.top),
+
+                legend: Legend(
+                  isVisible: true,
+                  position: LegendPosition.top,
+                  iconHeight: 12,
+                  iconWidth: 12,
+                ),
                 primaryXAxis: CategoryAxis(
-                  labelPlacement: LabelPlacement.onTicks,
-                   labelRotation: 45,
+                  labelPlacement: LabelPlacement.betweenTicks,
+                
                   interval: 1,
+                  isVisible: true,
+                  labelIntersectAction: AxisLabelIntersectAction.rotate45,
+
+                  majorGridLines: MajorGridLines(width: 0),
                 ),
-                primaryYAxis: NumericAxis(
-                  minimum: 0,
-                  interval: 500,
-                  title: AxisTitle(text: 'Amount'),
-                ),
+                primaryYAxis: NumericAxis(minimum: 0, interval: 50000),
                 series: <CartesianSeries>[
                   ColumnSeries<RevenueResponse, String>(
                     name: 'Revenue',
                     dataSource: state.revenueReport,
-                    xValueMapper: (rev, _) => rev.monthname ?? '',
+                    xValueMapper: (rev, _) =>
+                        rev.monthname != null && rev.monthname!.length >= 3
+                        ? rev.monthname!.substring(0, 3)
+                        : rev.monthname ?? '',
                     yValueMapper: (rev, _) => rev.income?.toDouble() ?? 0,
                     color: Colors.cyan,
-                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: false,
+                    ),
                   ),
                   ColumnSeries<RevenueResponse, String>(
                     name: 'Expense',
                     dataSource: state.revenueReport,
-                    xValueMapper: (rev, _) => rev.monthname ?? '',
+                    xValueMapper: (rev, _) =>
+                        rev.monthname != null && rev.monthname!.length >= 3
+                        ? rev.monthname!.substring(0, 3)
+                        : rev.monthname ?? '',
                     yValueMapper: (rev, _) => rev.expense?.toDouble() ?? 0,
                     color: Colors.pinkAccent,
-                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: false,
+                    ),
                   ),
                 ],
               ),

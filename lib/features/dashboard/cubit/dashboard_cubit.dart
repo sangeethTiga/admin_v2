@@ -27,9 +27,9 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.loading));
     final res = await _dashboardRepositories.loadRevenueGraph(
-      dateRangeId: 1,
+      dateRangeId: 4,
       roleId: 1,
-      storeArray: 1043,
+      storeArray: '18',
       userId: 1,
     );
 
@@ -47,6 +47,7 @@ class DashboardCubit extends Cubit<DashboardState> {
           isRevenueGraph: ApiFetchStatus.success,
         ),
       );
+      return;
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.failed));
   }
