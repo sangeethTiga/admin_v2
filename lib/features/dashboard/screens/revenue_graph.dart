@@ -12,7 +12,48 @@ class RevenueGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Revenue & Expense'),
-      
+      body: Center(
+        child: BlocBuilder<DashboardCubit, DashboardState>(
+          builder: (context, state) {
+            return SizedBox(
+              height: 450,
+              width: 450,
+              child: SfCartesianChart(
+                title: ChartTitle(text: 'Revenue & Expense'),
+                legend: Legend(isVisible: false, position: LegendPosition.top),
+                primaryXAxis: CategoryAxis(
+                  labelPlacement: LabelPlacement.onTicks,
+                   labelRotation: 45,
+                  interval: 1,
+                ),
+                primaryYAxis: NumericAxis(
+                  minimum: 0,
+                  interval: 500,
+                  title: AxisTitle(text: 'Amount'),
+                ),
+                series: <CartesianSeries>[
+                  ColumnSeries<RevenueResponse, String>(
+                    name: 'Revenue',
+                    dataSource: state.revenueReport,
+                    xValueMapper: (rev, _) => rev.monthname ?? '',
+                    yValueMapper: (rev, _) => rev.income?.toDouble() ?? 0,
+                    color: Colors.cyan,
+                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                  ),
+                  ColumnSeries<RevenueResponse, String>(
+                    name: 'Expense',
+                    dataSource: state.revenueReport,
+                    xValueMapper: (rev, _) => rev.monthname ?? '',
+                    yValueMapper: (rev, _) => rev.expense?.toDouble() ?? 0,
+                    color: Colors.pinkAccent,
+                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
