@@ -29,7 +29,7 @@ class RevenueGraph extends StatelessWidget {
                 ),
                 primaryXAxis: CategoryAxis(
                   labelPlacement: LabelPlacement.betweenTicks,
-                  labelRotation: 45,
+                
                   interval: 1,
                   isVisible: true,
                   labelIntersectAction: AxisLabelIntersectAction.rotate45,
@@ -41,18 +41,28 @@ class RevenueGraph extends StatelessWidget {
                   ColumnSeries<RevenueResponse, String>(
                     name: 'Revenue',
                     dataSource: state.revenueReport,
-                    xValueMapper: (rev, _) => rev.monthname ?? '',
+                    xValueMapper: (rev, _) =>
+                        rev.monthname != null && rev.monthname!.length >= 3
+                        ? rev.monthname!.substring(0, 3)
+                        : rev.monthname ?? '',
                     yValueMapper: (rev, _) => rev.income?.toDouble() ?? 0,
                     color: Colors.cyan,
-                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: false,
+                    ),
                   ),
                   ColumnSeries<RevenueResponse, String>(
                     name: 'Expense',
                     dataSource: state.revenueReport,
-                    xValueMapper: (rev, _) => rev.monthname ?? '',
+                    xValueMapper: (rev, _) =>
+                        rev.monthname != null && rev.monthname!.length >= 3
+                        ? rev.monthname!.substring(0, 3)
+                        : rev.monthname ?? '',
                     yValueMapper: (rev, _) => rev.expense?.toDouble() ?? 0,
                     color: Colors.pinkAccent,
-                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: false,
+                    ),
                   ),
                 ],
               ),
