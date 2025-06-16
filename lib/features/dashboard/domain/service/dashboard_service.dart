@@ -8,11 +8,24 @@ import 'package:admin_v2/shared/utils/result.dart';
 
 class DashboardService implements DashboardRepositories {
   @override
-  Future<ResponseResult<List<OrdersGraphResponse>>> ordersGraph() async {
-    final user = await AuthUtils.instance.readUserData();
+  Future<ResponseResult<List<OrdersGraphResponse>>> ordersGraph({
+    required int dateRangeId,
+    required int roleId,
+    required int storeArray,
+    required int userId,
+  }) async {
     final networkProvider = await NetworkProvider.create();
+    final body = {
+      "date_range_id": dateRangeId,
+      "role_id": roleId,
+      "storeArray": storeArray,
+      "user_id": userId,
+    };
 
-    final res = await networkProvider.get(ApiEndpoints.ordersGraph());
+    final res = await networkProvider.post(
+      ApiEndpoints.ordersGraph(),
+      data: body,
+    );
     switch (res.statusCode) {
       case 200:
       case 201:

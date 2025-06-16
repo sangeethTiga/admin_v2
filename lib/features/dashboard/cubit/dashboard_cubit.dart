@@ -11,6 +11,7 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
 part 'dashboard_state.dart';
+
 @injectable
 class DashboardCubit extends Cubit<DashboardState> {
   final DashboardRepositories _dashboardRepositories;
@@ -26,10 +27,10 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.loading));
     final res = await _dashboardRepositories.loadRevenueGraph(
-     dateRangeId: 1,
-     roleId: 1,
-     storeArray: 1043,
-     userId: 1
+      dateRangeId: 1,
+      roleId: 1,
+      storeArray: 1043,
+      userId: 1,
     );
 
     // log('Response data: ${res.data}');
@@ -50,5 +51,40 @@ class DashboardCubit extends Cubit<DashboardState> {
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.failed));
   }
 
- 
+  Future<void> loadOrderGraph({bool isLoadMore = false}) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isOrdersReport: ApiFetchStatus.loading,
+          ordersReport: [],
+        ),
+      );
+    }
+    emit(state.copyWith(isOrdersReport: ApiFetchStatus.loading));
+    final res = await _dashboardRepositories.ordersGraph(
+      dateRangeId: 1,
+      roleId: 1,
+      storeArray: 1055,
+      userId: 1,
+    );
+    
+
+    if (res.data != null) {
+      final List<OrdersGraphResponse> fetchedList = res.data!;
+
+      final List<OrdersGraphResponse> newList = isLoadMore
+          ? <OrdersGraphResponse>[...?state.ordersReport, ...fetchedList]
+          : fetchedList;
+
+      emit(
+        state.copyWith(
+          ordersReport: newList,
+          isOrdersReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+
+
+    emit(state.copyWith(isOrdersReport: ApiFetchStatus.failed));
+  }
 }
