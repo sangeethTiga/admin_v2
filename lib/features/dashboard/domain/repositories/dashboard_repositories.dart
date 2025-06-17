@@ -1,13 +1,14 @@
 import 'package:admin_v2/features/dashboard/domain/models/Ordergraph/orders_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/models/revenueGraph/revenue_graph_response.dart';
 import 'package:admin_v2/shared/utils/result.dart';
-
+import 'package:injectable/injectable.dart';
+@injectable
 abstract class DashboardRepositories {
   Future<ResponseResult<List<OrdersGraphResponse>>> ordersGraph({
 
-    required int dateRangeId,
+    required String dateRangeId,
     required int roleId,
-    required int storeArray,
+    required String storeArray,
     required int userId,
   });
 

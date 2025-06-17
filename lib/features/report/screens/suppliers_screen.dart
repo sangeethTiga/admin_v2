@@ -84,7 +84,7 @@ class SuppliersReportScreen extends StatelessWidget {
             child: MainPadding(
               child: BlocBuilder<ReportCubit, ReportState>(
                 builder: (context, state) {
-                  print('????supliername???:${state.suppliersReport}');
+                 // print('????supliername???:${state.suppliersReport}');
                   return CommonTableWidget(
                     isLoading: state.isSupplierReport == ApiFetchStatus.loading,
 

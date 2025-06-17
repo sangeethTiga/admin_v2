@@ -22,8 +22,6 @@ import '../../features/common/domain/service/common_service.dart' as _i837;
 import '../../features/dashboard/cubit/dashboard_cubit.dart' as _i949;
 import '../../features/dashboard/domain/repositories/dashboard_repositories.dart'
     as _i630;
-import '../../features/dashboard/domain/service/dashboard_service.dart'
-    as _i999;
 import '../../features/orders/cubit/order_cubit.dart' as _i1055;
 import '../../features/orders/domain/repositories/order_repositories.dart'
     as _i23;
@@ -48,9 +46,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i233.AuthRepositories>(() => _i641.AuthService());
     gh.factory<_i698.AuthCubit>(
       () => _i698.AuthCubit(gh<_i233.AuthRepositories>()),
-    );
-    gh.lazySingleton<_i630.DashboardRepositories>(
-      () => _i999.DashboardService(),
     );
     gh.lazySingleton<_i11.ReportRepositories>(() => _i388.ReportService());
     gh.lazySingleton<_i23.OrderRepositories>(() => _i895.OrderService());

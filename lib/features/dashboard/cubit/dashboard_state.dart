@@ -18,7 +18,7 @@ class DashboardState extends Equatable {
   DashboardState copyWith({
     List<RevenueResponse>? revenueReport,
     final ApiFetchStatus? isRevenueGraph,
-    List<OrdersGraphResponse>? ordersReport,
+     List<OrdersGraphResponse>? ordersReport,
 
     final ApiFetchStatus? isOrdersReport,
     final ApiFetchStatus? apiFetchStatus,

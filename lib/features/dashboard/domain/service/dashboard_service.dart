@@ -3,15 +3,14 @@ import 'package:admin_v2/features/dashboard/domain/models/revenueGraph/revenue_g
 import 'package:admin_v2/features/dashboard/domain/repositories/dashboard_repositories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
-import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
 class DashboardService implements DashboardRepositories {
   @override
   Future<ResponseResult<List<OrdersGraphResponse>>> ordersGraph({
-    required int dateRangeId,
+    required String dateRangeId,
     required int roleId,
-    required int storeArray,
+    required String storeArray,
     required int userId,
   }) async {
     final networkProvider = await NetworkProvider.create();

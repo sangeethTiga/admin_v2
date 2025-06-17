@@ -511,7 +511,7 @@ class ReportCubit extends Cubit<ReportState> {
       resultPerPage: limit,
       purchaseType: state.selectedPurchaseType?.id ?? 0,
     );
-    print('purchase:${res.data}');
+   // print('purchase:${res.data}');
 
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
