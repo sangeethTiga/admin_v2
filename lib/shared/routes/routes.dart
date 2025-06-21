@@ -10,7 +10,6 @@ const String routeSign = '/signIn';
 const String routeSale = '/sale';
 const String routeRevenue = '/revenue';
 const String routeExpense = '/expense';
-
 const String routeDaySummary = '/day-summary';
 const String routePurchase = '/purchase';
 const String routeCustomers = '/customers';
@@ -18,7 +17,6 @@ const String routeParcel = '/parcel';
 const String routeCategorySales = '/category-sales';
 const String routeUserShift = '/user-shift';
 const String routeSaleDeals = '/sale-deals';
-
 const String routeTax = '/tax';
 const String routeTopStores = '/topStores';
 const String routeOffers = '/offers';

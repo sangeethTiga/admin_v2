@@ -4,6 +4,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
@@ -11,7 +12,6 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
-
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -22,7 +22,6 @@ import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
-
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
@@ -385,7 +384,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-   // print('????purchaseDeals??? $res');
+    // print('????purchaseDeals??? $res');
     switch (res.statusCode) {
       case 200:
       case 201:
@@ -625,17 +624,15 @@ class ReportService implements ReportRepositories {
     }
   }
 
-@override
-
+  @override
   Future<ResponseResult<List<SuppliersResponse>>> loadSuppliers({
-required int storeId,
-required int admin,
-required String query
-
-  }) async{
-     final networkProvider = await NetworkProvider.create();
+    required int storeId,
+    required int admin,
+    required String query,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
-      ApiEndpoints.supplierReport(storeId,admin,query),
+      ApiEndpoints.supplierReport(storeId, admin, query),
     );
     switch (res.statusCode) {
       case 200:
@@ -648,7 +645,91 @@ required String query
       default:
         return ResponseResult(data: []);
     }
-
-
   }
+
+  //   @override
+  // Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary({
+  //   required int storeId,
+  //   required String toDate,
+  // }) async {
+  //   final networkProvider = await NetworkProvider.create();
+  //   final res = await networkProvider.get(
+  //     ApiEndpoints.daySummary(storeId, toDate),
+  //   );
+
+  //   log("res.statusCode = ${res.statusCode}, res.data = ${res.data}");
+
+  //   switch (res.statusCode) {
+  //     case 200:
+  //     case 201:
+  //       if (res.data is List) {
+  //         return ResponseResult(
+  //                 data: [
+  //               DaySummaryResponse.fromJson(res.data as Map<String, dynamic>),
+  //             ],
+  //           // data: (res.data as List)
+  //           //     .map((e) => DaySummaryResponse.fromJson(e as Map<String, dynamic>))
+  //           //     .                                        toList(),
+  //         );
+  //       } else {
+  //         return ResponseResult(
+  //           error: 'Expected List but got ${res.data.runtimeType}',
+  //         );
+  //       }
+
+  //     default:
+  //       return ResponseResult(data: []);
+  //   }
+  // }
+
+  @override
+  Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary({
+    required int storeId,
+    required String toDate,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.daySummary(storeId, toDate),
+    );
+    log(">>> RAW RESPONSE object//: $res");
+    log(">>> STATUS CODE,,,: ${res.statusCode}");
+    log(">>> RESPONSE DATA???: ${res.data}");
+    log(">>> DATA TYPE---: ${res.data.runtimeType}");
+    // log(" ///API raw response: ${res.toString()}");
+    // log(" res.statusCode/// = ${res.statusCode}, res.data = ${res.data}");
+
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<DaySummaryResponse>.from(
+            res.data.map((e) => DaySummaryResponse.fromJson(e)).toList(),
+          ),
+        );
+
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  // @override
+  // Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary
+  // ({
+  //   required int storeId,
+  //   required String toDate,
+  // }) async {
+  //   final networkProvider = await NetworkProvider.create();
+  //   final res = await networkProvider.get(
+  //     ApiEndpoints.daySummary(storeId, toDate),
+  //   );
+  //   switch (res.statusCode) {
+  //     case 200:
+  //     case 201:
+  //       return ResponseResult(
+
+  //       );
+  //     default:
+  //       return ResponseResult(data: []);
+  //   }
+  // }
 }

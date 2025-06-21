@@ -4,6 +4,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
@@ -25,6 +26,7 @@ import 'package:admin_v2/features/report/domain/repositories/report_repositores.
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/app/list/helper.dart';
+import 'package:admin_v2/shared/constants/asstes.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -255,7 +257,6 @@ class ReportCubit extends Cubit<ReportState> {
       log('ressssss99-=-=-=-=-=-${res.data}');
       if (res.data != null) {
         final List<DeliveryChargeResponse> fetchedList = res.data!;
-       
 
         final List<DeliveryChargeResponse> newList = isLoadMore
             ? <DeliveryChargeResponse>[
@@ -415,7 +416,7 @@ class ReportCubit extends Cubit<ReportState> {
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<ParcelChargeResponse> fetchedList = res.data!;
-     
+
       final List<ParcelChargeResponse> newList = isLoadMore
           ? <ParcelChargeResponse>[...?state.parcelChargeList, ...fetchedList]
           : fetchedList;
@@ -511,7 +512,7 @@ class ReportCubit extends Cubit<ReportState> {
       resultPerPage: limit,
       purchaseType: state.selectedPurchaseType?.id ?? 0,
     );
-   // print('purchase:${res.data}');
+    // print('purchase:${res.data}');
 
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
@@ -596,7 +597,7 @@ class ReportCubit extends Cubit<ReportState> {
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<TopstoresResponse> fetchedList = res.data!;
-    
+
       final List<TopstoresResponse> newList = isLoadMore
           ? <TopstoresResponse>[...?state.topStores, ...fetchedList]
           : fetchedList;
@@ -620,7 +621,7 @@ class ReportCubit extends Cubit<ReportState> {
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<OffersResponse> fetchedList = res.data!;
-    
+
       final List<OffersResponse> newList = isLoadMore
           ? <OffersResponse>[...?state.offerReport, ...fetchedList]
           : fetchedList;
@@ -716,7 +717,7 @@ class ReportCubit extends Cubit<ReportState> {
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<ChequeTrans> fetchedList = res.data!;
-     
+
       final List<ChequeTrans> newList = isLoadMore
           ? <ChequeTrans>[...?state.chequeTransReport, ...fetchedList]
           : fetchedList;
@@ -762,7 +763,7 @@ class ReportCubit extends Cubit<ReportState> {
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<ChequestatusResponse> fetchedList = res.data!;
-      
+
       final List<ChequestatusResponse> newList = isLoadMore
           ? <ChequestatusResponse>[...?state.chequeStatus, ...fetchedList]
           : fetchedList;
@@ -845,95 +846,94 @@ class ReportCubit extends Cubit<ReportState> {
   //       ),
   //     );
   //   }
-    //   emit(state.copyWith(isProductOffers: ApiFetchStatus.loading));
-    //   final res = await _reportRepositories.loadProductOffers(
-    //     storeId: storeId ?? 0,
-    //     fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-    //     toDate: parsedDate(state.toDate ?? DateTime.now()),
-    //     pageFirstResult: 0,
-    //     resultPerPage: 50,
-    //   );
+  //   emit(state.copyWith(isProductOffers: ApiFetchStatus.loading));
+  //   final res = await _reportRepositories.loadProductOffers(
+  //     storeId: storeId ?? 0,
+  //     fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+  //     toDate: parsedDate(state.toDate ?? DateTime.now()),
+  //     pageFirstResult: 0,
+  //     resultPerPage: 50,
+  //   );
 
-    //   log('Response data: ${res.data}');
-    //   if (res.data != null) {
-    //     final List<dynamic> rawList = res.data!;
-    //     final List<ProductOffersResponse> fetchedList = rawList.map((element) {
-    //       if (element is ProductOffersResponse) {
-    //         return element;
-    //       } else if (element is Map<String, dynamic>) {
-    //         return ProductOffersResponse.fromJson(element);
-    //       } else {
-    //         throw Exception(
-    //           'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-    //         );
-    //       }
-    //     }).toList();
-    //     final List<ProductOffersResponse> newList = isLoadMore
-    //         ? <ProductOffersResponse>[...?state.productOffers, ...fetchedList]
-    //         : fetchedList;
+  //   log('Response data: ${res.data}');
+  //   if (res.data != null) {
+  //     final List<dynamic> rawList = res.data!;
+  //     final List<ProductOffersResponse> fetchedList = rawList.map((element) {
+  //       if (element is ProductOffersResponse) {
+  //         return element;
+  //       } else if (element is Map<String, dynamic>) {
+  //         return ProductOffersResponse.fromJson(element);
+  //       } else {
+  //         throw Exception(
+  //           'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+  //         );
+  //       }
+  //     }).toList();
+  //     final List<ProductOffersResponse> newList = isLoadMore
+  //         ? <ProductOffersResponse>[...?state.productOffers, ...fetchedList]
+  //         : fetchedList;
 
-    //     emit(
-    //       state.copyWith(
-    //         productOffers: newList,
-    //         isProductOffers: ApiFetchStatus.success,
-    //       ),
-    //     );
-    //   }
-    //   emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
-    // }
+  //     emit(
+  //       state.copyWith(
+  //         productOffers: newList,
+  //         isProductOffers: ApiFetchStatus.success,
+  //       ),
+  //     );
+  //   }
+  //   emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
+  // }
 
-    Future<void> loadSuppliersReport({
-      int? storeId,
-      int? admin,
-      String? query,
+  Future<void> loadSuppliersReport({
+    int? storeId,
+    int? admin,
+    String? query,
 
-      bool isLoadMore = false,
-    }) async {
-      if (!isLoadMore) {
-        emit(
-          state.copyWith(
-            isSupplierReport: ApiFetchStatus.loading,
-            suppliersReport: [],
-          ),
-        );
-      }
-      emit(state.copyWith(isSupplierReport: ApiFetchStatus.loading));
-      final res = await _reportRepositories.loadSuppliers(
-        storeId: storeId ?? 0,
-        admin: admin ?? 0,
-        query: '',
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(
+          isSupplierReport: ApiFetchStatus.loading,
+          suppliersReport: [],
+        ),
       );
-
-      log('Response data: ${res.data}');
-      if (res.data != null) {
-        final List<dynamic> rawList = res.data!;
-        final List<SuppliersResponse> fetchedList = rawList.map((element) {
-          if (element is SuppliersResponse) {
-            return element;
-          } else if (element is Map<String, dynamic>) {
-            return SuppliersResponse.fromJson(element);
-          } else {
-            throw Exception(
-              'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-            );
-          }
-        }).toList();
-        final List<SuppliersResponse> newList = isLoadMore
-            ? <SuppliersResponse>[...?state.suppliersReport, ...fetchedList]
-            : fetchedList;
-
-        emit(
-          state.copyWith(
-            suppliersReport: newList,
-            isSupplierReport: ApiFetchStatus.success,
-          ),
-        );
-      }
-      emit(state.copyWith(isSupplierReport: ApiFetchStatus.failed));
     }
+    emit(state.copyWith(isSupplierReport: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadSuppliers(
+      storeId: storeId ?? 0,
+      admin: admin ?? 0,
+      query: '',
+    );
 
+    log('Response data: ${res.data}');
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<SuppliersResponse> fetchedList = rawList.map((element) {
+        if (element is SuppliersResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return SuppliersResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+      final List<SuppliersResponse> newList = isLoadMore
+          ? <SuppliersResponse>[...?state.suppliersReport, ...fetchedList]
+          : fetchedList;
 
-     Future<void> loadProductReport({
+      emit(
+        state.copyWith(
+          suppliersReport: newList,
+          isSupplierReport: ApiFetchStatus.success,
+        ),
+      );
+    }
+    emit(state.copyWith(isSupplierReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadProductReport({
     int page = 0,
     int limit = 20,
     int? storeId,
@@ -943,7 +943,7 @@ class ReportCubit extends Cubit<ReportState> {
     int? userId,
     String? searchText,
     int? categoryId,
- 
+
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
@@ -967,16 +967,15 @@ class ReportCubit extends Cubit<ReportState> {
       searchText: searchText ?? '',
       categoryId: categoryId ?? 0,
     );
- 
+
     log('Response data: ${res.data}');
     if (res.data != null) {
       final List<ProductsResponse> fetchedList = res.data!;
 
- 
       final List<ProductsResponse> newList = isLoadMore
           ? <ProductsResponse>[...?state.productsReport, ...fetchedList]
           : fetchedList;
- 
+
       emit(
         state.copyWith(
           productsReport: newList,
@@ -987,5 +986,92 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isProductReport: ApiFetchStatus.failed));
   }
-  }
 
+  Future<void> loadDaySummary({
+    int? storeId,
+    String? toDate,
+    bool isLoadMore = false,
+  }) async {
+    if (!isLoadMore) {
+      emit(
+        state.copyWith(isDaySummary: ApiFetchStatus.loading, daySummary: []),
+      );
+    }
+
+    final res = await _reportRepositories.loadDaySummary(
+      storeId: storeId ?? 0,
+
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+    );
+
+    log(" ///API raw response//////: ${res.toString()}");
+    // log(" res.statusCode/// = ${res.statusCode}, res.data = ${res.data}");
+
+    log('.,.,.,.,.,Response data.,.,.,.,: ${res.data}');
+
+    if (res.data != null && res.data!.isNotEmpty) {
+      final DaySummaryResponse fetched = res.data!.first;
+      // final List<DaySummaryResponse> newList = isLoadMore
+      //     ? <DaySummaryResponse>[...?state.daySummary, fetched]
+      //     : [fetched];
+
+      emit(
+        state.copyWith(
+          daySummary: res.data,
+          isDaySummary: ApiFetchStatus.success,
+        ),
+      );
+      print('///fswsd///:${res.data}');
+      return;
+    }
+
+    // if (res.data != null && res.data!.isNotEmpty) {
+    //   final List<DaySummaryResponse> newList = isLoadMore
+    //       ? <DaySummaryResponse>[...?state.daySummary, ...res.data!]
+    //       : res.data!;
+
+    //   emit(
+    //     state.copyWith(
+    //       daySummary: newList,
+    //       isDaySummary: ApiFetchStatus.success,
+    //     ),
+    //   );
+    //   return;
+    // }
+
+    // if (res.data != null) {
+    //   final fetched = DaySummaryResponse.fromJson(
+    //     res.data as Map<String, dynamic>,
+    //   );
+    //   final List<DaySummaryResponse> newList = isLoadMore
+    //       ? <DaySummaryResponse>[...?state.daySummary, fetched]
+    //       : [fetched];
+
+    //   emit(
+    //     state.copyWith(
+    //       daySummary: newList,
+    //       isDaySummary: ApiFetchStatus.success,
+    //     ),
+    //   );
+    //   return;
+    // }
+
+    emit(state.copyWith(isDaySummary: ApiFetchStatus.failed));
+  }
+}
+
+    // if (res.data != null) {
+    //   final List<DaySummaryResponse> fetchedList = res.data!;
+
+    //   final List<DaySummaryResponse> newList = isLoadMore
+    //       ? <DaySummaryResponse>[...?state.daySummary, ...fetchedList]
+    //       : fetchedList;
+
+    //   emit(
+    //     state.copyWith(
+    //       daySummary: newList,
+    //       isDaySummary: ApiFetchStatus.success,
+    //     ),
+    //   );
+    //   return;
+    // }

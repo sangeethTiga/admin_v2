@@ -2,6 +2,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
@@ -185,5 +186,10 @@ abstract class ReportRepositories {
     required int storeId,
     required int admin,
     required String query,
+  });
+
+  Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary({
+    required int storeId,
+    required String toDate,
   });
 }

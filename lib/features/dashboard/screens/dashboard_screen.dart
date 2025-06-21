@@ -411,6 +411,9 @@ class DashboardScreen extends StatelessWidget {
                               context.read<CommonCubit>().purchaseType();
 
                               break;
+                             case 'Day Summary':
+                              context.push(routeDaySummary);
+                              break;
 
                             default:
                           }
