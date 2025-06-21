@@ -5,8 +5,14 @@ import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_
 import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ProductRepositories {
-  Future<ResponseResult<List<ProductResponse>>> products({int? storeId, int? catId});
+  Future<ResponseResult<List<ProductResponse>>> products({
+    int? storeId,
+    int? catId,
+    String? search,
+  });
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus();
-  Future<ResponseResult<List<ProductResponse>>> stockUpdate({StockUpdateRequest request});
+  Future<ResponseResult<List<ProductResponse>>> stockUpdate({
+    StockUpdateRequest request,
+  });
   Future<ResponseResult<List<CategoryResponse>>> category(int storeId);
 }

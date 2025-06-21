@@ -15,23 +15,29 @@ class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
-  Future<void> priduct(int storeId, int catId) async {
+  Future<void> priduct(int storeId, int catId, String search) async {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
 
       final res = await _productRepositories.products(
         storeId: storeId,
         catId: state.selectCategory?.details?.categoryId ?? 0,
+        search: search,
       );
       if (res.data != null) {
         emit(
           state.copyWith(
             isProduct: ApiFetchStatus.success,
             productList: res.data,
+            filteredProducts: res.data,
+            scannedProduct: res.data?.isNotEmpty == true
+                ? res.data!.first
+                : null,
           ),
         );
+        print("Scanned Result Count: ${res.data?.length}");
       }
-      emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+      return;
     } catch (e) {
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
     }

@@ -144,7 +144,9 @@ class StockUpdateCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomMaterialBtton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     buttonText: 'Cancel',
                     color: kWhite,
                     textColor: kPrimaryColor,
