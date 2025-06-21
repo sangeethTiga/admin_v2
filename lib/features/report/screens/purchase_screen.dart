@@ -143,9 +143,9 @@ class PurchaseScreen extends StatelessWidget {
                           purchaseType: state.selectedPurchaseType?.id,
                         );
                         // context.read<ReportCubit>().changePucrhaeType( );
-                        print(
-                          '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
-                        );
+                        // print(
+                        //   '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
+                        // );
                       },
                       buttonText: 'View Report',
                     );

@@ -440,7 +440,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-    print('SaleOnDeals res: $res');
+    // print('SaleOnDeals res: $res');
     switch (res.statusCode) {
       case 200:
       case 201:
