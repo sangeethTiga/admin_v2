@@ -60,6 +60,8 @@ class SuppliersReportScreen extends StatelessWidget {
                     );
                   },
                 ),
+
+                
                 10.verticalSpace,
 
                 BlocBuilder<CommonCubit, CommonState>(

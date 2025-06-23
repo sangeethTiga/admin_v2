@@ -1,8 +1,6 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
-import 'package:admin_v2/features/dashboard/screens/orders_screen.dart';
-
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -350,7 +348,7 @@ class DashboardScreen extends StatelessWidget {
                               context.read<ProductCubit>().priduct(
                                 state.selectedStore?.storeId ?? 0,
                                 0,
-                                ''
+                                '',
                               );
                               context.read<ProductCubit>().catgeory(
                                 state.selectedStore?.storeId ?? 0,
@@ -410,10 +408,12 @@ class DashboardScreen extends StatelessWidget {
 
                             case 'Purchase':
                               context.push(routePurchase);
-                              context.read<CommonCubit>().purchaseType();
+                              context.read<CommonCubit>().purchaseType(
+                      
+                              );
 
                               break;
-                             case 'Day Summary':
+                            case 'Day Summary':
                               context.push(routeDaySummary);
                               break;
 

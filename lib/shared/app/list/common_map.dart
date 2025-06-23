@@ -14,13 +14,13 @@ List<Dates> custDates = [
   Dates(title: 'Sec', id: '23'),
 ];
 List<ListOfDemo> custDate = [
-  ListOfDemo(name: 'Sunday', id: 0),
-  ListOfDemo(name: 'Monday', id: 1),
-  ListOfDemo(name: 'Tuesday', id: 2),
-  ListOfDemo(name: 'Wednesday', id: 3),
-  ListOfDemo(name: 'Thursday', id: 3),
-  ListOfDemo(name: 'Friday', id: 3),
-  ListOfDemo(name: 'Saturday', id: 3),
+  ListOfDemo(name: 'today'),
+  ListOfDemo(name: 'weak'),
+  ListOfDemo(name: 'Month'),
+  ListOfDemo(name: 'Year'),
+  // ListOfDemo(name: 'Thursday', id: 3),
+  // ListOfDemo(name: 'Friday', id: 3),
+  // ListOfDemo(name: 'Saturday', id: 3),
 ];
 List<ListOfDemo> payMethod = [
   ListOfDemo(name: 'Cash', id: 0),
