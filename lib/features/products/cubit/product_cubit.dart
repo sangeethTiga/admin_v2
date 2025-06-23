@@ -15,7 +15,7 @@ class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
-  Future<void> priduct(int storeId, int catId, String search) async {
+  Future<void> product(int storeId, int catId, String search) async {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
 
@@ -44,9 +44,11 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   Future<void> stockStatus() async {
+   
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
       final res = await _productRepositories.stockStatus();
+
       if (res.data != null) {
         emit(
           state.copyWith(
@@ -90,5 +92,30 @@ class ProductCubit extends Cubit<ProductState> {
 
   Future<void> changeCategory(CategoryResponse cate) async {
     emit(state.copyWith(selectCategory: cate));
+  }
+
+  Future<void>totalStockCalculation(double totalStock,double curentStock)async{
+
+    if(state.selectedStockResponse?.productItemConditionId==1){
+      final double updatedStock=curentStock+totalStock;
+      emit(state.copyWith(totalStock: updatedStock));
+      print("updatedStock -=-=$updatedStock");
+
+    } else{
+        final double updatedStock=curentStock-totalStock;
+      emit(state.copyWith(totalStock: updatedStock));
+            print("updatedStock -=-=$updatedStock");
+
+
+
+    }
+  }
+  Future<void>selectStockType(StockStatusResponse selectedStock)async{
+    emit(state.copyWith(selectedStockResponse: selectedStock));
+  }
+
+  Future<void>closeButton()async{
+    emit(state.copyWith(totalStock: 0));
+
   }
 }

@@ -11,13 +11,13 @@ _$StockUpdateRequestImpl _$$StockUpdateRequestImplFromJson(
 ) => _$StockUpdateRequestImpl(
   productId: (json['product_id'] as num?)?.toInt(),
   maintainStock: (json['maintain_stock'] as num?)?.toInt(),
-  stockQty: (json['stock_qty'] as num?)?.toInt(),
+  stockQty: (json['stock_qty'] as num?)?.toDouble(),
   prodVarId: (json['prod_var_id'] as num?)?.toInt(),
   productItemConditionId: (json['product_item_condition_id'] as num?)?.toInt(),
   updatedDate: json['updated_date'] == null
       ? null
       : DateTime.parse(json['updated_date'] as String),
-  pricePerUnit: (json['price_per_unit'] as num?)?.toInt(),
+  pricePerUnit: (json['price_per_unit'] as num?)?.toDouble(),
   totalPrice: (json['total_price'] as num?)?.toInt(),
 );
 

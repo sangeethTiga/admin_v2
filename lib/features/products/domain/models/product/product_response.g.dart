@@ -16,7 +16,7 @@ _$ProductResponseImpl _$$ProductResponseImplFromJson(
   storeName: json['store_name'] as String?,
   productPrice: json['product_price'] as String?,
   maintainStock: (json['maintain_stock'] as num?)?.toInt(),
-  productQty: (json['product_qty'] as num?)?.toInt(),
+  productQty: (json['product_qty'] as num?)?.toDouble(),
   isHidden: (json['is_hidden'] as num?)?.toInt(),
   isVariant: (json['is_variant'] as num?)?.toInt(),
   isPriceEditable: (json['is_price_editable'] as num?)?.toInt(),

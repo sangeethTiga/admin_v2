@@ -26,7 +26,7 @@ mixin _$StockUpdateRequest {
   @JsonKey(name: "maintain_stock")
   int? get maintainStock => throw _privateConstructorUsedError;
   @JsonKey(name: "stock_qty")
-  int? get stockQty => throw _privateConstructorUsedError;
+  double? get stockQty => throw _privateConstructorUsedError;
   @JsonKey(name: "prod_var_id")
   int? get prodVarId => throw _privateConstructorUsedError;
   @JsonKey(name: "product_item_condition_id")
@@ -34,7 +34,7 @@ mixin _$StockUpdateRequest {
   @JsonKey(name: "updated_date")
   DateTime? get updatedDate => throw _privateConstructorUsedError;
   @JsonKey(name: "price_per_unit")
-  int? get pricePerUnit => throw _privateConstructorUsedError;
+  double? get pricePerUnit => throw _privateConstructorUsedError;
   @JsonKey(name: "total_price")
   int? get totalPrice => throw _privateConstructorUsedError;
 
@@ -58,11 +58,11 @@ abstract class $StockUpdateRequestCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "product_id") int? productId,
     @JsonKey(name: "maintain_stock") int? maintainStock,
-    @JsonKey(name: "stock_qty") int? stockQty,
+    @JsonKey(name: "stock_qty") double? stockQty,
     @JsonKey(name: "prod_var_id") int? prodVarId,
     @JsonKey(name: "product_item_condition_id") int? productItemConditionId,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
-    @JsonKey(name: "price_per_unit") int? pricePerUnit,
+    @JsonKey(name: "price_per_unit") double? pricePerUnit,
     @JsonKey(name: "total_price") int? totalPrice,
   });
 }
@@ -104,7 +104,7 @@ class _$StockUpdateRequestCopyWithImpl<$Res, $Val extends StockUpdateRequest>
             stockQty: freezed == stockQty
                 ? _value.stockQty
                 : stockQty // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             prodVarId: freezed == prodVarId
                 ? _value.prodVarId
                 : prodVarId // ignore: cast_nullable_to_non_nullable
@@ -120,7 +120,7 @@ class _$StockUpdateRequestCopyWithImpl<$Res, $Val extends StockUpdateRequest>
             pricePerUnit: freezed == pricePerUnit
                 ? _value.pricePerUnit
                 : pricePerUnit // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             totalPrice: freezed == totalPrice
                 ? _value.totalPrice
                 : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -143,11 +143,11 @@ abstract class _$$StockUpdateRequestImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "product_id") int? productId,
     @JsonKey(name: "maintain_stock") int? maintainStock,
-    @JsonKey(name: "stock_qty") int? stockQty,
+    @JsonKey(name: "stock_qty") double? stockQty,
     @JsonKey(name: "prod_var_id") int? prodVarId,
     @JsonKey(name: "product_item_condition_id") int? productItemConditionId,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
-    @JsonKey(name: "price_per_unit") int? pricePerUnit,
+    @JsonKey(name: "price_per_unit") double? pricePerUnit,
     @JsonKey(name: "total_price") int? totalPrice,
   });
 }
@@ -188,7 +188,7 @@ class __$$StockUpdateRequestImplCopyWithImpl<$Res>
         stockQty: freezed == stockQty
             ? _value.stockQty
             : stockQty // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         prodVarId: freezed == prodVarId
             ? _value.prodVarId
             : prodVarId // ignore: cast_nullable_to_non_nullable
@@ -204,7 +204,7 @@ class __$$StockUpdateRequestImplCopyWithImpl<$Res>
         pricePerUnit: freezed == pricePerUnit
             ? _value.pricePerUnit
             : pricePerUnit // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         totalPrice: freezed == totalPrice
             ? _value.totalPrice
             : totalPrice // ignore: cast_nullable_to_non_nullable
@@ -239,7 +239,7 @@ class _$StockUpdateRequestImpl implements _StockUpdateRequest {
   final int? maintainStock;
   @override
   @JsonKey(name: "stock_qty")
-  final int? stockQty;
+  final double? stockQty;
   @override
   @JsonKey(name: "prod_var_id")
   final int? prodVarId;
@@ -251,7 +251,7 @@ class _$StockUpdateRequestImpl implements _StockUpdateRequest {
   final DateTime? updatedDate;
   @override
   @JsonKey(name: "price_per_unit")
-  final int? pricePerUnit;
+  final double? pricePerUnit;
   @override
   @JsonKey(name: "total_price")
   final int? totalPrice;
@@ -319,12 +319,12 @@ abstract class _StockUpdateRequest implements StockUpdateRequest {
   const factory _StockUpdateRequest({
     @JsonKey(name: "product_id") final int? productId,
     @JsonKey(name: "maintain_stock") final int? maintainStock,
-    @JsonKey(name: "stock_qty") final int? stockQty,
+    @JsonKey(name: "stock_qty") final double? stockQty,
     @JsonKey(name: "prod_var_id") final int? prodVarId,
     @JsonKey(name: "product_item_condition_id")
     final int? productItemConditionId,
     @JsonKey(name: "updated_date") final DateTime? updatedDate,
-    @JsonKey(name: "price_per_unit") final int? pricePerUnit,
+    @JsonKey(name: "price_per_unit") final double? pricePerUnit,
     @JsonKey(name: "total_price") final int? totalPrice,
   }) = _$StockUpdateRequestImpl;
 
@@ -339,7 +339,7 @@ abstract class _StockUpdateRequest implements StockUpdateRequest {
   int? get maintainStock;
   @override
   @JsonKey(name: "stock_qty")
-  int? get stockQty;
+  double? get stockQty;
   @override
   @JsonKey(name: "prod_var_id")
   int? get prodVarId;
@@ -351,7 +351,7 @@ abstract class _StockUpdateRequest implements StockUpdateRequest {
   DateTime? get updatedDate;
   @override
   @JsonKey(name: "price_per_unit")
-  int? get pricePerUnit;
+  double? get pricePerUnit;
   @override
   @JsonKey(name: "total_price")
   int? get totalPrice;

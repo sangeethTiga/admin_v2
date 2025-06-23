@@ -15,4 +15,6 @@ abstract class ProductRepositories {
     StockUpdateRequest request,
   });
   Future<ResponseResult<List<CategoryResponse>>> category(int storeId);
+
+
 }
