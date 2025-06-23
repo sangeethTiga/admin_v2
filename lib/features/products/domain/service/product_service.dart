@@ -15,11 +15,12 @@ class ProductService implements ProductRepositories {
     int? storeId,
     int? catId,
     String? search,
+    String? barCode,
   }) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(
-      ApiEndpoints.proudtcList(storeId ?? 0, catId ?? 0, search ?? ''),
+      ApiEndpoints.proudtcList(storeId ?? 0, catId ?? 0, search ?? '',barCode?? ''),
     );
     switch (res.statusCode) {
       case 200:

@@ -7,28 +7,30 @@ class ScannerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return AlertDialog(
       content: SizedBox(
         height: 300,
         width: 300,
         child: Stack(
-          children:[ MobileScanner(
-            controller: MobileScannerController(
-              facing: CameraFacing.back,
-              detectionSpeed: DetectionSpeed.normal
+          children: [
+            MobileScanner(
+              controller: MobileScannerController(
+                facing: CameraFacing.back,
+                detectionSpeed: DetectionSpeed.normal,
+              ),
+              onDetect: (capture) {
+                final barCode = capture.barcodes.firstOrNull;
+                final code = barCode?.rawValue;
+                print('scanner-=-=-=-=-=-=$code');
+               if (code != null && code.isNotEmpty) {
+                  Navigator.of(context).pop(code);
+                }
+              },
             ),
-            onDetect: (capture) {
-              final barCode = capture.barcodes.first;
-              final code = barCode.rawValue;
-              print('scaner-=-=-=-=-=-=$code');
-              if (code != null) {
-                Navigator.of(context).pop(code);
-              }
-            },
-          ),
-          Positioned.fill(child: ScannerOverlay())
-       ] ),
-        
+            Positioned.fill(child: ScannerOverlay()),
+          ],
+        ),
       ),
       actions: [
         TextButton(
