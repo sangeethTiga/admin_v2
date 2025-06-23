@@ -4,7 +4,6 @@ import 'package:admin_v2/features/dashboard/domain/models/Ordergraph/orders_grap
 import 'package:admin_v2/features/dashboard/domain/models/revenueGraph/revenue_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/repositories/dashboard_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +14,9 @@ part 'dashboard_state.dart';
 class DashboardCubit extends Cubit<DashboardState> {
   final DashboardRepositories _dashboardRepositories;
   DashboardCubit(this._dashboardRepositories) : super(InitialDashBoardState());
-  Future<void> loadRevenueGraph({bool isLoadMore = false}) async {
+  Future<void> loadRevenueGraph({
+    bool isLoadMore = false  }) 
+    async {
     if (!isLoadMore) {
       emit(
         state.copyWith(

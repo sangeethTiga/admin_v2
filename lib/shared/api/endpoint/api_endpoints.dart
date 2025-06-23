@@ -200,4 +200,7 @@ class ApiEndpoints {
       '/api/suppliers?store_id=$storeId&Admin=$admin&query=$query';
 
   static String ordersGraph() => '/api/graphfororder';
+
+  static String daySummary(int storeId, String toDate) =>
+      '/api/day-summary?store_id=$storeId&date=$toDate';
 }

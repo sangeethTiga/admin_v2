@@ -5,7 +5,9 @@ import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 
 import 'package:admin_v2/shared/utils/result.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: DashboardRepositories)
 class DashboardService implements DashboardRepositories {
   @override
   Future<ResponseResult<List<OrdersGraphResponse>>> ordersGraph({
