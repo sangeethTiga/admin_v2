@@ -1,4 +1,3 @@
-
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -14,7 +13,7 @@ import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,13 +28,13 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final TextEditingController mobileScannerController = TextEditingController();
-  void cameraPermission() async {
-    var status = await Permission.camera.request();
-    if (status.isDenied || status.isPermanentlyDenied) {
-      openAppSettings();
-      return;
-    }
-  }
+  // void cameraPermission() async {
+  //   var status = await Permission.camera.request();
+  //   if (status.isDenied || status.isPermanentlyDenied) {
+  //     openAppSettings();
+  //     return;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +189,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                         suffixIcon: IconButton(
                           onPressed: () async {
-                            cameraPermission();
+                           
                             final scannedCode = await showDialog<String>(
                               context: context,
                               builder: (_) => ScannerDialog(),
@@ -202,7 +201,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       .read<CommonCubit>()
                                       .state
                                       .selectedStore
-                                      ?.stateId ??
+                                      ?.storeId ??
                                   0;
                               final catId =
                                   context
