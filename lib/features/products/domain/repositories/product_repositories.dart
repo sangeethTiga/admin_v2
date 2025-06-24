@@ -12,7 +12,7 @@ abstract class ProductRepositories {
     String? barCode,
   });
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus();
-  Future<ResponseResult<List<ProductResponse>>> stockUpdate({
+  Future<ResponseResult<dynamic>> stockUpdate({
     StockUpdateRequest request,
   });
   Future<ResponseResult<List<CategoryResponse>>> category(int storeId);

@@ -113,3 +113,9 @@ String truncateTo2Decimals(double? value) {
 }
 
 String parsedDate(DateTime date) => DateFormat('yyyy-MM-dd').format(date);
+
+DateTime getCurrentDate() {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day);  
+}
+

@@ -241,7 +241,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
                               return Container(
                                 margin: EdgeInsets.only(bottom: 12.h),
-                                height: 122.h,
+                                height: 150.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.r),
                                   border: Border.all(color: Color(0XFFF4F5F5)),
@@ -357,7 +357,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     isScrollControlled: true,
                                                     
                                                     builder: (context) {
-                                                      return StockUpdateCard(currentStock:data.productQty,productId: data.productId ,productVarId: data.isVariant);
+                                                      return StockUpdateCard(currentStock:data.productQty,productId: data.productId ,maintainStock: data.maintainStock,);
                                                     },
                                                   );
                                                 },

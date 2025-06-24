@@ -13,7 +13,7 @@ class StockUpdateRequest with _$StockUpdateRequest {
     @JsonKey(name: "product_item_condition_id") int? productItemConditionId,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
     @JsonKey(name: "price_per_unit") double? pricePerUnit,
-    @JsonKey(name: "total_price") int? totalPrice,
+    @JsonKey(name: "total_price") double? totalPrice,
   }) = _StockUpdateRequest;
 
   factory StockUpdateRequest.fromJson(Map<String, dynamic> json) =>

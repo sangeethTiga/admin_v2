@@ -54,7 +54,7 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<List<ProductResponse>>> stockUpdate({
+  Future<ResponseResult<dynamic>> stockUpdate({
     StockUpdateRequest? request,
   }) async {
     final networkProvider = await NetworkProvider.create();
@@ -67,9 +67,7 @@ class ProductService implements ProductRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<ProductResponse>.from(
-            res.data.map((e) => ProductResponse.fromJson(e)),
-          ).toList(),
+          data: res.  data
         );
       default:
         return ResponseResult(data: []);

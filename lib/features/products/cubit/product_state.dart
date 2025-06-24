@@ -12,6 +12,7 @@ class ProductState extends Equatable {
   final double ? totalStock;
   final StockStatusResponse ? selectedStockResponse;
   final ApiFetchStatus? apiFetchStatus;
+  final DateTime ? selectedDate;
 
   const ProductState({
     this.isProduct,
@@ -25,6 +26,7 @@ class ProductState extends Equatable {
     this.apiFetchStatus,
     this.totalStock,
     this.selectedStockResponse,
+    this.selectedDate
   });
 
   ProductState copyWith({
@@ -38,7 +40,8 @@ class ProductState extends Equatable {
     List<ProductResponse>? filteredProducts,
     double ? totalStock,
     StockStatusResponse? selectedStockResponse,
-    ApiFetchStatus? apiFetchStatus
+    ApiFetchStatus? apiFetchStatus,
+    DateTime ? selectedDate,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -51,6 +54,7 @@ class ProductState extends Equatable {
     apiFetchStatus: apiFetchStatus ??this.apiFetchStatus,
     totalStock: totalStock??this.totalStock,
     selectedStockResponse: selectedStockResponse??this.selectedStockResponse,
+    selectedDate: selectedDate??this.selectedDate,
   );
 
   @override
@@ -65,7 +69,8 @@ class ProductState extends Equatable {
     filteredProducts,
     apiFetchStatus,
     totalStock,
-    selectedStockResponse
+    selectedStockResponse,
+    selectedDate,
   ];
 }
 
