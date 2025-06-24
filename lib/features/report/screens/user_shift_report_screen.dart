@@ -18,8 +18,6 @@ import 'package:flutter_svg/svg.dart';
 class UserShiftReportScreen extends StatelessWidget {
   const UserShiftReportScreen({super.key});
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,8 +165,8 @@ class UserShiftReportScreen extends StatelessWidget {
                                   'Opening Balance': e.openingBalance
                                       .toString(),
                                   'Close': e.closingTime ?? '',
-                                  'Closing Balance': e.closingBalance??''
-                          
+                                  'Closing Balance': e.closingBalance ?? '',
+
                                   // Placeholder for action button
                                 };
                               }).toList() ??

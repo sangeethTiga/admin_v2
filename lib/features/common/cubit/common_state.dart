@@ -10,7 +10,7 @@ class CommonState extends Equatable {
   final List<OptionResponse>? optionList;
   final OptionResponse? selectedOption;
   final List<PurchaseType>? purchaseType;
-  final PurchaseType? selectedPurchaseType;
+   final PurchaseType? selectedPurchaseType;
   final List<MostSellingResponse>? sellingProductsReport;
   final ApiFetchStatus? isMostSelling;
   final MostSellingResponse? selectedProducts;

@@ -10,6 +10,7 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 //import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
@@ -23,7 +24,6 @@ import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_respo
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
-
 //import 'package:admin_v2/features/report/screens/most_selling_products.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
@@ -191,5 +191,14 @@ abstract class ReportRepositories {
   Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary({
     required int storeId,
     required String toDate,
+  });
+
+  Future<ResponseResult<List<ProductOffersResponse>>> loadProductOffers({
+      required  String fromDate,
+     required String toDate,
+     required int storeId,
+     required int pageFirstResult,
+     required int resultPerPage,
+    required String search,
   });
 }

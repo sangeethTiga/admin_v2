@@ -12,6 +12,7 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -24,6 +25,7 @@ import 'package:admin_v2/features/report/domain/models/usershift/usershift_repor
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 import 'package:injectable/injectable.dart';
@@ -398,6 +400,8 @@ class ReportService implements ReportRepositories {
     }
   }
 
+
+
   @override
   Future<ResponseResult<List<OffersResponse>>> loadOffers({
     required int storeId,
@@ -580,6 +584,8 @@ class ReportService implements ReportRepositories {
     }
   }
 
+
+
   @override
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
     required int pageFirstResult,
@@ -711,6 +717,40 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
+
+
+  @override
+   Future<ResponseResult<List<ProductOffersResponse>>>loadProductOffers({
+    required  String fromDate,
+    required String toDate,
+    required int storeId,
+     required int pageFirstResult,
+     required int resultPerPage,
+    required String search,
+  }) async{
+        final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.productOffers(fromDate,toDate,storeId,pageFirstResult,resultPerPage,search),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ProductOffersResponse>.from(
+            res.data.map((e) => ProductOffersResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+
+
+    
+  }
+
+
+
+
 
   // @override
   // Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary
