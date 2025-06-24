@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
+import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
@@ -41,14 +42,6 @@ class ProductCubit extends Cubit<ProductState> {
               )
             : null;
         log('first-=-=-=-=--${scanned?.productName ?? 'no match'}');
-        // ProductResponse? scanned;
-        // if (barCode.isNotEmpty) {
-        //   try {
-        //     scanned = product.firstWhere((p) => p.barCode == barCode);
-        //   } catch (e) {
-        //     scanned = null;
-        //   }
-        // }
 
         emit(
           state.copyWith(
@@ -67,7 +60,6 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   Future<void> stockStatus() async {
-   
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
       final res = await _productRepositories.stockStatus();
@@ -117,28 +109,43 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectCategory: cate));
   }
 
-  Future<void>totalStockCalculation(double totalStock,double curentStock)async{
-
-    if(state.selectedStockResponse?.productItemConditionId==1){
-      final double updatedStock=curentStock+totalStock;
+  Future<void> totalStockCalculation(
+    double totalStock,
+    double curentStock,
+  ) async {
+    if (state.selectedStockResponse?.productItemConditionId == 1) {
+      final double updatedStock = curentStock + totalStock;
       emit(state.copyWith(totalStock: updatedStock));
       print("updatedStock -=-=$updatedStock");
-
-    } else{
-        final double updatedStock=curentStock-totalStock;
+    } else {
+      final double updatedStock = curentStock - totalStock;
       emit(state.copyWith(totalStock: updatedStock));
-            print("updatedStock -=-=$updatedStock");
-
-
-
+      print("updatedStock -=-=$updatedStock");
     }
   }
-  Future<void>selectStockType(StockStatusResponse selectedStock)async{
+
+  Future<void> selectStockType(StockStatusResponse selectedStock) async {
     emit(state.copyWith(selectedStockResponse: selectedStock));
   }
 
-  Future<void>closeButton()async{
+  Future<void> closeButton() async {
     emit(state.copyWith(totalStock: 0));
+  }
 
+  Future<void> updateProduct(EditUpdateResponse updateProduct, int productId) async {
+    emit(state.copyWith(isProduct: ApiFetchStatus.loading));
+
+    final res = await _productRepositories.updateProduct(updateProduct,productId);
+    if (res.data != null) {
+      emit(
+        state.copyWith(
+          isProduct: ApiFetchStatus.success,
+         // updatedProduct: res.data,
+        ),
+      );
+      return;
+    }
+
+    emit(state.copyWith(isProduct: ApiFetchStatus.failed));
   }
 }

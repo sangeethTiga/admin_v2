@@ -37,7 +37,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
       height: 700.h,
 
       child: Column(
-        children: [
+        children: [ 
           MainPadding(
             top: 19.5.h,
             left: 12.w,

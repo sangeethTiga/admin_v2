@@ -9,9 +9,10 @@ class ProductState extends Equatable {
   final CategoryResponse? selectCategory;
   final ProductResponse? scannedProduct;
   final List<ProductResponse>? filteredProducts;
-  final double ? totalStock;
-  final StockStatusResponse ? selectedStockResponse;
+  final double? totalStock;
+  final StockStatusResponse? selectedStockResponse;
   final ApiFetchStatus? apiFetchStatus;
+  final List<EditUpdateResponse>? updatedProduct;
 
   const ProductState({
     this.isProduct,
@@ -25,6 +26,7 @@ class ProductState extends Equatable {
     this.apiFetchStatus,
     this.totalStock,
     this.selectedStockResponse,
+    this.updatedProduct
   });
 
   ProductState copyWith({
@@ -36,9 +38,10 @@ class ProductState extends Equatable {
     ProductResponse? selectedProduct,
     ProductResponse? scannedProduct,
     List<ProductResponse>? filteredProducts,
-    double ? totalStock,
+    double? totalStock,
     StockStatusResponse? selectedStockResponse,
-    ApiFetchStatus? apiFetchStatus
+    ApiFetchStatus? apiFetchStatus,
+    List<EditUpdateResponse>? updatedProduct
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -48,9 +51,10 @@ class ProductState extends Equatable {
     selectedProduct: selectedProduct ?? this.selectedProduct,
     scannedProduct: scannedProduct ?? this.scannedProduct,
     filteredProducts: filteredProducts ?? this.filteredProducts,
-    apiFetchStatus: apiFetchStatus ??this.apiFetchStatus,
-    totalStock: totalStock??this.totalStock,
-    selectedStockResponse: selectedStockResponse??this.selectedStockResponse,
+    apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
+    totalStock: totalStock ?? this.totalStock,
+    selectedStockResponse: selectedStockResponse ?? this.selectedStockResponse,
+    updatedProduct: updatedProduct?? this.updatedProduct
   );
 
   @override
@@ -65,7 +69,8 @@ class ProductState extends Equatable {
     filteredProducts,
     apiFetchStatus,
     totalStock,
-    selectedStockResponse
+    selectedStockResponse,
+    updatedProduct
   ];
 }
 

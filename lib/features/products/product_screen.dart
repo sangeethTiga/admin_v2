@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
+import 'package:admin_v2/features/products/widgets/edit_product.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -19,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -78,9 +80,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 }).toList() ??
                                 [],
                             fillColor: const Color(0XFFEFF1F1),
-                            // suffixWidget: SvgPicture.asset(
-                            //   'assets/icons/Arrow - Right.svg',
-                            // ),
+                           
                             onChanged: (p0) {
                               context.read<CommonCubit>().selectedStore(p0);
                               context.read<ProductCubit>().catgeory(
@@ -91,7 +91,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           );
                         },
                       ),
-                      14.verticalSpace,
+                      // 2.verticalSpace,
                       BlocBuilder<CommonCubit, CommonState>(
                         builder: (context, common) {
                           return DropDownFieldWidget(
@@ -119,9 +119,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 }).toList() ??
                                 [],
                             fillColor: const Color(0XFFEFF1F1),
-                            // suffixWidget: SvgPicture.asset(
-                            //   'assets/icons/Arrow - Right.svg',
-                            // ),
+
                             onChanged: (categoryId) {
                               mobileScannerController.clear();
                               final selectedCategory = state.categoryList
@@ -146,7 +144,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           );
                         },
                       ),
-                      14.verticalSpace,
+                      // 6.verticalSpace,
                       TextFeildWidget(
                         onChanged: (value) {
                           final productCubit = context.read<ProductCubit>();
@@ -170,28 +168,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             );
                           }
                         },
-                        // (p0) {
-                        // final storeId =
-                        //     context
-                        //         .read<CommonCubit>()
-                        //         .state
-                        //         .selectedStore
-                        //         ?.storeId ??
-                        //     0;
-                        // final catId =
-                        //     context
-                        //         .read<ProductCubit>()
-                        //         .state
-                        //         .selectCategory
-                        //         ?.details
-                        //         ?.categoryId ??
-                        //     0;
-                        // context.read<ProductCubit>().product(
-                        //   storeId,
-                        //   catId,
-                        //   mobileScannerController.text,
-                        // );
-                        //  },
+
                         prefix: Icon(Icons.search_outlined),
                         hintText: 'search for product',
                         controller: mobileScannerController,
@@ -232,7 +209,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                       ),
 
-                      14.verticalSpace,
+                     // 6.verticalSpace,
 
                       BlocBuilder<ProductCubit, ProductState>(
                         builder: (context, state) {
@@ -304,23 +281,49 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     ),
                                                   ),
 
-                                                  Row(
-                                                    children: [
-                                                      SvgPicture.asset(
-                                                        'assets/icons/Edit.svg',
-                                                      ),
-                                                      3.horizontalSpace,
-                                                      Text(
-                                                        'Edit',
-                                                        style: FontPalette
-                                                            .hW700S14
-                                                            .copyWith(
-                                                              color:
-                                                                  kPrimaryColor,
-                                                            ),
-                                                      ),
-                                                      6.horizontalSpace,
-                                                    ],
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      showModalBottomSheet(
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                topLeft:
+                                                                    Radius.circular(
+                                                                      12.r,
+                                                                    ),
+                                                                topRight:
+                                                                    Radius.circular(
+                                                                      12.r,
+                                                                    ),
+                                                              ),
+                                                        ),
+                                                        backgroundColor: kWhite,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return EditProduct(product: data,);
+                                                          
+                                                        },
+                                                        
+                                                      );
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          'assets/icons/Edit.svg',
+                                                        ),
+                                                        3.horizontalSpace,
+                                                        Text(
+                                                          'Edit',
+                                                          style: FontPalette
+                                                              .hW700S14
+                                                              .copyWith(
+                                                                color:
+                                                                    kPrimaryColor,
+                                                              ),
+                                                        ),
+                                                        6.horizontalSpace,
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -348,7 +351,9 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                               GestureDetector(
                                                 onTap: () {
-                                                 context.read<ProductCubit>().closeButton();
+                                                  context
+                                                      .read<ProductCubit>()
+                                                      .closeButton();
 
                                                   showModalBottomSheet(
                                                     shape: RoundedRectangleBorder(
@@ -367,9 +372,16 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     backgroundColor: kWhite,
                                                     context: context,
                                                     isScrollControlled: true,
-                                                    
+
                                                     builder: (context) {
-                                                      return StockUpdateCard(currentStock:data.productQty,productId: data.productId ,productVarId: data.isVariant);
+                                                      return StockUpdateCard(
+                                                        currentStock:
+                                                            data.productQty,
+                                                        productId:
+                                                            data.productId,
+                                                        productVarId:
+                                                            data.isVariant,
+                                                      );
                                                     },
                                                   );
                                                 },
