@@ -97,113 +97,138 @@ class DashboardScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.home),
-                  title: Text('Product offers'),
-                  onTap: () {
-                    context.push(routeProductOffers);
-                  },
+                ExpansionTile(
+                  leading: Icon(Icons.add_chart_sharp),
+                  title: Text(
+                    'Reports',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.delivery_dining_sharp),
+                      title: Text('Delivery Charge'),
+                      onTap: () {
+                        context.push(routeDeliveryCharge);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.flatware),
+                      title: Text('Parcel Charge'),
+                      onTap: () {
+                        context.read<CommonCubit>().orderOption(
+                          state.selectedStore?.storeId,
+                          0,
+                        );
+                        context.push(routeParcel);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.settings),
+                      title: Text('Tax Report'),
+                      onTap: () {
+                        context.push(routeTax);
+                      },
+                    ),
+
+                    ListTile(
+                      leading: Icon(Icons.attach_money),
+                      title: Text('Category Sales '),
+                      onTap: () {
+                        context.push(routeCategorySales);
+                      },
+                    ),
+
+                    ListTile(
+                      leading: Icon(Icons.bar_chart_sharp),
+                      title: Text('Mess Report '),
+                      onTap: () {
+                        context.push(routeMess);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.shopping_cart),
+                      title: Text('Supplier '),
+                      onTap: () {
+                        context.push(routeSupplier);
+                      },
+                    ),
+
+                    ListTile(
+                      leading: Icon(Icons.account_circle_outlined),
+                      title: Text('User Shift'),
+                      onTap: () {
+                        context.push(routeUserShift);
+                      },
+                    ),
+
+                    ListTile(
+                      leading: Icon(Icons.shopify_outlined),
+                      title: Text('Sale on Deals'),
+                      onTap: () {
+                        context.read<ReportCubit>().loadSalesDealsReport();
+                        context.push(routeSaleDeals);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.money_rounded),
+                      title: Text('Cheque Transaction'),
+                      onTap: () {
+                        context.read<ReportCubit>().loadStatus();
+                        context.push(routeCheque);
+                      },
+                    ),
+                    ListTile(
+                      title: Text('Most Selling Products'),
+                      leading: Icon(Icons.sell_sharp),
+                      onTap: () {
+                        context.read<CommonCubit>().loadSellingProducts(
+                          state.selectedStore?.storeId,
+                          0,
+                        );
+                        context.push(routeSellingProducts);
+                      },
+                    ),
+                  ],
                 ),
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Delivery Charge'),
-                  onTap: () {
-                    context.push(routeDeliveryCharge);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Parcel Charge'),
-                  onTap: () {
-                    context.read<CommonCubit>().orderOption(
-                      state.selectedStore?.storeId,
-                      0,
-                    );
-                    context.push(routeParcel);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.money),
-                  title: Text('Tax Report'),
-                  onTap: () {
-                    context.push(routeTax);
-                  },
+                ExpansionTile(
+                  title: Text(
+                    'Offers',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  leading: Icon(Icons.paid_sharp),
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.shopify_outlined),
+                      title: Text('Product offers'),
+                      onTap: () {
+                        context.push(routeProductOffers);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.local_offer),
+                      title: Text('Offer'),
+                      onTap: () {
+                        //context.read<ReportCubit>().loadOffers();
+
+                        context.push(routeOffers);
+                      },
+                    ),
+                  ],
                 ),
 
                 ListTile(
-                  leading: Icon(Icons.shopping_cart),
-                  title: Text('Category Sales '),
-                  onTap: () {
-                    context.push(routeCategorySales);
-                  },
-                ),
-
-                ListTile(
-                  leading: Icon(Icons.shopping_cart),
-                  title: Text('Mess Report '),
-                  onTap: () {
-                    context.push(routeMess);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.shopping_cart),
-                  title: Text('Supplier '),
-                  onTap: () {
-                    context.push(routeSupplier);
-                  },
-                ),
-
-                ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text('User Shift'),
-                  onTap: () {
-                    context.push(routeUserShift);
-                  },
-                ),
-
-                ListTile(
-                  leading: Icon(Icons.attach_money),
-                  title: Text('Sale on Deals'),
-                  onTap: () {
-                    context.read<ReportCubit>().loadSalesDealsReport();
-                    context.push(routeSaleDeals);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.attach_money),
-                  title: Text('Top Stores'),
+                  leading: Icon(Icons.home_work_outlined),
+                  title: Text(
+                    'Top Stores',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   onTap: () {
                     context.read<ReportCubit>().loadTopStores();
                     context.push(routeTopStores);
                   },
                 ),
-                ListTile(
-                  leading: Icon(Icons.local_offer),
-                  title: Text('Offers'),
-                  onTap: () {
-                    //context.read<ReportCubit>().loadOffers();
-                    context.push(routeOffers);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.money_rounded),
-                  title: Text('Cheque Transaction'),
-                  onTap: () {
-                    context.read<ReportCubit>().loadStatus();
-                    context.push(routeCheque);
-                  },
-                ),
-                ListTile(
-                  title: Text('Most Selling Products'),
-                  leading: Icon(Icons.gif_box_outlined),
-                  onTap: () {
-                    context.read<CommonCubit>().loadSellingProducts(
-                      state.selectedStore?.storeId,
-                      0,
-                    );
-                    context.push(routeSellingProducts);
-                  },
-                ),
+
                 GestureDetector(
                   onTap: () {
                     Helper().logout(context);

@@ -32,56 +32,61 @@ class TaxScreen extends StatelessWidget {
                 final taxResponse = state.taxReport;
 
                 if (taxResponse != null) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Total Tax Collected',
-                        style: FontPalette.hW600S13,
-                        textAlign: TextAlign.center,
-                      ),
-                      11.verticalSpace,
-                      Text(
-                        '${taxResponse.totalTaxCollected ?.toStringAsFixed(2)?? 0.00}',
-                        textAlign: TextAlign.center,
-                        style: FontPalette.hW800S40
-                      ),
-                      8.verticalSpace,
-                      Text(
-                        'Total Tax Paid',
-                        style: FontPalette.hW600S13,
-                        textAlign: TextAlign.center,
-                      ),
-                      11.verticalSpace,
-                      Text(
-                        '${taxResponse.totalTaxPaid ?.toStringAsFixed(2) ?? 0}',
-                        textAlign: TextAlign.center,
-                         style: FontPalette.hW800S40
-                      ),
-                      8.verticalSpace,
-                      Text(
-                        'Net Payable',
-                       style: FontPalette.hW600S13,
-                        textAlign: TextAlign.center,
-                      ),
-                      11.verticalSpace,
-                      Text(
-                        ' ${taxResponse.netPayable?.toStringAsFixed(2) ?? 0.00}',
-                        textAlign: TextAlign.center,
-                         style: FontPalette.hW800S40
-                      ),
-                    ],
+                  return Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Total Tax Collected',
+                          style: FontPalette.hW600S13,
+                          textAlign: TextAlign.center,
+                        ),
+                        11.verticalSpace,
+                        Text(
+                          '${taxResponse.totalTaxCollected?.toStringAsFixed(2) ?? 0.00}',
+                          textAlign: TextAlign.center,
+                          style: FontPalette.hW800S40,
+                        ),
+                        8.verticalSpace,
+                        Text(
+                          'Total Tax Paid',
+                          style: FontPalette.hW600S13,
+                          textAlign: TextAlign.center,
+                        ),
+                        11.verticalSpace,
+                        Text(
+                          '${taxResponse.totalTaxPaid?.toStringAsFixed(2) ?? 0}',
+                          textAlign: TextAlign.center,
+                          style: FontPalette.hW800S40,
+                        ),
+                        8.verticalSpace,
+                        Text(
+                          'Net Payable',
+                          style: FontPalette.hW600S13,
+                          textAlign: TextAlign.center,
+                        ),
+                        11.verticalSpace,
+                        Text(
+                          ' ${taxResponse.netPayable?.toStringAsFixed(2) ?? 0.00}',
+                          textAlign: TextAlign.center,
+                          style: FontPalette.hW800S40,
+                        ),
+                      ],
+                    ),
                   );
                 }
-                return const Text('No Tax Data Available');
+                return const Text(
+                  'No Tax Data Available',
+                  textAlign: TextAlign.center,
+                );
               },
             ),
             Spacer(),
             BlocBuilder<CommonCubit, CommonState>(
               builder: (context, state) {
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: DropDownFieldWidget(
                     isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                     prefixIcon: Container(
@@ -104,9 +109,7 @@ class TaxScreen extends StatelessWidget {
                         }).toList() ??
                         [],
                     fillColor: const Color(0XFFEFF1F1),
-                    suffixWidget: SvgPicture.asset(
-                      'assets/icons/Arrow - Right.svg',
-                    ),
+
                     onChanged: (p0) {
                       context.read<CommonCubit>().selectedStore(p0);
                     },
@@ -115,11 +118,12 @@ class TaxScreen extends StatelessWidget {
                 );
               },
             ),
-            8.verticalSpace,
+        
+
             BlocBuilder<ReportCubit, ReportState>(
               builder: (context, state) {
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -152,8 +156,9 @@ class TaxScreen extends StatelessWidget {
             BlocBuilder<CommonCubit, CommonState>(
               builder: (context, state) {
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: CustomMaterialBtton(
+                    height: 56,
                     onPressed: () {
                       context.read<ReportCubit>().loadTaxReport(
                         storeId: state.selectedStore?.storeId,

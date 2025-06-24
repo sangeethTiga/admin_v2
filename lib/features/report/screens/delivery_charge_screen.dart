@@ -53,9 +53,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                   
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedStore(p0);
                       },
