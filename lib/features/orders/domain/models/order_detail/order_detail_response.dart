@@ -1,4 +1,4 @@
-import 'package:admin_v2/shared/app/list/helper.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'order_detail_response.freezed.dart';

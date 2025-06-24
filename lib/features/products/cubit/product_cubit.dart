@@ -82,15 +82,19 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
       final res = await _productRepositories.stockUpdate(request: req);
+  
       if (res.data != null) {
         emit(
           state.copyWith(
-            isProduct: ApiFetchStatus.success,
-            productList: res.data,
+            isProduct: ApiFetchStatus.success, 
           ),
+
         );
+      }else{
+        emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+
+
       }
-      emit(state.copyWith(isProduct: ApiFetchStatus.failed));
     } catch (e) {
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
     }
@@ -147,5 +151,9 @@ class ProductCubit extends Cubit<ProductState> {
     }
 
     emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+  }
+
+  Future<void>dateSelection(DateTime selectedDate)async{
+    emit(state.copyWith(selectedDate: selectedDate));
   }
 }

@@ -14,7 +14,7 @@ abstract class ProductRepositories {
   });
   Future<ResponseResult<List<EditUpdateResponse>>> updateProduct(EditUpdateResponse req,int? productId);
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus();
-  Future<ResponseResult<List<ProductResponse>>> stockUpdate({
+  Future<ResponseResult<dynamic>> stockUpdate({
     StockUpdateRequest request,
   });
   Future<ResponseResult<List<CategoryResponse>>> category(int storeId);

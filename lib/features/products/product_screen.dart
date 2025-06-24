@@ -230,7 +230,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
                               return Container(
                                 margin: EdgeInsets.only(bottom: 12.h),
-                                height: 122.h,
+                                height: 150.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.r),
                                   border: Border.all(color: Color(0XFFF4F5F5)),
@@ -379,8 +379,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                                             data.productQty,
                                                         productId:
                                                             data.productId,
-                                                        productVarId:
-                                                            data.isVariant,
+                                                        // productVarId:
+                                                        //     data.isVariant,
                                                       );
                                                     },
                                                   );

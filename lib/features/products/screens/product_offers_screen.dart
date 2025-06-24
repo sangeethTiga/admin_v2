@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -7,8 +8,10 @@ import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_wid
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductOffersScreen extends StatelessWidget {
   const ProductOffersScreen({super.key});
@@ -91,64 +94,78 @@ class ProductOffersScreen extends StatelessWidget {
                   ),
                 ),
                 16.verticalSpace,
-                Container(
-                  margin: EdgeInsets.only(bottom: 12.h),
-                  height: 235.h,
-                  width: 351.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.r),
-                    color: kWhite,
-                    border: Border.all(color: kLightBorderColor),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 12.w,
-                          top: 12.h,
-                          right: 16.w,
-                          bottom: 6.h,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Mutton Tikka',
-                              style: FontPalette.hW700S13.copyWith(
-                                color: kBlack,
-                              ),
-                            ),
-                            Spacer(),
-                            SvgPicture.asset('assets/icons/Edit.svg'),
-                            3.horizontalSpace,
-                            Text(
-                              'Edit',
-                              style: FontPalette.hW700S14.copyWith(
-                                color: kPrimaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                BlocBuilder<ReportCubit, ReportState>(
+                  builder: (context, state) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 12.h),
+                      height: 235.h,
+                      width: 351.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        color: kWhite,
+                        border: Border.all(color: kLightBorderColor),
                       ),
+                      child: ListView.builder(
+                        itemCount: state.productOffers?.length,
+                        shrinkWrap: true,
 
-                      dividerWidget(color: kLightBorderColor),
-                      10.verticalSpace,
-                      rowWidget(name: 'Offer', status: "Big deals"),
-                      8.verticalSpace,
-                      rowWidget(name: 'Offer price', status: 'AED 123'),
-                      8.verticalSpace,
-                      rowWidget(name: 'Discount', status: "10%"),
-                      8.verticalSpace,
+                        itemBuilder: (context, i) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 12.w,
+                                  top: 12.h,
+                                  right: 16.w,
+                                  bottom: 6.h,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      (''),
+                                      style: FontPalette.hW700S13.copyWith(
+                                        color: kBlack,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    SvgPicture.asset('assets/icons/Edit.svg'),
+                                    3.horizontalSpace,
+                                    Text(
+                                      'Edit',
+                                      style: FontPalette.hW700S14.copyWith(
+                                        color: kPrimaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
 
-                      rowWidget(name: 'From date', status: "23-mar-2025"),
-                      8.verticalSpace,
+                              dividerWidget(color: kLightBorderColor),
+                              10.verticalSpace,
+                              rowWidget(name: 'Offer', status: "Big deals"),
+                              8.verticalSpace,
+                              rowWidget(name: 'Offer price', status: 'AED 123'),
+                              8.verticalSpace,
+                              rowWidget(name: 'Discount', status: "10%"),
+                              8.verticalSpace,
 
-                      rowWidget(name: 'To date', status: "28-mar 2025"),
-                      8.verticalSpace,
+                              rowWidget(
+                                name: 'From date',
+                                status: "23-mar-2025",
+                              ),
+                              8.verticalSpace,
 
-                      rowWidget(name: 'Status', status: "Paid"),
-                    ],
-                  ),
+                              rowWidget(name: 'To date', status: "28-mar 2025"),
+                              5.verticalSpace,
+
+                              rowWidget(name: 'Status', status: "Paid"),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -157,6 +174,60 @@ class ProductOffersScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class ShimmerWidget extends StatelessWidget {
+  final double width;
+  final double height;
+  final ShapeBorder shapeBorder;
+
+  const ShimmerWidget.rectangular({
+    super.key,
+    required this.width,
+    required this.height,
+  }) : shapeBorder = const RoundedRectangleBorder();
+
+  const ShimmerWidget.circular({
+    super.key,
+    required this.width,
+    required this.height,
+  }) : shapeBorder = const CircleBorder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: ShapeDecoration(
+          color: Colors.grey[400]!,
+          shape: shapeBorder,
+        ),
+      ),
+    );
+  }
+}
+
+Widget _shimmerExpenseList() {
+  return ListView.builder(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: 8,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ShimmerWidget.rectangular(width: 200.w, height: 25.h),
+            ShimmerWidget.rectangular(width: 60.w, height: 25.h),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 Widget rowWidget({String? name, String? status}) {

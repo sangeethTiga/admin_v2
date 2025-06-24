@@ -36,7 +36,7 @@ mixin _$StockUpdateRequest {
   @JsonKey(name: "price_per_unit")
   double? get pricePerUnit => throw _privateConstructorUsedError;
   @JsonKey(name: "total_price")
-  int? get totalPrice => throw _privateConstructorUsedError;
+  double? get totalPrice => throw _privateConstructorUsedError;
 
   /// Serializes this StockUpdateRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -63,7 +63,7 @@ abstract class $StockUpdateRequestCopyWith<$Res> {
     @JsonKey(name: "product_item_condition_id") int? productItemConditionId,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
     @JsonKey(name: "price_per_unit") double? pricePerUnit,
-    @JsonKey(name: "total_price") int? totalPrice,
+    @JsonKey(name: "total_price") double? totalPrice,
   });
 }
 
@@ -124,7 +124,7 @@ class _$StockUpdateRequestCopyWithImpl<$Res, $Val extends StockUpdateRequest>
             totalPrice: freezed == totalPrice
                 ? _value.totalPrice
                 : totalPrice // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -148,7 +148,7 @@ abstract class _$$StockUpdateRequestImplCopyWith<$Res>
     @JsonKey(name: "product_item_condition_id") int? productItemConditionId,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
     @JsonKey(name: "price_per_unit") double? pricePerUnit,
-    @JsonKey(name: "total_price") int? totalPrice,
+    @JsonKey(name: "total_price") double? totalPrice,
   });
 }
 
@@ -208,7 +208,7 @@ class __$$StockUpdateRequestImplCopyWithImpl<$Res>
         totalPrice: freezed == totalPrice
             ? _value.totalPrice
             : totalPrice // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -254,7 +254,7 @@ class _$StockUpdateRequestImpl implements _StockUpdateRequest {
   final double? pricePerUnit;
   @override
   @JsonKey(name: "total_price")
-  final int? totalPrice;
+  final double? totalPrice;
 
   @override
   String toString() {
@@ -325,7 +325,7 @@ abstract class _StockUpdateRequest implements StockUpdateRequest {
     final int? productItemConditionId,
     @JsonKey(name: "updated_date") final DateTime? updatedDate,
     @JsonKey(name: "price_per_unit") final double? pricePerUnit,
-    @JsonKey(name: "total_price") final int? totalPrice,
+    @JsonKey(name: "total_price") final double? totalPrice,
   }) = _$StockUpdateRequestImpl;
 
   factory _StockUpdateRequest.fromJson(Map<String, dynamic> json) =
@@ -354,7 +354,7 @@ abstract class _StockUpdateRequest implements StockUpdateRequest {
   double? get pricePerUnit;
   @override
   @JsonKey(name: "total_price")
-  int? get totalPrice;
+  double? get totalPrice;
 
   /// Create a copy of StockUpdateRequest
   /// with the given fields replaced by the non-null parameter values.
