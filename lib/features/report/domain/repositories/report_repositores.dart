@@ -23,6 +23,7 @@ import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_respo
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 
 //import 'package:admin_v2/features/report/screens/most_selling_products.dart';
 import 'package:admin_v2/shared/utils/result.dart';
@@ -192,4 +193,6 @@ abstract class ReportRepositories {
     required int storeId,
     required String toDate,
   });
+
+
 }

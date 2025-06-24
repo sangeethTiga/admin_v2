@@ -24,6 +24,7 @@ import 'package:admin_v2/features/report/domain/models/usershift/usershift_repor
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 import 'package:injectable/injectable.dart';
@@ -397,6 +398,8 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
+
+
 
   @override
   Future<ResponseResult<List<OffersResponse>>> loadOffers({

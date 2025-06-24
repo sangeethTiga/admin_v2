@@ -57,6 +57,7 @@ class ReportState extends Equatable {
   final List<AmountByDevice>? amountByDevice;
   final List<BillTypeDetail>? billTypeDetail;
   final List<DeliveryPartner>? deliveryPartner;
+  final List<PurchaseType>? purchaseType;
 
   const ReportState({
     this.salesReport,
@@ -113,6 +114,7 @@ class ReportState extends Equatable {
     this.amountByDevice,
     this.billTypeDetail,
     this.deliveryPartner,
+    this.purchaseType,
 
     //       this.purchaseType,
     this.selectedPurchaseType,
@@ -175,6 +177,7 @@ class ReportState extends Equatable {
     List<AmountByDevice>? amountByDevice,
     List<BillTypeDetail>? billTypeDetail,
     List<DeliveryPartner>? deliveryPartner,
+    List<PurchaseType>? purchaseType,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -234,7 +237,8 @@ class ReportState extends Equatable {
       amountByDelivertBoy: amountByDelivertBoy ?? this.amountByDelivertBoy,
       amountByDevice: amountByDevice ?? this.amountByDevice,
       billTypeDetail: billTypeDetail ?? this.billTypeDetail,
-      deliveryPartner: deliveryPartner?? this.deliveryPartner,
+      deliveryPartner: deliveryPartner ?? this.deliveryPartner,
+      purchaseType: purchaseType ?? this.purchaseType,
     );
   }
 
@@ -293,6 +297,7 @@ class ReportState extends Equatable {
     amountByDevice,
     billTypeDetail,
     deliveryPartner,
+    purchaseType,
   ];
 }
 
