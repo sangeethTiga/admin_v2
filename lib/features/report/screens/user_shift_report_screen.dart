@@ -18,6 +18,8 @@ import 'package:flutter_svg/svg.dart';
 class UserShiftReportScreen extends StatelessWidget {
   const UserShiftReportScreen({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +104,7 @@ class UserShiftReportScreen extends StatelessWidget {
                     return CustomMaterialBtton(
                       onPressed: () {
                         context.read<ReportCubit>().loadUserShiftReport(
-                          storeId: state.selectedStore?.storeId,
+                          //storeId: state.selectedStore?.storeId,
                         );
                       },
                       buttonText: 'View Report',

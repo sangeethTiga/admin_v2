@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
@@ -5,6 +7,7 @@ import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,24 +18,44 @@ class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
-  Future<void> product(int storeId, int catId, String search) async {
+  Future<void> priduct(
+    int storeId,
+    int catId,
+    String search,
+    String barCode,
+  ) async {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
 
       final res = await _productRepositories.products(
         storeId: storeId,
-        catId: state.selectCategory?.details?.categoryId ?? 0,
+        catId: catId,
         search: search,
+        barCode: barCode,
       );
       if (res.data != null) {
+        final product = res.data!;
+        final scanned = barCode.isNotEmpty
+            ? product.firstWhereOrNull(
+                (p) => (p.barCode?.trim() ?? '') == barCode.trim(),
+              )
+            : null;
+        log('first-=-=-=-=--${scanned?.productName ?? 'no match'}');
+        // ProductResponse? scanned;
+        // if (barCode.isNotEmpty) {
+        //   try {
+        //     scanned = product.firstWhere((p) => p.barCode == barCode);
+        //   } catch (e) {
+        //     scanned = null;
+        //   }
+        // }
+
         emit(
           state.copyWith(
             isProduct: ApiFetchStatus.success,
             productList: res.data,
             filteredProducts: res.data,
-            scannedProduct: res.data?.isNotEmpty == true
-                ? res.data!.first
-                : null,
+            scannedProduct: scanned,
           ),
         );
         print("Scanned Result Count: ${res.data?.length}");

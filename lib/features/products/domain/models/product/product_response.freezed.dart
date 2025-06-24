@@ -29,6 +29,8 @@ mixin _$ProductResponse {
   String? get productCode => throw _privateConstructorUsedError;
   @JsonKey(name: "store_id")
   int? get storeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "bar_code")
+  String? get barCode => throw _privateConstructorUsedError;
   @JsonKey(name: "store_name")
   String? get storeName => throw _privateConstructorUsedError;
   @JsonKey(name: "product_price")
@@ -76,6 +78,7 @@ abstract class $ProductResponseCopyWith<$Res> {
     @JsonKey(name: "product_name") String? productName,
     @JsonKey(name: "product_code") String? productCode,
     @JsonKey(name: "store_id") int? storeId,
+    @JsonKey(name: "bar_code") String? barCode,
     @JsonKey(name: "store_name") String? storeName,
     @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "maintain_stock") int? maintainStock,
@@ -110,6 +113,7 @@ class _$ProductResponseCopyWithImpl<$Res, $Val extends ProductResponse>
     Object? productName = freezed,
     Object? productCode = freezed,
     Object? storeId = freezed,
+    Object? barCode = freezed,
     Object? storeName = freezed,
     Object? productPrice = freezed,
     Object? maintainStock = freezed,
@@ -141,6 +145,10 @@ class _$ProductResponseCopyWithImpl<$Res, $Val extends ProductResponse>
                 ? _value.storeId
                 : storeId // ignore: cast_nullable_to_non_nullable
                       as int?,
+            barCode: freezed == barCode
+                ? _value.barCode
+                : barCode // ignore: cast_nullable_to_non_nullable
+                      as String?,
             storeName: freezed == storeName
                 ? _value.storeName
                 : storeName // ignore: cast_nullable_to_non_nullable
@@ -209,6 +217,7 @@ abstract class _$$ProductResponseImplCopyWith<$Res>
     @JsonKey(name: "product_name") String? productName,
     @JsonKey(name: "product_code") String? productCode,
     @JsonKey(name: "store_id") int? storeId,
+    @JsonKey(name: "bar_code") String? barCode,
     @JsonKey(name: "store_name") String? storeName,
     @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "maintain_stock") int? maintainStock,
@@ -242,6 +251,7 @@ class __$$ProductResponseImplCopyWithImpl<$Res>
     Object? productName = freezed,
     Object? productCode = freezed,
     Object? storeId = freezed,
+    Object? barCode = freezed,
     Object? storeName = freezed,
     Object? productPrice = freezed,
     Object? maintainStock = freezed,
@@ -273,6 +283,10 @@ class __$$ProductResponseImplCopyWithImpl<$Res>
             ? _value.storeId
             : storeId // ignore: cast_nullable_to_non_nullable
                   as int?,
+        barCode: freezed == barCode
+            ? _value.barCode
+            : barCode // ignore: cast_nullable_to_non_nullable
+                  as String?,
         storeName: freezed == storeName
             ? _value.storeName
             : storeName // ignore: cast_nullable_to_non_nullable
@@ -334,6 +348,7 @@ class _$ProductResponseImpl implements _ProductResponse {
     @JsonKey(name: "product_name") this.productName,
     @JsonKey(name: "product_code") this.productCode,
     @JsonKey(name: "store_id") this.storeId,
+    @JsonKey(name: "bar_code") this.barCode,
     @JsonKey(name: "store_name") this.storeName,
     @JsonKey(name: "product_price") this.productPrice,
     @JsonKey(name: "maintain_stock") this.maintainStock,
@@ -363,6 +378,9 @@ class _$ProductResponseImpl implements _ProductResponse {
   @override
   @JsonKey(name: "store_id")
   final int? storeId;
+  @override
+  @JsonKey(name: "bar_code")
+  final String? barCode;
   @override
   @JsonKey(name: "store_name")
   final String? storeName;
@@ -410,7 +428,7 @@ class _$ProductResponseImpl implements _ProductResponse {
 
   @override
   String toString() {
-    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, isHidden: $isHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName)';
+    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, isHidden: $isHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName)';
   }
 
   @override
@@ -425,6 +443,7 @@ class _$ProductResponseImpl implements _ProductResponse {
             (identical(other.productCode, productCode) ||
                 other.productCode == productCode) &&
             (identical(other.storeId, storeId) || other.storeId == storeId) &&
+            (identical(other.barCode, barCode) || other.barCode == barCode) &&
             (identical(other.storeName, storeName) ||
                 other.storeName == storeName) &&
             (identical(other.productPrice, productPrice) ||
@@ -458,6 +477,7 @@ class _$ProductResponseImpl implements _ProductResponse {
     productName,
     productCode,
     storeId,
+    barCode,
     storeName,
     productPrice,
     maintainStock,
@@ -495,6 +515,7 @@ abstract class _ProductResponse implements ProductResponse {
     @JsonKey(name: "product_name") final String? productName,
     @JsonKey(name: "product_code") final String? productCode,
     @JsonKey(name: "store_id") final int? storeId,
+    @JsonKey(name: "bar_code") final String? barCode,
     @JsonKey(name: "store_name") final String? storeName,
     @JsonKey(name: "product_price") final String? productPrice,
     @JsonKey(name: "maintain_stock") final int? maintainStock,
@@ -524,6 +545,9 @@ abstract class _ProductResponse implements ProductResponse {
   @override
   @JsonKey(name: "store_id")
   int? get storeId;
+  @override
+  @JsonKey(name: "bar_code")
+  String? get barCode;
   @override
   @JsonKey(name: "store_name")
   String? get storeName;

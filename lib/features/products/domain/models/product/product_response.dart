@@ -10,6 +10,7 @@ class ProductResponse with _$ProductResponse {
     @JsonKey(name: "product_name") String? productName,
     @JsonKey(name: "product_code") String? productCode,
     @JsonKey(name: "store_id") int? storeId,
+      @JsonKey(name: "bar_code") String? barCode,
     @JsonKey(name: "store_name") String? storeName,
     @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "maintain_stock") int? maintainStock,

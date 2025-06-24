@@ -10,6 +10,7 @@ import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/category_sales_report_screen.dart';
 import 'package:admin_v2/features/report/screens/chequeTrans_screen.dart';
 import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
+import 'package:admin_v2/features/report/screens/day_summary_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';
 import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
 import 'package:admin_v2/features/report/screens/mess_report_screen.dart';
@@ -117,7 +118,10 @@ class RouteGenerator {
         GoRoute(path: routeSellingProducts,builder: (context,state)=> MostSellingProducts()),
          GoRoute(path: routeSupplier,builder: (context,state)=> SuppliersReportScreen()),
          GoRoute(path: routeRevenueGraph,builder: (context,state)=> RevenueGraph()),
-           GoRoute(path: routeOrderGraph,builder: (context,state)=> OrdersGraph())
+           GoRoute(path: routeOrderGraph,builder: (context,state)=> OrdersGraph()),
+             GoRoute(path: routeDaySummary,builder: (context,state)=> DaySummaryReportScreen()),
+           
+           
          
 
       ],

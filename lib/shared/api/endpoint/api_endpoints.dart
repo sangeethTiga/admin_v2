@@ -75,8 +75,8 @@ class ApiEndpoints {
   ) =>
       "/api/customerreport?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&filter_id=$filterId";
 
-  static String proudtcList(int storeId, int catId, String search) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=0&product_qty=0&keyword=$search&page_first_result=0&result_per_page=50';
+  static String proudtcList(int storeId, int catId, String search,String barCode) =>
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=0&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=0&result_per_page=50';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
@@ -200,4 +200,7 @@ class ApiEndpoints {
       '/api/suppliers?store_id=$storeId&Admin=$admin&query=$query';
 
   static String ordersGraph() => '/api/graphfororder';
+
+  static String daySummary(int storeId, String toDate) =>
+      '/api/day-summary?store_id=$storeId&date=$toDate';
 }

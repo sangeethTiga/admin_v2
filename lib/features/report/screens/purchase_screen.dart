@@ -3,7 +3,6 @@ import 'package:admin_v2/features/common/domain/models/store/store_response.dart
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
-
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
@@ -94,8 +93,10 @@ class PurchaseScreen extends StatelessWidget {
                       suffixWidget: SvgPicture.asset(
                         'assets/icons/Arrow - Right.svg',
                       ),
+
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedPurchase(p0);
+                        //context.read<ReportCubit>().changePucrhaeType(p0);
                       },
                     );
                   },
@@ -140,12 +141,11 @@ class PurchaseScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadPurchaseReport(
                           storeId: state.selectedStore?.storeId,
-                          purchaseType: state.selectedPurchaseType?.id,
+                      purchaseType: state.selectedPurchaseType?.id,
                         );
-                        // context.read<ReportCubit>().changePucrhaeType( );
-                        // print(
-                        //   '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
-                        // );
+                        print(
+                          '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
+                        );
                       },
                       buttonText: 'View Report',
                     );

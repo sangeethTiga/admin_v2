@@ -1,13 +1,11 @@
-import 'dart:async';
+import 'dart:developer';
 
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
-
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -17,11 +15,10 @@ import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -32,13 +29,13 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final TextEditingController mobileScannerController = TextEditingController();
-  void cameraPermission() async {
-    var status = await Permission.camera.request();
-    if (status.isDenied || status.isPermanentlyDenied) {
-      openAppSettings();
-      return;
-    }
-  }
+  // void cameraPermission() async {
+  //   var status = await Permission.camera.request();
+  //   if (status.isDenied || status.isPermanentlyDenied) {
+  //     openAppSettings();
+  //     return;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +95,8 @@ class _ProductScreenState extends State<ProductScreen> {
                       BlocBuilder<CommonCubit, CommonState>(
                         builder: (context, common) {
                           return DropDownFieldWidget(
+                            isLoading:
+                                state.apiFetchStatus == ApiFetchStatus.loading,
                             hintStyle: FontPalette.hW500S14,
                             labelText: 'Select category',
                             value: state.selectCategory?.details?.categoryId,
@@ -118,9 +117,10 @@ class _ProductScreenState extends State<ProductScreen> {
                               context.read<ProductCubit>().changeCategory(
                                 selectedCategory!,
                               );
-                              context.read<ProductCubit>().product(
+                              context.read<ProductCubit>().priduct(
                                 common.selectedStore?.storeId ?? 0,
                                 state.selectCategory?.details?.categoryId ?? 0,
+                                '',
                                 '',
                               );
                             },
@@ -180,7 +180,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         //   mobileScannerController.text,
                         // );
                         //  },
-                        prefix: Icon(Icons.search),
+                        prefix: Icon(Icons.search_outlined),
                         hintText: 'search for product',
                         controller: mobileScannerController,
 
@@ -193,11 +193,11 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                         suffixIcon: IconButton(
                           onPressed: () async {
-                            cameraPermission();
                             final scannedCode = await showDialog<String>(
                               context: context,
                               builder: (_) => ScannerDialog(),
                             );
+                            log('scanned-=-=-=-=-=-=$scannedCode');
                             if (scannedCode != null) {
                               mobileScannerController.text = scannedCode;
                               final storeId =
@@ -205,19 +205,13 @@ class _ProductScreenState extends State<ProductScreen> {
                                       .read<CommonCubit>()
                                       .state
                                       .selectedStore
-                                      ?.stateId ??
+                                      ?.storeId ??
                                   0;
-                              final catId =
-                                  context
-                                      .read<ProductCubit>()
-                                      .state
-                                      .selectCategory
-                                      ?.details
-                                      ?.categoryId ??
-                                  0;
-                              context.read<ProductCubit>().product(
+
+                              context.read<ProductCubit>().priduct(
                                 storeId,
-                                catId,
+                                0,
+                                '',
                                 scannedCode,
                               );
                             }
@@ -230,15 +224,21 @@ class _ProductScreenState extends State<ProductScreen> {
 
                       BlocBuilder<ProductCubit, ProductState>(
                         builder: (context, state) {
-                          final products = state.filteredProducts ?? [];
+                          //   final products = state.filteredProducts ?? [];
+                          final products = state.scannedProduct != null
+                              ? [state.scannedProduct!]
+                              : state.filteredProducts ?? [];
+                          log(
+                            'scanned product-=-=-=-=-${state.scannedProduct}',
+                          );
                           return ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: products.length,
-                            // state.productList?.length,
+
                             itemBuilder: (context, i) {
                               final data = products[i];
-                              // final data = state.productList?[i];
+
                               return Container(
                                 margin: EdgeInsets.only(bottom: 12.h),
                                 height: 122.h,
@@ -247,7 +247,6 @@ class _ProductScreenState extends State<ProductScreen> {
                                   border: Border.all(color: Color(0XFFF4F5F5)),
                                 ),
                                 child: Column(
-                                  //mainAxisSize:MainAxisSize.min ,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
 

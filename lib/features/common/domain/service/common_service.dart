@@ -8,6 +8,7 @@ import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: CommonRepostories)
@@ -74,18 +75,15 @@ class CommonService implements CommonRepostories {
     }
   }
 
-  @override 
-   Future<ResponseResult<List<PurchaseType>>>purchaseType(){
+  @override
+  Future<ResponseResult<List<PurchaseType>>> purchaseType() {
+    throw UnimplementedError();
+  }
 
-    
-
-
-       throw UnimplementedError();
-   }
-     @override
+  @override
   Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
     required int storeId,
-    required int categoryId
+    required int categoryId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
@@ -103,6 +101,4 @@ class CommonService implements CommonRepostories {
         return ResponseResult(data: []);
     }
   }
-  
-
 }
