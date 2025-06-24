@@ -104,7 +104,7 @@ class UserShiftReportScreen extends StatelessWidget {
                     return CustomMaterialBtton(
                       onPressed: () {
                         context.read<ReportCubit>().loadUserShiftReport(
-                          storeId: state.selectedStore?.storeId,
+                          //storeId: state.selectedStore?.storeId,
                         );
                       },
                       buttonText: 'View Report',

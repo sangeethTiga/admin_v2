@@ -94,10 +94,9 @@ class PurchaseScreen extends StatelessWidget {
                         'assets/icons/Arrow - Right.svg',
                       ),
 
-              
                       onChanged: (p0) {
-                       // context.read<CommonCubit>().selectedPurchase(p0);
-                         context.read<ReportCubit>().changePucrhaeType(p0);
+                        context.read<CommonCubit>().selectedPurchase(p0);
+                        //context.read<ReportCubit>().changePucrhaeType(p0);
                       },
                     );
                   },
@@ -142,7 +141,7 @@ class PurchaseScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadPurchaseReport(
                           storeId: state.selectedStore?.storeId,
-                          purchaseType: state.selectedPurchaseType?.id,
+                      purchaseType: state.selectedPurchaseType?.id,
                         );
                         print(
                           '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',

@@ -13,7 +13,7 @@ class OrdersGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Orders'),
+      appBar: AppbarWidget(title:'Orders'),
       body: Center(
         child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {

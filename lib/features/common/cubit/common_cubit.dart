@@ -99,7 +99,9 @@ class CommonCubit extends Cubit<CommonState> {
     async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.purchaseType();
+      final res = await _commonRepostories.purchaseType(
+        
+      );
 
       print('////all////:${res.data}');
       if (res.data != null) {

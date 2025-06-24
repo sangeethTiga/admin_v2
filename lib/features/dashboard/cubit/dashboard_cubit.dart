@@ -1,5 +1,4 @@
 
-
 import 'package:admin_v2/features/dashboard/domain/models/Ordergraph/orders_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/models/revenueGraph/revenue_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/repositories/dashboard_repositories.dart';
@@ -7,7 +6,6 @@ import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 part 'dashboard_state.dart';
 
 @injectable
