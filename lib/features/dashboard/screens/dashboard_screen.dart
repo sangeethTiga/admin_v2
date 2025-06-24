@@ -72,7 +72,7 @@ class DashboardScreen extends StatelessWidget {
                     future: AuthUtils.instance.readUserData(),
                     builder: (context, asyncSnapshot) {
                       return Column(
-                        spacing: 6.h,
+                        spacing: 5.h,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
