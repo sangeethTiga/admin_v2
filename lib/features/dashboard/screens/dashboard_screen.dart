@@ -345,7 +345,7 @@ class DashboardScreen extends StatelessWidget {
                         onTap: () {
                           switch (data.name) {
                             case 'Product':
-                              context.read<ProductCubit>().product(
+                              context.read<ProductCubit>().priduct(
                                 state.selectedStore?.storeId ?? 0,
                                 0,
                                 '',
