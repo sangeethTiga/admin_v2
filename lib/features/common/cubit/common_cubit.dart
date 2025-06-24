@@ -8,6 +8,7 @@ import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+
 part 'common_state.dart';
 
 @injectable
@@ -67,16 +68,12 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedAccount: store));
   }
 
- Future<void> orderOption(
-  int? storeId,
-  int? appTypeId
- ) async {
+  Future<void> orderOption(int? storeId, int? appTypeId) async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.orderOption(
-        storeId:storeId?? 0,
-        appTypeId:appTypeId ?? 0
-        
+        storeId: storeId ?? 0,
+        appTypeId: appTypeId ?? 0,
       );
       if (res.data != null) {
         emit(
@@ -98,20 +95,21 @@ class CommonCubit extends Cubit<CommonState> {
   }
 
   Future<void> purchaseType({
-     int? id,
-     String? name
-        
-
-  }) async {
+    int? id, String? name}) 
+    async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.purchaseType();
+      final res = await _commonRepostories.purchaseType(
+        
+      );
+
+      print('////all////:${res.data}');
       if (res.data != null) {
         emit(
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
             purchaseType: res.data,
-           selectedPurchaseType: res.data?.first,
+            selectedPurchaseType: res.data?.first,
           ),
         );
       }
@@ -122,21 +120,15 @@ class CommonCubit extends Cubit<CommonState> {
   }
 
   Future<void> selectedPurchase(PurchaseType options) async {
-
-     
     emit(state.copyWith(selectedPurchaseType: options));
   }
-    Future<void> loadSellingProducts(
-    int? storeId,
-    int? categoryId,
-  ) async {
+
+  Future<void> loadSellingProducts(int? storeId, int? categoryId) async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.loadSellingProducts(
-        storeId:storeId?? 0,
-        categoryId: categoryId ?? 0
-     
-        
+        storeId: storeId ?? 0,
+        categoryId: categoryId ?? 0,
       );
       if (res.data != null) {
         emit(
@@ -153,11 +145,7 @@ class CommonCubit extends Cubit<CommonState> {
     }
   }
 
-  
-
   Future<void> selectedProducts(MostSellingResponse products) async {
     emit(state.copyWith(selectedProducts: products));
   }
 }
-
-

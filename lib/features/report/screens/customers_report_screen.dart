@@ -124,7 +124,8 @@ class CustomersReportScreen extends StatelessWidget {
                         onNotification: (ScrollNotification scrollInfo) {
                           if (scrollInfo.metrics.pixels >=
                                   scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isCustomersReport != ApiFetchStatus.loading) {
+                              state.isCustomersReport !=
+                                  ApiFetchStatus.loading) {
                             context.read<ReportCubit>().loadCustomersReport(
                               page: state.currentPage + 1,
                               limit: state.pageSize,
@@ -140,34 +141,34 @@ class CustomersReportScreen extends StatelessWidget {
                               state.isCustomersReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
-                            "Customer ",
+                            "Customer",
                             "E-Mail",
                             "Mobile",
                             "Registration Date",
                             "Order Count",
                             "Purchase Amount(AED)",
                             "Balance(AED)",
-                            "Action",
+                            // "Action",
                           ],
 
-                          columnFlex: [1, 2, 2, 2, 2, 2, 2, 2, 1],
+                          columnFlex: [1, 2, 2, 2, 2, 1, 1, 1],
                           data:
                               state.customersReport?.map((e) {
                                 int index =
                                     state.customersReport?.indexOf(e) ?? 0;
                                 return {
                                   '#': index + 1,
-                                  'Customer Name': e.custName ?? '',
+                                  'Customer': e.custName ?? '',
                                   'E-Mail': e.custEmail ?? '',
                                   'Mobile': e.custMobile ?? '',
                                   'Registration Date':
                                       e.createdDate?.toString() ?? '',
                                   'Order Count': e.orderCount.toString(),
-                                  'Purchase Amount(AED)':
-                                      e.totalPurchaseAmount.toString(),
+                                  'Purchase Amount(AED)': e.totalPurchaseAmount
+                                      .toString(),
                                   'Balance(AED)': e.balanceAmt.toString(),
-                                  'Action':
-                                      'Action', // Placeholder for action button
+                                  // 'Action':
+                                  //     'Action', // Placeholder for action button
                                 };
                               }).toList() ??
                               [],
@@ -184,8 +185,3 @@ class CustomersReportScreen extends StatelessWidget {
     );
   }
 }
- 
-
-    
-                
- 

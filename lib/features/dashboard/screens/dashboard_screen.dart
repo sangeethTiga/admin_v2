@@ -1,8 +1,6 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
-
-
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -289,9 +287,9 @@ class DashboardScreen extends StatelessWidget {
                                 }).toList() ??
                                 [],
                             fillColor: Color(0XFFEFF1F1),
-                            suffixWidget: SvgPicture.asset(
-                              'assets/icons/Arrow - Right.svg',
-                            ),
+                            // suffixWidget: SvgPicture.asset(
+                            //   'assets/icons/Arrow - Right.svg',
+                            // ),
                             onChanged: (p0) {
                               context.read<CommonCubit>().selectedStore(p0);
                             },
@@ -318,9 +316,9 @@ class DashboardScreen extends StatelessWidget {
                               );
                             }).toList(),
                             fillColor: Color(0XFFEFF1F1),
-                            suffixWidget: SvgPicture.asset(
-                              'assets/icons/Arrow - Right.svg',
-                            ),
+                            // suffixWidget: SvgPicture.asset(
+                            //   'assets/icons/Arrow - Right.svg',
+                            // ),
                             onChanged: (p0) {
                               context.read<CommonCubit>().selectedDate(p0);
                             },
@@ -347,7 +345,7 @@ class DashboardScreen extends StatelessWidget {
                         onTap: () {
                           switch (data.name) {
                             case 'Product':
-                              context.read<ProductCubit>().priduct(
+                              context.read<ProductCubit>().product(
                                 state.selectedStore?.storeId ?? 0,
                                 0,
                                 '',
@@ -356,6 +354,7 @@ class DashboardScreen extends StatelessWidget {
                               context.read<ProductCubit>().catgeory(
                                 state.selectedStore?.storeId ?? 0,
                               );
+                              context.read<ProductCubit>().stockStatus();
                               context.push(routeProducts);
                               break;
                             case 'Profit/loss':
@@ -410,11 +409,11 @@ class DashboardScreen extends StatelessWidget {
                               break;
 
                             case 'Purchase':
-                              context.push(routePurchase);
                               context.read<CommonCubit>().purchaseType();
+                              context.push(routePurchase);
 
                               break;
-                             case 'Day Summary':
+                            case 'Day Summary':
                               context.push(routeDaySummary);
                               break;
 

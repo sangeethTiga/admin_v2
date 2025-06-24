@@ -4,10 +4,8 @@ import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
-
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -133,7 +131,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               context.read<ProductCubit>().changeCategory(
                                 selectedCategory!,
                               );
-                              context.read<ProductCubit>().priduct(
+                              context.read<ProductCubit>().product(
                                 common.selectedStore?.storeId ?? 0,
 
                                 selectedCategory.details?.categoryId ?? 0,
@@ -188,7 +186,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         //         ?.details
                         //         ?.categoryId ??
                         //     0;
-                        // context.read<ProductCubit>().priduct(
+                        // context.read<ProductCubit>().product(
                         //   storeId,
                         //   catId,
                         //   mobileScannerController.text,
@@ -222,7 +220,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       ?.storeId ??
                                   0;
 
-                              context.read<ProductCubit>().priduct(
+                              context.read<ProductCubit>().product(
                                 storeId,
                                 0,
                                 '',
@@ -350,6 +348,8 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                               GestureDetector(
                                                 onTap: () {
+                                                 context.read<ProductCubit>().closeButton();
+
                                                   showModalBottomSheet(
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius:
@@ -367,8 +367,9 @@ class _ProductScreenState extends State<ProductScreen> {
                                                     backgroundColor: kWhite,
                                                     context: context,
                                                     isScrollControlled: true,
+                                                    
                                                     builder: (context) {
-                                                      return StockUpdateCard();
+                                                      return StockUpdateCard(currentStock:data.productQty,productId: data.productId ,productVarId: data.isVariant);
                                                     },
                                                   );
                                                 },

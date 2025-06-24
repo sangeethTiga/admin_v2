@@ -26,7 +26,7 @@ import 'package:admin_v2/features/report/domain/repositories/report_repositores.
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/app/list/helper.dart';
-import 'package:admin_v2/shared/constants/asstes.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -510,7 +510,9 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       pageFirstLimit: offset,
       resultPerPage: limit,
-      purchaseType: state.selectedPurchaseType?.id ?? 0,
+      purchaseType: 
+      //purchaseType?? 0
+      state.selectedPurchaseType?.id ?? 0,
     );
     // print('purchase:${res.data}');
 
