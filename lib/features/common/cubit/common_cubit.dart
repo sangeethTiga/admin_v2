@@ -94,14 +94,10 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedOption: options));
   }
 
-  Future<void> purchaseType({
-    int? id, String? name}) 
-    async {
+  Future<void> purchaseType({int? id, String? name}) async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.purchaseType(
-        
-      );
+      final res = await _commonRepostories.purchaseType();
 
       print('////all////:${res.data}');
       if (res.data != null) {

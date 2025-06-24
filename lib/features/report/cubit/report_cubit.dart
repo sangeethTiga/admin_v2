@@ -510,9 +510,9 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       pageFirstLimit: offset,
       resultPerPage: limit,
-      purchaseType: 
-      //purchaseType?? 0
-      state.selectedPurchaseType?.id ?? 0,
+      purchaseType:
+          //purchaseType?? 0
+          state.selectedPurchaseType?.id ?? 0,
     );
     // print('purchase:${res.data}');
 
@@ -547,6 +547,8 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> changePucrhaeType(PurchaseType v) async {
     emit(state.copyWith(selectedPurchaseType: v));
   }
+
+
 
   Future<void> loadTaxReport({
     int? storeId,
