@@ -349,6 +349,7 @@ class DashboardScreen extends StatelessWidget {
                                 state.selectedStore?.storeId ?? 0,
                                 0,
                                 '',
+                                ''
                               );
                               context.read<ProductCubit>().catgeory(
                                 state.selectedStore?.storeId ?? 0,

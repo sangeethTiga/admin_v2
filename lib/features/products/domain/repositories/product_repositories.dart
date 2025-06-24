@@ -9,6 +9,7 @@ abstract class ProductRepositories {
     int? storeId,
     int? catId,
     String? search,
+    String? barCode,
   });
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus();
   Future<ResponseResult<List<ProductResponse>>> stockUpdate({
