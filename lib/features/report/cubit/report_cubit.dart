@@ -254,7 +254,7 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      log('ressssss99-=-=-=-=-=-${res.data}');
+    
       if (res.data != null) {
         final List<DeliveryChargeResponse> fetchedList = res.data!;
 

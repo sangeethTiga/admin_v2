@@ -287,9 +287,9 @@ class DashboardScreen extends StatelessWidget {
                                 }).toList() ??
                                 [],
                             fillColor: Color(0XFFEFF1F1),
-                            suffixWidget: SvgPicture.asset(
-                              'assets/icons/Arrow - Right.svg',
-                            ),
+                            // suffixWidget: SvgPicture.asset(
+                            //   'assets/icons/Arrow - Right.svg',
+                            // ),
                             onChanged: (p0) {
                               context.read<CommonCubit>().selectedStore(p0);
                             },
@@ -316,9 +316,9 @@ class DashboardScreen extends StatelessWidget {
                               );
                             }).toList(),
                             fillColor: Color(0XFFEFF1F1),
-                            suffixWidget: SvgPicture.asset(
-                              'assets/icons/Arrow - Right.svg',
-                            ),
+                            // suffixWidget: SvgPicture.asset(
+                            //   'assets/icons/Arrow - Right.svg',
+                            // ),
                             onChanged: (p0) {
                               context.read<CommonCubit>().selectedDate(p0);
                             },
@@ -345,7 +345,7 @@ class DashboardScreen extends StatelessWidget {
                         onTap: () {
                           switch (data.name) {
                             case 'Product':
-                              context.read<ProductCubit>().priduct(
+                              context.read<ProductCubit>().product(
                                 state.selectedStore?.storeId ?? 0,
                                 0,
                                 '',
@@ -354,6 +354,7 @@ class DashboardScreen extends StatelessWidget {
                               context.read<ProductCubit>().catgeory(
                                 state.selectedStore?.storeId ?? 0,
                               );
+                              context.read<ProductCubit>().stockStatus();
                               context.push(routeProducts);
                               break;
                             case 'Profit/loss':
