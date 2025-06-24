@@ -101,6 +101,16 @@ class _ProductScreenState extends State<ProductScreen> {
                                 state.apiFetchStatus == ApiFetchStatus.loading,
                             hintStyle: FontPalette.hW500S14,
                             labelText: 'Select category',
+                            prefixIcon: Container(
+                              margin: EdgeInsets.only(left: 12.w),
+                              child: SvgPicture.asset(
+                                'assets/icons/package-box-pin-location.svg',
+                                width: 20.w,
+                                height: 20.h,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            borderColor: kBlack,
                             value: state.selectCategory?.details?.categoryId,
                             items:
                                 state.categoryList?.map((e) {
@@ -110,6 +120,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                   );
                                 }).toList() ??
                                 [],
+                            fillColor: const Color(0XFFEFF1F1),
+                            suffixWidget: SvgPicture.asset(
+                              'assets/icons/Arrow - Right.svg',
+                            ),
                             onChanged: (categoryId) {
                               mobileScannerController.clear();
                               final selectedCategory = state.categoryList
@@ -121,7 +135,8 @@ class _ProductScreenState extends State<ProductScreen> {
                               );
                               context.read<ProductCubit>().priduct(
                                 common.selectedStore?.storeId ?? 0,
-                                state.selectCategory?.details?.categoryId ?? 0,
+
+                                selectedCategory.details?.categoryId ?? 0,
                                 '',
                                 '',
                               );
@@ -129,9 +144,6 @@ class _ProductScreenState extends State<ProductScreen> {
                             inputBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
                               borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                            ),
-                            suffixWidget: SvgPicture.asset(
-                              'assets/icons/Arrow - Right.svg',
                             ),
                           );
                         },
