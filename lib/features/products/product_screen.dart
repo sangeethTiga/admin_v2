@@ -117,7 +117,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               context.read<ProductCubit>().changeCategory(
                                 selectedCategory!,
                               );
-                              context.read<ProductCubit>().priduct(
+                              context.read<ProductCubit>().product(
                                 common.selectedStore?.storeId ?? 0,
                                 state.selectCategory?.details?.categoryId ?? 0,
                                 '',
@@ -174,7 +174,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         //         ?.details
                         //         ?.categoryId ??
                         //     0;
-                        // context.read<ProductCubit>().priduct(
+                        // context.read<ProductCubit>().product(
                         //   storeId,
                         //   catId,
                         //   mobileScannerController.text,
@@ -208,7 +208,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       ?.storeId ??
                                   0;
 
-                              context.read<ProductCubit>().priduct(
+                              context.read<ProductCubit>().product(
                                 storeId,
                                 0,
                                 '',

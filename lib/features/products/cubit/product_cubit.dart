@@ -18,7 +18,7 @@ class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
-  Future<void> priduct(
+  Future<void> product(
     int storeId,
     int catId,
     String search,
