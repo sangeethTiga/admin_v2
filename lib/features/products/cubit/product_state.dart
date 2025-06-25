@@ -10,8 +10,8 @@ class ProductState extends Equatable {
   final CategoryResponse? selectCategory;
   final ProductResponse? scannedProduct;
   final List<ProductResponse>? filteredProducts;
-  final double ? totalStock;
-  final StockStatusResponse ? selectedStockResponse;
+  final double? totalStock;
+  final StockStatusResponse? selectedStockResponse;
   final ApiFetchStatus? apiFetchStatus;
   final DateTime ? selectedDate;
 
@@ -40,7 +40,7 @@ class ProductState extends Equatable {
     ProductResponse? selectedProduct,
     ProductResponse? scannedProduct,
     List<ProductResponse>? filteredProducts,
-    double ? totalStock,
+    double? totalStock,
     StockStatusResponse? selectedStockResponse,
     ApiFetchStatus? apiFetchStatus,
     DateTime ? selectedDate,

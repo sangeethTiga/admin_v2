@@ -176,7 +176,6 @@ class ParcelCharge extends StatelessWidget {
                             "#",
                             "Order"
                             "ORDER DATE",
-
                             "PARCEL CHARGE",
                           ],
                           columnFlex: [2, 2, 2, 2],

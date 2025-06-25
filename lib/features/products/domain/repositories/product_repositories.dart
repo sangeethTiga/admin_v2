@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
+import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
@@ -12,6 +13,7 @@ abstract class ProductRepositories {
     String? search,
     String? barCode,
   });
+  Future<ResponseResult<List<EditUpdateResponse>>> updateProduct(EditUpdateResponse req,int? productId);
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus();
   Future<ResponseResult<dynamic>> stockUpdate({
     StockUpdateRequest request,

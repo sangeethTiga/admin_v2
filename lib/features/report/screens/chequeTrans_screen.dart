@@ -90,9 +90,7 @@ class ChequetransScreen extends StatelessWidget {
                               );
                             }).toList() ??
                             [],
-                        suffixWidget: SvgPicture.asset(
-                          'assets/icons/Arrow - Right.svg',
-                        ),
+                       
                         onChanged: (p0) {
                           context.read<ReportCubit>().selectedStatus(p0);
                         },
@@ -138,7 +136,8 @@ class ChequetransScreen extends StatelessWidget {
                                   return false;
                                 },
                                       
-                                child: CommonTableWidget(
+                                child:
+                                 CommonTableWidget(
                                   headers: [
                                     "#",
                                     "CHEQUE NUMBER",
