@@ -208,6 +208,7 @@ class ApiEndpoints {
 
   static String daySummary(int storeId, String toDate) =>
       '/api/day-summary?store_id=$storeId&date=$toDate';
+  static String updateProduct(int productId) => '/api/product/$productId';
 
   static String productOffers(
 

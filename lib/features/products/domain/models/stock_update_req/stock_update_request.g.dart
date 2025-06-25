@@ -18,7 +18,7 @@ _$StockUpdateRequestImpl _$$StockUpdateRequestImplFromJson(
       ? null
       : DateTime.parse(json['updated_date'] as String),
   pricePerUnit: (json['price_per_unit'] as num?)?.toDouble(),
-  totalPrice: (json['total_price'] as num?)?.toInt(),
+  totalPrice: (json['total_price'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$$StockUpdateRequestImplToJson(

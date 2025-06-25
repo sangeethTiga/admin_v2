@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
+import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
@@ -20,7 +21,12 @@ class ProductService implements ProductRepositories {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(
-      ApiEndpoints.proudtcList(storeId ?? 0, catId ?? 0, search ?? '',barCode?? ''),
+      ApiEndpoints.proudtcList(
+        storeId ?? 0,
+        catId ?? 0,
+        search ?? '',
+        barCode ?? '',
+      ),
     );
     switch (res.statusCode) {
       case 200:
@@ -54,7 +60,7 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<List<ProductResponse>>> stockUpdate({
+  Future<ResponseResult<dynamic>> stockUpdate({
     StockUpdateRequest? request,
   }) async {
     final networkProvider = await NetworkProvider.create();
@@ -67,9 +73,7 @@ class ProductService implements ProductRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<ProductResponse>.from(
-            res.data.map((e) => ProductResponse.fromJson(e)),
-          ).toList(),
+          data: res.  data
         );
       default:
         return ResponseResult(data: []);
@@ -89,6 +93,27 @@ class ProductService implements ProductRepositories {
             res.data.map((e) => CategoryResponse.fromJson(e)),
           ).toList(),
         );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<EditUpdateResponse>>> updateProduct(
+  
+    EditUpdateResponse? request,
+      int? productId,
+  ) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.put(
+      ApiEndpoints.updateProduct(productId!),
+      data: request?.toJson(),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return  ResponseResult(data: []);
+
       default:
         return ResponseResult(data: []);
     }

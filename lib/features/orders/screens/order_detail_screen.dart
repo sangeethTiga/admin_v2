@@ -1,7 +1,7 @@
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-import 'package:admin_v2/shared/app/list/helper.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';

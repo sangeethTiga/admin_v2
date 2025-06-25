@@ -25,7 +25,7 @@ import 'package:admin_v2/features/report/domain/repositories/report_repositores.
 
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
-import 'package:admin_v2/shared/app/list/helper.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

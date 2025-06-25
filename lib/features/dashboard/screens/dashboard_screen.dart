@@ -7,7 +7,7 @@ import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
-import 'package:admin_v2/shared/app/list/helper.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -29,7 +29,7 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: kPrimaryColor,
-        toolbarHeight: 30.h,
+        toolbarHeight: 40.h,
         iconTheme: IconThemeData(color: kWhite),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(30.h),
