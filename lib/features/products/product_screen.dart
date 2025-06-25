@@ -5,6 +5,7 @@ import 'package:admin_v2/features/common/domain/models/store/store_response.dart
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
+import 'package:admin_v2/features/products/widgets/variant_stock_update.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -348,30 +349,65 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                               GestureDetector(
                                                 onTap: () {
-                                                 context.read<ProductCubit>().closeButton();
+                                                  context
+                                                      .read<ProductCubit>()
+                                                      .closeButton();
+                                                  if (data.isVariant == 1 &&
+                                                      data.maintainStock == 1) {
+                                                        context.read<ProductCubit>().getVariants(data.productId!);
+                                                    showModalBottomSheet(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                              topLeft:
+                                                                  Radius.circular(
+                                                                    12.r,
+                                                                  ),
+                                                              topRight:
+                                                                  Radius.circular(
+                                                                    12.r,
+                                                                  ),
+                                                            ),
+                                                      ),
+                                                      backgroundColor: kWhite,
+                                                      context: context,
+                                                      isScrollControlled: true,
 
-                                                  showModalBottomSheet(
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                  12.r,
-                                                                ),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                  12.r,
-                                                                ),
-                                                          ),
-                                                    ),
-                                                    backgroundColor: kWhite,
-                                                    context: context,
-                                                    isScrollControlled: true,
-                                                    
-                                                    builder: (context) {
-                                                      return StockUpdateCard(currentStock:data.productQty,productId: data.productId ,maintainStock: data.maintainStock,);
-                                                    },
-                                                  );
+                                                      builder: (context) {
+                                                        return VariantStockUpdateCard();
+                                                      },
+                                                    );
+                                                  } else {
+                                                    showModalBottomSheet(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                              topLeft:
+                                                                  Radius.circular(
+                                                                    12.r,
+                                                                  ),
+                                                              topRight:
+                                                                  Radius.circular(
+                                                                    12.r,
+                                                                  ),
+                                                            ),
+                                                      ),
+                                                      backgroundColor: kWhite,
+                                                      context: context,
+                                                      isScrollControlled: true,
+
+                                                      builder: (context) {
+                                                        return StockUpdateCard(
+                                                          currentStock:
+                                                              data.productQty,
+                                                          productId:
+                                                              data.productId,
+                                                          maintainStock: data
+                                                              .maintainStock,
+                                                        );
+                                                      },
+                                                    );
+                                                  }
                                                 },
                                                 child: Container(
                                                   alignment: Alignment.center,

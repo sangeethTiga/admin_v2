@@ -2,6 +2,7 @@ import 'package:admin_v2/features/products/domain/models/category/category_respo
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
+import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
@@ -91,4 +92,22 @@ class ProductService implements ProductRepositories {
         return ResponseResult(data: []);
     }
   }
-}
+
+  @override
+  Future<ResponseResult<List<VariantsResponse>>> getVariant(int productId) async{
+    final networkProvider = await NetworkProvider.create();
+    final res=await networkProvider.get(ApiEndpoints.getVariant(productId));
+    switch(res.statusCode){
+      case 200:
+      case 201:
+      return ResponseResult(data: List<VariantsResponse>.from(
+        res.data.map((e) => VariantsResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  }
+

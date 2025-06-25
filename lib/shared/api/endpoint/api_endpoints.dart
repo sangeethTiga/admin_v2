@@ -221,4 +221,7 @@ class ApiEndpoints {
 
   ) =>
       '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=$search&page_first_result=0&result_per_page=50';
+
+
+  static String getVariant(int productId)=>'/api/product_variantdetail/$productId';   
 }
