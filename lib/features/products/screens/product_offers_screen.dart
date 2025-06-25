@@ -1,4 +1,10 @@
+import 'package:admin_v2/features/common/cubit/common_cubit.dart';
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
+import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -35,26 +41,45 @@ class ProductOffersScreen extends StatelessWidget {
           MainPadding(
             child: Column(
               children: [
-                DropDownFieldWidget(
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.only(
-                      left: 12.h,
-                      top: 12.w,
-                      bottom: 6.h,
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/package-box-pin-location.svg',
-                      height: 20.h,
-                      width: 20.w,
-                    ),
-                  ),
-                  borderColor: kBlack,
-                  items: [],
-                  fillColor: Color(0XFFEFF1F1),
-                  // suffixIcon: SvgPicture.asset(
-                  //   'assets/icons/Arrow - Right.svg',
-                  // ),
-                  hintText: 'Demo store',
+                BlocBuilder<CommonCubit, CommonState>(
+                  builder: (context, state) {
+                    return DropDownFieldWidget(
+                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                      prefixIcon: Container(
+                        margin: EdgeInsets.only(left: 12.w),
+                        child: SvgPicture.asset(
+                          'assets/icons/package-box-pin-location.svg',
+                          width: 20.w,
+                          height: 20.h,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      borderColor: kBlack,
+                      value: state.selectedStore,
+                      items:
+                          state.storeList?.map((e) {
+                            return DropdownMenuItem<StoreResponse>(
+                              value: e,
+                              child: Text(e.storeName ?? ''),
+                            );
+                          }).toList() ??
+                          [],
+                      fillColor: const Color(0XFFEFF1F1),
+
+                      onChanged: (p0) {
+                        context.read<CommonCubit>().selectedStore(p0);
+                        context.read<OrderCubit>().orders(
+                          req: OrderRequest(
+                            storeId: state.selectedStore?.storeId,
+                            fromDate: parsedDate(DateTime.now()),
+                            toDate: parsedDate(DateTime.now()),
+                          ),
+                        );
+                      },
+
+                      labelText: '',
+                    );
+                  },
                 ),
                 14.verticalSpace,
                 Row(
@@ -110,6 +135,7 @@ class ProductOffersScreen extends StatelessWidget {
                         shrinkWrap: true,
 
                         itemBuilder: (context, i) {
+                          final offer = state.productOffers;
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

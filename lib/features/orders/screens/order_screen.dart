@@ -111,7 +111,8 @@ class OrderScreen extends StatelessWidget {
                       10.verticalSpace,
                       BlocBuilder<CommonCubit, CommonState>(
                         builder: (context, state) {
-                          return DropDownFieldWidget(
+                          return
+                           DropDownFieldWidget(
                             isLoading:
                                 state.apiFetchStatus == ApiFetchStatus.loading,
                             prefixIcon: Container(
