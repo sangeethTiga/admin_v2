@@ -23,6 +23,8 @@ class ProductResponse with _$ProductResponse {
     @JsonKey(name: "images") List<Image>? images,
     @JsonKey(name: "product_unit_id") int? productUnitId,
     @JsonKey(name: "product_unit_name") String? productUnitName,
+    @JsonKey(name: "separate_variant_stock") int? separateVariantStock,
+
   }) = _ProductResponse;
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>

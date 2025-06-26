@@ -5,6 +5,7 @@ import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_up
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
+import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:bloc/bloc.dart';
@@ -155,5 +156,19 @@ class ProductCubit extends Cubit<ProductState> {
 
   Future<void>dateSelection(DateTime selectedDate)async{
     emit(state.copyWith(selectedDate: selectedDate));
+  }
+
+  Future<void>getVariants(int productId)async{
+
+    
+
+      try {
+      final variants= await _productRepositories.getVariant(productId);
+      if (variants.data != null) {
+        emit(state.copyWith(variantList: variants.data));
+      }
+    } catch (e) {
+      log('getVariants------$e');
+    }
   }
 }

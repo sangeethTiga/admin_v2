@@ -254,57 +254,58 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                 10.horizontalSpace,
                 Expanded(
                   child: BlocListener<ProductCubit, ProductState>(
-                    listenWhen: (previous, current) => previous.isProduct!=current.isProduct,
+                    listenWhen: (previous, current) =>
+                        previous.isProduct != current.isProduct,
                     listener: (context, state) async {
-  final storeId = context.read<CommonCubit>().state.selectedStore?.storeId ?? 0;
-  
+                      final storeId =
+                          context
+                              .read<CommonCubit>()
+                              .state
+                              .selectedStore
+                              ?.storeId ??
+                          0;
 
-  if(totalStockController.text.isEmpty){
-      CherryToast.error(
-        title: Text('Enter stock quantity',),
-        displayIcon: true,
-        
-        
-        displayCloseButton: false,
-        animationType: AnimationType.fromTop,
-      ).show(context);
-      return;
+                      if (state.isProduct == ApiFetchStatus.success) {
+                        CherryToast.success(
+                          title: Text('Stock updated successfully'),
+                          displayIcon: true,
+                          animationType: AnimationType.fromTop,
+                          displayCloseButton: false,
+                        ).show(context);
+                        context.read<ProductCubit>().product(
+                          storeId,
+                          0,
+                          '',
+                          '',
+                        );
 
+                        Navigator.pop(context);
+                      }
 
-  }
-  if (state.isProduct == ApiFetchStatus.success) {
+                      if (state.isProduct == ApiFetchStatus.failed) {
+                        CherryToast.error(
+                          title: Text('Stock update failed'),
+                          displayIcon: true,
 
-      CherryToast.success(
-        title: Text('Stock updated successfully'),
-        displayIcon: true,
-        animationType: AnimationType.fromTop,
-        displayCloseButton: false,
-
-      ).show(context);
-      context.read<ProductCubit>().product(storeId, 0, '', '');
-
-    Navigator.pop(context); 
-  }
-
-  if (state.isProduct == ApiFetchStatus.failed) {
-    
-        CherryToast.error(
-        title: Text('Stock update failed',),
-        displayIcon: true,
-        
-        
-        displayCloseButton: false,
-        animationType: AnimationType.fromTop,
-      ).show(context);
-      
-  }
-
-},
+                          displayCloseButton: false,
+                          animationType: AnimationType.fromTop,
+                        ).show(context);
+                      }
+                    },
 
                     child: CustomMaterialBtton(
                       onPressed: () async {
+                        if (totalStockController.text.isEmpty) {
+                          CherryToast.error(
+                            title: Text('Enter stock quantity'),
+                            displayIcon: true,
+
+                            displayCloseButton: false,
+                            animationType: AnimationType.fromTop,
+                          ).show(context);
+                          return;
+                        }
                         final cubit = context.read<ProductCubit>();
-                       
 
                         await cubit.stockUpdate(
                           StockUpdateRequest(
@@ -338,7 +339,6 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                                 getCurrentDate(),
                           ),
                         );
-
                       },
                       buttonText: 'Submit',
                     ),
