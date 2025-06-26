@@ -211,15 +211,14 @@ class ApiEndpoints {
   static String updateProduct(int productId) => '/api/product/$productId';
 
   static String productOffers(
-
-     String fromDate,
-     String toDate,
-     int storeId,
+    String fromDate,
+    String toDate,
+    int storeId,
     int pageFirstResult,
-     int resultPerPage,
-     String search,
-
-
+    int resultPerPage,
+    String search,
   ) =>
-      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=$search&page_first_result=0&result_per_page=50';
+      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=20&searchText=$search&page_first_result=0&result_per_page=50';
+
+  static String offerTYpe() => '/api/offer_type';
 }

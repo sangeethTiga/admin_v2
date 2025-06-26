@@ -8,6 +8,7 @@ import 'package:admin_v2/features/report/domain/models/expense/expense_report_re
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
+import 'package:admin_v2/features/report/domain/models/offer_type/offertype_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
@@ -194,11 +195,13 @@ abstract class ReportRepositories {
   });
 
   Future<ResponseResult<List<ProductOffersResponse>>> loadProductOffers({
-      required  String fromDate,
-     required String toDate,
-     required int storeId,
-     required int pageFirstResult,
-     required int resultPerPage,
+    required String fromDate,
+    required String toDate,
+    required int storeId,
+    required int pageFirstResult,
+    required int resultPerPage,
     required String search,
   });
+
+  Future<ResponseResult<List<OffertypeResponse>>> loadOfferType();
 }
