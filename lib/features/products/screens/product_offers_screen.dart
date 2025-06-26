@@ -1,9 +1,11 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
-import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
-import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+<<<<<<< HEAD
+//import 'package:admin_v2/shared/app/list/helper.dart';
+=======
+>>>>>>> a8285ea7d97cf6f2bcfd3e4305be058a625bd6d4
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
@@ -17,10 +19,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductOffersScreen extends StatelessWidget {
   const ProductOffersScreen({super.key});
+  String formatDate(DateTime date) {
+    return DateFormat('dd-MMM-yyyy').format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +74,14 @@ class ProductOffersScreen extends StatelessWidget {
 
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedStore(p0);
-                        context.read<OrderCubit>().orders(
-                          req: OrderRequest(
-                            storeId: state.selectedStore?.storeId,
-                            fromDate: parsedDate(DateTime.now()),
-                            toDate: parsedDate(DateTime.now()),
-                          ),
-                        );
+                        context.read<ReportCubit>().loadProductOffers();
+                        // context.read<OrderCubit>().orders(
+                        //   req: OrderRequest(
+                        //     storeId: state.selectedStore?.storeId,
+                        //     fromDate: parsedDate(DateTime.now()),
+                        //     toDate: parsedDate(DateTime.now()),
+                        //   ),
+                        // );
                       },
 
                       labelText: '',
@@ -82,25 +89,55 @@ class ProductOffersScreen extends StatelessWidget {
                   },
                 ),
                 14.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: DatePickerContainer(
-                        hintText: 'Pls',
-                        changeDate: () {},
-                      ),
-                    ),
-                    12.horizontalSpace,
-                    Expanded(
-                      child: DatePickerContainer(
-                        hintText: 'Pls',
-                        changeDate: () {},
-                      ),
-                    ),
-                  ],
+                BlocBuilder<ReportCubit, ReportState>(
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: DatePickerContainer(
+                            firstDate: state.fromDate ?? DateTime.now(),
+                            hintText: '',
+                            changeDate: (DateTime pickedDate) {
+                              context.read<ReportCubit>().changeFromDate(
+                                pickedDate,
+                              );
+                            },
+                          ),
+                        ),
+                        12.horizontalSpace,
+                        Expanded(
+                          child: DatePickerContainer(
+                            hintText: '',
+                            changeDate: (DateTime pickedDate) {
+                              context.read<ReportCubit>().changeToDate(
+                                pickedDate,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 12.verticalSpace,
                 TextFeildWidget(
+                  onChanged: (value) {
+                    final offers = context.read<ReportCubit>();
+                    final productOffers = offers.state.productOffers ?? [];
+                    if (value!.isEmpty) {
+                      offers.state.copyWith(filteredProducts: productOffers);
+                    } else {
+                      final filtered = productOffers.where((product) {
+                        return product.productName?.toLowerCase().contains(
+                              value.toLowerCase(),
+                            ) ??
+                            false;
+                      }).toList();
+                      offers.emit(
+                        offers.state.copyWith(filteredProducts: filtered),
+                      );
+                    }
+                  },
                   borderColor: kBlack,
                   hight: 48.h,
                   fillColor: kWhite,
@@ -123,7 +160,7 @@ class ProductOffersScreen extends StatelessWidget {
                   builder: (context, state) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 12.h),
-                      height: 235.h,
+                      height: 485.h,
                       width: 351.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),
@@ -135,7 +172,7 @@ class ProductOffersScreen extends StatelessWidget {
                         shrinkWrap: true,
 
                         itemBuilder: (context, i) {
-                          final offer = state.productOffers;
+                          final offer = state.productOffers?[i];
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -149,7 +186,7 @@ class ProductOffersScreen extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      (''),
+                                      (offer?.productName ?? ''),
                                       style: FontPalette.hW700S13.copyWith(
                                         color: kBlack,
                                       ),
@@ -169,23 +206,46 @@ class ProductOffersScreen extends StatelessWidget {
 
                               dividerWidget(color: kLightBorderColor),
                               10.verticalSpace,
-                              rowWidget(name: 'Offer', status: "Big deals"),
+                              rowWidget(
+                                name: 'Offer',
+                                status: offer?.offerTypeName ?? '',
+                              ),
                               8.verticalSpace,
-                              rowWidget(name: 'Offer price', status: 'AED 123'),
+                              rowWidget(
+                                name: 'Offer price',
+                                status:
+                                    offer?.offerPrice?.toStringAsFixed(2) ??
+                                    '0.00',
+                              ),
                               8.verticalSpace,
-                              rowWidget(name: 'Discount', status: "10%"),
+                              rowWidget(
+                                name: 'Discount',
+                                status:
+                                    offer?.offerPricePercentage?.toString() ??
+                                    '0',
+                              ),
                               8.verticalSpace,
 
                               rowWidget(
                                 name: 'From date',
-                                status: "23-mar-2025",
+                                status: offer?.offerFromDate != null
+                                    ? formatDate(offer!.offerFromDate!)
+                                    : '',
                               ),
                               8.verticalSpace,
 
-                              rowWidget(name: 'To date', status: "28-mar 2025"),
+                              rowWidget(
+                                name: 'To date',
+                                status: offer?.offerToDate != null
+                                    ? formatDate(offer!.offerToDate!)
+                                    : '',
+                              ),
                               5.verticalSpace,
 
-                              rowWidget(name: 'Status', status: "Paid"),
+                              rowWidget(
+                                name: 'Status',
+                                status: offer?.offerStatus ?? '',
+                              ),
                             ],
                           );
                         },
@@ -236,25 +296,25 @@ class ShimmerWidget extends StatelessWidget {
   }
 }
 
-Widget _shimmerExpenseList() {
-  return ListView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: 8,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ShimmerWidget.rectangular(width: 200.w, height: 25.h),
-            ShimmerWidget.rectangular(width: 60.w, height: 25.h),
-          ],
-        ),
-      );
-    },
-  );
-}
+// Widget _shimmerExpenseList() {
+//   return ListView.builder(
+//     shrinkWrap: true,
+//     physics: const NeverScrollableScrollPhysics(),
+//     itemCount: 8,
+//     itemBuilder: (context, index) {
+//       return Padding(
+//         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             ShimmerWidget.rectangular(width: 200.w, height: 25.h),
+//             ShimmerWidget.rectangular(width: 60.w, height: 25.h),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
 
 Widget rowWidget({String? name, String? status}) {
   return MainPadding(
