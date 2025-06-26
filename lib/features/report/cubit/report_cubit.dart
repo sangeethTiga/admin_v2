@@ -9,6 +9,7 @@ import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
+import 'package:admin_v2/features/report/domain/models/offer_type/offertype_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
@@ -862,7 +863,7 @@ class ReportCubit extends Cubit<ReportState> {
       search: search ?? '',
     );
 
-    log('Response data: ${res.data}');
+    log('/////Response data////: ${res.data}');
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
       final List<ProductOffersResponse> fetchedList = rawList.map((element) {

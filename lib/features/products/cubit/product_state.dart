@@ -6,6 +6,7 @@ class ProductState extends Equatable {
   final ProductResponse? selectedProduct;
   final List<StockStatusResponse>? stockStatusList;
   final List<CategoryResponse>? categoryList;
+  final List<VariantsResponse>? variantList;
   final CategoryResponse? selectCategory;
   final ProductResponse? scannedProduct;
   final List<ProductResponse>? filteredProducts;
@@ -28,7 +29,8 @@ class ProductState extends Equatable {
     this.totalStock,
     this.selectedStockResponse,
     this.selectedDate,
-    this.updateData
+    this.updateData,
+    this.variantList,
   });
 
   ProductState copyWith({
@@ -43,8 +45,8 @@ class ProductState extends Equatable {
     double? totalStock,
     StockStatusResponse? selectedStockResponse,
     ApiFetchStatus? apiFetchStatus,
-    DateTime? selectedDate,
-    EditUpdateResponse? updateData
+    DateTime ? selectedDate,
+     List<VariantsResponse>? variantList,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -54,11 +56,11 @@ class ProductState extends Equatable {
     selectedProduct: selectedProduct ?? this.selectedProduct,
     scannedProduct: scannedProduct ?? this.scannedProduct,
     filteredProducts: filteredProducts ?? this.filteredProducts,
-    apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
-    totalStock: totalStock ?? this.totalStock,
-    selectedStockResponse: selectedStockResponse ?? this.selectedStockResponse,
-    selectedDate: selectedDate ?? this.selectedDate,
-    updateData: updateData ?? this.updateData
+    apiFetchStatus: apiFetchStatus ??this.apiFetchStatus,
+    totalStock: totalStock??this.totalStock,
+    selectedStockResponse: selectedStockResponse??this.selectedStockResponse,
+    selectedDate: selectedDate??this.selectedDate,
+    variantList: variantList??this.variantList,
   );
 
   @override
@@ -75,8 +77,7 @@ class ProductState extends Equatable {
     totalStock,
     selectedStockResponse,
     selectedDate,
-    updateData
-
+    variantList,
   ];
 }
 

@@ -46,6 +46,7 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isMessReport;
   final List<ProductOffersResponse>? productOffers;
   final ApiFetchStatus? isProductOffers;
+  final List<ProductOffersResponse>? filteredProducts;
   final List<SuppliersResponse>? suppliersReport;
   final ApiFetchStatus? isSupplierReport;
   final PurchaseType? selectedPurchaseType;
@@ -58,6 +59,8 @@ class ReportState extends Equatable {
   final List<BillTypeDetail>? billTypeDetail;
   final List<DeliveryPartner>? deliveryPartner;
   final List<PurchaseType>? purchaseType;
+  final List<OffertypeResponse>? offerType;
+  final ApiFetchStatus? isOfferType;
 
   const ReportState({
     this.salesReport,
@@ -115,9 +118,12 @@ class ReportState extends Equatable {
     this.billTypeDetail,
     this.deliveryPartner,
     this.purchaseType,
+    this.filteredProducts,
 
     //       this.purchaseType,
     this.selectedPurchaseType,
+    this.offerType,
+    this.isOfferType
   });
 
   ReportState copyWith({
@@ -151,6 +157,7 @@ class ReportState extends Equatable {
     List<PurchaseResponse>? purchaseReport,
     ApiFetchStatus? isPurchaseReport,
     ApiFetchStatus? isOffersReport,
+
     ApiFetchStatus? isOfferTypeList,
     List<OffersResponse>? offerReport,
     List<SaleOnDeals>? salesDealsReport,
@@ -165,6 +172,7 @@ class ReportState extends Equatable {
     ApiFetchStatus? isMessReport,
     List<ProductOffersResponse>? productOffers,
     ApiFetchStatus? isProductOffers,
+    List<ProductOffersResponse>? filteredProducts,
     List<SuppliersResponse>? suppliersReport,
     ApiFetchStatus? isSupplierReport,
     List<ProductsResponse>? productsReport,
@@ -178,6 +186,8 @@ class ReportState extends Equatable {
     List<BillTypeDetail>? billTypeDetail,
     List<DeliveryPartner>? deliveryPartner,
     List<PurchaseType>? purchaseType,
+    List<OffertypeResponse>? offerType,
+   ApiFetchStatus? isOfferType
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -225,6 +235,7 @@ class ReportState extends Equatable {
       isMessReport: isMessReport ?? this.isMessReport,
       productOffers: productOffers ?? this.productOffers,
       isProductOffers: isProductOffers ?? this.isProductOffers,
+      filteredProducts: filteredProducts ?? this.filteredProducts,
       isSupplierReport: isSupplierReport ?? this.isSupplierReport,
       suppliersReport: suppliersReport ?? this.suppliersReport,
       //   purchaseType: purchaseType ?? this.purchaseType,
@@ -239,6 +250,9 @@ class ReportState extends Equatable {
       billTypeDetail: billTypeDetail ?? this.billTypeDetail,
       deliveryPartner: deliveryPartner ?? this.deliveryPartner,
       purchaseType: purchaseType ?? this.purchaseType,
+      offerType: offerType ?? this.offerType,
+      
+  isOfferType: isOfferType?? this.isOfferType
     );
   }
 
@@ -298,6 +312,9 @@ class ReportState extends Equatable {
     billTypeDetail,
     deliveryPartner,
     purchaseType,
+    filteredProducts,
+    offerType,
+    isOfferType
   ];
 }
 

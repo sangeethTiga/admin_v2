@@ -202,6 +202,7 @@ class DashboardScreen extends StatelessWidget {
                       leading: Icon(Icons.shopify_outlined),
                       title: Text('Product offers'),
                       onTap: () {
+                        context.read<ReportCubit>().loadProductOffers();
                         context.push(routeProductOffers);
                       },
                     ),

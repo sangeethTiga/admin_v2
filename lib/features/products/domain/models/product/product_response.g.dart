@@ -28,6 +28,7 @@ _$ProductResponseImpl _$$ProductResponseImplFromJson(
       .toList(),
   productUnitId: (json['product_unit_id'] as num?)?.toInt(),
   productUnitName: json['product_unit_name'] as String?,
+  separateVariantStock: (json['separate_variant_stock'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$$ProductResponseImplToJson(
@@ -50,6 +51,7 @@ Map<String, dynamic> _$$ProductResponseImplToJson(
   'images': instance.images,
   'product_unit_id': instance.productUnitId,
   'product_unit_name': instance.productUnitName,
+  'separate_variant_stock': instance.separateVariantStock,
 };
 
 _$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(

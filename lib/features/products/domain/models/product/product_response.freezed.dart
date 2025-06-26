@@ -55,6 +55,8 @@ mixin _$ProductResponse {
   int? get productUnitId => throw _privateConstructorUsedError;
   @JsonKey(name: "product_unit_name")
   String? get productUnitName => throw _privateConstructorUsedError;
+  @JsonKey(name: "separate_variant_stock")
+  int? get separateVariantStock => throw _privateConstructorUsedError;
 
   /// Serializes this ProductResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -91,6 +93,7 @@ abstract class $ProductResponseCopyWith<$Res> {
     @JsonKey(name: "images") List<Image>? images,
     @JsonKey(name: "product_unit_id") int? productUnitId,
     @JsonKey(name: "product_unit_name") String? productUnitName,
+    @JsonKey(name: "separate_variant_stock") int? separateVariantStock,
   });
 }
 
@@ -126,6 +129,7 @@ class _$ProductResponseCopyWithImpl<$Res, $Val extends ProductResponse>
     Object? images = freezed,
     Object? productUnitId = freezed,
     Object? productUnitName = freezed,
+    Object? separateVariantStock = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -197,6 +201,10 @@ class _$ProductResponseCopyWithImpl<$Res, $Val extends ProductResponse>
                 ? _value.productUnitName
                 : productUnitName // ignore: cast_nullable_to_non_nullable
                       as String?,
+            separateVariantStock: freezed == separateVariantStock
+                ? _value.separateVariantStock
+                : separateVariantStock // ignore: cast_nullable_to_non_nullable
+                      as int?,
           )
           as $Val,
     );
@@ -230,6 +238,7 @@ abstract class _$$ProductResponseImplCopyWith<$Res>
     @JsonKey(name: "images") List<Image>? images,
     @JsonKey(name: "product_unit_id") int? productUnitId,
     @JsonKey(name: "product_unit_name") String? productUnitName,
+    @JsonKey(name: "separate_variant_stock") int? separateVariantStock,
   });
 }
 
@@ -264,6 +273,7 @@ class __$$ProductResponseImplCopyWithImpl<$Res>
     Object? images = freezed,
     Object? productUnitId = freezed,
     Object? productUnitName = freezed,
+    Object? separateVariantStock = freezed,
   }) {
     return _then(
       _$ProductResponseImpl(
@@ -335,6 +345,10 @@ class __$$ProductResponseImplCopyWithImpl<$Res>
             ? _value.productUnitName
             : productUnitName // ignore: cast_nullable_to_non_nullable
                   as String?,
+        separateVariantStock: freezed == separateVariantStock
+            ? _value.separateVariantStock
+            : separateVariantStock // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }
@@ -361,6 +375,7 @@ class _$ProductResponseImpl implements _ProductResponse {
     @JsonKey(name: "images") final List<Image>? images,
     @JsonKey(name: "product_unit_id") this.productUnitId,
     @JsonKey(name: "product_unit_name") this.productUnitName,
+    @JsonKey(name: "separate_variant_stock") this.separateVariantStock,
   }) : _images = images;
 
   factory _$ProductResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -425,10 +440,14 @@ class _$ProductResponseImpl implements _ProductResponse {
   @override
   @JsonKey(name: "product_unit_name")
   final String? productUnitName;
+  @override
+  @JsonKey(name: "separate_variant_stock")
+  final int? separateVariantStock;
 
   @override
   String toString() {
     return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, productHidden: $productHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName)';
+    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, isHidden: $isHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName, separateVariantStock: $separateVariantStock)';
   }
 
   @override
@@ -466,7 +485,9 @@ class _$ProductResponseImpl implements _ProductResponse {
             (identical(other.productUnitId, productUnitId) ||
                 other.productUnitId == productUnitId) &&
             (identical(other.productUnitName, productUnitName) ||
-                other.productUnitName == productUnitName));
+                other.productUnitName == productUnitName) &&
+            (identical(other.separateVariantStock, separateVariantStock) ||
+                other.separateVariantStock == separateVariantStock));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -490,6 +511,7 @@ class _$ProductResponseImpl implements _ProductResponse {
     const DeepCollectionEquality().hash(_images),
     productUnitId,
     productUnitName,
+    separateVariantStock,
   );
 
   /// Create a copy of ProductResponse
@@ -528,6 +550,7 @@ abstract class _ProductResponse implements ProductResponse {
     @JsonKey(name: "images") final List<Image>? images,
     @JsonKey(name: "product_unit_id") final int? productUnitId,
     @JsonKey(name: "product_unit_name") final String? productUnitName,
+    @JsonKey(name: "separate_variant_stock") final int? separateVariantStock,
   }) = _$ProductResponseImpl;
 
   factory _ProductResponse.fromJson(Map<String, dynamic> json) =
@@ -584,6 +607,9 @@ abstract class _ProductResponse implements ProductResponse {
   @override
   @JsonKey(name: "product_unit_name")
   String? get productUnitName;
+  @override
+  @JsonKey(name: "separate_variant_stock")
+  int? get separateVariantStock;
 
   /// Create a copy of ProductResponse
   /// with the given fields replaced by the non-null parameter values.
