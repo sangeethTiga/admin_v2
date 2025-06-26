@@ -1,11 +1,9 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/features/report/widgets/create_offer.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-<<<<<<< HEAD
 //import 'package:admin_v2/shared/app/list/helper.dart';
-=======
->>>>>>> a8285ea7d97cf6f2bcfd3e4305be058a625bd6d4
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
@@ -19,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -26,7 +25,8 @@ class ProductOffersScreen extends StatelessWidget {
   const ProductOffersScreen({super.key});
   String formatDate(DateTime date) {
     return DateFormat('dd-MMM-yyyy').format(date);
-  }
+  } 
+  
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,11 @@ class ProductOffersScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(50.r),
         ),
         backgroundColor: kPrimaryColor,
-        onPressed: () {},
+        onPressed: () {
+          
+ 
+      // context.push(CreateOffer);
+        },
         child: Icon(Icons.add, color: kWhite, size: 25.h),
       ),
       appBar: AppbarWidget(title: 'Product Offers'),
