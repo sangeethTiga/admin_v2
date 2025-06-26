@@ -3,7 +3,6 @@ import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-import 'package:admin_v2/shared/app/extension/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
