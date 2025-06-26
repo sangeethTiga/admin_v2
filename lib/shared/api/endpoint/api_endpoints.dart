@@ -163,15 +163,7 @@ class ApiEndpoints {
   ) =>
       '/api/cheque-tracks?store_id=$storeId&status=$status&searchtext=$searchText&from_cheque_issue_date=$fromChequeIssueDate&to_cheque_issue_date=$toChequeIssueDate&from_cheque_date=$fromChequeDate&to_cheque_date=$toChequeDate';
 
-  static String chequeStatus(
-    int storeId,
-    String status,
-
-    String fromChequeIssueDate,
-    String toChequeIssueDate,
-    String fromChequeDate,
-    String toChequeDate,
-  ) => '/api/cheque-statuses';
+  static String chequeStatus() => '/api/cheque-statuses';
 
   static String messReport(
     int pageFirstResult,
@@ -208,18 +200,15 @@ class ApiEndpoints {
 
   static String daySummary(int storeId, String toDate) =>
       '/api/day-summary?store_id=$storeId&date=$toDate';
-  static String updateProduct(int productId) => '/api/product/$productId';
+  static String updateProduct(int productId) => '/api/mobapp_productupdate/$productId';
 
   static String productOffers(
-
-     String fromDate,
-     String toDate,
-     int storeId,
+    String fromDate,
+    String toDate,
+    int storeId,
     int pageFirstResult,
-     int resultPerPage,
-     String search,
-
-
+    int resultPerPage,
+    String search,
   ) =>
       '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=$search&page_first_result=0&result_per_page=50';
 }

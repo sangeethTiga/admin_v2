@@ -23,16 +23,20 @@ EditUpdateResponse _$EditUpdateResponseFromJson(Map<String, dynamic> json) {
 mixin _$EditUpdateResponse {
   @JsonKey(name: "product_name")
   String? get productName => throw _privateConstructorUsedError;
-  @JsonKey(name: "min_order_qty")
-  int? get minOrderQuantity => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_type_id")
-  int? get proTypeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "product_qty")
+  int? get productQuantity => throw _privateConstructorUsedError;
   @JsonKey(name: "product_price")
   double? get productPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_date")
   DateTime? get updatedDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "price_per_unit")
-  double? get pricePerUnit => throw _privateConstructorUsedError;
+  @JsonKey(name: "store_id")
+  int? get storeId => throw _privateConstructorUsedError;
+  @JsonKey(name: "product_id")
+  int? get productId => throw _privateConstructorUsedError;
+  @JsonKey(name: "maintain_stock")
+  int? get maintainStock => throw _privateConstructorUsedError;
+  @JsonKey(name: "product_hidden")
+  int? get productHidden => throw _privateConstructorUsedError;
 
   /// Serializes this EditUpdateResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,11 +57,13 @@ abstract class $EditUpdateResponseCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "product_name") String? productName,
-    @JsonKey(name: "min_order_qty") int? minOrderQuantity,
-    @JsonKey(name: "prod_type_id") int? proTypeId,
+    @JsonKey(name: "product_qty") int? productQuantity,
     @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
-    @JsonKey(name: "price_per_unit") double? pricePerUnit,
+    @JsonKey(name: "store_id") int? storeId,
+    @JsonKey(name: "product_id") int? productId,
+    @JsonKey(name: "maintain_stock") int? maintainStock,
+    @JsonKey(name: "product_hidden") int? productHidden,
   });
 }
 
@@ -77,11 +83,13 @@ class _$EditUpdateResponseCopyWithImpl<$Res, $Val extends EditUpdateResponse>
   @override
   $Res call({
     Object? productName = freezed,
-    Object? minOrderQuantity = freezed,
-    Object? proTypeId = freezed,
+    Object? productQuantity = freezed,
     Object? productPrice = freezed,
     Object? updatedDate = freezed,
-    Object? pricePerUnit = freezed,
+    Object? storeId = freezed,
+    Object? productId = freezed,
+    Object? maintainStock = freezed,
+    Object? productHidden = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -89,13 +97,9 @@ class _$EditUpdateResponseCopyWithImpl<$Res, $Val extends EditUpdateResponse>
                 ? _value.productName
                 : productName // ignore: cast_nullable_to_non_nullable
                       as String?,
-            minOrderQuantity: freezed == minOrderQuantity
-                ? _value.minOrderQuantity
-                : minOrderQuantity // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            proTypeId: freezed == proTypeId
-                ? _value.proTypeId
-                : proTypeId // ignore: cast_nullable_to_non_nullable
+            productQuantity: freezed == productQuantity
+                ? _value.productQuantity
+                : productQuantity // ignore: cast_nullable_to_non_nullable
                       as int?,
             productPrice: freezed == productPrice
                 ? _value.productPrice
@@ -105,10 +109,22 @@ class _$EditUpdateResponseCopyWithImpl<$Res, $Val extends EditUpdateResponse>
                 ? _value.updatedDate
                 : updatedDate // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
-            pricePerUnit: freezed == pricePerUnit
-                ? _value.pricePerUnit
-                : pricePerUnit // ignore: cast_nullable_to_non_nullable
-                      as double?,
+            storeId: freezed == storeId
+                ? _value.storeId
+                : storeId // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            productId: freezed == productId
+                ? _value.productId
+                : productId // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            maintainStock: freezed == maintainStock
+                ? _value.maintainStock
+                : maintainStock // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            productHidden: freezed == productHidden
+                ? _value.productHidden
+                : productHidden // ignore: cast_nullable_to_non_nullable
+                      as int?,
           )
           as $Val,
     );
@@ -126,11 +142,13 @@ abstract class _$$EditUpdateResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: "product_name") String? productName,
-    @JsonKey(name: "min_order_qty") int? minOrderQuantity,
-    @JsonKey(name: "prod_type_id") int? proTypeId,
+    @JsonKey(name: "product_qty") int? productQuantity,
     @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
-    @JsonKey(name: "price_per_unit") double? pricePerUnit,
+    @JsonKey(name: "store_id") int? storeId,
+    @JsonKey(name: "product_id") int? productId,
+    @JsonKey(name: "maintain_stock") int? maintainStock,
+    @JsonKey(name: "product_hidden") int? productHidden,
   });
 }
 
@@ -149,11 +167,13 @@ class __$$EditUpdateResponseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? productName = freezed,
-    Object? minOrderQuantity = freezed,
-    Object? proTypeId = freezed,
+    Object? productQuantity = freezed,
     Object? productPrice = freezed,
     Object? updatedDate = freezed,
-    Object? pricePerUnit = freezed,
+    Object? storeId = freezed,
+    Object? productId = freezed,
+    Object? maintainStock = freezed,
+    Object? productHidden = freezed,
   }) {
     return _then(
       _$EditUpdateResponseImpl(
@@ -161,13 +181,9 @@ class __$$EditUpdateResponseImplCopyWithImpl<$Res>
             ? _value.productName
             : productName // ignore: cast_nullable_to_non_nullable
                   as String?,
-        minOrderQuantity: freezed == minOrderQuantity
-            ? _value.minOrderQuantity
-            : minOrderQuantity // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        proTypeId: freezed == proTypeId
-            ? _value.proTypeId
-            : proTypeId // ignore: cast_nullable_to_non_nullable
+        productQuantity: freezed == productQuantity
+            ? _value.productQuantity
+            : productQuantity // ignore: cast_nullable_to_non_nullable
                   as int?,
         productPrice: freezed == productPrice
             ? _value.productPrice
@@ -177,10 +193,22 @@ class __$$EditUpdateResponseImplCopyWithImpl<$Res>
             ? _value.updatedDate
             : updatedDate // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
-        pricePerUnit: freezed == pricePerUnit
-            ? _value.pricePerUnit
-            : pricePerUnit // ignore: cast_nullable_to_non_nullable
-                  as double?,
+        storeId: freezed == storeId
+            ? _value.storeId
+            : storeId // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        productId: freezed == productId
+            ? _value.productId
+            : productId // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        maintainStock: freezed == maintainStock
+            ? _value.maintainStock
+            : maintainStock // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        productHidden: freezed == productHidden
+            ? _value.productHidden
+            : productHidden // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }
@@ -191,11 +219,13 @@ class __$$EditUpdateResponseImplCopyWithImpl<$Res>
 class _$EditUpdateResponseImpl implements _EditUpdateResponse {
   const _$EditUpdateResponseImpl({
     @JsonKey(name: "product_name") this.productName,
-    @JsonKey(name: "min_order_qty") this.minOrderQuantity,
-    @JsonKey(name: "prod_type_id") this.proTypeId,
+    @JsonKey(name: "product_qty") this.productQuantity,
     @JsonKey(name: "product_price") this.productPrice,
     @JsonKey(name: "updated_date") this.updatedDate,
-    @JsonKey(name: "price_per_unit") this.pricePerUnit,
+    @JsonKey(name: "store_id") this.storeId,
+    @JsonKey(name: "product_id") this.productId,
+    @JsonKey(name: "maintain_stock") this.maintainStock,
+    @JsonKey(name: "product_hidden") this.productHidden,
   });
 
   factory _$EditUpdateResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -205,11 +235,8 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
   @JsonKey(name: "product_name")
   final String? productName;
   @override
-  @JsonKey(name: "min_order_qty")
-  final int? minOrderQuantity;
-  @override
-  @JsonKey(name: "prod_type_id")
-  final int? proTypeId;
+  @JsonKey(name: "product_qty")
+  final int? productQuantity;
   @override
   @JsonKey(name: "product_price")
   final double? productPrice;
@@ -217,12 +244,21 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
   @JsonKey(name: "updated_date")
   final DateTime? updatedDate;
   @override
-  @JsonKey(name: "price_per_unit")
-  final double? pricePerUnit;
+  @JsonKey(name: "store_id")
+  final int? storeId;
+  @override
+  @JsonKey(name: "product_id")
+  final int? productId;
+  @override
+  @JsonKey(name: "maintain_stock")
+  final int? maintainStock;
+  @override
+  @JsonKey(name: "product_hidden")
+  final int? productHidden;
 
   @override
   String toString() {
-    return 'EditUpdateResponse(productName: $productName, minOrderQuantity: $minOrderQuantity, proTypeId: $proTypeId, productPrice: $productPrice, updatedDate: $updatedDate, pricePerUnit: $pricePerUnit)';
+    return 'EditUpdateResponse(productName: $productName, productQuantity: $productQuantity, productPrice: $productPrice, updatedDate: $updatedDate, storeId: $storeId, productId: $productId, maintainStock: $maintainStock, productHidden: $productHidden)';
   }
 
   @override
@@ -232,16 +268,19 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
             other is _$EditUpdateResponseImpl &&
             (identical(other.productName, productName) ||
                 other.productName == productName) &&
-            (identical(other.minOrderQuantity, minOrderQuantity) ||
-                other.minOrderQuantity == minOrderQuantity) &&
-            (identical(other.proTypeId, proTypeId) ||
-                other.proTypeId == proTypeId) &&
+            (identical(other.productQuantity, productQuantity) ||
+                other.productQuantity == productQuantity) &&
             (identical(other.productPrice, productPrice) ||
                 other.productPrice == productPrice) &&
             (identical(other.updatedDate, updatedDate) ||
                 other.updatedDate == updatedDate) &&
-            (identical(other.pricePerUnit, pricePerUnit) ||
-                other.pricePerUnit == pricePerUnit));
+            (identical(other.storeId, storeId) || other.storeId == storeId) &&
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
+            (identical(other.maintainStock, maintainStock) ||
+                other.maintainStock == maintainStock) &&
+            (identical(other.productHidden, productHidden) ||
+                other.productHidden == productHidden));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -249,11 +288,13 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
   int get hashCode => Object.hash(
     runtimeType,
     productName,
-    minOrderQuantity,
-    proTypeId,
+    productQuantity,
     productPrice,
     updatedDate,
-    pricePerUnit,
+    storeId,
+    productId,
+    maintainStock,
+    productHidden,
   );
 
   /// Create a copy of EditUpdateResponse
@@ -276,11 +317,13 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
 abstract class _EditUpdateResponse implements EditUpdateResponse {
   const factory _EditUpdateResponse({
     @JsonKey(name: "product_name") final String? productName,
-    @JsonKey(name: "min_order_qty") final int? minOrderQuantity,
-    @JsonKey(name: "prod_type_id") final int? proTypeId,
+    @JsonKey(name: "product_qty") final int? productQuantity,
     @JsonKey(name: "product_price") final double? productPrice,
     @JsonKey(name: "updated_date") final DateTime? updatedDate,
-    @JsonKey(name: "price_per_unit") final double? pricePerUnit,
+    @JsonKey(name: "store_id") final int? storeId,
+    @JsonKey(name: "product_id") final int? productId,
+    @JsonKey(name: "maintain_stock") final int? maintainStock,
+    @JsonKey(name: "product_hidden") final int? productHidden,
   }) = _$EditUpdateResponseImpl;
 
   factory _EditUpdateResponse.fromJson(Map<String, dynamic> json) =
@@ -290,11 +333,8 @@ abstract class _EditUpdateResponse implements EditUpdateResponse {
   @JsonKey(name: "product_name")
   String? get productName;
   @override
-  @JsonKey(name: "min_order_qty")
-  int? get minOrderQuantity;
-  @override
-  @JsonKey(name: "prod_type_id")
-  int? get proTypeId;
+  @JsonKey(name: "product_qty")
+  int? get productQuantity;
   @override
   @JsonKey(name: "product_price")
   double? get productPrice;
@@ -302,8 +342,17 @@ abstract class _EditUpdateResponse implements EditUpdateResponse {
   @JsonKey(name: "updated_date")
   DateTime? get updatedDate;
   @override
-  @JsonKey(name: "price_per_unit")
-  double? get pricePerUnit;
+  @JsonKey(name: "store_id")
+  int? get storeId;
+  @override
+  @JsonKey(name: "product_id")
+  int? get productId;
+  @override
+  @JsonKey(name: "maintain_stock")
+  int? get maintainStock;
+  @override
+  @JsonKey(name: "product_hidden")
+  int? get productHidden;
 
   /// Create a copy of EditUpdateResponse
   /// with the given fields replaced by the non-null parameter values.

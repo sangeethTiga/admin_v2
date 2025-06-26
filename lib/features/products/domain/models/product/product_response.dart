@@ -15,7 +15,7 @@ class ProductResponse with _$ProductResponse {
     @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "maintain_stock") int? maintainStock,
     @JsonKey(name: "product_qty") double? productQty,
-    @JsonKey(name: "is_hidden") int? isHidden,
+    @JsonKey(name: "product_hidden") int? productHidden,
     @JsonKey(name: "is_variant") int? isVariant,
     @JsonKey(name: "is_price_editable") int? isPriceEditable,
     @JsonKey(name: "rawcount") int? rawcount,

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
+import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/widgets/edit_product.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
@@ -20,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -80,7 +80,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 }).toList() ??
                                 [],
                             fillColor: const Color(0XFFEFF1F1),
-                           
+
                             onChanged: (p0) {
                               context.read<CommonCubit>().selectedStore(p0);
                               context.read<ProductCubit>().catgeory(
@@ -209,8 +209,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                       ),
 
-                     // 6.verticalSpace,
-
+                      // 6.verticalSpace,
                       BlocBuilder<ProductCubit, ProductState>(
                         builder: (context, state) {
                           //   final products = state.filteredProducts ?? [];
@@ -282,29 +281,47 @@ class _ProductScreenState extends State<ProductScreen> {
                                                   ),
 
                                                   GestureDetector(
-                                                    onTap: () {
-                                                      showModalBottomSheet(
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                                topLeft:
-                                                                    Radius.circular(
-                                                                      12.r,
-                                                                    ),
-                                                                topRight:
-                                                                    Radius.circular(
-                                                                      12.r,
-                                                                    ),
-                                                              ),
-                                                        ),
-                                                        backgroundColor: kWhite,
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return EditProduct(product: data,);
-                                                          
-                                                        },
-                                                        
-                                                      );
+                                                    onTap: () async {
+                                                      final editedResponse =
+                                                          await showModalBottomSheet<
+                                                            EditUpdateResponse
+                                                          >(
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius.only(
+                                                                    topLeft:
+                                                                        Radius.circular(
+                                                                          12.r,
+                                                                        ),
+                                                                    topRight:
+                                                                        Radius.circular(
+                                                                          12.r,
+                                                                        ),
+                                                                  ),
+                                                            ),
+                                                            backgroundColor:
+                                                                kWhite,
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return EditProduct(
+                                                                product: data,
+                                                              );
+                                                            },
+                                                          );
+                                                      //     if (!context.mounted) return;
+                                                      // if (editedResponse !=
+                                                      //     null) {
+                                                      //   context
+                                                      //       .read<
+                                                      //         ProductCubit
+                                                      //       >()
+                                                      //       .updateProduct(
+                                                      //         editedResponse!,
+                                                      //         data.storeId ?? 0,
+                                                      //         data.productId ??
+                                                      //             0,
+                                                      //       );
+                                                      // }
                                                     },
                                                     child: Row(
                                                       children: [

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+
 
 class EditProduct extends StatefulWidget {
   final ProductResponse product;
@@ -34,7 +34,7 @@ class _EditProductState extends State<EditProduct> {
       text: widget.product.productQty?.toString() ?? '',
     );
     priceController = TextEditingController(
-      text: widget.product.productPrice ?? '',
+      text: widget.product.productPrice.toString(),
     );
   }
 
@@ -128,17 +128,23 @@ class _EditProductState extends State<EditProduct> {
             padding: const EdgeInsets.all(13.0),
             child: CustomMaterialBtton(
               buttonText: 'Submit',
-              onPressed: ()async {
+              onPressed: () async {
                 final updatedProduct = EditUpdateResponse(
                   productName: nameController.text,
                   productPrice: double.tryParse(priceController.text) ?? 0.0,
-                  minOrderQuantity: int.tryParse(quantityController.text) ?? 0,
+                  productQuantity: int.tryParse(quantityController.text) ?? 0,
+                  updatedDate: DateTime.now(),
+                  storeId: widget.product.storeId ?? 0,
+                  productId: widget.product.productId ?? 0,
+                  productHidden: widget.product.productHidden ?? 0,
+                  maintainStock: widget.product.maintainStock,
                 );
-             await   context.read<ProductCubit>().updateProduct(
+                await context.read<ProductCubit>().updateProduct(
                   updatedProduct,
                   widget.product.productId ?? 0,
+                  widget.product.storeId ?? 0,
                 );
-                context.pop();
+                Navigator.pop(context, updatedProduct);
               },
             ),
           ),

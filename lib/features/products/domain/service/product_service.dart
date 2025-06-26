@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
@@ -72,9 +74,7 @@ class ProductService implements ProductRepositories {
     switch (res.statusCode) {
       case 200:
       case 201:
-        return ResponseResult(
-          data: res.  data
-        );
+        return ResponseResult(data: res.data);
       default:
         return ResponseResult(data: []);
     }
@@ -99,23 +99,33 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<List<EditUpdateResponse>>> updateProduct(
-  
+  Future<ResponseResult<EditUpdateResponse>> updateProduct(
     EditUpdateResponse? request,
-      int? productId,
+    int? productId,
+    int? storeId
   ) async {
     final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider.put(
+    final res = await networkProvider.post(
       ApiEndpoints.updateProduct(productId!),
       data: request?.toJson(),
     );
     switch (res.statusCode) {
       case 200:
       case 201:
-        return  ResponseResult(data: []);
+        
+        dynamic decoded = res.data;
+        if (res.data is String) {
+          decoded = jsonDecode(res.data);
+        }
+
+        if (decoded is Map<String, dynamic>) {
+          return ResponseResult(data: EditUpdateResponse.fromJson(decoded));
+        } else {
+          return ResponseResult(error: 'Unexpected response format: $decoded');
+        }
 
       default:
-        return ResponseResult(data: []);
+        return ResponseResult(error: '');
     }
   }
 }

@@ -22,11 +22,9 @@ import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
-
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -616,7 +614,7 @@ class ReportCubit extends Cubit<ReportState> {
         state.copyWith(isOffersReport: ApiFetchStatus.loading, offerReport: []),
       );
     }
-    emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
+    // emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadOffers(storeId: storeId ?? 0);
 
     log('Response data: ${res.data}');
@@ -736,11 +734,11 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> loadStatus({
     int? storeId,
     String? status,
-    String? fromChequeIssueDate,
-    String? toChequeIssueDate,
-    String? fromChequeDate,
-    String? toChequeDate,
 
+    // String? fromChequeIssueDate,
+    // String? toChequeIssueDate,
+    // String? fromChequeDate,
+    // String? toChequeDate,
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
@@ -753,16 +751,17 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isChequeStatus: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadStatus(
-      fromChequeDate: parsedDate(state.toDate ?? DateTime.now()),
-      fromChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
-      toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
-      toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      // fromChequeDate: parsedDate(state.toDate ?? DateTime.now()),
+      // fromChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      // toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
+      // toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
       storeId: storeId ?? 0,
-      status: state.status,
+      // status: status ?? state.status,
     );
-
+    
     log('Response data: ${res.data}');
     if (res.data != null) {
+  
       final List<ChequestatusResponse> fetchedList = res.data!;
 
       final List<ChequestatusResponse> newList = isLoadMore
@@ -780,7 +779,12 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> selectedStatus(ChequestatusResponse data) async {
-    emit(state.copyWith(selectedStatus: data));
+    emit(
+      state.copyWith(
+        selectedStatus: data,
+        status: data.chequeStatusId.toString(),
+      ),
+    );
   }
 
   Future<void> loadMessReport({

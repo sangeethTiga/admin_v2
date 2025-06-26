@@ -124,7 +124,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.settings),
+                      leading: Icon(Icons.bar_chart_sharp),
                       title: Text('Tax Report'),
                       onTap: () {
                         context.push(routeTax);
@@ -140,14 +140,14 @@ class DashboardScreen extends StatelessWidget {
                     ),
 
                     ListTile(
-                      leading: Icon(Icons.bar_chart_sharp),
+                      leading: Icon(Icons.dining_rounded),
                       title: Text('Mess Report '),
                       onTap: () {
                         context.push(routeMess);
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.shopping_cart),
+                      leading: Icon(Icons.people),
                       title: Text('Supplier '),
                       onTap: () {
                         context.push(routeSupplier);
@@ -206,7 +206,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.local_offer),
+                      leading: Icon(Icons.discount_outlined ),
                       title: Text('Offer'),
                       onTap: () {
                         //context.read<ReportCubit>().loadOffers();

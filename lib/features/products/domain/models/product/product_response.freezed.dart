@@ -39,8 +39,8 @@ mixin _$ProductResponse {
   int? get maintainStock => throw _privateConstructorUsedError;
   @JsonKey(name: "product_qty")
   double? get productQty => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_hidden")
-  int? get isHidden => throw _privateConstructorUsedError;
+  @JsonKey(name: "product_hidden")
+  int? get productHidden => throw _privateConstructorUsedError;
   @JsonKey(name: "is_variant")
   int? get isVariant => throw _privateConstructorUsedError;
   @JsonKey(name: "is_price_editable")
@@ -83,7 +83,7 @@ abstract class $ProductResponseCopyWith<$Res> {
     @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "maintain_stock") int? maintainStock,
     @JsonKey(name: "product_qty") double? productQty,
-    @JsonKey(name: "is_hidden") int? isHidden,
+    @JsonKey(name: "product_hidden") int? productHidden,
     @JsonKey(name: "is_variant") int? isVariant,
     @JsonKey(name: "is_price_editable") int? isPriceEditable,
     @JsonKey(name: "rawcount") int? rawcount,
@@ -118,7 +118,7 @@ class _$ProductResponseCopyWithImpl<$Res, $Val extends ProductResponse>
     Object? productPrice = freezed,
     Object? maintainStock = freezed,
     Object? productQty = freezed,
-    Object? isHidden = freezed,
+    Object? productHidden = freezed,
     Object? isVariant = freezed,
     Object? isPriceEditable = freezed,
     Object? rawcount = freezed,
@@ -165,9 +165,9 @@ class _$ProductResponseCopyWithImpl<$Res, $Val extends ProductResponse>
                 ? _value.productQty
                 : productQty // ignore: cast_nullable_to_non_nullable
                       as double?,
-            isHidden: freezed == isHidden
-                ? _value.isHidden
-                : isHidden // ignore: cast_nullable_to_non_nullable
+            productHidden: freezed == productHidden
+                ? _value.productHidden
+                : productHidden // ignore: cast_nullable_to_non_nullable
                       as int?,
             isVariant: freezed == isVariant
                 ? _value.isVariant
@@ -222,7 +222,7 @@ abstract class _$$ProductResponseImplCopyWith<$Res>
     @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "maintain_stock") int? maintainStock,
     @JsonKey(name: "product_qty") double? productQty,
-    @JsonKey(name: "is_hidden") int? isHidden,
+    @JsonKey(name: "product_hidden") int? productHidden,
     @JsonKey(name: "is_variant") int? isVariant,
     @JsonKey(name: "is_price_editable") int? isPriceEditable,
     @JsonKey(name: "rawcount") int? rawcount,
@@ -256,7 +256,7 @@ class __$$ProductResponseImplCopyWithImpl<$Res>
     Object? productPrice = freezed,
     Object? maintainStock = freezed,
     Object? productQty = freezed,
-    Object? isHidden = freezed,
+    Object? productHidden = freezed,
     Object? isVariant = freezed,
     Object? isPriceEditable = freezed,
     Object? rawcount = freezed,
@@ -303,9 +303,9 @@ class __$$ProductResponseImplCopyWithImpl<$Res>
             ? _value.productQty
             : productQty // ignore: cast_nullable_to_non_nullable
                   as double?,
-        isHidden: freezed == isHidden
-            ? _value.isHidden
-            : isHidden // ignore: cast_nullable_to_non_nullable
+        productHidden: freezed == productHidden
+            ? _value.productHidden
+            : productHidden // ignore: cast_nullable_to_non_nullable
                   as int?,
         isVariant: freezed == isVariant
             ? _value.isVariant
@@ -353,7 +353,7 @@ class _$ProductResponseImpl implements _ProductResponse {
     @JsonKey(name: "product_price") this.productPrice,
     @JsonKey(name: "maintain_stock") this.maintainStock,
     @JsonKey(name: "product_qty") this.productQty,
-    @JsonKey(name: "is_hidden") this.isHidden,
+    @JsonKey(name: "product_hidden") this.productHidden,
     @JsonKey(name: "is_variant") this.isVariant,
     @JsonKey(name: "is_price_editable") this.isPriceEditable,
     @JsonKey(name: "rawcount") this.rawcount,
@@ -394,8 +394,8 @@ class _$ProductResponseImpl implements _ProductResponse {
   @JsonKey(name: "product_qty")
   final double? productQty;
   @override
-  @JsonKey(name: "is_hidden")
-  final int? isHidden;
+  @JsonKey(name: "product_hidden")
+  final int? productHidden;
   @override
   @JsonKey(name: "is_variant")
   final int? isVariant;
@@ -428,7 +428,7 @@ class _$ProductResponseImpl implements _ProductResponse {
 
   @override
   String toString() {
-    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, isHidden: $isHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName)';
+    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, productHidden: $productHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName)';
   }
 
   @override
@@ -452,8 +452,8 @@ class _$ProductResponseImpl implements _ProductResponse {
                 other.maintainStock == maintainStock) &&
             (identical(other.productQty, productQty) ||
                 other.productQty == productQty) &&
-            (identical(other.isHidden, isHidden) ||
-                other.isHidden == isHidden) &&
+            (identical(other.productHidden, productHidden) ||
+                other.productHidden == productHidden) &&
             (identical(other.isVariant, isVariant) ||
                 other.isVariant == isVariant) &&
             (identical(other.isPriceEditable, isPriceEditable) ||
@@ -482,7 +482,7 @@ class _$ProductResponseImpl implements _ProductResponse {
     productPrice,
     maintainStock,
     productQty,
-    isHidden,
+    productHidden,
     isVariant,
     isPriceEditable,
     rawcount,
@@ -520,7 +520,7 @@ abstract class _ProductResponse implements ProductResponse {
     @JsonKey(name: "product_price") final String? productPrice,
     @JsonKey(name: "maintain_stock") final int? maintainStock,
     @JsonKey(name: "product_qty") final double? productQty,
-    @JsonKey(name: "is_hidden") final int? isHidden,
+    @JsonKey(name: "product_hidden") final int? productHidden,
     @JsonKey(name: "is_variant") final int? isVariant,
     @JsonKey(name: "is_price_editable") final int? isPriceEditable,
     @JsonKey(name: "rawcount") final int? rawcount,
@@ -561,8 +561,8 @@ abstract class _ProductResponse implements ProductResponse {
   @JsonKey(name: "product_qty")
   double? get productQty;
   @override
-  @JsonKey(name: "is_hidden")
-  int? get isHidden;
+  @JsonKey(name: "product_hidden")
+  int? get productHidden;
   @override
   @JsonKey(name: "is_variant")
   int? get isVariant;
