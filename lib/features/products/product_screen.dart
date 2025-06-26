@@ -401,12 +401,13 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                                       builder: (context) {
                                                         return StockUpdateCard(
+                                                          
                                                           currentStock:
                                                               data.productQty,
                                                           productId:
                                                               data.productId,
                                                           maintainStock: data
-                                                              .maintainStock,
+                                                              .maintainStock, fromVariant: false,
                                                         );
                                                       },
                                                     );
