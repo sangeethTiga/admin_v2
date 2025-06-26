@@ -13,7 +13,8 @@ class ProductState extends Equatable {
   final double? totalStock;
   final StockStatusResponse? selectedStockResponse;
   final ApiFetchStatus? apiFetchStatus;
-  final DateTime ? selectedDate;
+  final DateTime? selectedDate;
+  final EditUpdateResponse? updateData;
 
   const ProductState({
     this.isProduct,
@@ -28,6 +29,7 @@ class ProductState extends Equatable {
     this.totalStock,
     this.selectedStockResponse,
     this.selectedDate,
+    this.updateData,
     this.variantList,
   });
 

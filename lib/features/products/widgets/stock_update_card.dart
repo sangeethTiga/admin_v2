@@ -3,7 +3,6 @@ import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-import 'package:admin_v2/shared/app/extension/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
@@ -24,12 +23,16 @@ class StockUpdateCard extends StatefulWidget {
 
   final int? maintainStock;
   final int? productId;
+  final bool fromVariant;
+  final String? variantName;
 
   const StockUpdateCard({
     super.key,
     this.currentStock,
     this.maintainStock,
     this.productId,
+    required this.fromVariant,
+    this.variantName,
   });
 
   @override
@@ -42,10 +45,13 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
   final TextEditingController totalPriceController = TextEditingController();
   StockStatusResponse? selectedStockStatus;
 
+  
+
   @override
   Widget build(BuildContext context) {
+
     return SizedBox(
-      height: 700.h,
+      height: widget.fromVariant? 500.h: 700.h,
 
       child: Column(
         children: [ 
@@ -57,7 +63,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Stock Details', style: FontPalette.hW700S14),
+                Text(widget.fromVariant? '${widget.variantName} Stock Update':'Stock Details', style: FontPalette.hW700S14),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -74,6 +80,10 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
             top: 0,
             child: Column(
               children: [
+                 Text(
+                            'Current stock : ${widget.currentStock}',
+                            style: FontPalette.hW500S13,
+                          ),
                 BlocSelector<
                   ProductCubit,
                   ProductState,
@@ -150,13 +160,13 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                   textStyle: FontPalette.hW500S12,
                 ),
                 12.verticalSpace,
-                Container(
+                 Container(
                   // alignment: Alignment.center,
-                  height: 64.h,
+                   height: 64.h,
                   width: double.infinity,
                   padding: EdgeInsets.only(top: 12.h, left: 12.w),
                   decoration: BoxDecoration(
-                    color: Color(0XFFEFF1F1),
+                    color: widget.fromVariant?kWhite: Color(0XFFEFF1F1),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: BlocSelector<ProductCubit, ProductState, double>(
@@ -164,13 +174,19 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                       return state.totalStock ?? 0;
                     },
                     builder: (context, state) {
-                      return Column(
+                      return widget.fromVariant?Center(
+                        child: Text(
+                              'Total stock : ${state == 0 ? widget.currentStock : state}',
+                              style: FontPalette.hW500S13,
+                            ),
+                      ): Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Current stock : ${widget.currentStock}',
                             style: FontPalette.hW500S13,
                           ),
+                          
                           Text(
                             'Total stock : ${state == 0 ? widget.currentStock : state}',
                             style: FontPalette.hW500S13,
@@ -182,7 +198,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                 ),
                 10.verticalSpace,
 
-                DatePickerContainer(
+                widget.fromVariant?SizedBox(): DatePickerContainer(
                   labelText: "Date",
                   changeDate: (value) {
                     context.read<ProductCubit>().dateSelection(value);
@@ -190,7 +206,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                 ),
                 10.verticalSpace,
 
-                TextFeildWidget(
+               widget.fromVariant?SizedBox(): TextFeildWidget(
                   borderColor: kBlack,
                   hight: 48.h,
                   fillColor: kWhite,
@@ -213,7 +229,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                 ),
                 10.verticalSpace,
 
-                TextFeildWidget(
+                widget.fromVariant?SizedBox(): TextFeildWidget(
                   borderColor: kBlack,
                   hight: 48.h,
                   fillColor: kWhite,
@@ -234,9 +250,9 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
               ],
             ),
           ),
-          10.verticalSpace,
+         widget.fromVariant?SizedBox(): 10.verticalSpace,
           Divider(color: kBorderColor, thickness: 1),
-          10.verticalSpace,
+          widget.fromVariant?SizedBox():10.verticalSpace,
           MainPadding(
             child: Row(
               children: [

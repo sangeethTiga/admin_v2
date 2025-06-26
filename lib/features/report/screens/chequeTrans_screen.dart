@@ -34,7 +34,8 @@ class ChequetransScreen extends StatelessWidget {
                   BlocBuilder<CommonCubit, CommonState>(
                     builder: (context, state) {
                       return DropDownFieldWidget(
-                        isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                        isLoading:
+                            state.apiFetchStatus == ApiFetchStatus.loading,
                         prefixIcon: Container(
                           margin: EdgeInsets.only(left: 12.w),
                           child: SvgPicture.asset(
@@ -68,7 +69,8 @@ class ChequetransScreen extends StatelessWidget {
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return DropDownFieldWidget(
-                        isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                        isLoading:
+                            state.apiFetchStatus == ApiFetchStatus.loading,
                         prefixIcon: Container(
                           margin: EdgeInsets.only(left: 12.w),
                           child: SvgPicture.asset(
@@ -80,97 +82,90 @@ class ChequetransScreen extends StatelessWidget {
                         ),
                         borderColor: kBlack,
                         fillColor: const Color(0XFFEFF1F1),
-                        value: state.selectedStatus,
-            
+                        value: state.selectedStatus?.chequeStatusId,
+
                         items:
                             state.chequeStatus?.map((e) {
-                              return DropdownMenuItem<ChequestatusResponse>(
-                                value: e,
+                              return DropdownMenuItem<int>(
+                                value: e.chequeStatusId,
                                 child: Text(e.chequeStatusName ?? ''),
                               );
                             }).toList() ??
                             [],
-                       
-                        onChanged: (p0) {
-                          context.read<ReportCubit>().selectedStatus(p0);
+
+                        onChanged: (selectStatus) {
+                          final select = state.chequeStatus?.firstWhere(
+                            (e) => e.chequeStatusId == selectStatus,
+                          );
+                          if (select != null &&
+                              select.chequeStatusId !=
+                                  state.selectedStatus?.chequeStatusId) {
+                            context.read<ReportCubit>().selectedStatus(select!);
+                          }
+                          context.read<ReportCubit>().loadStatus(
+                          
+                            status: select?.chequeStatusId.toString(),
+                            // status:
+                            //     state.selectedStatus?.chequeStatusId
+                            //         ?.toString() ??
+                            //     '',
+                          );
                         },
                         labelText: 'status',
                       );
                     },
                   ),
-                    12.verticalSpace,
-                BlocBuilder<CommonCubit, CommonState>(
-                  builder: (context, state) {
-                    return CustomMaterialBtton(
-                      onPressed: () {
-                        context.read<ReportCubit>().loadChequeTrans(
-                          storeId: state.selectedStore?.storeId,
-                         
-                        );
-                     
-                      },
-                      buttonText: 'View Report',
-                    );
-                  },
-                ),
-            
-                  Expanded(
-                    child: MainPadding(
-                      child: BlocBuilder<CommonCubit, CommonState>(
-                        builder: (context, store) {
-                          return BlocBuilder<ReportCubit, ReportState>(
-                            builder: (context, state) {
-                              return NotificationListener<ScrollEndNotification>(
-                                onNotification: (ScrollNotification scrollInfo) {
-                                  if (scrollInfo.metrics.pixels >=
-                                          scrollInfo.metrics.maxScrollExtent -
-                                              50 &&
-                                      state.isChequeReport !=
-                                          ApiFetchStatus.loading) {
-                                    context.read<ReportCubit>().loadChequeTrans(
-                                      isLoadMore: true,
-                                      
-                                      storeId: store.selectedStore?.storeId,
-                                    );
-                                  }
-                                  return false;
-                                },
-                                      
-                                child:
-                                 CommonTableWidget(
-                                  headers: [
-                                    "#",
-                                    "CHEQUE NUMBER",
-                                    "BANK NAME",
-                                    "CHEQUE ISSUE DATE",
-                                    "CHEQUE DATE",
-                                    "STATUS",
-                                    "AMOUNT",
-                                  ],
-                                  columnFlex: [2, 2, 2, 2, 2, 2, 2],
-                                  data:
-                                      state.chequeTransReport?.map((e) {
-                                        int index =
-                                            state.chequeTransReport?.indexOf(e) ??
-                                            0;
-                                        return {
-                                          "#": index + 1,
-                                          "CHEQUE NUMBER": e.chequeNumber ?? '',
-                                          "BANK NAME": e.bankName ?? '',
-                                          "CHEQUE ISSUE DATE":
-                                              e.chequeIssueDate ?? '',
-                                          "CHEQUE DATE": e.chequeDate ?? '',
-                                          "STATUS": e.status ?? '',
-                                          "AMOUNT": e.amount ?? '',
-                                        };
-                                      }).toList() ??
-                                      [],
-                                ),
-                              );
-                            },
+
+                  BlocBuilder<CommonCubit, CommonState>(
+                    builder: (context, state) {
+                      final reportState = context.read<ReportCubit>().state;
+                      return CustomMaterialBtton(
+                        onPressed: () {
+                          final selectedStatusId =
+                              reportState.selectedStatus?.chequeStatusId;
+                          context.read<ReportCubit>().loadChequeTrans(
+                            storeId: state.selectedStore?.storeId,
+                            status:selectedStatusId?.toString()
                           );
                         },
-                      ),
+                        buttonText: 'View Report',
+                      );
+                    },
+                  ),
+
+                  Expanded(
+                    child: BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, state) {
+                        return CommonTableWidget(
+                          isLoading:
+                              state.chequeTransReport == ApiFetchStatus.loading,
+                          headers: [
+                            "#",
+                            "CHEQUE NUMBER",
+                            "BANK NAME",
+                            "CHEQUE ISSUE DATE",
+                            "CHEQUE DATE",
+                            "STATUS",
+                            "AMOUNT",
+                          ],
+                          columnFlex: [1, 2, 2, 2, 2, 2, 2],
+                          data:
+                              state.chequeTransReport?.map((e) {
+                                int index =
+                                    state.chequeTransReport?.indexOf(e) ?? 0;
+                                return {
+                                  "#": index + 1,
+                                  "CHEQUE NUMBER": e.chequeNumber ?? '',
+                                  "BANK NAME": e.bankName ?? '',
+                                  "CHEQUE ISSUE DATE": e.chequeIssueDate ?? '',
+                                  "CHEQUE DATE": e.chequeDate ?? '',
+                                  "STATUS": e.statusName ?? '',
+                                  "AMOUNT": e.amount ?? '',
+                                };
+                              }).toList() ??
+                              [],
+                        );
+                      },
                     ),
                   ),
                 ],

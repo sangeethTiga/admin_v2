@@ -28,6 +28,7 @@ class CommonCubit extends Cubit<CommonState> {
             storeList: res.data,
             selectedStore: res.data?.first,
             selectDate: custDate.first,
+            
           ),
         );
       }

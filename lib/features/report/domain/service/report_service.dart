@@ -26,7 +26,7 @@ import 'package:admin_v2/features/report/domain/models/usershift/usershift_repor
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
-import 'package:admin_v2/shared/app/list/common_map.dart';
+
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 import 'package:injectable/injectable.dart';
@@ -495,24 +495,24 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus({
-    required int storeId,
-    required String status,
+  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus(
+    { required int storeId,}
+ 
 
-    required String fromChequeIssueDate,
-    required String toChequeIssueDate,
-    required String fromChequeDate,
-    required String toChequeDate,
-  }) async {
+    // required String fromChequeIssueDate,
+    // required String toChequeIssueDate,
+    // required String fromChequeDate,
+    // required String toChequeDate,
+  ) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
       ApiEndpoints.chequeStatus(
-        storeId,
-        status,
-        fromChequeIssueDate,
-        toChequeIssueDate,
-        fromChequeDate,
-        toChequeDate,
+        // storeId,
+        // status,
+        // fromChequeIssueDate,
+        // toChequeIssueDate,
+        // fromChequeDate,
+        // toChequeDate,
       ),
     );
 
