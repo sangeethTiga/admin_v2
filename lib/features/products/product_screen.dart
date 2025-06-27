@@ -18,28 +18,17 @@ import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+class ProductScreen extends StatelessWidget {
+   
+   ProductScreen({super.key});
 
-  @override
-  State<ProductScreen> createState() => _ProductScreenState();
-}
-
-class _ProductScreenState extends State<ProductScreen> {
   final TextEditingController mobileScannerController = TextEditingController();
-  // void cameraPermission() async {
-  //   var status = await Permission.camera.request();
-  //   if (status.isDenied || status.isPermanentlyDenied) {
-  //     openAppSettings();
-  //     return;
-  //   }
-  // }
 
+  // void cameraPermission() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,6 +76,8 @@ class _ProductScreenState extends State<ProductScreen> {
                               context.read<ProductCubit>().catgeory(
                                 p0?.storeId,
                               );
+
+                              context.read<ProductCubit>().chnageStore(p0);
                             },
                             labelText: '',
                           );
@@ -300,6 +291,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                                                         ),
                                                                   ),
                                                             ),
+                                                            isScrollControlled:
+                                                                true,
                                                             backgroundColor:
                                                                 kWhite,
                                                             context: context,
@@ -309,7 +302,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                                               );
                                                             },
                                                           );
-                                                      //     if (!context.mounted) return;
+                                                      // if (!context.mounted)
+                                                      //   return;
                                                       // if (editedResponse !=
                                                       //     null) {
                                                       //   context
@@ -317,8 +311,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                                       //         ProductCubit
                                                       //       >()
                                                       //       .updateProduct(
-                                                      //         editedResponse!,
-                                                      //         data.storeId ?? 0,
+                                                      //         editedResponse,
+
                                                       //         data.productId ??
                                                       //             0,
                                                       //       );
@@ -374,7 +368,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                                       .closeButton();
                                                   if (data.isVariant == 1 &&
                                                       data.maintainStock == 1) {
-                                                        context.read<ProductCubit>().getVariants(data.productId!);
+                                                    // context
+                                                    //     .read<ProductCubit>()
+                                                    //     .getVariants(
+                                                    //       data.productId!,
+                                                    //     );
                                                     showModalBottomSheet(
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -418,13 +416,13 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                                       builder: (context) {
                                                         return StockUpdateCard(
-                                                          
                                                           currentStock:
                                                               data.productQty,
                                                           productId:
                                                               data.productId,
                                                           maintainStock: data
-                                                              .maintainStock, fromVariant: false,
+                                                              .maintainStock,
+                                                          fromVariant: false,
                                                         );
                                                       },
                                                     );

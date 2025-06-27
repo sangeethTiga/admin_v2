@@ -51,7 +51,7 @@ class RouteGenerator {
         ),
         GoRoute(
           path: routeProducts,
-          builder: (context, state) => const ProductScreen(),
+          builder: (context, state) =>  ProductScreen(),
         ),
         GoRoute(
           path: routeProfitloss,
