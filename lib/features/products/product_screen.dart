@@ -74,7 +74,7 @@ class ProductScreen extends StatelessWidget {
                             onChanged: (p0) {
                               context.read<CommonCubit>().selectedStore(p0);
                               context.read<ProductCubit>().catgeory(
-                                p0?.storeId,
+                                p0?.storeId, 
                               );
 
                               context.read<ProductCubit>().chnageStore(p0);

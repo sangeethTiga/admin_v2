@@ -381,6 +381,7 @@ class DashboardScreen extends StatelessWidget {
                                 state.selectedStore?.storeId ?? 0,
                               );
                               context.read<ProductCubit>().stockStatus();
+                              context.read<ProductCubit>().clearEvent();
                               context.push(routeProducts);
                               break;
                             case 'Profit/loss':
