@@ -392,7 +392,7 @@ class ProductScreen extends StatelessWidget {
                                                       isScrollControlled: true,
 
                                                       builder: (context) {
-                                                        return VariantStockUpdateCard();
+                                                        return VariantStockUpdateCard(maintainStock: data.maintainStock!,);
                                                       },
                                                     );
                                                   } else {

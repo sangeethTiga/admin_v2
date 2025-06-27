@@ -1,6 +1,6 @@
+import 'package:admin_v2/features/orders/screens/order_detail_screen.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
-import 'package:admin_v2/features/products/widgets/variant_stock_edit_frorm.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
@@ -11,11 +11,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class VariantStockUpdateCard extends StatelessWidget {
-  const VariantStockUpdateCard({super.key});
+  final int maintainStock;
+  const VariantStockUpdateCard({super.key, required this.maintainStock});
 
   @override
   Widget build(BuildContext context) {
-   return SizedBox(
+    return SizedBox(
       height: 400.h,
 
       child: Column(
@@ -41,49 +42,66 @@ class VariantStockUpdateCard extends StatelessWidget {
           ),
           Divider(color: kBorderColor, thickness: 1),
           10.verticalSpace,
-          SizedBox(
-            height: 90.h,
-            child: ListView.builder(
-              itemCount: context.read<ProductCubit>().state.variantList?.length,
-              
-              itemBuilder: (BuildContext context,int index){
-                return MainPadding(child: CustomMaterialBtton(onPressed: () { 
-                 final state=context.read<ProductCubit>().state.variantList?[index];
-                  showModalBottomSheet(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                              topLeft:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                              topRight:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                            ),
-                                                      ),
-                                                      backgroundColor: kWhite,
-                                                      context: context,
-                                                      isScrollControlled: true,
+          Expanded(
+            child: BlocBuilder<ProductCubit, ProductState>(
+              builder: (context, state) {
+                final variants=state.variantList;
 
-                                                      builder: (context) {
-                                                        return StockUpdateCard(
-                                                          variantName: state?.prodVarName,
-                                                          
-                                                          currentStock:
-                                                              state?.varStockQty,
-                                                          fromVariant: true,
-                                                        );
-                                                      },
-                                                    );
-                                                  
-                  
-      },buttonText: context.read<ProductCubit>().state.variantList?[index].prodVarName??'',));
-            
-                
-              }),
-          )
+                if(variants==null|| variants.isEmpty){
+                  return Center(child: CircularProgressIndicator());
+
+                }
+                return ListView.builder(
+                  itemCount:variants
+                      .length,
+
+                  itemBuilder: (BuildContext context, int index) {
+                    return MainPadding(
+                      child: CustomMaterialBtton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          final state = context
+                              .read<ProductCubit>()
+                              .state
+                              .variantList?[index];
+                          showModalBottomSheet(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12.r),
+                                topRight: Radius.circular(12.r),
+                              ),
+                            ),
+                            backgroundColor: kWhite,
+                            context: context,
+                            isScrollControlled: true,
+
+                            builder: (context) {
+                              return StockUpdateCard(
+                                variantName: state?.prodVarName,
+                                maintainStock: maintainStock,
+                                variantId: state?.prodVarId,
+                                productId: state?.productId,
+
+                                currentStock: state?.varStockQty,
+                                fromVariant: true,
+                              );
+                            },
+                          );
+                        },
+                        buttonText:
+                            context
+                                .read<ProductCubit>()
+                                .state
+                                .variantList?[index]
+                                .prodVarName ??
+                            '',
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
