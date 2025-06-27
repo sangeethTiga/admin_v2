@@ -29,7 +29,7 @@ class DeliveryChargeScreen extends StatelessWidget {
             child: Column(
               spacing: 14.h,
               children: [
-                 BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<CommonCubit, CommonState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
@@ -53,7 +53,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                   
+
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedStore(p0);
                       },
@@ -99,7 +99,6 @@ class DeliveryChargeScreen extends StatelessWidget {
                     return CustomMaterialBtton(
                       onPressed: () {
                         context.read<ReportCubit>().loadDeliveryChargeReport(
-                        
                           storeId: state.selectedStore?.storeId,
                         );
                       },
@@ -111,63 +110,38 @@ class DeliveryChargeScreen extends StatelessWidget {
             ),
           ),
 
-          Expanded(
-            child: MainPadding(
-              child: BlocBuilder<CommonCubit, CommonState>(
-                builder: (context, store) {
-                  return BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return NotificationListener<ScrollEndNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isDeliverychargeReport !=
-                                  ApiFetchStatus.loading) {
-                            context
-                                .read<ReportCubit>()
-                                .loadDeliveryChargeReport(
-                                  pageSize: state.page,
-                                  offset: state.offset,
-                                  isLoadMore: true,
-
-                                  accountId:
-                                      store.selectedAccount?.accountHeadId ?? 0,
-
-                                  storeId: store.selectedStore?.storeId,
-                                );
-                          }
-                          return false;
-                        },
-
-                        child: CommonTableWidget(
-                          isLoading: state.isDeliverychargeReport == ApiFetchStatus.loading,
-                          headers: [
-                            "#",
-                            "BILL NO",
-                            "ORDER DATE",
-                            "COUNT",
-                            "SHIPPING CHARGE",
-                          ],
-                          columnFlex: [2, 2, 2, 2, 2],
-                          data:state.deliverychargeReport?.map((e){
-                            int index=state.deliverychargeReport?.indexOf(e) ?? 0;
-                            return{
-                               "#":index +1,
-                            "BILL NO":e.billNo ?? '',
-                            "ORDER DATE":e.orderDate ?? '',
-                            "COUNT":e.rawCount ?? '',
-                            "SHIPPING CHARGE":e.shippingCharge ?? '',
-                            };
-                          }).toList() ??
-                           [],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+       
+          BlocBuilder<ReportCubit, ReportState>(
+            builder: (context, state) {
+              return Expanded(
+                child: CommonTableWidget(
+                  isLoading:
+                      state.isDeliverychargeReport == ApiFetchStatus.loading,
+                  headers: [
+                    "#",
+                    "BILL NO",
+                    "ORDER DATE",
+                    "COUNT",
+                    "SHIPPING CHARGE",
+                  ],
+                  columnFlex: [2, 2, 2, 2, 2],
+                  data:
+                      state.deliverychargeReport?.map((e) {
+                        int index = state.deliverychargeReport?.indexOf(e) ?? 0;
+                        return {
+                          "#": index + 1,
+                          "BILL NO": e.billNo ?? '',
+                          "ORDER DATE": e.orderDate ?? '',
+                          "COUNT": e.rawCount ?? '',
+                          "SHIPPING CHARGE": e.shippingCharge ?? '',
+                        };
+                      }).toList() ??
+                      [],
+                ),
+              );
+            },
           ),
+    
         ],
       ),
     );

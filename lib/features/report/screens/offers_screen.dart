@@ -64,7 +64,7 @@ class ProductOffer extends StatelessWidget {
                     height: 400,
                     child: CommonTableWidget(
                      
-                      isLoading: state.offerReport == ApiFetchStatus.loading,
+                      isLoading: state.isOffersReport == ApiFetchStatus.loading,
                       headers: ["#", "IMAGE", "OFFER", "OFFER ARABIC NAME"],
                       columnFlex: [2, 2, 2, 2],
                       data:

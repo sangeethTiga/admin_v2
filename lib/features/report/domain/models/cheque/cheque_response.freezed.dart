@@ -278,11 +278,11 @@ mixin _$ChequeTrans {
   @JsonKey(name: "outlet_name")
   String? get outletName => throw _privateConstructorUsedError;
   @JsonKey(name: "cheque_issue_date")
-  DateTime? get chequeIssueDate => throw _privateConstructorUsedError;
+  String? get chequeIssueDate => throw _privateConstructorUsedError;
   @JsonKey(name: "bank_name")
   String? get bankName => throw _privateConstructorUsedError;
   @JsonKey(name: "cheque_date")
-  DateTime? get chequeDate => throw _privateConstructorUsedError;
+  String? get chequeDate => throw _privateConstructorUsedError;
   @JsonKey(name: "cheque_number")
   String? get chequeNumber => throw _privateConstructorUsedError;
   @JsonKey(name: "amount")
@@ -328,9 +328,9 @@ abstract class $ChequeTransCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "cheque_track_id") int? chequeTrackId,
     @JsonKey(name: "outlet_name") String? outletName,
-    @JsonKey(name: "cheque_issue_date") DateTime? chequeIssueDate,
+    @JsonKey(name: "cheque_issue_date") String? chequeIssueDate,
     @JsonKey(name: "bank_name") String? bankName,
-    @JsonKey(name: "cheque_date") DateTime? chequeDate,
+    @JsonKey(name: "cheque_date") String? chequeDate,
     @JsonKey(name: "cheque_number") String? chequeNumber,
     @JsonKey(name: "amount") String? amount,
     @JsonKey(name: "narration") String? narration,
@@ -392,7 +392,7 @@ class _$ChequeTransCopyWithImpl<$Res, $Val extends ChequeTrans>
             chequeIssueDate: freezed == chequeIssueDate
                 ? _value.chequeIssueDate
                 : chequeIssueDate // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
+                      as String?,
             bankName: freezed == bankName
                 ? _value.bankName
                 : bankName // ignore: cast_nullable_to_non_nullable
@@ -400,7 +400,7 @@ class _$ChequeTransCopyWithImpl<$Res, $Val extends ChequeTrans>
             chequeDate: freezed == chequeDate
                 ? _value.chequeDate
                 : chequeDate // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
+                      as String?,
             chequeNumber: freezed == chequeNumber
                 ? _value.chequeNumber
                 : chequeNumber // ignore: cast_nullable_to_non_nullable
@@ -467,9 +467,9 @@ abstract class _$$ChequeTransImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "cheque_track_id") int? chequeTrackId,
     @JsonKey(name: "outlet_name") String? outletName,
-    @JsonKey(name: "cheque_issue_date") DateTime? chequeIssueDate,
+    @JsonKey(name: "cheque_issue_date") String? chequeIssueDate,
     @JsonKey(name: "bank_name") String? bankName,
-    @JsonKey(name: "cheque_date") DateTime? chequeDate,
+    @JsonKey(name: "cheque_date") String? chequeDate,
     @JsonKey(name: "cheque_number") String? chequeNumber,
     @JsonKey(name: "amount") String? amount,
     @JsonKey(name: "narration") String? narration,
@@ -530,7 +530,7 @@ class __$$ChequeTransImplCopyWithImpl<$Res>
         chequeIssueDate: freezed == chequeIssueDate
             ? _value.chequeIssueDate
             : chequeIssueDate // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
+                  as String?,
         bankName: freezed == bankName
             ? _value.bankName
             : bankName // ignore: cast_nullable_to_non_nullable
@@ -538,7 +538,7 @@ class __$$ChequeTransImplCopyWithImpl<$Res>
         chequeDate: freezed == chequeDate
             ? _value.chequeDate
             : chequeDate // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
+                  as String?,
         chequeNumber: freezed == chequeNumber
             ? _value.chequeNumber
             : chequeNumber // ignore: cast_nullable_to_non_nullable
@@ -626,13 +626,13 @@ class _$ChequeTransImpl implements _ChequeTrans {
   final String? outletName;
   @override
   @JsonKey(name: "cheque_issue_date")
-  final DateTime? chequeIssueDate;
+  final String? chequeIssueDate;
   @override
   @JsonKey(name: "bank_name")
   final String? bankName;
   @override
   @JsonKey(name: "cheque_date")
-  final DateTime? chequeDate;
+  final String? chequeDate;
   @override
   @JsonKey(name: "cheque_number")
   final String? chequeNumber;
@@ -751,9 +751,9 @@ abstract class _ChequeTrans implements ChequeTrans {
   const factory _ChequeTrans({
     @JsonKey(name: "cheque_track_id") final int? chequeTrackId,
     @JsonKey(name: "outlet_name") final String? outletName,
-    @JsonKey(name: "cheque_issue_date") final DateTime? chequeIssueDate,
+    @JsonKey(name: "cheque_issue_date") final String? chequeIssueDate,
     @JsonKey(name: "bank_name") final String? bankName,
-    @JsonKey(name: "cheque_date") final DateTime? chequeDate,
+    @JsonKey(name: "cheque_date") final String? chequeDate,
     @JsonKey(name: "cheque_number") final String? chequeNumber,
     @JsonKey(name: "amount") final String? amount,
     @JsonKey(name: "narration") final String? narration,
@@ -779,13 +779,13 @@ abstract class _ChequeTrans implements ChequeTrans {
   String? get outletName;
   @override
   @JsonKey(name: "cheque_issue_date")
-  DateTime? get chequeIssueDate;
+  String? get chequeIssueDate;
   @override
   @JsonKey(name: "bank_name")
   String? get bankName;
   @override
   @JsonKey(name: "cheque_date")
-  DateTime? get chequeDate;
+  String? get chequeDate;
   @override
   @JsonKey(name: "cheque_number")
   String? get chequeNumber;

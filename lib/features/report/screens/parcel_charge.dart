@@ -1,5 +1,5 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
-import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
+
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -54,7 +54,7 @@ class ParcelCharge extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                  
+
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedStore(p0);
                       },
@@ -77,19 +77,26 @@ class ParcelCharge extends StatelessWidget {
                       ),
                       borderColor: kBlack,
                       fillColor: const Color(0XFFEFF1F1),
-                      value: state.selectedOption,
+                      value: state.selectedOption?.orderOptionId,
 
                       items:
                           state.optionList?.map((e) {
-                            return DropdownMenuItem<OptionResponse>(
-                              value: e,
+                            return DropdownMenuItem<int>(
+                              value: e.orderOptionId,
                               child: Text(e.orderOptionName ?? ''),
                             );
                           }).toList() ??
                           [],
-                    
-                      onChanged: (p0) {
-                        context.read<CommonCubit>().selectedOption(p0);
+
+                      onChanged: (selectedOption) {
+                        final select = state.optionList?.firstWhere(
+                          (e) => e.orderOptionId == selectedOption,
+                        );
+                        if (select != null &&
+                            select.orderOptionId !=
+                                state.selectedOption?.orderOptionId) {
+                          context.read<CommonCubit>().selectedOption(select);
+                        }
                       },
                       labelText: 'order option',
                     );
@@ -130,76 +137,84 @@ class ParcelCharge extends StatelessWidget {
                 ),
                 12.verticalSpace,
                 BlocBuilder<CommonCubit, CommonState>(
-                  builder: (context, state) {
-                    return CustomMaterialBtton(
-                      onPressed: () {
-                        context.read<ReportCubit>().loadParcelCharge(
-                          storeId: state.selectedStore?.storeId,
-                          orderOptionId: state.selectedOption?.orderOptionId,
+                  builder: (context, commonState) {
+                    return BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, reportState) {
+                        return CustomMaterialBtton(
+                          onPressed: () {
+                            final selectedOptionId =
+                                commonState.selectedOption?.orderOptionId;
+                            context.read<ReportCubit>().loadParcelCharge(
+                              storeId: commonState.selectedStore?.storeId,
+                              orderOptionId: selectedOptionId,
+                            );
+                            // print('fghrhrh -=-=-=-=${state.selectedOption?.orderOptionId}');
+                          },
+                          buttonText: 'View Report',
                         );
-                       // print('fghrhrh -=-=-=-=${state.selectedOption?.orderOptionId}');
                       },
-                      buttonText: 'View Report',
                     );
                   },
                 ),
               ],
             ),
           ),
-          Expanded(
-            child: MainPadding(
-              child: BlocBuilder<CommonCubit, CommonState>(
-                builder: (context, store) {
-                  return BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return NotificationListener<ScrollEndNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isParcelCharge != ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadParcelCharge(
-                              pageFirstLimit: state.page,
-                              resultPerPage: state.pageSize,
-                              isLoadMore: true,
-                              orderOptionId:
-                                  store.selectedOption?.orderOptionId,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
-                          return false;
-                        },
+          // Expanded(
+          //   child: MainPadding(
+          //     child: BlocBuilder<CommonCubit, CommonState>(
+          //       builder: (context, store) {
+          //         return BlocBuilder<ReportCubit, ReportState>(
+          //           builder: (context, state) {
+          //             return NotificationListener<ScrollEndNotification>(
+          //               onNotification: (ScrollNotification scrollInfo) {
+          //                 if (scrollInfo.metrics.pixels >=
+          //                         scrollInfo.metrics.maxScrollExtent - 50 &&
+          //                     state.isParcelCharge != ApiFetchStatus.loading) {
+          //                   context.read<ReportCubit>().loadParcelCharge(
 
-                        child: CommonTableWidget(
-                          isLoading:
-                              state.isParcelCharge == ApiFetchStatus.loading,
-                          headers: [
-                            "#",
-                            "Order"
-                            "ORDER DATE",
-                            "PARCEL CHARGE",
-                          ],
-                          columnFlex: [2, 2, 2, 2],
-                          data:
-                              state.parcelChargeList?.map((e) {
-                                int index =
-                                    state.parcelChargeList?.indexOf(e) ?? 0;
-                                return {
-                                  "#": index + 1,
-                                  "ORDER": e.billNo ?? '',
-                                  "ORDER DATE": e.orderDate ?? '',
+          //                     orderOptionId:
+          //                         store.selectedOption?.orderOptionId,
+          //                     storeId: store.selectedStore?.storeId,
+          //                   );
+          //                 }
+          //                 return false;
+          //               },
 
-                                  "PARCEL CHARGE": e.parcelCharge ?? '',
-                                };
-                              }).toList() ??
-                              [],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+          //               child:
+          BlocBuilder<ReportCubit, ReportState>(
+            builder: (context, state) {
+              return Expanded(
+                child: CommonTableWidget(
+                  isLoading: state.isParcelCharge == ApiFetchStatus.loading,
+                  headers: [
+                    "#",
+                    "ORDER",
+                    "ORDER DATE",
+                    "PARCEL CHARGE",
+                  ],
+                  columnFlex: [2, 2, 2, 2],
+                  data:
+                      state.parcelChargeList?.map((e) {
+                        int index = state.parcelChargeList?.indexOf(e) ?? 0;
+                        return {
+                          "#": index + 1,
+                          "ORDER": e.billNo ?? '',
+                          "ORDER DATE": e.orderDate ?? '',
+                          "PARCEL CHARGE": e.parcelCharge ?? '',
+                        };
+                      }).toList() ??
+                      [],
+                ),
+              );
+            },
           ),
+          //             );
+          //           },
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
