@@ -46,7 +46,9 @@ class ProductState extends Equatable {
     StockStatusResponse? selectedStockResponse,
     ApiFetchStatus? apiFetchStatus,
     DateTime ? selectedDate,
+     EditUpdateResponse? updateData,
      List<VariantsResponse>? variantList,
+
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -61,6 +63,7 @@ class ProductState extends Equatable {
     selectedStockResponse: selectedStockResponse??this.selectedStockResponse,
     selectedDate: selectedDate??this.selectedDate,
     variantList: variantList??this.variantList,
+    updateData: updateData ??this.updateData,
   );
 
   @override
@@ -78,6 +81,8 @@ class ProductState extends Equatable {
     selectedStockResponse,
     selectedDate,
     variantList,
+    updateData,
+    
   ];
 }
 
