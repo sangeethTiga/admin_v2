@@ -1,6 +1,7 @@
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
+import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:go_router/go_router.dart';
 
 class EditProduct extends StatefulWidget {
   final ProductResponse product;
@@ -38,6 +39,7 @@ class _EditProductState extends State<EditProduct> {
     );
   }
 
+  @override
   void dispose() {
     super.dispose();
     nameController.dispose();
@@ -126,26 +128,40 @@ class _EditProductState extends State<EditProduct> {
           ),
           Padding(
             padding: const EdgeInsets.all(13.0),
-            child: CustomMaterialBtton(
-              buttonText: 'Submit',
-              onPressed: () async {
-                final updatedProduct = EditUpdateResponse(
-                  productName: nameController.text,
-                  productPrice: double.tryParse(priceController.text) ?? 0.0,
-                  productQuantity: int.tryParse(quantityController.text) ?? 0,
-                  updatedDate: DateTime.now(),
-                  storeId: widget.product.storeId ?? 0,
-                  productId: widget.product.productId ?? 0,
-                  productHidden: widget.product.productHidden ?? 0,
-                  maintainStock: widget.product.maintainStock,
-                );
-                await context.read<ProductCubit>().updateProduct(
-                  updatedProduct,
-                  widget.product.productId ?? 0,
-                  widget.product.storeId ?? 0,
-                );
-                Navigator.pop(context, updatedProduct);
+            child: BlocListener<ProductCubit, ProductState>(
+              listenWhen: (previous, current) =>
+                  previous.isAdded != current.isAdded &&
+                  current.isAdded == ApiFetchStatus.success,
+              listener: (context, state) {
+                if (state.isAdded == ApiFetchStatus.success) {
+                  context.read<ProductCubit>().product(
+                    state.selectedStore?.storeId ?? 0,
+                    0,
+                    "",
+                    "",
+                  );
+                }
               },
+              child: CustomMaterialBtton(
+                buttonText: 'Submit',
+                onPressed: () async {
+                  final updatedProduct = EditUpdateResponse(
+                    productName: nameController.text,
+                    productPrice: double.tryParse(priceController.text) ?? 0.0,
+                    productQuantity: int.tryParse(quantityController.text) ?? 0,
+                    updatedDate: DateTime.now(),
+                    storeId: widget.product.storeId ?? 0,
+                    productId: widget.product.productId ?? 0,
+                    productHidden: widget.product.productHidden ?? 0,
+                    maintainStock: widget.product.maintainStock,
+                  );
+                  await context.read<ProductCubit>().updateProduct(
+                    updatedProduct,
+                    widget.product.productId ?? 0,
+                  );
+                  context.pop();
+                },
+              ),
             ),
           ),
         ],

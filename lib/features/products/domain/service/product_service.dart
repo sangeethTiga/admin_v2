@@ -103,7 +103,7 @@ class ProductService implements ProductRepositories {
   Future<ResponseResult<EditUpdateResponse>> updateProduct(
     EditUpdateResponse? request,
     int? productId,
-    int? storeId
+  
   ) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.post(

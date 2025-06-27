@@ -15,6 +15,8 @@ class ProductState extends Equatable {
   final ApiFetchStatus? apiFetchStatus;
   final DateTime? selectedDate;
   final EditUpdateResponse? updateData;
+  final ApiFetchStatus? isAdded;
+  final StoreResponse? selectedStore;
 
   const ProductState({
     this.isProduct,
@@ -31,6 +33,8 @@ class ProductState extends Equatable {
     this.selectedDate,
     this.updateData,
     this.variantList,
+    this.isAdded,
+    this.selectedStore,
   });
 
   ProductState copyWith({
@@ -45,10 +49,11 @@ class ProductState extends Equatable {
     double? totalStock,
     StockStatusResponse? selectedStockResponse,
     ApiFetchStatus? apiFetchStatus,
-    DateTime ? selectedDate,
-     EditUpdateResponse? updateData,
-     List<VariantsResponse>? variantList,
-
+    DateTime? selectedDate,
+    List<VariantsResponse>? variantList,
+    EditUpdateResponse? updateData,
+    ApiFetchStatus? isAdded,
+    StoreResponse? selectedStore,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -58,12 +63,14 @@ class ProductState extends Equatable {
     selectedProduct: selectedProduct ?? this.selectedProduct,
     scannedProduct: scannedProduct ?? this.scannedProduct,
     filteredProducts: filteredProducts ?? this.filteredProducts,
-    apiFetchStatus: apiFetchStatus ??this.apiFetchStatus,
-    totalStock: totalStock??this.totalStock,
-    selectedStockResponse: selectedStockResponse??this.selectedStockResponse,
-    selectedDate: selectedDate??this.selectedDate,
-    variantList: variantList??this.variantList,
-    updateData: updateData ??this.updateData,
+    apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
+    totalStock: totalStock ?? this.totalStock,
+    selectedStockResponse: selectedStockResponse ?? this.selectedStockResponse,
+    selectedDate: selectedDate ?? this.selectedDate,
+    variantList: variantList ?? this.variantList,
+    isAdded: isAdded ?? this.isAdded,
+    selectedStore: selectedStore ?? this.selectedStore,
+    updateData: updateData ?? this.updateData
   );
 
   @override
@@ -81,8 +88,9 @@ class ProductState extends Equatable {
     selectedStockResponse,
     selectedDate,
     variantList,
-    updateData,
-    
+    isAdded,
+    selectedStore,
+    updateData
   ];
 }
 

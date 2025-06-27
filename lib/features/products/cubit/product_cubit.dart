@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
@@ -55,7 +56,8 @@ class ProductCubit extends Cubit<ProductState> {
         print("Scanned Result Count: ${res.data?.length}");
       }
       return;
-    } catch (e) {
+    } catch (e, s) {
+      log("$e", stackTrace: s);
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
     }
   }
@@ -83,18 +85,11 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
       final res = await _productRepositories.stockUpdate(request: req);
-  
+
       if (res.data != null) {
-        emit(
-          state.copyWith(
-            isProduct: ApiFetchStatus.success, 
-          ),
-
-        );
-      }else{
+        emit(state.copyWith(isProduct: ApiFetchStatus.success));
+      } else {
         emit(state.copyWith(isProduct: ApiFetchStatus.failed));
-
-
       }
     } catch (e) {
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
@@ -137,38 +132,34 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(totalStock: 0));
   }
 
-  Future<void> updateProduct(EditUpdateResponse updateProduct, int productId,int storeId) async {
-    emit(state.copyWith(isProduct: ApiFetchStatus.loading));
+  Future<void> updateProduct(
+    EditUpdateResponse updateProduct,
+    int productId,
+  ) async {
+    emit(state.copyWith(isAdded: ApiFetchStatus.loading));
 
-    final res = await _productRepositories.updateProduct(updateProduct,productId,storeId);
+    final res = await _productRepositories.updateProduct(
+      updateProduct,
+      productId,
+    );
     if (res.data != null) {
+      final updatedProduct = res.data!;
       emit(
         state.copyWith(
-          isProduct: ApiFetchStatus.success,
-          updateData: res.data,
+          isAdded: ApiFetchStatus.success,
+          updateData: updateProduct,
         ),
       );
       return;
     }
-
-    emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+    emit(state.copyWith(isAdded: ApiFetchStatus.failed));
   }
 
-  Future<void>dateSelection(DateTime selectedDate)async{
+  Future<void> dateSelection(DateTime selectedDate) async {
     emit(state.copyWith(selectedDate: selectedDate));
   }
 
-  Future<void>getVariants(int productId)async{
-
-    
-
-      try {
-      final variants= await _productRepositories.getVariant(productId);
-      if (variants.data != null) {
-        emit(state.copyWith(variantList: variants.data));
-      }
-    } catch (e) {
-      log('getVariants------$e');
-    }
+  Future<void> chnageStore(StoreResponse res) async {
+    emit(state.copyWith(selectedStore: res));
   }
 }
