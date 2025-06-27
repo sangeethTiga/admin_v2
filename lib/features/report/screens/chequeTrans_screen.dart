@@ -1,7 +1,7 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
-import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
+
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -100,16 +100,8 @@ class ChequetransScreen extends StatelessWidget {
                           if (select != null &&
                               select.chequeStatusId !=
                                   state.selectedStatus?.chequeStatusId) {
-                            context.read<ReportCubit>().selectedStatus(select!);
+                            context.read<ReportCubit>().selectedStatus(select);
                           }
-                          context.read<ReportCubit>().loadStatus(
-                          
-                            status: select?.chequeStatusId.toString(),
-                            // status:
-                            //     state.selectedStatus?.chequeStatusId
-                            //         ?.toString() ??
-                            //     '',
-                          );
                         },
                         labelText: 'status',
                       );
@@ -117,18 +109,31 @@ class ChequetransScreen extends StatelessWidget {
                   ),
 
                   BlocBuilder<CommonCubit, CommonState>(
-                    builder: (context, state) {
-                      final reportState = context.read<ReportCubit>().state;
-                      return CustomMaterialBtton(
-                        onPressed: () {
-                          final selectedStatusId =
-                              reportState.selectedStatus?.chequeStatusId;
-                          context.read<ReportCubit>().loadChequeTrans(
-                            storeId: state.selectedStore?.storeId,
-                            status:selectedStatusId?.toString()
+                    builder: (context, commonState) {
+                    
+                      return BlocBuilder<ReportCubit, ReportState>(
+                        builder: (context, reportState) {
+                          return CustomMaterialBtton(
+                            isLoading:
+                                reportState.isChequeReport ==
+                                ApiFetchStatus.loading,
+                            onPressed: () {
+                              final selectedStatusId =
+                                  reportState.selectedStatus?.chequeStatusId;
+                              // if (selectedStatusId == null) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     SnackBar(content: Text('Please select a status')),
+                              //   );
+                              // }
+                              context.read<ReportCubit>().loadChequeTrans(
+                                storeId: commonState.selectedStore?.storeId,
+                                status: selectedStatusId?.toString(),
+                              );
+                              print('statusssss-=-=-$selectedStatusId');
+                            },
+                            buttonText: 'View Report',
                           );
                         },
-                        buttonText: 'View Report',
                       );
                     },
                   ),
@@ -138,7 +143,7 @@ class ChequetransScreen extends StatelessWidget {
                       builder: (context, state) {
                         return CommonTableWidget(
                           isLoading:
-                              state.chequeTransReport == ApiFetchStatus.loading,
+                              state.isChequeReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
                             "CHEQUE NUMBER",

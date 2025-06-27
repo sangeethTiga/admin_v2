@@ -129,7 +129,7 @@ class CustomersReportScreen extends StatelessWidget {
                             context.read<ReportCubit>().loadCustomersReport(
                               page: state.currentPage + 1,
                               limit: state.pageSize,
-                              isLoadMore: true,
+                              //isLoadMore: true,
                               storeId: store.selectedStore?.storeId,
                             );
                           }

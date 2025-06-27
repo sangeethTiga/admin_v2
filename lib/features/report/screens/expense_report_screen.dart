@@ -168,7 +168,7 @@ class ExpenseReportScreen extends StatelessWidget {
                             "#",
                             "INV NO",
                             "TRAN DATE",
-                            "DES",
+                            "DESCRIPTION",
                             "ACCOUNT",
                             "AMOUNT",
                           ],
@@ -179,7 +179,7 @@ class ExpenseReportScreen extends StatelessWidget {
                                     state.expenseReport?.indexOf(e) ?? 0;
                                 return {
                                   '#': index + 1,
-                                  'INVOICE NO': e.invoiceNumber ?? '',
+                                  'INV NO': e.invoiceNumber ?? '',
                                   'TRAN DATE': e.acTransactionDate ?? '',
                                   'DESCRIPTION': e.description ?? '',
                                   "ACCOUNT": e.accountName ?? '',
