@@ -394,7 +394,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                                       isScrollControlled: true,
 
                                                       builder: (context) {
-                                                        return VariantStockUpdateCard();
+                                                        return VariantStockUpdateCard(maintainStock: data.maintainStock!,);
                                                       },
                                                     );
                                                   } else {

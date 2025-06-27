@@ -25,6 +25,7 @@ class StockUpdateCard extends StatefulWidget {
   final int? productId;
   final bool fromVariant;
   final String? variantName;
+  final int? variantId;
 
   const StockUpdateCard({
     super.key,
@@ -33,6 +34,7 @@ class StockUpdateCard extends StatefulWidget {
     this.productId,
     required this.fromVariant,
     this.variantName,
+    this.variantId,
   });
 
   @override
@@ -45,7 +47,15 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
   final TextEditingController totalPriceController = TextEditingController();
   StockStatusResponse? selectedStockStatus;
 
-  
+   void initState() {
+    super.initState();
+    final stockList = context.read<ProductCubit>().state.stockStatusList;
+    if (stockList != null && stockList.isNotEmpty) {
+      selectedStockStatus = stockList.first;
+      context.read<ProductCubit>().selectStockType(selectedStockStatus!);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +214,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                     context.read<ProductCubit>().dateSelection(value);
                   },
                 ),
-                10.verticalSpace,
+                widget.fromVariant?SizedBox():10.verticalSpace,
 
                widget.fromVariant?SizedBox(): TextFeildWidget(
                   borderColor: kBlack,
@@ -227,7 +237,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                     updateTotalPrice();
                   },
                 ),
-                10.verticalSpace,
+               widget.fromVariant?SizedBox(): 10.verticalSpace,
 
                 widget.fromVariant?SizedBox(): TextFeildWidget(
                   borderColor: kBlack,
@@ -322,6 +332,62 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                           return;
                         }
                         final cubit = context.read<ProductCubit>();
+
+                        if(widget.fromVariant){
+                          await cubit.stockUpdate(StockUpdateRequest(
+                            maintainStock: widget.maintainStock,
+                            prodVarId: widget.variantId,
+                            productId: widget.productId,
+                            productItemConditionId: context
+                                .read<ProductCubit>()
+                                .state
+                                .selectedStockResponse
+                                ?.productItemConditionId,
+                            stockQty:  double.tryParse(
+                              totalStockController.text,
+                            ),   
+                          ));
+
+
+
+                        }else{
+                          await cubit.stockUpdate(
+                          StockUpdateRequest(
+                            maintainStock: widget.maintainStock,
+                            pricePerUnit: double.tryParse(
+                              pricePerUnitController.text,
+                            ),
+                            productId: widget.productId,
+                            prodVarId: 0,
+                            stockQty: double.tryParse(
+                              totalStockController.text,
+                            ),
+                            productItemConditionId: context
+                                .read<ProductCubit>()
+                                .state
+                                .selectedStockResponse
+                                ?.productItemConditionId,
+                            totalPrice:
+                                cubit.state.totalStock ??
+                                0.0 *
+                                    (double.tryParse(
+                                          pricePerUnitController.text,
+                                        ) ??
+                                        0.0),
+
+                            updatedDate:
+                                context
+                                    .read<ProductCubit>()
+                                    .state
+                                    .selectedDate ??
+                                getCurrentDate(),
+                          ),
+                        );
+
+
+
+
+                        }
 
                         await cubit.stockUpdate(
                           StockUpdateRequest(
