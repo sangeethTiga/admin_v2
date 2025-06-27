@@ -1,8 +1,13 @@
+import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
+import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
+import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -62,23 +67,50 @@ class _EditProductOfferState extends State<EditProductOffer> {
             ),
           ),
 
-          Padding(
-            padding: EdgeInsets.all(13),
-            child: TextFeildWidget(
-              topLabelText: 'Offer',
-              controller: offerController,
-              hight: 48.h,
-              fillColor: kWhite,
-              inputBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-                borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-              ),
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 14.h,
-                horizontal: 8.w,
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.all(13),
+          //   child: BlocBuilder<ReportCubit, ReportState>(
+          //     builder: (context, state) {
+          //       return DropDownFieldWidget(
+          //             isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+          //             prefixIcon: Container(
+          //               margin: EdgeInsets.only(left: 12.w),
+          //               // child: SvgPicture.asset(
+          //               //   'assets/icons/package-box-pin-location.svg',
+          //               //   width: 20.w,
+          //               //   height: 20.h,
+          //               //   fit: BoxFit.contain,
+          //               // ),
+          //             ),
+          //             borderColor: kBlack,
+          //             value: state.selectedType,
+          //             items:
+          //                 state.offerType?.map((e) {
+          //                   return DropdownMenuItem<OffersResponse>(
+          //                     value: e,
+          //                     child: Text(e. offerTypeName?? ''),
+          //                   );
+          //                 }).toList() ??
+          //                 [],
+          //             fillColor: const Color(0XFFEFF1F1),
+
+          //             onChanged: (p0) {
+          //               //context.read<CommonCubit>().selectedStore(p0);
+          //               context.read<ReportCubit>().loadOfferType();
+          //               // context.read<OrderCubit>().orders(
+          //               //   req: OrderRequest(
+          //               //     storeId: state.selectedStore?.storeId,
+          //               //     fromDate: parsedDate(DateTime.now()),
+          //               //     toDate: parsedDate(DateTime.now()),
+          //               //   ),
+          //               // );
+          //             },
+
+          //             labelText: '',
+          //           );
+          //     },
+          //   ),
+          // ),
 
           Padding(
             padding: EdgeInsets.all(13),
