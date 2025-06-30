@@ -17,6 +17,9 @@ class ProductState extends Equatable {
   final EditUpdateResponse? updateData;
   final ApiFetchStatus? isAdded;
   final StoreResponse? selectedStore;
+  final String? name;
+  final String? quantity;
+  final String? price;
 
   const ProductState({
     this.isProduct,
@@ -35,6 +38,9 @@ class ProductState extends Equatable {
     this.variantList,
     this.isAdded,
     this.selectedStore,
+    this.name,
+    this.price,
+    this.quantity
   });
 
   ProductState copyWith({
@@ -54,6 +60,9 @@ class ProductState extends Equatable {
     EditUpdateResponse? updateData,
     ApiFetchStatus? isAdded,
     StoreResponse? selectedStore,
+    String? name,
+    String? quantity,
+    String? price,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -70,7 +79,10 @@ class ProductState extends Equatable {
     variantList: variantList ?? this.variantList,
     isAdded: isAdded ?? this.isAdded,
     selectedStore: selectedStore ?? this.selectedStore,
-    updateData: updateData ?? this.updateData
+    updateData: updateData ?? this.updateData,
+    name: name ?? this.name,
+    price: price?? this.price,
+    quantity: quantity ?? this.quantity
   );
 
   @override
@@ -90,7 +102,10 @@ class ProductState extends Equatable {
     variantList,
     isAdded,
     selectedStore,
-    updateData
+    updateData,
+    name,
+    price,
+    quantity
   ];
 }
 

@@ -7,8 +7,8 @@ part 'edit_update_response.g.dart';
 class EditUpdateResponse with _$EditUpdateResponse {
   const factory EditUpdateResponse({
     @JsonKey(name: "product_name") String? productName,
-    @JsonKey(name: "product_qty") int? productQuantity,
-    @JsonKey(name: "product_price") double? productPrice,
+    @JsonKey(name: "product_qty") double? productQuantity,
+    @JsonKey(name: "product_price") String?  productPrice,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "product_id") int? productId,

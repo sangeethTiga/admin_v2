@@ -159,7 +159,10 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectedDate: selectedDate));
   }
 
-  Future<void> chnageStore(StoreResponse res) async {
+  Future<void> changeStore(StoreResponse res) async {
     emit(state.copyWith(selectedStore: res));
   }
+
+ 
+
 }

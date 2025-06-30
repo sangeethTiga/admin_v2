@@ -23,8 +23,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProductScreen extends StatelessWidget {
-   
-   ProductScreen({super.key});
+  ProductScreen({super.key});
 
   final TextEditingController mobileScannerController = TextEditingController();
 
@@ -72,12 +71,25 @@ class ProductScreen extends StatelessWidget {
                             fillColor: const Color(0XFFEFF1F1),
 
                             onChanged: (p0) {
+                              final storeId =
+                                  context
+                                      .read<CommonCubit>()
+                                      .state
+                                      .selectedStore
+                                      ?.storeId ??
+                                  0;
                               context.read<CommonCubit>().selectedStore(p0);
                               context.read<ProductCubit>().catgeory(
                                 p0?.storeId,
                               );
 
-                              context.read<ProductCubit>().chnageStore(p0);
+                              context.read<ProductCubit>().changeStore(p0);
+                              context.read<ProductCubit>().product(
+                               p0?.storeId,
+                                0,
+                                '',
+                                '',
+                              );
                             },
                             labelText: '',
                           );
@@ -302,21 +314,6 @@ class ProductScreen extends StatelessWidget {
                                                               );
                                                             },
                                                           );
-                                                      // if (!context.mounted)
-                                                      //   return;
-                                                      // if (editedResponse !=
-                                                      //     null) {
-                                                      //   context
-                                                      //       .read<
-                                                      //         ProductCubit
-                                                      //       >()
-                                                      //       .updateProduct(
-                                                      //         editedResponse,
-
-                                                      //         data.productId ??
-                                                      //             0,
-                                                      //       );
-                                                      // }
                                                     },
                                                     child: Row(
                                                       children: [
@@ -392,7 +389,10 @@ class ProductScreen extends StatelessWidget {
                                                       isScrollControlled: true,
 
                                                       builder: (context) {
-                                                        return VariantStockUpdateCard(maintainStock: data.maintainStock!,);
+                                                        return VariantStockUpdateCard(
+                                                          maintainStock: data
+                                                              .maintainStock!,
+                                                        );
                                                       },
                                                     );
                                                   } else {

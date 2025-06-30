@@ -10,8 +10,8 @@ _$EditUpdateResponseImpl _$$EditUpdateResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$EditUpdateResponseImpl(
   productName: json['product_name'] as String?,
-  productQuantity: (json['product_qty'] as num?)?.toInt(),
-  productPrice: (json['product_price'] as num?)?.toDouble(),
+  productQuantity: (json['product_qty'] as num?)?.toDouble(),
+  productPrice: json['product_price'] as String?,
   updatedDate: json['updated_date'] == null
       ? null
       : DateTime.parse(json['updated_date'] as String),

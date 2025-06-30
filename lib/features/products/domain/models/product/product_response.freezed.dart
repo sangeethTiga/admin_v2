@@ -38,7 +38,7 @@ mixin _$ProductResponse {
   @JsonKey(name: "maintain_stock")
   int? get maintainStock => throw _privateConstructorUsedError;
   @JsonKey(name: "product_qty")
-  double? get productQty => throw _privateConstructorUsedError;
+  double? get  productQty => throw _privateConstructorUsedError;
   @JsonKey(name: "product_hidden")
   int? get productHidden => throw _privateConstructorUsedError;
   @JsonKey(name: "is_variant")
