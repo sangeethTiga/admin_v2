@@ -47,7 +47,8 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
   final TextEditingController totalPriceController = TextEditingController();
   StockStatusResponse? selectedStockStatus;
 
-   void initState() {
+   @override
+     void initState() {
     super.initState();
     final stockList = context.read<ProductCubit>().state.stockStatusList;
     if (stockList != null && stockList.isNotEmpty) {
@@ -389,38 +390,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
 
                         }
 
-                        await cubit.stockUpdate(
-                          StockUpdateRequest(
-                            maintainStock: widget.maintainStock,
-                            pricePerUnit: double.tryParse(
-                              pricePerUnitController.text,
-                            ),
-                            productId: widget.productId,
-                            prodVarId: 0,
-                            stockQty: double.tryParse(
-                              totalStockController.text,
-                            ),
-                            productItemConditionId: context
-                                .read<ProductCubit>()
-                                .state
-                                .selectedStockResponse
-                                ?.productItemConditionId,
-                            totalPrice:
-                                cubit.state.totalStock ??
-                                0.0 *
-                                    (double.tryParse(
-                                          pricePerUnitController.text,
-                                        ) ??
-                                        0.0),
-
-                            updatedDate:
-                                context
-                                    .read<ProductCubit>()
-                                    .state
-                                    .selectedDate ??
-                                getCurrentDate(),
-                          ),
-                        );
+                       
                       },
                       buttonText: 'Submit',
                     ),

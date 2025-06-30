@@ -170,4 +170,13 @@ class ProductCubit extends Cubit<ProductState> {
 
     emit(state.copyWith(selectCategory: CategoryResponse()));
   }
+
+ Future<void> getVariants(int productId) async {
+  try {
+    final variantList = await _productRepositories.getVariant(productId); 
+    emit(state.copyWith(variantList: variantList.data)); 
+  } catch (e, s) {
+    log('getVariant error: $e\nStackTrace: $s');
+  }
+}
 }

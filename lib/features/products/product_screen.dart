@@ -368,11 +368,11 @@ class ProductScreen extends StatelessWidget {
                                                       .closeButton();
                                                   if (data.isVariant == 1 &&
                                                       data.maintainStock == 1) {
-                                                    // context
-                                                    //     .read<ProductCubit>()
-                                                    //     .getVariants(
-                                                    //       data.productId!,
-                                                    //     );
+                                                    context
+                                                        .read<ProductCubit>()
+                                                        .getVariants(
+                                                          data.productId!,
+                                                        );
                                                     showModalBottomSheet(
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
