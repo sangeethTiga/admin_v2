@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+
 class EditProduct extends StatefulWidget {
   final ProductResponse product;
   const EditProduct({super.key, required this.product});
@@ -147,8 +148,10 @@ class _EditProductState extends State<EditProduct> {
                 onPressed: () async {
                   final updatedProduct = EditUpdateResponse(
                     productName: nameController.text,
-                    productPrice: double.tryParse(priceController.text) ?? 0.0,
-                    productQuantity: int.tryParse(quantityController.text) ?? 0,
+                    productPrice: priceController.text,
+                    productQuantity:
+                        double.tryParse(quantityController.text) ?? 0,
+
                     updatedDate: DateTime.now(),
                     storeId: widget.product.storeId ?? 0,
                     productId: widget.product.productId ?? 0,
