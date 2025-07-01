@@ -29,13 +29,9 @@ _$ChequeTransImpl _$$ChequeTransImplFromJson(Map<String, dynamic> json) =>
     _$ChequeTransImpl(
       chequeTrackId: (json['cheque_track_id'] as num?)?.toInt(),
       outletName: json['outlet_name'] as String?,
-      chequeIssueDate: json['cheque_issue_date'] == null
-          ? null
-          : DateTime.parse(json['cheque_issue_date'] as String),
+      chequeIssueDate: json['cheque_issue_date'] as String?,
       bankName: json['bank_name'] as String?,
-      chequeDate: json['cheque_date'] == null
-          ? null
-          : DateTime.parse(json['cheque_date'] as String),
+      chequeDate: json['cheque_date'] as String?,
       chequeNumber: json['cheque_number'] as String?,
       amount: json['amount'] as String?,
       narration: json['narration'] as String?,
@@ -58,9 +54,9 @@ Map<String, dynamic> _$$ChequeTransImplToJson(_$ChequeTransImpl instance) =>
     <String, dynamic>{
       'cheque_track_id': instance.chequeTrackId,
       'outlet_name': instance.outletName,
-      'cheque_issue_date': instance.chequeIssueDate?.toIso8601String(),
+      'cheque_issue_date': instance.chequeIssueDate,
       'bank_name': instance.bankName,
-      'cheque_date': instance.chequeDate?.toIso8601String(),
+      'cheque_date': instance.chequeDate,
       'cheque_number': instance.chequeNumber,
       'amount': instance.amount,
       'narration': instance.narration,

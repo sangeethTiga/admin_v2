@@ -389,8 +389,8 @@ class ReportCubit extends Cubit<ReportState> {
     int? storeId,
     String? fromDate,
     String? toDate,
-    int? pageFirstLimit,
-    int? resultPerPage,
+    int page = 0,
+    int limit = 20,
     int? orderOptionId,
 
     bool isLoadMore = false,
@@ -403,10 +403,11 @@ class ReportCubit extends Cubit<ReportState> {
         ),
       );
     }
-    emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
+    final int offset = page * limit;
+    // emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadParcelReport(
-      pageFirstLimit: state.page,
-      resultPerPage: state.pageSize,
+      pageFirstLimit: offset,
+      resultPerPage: limit,
       orderOptionId: orderOptionId ?? 0,
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
@@ -427,8 +428,9 @@ class ReportCubit extends Cubit<ReportState> {
           isParcelCharge: ApiFetchStatus.success,
         ),
       );
+    } else {
+      emit(state.copyWith(isParcelCharge: ApiFetchStatus.failed));
     }
-    emit(state.copyWith(isParcelCharge: ApiFetchStatus.failed));
   }
 
   Future<void> loadUserShiftReport({
@@ -730,18 +732,15 @@ class ReportCubit extends Cubit<ReportState> {
           isChequeReport: ApiFetchStatus.success,
         ),
       );
+    } else {
+      emit(state.copyWith(isChequeReport: ApiFetchStatus.failed));
     }
-    emit(state.copyWith(isChequeReport: ApiFetchStatus.failed));
   }
 
   Future<void> loadStatus({
     int? storeId,
-    String? status,
 
-    // String? fromChequeIssueDate,
-    // String? toChequeIssueDate,
-    // String? fromChequeDate,
-    // String? toChequeDate,
+    // String? status,
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
@@ -754,12 +753,8 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isChequeStatus: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadStatus(
-      // fromChequeDate: parsedDate(state.toDate ?? DateTime.now()),
-      // fromChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
-      // toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
-      // toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
       storeId: storeId ?? 0,
-      // status: status ?? state.status,
+      //  status: status ?? state.status,
     );
 
     log('Response data: ${res.data}');

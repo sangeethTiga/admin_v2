@@ -14,6 +14,7 @@ class CommonState extends Equatable {
   final List<MostSellingResponse>? sellingProductsReport;
   final ApiFetchStatus? isMostSelling;
   final MostSellingResponse? selectedProducts;
+   final ApiFetchStatus? isChequeStatus;
 
   const CommonState({
     this.apiFetchStatus = ApiFetchStatus.idle,
@@ -29,6 +30,7 @@ class CommonState extends Equatable {
      this.isMostSelling,
     this.sellingProductsReport,
     this.selectedProducts,
+    this.isChequeStatus
   });
   CommonState copyWith({
     ApiFetchStatus? apiFetchStatus,
@@ -44,6 +46,7 @@ class CommonState extends Equatable {
       List<MostSellingResponse>? sellingProductsReport,
     ApiFetchStatus? isMostSelling,
      MostSellingResponse? selectedProducts,
+     ApiFetchStatus? isChequeStatus
   }) => CommonState(
     apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
     storeList: storeList ?? this.storeList,
@@ -59,6 +62,7 @@ class CommonState extends Equatable {
           sellingProductsReport ?? this.sellingProductsReport,
       isMostSelling: isMostSelling ?? this.isMostSelling,
       selectedProducts: selectedProducts ?? this.selectedProducts,
+      isChequeStatus: isChequeStatus ?? this.isChequeStatus
   );
 
   @override
@@ -75,6 +79,7 @@ class CommonState extends Equatable {
     sellingProductsReport,
     isMostSelling,
     selectedProducts,
+    isChequeStatus
   ];
 }
 

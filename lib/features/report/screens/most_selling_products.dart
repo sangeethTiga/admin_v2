@@ -155,14 +155,14 @@ class MostSellingProducts extends StatelessWidget {
                   headers: [
                     "#",
                     "Product",
-                    // "Cost Price",
+                 
                     "Selling Price",
                     "Order Quantity",
                     "Total Cost",
                     "Total Sales",
                     "Profit",
 
-                    // "Profit (%)"
+                  
                   ],
                   columnFlex: [1, 2, 2, 2, 2, 2, 2],
                   data:
@@ -171,14 +171,13 @@ class MostSellingProducts extends StatelessWidget {
                         return {
                           "#": index + 1,
                           "Product": e.productName ?? '',
-                          // "Cost Price": e.costPrice ?? '',
+                         
                           "Selling Price": e.sellingPrice ?? '',
                           "Order Quantity": e.totalorderqty ?? '',
                           "Total Cost": e.totalCostPrice ?? '',
                           "Total Sales": e.totalAmount ?? '',
                           "Profit": e.profit ?? '',
 
-                          // "Profit (%)":e.profitPercentage ?? ''
                         };
                       }).toList() ??
                       [],

@@ -268,11 +268,11 @@ class ReportService implements ReportRepositories {
 
     final res = await networkProvider.get(
       ApiEndpoints.parcelCharge(
-        storeId,
         pageFirstLimit,
+        resultPerPage,
         fromDate,
         toDate,
-        resultPerPage,
+        storeId,
         orderOptionId,
       ),
     );

@@ -30,11 +30,11 @@ class ChequeTrans with _$ChequeTrans {
         @JsonKey(name: "outlet_name")
         String? outletName,
         @JsonKey(name: "cheque_issue_date")
-        DateTime? chequeIssueDate,
+        String? chequeIssueDate,
         @JsonKey(name: "bank_name")
         String? bankName,
         @JsonKey(name: "cheque_date")
-        DateTime? chequeDate,
+        String? chequeDate,
         @JsonKey(name: "cheque_number")
         String? chequeNumber,
         @JsonKey(name: "amount")

@@ -24,9 +24,9 @@ mixin _$EditUpdateResponse {
   @JsonKey(name: "product_name")
   String? get productName => throw _privateConstructorUsedError;
   @JsonKey(name: "product_qty")
-  int? get productQuantity => throw _privateConstructorUsedError;
+  double? get productQuantity => throw _privateConstructorUsedError;
   @JsonKey(name: "product_price")
-  double? get productPrice => throw _privateConstructorUsedError;
+  String? get productPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_date")
   DateTime? get updatedDate => throw _privateConstructorUsedError;
   @JsonKey(name: "store_id")
@@ -57,8 +57,8 @@ abstract class $EditUpdateResponseCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "product_name") String? productName,
-    @JsonKey(name: "product_qty") int? productQuantity,
-    @JsonKey(name: "product_price") double? productPrice,
+    @JsonKey(name: "product_qty") double? productQuantity,
+    @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "product_id") int? productId,
@@ -100,11 +100,11 @@ class _$EditUpdateResponseCopyWithImpl<$Res, $Val extends EditUpdateResponse>
             productQuantity: freezed == productQuantity
                 ? _value.productQuantity
                 : productQuantity // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             productPrice: freezed == productPrice
                 ? _value.productPrice
                 : productPrice // ignore: cast_nullable_to_non_nullable
-                      as double?,
+                      as String?,
             updatedDate: freezed == updatedDate
                 ? _value.updatedDate
                 : updatedDate // ignore: cast_nullable_to_non_nullable
@@ -142,8 +142,8 @@ abstract class _$$EditUpdateResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: "product_name") String? productName,
-    @JsonKey(name: "product_qty") int? productQuantity,
-    @JsonKey(name: "product_price") double? productPrice,
+    @JsonKey(name: "product_qty") double? productQuantity,
+    @JsonKey(name: "product_price") String? productPrice,
     @JsonKey(name: "updated_date") DateTime? updatedDate,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "product_id") int? productId,
@@ -184,11 +184,11 @@ class __$$EditUpdateResponseImplCopyWithImpl<$Res>
         productQuantity: freezed == productQuantity
             ? _value.productQuantity
             : productQuantity // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         productPrice: freezed == productPrice
             ? _value.productPrice
             : productPrice // ignore: cast_nullable_to_non_nullable
-                  as double?,
+                  as String?,
         updatedDate: freezed == updatedDate
             ? _value.updatedDate
             : updatedDate // ignore: cast_nullable_to_non_nullable
@@ -236,10 +236,10 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
   final String? productName;
   @override
   @JsonKey(name: "product_qty")
-  final int? productQuantity;
+  final double? productQuantity;
   @override
   @JsonKey(name: "product_price")
-  final double? productPrice;
+  final String? productPrice;
   @override
   @JsonKey(name: "updated_date")
   final DateTime? updatedDate;
@@ -317,8 +317,8 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
 abstract class _EditUpdateResponse implements EditUpdateResponse {
   const factory _EditUpdateResponse({
     @JsonKey(name: "product_name") final String? productName,
-    @JsonKey(name: "product_qty") final int? productQuantity,
-    @JsonKey(name: "product_price") final double? productPrice,
+    @JsonKey(name: "product_qty") final double? productQuantity,
+    @JsonKey(name: "product_price") final String? productPrice,
     @JsonKey(name: "updated_date") final DateTime? updatedDate,
     @JsonKey(name: "store_id") final int? storeId,
     @JsonKey(name: "product_id") final int? productId,
@@ -334,10 +334,10 @@ abstract class _EditUpdateResponse implements EditUpdateResponse {
   String? get productName;
   @override
   @JsonKey(name: "product_qty")
-  int? get productQuantity;
+  double? get productQuantity;
   @override
   @JsonKey(name: "product_price")
-  double? get productPrice;
+  String? get productPrice;
   @override
   @JsonKey(name: "updated_date")
   DateTime? get updatedDate;

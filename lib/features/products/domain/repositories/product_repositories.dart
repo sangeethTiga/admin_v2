@@ -13,12 +13,12 @@ abstract class ProductRepositories {
     String? search,
     String? barCode,
   });
-  Future<ResponseResult<EditUpdateResponse>> updateProduct(EditUpdateResponse req,int? productId,int? storeId);
+  Future<ResponseResult<EditUpdateResponse>> updateProduct(
+    EditUpdateResponse req,
+    int? productId,
+  );
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus();
-  Future<ResponseResult<dynamic>> stockUpdate({
-    StockUpdateRequest request,
-  });
+  Future<ResponseResult<dynamic>> stockUpdate({StockUpdateRequest request});
   Future<ResponseResult<List<CategoryResponse>>> category(int storeId);
-Future<ResponseResult<List<VariantsResponse>>>getVariant(int productId);
-
+  Future<ResponseResult<List<VariantsResponse>>> getVariant(int productId);
 }

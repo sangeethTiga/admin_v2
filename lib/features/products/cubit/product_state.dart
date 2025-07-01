@@ -15,6 +15,11 @@ class ProductState extends Equatable {
   final ApiFetchStatus? apiFetchStatus;
   final DateTime? selectedDate;
   final EditUpdateResponse? updateData;
+  final ApiFetchStatus? isAdded;
+  final StoreResponse? selectedStore;
+  final String? name;
+  final String? quantity;
+  final String? price;
 
   const ProductState({
     this.isProduct,
@@ -31,6 +36,11 @@ class ProductState extends Equatable {
     this.selectedDate,
     this.updateData,
     this.variantList,
+    this.isAdded,
+    this.selectedStore,
+    this.name,
+    this.price,
+    this.quantity
   });
 
   ProductState copyWith({
@@ -45,8 +55,14 @@ class ProductState extends Equatable {
     double? totalStock,
     StockStatusResponse? selectedStockResponse,
     ApiFetchStatus? apiFetchStatus,
-    DateTime ? selectedDate,
-     List<VariantsResponse>? variantList,
+    DateTime? selectedDate,
+    List<VariantsResponse>? variantList,
+    EditUpdateResponse? updateData,
+    ApiFetchStatus? isAdded,
+    StoreResponse? selectedStore,
+    String? name,
+    String? quantity,
+    String? price,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -56,11 +72,17 @@ class ProductState extends Equatable {
     selectedProduct: selectedProduct ?? this.selectedProduct,
     scannedProduct: scannedProduct ?? this.scannedProduct,
     filteredProducts: filteredProducts ?? this.filteredProducts,
-    apiFetchStatus: apiFetchStatus ??this.apiFetchStatus,
-    totalStock: totalStock??this.totalStock,
-    selectedStockResponse: selectedStockResponse??this.selectedStockResponse,
-    selectedDate: selectedDate??this.selectedDate,
-    variantList: variantList??this.variantList,
+    apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
+    totalStock: totalStock ?? this.totalStock,
+    selectedStockResponse: selectedStockResponse ?? this.selectedStockResponse,
+    selectedDate: selectedDate ?? this.selectedDate,
+    variantList: variantList ?? this.variantList,
+    isAdded: isAdded ?? this.isAdded,
+    selectedStore: selectedStore ?? this.selectedStore,
+    updateData: updateData ?? this.updateData,
+    name: name ?? this.name,
+    price: price?? this.price,
+    quantity: quantity ?? this.quantity
   );
 
   @override
@@ -78,6 +100,12 @@ class ProductState extends Equatable {
     selectedStockResponse,
     selectedDate,
     variantList,
+    isAdded,
+    selectedStore,
+    updateData,
+    name,
+    price,
+    quantity
   ];
 }
 

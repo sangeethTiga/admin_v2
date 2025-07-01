@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
@@ -50,12 +51,14 @@ class ProductCubit extends Cubit<ProductState> {
             productList: res.data,
             filteredProducts: res.data,
             scannedProduct: scanned,
+            
           ),
         );
         print("Scanned Result Count: ${res.data?.length}");
       }
       return;
-    } catch (e) {
+    } catch (e, s) {
+      log("$e", stackTrace: s);
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
     }
   }
@@ -83,18 +86,11 @@ class ProductCubit extends Cubit<ProductState> {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
       final res = await _productRepositories.stockUpdate(request: req);
-  
+
       if (res.data != null) {
-        emit(
-          state.copyWith(
-            isProduct: ApiFetchStatus.success, 
-          ),
-
-        );
-      }else{
+        emit(state.copyWith(isProduct: ApiFetchStatus.success));
+      } else {
         emit(state.copyWith(isProduct: ApiFetchStatus.failed));
-
-
       }
     } catch (e) {
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
@@ -107,7 +103,9 @@ class ProductCubit extends Cubit<ProductState> {
       if (res.data != null) {
         emit(state.copyWith(categoryList: res.data));
       }
-    } catch (e) {}
+    } catch (e,s) {
+      log('$e,$s');
+    }
   }
 
   Future<void> changeCategory(CategoryResponse cate) async {
@@ -138,38 +136,47 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   Future<void> updateProduct(
-    EditUpdateResponse updateProduct, int productId,int storeId) async {
-    emit(state.copyWith(isProduct: ApiFetchStatus.loading));
+    EditUpdateResponse updateProduct,
+    int productId,
+  ) async {
+    emit(state.copyWith(isAdded: ApiFetchStatus.loading));
 
-    final res = await _productRepositories.updateProduct(updateProduct,productId,storeId);
+    final res = await _productRepositories.updateProduct(
+      updateProduct,
+      productId,
+    );
     if (res.data != null) {
-      // emit(
-      //   state.copyWith(
-      //     isProduct: ApiFetchStatus.success,
-      //     updateData: res.data,
-      //   ),
-      // );
+      final updatedProduct = res.data!;
+      emit(
+        state.copyWith(
+          isAdded: ApiFetchStatus.success,
+          updateData: updateProduct,
+        ),
+      );
       return;
     }
-
-    emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+    emit(state.copyWith(isAdded: ApiFetchStatus.failed));
   }
 
-  Future<void>dateSelection(DateTime selectedDate)async{
+  Future<void> dateSelection(DateTime selectedDate) async {
     emit(state.copyWith(selectedDate: selectedDate));
   }
 
-  Future<void>getVariants(int productId)async{
-
-    
- 
-      try {
-      final variants= await _productRepositories.getVariant(productId);
-      if (variants.data != null) {
-        emit(state.copyWith(variantList: variants.data));
-      }
-    } catch (e) {
-      log('getVariants------$e');
-    }
+  Future<void> changeStore(StoreResponse res) async {
+    emit(state.copyWith(selectedStore: res));
   }
+
+  Future<void>clearEvent()async{
+
+    emit(state.copyWith(selectCategory: CategoryResponse()));
+  }
+
+ Future<void> getVariants(int productId) async {
+  try {
+    final variantList = await _productRepositories.getVariant(productId); 
+    emit(state.copyWith(variantList: variantList.data)); 
+  } catch (e, s) {
+    log('getVariant error: $e\nStackTrace: $s');
+  }
+}
 }
