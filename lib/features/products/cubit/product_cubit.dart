@@ -51,7 +51,6 @@ class ProductCubit extends Cubit<ProductState> {
             productList: res.data,
             filteredProducts: res.data,
             scannedProduct: scanned,
-            
           ),
         );
         print("Scanned Result Count: ${res.data?.length}");
@@ -103,7 +102,7 @@ class ProductCubit extends Cubit<ProductState> {
       if (res.data != null) {
         emit(state.copyWith(categoryList: res.data));
       }
-    } catch (e,s) {
+    } catch (e, s) {
       log('$e,$s');
     }
   }
@@ -166,8 +165,11 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectedStore: res));
   }
 
-  Future<void>clearEvent()async{
-
+  Future<void> clearEvent() async {
     emit(state.copyWith(selectCategory: CategoryResponse()));
+  }
+
+  Future<void> clearCategory() async {
+    emit(state.copyWith(selectCategory: null));
   }
 }

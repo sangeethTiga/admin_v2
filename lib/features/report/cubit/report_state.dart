@@ -7,6 +7,7 @@ class ReportState extends Equatable {
   final DateTime? toDate;
   final ListOfDemo? selectedMethod;
   final List<ReveneReportResponse>? revenueReport;
+  final ApiFetchStatus? isProfitLoss;
   final List<ExpenseReportResponse>? expenseReport;
   final List<ProfitlossResponse>? profitlossReport;
   final List<DeliveryChargeResponse>? deliverychargeReport;
@@ -125,7 +126,8 @@ class ReportState extends Equatable {
     this.selectedPurchaseType,
     this.offerType,
     this.isOfferType,
-    this.selectedType
+    this.selectedType,
+    this.isProfitLoss,
   });
 
   ReportState copyWith({
@@ -135,6 +137,7 @@ class ReportState extends Equatable {
     DateTime? toDate,
     ListOfDemo? selectedMethod,
     List<ReveneReportResponse>? revenueReport,
+    ApiFetchStatus? isProfitLoss,
     int? currentPage,
     int? pageSize,
     List<ExpenseReportResponse>? expenseReport,
@@ -199,6 +202,7 @@ class ReportState extends Equatable {
       toDate: toDate ?? this.toDate,
       selectedMethod: selectedMethod ?? this.selectedMethod,
       revenueReport: revenueReport ?? this.revenueReport,
+      isProfitLoss: isProfitLoss ?? this.isProfitLoss,
       currentPage: currentPage ?? this.currentPage,
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
@@ -271,6 +275,7 @@ class ReportState extends Equatable {
     currentPage,
     pageSize,
     expenseReport,
+    isProfitLoss,
     profitlossReport,
     deliverychargeReport,
     isDeliverychargeReport,
@@ -319,7 +324,7 @@ class ReportState extends Equatable {
     filteredProducts,
     offerType,
     isOfferType,
-    selectedType 
+    selectedType,
   ];
 }
 

@@ -54,9 +54,9 @@ class ExpenseReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedStore(p0);
                       },
@@ -80,9 +80,9 @@ class ExpenseReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedAccount(p0);
                       },
@@ -166,7 +166,7 @@ class ExpenseReportScreen extends StatelessWidget {
                               state.isSaleReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
-                            "INV NO",
+                            "INVOICE NO",
                             "TRAN DATE",
                             "DESCRIPTION",
                             "ACCOUNT",
@@ -179,11 +179,11 @@ class ExpenseReportScreen extends StatelessWidget {
                                     state.expenseReport?.indexOf(e) ?? 0;
                                 return {
                                   '#': index + 1,
-                                  'INV NO': e.invoiceNumber ?? '',
+                                  'INVOICE NO': e.invoiceNumber ?? '',
                                   'TRAN DATE': e.acTransactionDate ?? '',
                                   'DESCRIPTION': e.description ?? '',
                                   "ACCOUNT": e.accountName ?? '',
-                                  'AMOUNT': e.totalamount ?? '',
+                                  'AMOUNT': e.amount ?? '',
                                 };
                               }).toList() ??
                               [],

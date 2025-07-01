@@ -157,6 +157,7 @@ class ReportService implements ReportRepositories {
     final res = await networkProvider.get(
       ApiEndpoints.profitLoss(storeId, fromDate, toDate),
     );
+    log('heloo-=-=--==$res');
     switch (res.statusCode) {
       case 200:
       case 201:
@@ -401,8 +402,6 @@ class ReportService implements ReportRepositories {
     }
   }
 
-
-
   @override
   Future<ResponseResult<List<OffersResponse>>> loadOffers({
     required int storeId,
@@ -495,15 +494,14 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus(
-    { required int storeId,}
- 
+  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus({
+    required int storeId,
 
     // required String fromChequeIssueDate,
     // required String toChequeIssueDate,
     // required String fromChequeDate,
     // required String toChequeDate,
-  ) async {
+  }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
       ApiEndpoints.chequeStatus(
@@ -584,8 +582,6 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
-
-
 
   @override
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
@@ -719,17 +715,16 @@ class ReportService implements ReportRepositories {
     }
   }
 
-
   @override
-   Future<ResponseResult<List<ProductOffersResponse>>>loadProductOffers({
-    required  String fromDate,
+  Future<ResponseResult<List<ProductOffersResponse>>> loadProductOffers({
+    required String fromDate,
     required String toDate,
     required int storeId,
-     required int pageFirstResult,
-     required int resultPerPage,
+    required int pageFirstResult,
+    required int resultPerPage,
     required String search,
-  }) async{
-        final networkProvider = await NetworkProvider.create();
+  }) async {
+    final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
       ApiEndpoints.productOffers(
         fromDate,
@@ -737,9 +732,10 @@ class ReportService implements ReportRepositories {
         storeId,
         pageFirstResult,
         resultPerPage,
-        search),
+        search,
+      ),
     );
-        log(">>> RAW RESPONSE object//: $res");
+    log(">>> RAW RESPONSE object//: $res");
     log(">>> STATUS CODE,,,: ${res.statusCode}");
     log(">>> RESPONSE DATA???: ${res.data}");
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
@@ -754,19 +750,13 @@ class ReportService implements ReportRepositories {
       default:
         return ResponseResult(data: []);
     }
-
-
-    
   }
+
   @override
-    Future<ResponseResult<List<OffertypeResponse>>> loadOfferType() async{
+  Future<ResponseResult<List<OffertypeResponse>>> loadOfferType() async {
     final networkProvider = await NetworkProvider.create();
 
-    final res = await networkProvider.get(
-      ApiEndpoints.offerTYpe(
-    
-      ),
-    );
+    final res = await networkProvider.get(ApiEndpoints.offerTYpe());
 
     switch (res.statusCode) {
       case 200:
@@ -779,15 +769,7 @@ class ReportService implements ReportRepositories {
       default:
         return ResponseResult(data: []);
     }
-
-
-
-    }
-
-
-
-
-
+  }
 
   // @override
   // Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary

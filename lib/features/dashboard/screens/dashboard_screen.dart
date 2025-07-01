@@ -207,7 +207,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.discount_outlined ),
+                      leading: Icon(Icons.discount_outlined),
                       title: Text('Offer'),
                       onTap: () {
                         //context.read<ReportCubit>().loadOffers();
@@ -386,7 +386,7 @@ class DashboardScreen extends StatelessWidget {
                               break;
                             case 'Profit/loss':
                               context.read<ReportCubit>().loadProfitAndLoss(
-                                storeId: state.selectedStore?.storeId,
+                                storeId: state.selectedStore?.storeId ?? 0,
                                 fromDate: parsedDate(DateTime.now()),
                                 toDate: parsedDate(DateTime.now()),
                               );

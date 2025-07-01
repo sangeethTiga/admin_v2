@@ -46,7 +46,6 @@ class SalesReportScreen extends StatelessWidget {
                       value: state.selectedStore,
                       items:
                           state.storeList?.map((e) {
-                            
                             return DropdownMenuItem<StoreResponse>(
                               value: e,
                               child: Text(e.storeName ?? ''),
@@ -54,9 +53,9 @@ class SalesReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedStore(p0);
                       },
@@ -65,7 +64,7 @@ class SalesReportScreen extends StatelessWidget {
                   },
                 ),
                 12.verticalSpace,
-                BlocBuilder<ReportCubit, ReportState>(  
+                BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(
                       children: [
