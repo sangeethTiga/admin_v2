@@ -1,14 +1,15 @@
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
+import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
-import 'package:admin_v2/features/report/domain/models/offer_type/offertype_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
@@ -20,6 +21,7 @@ import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_
     show SaleOnDeals;
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/specialOffer/special_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
 //import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
@@ -160,14 +162,14 @@ abstract class ReportRepositories {
     required String query,
     required int mealPlansId,
   });
-  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus(
-  {  required int storeId,}
-  
+  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus({
+    required int storeId,
+
     // required String fromChequeIssueDate,
     // required String toChequeIssueDate,
     // required String fromChequeDate,
     // required String toChequeDate,
-  );
+  });
   Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
     required int storeId,
   });
@@ -203,5 +205,18 @@ abstract class ReportRepositories {
     required String search,
   });
 
-  Future<ResponseResult<List<OffertypeResponse>>> loadOfferType();
+  Future<ResponseResult<List<SpecialOfferResponse>>> loadSpecialOffer({
+    required int storeId,
+  });
+  Future<ResponseResult<EditOfferResponse>> loadEditOffer(
+    EditOfferResponse req,
+    int productId,
+    int storeId,
+  );
+
+  Future<ResponseResult<CreateOfferResponse>> loadProductOffer(
+    CreateOfferResponse req,
+    int productId,
+    int storeId
+  );
 }

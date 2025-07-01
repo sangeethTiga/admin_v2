@@ -137,17 +137,18 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(totalStock: 0));
   }
 
-  Future<void> updateProduct(EditUpdateResponse updateProduct, int productId,int storeId) async {
+  Future<void> updateProduct(
+    EditUpdateResponse updateProduct, int productId,int storeId) async {
     emit(state.copyWith(isProduct: ApiFetchStatus.loading));
 
     final res = await _productRepositories.updateProduct(updateProduct,productId,storeId);
     if (res.data != null) {
-      emit(
-        state.copyWith(
-          isProduct: ApiFetchStatus.success,
-          updateData: res.data,
-        ),
-      );
+      // emit(
+      //   state.copyWith(
+      //     isProduct: ApiFetchStatus.success,
+      //     updateData: res.data,
+      //   ),
+      // );
       return;
     }
 
@@ -161,7 +162,7 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void>getVariants(int productId)async{
 
     
-
+ 
       try {
       final variants= await _productRepositories.getVariant(productId);
       if (variants.data != null) {

@@ -446,8 +446,7 @@ class _$ProductResponseImpl implements _ProductResponse {
 
   @override
   String toString() {
-    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, productHidden: $productHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName)';
-    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, isHidden: $isHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName, separateVariantStock: $separateVariantStock)';
+    return 'ProductResponse(productId: $productId, productName: $productName, productCode: $productCode, storeId: $storeId, barCode: $barCode, storeName: $storeName, productPrice: $productPrice, maintainStock: $maintainStock, productQty: $productQty, productHidden: $productHidden, isVariant: $isVariant, isPriceEditable: $isPriceEditable, rawcount: $rawcount, mainCategoryId: $mainCategoryId, images: $images, productUnitId: $productUnitId, productUnitName: $productUnitName, separateVariantStock: $separateVariantStock)';
   }
 
   @override

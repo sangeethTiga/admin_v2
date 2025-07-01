@@ -34,7 +34,8 @@ class UserShiftReportScreen extends StatelessWidget {
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                       prefixIcon: Container(
                         margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
+                        child: 
+                        SvgPicture.asset(
                           'assets/icons/package-box-pin-location.svg',
                           width: 20.w,
                           height: 20.h,
