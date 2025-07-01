@@ -1,5 +1,4 @@
 part of 'report_cubit.dart';
-
 class ReportState extends Equatable {
   final List<SalesReportResponse>? salesReport;
   final ApiFetchStatus? isSaleReport;
@@ -7,7 +6,6 @@ class ReportState extends Equatable {
   final DateTime? toDate;
   final ListOfDemo? selectedMethod;
   final List<ReveneReportResponse>? revenueReport;
-  final ApiFetchStatus? isProfitLoss;
   final List<ExpenseReportResponse>? expenseReport;
   final List<ProfitlossResponse>? profitlossReport;
   final List<DeliveryChargeResponse>? deliverychargeReport;
@@ -60,9 +58,10 @@ class ReportState extends Equatable {
   final List<BillTypeDetail>? billTypeDetail;
   final List<DeliveryPartner>? deliveryPartner;
   final List<PurchaseType>? purchaseType;
-  final List<OffertypeResponse>? offerType;
-  final ApiFetchStatus? isOfferType;
-  final OffertypeResponse? selectedType;
+  final List<SpecialOfferResponse>? specialOffer;
+  final ApiFetchStatus? isSpecialOffer;
+  final SpecialOfferResponse? selectedType;
+  final List<CreateOfferResponse>? createOffer;
 
   const ReportState({
     this.salesReport,
@@ -121,13 +120,13 @@ class ReportState extends Equatable {
     this.deliveryPartner,
     this.purchaseType,
     this.filteredProducts,
+    this.createOffer,
 
     //       this.purchaseType,
     this.selectedPurchaseType,
-    this.offerType,
-    this.isOfferType,
+    this.specialOffer,
+    this.isSpecialOffer,
     this.selectedType,
-    this.isProfitLoss,
   });
 
   ReportState copyWith({
@@ -137,7 +136,6 @@ class ReportState extends Equatable {
     DateTime? toDate,
     ListOfDemo? selectedMethod,
     List<ReveneReportResponse>? revenueReport,
-    ApiFetchStatus? isProfitLoss,
     int? currentPage,
     int? pageSize,
     List<ExpenseReportResponse>? expenseReport,
@@ -191,9 +189,10 @@ class ReportState extends Equatable {
     List<BillTypeDetail>? billTypeDetail,
     List<DeliveryPartner>? deliveryPartner,
     List<PurchaseType>? purchaseType,
-    List<OffertypeResponse>? offerType,
-    ApiFetchStatus? isOfferType,
-    OffertypeResponse? selectedType,
+    List<SpecialOfferResponse>? specialOffer,
+    ApiFetchStatus? isSpecialOffer,
+    SpecialOfferResponse? selectedType,
+    List<CreateOfferResponse>? createOffer,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -202,7 +201,6 @@ class ReportState extends Equatable {
       toDate: toDate ?? this.toDate,
       selectedMethod: selectedMethod ?? this.selectedMethod,
       revenueReport: revenueReport ?? this.revenueReport,
-      isProfitLoss: isProfitLoss ?? this.isProfitLoss,
       currentPage: currentPage ?? this.currentPage,
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
@@ -257,10 +255,10 @@ class ReportState extends Equatable {
       billTypeDetail: billTypeDetail ?? this.billTypeDetail,
       deliveryPartner: deliveryPartner ?? this.deliveryPartner,
       purchaseType: purchaseType ?? this.purchaseType,
-      offerType: offerType ?? this.offerType,
-
-      isOfferType: isOfferType ?? this.isOfferType,
+      specialOffer: specialOffer ?? this.specialOffer,
+      isSpecialOffer: isSpecialOffer ?? this.isSpecialOffer,
       selectedType: selectedType ?? this.selectedType,
+      createOffer:  createOffer ?? this.createOffer,
     );
   }
 
@@ -275,7 +273,6 @@ class ReportState extends Equatable {
     currentPage,
     pageSize,
     expenseReport,
-    isProfitLoss,
     profitlossReport,
     deliverychargeReport,
     isDeliverychargeReport,
@@ -322,9 +319,10 @@ class ReportState extends Equatable {
     deliveryPartner,
     purchaseType,
     filteredProducts,
-    offerType,
-    isOfferType,
+    specialOffer,
+    isSpecialOffer,
     selectedType,
+    createOffer
   ];
 }
 

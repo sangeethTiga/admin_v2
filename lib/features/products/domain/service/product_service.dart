@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
@@ -100,7 +99,7 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<EditUpdateResponse>> updateProduct(
+  Future<ResponseResult<EditUpdateResponse>>updateProduct(
     EditUpdateResponse? request,
     int? productId,
   

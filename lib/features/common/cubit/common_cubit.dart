@@ -39,6 +39,7 @@ class CommonCubit extends Cubit<CommonState> {
 
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));
+    
   }
 
   Future<void> selectedStoreforProfitloss(StoreResponse store) async {
