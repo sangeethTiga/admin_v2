@@ -28,7 +28,7 @@ class SaleOnDealsScreen extends StatelessWidget {
           MainPadding(
             child: Column(
               children: [
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
@@ -89,7 +89,7 @@ class SaleOnDealsScreen extends StatelessWidget {
 
                 10.verticalSpace,
 
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {
@@ -110,7 +110,7 @@ class SaleOnDealsScreen extends StatelessWidget {
 
           Expanded(
             child: MainPadding(
-              child: BlocBuilder<CommonCubit, CommonState>(
+              child: BlocBuilder<DashboardCubit, DashboardState>(
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {

@@ -26,7 +26,7 @@ class ProductOffer extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              BlocBuilder<CommonCubit, CommonState>(
+              BlocBuilder<DashboardCubit, DashboardState>(
                 builder: (context, state) {
                   return DropDownFieldWidget(
                     isLoading: state.apiFetchStatus == ApiFetchStatus.loading,

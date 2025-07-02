@@ -31,7 +31,7 @@ class MostSellingProducts extends StatelessWidget {
             child: Column(
               //spacing: 14.h,
               children: [
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
@@ -130,7 +130,7 @@ class MostSellingProducts extends StatelessWidget {
                   },
                 ),
                 12.verticalSpace,
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {

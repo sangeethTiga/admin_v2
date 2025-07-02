@@ -103,43 +103,42 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
                 ),
               ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   child: pickedDate != null
-                      ? Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                textAlign: TextAlign.center,
-                                pickedDate ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              textAlign: TextAlign.center,
+                              pickedDate ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         )
-                      : Center(
-                          child: Row(
-                            children: [
-                              Text(
-                                textAlign: TextAlign.center,
-                                widget.hintText ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Color(0xff828691),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                      : Row(
+                          children: [
+                            Text(
+                              textAlign: TextAlign.center,
+                              widget.hintText ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Color(0xff828691),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                 ),
 

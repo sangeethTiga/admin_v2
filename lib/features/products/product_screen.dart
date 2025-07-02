@@ -45,7 +45,7 @@ class ProductScreen extends StatelessWidget {
                 MainPadding(
                   child: Column(
                     children: [
-                      BlocBuilder<CommonCubit, CommonState>(
+                      BlocBuilder<DashboardCubit, DashboardState>(
                         builder: (context, state) {
                           return DropDownFieldWidget(
                             isLoading:
@@ -60,7 +60,7 @@ class ProductScreen extends StatelessWidget {
                               ),
                             ),
                             borderColor: kBlack,
-                            value: state.selectedStore,
+                            value: context.read<DashboardCubit>().state.selectedStore,
                             items:
                                 state.storeList?.map((e) {
                                   return DropdownMenuItem<StoreResponse>(
@@ -72,12 +72,19 @@ class ProductScreen extends StatelessWidget {
                             fillColor: const Color(0XFFEFF1F1),
 
                             onChanged: (p0) {
-                            
                               context.read<DashboardCubit>().selectedStore(p0);
+                              // final storeId =
+                              //     context
+                              //         .read<CommonCubit>()
+                              //         .state
+                              //         .selectedStore
+                              //         ?.storeId ??
+                              //     0;
+
                               context.read<ProductCubit>().catgeory(
                                 p0?.storeId,
                               );
-
+                              context.read<ProductCubit>().clearCategory();
                               context.read<ProductCubit>().changeStore(p0);
                               context.read<ProductCubit>().product(
                                 p0?.storeId,
@@ -91,7 +98,7 @@ class ProductScreen extends StatelessWidget {
                         },
                       ),
                       // 2.verticalSpace,
-                      BlocBuilder<CommonCubit, CommonState>(
+                      BlocBuilder<DashboardCubit, DashboardState>(
                         builder: (context, common) {
                           return DropDownFieldWidget(
                             isLoading:
@@ -202,7 +209,7 @@ class ProductScreen extends StatelessWidget {
                               mobileScannerController.text = scannedCode;
                               final storeId =
                                   context
-                                      .read<CommonCubit>()
+                                      .read<DashboardCubit>()
                                       .state
                                       .selectedStore
                                       ?.storeId ??

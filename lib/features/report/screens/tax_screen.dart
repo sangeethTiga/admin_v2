@@ -84,7 +84,7 @@ class TaxScreen extends StatelessWidget {
               },
             ),
             Spacer(),
-            BlocBuilder<CommonCubit, CommonState>(
+            BlocBuilder<DashboardCubit, DashboardState>(
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -154,7 +154,7 @@ class TaxScreen extends StatelessWidget {
               },
             ),
             8.verticalSpace,
-            BlocBuilder<CommonCubit, CommonState>(
+            BlocBuilder<DashboardCubit, DashboardState>(
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
