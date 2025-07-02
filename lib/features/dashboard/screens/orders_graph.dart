@@ -22,6 +22,7 @@ class OrdersGraph extends StatelessWidget {
                 primaryXAxis: CategoryAxis(
                   labelPlacement: LabelPlacement.betweenTicks,
                   labelRotation: 45,
+                  
                 ),
 
                 title: ChartTitle(text: 'Order'),
