@@ -14,10 +14,10 @@ List<Dates> custDates = [
   Dates(title: 'Sec', id: '23'),
 ];
 List<ListOfDemo> custDate = [
-  ListOfDemo(name: 'today'),
-  ListOfDemo(name: 'weak'),
-  ListOfDemo(name: 'Month'),
-  ListOfDemo(name: 'Year'),
+  ListOfDemo(name: 'Today',id: 1),
+  ListOfDemo(name: 'Weak',id: 2),
+  ListOfDemo(name: 'Month',id:3),
+  ListOfDemo(name: 'Year',id: 4),
   // ListOfDemo(name: 'Thursday', id: 3),
   // ListOfDemo(name: 'Friday', id: 3),
   // ListOfDemo(name: 'Saturday', id: 3),

@@ -22,6 +22,7 @@ class CommonCubit extends Cubit<CommonState> {
       final res = await _commonRepostories.storeList();
 
       if (res.data != null) {
+        
         emit(
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
@@ -38,13 +39,12 @@ class CommonCubit extends Cubit<CommonState> {
     }
   }
 
-  Future<void> selectedStore(StoreResponse store) async {
-    emit(state.copyWith(selectedStore: store));
-    
-  }
 
-  Future<void> selectedDate(ListOfDemo store) async {
-    emit(state.copyWith(selectDate: store));
+  Future<void> selectedDate(ListOfDemo date) async {
+
+print('select date common cubit-==-==$date');
+   
+    emit(state.copyWith(selectDate: date));
   }
 
   Future<void> account() async {

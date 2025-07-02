@@ -1,6 +1,8 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:admin_v2/features/dashboard/screens/orders_screen.dart';
+import 'package:admin_v2/features/dashboard/screens/revenue_graph.dart';
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -207,7 +209,7 @@ class DashboardScreen extends StatelessWidget {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.discount_outlined ),
+                      leading: Icon(Icons.discount_outlined),
                       title: Text('Offer'),
                       onTap: () {
                         //context.read<ReportCubit>().loadOffers();
@@ -279,86 +281,95 @@ class DashboardScreen extends StatelessWidget {
         top: 16.h,
         child: BlocBuilder<CommonCubit, CommonState>(
           builder: (context, state) {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: BlocBuilder<CommonCubit, CommonState>(
-                        builder: (context, state) {
-                          return DropDownFieldWidget(
-                            isLoading:
-                                state.apiFetchStatus == ApiFetchStatus.loading,
-                            prefixIcon: Container(
-                              margin: EdgeInsets.only(left: 12.w),
-                              child: SvgPicture.asset(
-                                'assets/icons/package-box-pin-location.svg',
-                                width: 20.w,
-                                height: 20.h,
-                                fit: BoxFit.contain,
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: BlocBuilder<CommonCubit, CommonState>(
+                          builder: (context, state) {
+                            return DropDownFieldWidget(
+                              isLoading:
+                                  state.apiFetchStatus ==
+                                  ApiFetchStatus.loading,
+                              prefixIcon: Container(
+                                margin: EdgeInsets.only(left: 12.w),
+                                child: SvgPicture.asset(
+                                  'assets/icons/package-box-pin-location.svg',
+                                  width: 20.w,
+                                  height: 20.h,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
-                            ),
 
-                            borderColor: kBlack,
-                            value: state.selectedStore,
+                              borderColor: kBlack,
+                              value: state.selectedStore,
 
-                            items:
-                                state.storeList?.map((e) {
-                                  return DropdownMenuItem<StoreResponse>(
-                                    value: e,
-                                    child: Text(e.storeName ?? ''),
-                                  );
-                                }).toList() ??
-                                [],
-                            fillColor: Color(0XFFEFF1F1),
-                            // suffixWidget: SvgPicture.asset(
-                            //   'assets/icons/Arrow - Right.svg',
-                            // ),
-                            onChanged: (p0) {
-                              context.read<CommonCubit>().selectedStore(p0);
-                            },
-                            labelText: '',
-                          );
-                        },
+                              items:
+                                  state.storeList?.map((e) {
+                                    return DropdownMenuItem<StoreResponse>(
+                                      value: e,
+                                      child: Text(e.storeName ?? ''),
+                                    );
+                                  }).toList() ??
+                                  [],
+                              fillColor: Color(0XFFEFF1F1),
+                              // suffixWidget: SvgPicture.asset(
+                              //   'assets/icons/Arrow - Right.svg',
+                              // ),
+                              onChanged: (p0) {
+                                print('select store ---$p0');
+                                context.read<DashboardCubit>().selectedStore(p0);
+                                 context.read<DashboardCubit>().loadOrderGraph();
+            context.read<DashboardCubit>().loadRevenueGraph();
+                              },
+                              labelText: '',
+                            );
+                          },
+                        ),
                       ),
-                    ),
 
-                    36.horizontalSpace,
-                    SizedBox(
-                      width: 120.w,
-                      child: BlocBuilder<CommonCubit, CommonState>(
-                        builder: (context, state) {
-                          return DropDownFieldWidget(
-                            borderColor: kBlack,
+                      36.horizontalSpace,
+                      SizedBox(
+                        width: 120.w,
+                        child: BlocBuilder<CommonCubit, CommonState>(
+                          builder: (context, state) {
+                            return DropDownFieldWidget(
+                              borderColor: kBlack,
 
-                            value: state.selectDate,
+                              value: state.selectDate,
 
-                            items: custDate.map((e) {
-                              return DropdownMenuItem<ListOfDemo>(
-                                value: e,
-                                child: Text(e.name ?? ''),
-                              );
-                            }).toList(),
-                            fillColor: Color(0XFFEFF1F1),
-                            // suffixWidget: SvgPicture.asset(
-                            //   'assets/icons/Arrow - Right.svg',
-                            // ),
-                            onChanged: (p0) {
-                              context.read<CommonCubit>().selectedDate(p0);
-                            },
-                          );
-                        },
+                              items: custDate.map((e) {
+                                return DropdownMenuItem<ListOfDemo>(
+                                  value: e,
+                                  child: Text(e.name ?? ''),
+                                );
+                              }).toList(),
+                              fillColor: Color(0XFFEFF1F1),
+                              // suffixWidget: SvgPicture.asset(
+                              //   'assets/icons/Arrow - Right.svg',
+                              // ),
+                              onChanged: (p0) {
+                     
+
+                                context.read<CommonCubit>().selectedDate(p0);
+                                 context.read<DashboardCubit>().loadOrderGraph();
+            context.read<DashboardCubit>().loadRevenueGraph();
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                20.verticalSpace,
-                Expanded(
-                  child: GridView.builder(
+                    ],
+                  ),
+                  20.verticalSpace,
+                  GridView.builder(
                     shrinkWrap: true,
                     itemCount: accountList.length,
+                    physics: NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -472,23 +483,15 @@ class DashboardScreen extends StatelessWidget {
                       );
                     },
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<DashboardCubit>().loadRevenueGraph();
-                    context.push(routeRevenueGraph);
-                  },
-                  child: Text('Marwa ~ Revenue'),
-                ),
+                  20.verticalSpace,
 
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<DashboardCubit>().loadOrderGraph();
-                    context.push(routeOrderGraph);
-                  },
-                  child: Text('ORDERS'),
-                ),
-              ],
+                  RevenueGraph(),
+                  20.verticalSpace,
+
+                  OrdersGraph(),
+                  
+                ],
+              ),
             );
           },
         ),
