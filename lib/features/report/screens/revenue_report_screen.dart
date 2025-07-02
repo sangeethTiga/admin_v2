@@ -1,5 +1,6 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -99,11 +100,9 @@ class RevenueReportScreen extends StatelessWidget {
                               }).toList() ??
                               [],
                           fillColor: const Color(0XFFEFF1F1),
-                          suffixWidget: SvgPicture.asset(
-                            'assets/icons/Arrow - Right.svg',
-                          ),
+
                           onChanged: (p0) {
-                            context.read<CommonCubit>().selectedStore(p0);
+                            context.read<DashboardCubit>().selectedStore(p0);
                           },
                           labelText: '',
                         );
@@ -157,52 +156,53 @@ class RevenueReportScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              // Expanded(
+              //   child: MainPadding(
+              //     child: BlocBuilder<CommonCubit, CommonState>(
+              //       builder: (context, store) {
+              //         return BlocBuilder<ReportCubit, ReportState>(
+              //           builder: (context, state) {
+              //             return NotificationListener<ScrollNotification>(
+              //               onNotification: (ScrollNotification scrollInfo) {
+              //                 if (scrollInfo.metrics.pixels >=
+              //                         scrollInfo.metrics.maxScrollExtent - 50 &&
+              //                     state.isSaleReport !=
+              //                         ApiFetchStatus.loading) {
+              //                   context.read<ReportCubit>().loadReveneueReport(
+              // page: state.currentPage + 1,
+              // limit: state.pageSize,
+              //                    //isLoadMore: true,
+              //                     storeId: store.selectedStore?.storeId,
+              //                   );
+              //                 }
+              //                 return false;
+              //               },
+              //  child:
               Expanded(
-                child: MainPadding(
-                  child: BlocBuilder<CommonCubit, CommonState>(
-                    builder: (context, store) {
-                      return BlocBuilder<ReportCubit, ReportState>(
-                        builder: (context, state) {
-                          return NotificationListener<ScrollNotification>(
-                            onNotification: (ScrollNotification scrollInfo) {
-                              if (scrollInfo.metrics.pixels >=
-                                      scrollInfo.metrics.maxScrollExtent - 50 &&
-                                  state.isSaleReport !=
-                                      ApiFetchStatus.loading) {
-                                context.read<ReportCubit>().loadReveneueReport(
-                                  page: state.currentPage + 1,
-                                  limit: state.pageSize,
-                                  isLoadMore: true,
-                                  storeId: store.selectedStore?.storeId,
-                                );
-                              }
-                              return false;
-                            },
-                            child: CommonTableWidget(
-                              isLoading:
-                                  state.isSaleReport == ApiFetchStatus.loading,
-                              headers: ["#", "ORDER NUMBER", "DATE", "AMOUNT"],
-                              columnFlex: [1, 3, 2, 2, 2],
-                              data:
-                                  state.revenueReport?.map((e) {
-                                    int index =
-                                        state.revenueReport?.indexOf(e) ?? 0;
-                                    return {
-                                      '#': index + 1,
-                                      'ORDER NUMBER': e.invoiceNumber ?? '',
-                                      'DATE': e.acTransactionDate ?? '',
-                                      'AMOUNT': e.totalamount ?? '',
-                                    };
-                                  }).toList() ??
-                                  [],
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
+                child: CommonTableWidget(
+                  isLoading: state.isSaleReport == ApiFetchStatus.loading,
+                  headers: ["#", "ORDER NUMBER", "DATE", "AMOUNT"],
+                  columnFlex: [1, 3, 2, 2, 2],
+                  data:
+                      state.revenueReport?.map((e) {
+                        int index = state.revenueReport?.indexOf(e) ?? 0;
+                        return {
+                          '#': index + 1,
+                          'ORDER NUMBER': e.invoiceNumber ?? '',
+                          'DATE': e.acTransactionDate ?? '',
+                          'AMOUNT': e.amount ?? '',
+                        };
+                      }).toList() ??
+                      [],
                 ),
               ),
+              //             );
+              //           },
+              //         );
+              //       },
+              //     ),
+              //   ),
+              // ),
             ],
           );
         },

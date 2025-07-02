@@ -1,8 +1,10 @@
 
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/domain/models/Ordergraph/orders_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/models/revenueGraph/revenue_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/repositories/dashboard_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -12,6 +14,11 @@ part 'dashboard_state.dart';
 class DashboardCubit extends Cubit<DashboardState> {
   final DashboardRepositories _dashboardRepositories;
   DashboardCubit(this._dashboardRepositories) : super(InitialDashBoardState());
+  
+  Future<void> selectedStore(StoreResponse store) async {
+    emit(state.copyWith(selectedStore: store));
+    
+  }
   Future<void> loadRevenueGraph({
     bool isLoadMore = false  }) 
     async {
@@ -24,14 +31,16 @@ class DashboardCubit extends Cubit<DashboardState> {
       );
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.loading));
+
     final res = await _dashboardRepositories.loadRevenueGraph(
-      dateRangeId: 4,
+
+      dateRangeId:state.selectDate!.id.toString(),
       roleId: 1,
-      storeArray: '18',
+            storeArray: state.selectedStore!.storeId.toString(),
+
       userId: 1,
     );
 
-    // log('Response data: ${res.data}');
     if (res.data != null) {
       final List<RevenueResponse> fetchedList = res.data!;
 
@@ -50,7 +59,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.failed));
   }
 
-  Future<void> loadOrderGraph({bool isLoadMore = false}) async {
+  Future<void> loadOrderGraph({bool isLoadMore = false,}) async {
     // if (!isLoadMore) {
     //   emit(
     //     state.copyWith(
@@ -61,12 +70,11 @@ class DashboardCubit extends Cubit<DashboardState> {
     // }
     emit(state.copyWith(isOrdersReport: ApiFetchStatus.loading));
     final res = await _dashboardRepositories.ordersGraph(
-      dateRangeId: '4',
+      dateRangeId:state.selectDate!.id.toString(),
       roleId: 1,
-      storeArray: '18',
+      storeArray: state.selectedStore?.storeId??0,
       userId: 1,
     );
-   // print('????data?????:${res.data}');
     if (res.data != null) {
       // final List<OrdersGraphResponse> fetchedList = res.data!;
 

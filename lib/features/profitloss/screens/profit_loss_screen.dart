@@ -56,38 +56,67 @@ class ProfitLossScreen extends StatelessWidget {
                             }).toList() ??
                             [],
                         fillColor: const Color(0XFFEFF1F1),
-                        suffixWidget: SvgPicture.asset(
-                          'assets/icons/Arrow - Right.svg',
-                        ),
+                        // suffixWidget: SvgPicture.asset(
+                        //   'assets/icons/Arrow - Right.svg',
+                        // ),
                         onChanged: (p0) {
-                          context.read<CommonCubit>().selectedStore(p0);
+                          context
+                              .read<CommonCubit>()
+                              .selectedStoreforProfitloss(p0);
+
+                          final reportCubit = context.read<ReportCubit>();
+                          reportCubit.loadProfitAndLoss(storeId: p0?.storeId ?? 0);
                         },
                         labelText: '',
                       );
                     },
                   ),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DatePickerContainer(
-                          hintText: 'Pls',
-                          changeDate: () {},
-                        ),
-                      ),
-                      12.horizontalSpace,
-                      Expanded(
-                        child: DatePickerContainer(
-                          hintText: 'Pls',
-                          changeDate: () {},
-                        ),
-                      ),
-                    ],
+                  BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: DatePickerContainer(
+                              hintText: '',
+                              firstDate: state.fromDate,
+                              changeDate: (DateTime pickDate) {
+                                context.read<ReportCubit>().changeFromDate(
+                                  pickDate,
+                                );
+                              },
+                            ),
+                          ),
+                          12.horizontalSpace,
+                          Expanded(
+                            child: DatePickerContainer(
+                              hintText: '',
+                              firstDate: state.fromDate,
+                              changeDate: (DateTime pickDate) {
+                                context.read<ReportCubit>().changeToDate(
+                                  pickDate,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
 
                   2.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
+                      double calculateTotalRevenue(ReportState state) {
+                        final receipts =
+                            state.profitlossReport?[0].receiptsData;
+                        if (receipts == null) return 0.0;
+                        return receipts.fold<double>(
+                          0.0,
+                          (sum, item) => sum + (item.amount ?? 0.0),
+                        );
+                      }
+
                       return Container(
                         // height: 120.h,
                         width: double.infinity,
@@ -121,7 +150,9 @@ class ProfitLossScreen extends StatelessWidget {
                                           .receiptsData?[i];
                                       return _rowWidget(
                                         name: data?.accountHeadName ?? '',
-                                        status: data?.amount.toString(),
+                                        status: data?.amount?.toStringAsFixed(
+                                          2,
+                                        ),
                                       );
                                     },
                                   ),
@@ -149,7 +180,10 @@ class ProfitLossScreen extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(right: 12.w),
                                     child: Text(
-                                      '0.0',
+                                      calculateTotalRevenue(
+                                        state,
+                                      ).toStringAsFixed(2),
+
                                       style: FontPalette.hW700S14,
                                     ),
                                   ),
@@ -164,6 +198,15 @@ class ProfitLossScreen extends StatelessWidget {
 
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
+                      double calculateTotalExpense(ReportState state) {
+                        final result = state.profitlossReport?[0].paymentData;
+                        if (result == null) return 0.0;
+                        return result.fold(
+                          0.0,
+                          (sum, item) => sum + (item.amount ?? 0.0),
+                        );
+                      }
+
                       return Container(
                         // height: 120.h,
                         width: double.infinity,
@@ -198,7 +241,9 @@ class ProfitLossScreen extends StatelessWidget {
                                           .paymentData?[i];
                                       return _rowWidget(
                                         name: data?.accountHeadName ?? '',
-                                        status: data?.amount.toString(),
+                                        status: data?.amount?.toStringAsFixed(
+                                          2,
+                                        ),
                                       );
                                     },
                                   ),
@@ -225,7 +270,10 @@ class ProfitLossScreen extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(right: 12.w),
                                     child: Text(
-                                      '0.0',
+                                      calculateTotalExpense(
+                                        state,
+                                      ).toStringAsFixed(2),
+
                                       style: FontPalette.hW700S14,
                                     ),
                                   ),

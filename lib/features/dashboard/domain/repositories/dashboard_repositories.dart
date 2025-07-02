@@ -6,12 +6,12 @@ abstract class DashboardRepositories {
   Future<ResponseResult<List<OrdersGraphResponse>>> ordersGraph({
     required String dateRangeId,
     required int roleId,
-    required String storeArray,
+    required int storeArray,
     required int userId,
   });
 
   Future<ResponseResult<List<RevenueResponse>>> loadRevenueGraph({
-    required int dateRangeId,
+    required String dateRangeId,
     required int roleId,
     required String storeArray,
     required int userId,

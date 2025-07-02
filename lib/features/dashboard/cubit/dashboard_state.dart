@@ -6,6 +6,10 @@ class DashboardState extends Equatable {
   final ApiFetchStatus? isRevenueGraph;
   final List<OrdersGraphResponse>? ordersReport;
   final ApiFetchStatus? isOrdersReport;
+  final StoreResponse? selectedStore;
+    final ListOfDemo? selectDate;
+
+
 
   const DashboardState({
     this.isRevenueGraph,
@@ -13,6 +17,8 @@ class DashboardState extends Equatable {
     this.ordersReport,
     this.isOrdersReport,
     this.apiFetchStatus,
+    this.selectedStore,
+    this.selectDate,
   });
 
   DashboardState copyWith({
@@ -22,6 +28,10 @@ class DashboardState extends Equatable {
 
     final ApiFetchStatus? isOrdersReport,
     final ApiFetchStatus? apiFetchStatus,
+        StoreResponse? selectedStore,
+          final ListOfDemo? selectDate
+
+
   }) {
     return DashboardState(
       isRevenueGraph: isRevenueGraph ?? this.isRevenueGraph,
@@ -29,6 +39,8 @@ class DashboardState extends Equatable {
       ordersReport: ordersReport ?? this.ordersReport,
       isOrdersReport: isOrdersReport ?? this.isOrdersReport,
       apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
+      selectedStore: selectedStore??this.selectedStore,
+      selectDate: selectDate??this.selectDate,
     );
   }
 
@@ -39,6 +51,8 @@ class DashboardState extends Equatable {
     ordersReport,
     isOrdersReport,
     apiFetchStatus,
+    selectedStore,
+    selectDate,
   ];
 }
 

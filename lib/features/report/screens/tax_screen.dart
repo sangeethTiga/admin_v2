@@ -1,5 +1,6 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -111,7 +112,7 @@ class TaxScreen extends StatelessWidget {
                     fillColor: const Color(0XFFEFF1F1),
 
                     onChanged: (p0) {
-                      context.read<CommonCubit>().selectedStore(p0);
+                      context.read<DashboardCubit>().selectedStore(p0);
                     },
                     labelText: '',
                   ),

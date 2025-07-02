@@ -28,7 +28,6 @@ class CommonCubit extends Cubit<CommonState> {
             storeList: res.data,
             selectedStore: res.data?.first,
             selectDate: custDate.first,
-            
           ),
         );
       }
@@ -41,6 +40,10 @@ class CommonCubit extends Cubit<CommonState> {
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));
     
+  }
+
+  Future<void> selectedStoreforProfitloss(StoreResponse store) async {
+    emit(state.copyWith(storeForProfitloss: store));
   }
 
   Future<void> selectedDate(ListOfDemo store) async {

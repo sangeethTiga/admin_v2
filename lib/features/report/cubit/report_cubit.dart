@@ -214,7 +214,8 @@ class ReportCubit extends Cubit<ReportState> {
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
     );
-
+    log('-=-=-=-=-=$res');
+    
     if (res.data != null) {
       emit(
         state.copyWith(

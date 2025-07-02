@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -48,7 +49,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                       fillColor: const Color(0XFFEFF1F1),
                       suffixWidget: const Icon(Icons.arrow_right),
                       onChanged: (p0) {
-                        context.read<CommonCubit>().selectedStore(p0);
+                        context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
                     );

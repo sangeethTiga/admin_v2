@@ -159,6 +159,7 @@ class ReportService implements ReportRepositories {
     final res = await networkProvider.get(
       ApiEndpoints.profitLoss(storeId, fromDate, toDate),
     );
+    log('heloo-=-=--==$res');
     switch (res.statusCode) {
       case 200:
       case 201:

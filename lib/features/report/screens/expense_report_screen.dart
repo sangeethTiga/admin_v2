@@ -1,6 +1,7 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -54,11 +55,11 @@ class ExpenseReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
-                        context.read<CommonCubit>().selectedStore(p0);
+                        context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
                     );
@@ -80,9 +81,9 @@ class ExpenseReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedAccount(p0);
                       },
@@ -166,7 +167,7 @@ class ExpenseReportScreen extends StatelessWidget {
                               state.isSaleReport == ApiFetchStatus.loading,
                           headers: [
                             "#",
-                            "INV NO",
+                            "INVOICE NO",
                             "TRAN DATE",
                             "DESCRIPTION",
                             "ACCOUNT",
@@ -179,11 +180,11 @@ class ExpenseReportScreen extends StatelessWidget {
                                     state.expenseReport?.indexOf(e) ?? 0;
                                 return {
                                   '#': index + 1,
-                                  'INV NO': e.invoiceNumber ?? '',
+                                  'INVOICE NO': e.invoiceNumber ?? '',
                                   'TRAN DATE': e.acTransactionDate ?? '',
                                   'DESCRIPTION': e.description ?? '',
                                   "ACCOUNT": e.accountName ?? '',
-                                  'AMOUNT': e.totalamount ?? '',
+                                  'AMOUNT': e.amount ?? '',
                                 };
                               }).toList() ??
                               [],

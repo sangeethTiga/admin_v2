@@ -56,6 +56,7 @@ class ApiEndpoints {
 
   static String profitLoss(int storeId, String fromDate, String toDate) =>
       "/api/profitLoss?store_id=$storeId&from_date=$fromDate&to_date=$toDate";
+      
   static String deliveryCharge(
     int storeId,
     String fromDate,
