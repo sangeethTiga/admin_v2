@@ -177,4 +177,8 @@ class ProductCubit extends Cubit<ProductState> {
     log('getVariant error: $e\nStackTrace: $s');
   }
 }
+
+ Future <void> clearCategory(CategoryResponse cat) async{
+  emit(state.copyWith(selectCategory: cat));
+ }
 }

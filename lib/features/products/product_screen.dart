@@ -79,7 +79,7 @@ class ProductScreen extends StatelessWidget {
                               //         ?.storeId ??
                               //     0;
                               context.read<CommonCubit>().selectedStore(p0);
-                              context.read<ProductCubit>().clearCategory();
+                              context.read<ProductCubit>().clearCategory(p0);
                               context.read<ProductCubit>().catgeory(
                                 p0?.storeId,
                               );
