@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
@@ -88,7 +89,8 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
           }
         },
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (widget.labelText != null)
               Padding(
@@ -123,6 +125,8 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
+                            16.horizontalSpace,
+                            SvgPicture.asset('assets/icons/calendar2.svg'),
                           ],
                         )
                       : Row(
@@ -138,11 +142,11 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
+                            16.horizontalSpace,
+                            SvgPicture.asset('assets/icons/calendar2.svg'),
                           ],
                         ),
                 ),
-
-                SvgPicture.asset('assets/icons/calendar2.svg'),
               ],
             ),
           ],

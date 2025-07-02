@@ -439,7 +439,7 @@ class DashboardScreen extends StatelessWidget {
                                 fromDate: parsedDate(DateTime.now()),
                                 toDate: parsedDate(DateTime.now()),
                               );
-                              context.read<CommonCubit>().account();
+                              context.read<DashboardCubit>().account();
                               context.push(routeExpense);
                               break;
                             case 'Customers':

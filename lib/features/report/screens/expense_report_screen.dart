@@ -71,11 +71,11 @@ class ExpenseReportScreen extends StatelessWidget {
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
 
                       borderColor: kBlack,
-                      value: state.selectedAccount,
+                      value: state.selectedAccount?.accountHeadId,
                       items:
                           state.accountList?.map((e) {
-                            return DropdownMenuItem<AccountDataResponse>(
-                              value: e,
+                            return DropdownMenuItem<int>(
+                              value: e.accountHeadId ,
                               child: Text(e.accountHeadName ?? ''),
                             );
                           }).toList() ??
@@ -84,8 +84,15 @@ class ExpenseReportScreen extends StatelessWidget {
                       // suffixWidget: SvgPicture.asset(
                       //   'assets/icons/Arrow - Right.svg',
                       // ),
-                      onChanged: (p0) {
-                        context.read<CommonCubit>().selectedAccount(p0);
+                      onChanged: (selectedAccount) {
+                        final select = state.accountList?.firstWhere(
+                          (e) => e.accountHeadId == selectedAccount,
+                        );
+                        if (select != null &&
+                            select.accountHeadId !=
+                                state.selectedAccount?.accountHeadId) {
+                          context.read<DashboardCubit>().selectedAccount(select);
+                        }
                       },
                       labelText: '',
                     );

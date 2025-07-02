@@ -31,28 +31,10 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectDate: store));
   }
 
-  Future<void> account() async {
-    try {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.account();
-      if (res.data != null) {
-        emit(
-          state.copyWith(
-            apiFetchStatus: ApiFetchStatus.success,
-            accountList: res.data,
-            selectedAccount: res.data?.first,
-          ),
-        );
-      }
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    } catch (e) {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    }
-  }
 
-  Future<void> selectedAccount(AccountDataResponse store) async {
-    emit(state.copyWith(selectedAccount: store));
-  }
+  // Future<void> selectedAccount(AccountDataResponse store) async {
+  //   emit(state.copyWith(selectedAccount: store));
+  // }
 
   Future<void> orderOption(int? storeId, int? appTypeId) async {
     try {

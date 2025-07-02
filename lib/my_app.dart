@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       useInheritedMediaQuery: true,
       builder: (context, child) {
-        return MaterialApp.                  router(
+        return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Admin v2',
           theme: AppTheme.lightTheme,
