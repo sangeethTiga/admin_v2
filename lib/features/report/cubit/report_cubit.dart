@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
@@ -37,7 +38,9 @@ part 'report_state.dart';
 @injectable
 class ReportCubit extends Cubit<ReportState> {
   final ReportRepositories _reportRepositories;
-  ReportCubit(this._reportRepositories) : super(InitialReportState());
+  final DashboardCubit _dashboardCubit;
+  ReportCubit(this._reportRepositories, this._dashboardCubit)
+    : super(InitialReportState());
 
   Future<void> loadSalesReport({
     int? storeId,
@@ -215,7 +218,7 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
     );
     log('-=-=-=-=-=$res');
-    
+
     if (res.data != null) {
       emit(
         state.copyWith(
@@ -642,6 +645,8 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> loadSalesDealsReport({
+     String? fromDate,
+    String? toDate,
     int? storeId,
     bool isLoadMore = false,
   }) async {
@@ -653,8 +658,10 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadSaleOnDealsReport(
       storeId: storeId ?? 0,
-      fromDate: '',
-      toDate: '',
+       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      // fromDate: '',
+      // toDate: '',
       pageFirstResult: 0,
       resultPerPage: 50,
       pageSize: 10,
@@ -842,6 +849,7 @@ class ReportCubit extends Cubit<ReportState> {
     String? search,
     bool isLoadMore = false,
   }) async {
+
     if (!isLoadMore) {
       emit(
         state.copyWith(

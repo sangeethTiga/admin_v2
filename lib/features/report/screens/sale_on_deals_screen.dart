@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -121,11 +119,6 @@ class SaleOnDealsScreen extends StatelessWidget {
                               state.isSalesDealsReport !=
                                   ApiFetchStatus.loading) {
                             context.read<ReportCubit>().loadSalesDealsReport(
-                              // pageSize: state.page,
-                              // offset: state.offset,
-                              // page: state.currentPage + 1,
-                              // limit: state.pageSize,
-                              isLoadMore: true,
                               storeId: store.selectedStore?.storeId,
                             );
                           }

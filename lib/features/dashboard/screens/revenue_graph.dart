@@ -24,11 +24,17 @@ class RevenueGraph extends StatelessWidget {
             ),
             primaryXAxis: CategoryAxis(
               labelPlacement: LabelPlacement.betweenTicks,
+
               interval: 1,
               labelIntersectAction: AxisLabelIntersectAction.rotate45,
-              majorGridLines: MajorGridLines(width: 0),
+              majorGridLines: MajorGridLines(width: 1),
             ),
-            primaryYAxis: NumericAxis(minimum: 0, interval: 50000),
+            primaryYAxis: NumericAxis(
+              majorGridLines: MajorGridLines(width: 1),
+            ),
+                            tooltipBehavior: TooltipBehavior(enable: true),
+
+            // primaryYAxis: NumericAxis(minimum: 0, interval: 50000),
             series: <CartesianSeries>[
               ColumnSeries<RevenueResponse, String>(
                 name: 'Revenue',
