@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
+
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -73,13 +73,7 @@ class ProductScreen extends StatelessWidget {
 
                             onChanged: (p0) {
                               context.read<DashboardCubit>().selectedStore(p0);
-                              // final storeId =
-                              //     context
-                              //         .read<CommonCubit>()
-                              //         .state
-                              //         .selectedStore
-                              //         ?.storeId ??
-                              //     0;
+                            
 
                               context.read<ProductCubit>().catgeory(
                                 p0?.storeId,
