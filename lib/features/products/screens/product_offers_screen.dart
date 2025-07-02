@@ -30,306 +30,308 @@ class ProductOffersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.r),
-        ),
-        backgroundColor: kPrimaryColor,
-        onPressed: () async {
-          final result = await showModalBottomSheet<bool>(
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
-            ),
-            builder: (context) => const CreateOffer(),
-          );
-
-          if (result == true) {
-            final storeId = context
-                .read<DashboardCubit>()
-                .state
-                .selectedStore
-                ?.storeId;
-            if (storeId != null) {
-              context.read<ReportCubit>().loadProductOffers(storeId: storeId);
+    return SingleChildScrollView(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50.r),
+          ),
+          backgroundColor: kPrimaryColor,
+          onPressed: () async {
+            final result = await showModalBottomSheet<bool>(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
+              ),
+              builder: (context) => const CreateOffer(),
+            );
+      
+            if (result == true) {
+              final storeId = context
+                  .read<DashboardCubit>()
+                  .state
+                  .selectedStore
+                  ?.storeId;
+              if (storeId != null) {
+                context.read<ReportCubit>().loadProductOffers(storeId: storeId);
+              }
             }
-          }
-        },
-
-        child: Icon(Icons.add, color: kWhite, size: 25.h),
-      ),
-      appBar: AppbarWidget(title: 'Product Offers'),
-      body: Column(
-        children: [
-          dividerWidget(height: 6.h),
-          16.verticalSpace,
-          MainPadding(
-            child: Column(
-              children: [
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                    return DropDownFieldWidget(
-                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                      prefixIcon: Container(
-                        margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      borderColor: kBlack,
-                      value: state.selectedStore,
-                      items:
-                          state.storeList?.map((e) {
-                            return DropdownMenuItem<StoreResponse>(
-                              value: e,
-                              child: Text(e.storeName ?? ''),
-                            );
-                          }).toList() ??
-                          [],
-                      fillColor: const Color(0XFFEFF1F1),
-
-                      onChanged: (p0) {
-                        context.read<DashboardCubit>().selectedStore(p0);
-                        context.read<ReportCubit>().loadProductOffers(
-                            storeId: state.selectedStore?.storeId,
-                        );
-                        // context.read<OrderCubit>().orders(
-                        //   req: OrderRequest(
-                        //     storeId: state.selectedStore?.storeId,
-                        //     fromDate: parsedDate(DateTime.now()),
-                        //     toDate: parsedDate(DateTime.now()),
-                        //   ),
-                        // );
-                      },
-
-                      labelText: '',
-                    );
-                  },
-                ),
-                14.verticalSpace,
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: DatePickerContainer(
-                            firstDate: state.fromDate ?? DateTime.now(),
-                            hintText: '',
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeFromDate(
-                                pickedDate,
-                              );
-                            },
+          },
+      
+          child: Icon(Icons.add, color: kWhite, size: 25.h),
+        ),
+        appBar: AppbarWidget(title: 'Product Offers'),
+        body: Column(
+          children: [
+            dividerWidget(height: 6.h),
+            16.verticalSpace,
+            MainPadding(
+              child: Column(
+                children: [
+                  BlocBuilder<DashboardCubit, DashboardState>(
+                    builder: (context, state) {
+                      return DropDownFieldWidget(
+                        isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                        prefixIcon: Container(
+                          margin: EdgeInsets.only(left: 12.w),
+                          child: SvgPicture.asset(
+                            'assets/icons/package-box-pin-location.svg',
+                            width: 20.w,
+                            height: 20.h,
+                            fit: BoxFit.contain,
                           ),
                         ),
-                        12.horizontalSpace,
-                        Expanded(
-                          child: DatePickerContainer(
-                            hintText: '',
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeToDate(
-                                pickedDate,
+                        borderColor: kBlack,
+                        value: state.selectedStore,
+                        items:
+                            state.storeList?.map((e) {
+                              return DropdownMenuItem<StoreResponse>(
+                                value: e,
+                                child: Text(e.storeName ?? ''),
                               );
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                12.verticalSpace,
-                TextFeildWidget(
-                  onChanged: (value) {
-                    final offers = context.read<ReportCubit>();
-                    final productOffers = offers.state.productOffers ?? [];
-                    if (value!.isEmpty) {
-                      offers.state.copyWith(filteredProducts: productOffers);
-                    } else {
-                      final filtered = productOffers.where((product) {
-                        return product.productName?.toLowerCase().contains(
-                              value.toLowerCase(),
-                            ) ??
-                            false;
-                      }).toList();
-                      offers.emit(
-                        offers.state.copyWith(filteredProducts: filtered),
+                            }).toList() ??
+                            [],
+                        fillColor: const Color(0XFFEFF1F1),
+      
+                        onChanged: (p0) {
+                          context.read<DashboardCubit>().selectedStore(p0);
+                          context.read<ReportCubit>().loadProductOffers(
+                              storeId: state.selectedStore?.storeId,
+                          );
+                          // context.read<OrderCubit>().orders(
+                          //   req: OrderRequest(
+                          //     storeId: state.selectedStore?.storeId,
+                          //     fromDate: parsedDate(DateTime.now()),
+                          //     toDate: parsedDate(DateTime.now()),
+                          //   ),
+                          // );
+                        },
+      
+                        labelText: '',
                       );
-                    }
-                  },
-                  borderColor: kBlack,
-                  hight: 48.h,
-                  fillColor: kWhite,
-                  inputBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                    },
                   ),
-                  prefix: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset('assets/icons/Search.svg'),
+                  14.verticalSpace,
+                  BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: DatePickerContainer(
+                              firstDate: state.fromDate ?? DateTime.now(),
+                              hintText: '',
+                              changeDate: (DateTime pickedDate) {
+                                context.read<ReportCubit>().changeFromDate(
+                                  pickedDate,
+                                );
+                              },
+                            ),
+                          ),
+                          12.horizontalSpace,
+                          Expanded(
+                            child: DatePickerContainer(
+                              hintText: '',
+                              changeDate: (DateTime pickedDate) {
+                                context.read<ReportCubit>().changeToDate(
+                                  pickedDate,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                  hintText: 'Search product offers',
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset('assets/icons/x-close.svg'),
+                  12.verticalSpace,
+                  TextFeildWidget(
+                    onChanged: (value) {
+                      final offers = context.read<ReportCubit>();
+                      final productOffers = offers.state.productOffers ?? [];
+                      if (value!.isEmpty) {
+                        offers.state.copyWith(filteredProducts: productOffers);
+                      } else {
+                        final filtered = productOffers.where((product) {
+                          return product.productName?.toLowerCase().contains(
+                                value.toLowerCase(),
+                              ) ??
+                              false;
+                        }).toList();
+                        offers.emit(
+                          offers.state.copyWith(filteredProducts: filtered),
+                        );
+                      }
+                    },
+                    borderColor: kBlack,
+                    hight: 48.h,
+                    fillColor: kWhite,
+                    inputBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                    ),
+                    prefix: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset('assets/icons/Search.svg'),
+                    ),
+                    hintText: 'Search product offers',
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset('assets/icons/x-close.svg'),
+                    ),
                   ),
-                ),
-                16.verticalSpace,
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 12.h),
-                      height: 485.h,
-                      width: 351.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        color: kWhite,
-                        border: Border.all(color: kLightBorderColor),
-                      ),
-                      child: ListView.builder(
-                        itemCount: state.productOffers?.length,
-                        shrinkWrap: true,
-
-                        itemBuilder: (context, i) {
-                          final offer = state.productOffers?[i];
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: 12.w,
-                                  top: 12.h,
-                                  right: 16.w,
-                                  bottom: 6.h,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      (offer?.productName ?? ''),
-                                      style: FontPalette.hW700S13.copyWith(
-                                        color: kBlack,
+                  16.verticalSpace,
+                  BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 12.h),
+                        height: 485.h,
+                        width: 351.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          color: kWhite,
+                          border: Border.all(color: kLightBorderColor),
+                        ),
+                        child: ListView.builder(
+                          itemCount: state.productOffers?.length,
+                          shrinkWrap: true,
+      
+                          itemBuilder: (context, i) {
+                            final offer = state.productOffers?[i];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 12.w,
+                                    top: 12.h,
+                                    right: 16.w,
+                                    bottom: 6.h,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        (offer?.productName ?? ''),
+                                        style: FontPalette.hW700S13.copyWith(
+                                          color: kBlack,
+                                        ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    // SvgPicture.asset('assets/icons/Edit.svg'),
-                                    3.horizontalSpace,
-
-                                    GestureDetector(
-                                      onTap: () async {
-                                        context
-                                            .read<ReportCubit>()
-                                            .loadSpecialOffer(
-                                              storeId:
-                                                  state.selectedType?.storeId,
-                                            );
-
-                                        final editedResponse =
-                                            await showModalBottomSheet<
-                                              OffersResponse
-                                            >(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(
-                                                    12.r,
-                                                  ),
-                                                  topRight: Radius.circular(
-                                                    12.r,
+                                      Spacer(),
+                                      // SvgPicture.asset('assets/icons/Edit.svg'),
+                                      3.horizontalSpace,
+      
+                                      GestureDetector(
+                                        onTap: () async {
+                                          context
+                                              .read<ReportCubit>()
+                                              .loadSpecialOffer(
+                                                storeId:
+                                                    state.selectedType?.storeId,
+                                              );
+      
+                                          final editedResponse =
+                                              await showModalBottomSheet<
+                                                OffersResponse
+                                              >(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(
+                                                      12.r,
+                                                    ),
+                                                    topRight: Radius.circular(
+                                                      12.r,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              backgroundColor: kWhite,
-                                              context: context,
-                                              builder: (context) {
-                                                return EditProductOffer(
-                                                  product: offer!,
-                                                );
-                                              },
-                                            );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/icons/Edit.svg',
-                                          ),
-                                          3.horizontalSpace,
-                                          Text(
-                                            'Edit',
-                                            style: FontPalette.hW700S14
-                                                .copyWith(color: kPrimaryColor),
-                                          ),
-                                          6.horizontalSpace,
-                                        ],
+                                                backgroundColor: kWhite,
+                                                context: context,
+                                                builder: (context) {
+                                                  return EditProductOffer(
+                                                    product: offer!,
+                                                  );
+                                                },
+                                              );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/icons/Edit.svg',
+                                            ),
+                                            3.horizontalSpace,
+                                            Text(
+                                              'Edit',
+                                              style: FontPalette.hW700S14
+                                                  .copyWith(color: kPrimaryColor),
+                                            ),
+                                            6.horizontalSpace,
+                                          ],
+                                        ),
                                       ),
-                                    ),
-
-                                    // Text(
-                                    //   'Edit',
-                                    //   style: FontPalette.hW700S14.copyWith(
-                                    //     color: kPrimaryColor,
-                                    //   ),
-                                    // ),
-                                  ],
+      
+                                      // Text(
+                                      //   'Edit',
+                                      //   style: FontPalette.hW700S14.copyWith(
+                                      //     color: kPrimaryColor,
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-
-                              dividerWidget(color: kLightBorderColor),
-                              10.verticalSpace,
-                              rowWidget(
-                                name: 'Offer',
-                                status: offer?.offerTypeName ?? '',
-                              ),
-                              8.verticalSpace,
-                              rowWidget(
-                                name: 'Offer price',
-                                status:
-                                    offer?.offerPrice?.toStringAsFixed(2) ??
-                                    '0.00',
-                              ),
-                              8.verticalSpace,
-                              rowWidget(
-                                name: 'Discount',
-                                status:
-                                    offer?.offerPricePercentage?.toString() ??
-                                    '0',
-                              ),
-                              8.verticalSpace,
-
-                              rowWidget(
-                                name: 'From date',
-                                status: offer?.offerFromDate != null
-                                    ? formatDate(offer!.offerFromDate!)
-                                    : '',
-                              ),
-                              8.verticalSpace,
-
-                              rowWidget(
-                                name: 'To date',
-                                status: offer?.offerToDate != null
-                                    ? formatDate(offer!.offerToDate!)
-                                    : '',
-                              ),
-                              5.verticalSpace,
-
-                              rowWidget(
-                                name: 'Status',
-                                status: offer?.offerStatus ?? '',
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ],
+      
+                                dividerWidget(color: kLightBorderColor),
+                                10.verticalSpace,
+                                rowWidget(
+                                  name: 'Offer',
+                                  status: offer?.offerTypeName ?? '',
+                                ),
+                                8.verticalSpace,
+                                rowWidget(
+                                  name: 'Offer price',
+                                  status:
+                                      offer?.offerPrice?.toStringAsFixed(2) ??
+                                      '0.00',
+                                ),
+                                8.verticalSpace,
+                                rowWidget(
+                                  name: 'Discount',
+                                  status:
+                                      offer?.offerPricePercentage?.toString() ??
+                                      '0',
+                                ),
+                                8.verticalSpace,
+      
+                                rowWidget(
+                                  name: 'From date',
+                                  status: offer?.offerFromDate != null
+                                      ? formatDate(offer!.offerFromDate!)
+                                      : '',
+                                ),
+                                8.verticalSpace,
+      
+                                rowWidget(
+                                  name: 'To date',
+                                  status: offer?.offerToDate != null
+                                      ? formatDate(offer!.offerToDate!)
+                                      : '',
+                                ),
+                                5.verticalSpace,
+      
+                                rowWidget(
+                                  name: 'Status',
+                                  status: offer?.offerStatus ?? '',
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

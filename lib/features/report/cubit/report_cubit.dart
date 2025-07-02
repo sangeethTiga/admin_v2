@@ -645,8 +645,9 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> loadSalesDealsReport({
+     String? fromDate,
+    String? toDate,
     int? storeId,
-
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
@@ -657,8 +658,10 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadSaleOnDealsReport(
       storeId: storeId ?? 0,
-      fromDate: '',
-      toDate: '',
+       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      // fromDate: '',
+      // toDate: '',
       pageFirstResult: 0,
       resultPerPage: 50,
       pageSize: 10,
