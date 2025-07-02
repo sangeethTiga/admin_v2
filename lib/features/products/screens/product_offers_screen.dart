@@ -96,7 +96,9 @@ class ProductOffersScreen extends StatelessWidget {
 
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
-                        context.read<ReportCubit>().loadProductOffers();
+                        context.read<ReportCubit>().loadProductOffers(
+                            storeId: state.selectedStore?.storeId,
+                        );
                         // context.read<OrderCubit>().orders(
                         //   req: OrderRequest(
                         //     storeId: state.selectedStore?.storeId,

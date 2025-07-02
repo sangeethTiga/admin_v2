@@ -426,7 +426,7 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
+  Future<ResponseResult<List<SaleOnDeals>>>loadSaleOnDealsReport({
     required int storeId,
     required String fromDate,
     required String toDate,
@@ -445,7 +445,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-    // print('SaleOnDeals res: $res');
+     print('SaleOnDeals res: $res');
     switch (res.statusCode) {
       case 200:
       case 201:

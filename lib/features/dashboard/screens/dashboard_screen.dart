@@ -9,11 +9,11 @@ import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
-import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +168,9 @@ class DashboardScreen extends StatelessWidget {
                       leading: Icon(Icons.shopify_outlined),
                       title: Text('Sale on Deals'),
                       onTap: () {
-                        context.read<ReportCubit>().loadSalesDealsReport();
+                        context.read<ReportCubit>().loadSalesDealsReport(
+                          storeId: state.selectedStore?.storeId,
+                        );
                         context.push(routeSaleDeals);
                       },
                     ),
@@ -204,7 +206,9 @@ class DashboardScreen extends StatelessWidget {
                       leading: Icon(Icons.shopify_outlined),
                       title: Text('Product offers'),
                       onTap: () {
-                        context.read<ReportCubit>().loadProductOffers();
+                        context.read<ReportCubit>().loadProductOffers(
+                          storeId: state.selectedStore?.storeId,
+                        );
                         context.push(routeProductOffers);
                       },
                     ),
@@ -322,9 +326,13 @@ class DashboardScreen extends StatelessWidget {
                               // ),
                               onChanged: (p0) {
                                 print('select store ---$p0');
-                                context.read<DashboardCubit>().selectedStore(p0);
-                                 context.read<DashboardCubit>().loadOrderGraph();
-            context.read<DashboardCubit>().loadRevenueGraph();
+                                context.read<DashboardCubit>().selectedStore(
+                                  p0,
+                                );
+                                context.read<DashboardCubit>().loadOrderGraph();
+                                context
+                                    .read<DashboardCubit>()
+                                    .loadRevenueGraph();
                               },
                               labelText: '',
                             );
@@ -353,11 +361,11 @@ class DashboardScreen extends StatelessWidget {
                               //   'assets/icons/Arrow - Right.svg',
                               // ),
                               onChanged: (p0) {
-                     
-
                                 context.read<CommonCubit>().selectedDate(p0);
-                                 context.read<DashboardCubit>().loadOrderGraph();
-            context.read<DashboardCubit>().loadRevenueGraph();
+                                context.read<DashboardCubit>().loadOrderGraph();
+                                context
+                                    .read<DashboardCubit>()
+                                    .loadRevenueGraph();
                               },
                             );
                           },
@@ -489,7 +497,6 @@ class DashboardScreen extends StatelessWidget {
                   20.verticalSpace,
 
                   OrdersGraph(),
-                  
                 ],
               ),
             );
