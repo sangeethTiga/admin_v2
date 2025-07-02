@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
@@ -139,7 +140,7 @@ class OrderScreen extends StatelessWidget {
                               'assets/icons/Arrow - Right.svg',
                             ),
                             onChanged: (p0) {
-                              context.read<CommonCubit>().selectedStore(p0);
+                              context.read<DashboardCubit>().selectedStore(p0);
                               context.read<OrderCubit>().orders(
                                 req: OrderRequest(
                                   storeId: state.selectedStore?.storeId,

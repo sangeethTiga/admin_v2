@@ -2,7 +2,6 @@
 
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/dashboard/domain/models/Ordergraph/orders_graph_response.dart';
-import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -12,9 +11,8 @@ class OrdersGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppbarWidget(title:'Orders'),
-      body: Center(
+    return 
+     Center(
         child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
             return SizedBox(
@@ -48,7 +46,7 @@ class OrdersGraph extends StatelessWidget {
             );
           },
         ),
-      ),
+   
     );
   }
 }

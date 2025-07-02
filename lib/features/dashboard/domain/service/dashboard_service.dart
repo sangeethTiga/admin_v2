@@ -13,7 +13,7 @@ class DashboardService implements DashboardRepositories {
   Future<ResponseResult<List<OrdersGraphResponse>>> ordersGraph({
     required String dateRangeId,
     required int roleId,
-    required String storeArray,
+    required int storeArray,
     required int userId,
   }) async {
     final networkProvider = await NetworkProvider.create();
@@ -43,7 +43,7 @@ class DashboardService implements DashboardRepositories {
 
   @override
   Future<ResponseResult<List<RevenueResponse>>> loadRevenueGraph({
-    required int dateRangeId,
+    required String dateRangeId,
     required int roleId,
     required String storeArray,
     required int userId,
