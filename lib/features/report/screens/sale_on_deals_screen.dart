@@ -141,7 +141,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                             "Order No",
 
                             "Order Date",
-                            "Product ",
+                            "Product",
                             "Offer Price",
 
                             "Total",
@@ -161,7 +161,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                                   'Order No': e.prodOrderId ?? '',
 
                                   'Order Date': e.orderDate ?? '',
-                                  'Product ': e.productName ?? '',
+                                  'Product': e.productName ?? '',
                                   'Offer Price': e.offerPrice ?? '',
 
                                   'Total': e.orderItemTotal ?? '',

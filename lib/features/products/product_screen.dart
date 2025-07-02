@@ -75,12 +75,12 @@ class ProductScreen extends StatelessWidget {
                             
                               context.read<DashboardCubit>().selectedStore(p0);
                               context.read<ProductCubit>().catgeory(
-                                p0?.storeId, 
+                                p0?.storeId,
                               );
 
                               context.read<ProductCubit>().changeStore(p0);
                               context.read<ProductCubit>().product(
-                               p0?.storeId,
+                                p0?.storeId,
                                 0,
                                 '',
                                 '',
@@ -108,7 +108,19 @@ class ProductScreen extends StatelessWidget {
                               ),
                             ),
                             borderColor: kBlack,
-                            value: state.selectCategory?.details?.categoryId,
+                            value:
+                                state.categoryList?.any(
+                                      (e) =>
+                                          e.details?.categoryId ==
+                                          state
+                                              .selectCategory
+                                              ?.details
+                                              ?.categoryId,
+                                    ) ==
+                                    true
+                                ? state.selectCategory?.details?.categoryId
+                                : null,
+                            //state.selectCategory?.details?.categoryId,
                             items:
                                 state.categoryList?.map((e) {
                                   return DropdownMenuItem<int>(

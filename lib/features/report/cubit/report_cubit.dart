@@ -3,13 +3,14 @@ import 'dart:developer';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
+import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
-import 'package:admin_v2/features/report/domain/models/offer_type/offertype_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
@@ -18,6 +19,7 @@ import 'package:admin_v2/features/report/domain/models/purchase/purchase_respons
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/specialOffer/special_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
@@ -212,7 +214,8 @@ class ReportCubit extends Cubit<ReportState> {
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
     );
-
+    log('-=-=-=-=-=$res');
+    
     if (res.data != null) {
       emit(
         state.copyWith(
@@ -885,18 +888,20 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
   }
 
-  Future<void> loadOfferType() async {
-    emit(state.copyWith(isOfferType: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadOfferType();
+  Future<void> loadSpecialOffer({int? storeId}) async {
+    emit(state.copyWith(isSpecialOffer: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadSpecialOffer(
+      storeId: storeId ?? 0,
+    );
 
-    log('/////Response data////: ${res.data}');
+    log('/////SPECIAL OFFER////: ${res.data}');
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
-      final List<OffertypeResponse> fetchedList = rawList.map((element) {
-        if (element is OffertypeResponse) {
+      final List<SpecialOfferResponse> fetchedList = rawList.map((element) {
+        if (element is SpecialOfferResponse) {
           return element;
         } else if (element is Map<String, dynamic>) {
-          return OffertypeResponse.fromJson(element);
+          return SpecialOfferResponse.fromJson(element);
         } else {
           throw Exception(
             'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
@@ -909,12 +914,50 @@ class ReportCubit extends Cubit<ReportState> {
 
       emit(
         state.copyWith(
-          offerType: res.data,
-          isOfferType: ApiFetchStatus.success,
+          specialOffer: res.data,
+          isSpecialOffer: ApiFetchStatus.success,
         ),
       );
     }
-    emit(state.copyWith(isOfferType: ApiFetchStatus.failed));
+    emit(state.copyWith(isSpecialOffer: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadSelectedOffer(SpecialOfferResponse offer) async {
+    emit(state.copyWith(selectedType: offer));
+  }
+
+  Future<void> loadProductOffer(
+    CreateOfferResponse createOffer,
+    int productId,
+    int storeId,
+  ) async {
+    emit(state.copyWith(isProductOffers: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadProductOffer(
+      createOffer,
+      productId,
+      storeId,
+    );
+    if (res.data != null) {
+      return;
+    }
+    emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadEditOffer(
+    EditOfferResponse editOffer,
+    int productId,
+    int storeId,
+  ) async {
+    emit(state.copyWith(isProductOffers: ApiFetchStatus.loading));
+    final res = await _reportRepositories.loadEditOffer(
+      editOffer,
+      productId,
+      storeId,
+    );
+    if (res.data != null) {
+      return;
+    }
+    emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
   }
 
   Future<void> loadSuppliersReport({

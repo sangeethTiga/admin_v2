@@ -397,7 +397,7 @@ class DashboardScreen extends StatelessWidget {
                               break;
                             case 'Profit/loss':
                               context.read<ReportCubit>().loadProfitAndLoss(
-                                storeId: state.selectedStore?.storeId,
+                                storeId: state.selectedStore?.storeId ?? 0,
                                 fromDate: parsedDate(DateTime.now()),
                                 toDate: parsedDate(DateTime.now()),
                               );

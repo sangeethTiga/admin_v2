@@ -2,12 +2,12 @@ import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/widgets/create_offer.dart';
+import 'package:admin_v2/features/report/widgets/edit_offer.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-//import 'package:admin_v2/shared/app/list/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
-import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
@@ -18,16 +18,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductOffersScreen extends StatelessWidget {
   const ProductOffersScreen({super.key});
+
   String formatDate(DateTime date) {
     return DateFormat('dd-MMM-yyyy').format(date);
-  } 
-  
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +36,29 @@ class ProductOffersScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(50.r),
         ),
         backgroundColor: kPrimaryColor,
-        onPressed: () {
-          
- 
-      // context.push(CreateOffer);
+        onPressed: () async {
+          final result = await showModalBottomSheet<bool>(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
+            ),
+            builder: (context) => const CreateOffer(),
+          );
+
+          if (result == true) {
+            final storeId = context
+                .read<CommonCubit>()
+                .state
+                .selectedStore
+                ?.storeId;
+            if (storeId != null) {
+              context.read<ReportCubit>().loadProductOffers(storeId: storeId);
+            }
+          }
         },
+
         child: Icon(Icons.add, color: kWhite, size: 25.h),
       ),
       appBar: AppbarWidget(title: 'Product Offers'),
@@ -197,14 +214,63 @@ class ProductOffersScreen extends StatelessWidget {
                                       ),
                                     ),
                                     Spacer(),
-                                    SvgPicture.asset('assets/icons/Edit.svg'),
+                                    // SvgPicture.asset('assets/icons/Edit.svg'),
                                     3.horizontalSpace,
-                                    Text(
-                                      'Edit',
-                                      style: FontPalette.hW700S14.copyWith(
-                                        color: kPrimaryColor,
+
+                                    GestureDetector(
+                                      onTap: () async {
+                                        context
+                                            .read<ReportCubit>()
+                                            .loadSpecialOffer(
+                                              storeId:
+                                                  state.selectedType?.storeId,
+                                            );
+
+                                        final editedResponse =
+                                            await showModalBottomSheet<
+                                              OffersResponse
+                                            >(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(
+                                                    12.r,
+                                                  ),
+                                                  topRight: Radius.circular(
+                                                    12.r,
+                                                  ),
+                                                ),
+                                              ),
+                                              backgroundColor: kWhite,
+                                              context: context,
+                                              builder: (context) {
+                                                return EditProductOffer(
+                                                  product: offer!,
+                                                );
+                                              },
+                                            );
+                                      },
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            'assets/icons/Edit.svg',
+                                          ),
+                                          3.horizontalSpace,
+                                          Text(
+                                            'Edit',
+                                            style: FontPalette.hW700S14
+                                                .copyWith(color: kPrimaryColor),
+                                          ),
+                                          6.horizontalSpace,
+                                        ],
                                       ),
                                     ),
+
+                                    // Text(
+                                    //   'Edit',
+                                    //   style: FontPalette.hW700S14.copyWith(
+                                    //     color: kPrimaryColor,
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),

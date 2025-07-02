@@ -56,6 +56,7 @@ class ApiEndpoints {
 
   static String profitLoss(int storeId, String fromDate, String toDate) =>
       "/api/profitLoss?store_id=$storeId&from_date=$fromDate&to_date=$toDate";
+      
   static String deliveryCharge(
     int storeId,
     String fromDate,
@@ -113,7 +114,7 @@ class ApiEndpoints {
     int pageFirstResult,
     int resultPerPage,
   ) =>
-      '/api/user_shift?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
+      '/api/user_shift?store_id=18&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
 
   // static String purchaseReport(
   //   int storeId,
@@ -200,7 +201,8 @@ class ApiEndpoints {
 
   static String daySummary(int storeId, String toDate) =>
       '/api/day-summary?store_id=$storeId&date=$toDate';
-  static String updateProduct(int productId) => '/api/mobapp_productupdate/$productId';
+  static String updateProduct(int productId) =>
+      '/api/mobapp_productupdate/$productId';
 
   static String productOffers(
     String fromDate,
@@ -210,9 +212,12 @@ class ApiEndpoints {
     int resultPerPage,
     String search,
   ) =>
-      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=$search&page_first_result=0&result_per_page=50';
+      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=20&searchText=$search&page_first_result=0&result_per_page=50';
 
   static String getVariant(int productId) =>
       '/api/product_variantdetail/$productId';
-  static String offerTYpe() => '/api/offer_type';
+  static String specialOffer(int storeId) =>
+      '/api/product_offer_type?store_id=$storeId';
+  static String editOffer(int productId) => '/api/product_offer/$productId';
+  static String createOffer(int productId) => '/api/product_offer/$productId';
 }

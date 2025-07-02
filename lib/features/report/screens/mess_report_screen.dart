@@ -32,7 +32,7 @@ class MessReportScreen extends StatelessWidget {
                 BlocBuilder<CommonCubit, CommonState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
-                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                      //isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                       prefixIcon: Container(
                         margin: EdgeInsets.only(left: 12.w),
                         child: SvgPicture.asset(

@@ -1,5 +1,4 @@
 part of 'report_cubit.dart';
-
 class ReportState extends Equatable {
   final List<SalesReportResponse>? salesReport;
   final ApiFetchStatus? isSaleReport;
@@ -59,9 +58,10 @@ class ReportState extends Equatable {
   final List<BillTypeDetail>? billTypeDetail;
   final List<DeliveryPartner>? deliveryPartner;
   final List<PurchaseType>? purchaseType;
-  final List<OffertypeResponse>? offerType;
-  final ApiFetchStatus? isOfferType;
-  final OffertypeResponse? selectedType;
+  final List<SpecialOfferResponse>? specialOffer;
+  final ApiFetchStatus? isSpecialOffer;
+  final SpecialOfferResponse? selectedType;
+  final List<CreateOfferResponse>? createOffer;
 
   const ReportState({
     this.salesReport,
@@ -120,12 +120,13 @@ class ReportState extends Equatable {
     this.deliveryPartner,
     this.purchaseType,
     this.filteredProducts,
+    this.createOffer,
 
     //       this.purchaseType,
     this.selectedPurchaseType,
-    this.offerType,
-    this.isOfferType,
-    this.selectedType
+    this.specialOffer,
+    this.isSpecialOffer,
+    this.selectedType,
   });
 
   ReportState copyWith({
@@ -188,9 +189,10 @@ class ReportState extends Equatable {
     List<BillTypeDetail>? billTypeDetail,
     List<DeliveryPartner>? deliveryPartner,
     List<PurchaseType>? purchaseType,
-    List<OffertypeResponse>? offerType,
-    ApiFetchStatus? isOfferType,
-    OffertypeResponse? selectedType,
+    List<SpecialOfferResponse>? specialOffer,
+    ApiFetchStatus? isSpecialOffer,
+    SpecialOfferResponse? selectedType,
+    List<CreateOfferResponse>? createOffer,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -253,10 +255,10 @@ class ReportState extends Equatable {
       billTypeDetail: billTypeDetail ?? this.billTypeDetail,
       deliveryPartner: deliveryPartner ?? this.deliveryPartner,
       purchaseType: purchaseType ?? this.purchaseType,
-      offerType: offerType ?? this.offerType,
-
-      isOfferType: isOfferType ?? this.isOfferType,
+      specialOffer: specialOffer ?? this.specialOffer,
+      isSpecialOffer: isSpecialOffer ?? this.isSpecialOffer,
       selectedType: selectedType ?? this.selectedType,
+      createOffer:  createOffer ?? this.createOffer,
     );
   }
 
@@ -317,9 +319,10 @@ class ReportState extends Equatable {
     deliveryPartner,
     purchaseType,
     filteredProducts,
-    offerType,
-    isOfferType,
-    selectedType 
+    specialOffer,
+    isSpecialOffer,
+    selectedType,
+    createOffer
   ];
 }
 
