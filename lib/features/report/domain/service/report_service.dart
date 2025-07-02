@@ -414,7 +414,7 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: (res.data is List)
+          data: (res.data is List)                                           
               ? List<OffersResponse>.from(
                   res.data.map((e) => OffersResponse.fromJson(e)),
                 )

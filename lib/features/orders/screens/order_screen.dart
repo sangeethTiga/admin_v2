@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
@@ -8,10 +7,10 @@ import 'package:admin_v2/features/orders/domain/models/order_request/order_reque
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
-import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
@@ -112,8 +111,7 @@ class OrderScreen extends StatelessWidget {
                       10.verticalSpace,
                       BlocBuilder<DashboardCubit, DashboardState>(
                         builder: (context, state) {
-                          return
-                           DropDownFieldWidget(
+                          return DropDownFieldWidget(
                             isLoading:
                                 state.apiFetchStatus == ApiFetchStatus.loading,
                             prefixIcon: Container(
@@ -136,9 +134,9 @@ class OrderScreen extends StatelessWidget {
                                 }).toList() ??
                                 [],
                             fillColor: const Color(0XFFEFF1F1),
-                            suffixWidget: SvgPicture.asset(
-                              'assets/icons/Arrow - Right.svg',
-                            ),
+                            // suffixWidget: SvgPicture.asset(
+                            //   'assets/icons/Arrow - Right.svg',
+                            // ),
                             onChanged: (p0) {
                               context.read<DashboardCubit>().selectedStore(p0);
                               context.read<OrderCubit>().orders(
@@ -179,57 +177,66 @@ class OrderScreen extends StatelessWidget {
                                         final isSelected = state.selectedIds
                                             ?.contains(item.id);
 
-                                        return Row(
-                                          children: [
-                                            Checkbox(
-                                              materialTapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 9.w,
+                                            right: 9.w,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Checkbox(
+                                                materialTapTargetSize:
+                                                    MaterialTapTargetSize
+                                                        .shrinkWrap,
 
-                                              side: BorderSide(
-                                                color: Color(0xFFCBD7D4),
-                                                width: 1.5,
+                                                side: BorderSide(
+                                                  color: Color(0xFFCBD7D4),
+                                                  width: 1.5,
+                                                ),
+                                                activeColor: kPrimaryColor,
+                                                shape: const CircleBorder(),
+                                                value: isSelected ?? false,
+                                                onChanged: (v) {
+                                                  context
+                                                      .read<OrderCubit>()
+                                                      .ordersDatesEvent(
+                                                        item.id,
+                                                      );
+
+                                                  context
+                                                      .read<OrderCubit>()
+                                                      .orders(
+                                                        req: OrderRequest(
+                                                          filterId:
+                                                              state.selectedIds,
+                                                          storeId: common
+                                                              .selectedStore
+                                                              ?.storeId,
+                                                          fromDate: parsedDate(
+                                                            DateTime.now(),
+                                                          ),
+                                                          toDate: parsedDate(
+                                                            DateTime.now(),
+                                                          ),
+                                                        ),
+                                                      );
+                                                  log(
+                                                    "What ans this = -=- =- ${state.selectedIds?.length}",
+                                                  );
+                                                },
                                               ),
-                                              activeColor: kPrimaryColor,
-                                              shape: const CircleBorder(),
-                                              value: isSelected ?? false,
-                                              onChanged: (v) {
-                                                context
-                                                    .read<OrderCubit>()
-                                                    .ordersDatesEvent(item.id);
-
-                                                context
-                                                    .read<OrderCubit>()
-                                                    .orders(
-                                                      req: OrderRequest(
-                                                        filterId:
-                                                            state.selectedIds,
-                                                        storeId: common
-                                                            .selectedStore
-                                                            ?.storeId,
-                                                        fromDate: parsedDate(
-                                                          DateTime.now(),
-                                                        ),
-                                                        toDate: parsedDate(
-                                                          DateTime.now(),
-                                                        ),
-                                                      ),
-                                                    );
-                                                log(
-                                                  "What ans this = -=- =- ${state.selectedIds?.length}",
-                                                );
-                                              },
-                                            ),
-                                            Text(
-                                              item.title,
-                                              style: FontPalette.hW500S13,
-                                            ),
-                                          ],
+                                              Text(
+                                                item.title,
+                                                style: FontPalette.hW500S12,
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       },
                                     );
                                   }).toList(),
                                 ),
+                                7.verticalSpace,
                                 // SingleChildScrollView(
                                 //   scrollDirection: Axis.horizontal,
                                 //   child: Row(
@@ -281,7 +288,6 @@ class OrderScreen extends StatelessWidget {
                                               state.toDate ?? DateTime.now(),
                                           hintText: '',
                                           changeDate: (DateTime pickedDate) {
-                                       
                                             context
                                                 .read<OrderCubit>()
                                                 .chnageToDate(pickedDate);

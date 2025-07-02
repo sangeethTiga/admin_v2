@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -60,7 +59,10 @@ class ProductScreen extends StatelessWidget {
                               ),
                             ),
                             borderColor: kBlack,
-                            value: context.read<DashboardCubit>().state.selectedStore,
+                            value: context
+                                .read<DashboardCubit>()
+                                .state
+                                .selectedStore,
                             items:
                                 state.storeList?.map((e) {
                                   return DropdownMenuItem<StoreResponse>(
@@ -73,7 +75,6 @@ class ProductScreen extends StatelessWidget {
 
                             onChanged: (p0) {
                               context.read<DashboardCubit>().selectedStore(p0);
-                            
 
                               context.read<ProductCubit>().catgeory(
                                 p0?.storeId,
@@ -181,7 +182,7 @@ class ProductScreen extends StatelessWidget {
                           }
                         },
 
-                        prefix: Icon(Icons.search_outlined),
+                        prefix: Icon(Icons.search),
                         hintText: 'search for product',
                         controller: mobileScannerController,
 

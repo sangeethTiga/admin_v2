@@ -116,6 +116,7 @@ class CommonTableWidget extends StatelessWidget {
         title,
         style: FontPalette.hW700S11.copyWith(color: Color(0XFF5E6566)),
         textAlign: TextAlign.center,
+        maxLines: 2,
       ),
     );
   }
