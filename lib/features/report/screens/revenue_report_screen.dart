@@ -75,7 +75,7 @@ class RevenueReportScreen extends StatelessWidget {
               MainPadding(
                 child: Column(
                   children: [
-                    BlocBuilder<CommonCubit, CommonState>(
+                    BlocBuilder<DashboardCubit, DashboardState>(
                       builder: (context, state) {
                         return DropDownFieldWidget(
                           isLoading:
@@ -140,7 +140,7 @@ class RevenueReportScreen extends StatelessWidget {
                       },
                     ),
                     10.verticalSpace,
-                    BlocBuilder<CommonCubit, CommonState>(
+                    BlocBuilder<DashboardCubit, DashboardState>(
                       builder: (context, state) {
                         return CustomMaterialBtton(
                           onPressed: () {

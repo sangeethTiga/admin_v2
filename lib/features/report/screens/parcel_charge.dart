@@ -31,7 +31,7 @@ class ParcelCharge extends StatelessWidget {
             child: Column(
               //spacing: 14.h,
               children: [
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
@@ -137,7 +137,7 @@ class ParcelCharge extends StatelessWidget {
                   },
                 ),
                 12.verticalSpace,
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, commonState) {
                     return BlocBuilder<ReportCubit, ReportState>(
                       builder: (context, reportState) {

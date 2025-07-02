@@ -49,7 +49,7 @@ class ProductOffersScreen extends StatelessWidget {
 
           if (result == true) {
             final storeId = context
-                .read<CommonCubit>()
+                .read<DashboardCubit>()
                 .state
                 .selectedStore
                 ?.storeId;
@@ -69,7 +69,7 @@ class ProductOffersScreen extends StatelessWidget {
           MainPadding(
             child: Column(
               children: [
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,

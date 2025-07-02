@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/shared/app/extension/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _initialFunction() async {
     final ctx = context;
-    ctx.read<CommonCubit>().store();
+    ctx.read<DashboardCubit>().store();
     await Future.delayed(const Duration(milliseconds: 900));
     if (!mounted) return;
     final bool status = await AuthUtils.instance.isSignedIn;

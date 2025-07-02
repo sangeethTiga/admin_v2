@@ -40,7 +40,7 @@ class OrderScreen extends StatelessWidget {
               children: [
                 dividerWidget(height: 6.h),
                 8.verticalSpace,
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, common) {
                     return SizedBox(
                       height: 40.h,
@@ -110,7 +110,7 @@ class OrderScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       10.verticalSpace,
-                      BlocBuilder<CommonCubit, CommonState>(
+                      BlocBuilder<DashboardCubit, DashboardState>(
                         builder: (context, state) {
                           return
                            DropDownFieldWidget(
@@ -168,7 +168,7 @@ class OrderScreen extends StatelessWidget {
                           border: Border.all(color: kLightBorderColor),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
-                        child: BlocBuilder<CommonCubit, CommonState>(
+                        child: BlocBuilder<DashboardCubit, DashboardState>(
                           builder: (context, common) {
                             return Column(
                               children: [

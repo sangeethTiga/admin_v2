@@ -34,7 +34,7 @@ class SignInScreen extends StatelessWidget {
             AuthUtils.instance.writeAccessTokens(
               state.authResponse?.token ?? '',
             );
-            context.read<CommonCubit>().store();
+            context.read<DashboardCubit>().store();
             context.read<DashboardCubit>().loadOrderGraph();
             context.read<DashboardCubit>().loadRevenueGraph();
 

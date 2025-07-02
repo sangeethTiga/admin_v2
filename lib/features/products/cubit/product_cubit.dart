@@ -178,7 +178,7 @@ class ProductCubit extends Cubit<ProductState> {
   }
 }
 
- Future <void> clearCategory(CategoryResponse cat) async{
-  emit(state.copyWith(selectCategory: cat));
+ Future <void> clearCategory() async{
+  emit(state.copyWith(selectCategory: CategoryResponse()));
  }
 }

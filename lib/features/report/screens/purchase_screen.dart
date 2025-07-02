@@ -30,7 +30,7 @@ class PurchaseScreen extends StatelessWidget {
           MainPadding(
             child: Column(
               children: [
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
@@ -136,7 +136,7 @@ class PurchaseScreen extends StatelessWidget {
                   },
                 ),
                 12.verticalSpace,
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {

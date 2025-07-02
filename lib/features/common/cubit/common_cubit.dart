@@ -16,26 +16,7 @@ class CommonCubit extends Cubit<CommonState> {
   final CommonRepostories _commonRepostories;
   CommonCubit(this._commonRepostories) : super(InitialCommonState());
 
-  Future<void> store() async {
-    try {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.storeList();
 
-      if (res.data != null) {
-        emit(
-          state.copyWith(
-            apiFetchStatus: ApiFetchStatus.success,
-            storeList: res.data,
-            selectedStore: res.data?.first,
-            selectDate: custDate.first,
-          ),
-        );
-      }
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    } catch (e) {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    }
-  }
 
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));

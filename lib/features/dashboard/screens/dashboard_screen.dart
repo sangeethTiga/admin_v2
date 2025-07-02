@@ -62,7 +62,7 @@ class DashboardScreen extends StatelessWidget {
       ),
 
       drawer: Drawer(
-        child: BlocBuilder<CommonCubit, CommonState>(
+        child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
             return ListView(
               padding: EdgeInsets.zero,
@@ -279,7 +279,7 @@ class DashboardScreen extends StatelessWidget {
 
       body: MainPadding(
         top: 16.h,
-        child: BlocBuilder<CommonCubit, CommonState>(
+        child: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
             return SingleChildScrollView(
               child: Column(
@@ -289,7 +289,7 @@ class DashboardScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: BlocBuilder<CommonCubit, CommonState>(
+                        child: BlocBuilder<DashboardCubit, DashboardState>(
                           builder: (context, state) {
                             return DropDownFieldWidget(
                               isLoading:
@@ -335,7 +335,7 @@ class DashboardScreen extends StatelessWidget {
                       36.horizontalSpace,
                       SizedBox(
                         width: 120.w,
-                        child: BlocBuilder<CommonCubit, CommonState>(
+                        child: BlocBuilder<DashboardCubit, DashboardState>(
                           builder: (context, state) {
                             return DropDownFieldWidget(
                               borderColor: kBlack,

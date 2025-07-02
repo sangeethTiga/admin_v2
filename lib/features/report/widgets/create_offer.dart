@@ -55,7 +55,7 @@ class _CreateOfferState extends State<CreateOffer> {
             ),
           ),
 
-          BlocBuilder<CommonCubit, CommonState>(
+          BlocBuilder<DashboardCubit, DashboardState>(
             builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.all(10),
@@ -258,7 +258,7 @@ class _CreateOfferState extends State<CreateOffer> {
             child: CustomMaterialBtton(
               buttonText: 'Save',
                 onPressed: () async {
-  final selectedStore = context.read<CommonCubit>().state.selectedStore;
+  final selectedStore = context.read<DashboardCubit>().state.selectedStore;
   final selectedOffer = context.read<ReportCubit>().state.selectedType;
 
   if (selectedStore == null || selectedOffer == null) return;
