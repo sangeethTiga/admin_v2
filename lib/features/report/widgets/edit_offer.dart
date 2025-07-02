@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class EditProductOffer extends StatefulWidget {
   final ProductOffersResponse product;
@@ -87,23 +88,22 @@ class _EditProductOfferState extends State<EditProductOffer> {
               ),
             ),
 
-            Padding(
-              padding: EdgeInsets.all(13),
-              child: TextFeildWidget(
-                topLabelText: 'Product Name',
-                hight: 48.h,
-                fillColor: kWhite,
-                inputBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 14.h,
-                  horizontal: 8.w,
-                ),
-              ),
-            ),
-
+            // Padding(
+            //   padding: EdgeInsets.all(13),
+            //   child: TextFeildWidget(
+            //     topLabelText: 'Product Name',
+            //     hight: 48.h,
+            //     fillColor: kWhite,
+            //     inputBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8.r),
+            //       borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+            //     ),
+            //     contentPadding: EdgeInsets.symmetric(
+            //       vertical: 14.h,
+            //       horizontal: 8.w,
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.all(13),
               child: BlocBuilder<ReportCubit, ReportState>(
@@ -232,7 +232,7 @@ class _EditProductOfferState extends State<EditProductOffer> {
                     widget.product.storeId ?? 0,
                     widget.product.productId ?? 0,
                   );
-                  Navigator.pop(context, true);
+                  context.pop();
                 },
               ),
             ),

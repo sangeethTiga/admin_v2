@@ -207,7 +207,7 @@ class DashboardScreen extends StatelessWidget {
                       title: Text('Product offers'),
                       onTap: () {
                         context.read<ReportCubit>().loadProductOffers(
-                          // storeId: state.selectedStore?.storeId,
+                           storeId: state.selectedStore?.storeId,
                         );
                         context.push(routeProductOffers);
                       },

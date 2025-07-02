@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -30,8 +29,8 @@ class ProductOffersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Scaffold(
+    return 
+      Scaffold(
         floatingActionButton: FloatingActionButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.r),
@@ -47,7 +46,7 @@ class ProductOffersScreen extends StatelessWidget {
               ),
               builder: (context) => const CreateOffer(),
             );
-      
+
             if (result == true) {
               final storeId = context
                   .read<DashboardCubit>()
@@ -59,7 +58,7 @@ class ProductOffersScreen extends StatelessWidget {
               }
             }
           },
-      
+
           child: Icon(Icons.add, color: kWhite, size: 25.h),
         ),
         appBar: AppbarWidget(title: 'Product Offers'),
@@ -73,7 +72,8 @@ class ProductOffersScreen extends StatelessWidget {
                   BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, state) {
                       return DropDownFieldWidget(
-                        isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                        isLoading:
+                            state.apiFetchStatus == ApiFetchStatus.loading,
                         prefixIcon: Container(
                           margin: EdgeInsets.only(left: 12.w),
                           child: SvgPicture.asset(
@@ -94,11 +94,11 @@ class ProductOffersScreen extends StatelessWidget {
                             }).toList() ??
                             [],
                         fillColor: const Color(0XFFEFF1F1),
-      
+
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
                           context.read<ReportCubit>().loadProductOffers(
-                              storeId: state.selectedStore?.storeId,
+                            storeId: state.selectedStore?.storeId,
                           );
                           // context.read<OrderCubit>().orders(
                           //   req: OrderRequest(
@@ -108,7 +108,7 @@ class ProductOffersScreen extends StatelessWidget {
                           //   ),
                           // );
                         },
-      
+
                         labelText: '',
                       );
                     },
@@ -195,7 +195,7 @@ class ProductOffersScreen extends StatelessWidget {
                         child: ListView.builder(
                           itemCount: state.productOffers?.length,
                           shrinkWrap: true,
-      
+
                           itemBuilder: (context, i) {
                             final offer = state.productOffers?[i];
                             return Column(
@@ -219,7 +219,7 @@ class ProductOffersScreen extends StatelessWidget {
                                       Spacer(),
                                       // SvgPicture.asset('assets/icons/Edit.svg'),
                                       3.horizontalSpace,
-      
+
                                       GestureDetector(
                                         onTap: () async {
                                           context
@@ -228,20 +228,23 @@ class ProductOffersScreen extends StatelessWidget {
                                                 storeId:
                                                     state.selectedType?.storeId,
                                               );
-      
+
                                           final editedResponse =
                                               await showModalBottomSheet<
                                                 OffersResponse
                                               >(
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(
-                                                      12.r,
-                                                    ),
-                                                    topRight: Radius.circular(
-                                                      12.r,
-                                                    ),
-                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(
+                                                              12.r,
+                                                            ),
+                                                        topRight:
+                                                            Radius.circular(
+                                                              12.r,
+                                                            ),
+                                                      ),
                                                 ),
                                                 backgroundColor: kWhite,
                                                 context: context,
@@ -261,23 +264,18 @@ class ProductOffersScreen extends StatelessWidget {
                                             Text(
                                               'Edit',
                                               style: FontPalette.hW700S14
-                                                  .copyWith(color: kPrimaryColor),
+                                                  .copyWith(
+                                                    color: kPrimaryColor,
+                                                  ),
                                             ),
                                             6.horizontalSpace,
                                           ],
                                         ),
                                       ),
-      
-                                      // Text(
-                                      //   'Edit',
-                                      //   style: FontPalette.hW700S14.copyWith(
-                                      //     color: kPrimaryColor,
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ),
-      
+
                                 dividerWidget(color: kLightBorderColor),
                                 10.verticalSpace,
                                 rowWidget(
@@ -299,7 +297,7 @@ class ProductOffersScreen extends StatelessWidget {
                                       '0',
                                 ),
                                 8.verticalSpace,
-      
+
                                 rowWidget(
                                   name: 'From date',
                                   status: offer?.offerFromDate != null
@@ -307,7 +305,7 @@ class ProductOffersScreen extends StatelessWidget {
                                       : '',
                                 ),
                                 8.verticalSpace,
-      
+
                                 rowWidget(
                                   name: 'To date',
                                   status: offer?.offerToDate != null
@@ -315,7 +313,7 @@ class ProductOffersScreen extends StatelessWidget {
                                       : '',
                                 ),
                                 5.verticalSpace,
-      
+
                                 rowWidget(
                                   name: 'Status',
                                   status: offer?.offerStatus ?? '',
@@ -332,8 +330,8 @@ class ProductOffersScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
+    
   }
 }
 
@@ -370,26 +368,6 @@ class ShimmerWidget extends StatelessWidget {
     );
   }
 }
-
-// Widget _shimmerExpenseList() {
-//   return ListView.builder(
-//     shrinkWrap: true,
-//     physics: const NeverScrollableScrollPhysics(),
-//     itemCount: 8,
-//     itemBuilder: (context, index) {
-//       return Padding(
-//         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             ShimmerWidget.rectangular(width: 200.w, height: 25.h),
-//             ShimmerWidget.rectangular(width: 60.w, height: 25.h),
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }
 
 Widget rowWidget({String? name, String? status}) {
   return MainPadding(
