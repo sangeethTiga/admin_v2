@@ -152,7 +152,7 @@ class DropDownFieldWidget extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
               isExpanded: true,
-              value: value,
+              value: items.any((item) => item.value == value) ? value : null,
               items: items.map<DropdownMenuItem<dynamic>>((item) {
                 if (item is DropdownMenuItem) return item;
                 if (item is String) {

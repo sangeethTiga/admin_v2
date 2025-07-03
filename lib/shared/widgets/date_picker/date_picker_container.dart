@@ -121,11 +121,11 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: Colors.black,
-                                fontSize: 20,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            16.horizontalSpace,
+                            12.horizontalSpace,
                             SvgPicture.asset('assets/icons/calendar2.svg'),
                           ],
                         )
@@ -138,7 +138,7 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: Color(0xff828691),
-                                fontSize: 20,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
