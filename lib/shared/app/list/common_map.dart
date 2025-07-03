@@ -8,20 +8,20 @@ class Dates {
 }
 
 List<ListOfDemo>durationMonths=[
-ListOfDemo(name:'Current Month',id: 1),
-ListOfDemo(name:'Last Month',id: 2),
+ListOfDemo(name:'Current Month',id: 0),
+ListOfDemo(name:'Last Month',id: 1),
 ListOfDemo(name:'Last 3 Months',id: 3),
-ListOfDemo(name:'Last 6 Months',id: 4),
+ListOfDemo(name:'Last 6 Months',id: 6),
 ListOfDemo(name:'Custom',id: 5),
 
 
 ];
 
 List<ListOfDemo>shifts=[
-ListOfDemo(name: 'All',id: 1),
-ListOfDemo(name: 'Morning Shift',id: 2),
+ListOfDemo(name: 'All',id: 0),
+ListOfDemo(name: 'Morning Shift',id: 1),
+ListOfDemo(name: 'Evening Shift',id: 2),
 ListOfDemo(name: 'Evening Shift',id: 3),
-ListOfDemo(name: 'Evening Shift',id: 4),
 
 ];
 List<Dates> custDates = [
@@ -29,6 +29,19 @@ List<Dates> custDates = [
   Dates(title: 'Hrs', id: '08'),
   Dates(title: 'Min', id: '42'),
   Dates(title: 'Sec', id: '23'),
+];
+
+
+List<Dates>groupBy=[
+Dates(title: 'Months',id: 'month'),
+Dates(title: "Delivery Agent",id: 'delivery_agent'),
+Dates(title: "Delivery Partner",id: 'delivery_partner'),
+Dates(title: "Bill Type",id: 'bill_type'),
+Dates(title: "Waiter",id: 'supplier'),
+
+
+
+
 ];
 List<ListOfDemo> custDate = [
   ListOfDemo(name: 'Today', id: 1),

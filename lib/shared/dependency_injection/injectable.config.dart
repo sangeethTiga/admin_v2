@@ -58,6 +58,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i36.ProductCubit>(
       () => _i36.ProductCubit(gh<_i416.ProductRepositories>()),
     );
+    gh.factory<_i1051.ReportCubit>(
+      () => _i1051.ReportCubit(gh<_i11.ReportRepositories>()),
+    );
     gh.factory<_i583.CommonCubit>(
       () => _i583.CommonCubit(gh<_i350.CommonRepostories>()),
     );
@@ -69,12 +72,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i350.CommonRepostories>(),
         gh<_i630.DashboardRepositories>(),
         gh<_i11.ReportRepositories>(),
-      ),
-    );
-    gh.factory<_i1051.ReportCubit>(
-      () => _i1051.ReportCubit(
-        gh<_i11.ReportRepositories>(),
-        gh<_i949.DashboardCubit>(),
       ),
     );
     return this;
