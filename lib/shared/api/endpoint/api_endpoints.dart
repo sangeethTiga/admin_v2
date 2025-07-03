@@ -219,5 +219,13 @@ class ApiEndpoints {
   static String specialOffer(int storeId) =>
       '/api/product_offer_type?store_id=$storeId';
   static String editOffer(int productId) => '/api/product_offer/$productId';
-  static String createOffer( int productId) => '/api/product_offer/$productId';
+  static String createOffer(int productId) => '/api/product_offer/$productId';
+
+  static String getDeliveryAgent(int deliveryPartnerId,int storeId)=>'/api/delivery_agent?delivery_partner_id=$deliveryPartnerId&store_id=$storeId';
+  static String getPaymethod()=>'/api/payment_method';
+  static String getWaiters(int storeId)=>'/api/store_users?store_id=$storeId&role_id=9';
+  static String getKiosk(int storeId)=>'/api/kiosk?store_id=$storeId';
+  static String getCashier(int storeId)=>'/api/store_users?store_id=$storeId&cashier=1';
+
+  
 }

@@ -1,11 +1,11 @@
 part of 'common_cubit.dart';
 class CommonState extends Equatable {
   final ApiFetchStatus? apiFetchStatus;
- // final List<StoreResponse>? storeList;
+  // final List<StoreResponse>? storeList;
   // final StoreResponse? selectedStore;
   final ListOfDemo? selectDate;
   final List<AccountDataResponse>? accountList;
-  
+
   final List<OptionResponse>? optionList;
   final OptionResponse? selectedOption;
   final List<PurchaseType>? purchaseType;
@@ -16,14 +16,16 @@ class CommonState extends Equatable {
   final ApiFetchStatus? isChequeStatus;
   final int? currentPage;
   final StoreResponse? storeForProfitloss;
+  final List<Product>? productList;
+  final Product? selectProduct;
 
   const CommonState({
     this.apiFetchStatus = ApiFetchStatus.idle,
-   // this.storeList,
+    // this.storeList,
     // this.selectedStore,
     this.selectDate,
     this.accountList,
-   
+
     this.selectedOption,
     this.optionList,
     this.purchaseType,
@@ -33,7 +35,9 @@ class CommonState extends Equatable {
     this.selectedProducts,
     this.isChequeStatus,
     this.currentPage,
-    this.storeForProfitloss
+    this.storeForProfitloss,
+    this.selectProduct,
+    this.productList
   });
   CommonState copyWith({
     ApiFetchStatus? apiFetchStatus,
@@ -52,13 +56,15 @@ class CommonState extends Equatable {
     MostSellingResponse? selectedProducts,
     ApiFetchStatus? isChequeStatus,
     int? currentPage,
+    List<Product>? productList,
+    Product? selectProduct
   }) => CommonState(
     apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
     // storeList: storeList ?? this.storeList,
     // selectedStore: selectedStore ?? this.selectedStore,
     selectDate: selectDate ?? this.selectDate,
     accountList: accountList ?? this.accountList,
-   
+
     optionList: optionList ?? this.optionList,
     selectedOption: selectedOption ?? this.selectedOption,
     purchaseType: purchaseType ?? this.purchaseType,
@@ -68,7 +74,9 @@ class CommonState extends Equatable {
     selectedProducts: selectedProducts ?? this.selectedProducts,
     isChequeStatus: isChequeStatus ?? this.isChequeStatus,
     currentPage: currentPage ?? this.currentPage,
-    storeForProfitloss: storeForProfitloss ?? this.storeForProfitloss
+    storeForProfitloss: storeForProfitloss ?? this.storeForProfitloss,
+    selectProduct: selectProduct ?? this.selectProduct,
+    productList: productList?? this.productList
   );
 
   @override
@@ -78,7 +86,7 @@ class CommonState extends Equatable {
     // selectedStore,
     selectDate,
     accountList,
-   
+
     optionList,
     selectedOption,
     purchaseType,
@@ -86,8 +94,10 @@ class CommonState extends Equatable {
     isMostSelling,
     selectedProducts,
     isChequeStatus,
-    currentPage,  
-    storeForProfitloss
+    currentPage,
+    storeForProfitloss,
+    selectProduct,
+    productList
   ];
 }
 

@@ -7,6 +7,23 @@ class Dates {
   Dates({this.id, this.title});
 }
 
+List<ListOfDemo>durationMonths=[
+ListOfDemo(name:'Current Month',id: 1),
+ListOfDemo(name:'Last Month',id: 2),
+ListOfDemo(name:'Last 3 Months',id: 3),
+ListOfDemo(name:'Last 6 Months',id: 4),
+ListOfDemo(name:'Custom',id: 5),
+
+
+];
+
+List<ListOfDemo>shifts=[
+ListOfDemo(name: 'All',id: 1),
+ListOfDemo(name: 'Morning Shift',id: 2),
+ListOfDemo(name: 'Evening Shift',id: 3),
+ListOfDemo(name: 'Evening Shift',id: 4),
+
+];
 List<Dates> custDates = [
   Dates(title: 'Days', id: '01'),
   Dates(title: 'Hrs', id: '08'),
@@ -14,10 +31,10 @@ List<Dates> custDates = [
   Dates(title: 'Sec', id: '23'),
 ];
 List<ListOfDemo> custDate = [
-  ListOfDemo(name: 'Today',id: 1),
-  ListOfDemo(name: 'Weak',id: 2),
-  ListOfDemo(name: 'Month',id:3),
-  ListOfDemo(name: 'Year',id: 4),
+  ListOfDemo(name: 'Today', id: 1),
+  ListOfDemo(name: 'Weak', id: 2),
+  ListOfDemo(name: 'Month', id: 3),
+  ListOfDemo(name: 'Year', id: 4),
   // ListOfDemo(name: 'Thursday', id: 3),
   // ListOfDemo(name: 'Friday', id: 3),
   // ListOfDemo(name: 'Saturday', id: 3),
@@ -111,4 +128,30 @@ List<PurchaseType> purchaseTypes = [
   PurchaseType(name: 'All', id: 0),
   PurchaseType(name: 'Cash', id: 1),
   PurchaseType(name: 'Card', id: 2),
+];
+
+class Product {
+  int? filterId;
+  String? name;
+  Product({this.filterId, this.name});
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Product && filterId == other.filterId;
+
+  @override
+  int get hashCode => filterId.hashCode;
+}
+
+List<Product> products = [
+  Product(filterId: 0, name: 'All Products'),
+  Product(filterId: 1, name: 'Out of stock products'),
+  Product(filterId: 2, name: 'Hidden Products'),
+  Product(filterId: 3, name: 'Stock Less than or equal'),
+  Product(filterId: 4, name: 'Variant Products'),
+  Product(filterId: 5, name: 'Best Selling'),
+  Product(filterId: 6, name: 'Featured'),
+  Product(filterId: 7, name: 'Not Hidden'),
+  Product(filterId: 8, name: 'Purchasable'),
+  Product(filterId: 9, name: 'Sellable'),
+  Product(filterId: 10, name: 'POS Only'),
 ];

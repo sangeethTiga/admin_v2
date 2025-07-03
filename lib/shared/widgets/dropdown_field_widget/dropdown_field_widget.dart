@@ -99,7 +99,7 @@ class DropDownFieldWidget extends StatelessWidget {
       children: [
         5.verticalSpace,
         if (topLabelText != null)
-          Text(topLabelText!, style: FontPalette.hW500S13),
+          Text(topLabelText!, style: FontPalette.hW700S14),
         5.verticalSpace,
         ShimmerWidget(
           isLoading: isLoading,
@@ -109,8 +109,8 @@ class DropDownFieldWidget extends StatelessWidget {
               key: dropdownKey,
               dropdownColor: dropdownColor,
               iconDisabledColor: kRedColor,
-              // icon: const SizedBox.shrink(), // Hides default icon in all states
 
+              // icon: const SizedBox.shrink(), // Hides default icon in all states
               hint: hintText != null
                   ? Text(hintText!, style: FontPalette.hW500S14)
                   : null,
@@ -152,7 +152,7 @@ class DropDownFieldWidget extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
               isExpanded: true,
-              value: value,
+              value: items.any((item) => item.value == value) ? value : null,
               items: items.map<DropdownMenuItem<dynamic>>((item) {
                 if (item is DropdownMenuItem) return item;
                 if (item is String) {

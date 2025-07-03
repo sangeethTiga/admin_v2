@@ -42,7 +42,7 @@ class OrderScreen extends StatelessWidget {
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, common) {
                     return SizedBox(
-                      height: 40.h,
+                      height: 60.h,
                       child: ListView.builder(
                         padding: EdgeInsets.only(left: 12.w),
                         scrollDirection: Axis.horizontal,
@@ -89,6 +89,7 @@ class OrderScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(44.r),
                               ),
                               child: Text(
+                                textAlign: TextAlign.center,
                                 state.statusList?[i].orderStatusName ?? '',
                                 style: FontPalette.hW700S13.copyWith(
                                   color:
@@ -105,10 +106,12 @@ class OrderScreen extends StatelessWidget {
                     );
                   },
                 ),
+                4.verticalSpace,
+                Divider(),
                 MainPadding(
                   child: Column(
                     children: [
-                      10.verticalSpace,
+                      5.verticalSpace,
                       BlocBuilder<DashboardCubit, DashboardState>(
                         builder: (context, state) {
                           return DropDownFieldWidget(
@@ -159,7 +162,7 @@ class OrderScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      16.verticalSpace,
+                      4.verticalSpace,
                       Container(
                         height: 112.h,
                         decoration: BoxDecoration(
@@ -180,7 +183,7 @@ class OrderScreen extends StatelessWidget {
                                         return Padding(
                                           padding: EdgeInsets.only(
                                             left: 9.w,
-                                            right: 9.w,
+                                            right: 6.w,
                                           ),
                                           child: Row(
                                             children: [

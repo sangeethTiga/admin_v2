@@ -1,5 +1,4 @@
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
-import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';

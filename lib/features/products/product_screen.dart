@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -9,9 +10,11 @@ import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/features/products/widgets/variant_stock_update.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
+import 'package:admin_v2/shared/widgets/common_widgets/common_show_dialogue/common_show_dialogue.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
@@ -22,12 +25,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ProductScreen extends StatelessWidget {
-  ProductScreen({super.key});
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({super.key});
 
+  @override
+  State<ProductScreen> createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
   final TextEditingController mobileScannerController = TextEditingController();
+  final List<Map<String, dynamic>> filterTypes = [
+    {'filter_id': 0, 'name': 'All Products'},
+    {'filter_id': 1, 'name': 'Out of stock products'},
+    {'filter_id': 2, 'name': 'Hidden Products'},
+    {'filter_id': 3, 'name': 'Stock Less than or equal'},
+    {'filter_id': 4, 'name': 'Variant Products'},
+    {'filter_id': 5, 'name': 'Best Selling'},
+    {'filter_id': 6, 'name': 'Featured'},
+    {'filter_id': 7, 'name': 'Not Hidden'},
+    {'filter_id': 8, 'name': 'Purchasable'},
+    {'filter_id': 9, 'name': 'Sellable'},
+    {'filter_id': 10, 'name': 'POS Only'},
+  ];
 
-  // void cameraPermission() async {
+  int? selectedFilter;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,71 +114,197 @@ class ProductScreen extends StatelessWidget {
                         },
                       ),
                       // 2.verticalSpace,
-                      BlocBuilder<DashboardCubit, DashboardState>(
-                        builder: (context, common) {
-                          return DropDownFieldWidget(
-                            isLoading:
-                                state.apiFetchStatus == ApiFetchStatus.loading,
-                            hintStyle: FontPalette.hW500S14,
-                            labelText: 'Select category',
-                            prefixIcon: Container(
-                              margin: EdgeInsets.only(left: 12.w),
-                              child: SvgPicture.asset(
-                                'assets/icons/package-box-pin-location.svg',
-                                width: 20.w,
-                                height: 20.h,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            borderColor: kBlack,
-                            value:
-                                state.categoryList?.any(
-                                      (e) =>
-                                          e.details?.categoryId ==
-                                          state
-                                              .selectCategory
-                                              ?.details
-                                              ?.categoryId,
-                                    ) ==
-                                    true
-                                ? state.selectCategory?.details?.categoryId
-                                : null,
-                            //state.selectCategory?.details?.categoryId,
-                            items:
-                                state.categoryList?.map((e) {
-                                  return DropdownMenuItem<int>(
-                                    value: e.details?.categoryId,
-                                    child: Text(e.details?.categoryName ?? ''),
-                                  );
-                                }).toList() ??
-                                [],
-                            fillColor: const Color(0XFFEFF1F1),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: BlocBuilder<CommonCubit, CommonState>(
+                              builder: (context, state) {
+                                return DropDownFieldWidget(
+                                  isLoading: false,
+                                  prefixIcon: Container(
+                                    margin: EdgeInsets.only(left: 12.w),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/package-box-pin-location.svg',
+                                      width: 20.w,
+                                      height: 20.h,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  borderColor: kBlack,
+                                  labelText: 'All Products',
+                                  value:
+                                      state.productList?.contains(
+                                            state.selectProduct,
+                                          ) ==
+                                          true
+                                      ? state.selectProduct
+                                      : null,
+                                  // state.selectProduct,
+                                  items:
+                                      products.map((value) {
+                                        return DropdownMenuItem<Product>(
+                                          value: value,
+                                          child: Text(value.name ?? ''),
+                                        );
+                                      }).toList() ??
+                                      [],
 
-                            onChanged: (categoryId) {
-                              mobileScannerController.clear();
-                              final selectedCategory = state.categoryList
-                                  ?.firstWhere(
-                                    (e) => e.details?.categoryId == categoryId,
-                                  );
-                              context.read<ProductCubit>().changeCategory(
-                                selectedCategory!,
-                              );
-                              context.read<ProductCubit>().product(
-                                common.selectedStore?.storeId ?? 0,
+                                  fillColor: const Color(0XFFEFF1F1),
 
-                                selectedCategory.details?.categoryId ?? 0,
-                                '',
-                                '',
-                              );
-                            },
-                            inputBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                                  onChanged: (product) {
+                                    context.read<CommonCubit>().selectProduct(
+                                      product,
+                                    );
+                                  },
+                                );
+                              },
                             ),
-                          );
-                        },
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: BlocBuilder<DashboardCubit, DashboardState>(
+                              builder: (context, common) {
+                                return DropDownFieldWidget(
+                                  isLoading:
+                                      state.apiFetchStatus ==
+                                      ApiFetchStatus.loading,
+                                  hintStyle: FontPalette.hW500S14,
+                                  labelText: 'Select category',
+                                  // prefixIcon: Container(
+                                  //   margin: EdgeInsets.only(left: 12.w),
+                                  //   child: SvgPicture.asset(
+                                  //     'assets/icons/package-box-pin-location.svg',
+                                  //     width: 20.w,
+                                  //     height: 20.h,
+                                  //     fit: BoxFit.contain,
+                                  //   ),
+                                  // ),
+                                  borderColor: kBlack,
+                                  value:
+                                      state.categoryList?.any(
+                                            (e) =>
+                                                e.details?.categoryId ==
+                                                state
+                                                    .selectCategory
+                                                    ?.details
+                                                    ?.categoryId,
+                                          ) ==
+                                          true
+                                      ? state
+                                            .selectCategory
+                                            ?.details
+                                            ?.categoryId
+                                      : null,
+                                  //state.selectCategory?.details?.categoryId,
+                                  items:
+                                      state.categoryList?.map((e) {
+                                        return DropdownMenuItem<int>(
+                                          value: e.details?.categoryId,
+                                          child: Text(
+                                            e.details?.categoryName ?? '',
+                                          ),
+                                        );
+                                      }).toList() ??
+                                      [],
+                                  fillColor: const Color(0XFFEFF1F1),
+
+                                  onChanged: (categoryId) {
+                                    mobileScannerController.clear();
+                                    final selectedCategory = state.categoryList
+                                        ?.firstWhere(
+                                          (e) =>
+                                              e.details?.categoryId ==
+                                              categoryId,
+                                        );
+                                    context.read<ProductCubit>().changeCategory(
+                                      selectedCategory!,
+                                    );
+                                    context.read<ProductCubit>().product(
+                                      common.selectedStore?.storeId ?? 0,
+
+                                      selectedCategory.details?.categoryId ?? 0,
+                                      '',
+                                      '',
+                                    );
+                                  },
+                                  inputBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide: BorderSide(
+                                      color: Color(0XFFB7C6C2),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      // 6.verticalSpace,
+                      // BlocBuilder<DashboardCubit, DashboardState>(
+                      //   builder: (context, common) {
+                      //     return DropDownFieldWidget(
+                      //       isLoading:
+                      //           state.apiFetchStatus == ApiFetchStatus.loading,
+                      //       hintStyle: FontPalette.hW500S14,
+                      //       labelText: 'Select category',
+                      //       prefixIcon: Container(
+                      //         margin: EdgeInsets.only(left: 12.w),
+                      //         child: SvgPicture.asset(
+                      //           'assets/icons/package-box-pin-location.svg',
+                      //           width: 20.w,
+                      //           height: 20.h,
+                      //           fit: BoxFit.contain,
+                      //         ),
+                      //       ),
+                      //       borderColor: kBlack,
+                      //       value:
+                      //           state.categoryList?.any(
+                      //                 (e) =>
+                      //                     e.details?.categoryId ==
+                      //                     state
+                      //                         .selectCategory
+                      //                         ?.details
+                      //                         ?.categoryId,
+                      //               ) ==
+                      //               true
+                      //           ? state.selectCategory?.details?.categoryId
+                      //           : null,
+                      //       //state.selectCategory?.details?.categoryId,
+                      //       items:
+                      //           state.categoryList?.map((e) {
+                      //             return DropdownMenuItem<int>(
+                      //               value: e.details?.categoryId,
+                      //               child: Text(e.details?.categoryName ?? ''),
+                      //             );
+                      //           }).toList() ??
+                      //           [],
+                      //       fillColor: const Color(0XFFEFF1F1),
+
+                      //       onChanged: (categoryId) {
+                      //         mobileScannerController.clear();
+                      //         final selectedCategory = state.categoryList
+                      //             ?.firstWhere(
+                      //               (e) => e.details?.categoryId == categoryId,
+                      //             );
+                      //         context.read<ProductCubit>().changeCategory(
+                      //           selectedCategory!,
+                      //         );
+                      //         context.read<ProductCubit>().product(
+                      //           common.selectedStore?.storeId ?? 0,
+
+                      //           selectedCategory.details?.categoryId ?? 0,
+                      //           '',
+                      //           '',
+                      //         );
+                      //       },
+                      //       inputBorder: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(8.r),
+                      //         borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                      3.verticalSpace,
+
                       TextFeildWidget(
                         onChanged: (value) {
                           final productCubit = context.read<ProductCubit>();
@@ -218,11 +365,11 @@ class ProductScreen extends StatelessWidget {
                               );
                             }
                           },
-                          icon: Icon(Icons.document_scanner_outlined),
+                          icon: Icon(Icons.qr_code_scanner_outlined),
                         ),
                       ),
 
-                      // 6.verticalSpace,
+                      12.verticalSpace,
                       BlocBuilder<ProductCubit, ProductState>(
                         builder: (context, state) {
                           //   final products = state.filteredProducts ?? [];
@@ -379,52 +526,38 @@ class ProductScreen extends StatelessWidget {
                                                         .getVariants(
                                                           data.productId!,
                                                         );
-                                                    showModalBottomSheet(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                              topLeft:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                              topRight:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                            ),
-                                                      ),
-                                                      backgroundColor: kWhite,
-                                                      context: context,
-                                                      isScrollControlled: true,
-
-                                                      builder: (context) {
-                                                        return VariantStockUpdateCard(
+                                                        commonnShowBottomSheet(context: context,child:VariantStockUpdateCard(
                                                           maintainStock: data
                                                               .maintainStock!,
-                                                        );
-                                                      },
-                                                    );
-                                                  } else {
-                                                    showModalBottomSheet(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                              topLeft:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                              topRight:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                            ),
-                                                      ),
-                                                      backgroundColor: kWhite,
-                                                      context: context,
-                                                      isScrollControlled: true,
+                                                        ));
+                                                    // showModalBottomSheet(
+                                                    //   shape: RoundedRectangleBorder(
+                                                    //     borderRadius:
+                                                    //         BorderRadius.only(
+                                                    //           topLeft:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //           topRight:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //         ),
+                                                    //   ),
+                                                    //   backgroundColor: kWhite,
+                                                    //   context: context,
+                                                    //   isScrollControlled: true,
 
-                                                      builder: (context) {
-                                                        return StockUpdateCard(
+                                                    //   builder: (context) {
+                                                    //     return VariantStockUpdateCard(
+                                                    //       maintainStock: data
+                                                    //           .maintainStock!,
+                                                    //     );
+                                                    //   },
+                                                    // );
+                                                  } else {
+                                                    commonnShowBottomSheet(context: context, child: 
+                                                    StockUpdateCard(
                                                           currentStock:
                                                               data.productQty,
                                                           productId:
@@ -432,9 +565,39 @@ class ProductScreen extends StatelessWidget {
                                                           maintainStock: data
                                                               .maintainStock,
                                                           fromVariant: false,
-                                                        );
-                                                      },
-                                                    );
+                                                    )
+                                                    
+                            );
+                                                    // showModalBottomSheet(
+                                                    //   shape: RoundedRectangleBorder(
+                                                    //     borderRadius:
+                                                    //         BorderRadius.only(
+                                                    //           topLeft:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //           topRight:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //         ),
+                                                    //   ),
+                                                    //   backgroundColor: kWhite,
+                                                    //   context: context,
+                                                    //   isScrollControlled: true,
+
+                                                    //   builder: (context) {
+                                                    //     return StockUpdateCard(
+                                                    //       currentStock:
+                                                    //           data.productQty,
+                                                    //       productId:
+                                                    //           data.productId,
+                                                    //       maintainStock: data
+                                                    //           .maintainStock,
+                                                    //       fromVariant: false,
+                                                    //     );
+                                                    //   },
+                                                    // );
                                                   }
                                                 },
                                                 child: Container(

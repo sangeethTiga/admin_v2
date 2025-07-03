@@ -1,20 +1,24 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:admin_v2/features/report/domain/models/cashier/cashier_response.dart';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
+import 'package:admin_v2/features/report/domain/models/delivery_agent/delivery_agent_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/kiosk_response/kiosk_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
+import 'package:admin_v2/features/report/domain/models/paymentMethod/payment_method_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
@@ -26,6 +30,7 @@ import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_respo
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/waiters_response/waiters_response.dart';
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
@@ -819,15 +824,113 @@ Future<ResponseResult<CreateOfferResponse>> createProductOffer(
     data: offer?.toJson(),              
   );
 
-  switch (res.statusCode) {
+        switch (res.statusCode) {
+      case 200:
+      case 201:
+        dynamic decoded = res.data;
+        if (res.data is String) {
+          decoded = jsonDecode(res.data);
+        }
+
+        if (decoded is Map<String, dynamic>) {
+          return ResponseResult(data: CreateOfferResponse.fromJson(decoded));
+        } else {
+          return ResponseResult(error: 'Unexpected response format: $decoded');
+        }
+
+      default:
+        return ResponseResult(error: '');
+    }
+ 
+
+    }
+
+  @override
+  Future <ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({required int deliveryPartnerId, required int storeId})async {
+ final networkProvider = await NetworkProvider.create();  
+ final res = await networkProvider.get(
+      ApiEndpoints.getDeliveryAgent(deliveryPartnerId,storeId ),);  
+ switch (res.statusCode) {
     case 200:
     case 201:
       return ResponseResult(
-        data: CreateOfferResponse.fromJson(res.data),
+        data: List<DeliveryAgentResponse>.from(
+          res.data.map((e) => DeliveryAgentResponse.fromJson(e)),
+        ),
       );
     default:
-      return ResponseResult(error: 'Create offer failed');
+      return ResponseResult(data: []);
   }
 }
+
+  @override
+  Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod() async{
+     final networkProvider = await NetworkProvider.create();  
+
+    final res=await networkProvider.get(ApiEndpoints.getPaymethod());
+  switch(res.statusCode){
+    case 200:
+    case 201:
+    return ResponseResult(
+      data: List<PaymentMethodResponse>.from(res.data.map((e)=>PaymentMethodResponse.fromJson(e)),
+    ));
+    default:
+      return ResponseResult(data: []);
+  }
+
+  }
+
+  @override
+  Future<ResponseResult<List<WaitersResponse>>> getWaiters({required int storeId}) async{
+    final networkProvider= await NetworkProvider.create();
+    final res=await networkProvider.get(ApiEndpoints.getWaiters(storeId),
+    
+    
+    );
+    switch(res.statusCode){
+
+      case 200:
+      case 201:
+
+      return ResponseResult(
+        data: List<WaitersResponse>.from(res.data.map((e)=>WaitersResponse.fromJson(e)))
+      );
+      default:
+      return ResponseResult(data: []);
+
+    }
+ 
+  }
+
+  @override
+  Future<ResponseResult<List<KioskResponse>>> getKiosk({required int storeId})async {
+    final networkProvider=await NetworkProvider.create();
+    final res=await  networkProvider.get(ApiEndpoints.getKiosk(storeId));
+   switch(res.statusCode){
+    case 200:
+    case 201:
+
+    return ResponseResult(
+      data: List<KioskResponse>.from(res.data.map((e)=>KioskResponse.fromJson(e)))
+    );
+    default:return ResponseResult(data: []);
+   }
+  }
+
+ @override
+  Future<ResponseResult<List<CashierResponse>>> getCashier({required int storeId})async {
+    final networkProvider=await NetworkProvider.create();
+    final res=await  networkProvider.get(ApiEndpoints.getCashier(storeId));
+   switch(res.statusCode){
+    case 200:
+    case 201:
+
+    return ResponseResult(
+      data: List<CashierResponse>.from(res.data.map((e)=>CashierResponse.fromJson(e)))
+    );
+    default:return ResponseResult(data: []);
+   }
+  }
+
 
 }

@@ -1,9 +1,9 @@
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
@@ -37,7 +37,7 @@ class OrderDetailScreen extends StatelessWidget {
                     left: 12.w,
                     right: 12.w,
                   ),
-                  height: 235.h,
+                  height: 260.h,
                   width: 351.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.r),
@@ -228,20 +228,20 @@ class OrderDetailScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 12.w,
-                          top: 12.h,
-                          right: 16.w,
-                          bottom: 6.h,
-                        ),
-                        child: Text(
-                          'Mutton Tikka',
-                          style: FontPalette.hW700S13.copyWith(color: kBlack),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left: 12.w,
+                      //     top: 12.h,
+                      //     right: 16.w,
+                      //     bottom: 6.h,
+                      //   ),
+                      //   child: Text(
+                      //     'Mutton Tikka',
+                      //     style: FontPalette.hW700S13.copyWith(color: kBlack),
+                      //   ),
+                      // ),
 
-                      dividerWidget(color: kLightBorderColor),
+                      // dividerWidget(color: kLightBorderColor),
                       10.verticalSpace,
                       _rowWidget(
                         name: 'Grand total',

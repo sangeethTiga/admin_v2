@@ -9,6 +9,7 @@ const Color kSecondaryColor4 = Color(0xFF9D9D9E);
 const Color kSecondaryColor5 = Color(0xFFDADADC);
 const Color kSecondaryColor6 = Color(0xFFEDEDED);
 const Color kSecondaryColor7 = Color(0xFFE6E6E6);
+
 const Color kShadowColor = Color(0xff0B091A);
 
 const Color kColorLight1 = Color(0XFF000000);
@@ -16,7 +17,7 @@ const Color kColorLight2 = Color(0XFF4E4F4E);
 const Color kColorLight3 = Color(0XFF7A7D7A);
 const Color kColorLight4 = Color(0XFFBEC3BE);
 
-const Color kColorShimmerHighlight = Color(0xFFF5F5F5);
+const Color kColorShimmerHighlight = Color(0xFFF5F5F5); 
 const Color kColorShimmerBase = Color(0xFFE0E0E0);
 
 const Color kColorGradient1 = Color(0xFF32324D);
