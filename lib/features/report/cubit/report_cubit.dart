@@ -934,17 +934,27 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-Future<void> createOffer(CreateOfferResponse offer, int productId) async {
+Future<void> createProductOffer({
+  required CreateOfferResponse offer,
+  required int productId,
+}) async {
   emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-
   final res = await _reportRepositories.createProductOffer(offer, productId);
 
   if (res.data != null) {
-    emit(state.copyWith(isCreated: ApiFetchStatus.success));
+    emit(state.copyWith(
+      isCreated: ApiFetchStatus.success,
+    ));
+
+    final storeId = _dashboardCubit.state.selectedStore?.storeId;
+    if (storeId != null) {
+      await loadProductOffers(storeId: storeId); 
+    }
   } else {
     emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
 }
+
 
 
 

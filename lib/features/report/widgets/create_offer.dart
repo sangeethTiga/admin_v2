@@ -17,15 +17,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CreateOffer extends StatelessWidget {
+class CreateOffer extends StatefulWidget {
   final ProductOffersResponse offers;
-  CreateOffer({super.key, required this.offers});
+  const CreateOffer({super.key, required this.offers});
 
-  final TextEditingController nameController = TextEditingController();
+  @override
+  State<CreateOffer> createState() => _CreateOfferState();
+}
 
-  final TextEditingController offerPriceController = TextEditingController();
+class _CreateOfferState extends State<CreateOffer> {
+  late TextEditingController nameController;
+  late TextEditingController offerPriceController;
+  late TextEditingController discountController;
 
-  final TextEditingController discountController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(
+      text: widget.offers.productName ?? '',
+    );
+    offerPriceController = TextEditingController();
+    discountController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    offerPriceController.dispose();
+    discountController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -260,20 +281,7 @@ class CreateOffer extends StatelessWidget {
               child: BlocListener<ReportCubit, ReportState>(
                 listenWhen: (previous, current) =>
                     previous.isCreated != current.isCreated,
-                listener: (context, state) {
-                  if (state.isCreated == ApiFetchStatus.success) {
-                    final storeId = context
-                        .read<DashboardCubit>()
-                        .state
-                        .selectedStore
-                        ?.storeId;
-                    if (storeId != null) {
-                      context.read<ReportCubit>().loadProductOffers(
-                        storeId: storeId,
-                      );
-                    }
-                  }
-                },
+                listener: (context, state) {},
                 child: CustomMaterialBtton(
                   buttonText: 'Save',
                   onPressed: () async {
@@ -294,13 +302,11 @@ class CreateOffer extends StatelessWidget {
                       ),
                       offerFromDate: context.read<ReportCubit>().state.fromDate,
                       offerToDate: context.read<ReportCubit>().state.toDate,
-                      storeId: offers.storeId ?? 0,
-                      productId: offers.productId ?? 0,
                     );
-
-                    await context.read<ReportCubit>().createOffer(
-                      offerRequest,
-                      offers.productId ?? 0,
+                    final productId = widget.offers.productId ?? 0;
+                    await context.read<ReportCubit>().createProductOffer(
+                      offer: offerRequest,
+                      productId: productId,
                     );
                   },
                 ),

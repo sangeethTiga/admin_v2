@@ -31,25 +31,47 @@ class ProductOffersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.r),
-        ),
-        backgroundColor: kPrimaryColor,
-        onPressed: () async {
-          final result = await showModalBottomSheet<bool>(
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: Colors.white,
+      floatingActionButton: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          return FloatingActionButton(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
+              borderRadius: BorderRadius.circular(50.r),
             ),
-            builder: (context) =>
-                CreateOffer(offers: ProductOffersResponse(productId: 20113)),
+            backgroundColor: kPrimaryColor,
+            onPressed: () async {
+              context.read<ReportCubit>().loadSpecialOffer(
+                storeId: state.selectedType?.storeId,
+              );
+              final result = await showModalBottomSheet<bool>(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12.r),
+                  ),
+                ),
+                builder: (context) => CreateOffer(
+                  offers: ProductOffersResponse(productId: 20113),
+                ),
+              );
+              if (result == true) {
+                final storeId = context
+                    .read<DashboardCubit>()
+                    .state
+                    .selectedStore
+                    ?.storeId;
+                if (storeId != null) {
+                  context.read<ReportCubit>().loadProductOffers(
+                    storeId: storeId,
+                  );
+                }
+              }
+            },
+
+            child: Icon(Icons.add, color: kWhite, size: 25.h),
           );
         },
-
-        child: Icon(Icons.add, color: kWhite, size: 25.h),
       ),
       appBar: AppbarWidget(title: 'Product Offers'),
       body: Column(
@@ -177,7 +199,7 @@ class ProductOffersScreen extends StatelessWidget {
 
                     return Container(
                       margin: EdgeInsets.only(bottom: 12.h),
-                      height: 485.h,
+                      height: 385.h,
                       width: 351.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),
