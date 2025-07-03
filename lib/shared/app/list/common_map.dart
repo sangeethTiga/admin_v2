@@ -117,6 +117,12 @@ class Product {
   int? filterId;
   String? name;
   Product({this.filterId, this.name});
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Product && filterId == other.filterId;
+
+  @override
+  int get hashCode => filterId.hashCode;
 }
 
 List<Product> products = [

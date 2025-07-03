@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -34,10 +33,10 @@ class SignInScreen extends StatelessWidget {
             AuthUtils.instance.writeAccessTokens(
               state.authResponse?.token ?? '',
             );
+            Future.delayed(Duration(milliseconds: 300));
             context.read<DashboardCubit>().store();
             context.read<DashboardCubit>().loadOrderGraph();
             context.read<DashboardCubit>().loadRevenueGraph();
-
 
             context.push(routeMain);
             //chilliesdg@gmail.com
