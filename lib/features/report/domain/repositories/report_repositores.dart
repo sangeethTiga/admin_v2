@@ -214,10 +214,9 @@ abstract class ReportRepositories {
     int storeId,
   );
 
-  Future<ResponseResult<CreateOfferResponse>> loadProductOffer(
-    CreateOfferResponse req,
-    int productId,
-    int storeId
+  Future<ResponseResult<CreateOfferResponse>>createProductOffer( 
+    CreateOfferResponse? offer,
+   int productId
   );
   Future<ResponseResult <List<DeliveryAgentResponse>>>getDeliveryAgent(
     {required int deliveryPartnerId,required int storeId}

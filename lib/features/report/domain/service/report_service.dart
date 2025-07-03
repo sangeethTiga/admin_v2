@@ -419,7 +419,7 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: (res.data is List)                                           
+          data: (res.data is List)
               ? List<OffersResponse>.from(
                   res.data.map((e) => OffersResponse.fromJson(e)),
                 )
@@ -431,7 +431,7 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<SaleOnDeals>>>loadSaleOnDealsReport({
+  Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
     required int storeId,
     required String fromDate,
     required String toDate,
@@ -450,7 +450,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-     print('SaleOnDeals res: $res');
+    print('SaleOnDeals res: $res');
     switch (res.statusCode) {
       case 200:
       case 201:
@@ -812,19 +812,17 @@ class ReportService implements ReportRepositories {
     }
   }
 
-  @override
-    Future<ResponseResult<CreateOfferResponse>>loadProductOffer(
-      CreateOfferResponse ? request,
-      int productId,
-      int storeId,
+@override
+Future<ResponseResult<CreateOfferResponse>> createProductOffer(
+  CreateOfferResponse? offer,
+  int productId,
+) async {
+  final networkProvider = await NetworkProvider.create();
 
-
-    ) async{
-    final networkProvider = await NetworkProvider.create();
-        final res = await networkProvider.post(
-      ApiEndpoints.createOffer(productId),
-      data: request?.toJson(),
-    );
+  final res = await networkProvider.post(
+    ApiEndpoints.createOffer(productId), 
+    data: offer?.toJson(),              
+  );
 
         switch (res.statusCode) {
       case 200:

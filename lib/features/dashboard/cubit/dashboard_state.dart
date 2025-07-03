@@ -27,6 +27,9 @@ class DashboardState extends Equatable {
   final KioskResponse? selectedKiosk;
   final List<CashierResponse>?cashierList;
   final CashierResponse?selectedCashier;
+  final Dates? selectedGroupBy;
+   final DateTime? fromDate;
+  final DateTime? toDate;
   const DashboardState({
     this.isRevenueGraph,
     this.revenueReport,
@@ -54,6 +57,9 @@ class DashboardState extends Equatable {
     this.selectedShift,
     this.cashierList,
     this.selectedCashier,
+    this.selectedGroupBy,
+       this.fromDate,
+    this.toDate,
   });
 
   DashboardState copyWith({
@@ -85,6 +91,9 @@ class DashboardState extends Equatable {
   KioskResponse? selectedKiosk,
   List<CashierResponse> ?cashierList,
   CashierResponse?selectedCashier,
+  Dates? selectedGroupBy,
+   DateTime? fromDate,
+    DateTime? toDate,
   }) {
     return DashboardState(
       isRevenueGraph: isRevenueGraph ?? this.isRevenueGraph,
@@ -114,7 +123,10 @@ class DashboardState extends Equatable {
           selectedKiosk: selectedKiosk ??this.selectedKiosk,
           selectedShift: selectedShift ??this.selectedShift,
           cashierList: cashierList??this.cashierList,
-          selectedCashier: selectedCashier??this.selectedCashier
+          selectedCashier: selectedCashier??this.selectedCashier,
+          selectedGroupBy: selectedGroupBy ?? this.selectedGroupBy,
+            fromDate: fromDate ?? this.fromDate,
+      toDate: toDate ?? this.toDate,
     );
   }
 
@@ -146,6 +158,9 @@ class DashboardState extends Equatable {
     selectedShift,
     cashierList,
     selectedCashier,
+    selectedGroupBy,
+     fromDate,
+    toDate,
     
   ];
 }

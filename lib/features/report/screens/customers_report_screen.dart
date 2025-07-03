@@ -145,14 +145,14 @@ class CustomersReportScreen extends StatelessWidget {
                           "Customer",
                           "E-Mail",
                           "Mobile",
-                          "Registration Date",
-                          "Order Count",
-                          "Purchase Amount(AED)",
-                          "Balance(AED)",
+                          // "Reg.Date",
+                          // "Order Count",
+                          "Purchase(AED)",
+                          "Balance",
                           // "Action",
                         ],
 
-                        columnFlex: [1, 2, 2, 2, 3, 2, 2, 2],
+                        columnFlex: [1, 3, 3, 4, 3, 2, 3, 3],
                         data:
                             state.customersReport?.map((e) {
                               int index =
@@ -162,12 +162,11 @@ class CustomersReportScreen extends StatelessWidget {
                                 'Customer': e.custName ?? '',
                                 'E-Mail': e.custEmail ?? '',
                                 'Mobile': e.custMobile ?? '',
-                                'Registration Date':
-                                    e.createdDate?.toString() ?? '',
-                                'Order Count': e.orderCount.toString(),
-                                'Purchase Amount(AED)': e.totalPurchaseAmount
+                                // 'Reg.Date': e.createdDate?.toString() ?? '',
+                                // 'Order Count': e.orderCount.toString(),
+                                'Purchase(AED)': e.totalPurchaseAmount
                                     .toString(),
-                                'Balance(AED)': e.balanceAmt.toString(),
+                                'Balance': e.balanceAmt.toString(),
                                 // 'Action':
                                 //     'Action', // Placeholder for action button
                               };

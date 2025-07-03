@@ -37,10 +37,11 @@ part 'report_state.dart';
 
 @injectable
 class ReportCubit extends Cubit<ReportState> {
-  final ReportRepositories _reportRepositories;
+   final ReportRepositories _reportRepositories;
   final DashboardCubit _dashboardCubit;
+ 
   ReportCubit(this._reportRepositories, this._dashboardCubit)
-    : super(InitialReportState());
+      : super(InitialReportState());
 
   Future<void> loadSalesReport({
     int? storeId,
@@ -934,22 +935,30 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-  Future<void> loadProductOffer(
-    CreateOfferResponse createOffer,
-    int productId,
-    int storeId,
-  ) async {
-    emit(state.copyWith(isProductOffers: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadProductOffer(
-      createOffer,
-      productId,
-      storeId,
-    );
-    if (res.data != null) {
-      return;
+Future<void> createProductOffer({
+  required CreateOfferResponse offer,
+  required int productId,
+}) async {
+  emit(state.copyWith(isCreated: ApiFetchStatus.loading));
+  final res = await _reportRepositories.createProductOffer(offer, productId);
+
+  if (res.data != null) {
+    emit(state.copyWith(
+      isCreated: ApiFetchStatus.success,
+    ));
+
+    final storeId = _dashboardCubit.state.selectedStore?.storeId;
+    if (storeId != null) {
+      await loadProductOffers(storeId: storeId); 
     }
-    emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
+  } else {
+    emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
+}
+
+
+
+
 
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,
@@ -963,7 +972,7 @@ class ReportCubit extends Cubit<ReportState> {
       storeId,
     );
     if (res.data != null) {
-      final updatedProduct = res.data!;
+      // final updatedProduct = res.data!;
       emit(
         state.copyWith(isAdded: ApiFetchStatus.success, editData: editOffer),
       );

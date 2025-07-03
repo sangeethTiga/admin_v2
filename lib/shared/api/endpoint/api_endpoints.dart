@@ -217,7 +217,7 @@ class ApiEndpoints {
   static String getVariant(int productId) =>
       '/api/product_variantdetail/$productId';
   static String specialOffer(int storeId) =>
-      '/api/product_offer_type?store_id=$storeId';
+      '/api/product_offer_type?store_id=20';
   static String editOffer(int productId) => '/api/product_offer/$productId';
   static String createOffer(int productId) => '/api/product_offer/$productId';
 
@@ -226,6 +226,7 @@ class ApiEndpoints {
   static String getWaiters(int storeId)=>'/api/store_users?store_id=$storeId&role_id=9';
   static String getKiosk(int storeId)=>'/api/kiosk?store_id=$storeId';
   static String getCashier(int storeId)=>'/api/store_users?store_id=$storeId&cashier=1';
+  // static String showReport(int storeId,int selectedMonth,int deliveryAgentId,int deliveryPartnerId,int paymethodId,int waiterId,int shift,int cashierId,int selctedKiosk,int groupby)=>'/api/salesReport?store_id=$storeId&duration=$selectedMonth%20months&del_agent_id=$deliveryAgentId&delivery_partner_id=$deliveryPartnerId&pay_method_id=$paymethodId&waiter_id=$waiterId&shift_id=$shift&day_close_based=0&cashier_id=$cashierId&kiosk_id=$selctedKiosk&group_by=$groupby';
 
   
 }

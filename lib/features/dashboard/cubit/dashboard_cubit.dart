@@ -233,4 +233,17 @@ log('$e',stackTrace: s);
     Future<void>selectedCashier(CashierResponse cashier)async{
     emit(state.copyWith(selectedCashier: cashier));
   }
+
+
+    Future<void>selectedGroupBy(Dates selectedGroupby)async{
+    emit(state.copyWith(selectedGroupBy: selectedGroupby));
+  }
+  Future<void> changeFromDate(DateTime date) async {
+    emit(state.copyWith(fromDate: date));
+  }
+
+  Future<void> changeToDate(DateTime date) async {
+    emit(state.copyWith(toDate: date));
+  }
+
 }
