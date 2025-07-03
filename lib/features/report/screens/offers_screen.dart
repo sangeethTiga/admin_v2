@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -50,9 +49,9 @@ class ProductOffer extends StatelessWidget {
                         }).toList() ??
                         [],
                     fillColor: const Color(0XFFEFF1F1),
-                 
+
                     onChanged: (p0) {
-                      context.read<ReportCubit>().loadOffers();
+                      context.read<ReportCubit>().loadOffers(storeId: state.selectedStore?.storeId);
                       context.read<DashboardCubit>().selectedStore(p0);
                     },
                     labelText: '',
@@ -64,7 +63,6 @@ class ProductOffer extends StatelessWidget {
                   return SizedBox(
                     height: 400,
                     child: CommonTableWidget(
-                     
                       isLoading: state.isOffersReport == ApiFetchStatus.loading,
                       headers: ["#", "IMAGE", "OFFER", "OFFER ARABIC NAME"],
                       columnFlex: [2, 2, 2, 2],

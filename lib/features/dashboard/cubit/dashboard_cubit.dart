@@ -47,7 +47,28 @@ class DashboardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
     }
   }
-
+  
+  Future<void> account() async {
+    try {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+      final res = await _commonRepostories.account();
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.success,
+            accountList: res.data,
+            selectedAccount: res.data?.first,
+          ),
+        );
+      }
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    }
+  }
+Future<void> selectedAccount(AccountDataResponse store) async {
+    emit(state.copyWith(selectedAccount: store));
+  }
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));
   }
@@ -100,7 +121,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     // }
     emit(state.copyWith(isOrdersReport: ApiFetchStatus.loading));
     final res = await _dashboardRepositories.ordersGraph(
-      dateRangeId: state.selectDate!.id.toString(),
+      dateRangeId: state.selectDate !.id.toString(),
       roleId: 1,
       storeArray: state.selectedStore?.storeId ?? 0,
       userId: 1,

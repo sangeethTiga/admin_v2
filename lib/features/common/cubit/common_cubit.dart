@@ -16,11 +16,8 @@ class CommonCubit extends Cubit<CommonState> {
   final CommonRepostories _commonRepostories;
   CommonCubit(this._commonRepostories) : super(InitialCommonState());
 
-
-
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));
-    
   }
 
   Future<void> selectedStoreforProfitloss(StoreResponse store) async {
@@ -31,28 +28,9 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectDate: store));
   }
 
-  Future<void> account() async {
-    try {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.account();
-      if (res.data != null) {
-        emit(
-          state.copyWith(
-            apiFetchStatus: ApiFetchStatus.success,
-            accountList: res.data,
-            selectedAccount: res.data?.first,
-          ),
-        );
-      }
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    } catch (e) {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    }
-  }
-
-  Future<void> selectedAccount(AccountDataResponse store) async {
-    emit(state.copyWith(selectedAccount: store));
-  }
+  // Future<void> selectedAccount(AccountDataResponse store) async {
+  //   emit(state.copyWith(selectedAccount: store));
+  // }
 
   Future<void> orderOption(int? storeId, int? appTypeId) async {
     try {
@@ -129,5 +107,10 @@ class CommonCubit extends Cubit<CommonState> {
 
   Future<void> selectedProducts(MostSellingResponse products) async {
     emit(state.copyWith(selectedProducts: products));
+  }
+
+  Future<void> selectProduct(Product? productOption) async {
+     print("Selected product: ${productOption?.name}");
+    emit(state.copyWith(selectProduct: productOption));
   }
 }

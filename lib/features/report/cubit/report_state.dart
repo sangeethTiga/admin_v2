@@ -1,4 +1,5 @@
 part of 'report_cubit.dart';
+
 class ReportState extends Equatable {
   final List<SalesReportResponse>? salesReport;
   final ApiFetchStatus? isSaleReport;
@@ -62,6 +63,8 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isSpecialOffer;
   final SpecialOfferResponse? selectedType;
   final List<CreateOfferResponse>? createOffer;
+  final EditOfferResponse? editData;
+  final ApiFetchStatus? isAdded;
 
   const ReportState({
     this.salesReport,
@@ -127,6 +130,8 @@ class ReportState extends Equatable {
     this.specialOffer,
     this.isSpecialOffer,
     this.selectedType,
+    this.editData,
+    this.isAdded,
   });
 
   ReportState copyWith({
@@ -193,6 +198,8 @@ class ReportState extends Equatable {
     ApiFetchStatus? isSpecialOffer,
     SpecialOfferResponse? selectedType,
     List<CreateOfferResponse>? createOffer,
+    EditOfferResponse? editData,
+    ApiFetchStatus? isAdded,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -258,7 +265,9 @@ class ReportState extends Equatable {
       specialOffer: specialOffer ?? this.specialOffer,
       isSpecialOffer: isSpecialOffer ?? this.isSpecialOffer,
       selectedType: selectedType ?? this.selectedType,
-      createOffer:  createOffer ?? this.createOffer,
+      createOffer: createOffer ?? this.createOffer,
+      editData: editData ?? this.editData,
+      isAdded: isAdded ?? this.isAdded,
     );
   }
 
@@ -320,9 +329,11 @@ class ReportState extends Equatable {
     purchaseType,
     filteredProducts,
     specialOffer,
-    isSpecialOffer,
+    isSpecialOffer,  
     selectedType,
-    createOffer
+    createOffer,
+    editData,
+    isAdded,
   ];
 }
 

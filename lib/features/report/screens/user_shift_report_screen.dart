@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -35,8 +34,7 @@ class UserShiftReportScreen extends StatelessWidget {
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                       prefixIcon: Container(
                         margin: EdgeInsets.only(left: 12.w),
-                        child: 
-                        SvgPicture.asset(
+                        child: SvgPicture.asset(
                           'assets/icons/package-box-pin-location.svg',
                           width: 20.w,
                           height: 20.h,
@@ -54,9 +52,9 @@ class UserShiftReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
@@ -99,12 +97,12 @@ class UserShiftReportScreen extends StatelessWidget {
 
                 10.verticalSpace,
 
-                BlocBuilder<CommonCubit, CommonState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {
                         context.read<ReportCubit>().loadUserShiftReport(
-                          //storeId: state.selectedStore?.storeId,
+                          storeId: state.selectedStore?.storeId,
                         );
                       },
                       buttonText: 'View Report',

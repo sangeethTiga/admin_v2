@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -16,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateOffer extends StatefulWidget {
   const CreateOffer({super.key});
@@ -109,43 +109,43 @@ class _CreateOfferState extends State<CreateOffer> {
             ),
           ),
 
-            Padding(
-              padding: EdgeInsets.all(13),
-              child: BlocBuilder<ReportCubit, ReportState>(
-                builder: (context, state) {
-                  return DropDownFieldWidget(
-                    isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                    prefixIcon: Container(
-                      margin: EdgeInsets.only(left: 12.w),
-                      child: SvgPicture.asset(
-                        'assets/icons/package-box-pin-location.svg',
-                        width: 20.w,
-                        height: 20.h,
-                        fit: BoxFit.contain,
-                      ),
+          Padding(
+            padding: EdgeInsets.all(13),
+            child: BlocBuilder<ReportCubit, ReportState>(
+              builder: (context, state) {
+                return DropDownFieldWidget(
+                  isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                  prefixIcon: Container(
+                    margin: EdgeInsets.only(left: 12.w),
+                    child: SvgPicture.asset(
+                      'assets/icons/package-box-pin-location.svg',
+                      width: 20.w,
+                      height: 20.h,
+                      fit: BoxFit.contain,
                     ),
-                    borderColor: kBlack,
-                    value: state.selectedType,
-                    items:
-                        state.specialOffer?.map((e) {
-                          return DropdownMenuItem<SpecialOfferResponse>(
-                            value: e,
+                  ),
+                  borderColor: kBlack,
+                  value: state.selectedType,
+                  items:
+                      state.specialOffer?.map((e) {
+                        return DropdownMenuItem<SpecialOfferResponse>(
+                          value: e,
 
-                            child: Text(e.offerTypeName ?? ''),
-                          );
-                        }).toList() ??
-                        [],
-                    fillColor: const Color(0XFFEFF1F1),
+                          child: Text(e.offerTypeName ?? ''),
+                        );
+                      }).toList() ??
+                      [],
+                  fillColor: const Color(0XFFEFF1F1),
 
-                    onChanged: (p0) {
-                      // context.read<ReportCubit>().
-                      context.read<ReportCubit>().loadSelectedOffer(p0);
-                    },
-                    labelText: '',
-                  );
-                },
-              ),
+                  onChanged: (p0) {
+                    // context.read<ReportCubit>().
+                    context.read<ReportCubit>().loadSelectedOffer(p0);
+                  },
+                  labelText: '',
+                );
+              },
             ),
+          ),
 
           Padding(
             padding: EdgeInsets.all(10),
@@ -257,32 +257,37 @@ class _CreateOfferState extends State<CreateOffer> {
             padding: const EdgeInsets.all(13.0),
             child: CustomMaterialBtton(
               buttonText: 'Save',
-                onPressed: () async {
-  final selectedStore = context.read<DashboardCubit>().state.selectedStore;
-  final selectedOffer = context.read<ReportCubit>().state.selectedType;
+              onPressed: () async {
+                final selectedStore = context
+                    .read<DashboardCubit>()
+                    .state
+                    .selectedStore;
+                final selectedOffer = context
+                    .read<ReportCubit>()
+                    .state
+                    .selectedType;
 
-  if (selectedStore == null || selectedOffer == null) return;
+                if (selectedStore == null || selectedOffer == null) return;
 
-  final offerRequest = CreateOfferResponse(
-    //productName: nameController.text,
-    offerPrice: int.tryParse(offerPriceController.text),
-    offerPricePercentage: int.tryParse(discountController.text),
-    offerFromDate: context.read<ReportCubit>().state.fromDate,
-    offerToDate: context.read<ReportCubit>().state.toDate,
- 
-   // offerTypeName: selectedOffer.offerTypeName,
-  );
+                final offerRequest = CreateOfferResponse(
+                  //productName: nameController.text,
+                  offerPrice: int.tryParse(offerPriceController.text),
+                  offerPricePercentage: int.tryParse(discountController.text),
+                  offerFromDate: context.read<ReportCubit>().state.fromDate,
+                  offerToDate: context.read<ReportCubit>().state.toDate,
 
-  await context.read<ReportCubit>().loadProductOffer(
-    offerRequest,
-    20113, 
-    selectedStore.storeId ?? 0,
-  );
+                  // offerTypeName: selectedOffer.offerTypeName,
+                );
 
-  // Close modal and return success signal
-  Navigator.pop(context, true);
-}
+                await context.read<ReportCubit>().loadProductOffer(
+                  offerRequest,
+                  20113,
+                  selectedStore.storeId ?? 0,
+                );
 
+                // Close modal and return success signal
+                context.pop();
+              },
             ),
           ),
         ],

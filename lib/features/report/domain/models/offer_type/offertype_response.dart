@@ -16,7 +16,7 @@ class OffertypeResponse with _$OffertypeResponse {
         @JsonKey(name: "offer_type")
         String? offerType,
         @JsonKey(name: "resource_id")
-        int? resourceId,
+        int? resourceId, 
         @JsonKey(name: "offer_type_img")
         dynamic offerTypeImg,
     }) = _OffertypeResponse;

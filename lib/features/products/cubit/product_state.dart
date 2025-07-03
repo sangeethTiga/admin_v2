@@ -1,6 +1,6 @@
 part of 'product_cubit.dart';
 
-class ProductState extends Equatable {
+ class ProductState extends Equatable {
   final ApiFetchStatus? isProduct;
   final List<ProductResponse>? productList;
   final ProductResponse? selectedProduct;

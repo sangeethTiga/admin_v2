@@ -1,8 +1,6 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
-
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -43,9 +41,53 @@ class TaxScreen extends StatelessWidget {
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
-                        11.verticalSpace,
+                        5.verticalSpace,
                         Text(
                           '${taxResponse.totalTaxCollected?.toStringAsFixed(2) ?? 0.00}',
+                          textAlign: TextAlign.center,
+                          style: FontPalette.hW800S40,
+                        ),
+                        28.verticalSpace,
+                        Text(
+                          'Total Tax Paid',
+                          style: FontPalette.hW600S13,
+                          textAlign: TextAlign.center,
+                        ),
+                        5.verticalSpace,
+                        Text(
+                          '${taxResponse.totalTaxPaid?.toStringAsFixed(2) ?? 0.00}',
+                          textAlign: TextAlign.center,
+                          style: FontPalette.hW800S40,
+                        ),
+                        28.verticalSpace,
+                        Text(
+                          'Net Payable',
+                          style: FontPalette.hW600S13,
+                          textAlign: TextAlign.center,
+                        ),
+                        5.verticalSpace,
+                        Text(
+                          ' ${taxResponse.netPayable?.toStringAsFixed(2) ?? 0.00}',
+                          textAlign: TextAlign.center,
+                          style: FontPalette.hW800S40,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return BlocBuilder<ReportCubit, ReportState>(
+                  builder: (context, state) {
+                    return Column(
+                      children: [
+                        Text(
+                          'Total Tax Collected',
+                          style: FontPalette.hW600S13,
+                          textAlign: TextAlign.center,
+                        ),
+
+                        11.verticalSpace,
+                        Text(
+                          '${taxResponse?.totalTaxCollected?.toStringAsFixed(2) ?? 0.00}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
@@ -57,7 +99,7 @@ class TaxScreen extends StatelessWidget {
                         ),
                         11.verticalSpace,
                         Text(
-                          '${taxResponse.totalTaxPaid?.toStringAsFixed(2) ?? 0}',
+                          '${taxResponse?.totalTaxPaid?.toStringAsFixed(2) ?? 0.00}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
@@ -69,17 +111,13 @@ class TaxScreen extends StatelessWidget {
                         ),
                         11.verticalSpace,
                         Text(
-                          ' ${taxResponse.netPayable?.toStringAsFixed(2) ?? 0.00}',
+                          ' ${taxResponse?.netPayable?.toStringAsFixed(2) ?? 0.00}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
                       ],
-                    ),
-                  );
-                }
-                return const Text(
-                  'No Tax Data Available',
-                  textAlign: TextAlign.center,
+                    );
+                  },
                 );
               },
             ),
@@ -119,7 +157,6 @@ class TaxScreen extends StatelessWidget {
                 );
               },
             ),
-        
 
             BlocBuilder<ReportCubit, ReportState>(
               builder: (context, state) {

@@ -645,8 +645,9 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> loadSalesDealsReport({
+    String? fromDate,
+    String? toDate,
     int? storeId,
-
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
@@ -657,8 +658,10 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadSaleOnDealsReport(
       storeId: storeId ?? 0,
-      fromDate: '',
-      toDate: '',
+      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      // fromDate: '',
+      // toDate: '',
       pageFirstResult: 0,
       resultPerPage: 50,
       pageSize: 10,
@@ -714,8 +717,8 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadCheque(
-      fromChequeDate: parsedDate(state.toDate ?? DateTime.now()),
-      fromChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      fromChequeDate: parsedDate(state.fromDate ?? DateTime.now()),
+      fromChequeIssueDate: parsedDate(state.fromDate ?? DateTime.now()),
       toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
       toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
       storeId: storeId ?? 0,
@@ -846,7 +849,6 @@ class ReportCubit extends Cubit<ReportState> {
     String? search,
     bool isLoadMore = false,
   }) async {
-
     if (!isLoadMore) {
       emit(
         state.copyWith(
@@ -887,6 +889,7 @@ class ReportCubit extends Cubit<ReportState> {
         state.copyWith(
           productOffers: newList,
           isProductOffers: ApiFetchStatus.success,
+          filteredProducts: res.data,
         ),
       );
     }
@@ -953,16 +956,21 @@ class ReportCubit extends Cubit<ReportState> {
     int productId,
     int storeId,
   ) async {
-    emit(state.copyWith(isProductOffers: ApiFetchStatus.loading));
+    emit(state.copyWith(isAdded: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
       productId,
       storeId,
     );
     if (res.data != null) {
+      final updatedProduct = res.data!;
+      emit(
+        state.copyWith(isAdded: ApiFetchStatus.success, editData: editOffer),
+      );
+
       return;
     }
-    emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
+    emit(state.copyWith(isAdded: ApiFetchStatus.failed));
   }
 
   Future<void> loadSuppliersReport({

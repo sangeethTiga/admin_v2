@@ -134,7 +134,7 @@ class DashboardScreen extends StatelessWidget {
                     ),
 
                     ListTile(
-                      leading: Icon(Icons.attach_money),
+                      leading: Icon(Icons.shopping_cart),
                       title: Text('Category Sales '),
                       onTap: () {
                         context.push(routeCategorySales);
@@ -207,7 +207,7 @@ class DashboardScreen extends StatelessWidget {
                       title: Text('Product offers'),
                       onTap: () {
                         context.read<ReportCubit>().loadProductOffers(
-                          storeId: state.selectedStore?.storeId,
+                           storeId: state.selectedStore?.storeId,
                         );
                         context.push(routeProductOffers);
                       },
@@ -216,7 +216,9 @@ class DashboardScreen extends StatelessWidget {
                       leading: Icon(Icons.discount_outlined),
                       title: Text('Offer'),
                       onTap: () {
-                        //context.read<ReportCubit>().loadOffers();
+                        context.read<ReportCubit>().loadOffers(
+                          storeId: state.selectedStore?.storeId,
+                        );
 
                         context.push(routeOffers);
                       },
@@ -447,7 +449,7 @@ class DashboardScreen extends StatelessWidget {
                                 fromDate: parsedDate(DateTime.now()),
                                 toDate: parsedDate(DateTime.now()),
                               );
-                              context.read<CommonCubit>().account();
+                              context.read<DashboardCubit>().account();
                               context.push(routeExpense);
                               break;
                             case 'Customers':

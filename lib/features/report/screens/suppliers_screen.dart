@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -51,9 +50,9 @@ class SuppliersReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
@@ -62,7 +61,6 @@ class SuppliersReportScreen extends StatelessWidget {
                   },
                 ),
 
-                
                 10.verticalSpace,
 
                 BlocBuilder<DashboardCubit, DashboardState>(
@@ -87,7 +85,7 @@ class SuppliersReportScreen extends StatelessWidget {
             child: MainPadding(
               child: BlocBuilder<ReportCubit, ReportState>(
                 builder: (context, state) {
-                 // print('????supliername???:${state.suppliersReport}');
+                  // print('????supliername???:${state.suppliersReport}');
                   return CommonTableWidget(
                     isLoading: state.isSupplierReport == ApiFetchStatus.loading,
 
