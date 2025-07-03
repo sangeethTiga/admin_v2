@@ -16,11 +16,8 @@ class CommonCubit extends Cubit<CommonState> {
   final CommonRepostories _commonRepostories;
   CommonCubit(this._commonRepostories) : super(InitialCommonState());
 
-
-
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));
-    
   }
 
   Future<void> selectedStoreforProfitloss(StoreResponse store) async {
@@ -30,7 +27,6 @@ class CommonCubit extends Cubit<CommonState> {
   Future<void> selectedDate(ListOfDemo store) async {
     emit(state.copyWith(selectDate: store));
   }
-
 
   // Future<void> selectedAccount(AccountDataResponse store) async {
   //   emit(state.copyWith(selectedAccount: store));
@@ -111,5 +107,10 @@ class CommonCubit extends Cubit<CommonState> {
 
   Future<void> selectedProducts(MostSellingResponse products) async {
     emit(state.copyWith(selectedProducts: products));
+  }
+
+  Future<void> selectProduct(Product? productOption) async {
+     print("Selected product: ${productOption?.name}");
+    emit(state.copyWith(selectProduct: productOption));
   }
 }

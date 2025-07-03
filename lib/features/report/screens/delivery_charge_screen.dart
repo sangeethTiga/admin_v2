@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -111,7 +110,6 @@ class DeliveryChargeScreen extends StatelessWidget {
             ),
           ),
 
-       
           BlocBuilder<ReportCubit, ReportState>(
             builder: (context, state) {
               return Expanded(
@@ -125,7 +123,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                     "COUNT",
                     "SHIPPING CHARGE",
                   ],
-                  columnFlex: [2, 2, 2, 2, 2],
+                  columnFlex: [1, 2, 2, 1, 1],
                   data:
                       state.deliverychargeReport?.map((e) {
                         int index = state.deliverychargeReport?.indexOf(e) ?? 0;
@@ -142,7 +140,6 @@ class DeliveryChargeScreen extends StatelessWidget {
               );
             },
           ),
-    
         ],
       ),
     );

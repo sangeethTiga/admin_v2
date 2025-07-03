@@ -14,10 +14,10 @@ List<Dates> custDates = [
   Dates(title: 'Sec', id: '23'),
 ];
 List<ListOfDemo> custDate = [
-  ListOfDemo(name: 'Today',id: 1),
-  ListOfDemo(name: 'Weak',id: 2),
-  ListOfDemo(name: 'Month',id:3),
-  ListOfDemo(name: 'Year',id: 4),
+  ListOfDemo(name: 'Today', id: 1),
+  ListOfDemo(name: 'Weak', id: 2),
+  ListOfDemo(name: 'Month', id: 3),
+  ListOfDemo(name: 'Year', id: 4),
   // ListOfDemo(name: 'Thursday', id: 3),
   // ListOfDemo(name: 'Friday', id: 3),
   // ListOfDemo(name: 'Saturday', id: 3),
@@ -111,4 +111,24 @@ List<PurchaseType> purchaseTypes = [
   PurchaseType(name: 'All', id: 0),
   PurchaseType(name: 'Cash', id: 1),
   PurchaseType(name: 'Card', id: 2),
+];
+
+class Product {
+  int? filterId;
+  String? name;
+  Product({this.filterId, this.name});
+}
+
+List<Product> products = [
+  Product(filterId: 0, name: 'All Products'),
+  Product(filterId: 1, name: 'Out of stock products'),
+  Product(filterId: 2, name: 'Hidden Products'),
+  Product(filterId: 3, name: 'Stock Less than or equal'),
+  Product(filterId: 4, name: 'Variant Products'),
+  Product(filterId: 5, name: 'Best Selling'),
+  Product(filterId: 6, name: 'Featured'),
+  Product(filterId: 7, name: 'Not Hidden'),
+  Product(filterId: 8, name: 'Purchasable'),
+  Product(filterId: 9, name: 'Sellable'),
+  Product(filterId: 10, name: 'POS Only'),
 ];

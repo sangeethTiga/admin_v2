@@ -1,5 +1,4 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
-
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -187,13 +186,8 @@ class ParcelCharge extends StatelessWidget {
               return Expanded(
                 child: CommonTableWidget(
                   isLoading: state.isParcelCharge == ApiFetchStatus.loading,
-                  headers: [
-                    "#",
-                    "ORDER",
-                    "ORDER DATE",
-                    "PARCEL CHARGE",
-                  ],
-                  columnFlex: [2, 2, 2, 2],
+                  headers: ["#", "ORDER", "ORDER DATE", "PARCEL CHARGE"],
+                  columnFlex: [1, 2, 2, 2],
                   data:
                       state.parcelChargeList?.map((e) {
                         int index = state.parcelChargeList?.indexOf(e) ?? 0;

@@ -717,8 +717,8 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadCheque(
-      fromChequeDate: parsedDate(state.toDate ?? DateTime.now()),
-      fromChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      fromChequeDate: parsedDate(state.fromDate ?? DateTime.now()),
+      fromChequeIssueDate: parsedDate(state.fromDate ?? DateTime.now()),
       toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
       toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
       storeId: storeId ?? 0,
@@ -889,7 +889,7 @@ class ReportCubit extends Cubit<ReportState> {
         state.copyWith(
           productOffers: newList,
           isProductOffers: ApiFetchStatus.success,
-          filteredProducts: res.data
+          filteredProducts: res.data,
         ),
       );
     }
