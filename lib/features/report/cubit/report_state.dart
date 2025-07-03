@@ -16,6 +16,7 @@ class ReportState extends Equatable {
   final int offset;
   final int page;
   final String status;
+  final String option;
   final List<CustomersResponse>? customersReport;
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
@@ -132,6 +133,7 @@ class ReportState extends Equatable {
     this.selectedType,
     this.editData,
     this.isAdded,
+    this.option=''
   });
 
   ReportState copyWith({
@@ -150,6 +152,7 @@ class ReportState extends Equatable {
     int? offset,
     int? page,
     String? status,
+    String? option,
     List<CustomersResponse>? customersReport,
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
@@ -268,6 +271,7 @@ class ReportState extends Equatable {
       createOffer: createOffer ?? this.createOffer,
       editData: editData ?? this.editData,
       isAdded: isAdded ?? this.isAdded,
+      option: option ?? this.option
     );
   }
 
@@ -329,11 +333,12 @@ class ReportState extends Equatable {
     purchaseType,
     filteredProducts,
     specialOffer,
-    isSpecialOffer,  
+    isSpecialOffer,
     selectedType,
     createOffer,
     editData,
     isAdded,
+    option
   ];
 }
 

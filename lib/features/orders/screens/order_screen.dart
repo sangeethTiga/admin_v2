@@ -164,7 +164,7 @@ class OrderScreen extends StatelessWidget {
                       ),
                       4.verticalSpace,
                       Container(
-                        height: 112.h,
+                        height: 125.h,
                         decoration: BoxDecoration(
                           border: Border.all(color: kLightBorderColor),
                           borderRadius: BorderRadius.circular(8.r),
@@ -182,8 +182,8 @@ class OrderScreen extends StatelessWidget {
 
                                         return Padding(
                                           padding: EdgeInsets.only(
-                                            left: 9.w,
-                                            right: 6.w,
+                                            left: 4.w,
+                                            right: 4.w,
                                           ),
                                           child: Row(
                                             children: [
@@ -252,8 +252,8 @@ class OrderScreen extends StatelessWidget {
                                 // ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    left: 12.w,
-                                    right: 12.w,
+                                    left: 10.w,
+                                    right: 5.w,
                                   ),
                                   child: Row(
                                     children: [

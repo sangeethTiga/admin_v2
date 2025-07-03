@@ -55,7 +55,8 @@ class CommonCubit extends Cubit<CommonState> {
   }
 
   Future<void> selectedOption(OptionResponse options) async {
-    emit(state.copyWith(selectedOption: options));
+    emit(state.copyWith(selectedOption: options,),
+    );
   }
 
   Future<void> purchaseType({int? id, String? name}) async {
@@ -109,8 +110,8 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedProducts: products));
   }
 
-  Future<void> selectProduct(Product? productOption) async {
-     print("Selected product: ${productOption?.name}");
-    emit(state.copyWith(selectProduct: productOption));
-  }
+  // Future<void> selectProduct(Product? productOption) async {
+  //    print("Selected product: ${productOption?.name}");
+  //   emit(state.copyWith(selectProduct: productOption));
+  // }
 }

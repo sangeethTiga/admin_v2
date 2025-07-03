@@ -17,8 +17,6 @@ class CommonState extends Equatable {
   final ApiFetchStatus? isChequeStatus;
   final int? currentPage;
   final StoreResponse? storeForProfitloss;
-  final List<Product>? productList;
-  final Product? selectProduct;
 
   const CommonState({
     this.apiFetchStatus = ApiFetchStatus.idle,
@@ -37,8 +35,6 @@ class CommonState extends Equatable {
     this.isChequeStatus,
     this.currentPage,
     this.storeForProfitloss,
-    this.selectProduct,
-    this.productList
   });
   CommonState copyWith({
     ApiFetchStatus? apiFetchStatus,
@@ -58,7 +54,7 @@ class CommonState extends Equatable {
     ApiFetchStatus? isChequeStatus,
     int? currentPage,
     List<Product>? productList,
-    Product? selectProduct
+    Product? selectProduct,
   }) => CommonState(
     apiFetchStatus: apiFetchStatus ?? this.apiFetchStatus,
     // storeList: storeList ?? this.storeList,
@@ -76,8 +72,6 @@ class CommonState extends Equatable {
     isChequeStatus: isChequeStatus ?? this.isChequeStatus,
     currentPage: currentPage ?? this.currentPage,
     storeForProfitloss: storeForProfitloss ?? this.storeForProfitloss,
-    selectProduct: selectProduct ?? this.selectProduct,
-    productList: productList?? this.productList
   );
 
   @override
@@ -97,8 +91,6 @@ class CommonState extends Equatable {
     isChequeStatus,
     currentPage,
     storeForProfitloss,
-    selectProduct,
-    productList
   ];
 }
 

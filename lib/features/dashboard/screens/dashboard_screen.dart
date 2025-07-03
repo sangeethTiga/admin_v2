@@ -207,7 +207,7 @@ class DashboardScreen extends StatelessWidget {
                       title: Text('Product offers'),
                       onTap: () {
                         context.read<ReportCubit>().loadProductOffers(
-                           storeId: state.selectedStore?.storeId,
+                          storeId: state.selectedStore?.storeId,
                         );
                         context.push(routeProductOffers);
                       },
@@ -318,7 +318,12 @@ class DashboardScreen extends StatelessWidget {
                                   state.storeList?.map((e) {
                                     return DropdownMenuItem<StoreResponse>(
                                       value: e,
-                                      child: Text(e.storeName ?? ''),
+                                      child: Text(
+                                        e.storeName ?? '',
+                                        maxLines: 1,
+                                        textAlign: TextAlign.left,
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
                                     );
                                   }).toList() ??
                                   [],

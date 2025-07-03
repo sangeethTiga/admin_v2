@@ -55,7 +55,7 @@ class MostSellingProducts extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                   
+
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
@@ -88,7 +88,7 @@ class MostSellingProducts extends StatelessWidget {
                             );
                           }).toList() ??
                           [],
-                    
+
                       onChanged: (p0) {
                         context.read<CommonCubit>().selectedProducts(p0);
                       },
@@ -136,7 +136,7 @@ class MostSellingProducts extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadProductReport(
                           storeId: state.selectedStore?.storeId,
-                          categoryId: state.selectedProducts?.categoryId
+                          categoryId: state.selectedProducts?.categoryId,
                         );
                       },
                       buttonText: 'View Report',
@@ -149,36 +149,32 @@ class MostSellingProducts extends StatelessWidget {
 
           BlocBuilder<ReportCubit, ReportState>(
             builder: (context, state) {
-              return SizedBox(
-                height: 500,
+              return Expanded(
                 child: CommonTableWidget(
                   isLoading: state.isProductReport == ApiFetchStatus.loading,
                   headers: [
                     "#",
                     "Product",
-                 
+
                     "Selling Price",
                     "Order Quantity",
                     "Total Cost",
                     "Total Sales",
                     "Profit",
-
-                  
                   ],
-                  columnFlex: [1, 2, 2, 2, 2, 2, 2],
+                  columnFlex: [1, 3, 2, 2, 3, 3, 2],
                   data:
                       state.productsReport?.map((e) {
                         int index = state.productsReport?.indexOf(e) ?? 0;
                         return {
                           "#": index + 1,
                           "Product": e.productName ?? '',
-                         
+
                           "Selling Price": e.sellingPrice ?? '',
                           "Order Quantity": e.totalorderqty ?? '',
                           "Total Cost": e.totalCostPrice ?? '',
                           "Total Sales": e.totalAmount ?? '',
                           "Profit": e.profit ?? '',
-
                         };
                       }).toList() ??
                       [],

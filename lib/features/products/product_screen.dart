@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -24,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -55,9 +55,9 @@ class _ProductScreenState extends State<ProductScreen> {
       appBar: AppbarWidget(title: 'Products'),
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
-          if (state.isProduct == ApiFetchStatus.loading) {
-            return Center(child: CircularProgressIndicator());
-          }
+          // if (state.isProduct == ApiFetchStatus.loading) {
+          //   return Center(child: CircularProgressIndicator());
+          // }
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -117,7 +117,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       Row(
                         children: [
                           Expanded(
-                            child: BlocBuilder<CommonCubit, CommonState>(
+                            child: BlocBuilder<ProductCubit, ProductState>(
                               builder: (context, state) {
                                 return DropDownFieldWidget(
                                   isLoading: false,
@@ -144,7 +144,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                       products.map((value) {
                                         return DropdownMenuItem<Product>(
                                           value: value,
-                                          child: Text(value.name ?? ''),
+
+                                          child: Text(
+                                            value.name ?? '',
+                                            maxLines: 1,
+                                          ),
                                         );
                                       }).toList() ??
                                       [],
@@ -152,9 +156,12 @@ class _ProductScreenState extends State<ProductScreen> {
                                   fillColor: const Color(0XFFEFF1F1),
 
                                   onChanged: (product) {
-                                    context.read<CommonCubit>().selectProduct(
+                                    context.read<ProductCubit>().selectProduct(
                                       product,
                                     );
+                                    context
+                                        .read<ProductCubit>()
+                                        .changeProducType(product);
                                   },
                                 );
                               },
@@ -372,6 +379,8 @@ class _ProductScreenState extends State<ProductScreen> {
                       12.verticalSpace,
                       BlocBuilder<ProductCubit, ProductState>(
                         builder: (context, state) {
+                          final isLoading =
+                              state.isProduct == ApiFetchStatus.loading;
                           //   final products = state.filteredProducts ?? [];
                           final products = state.scannedProduct != null
                               ? [state.scannedProduct!]
@@ -379,259 +388,296 @@ class _ProductScreenState extends State<ProductScreen> {
                           log(
                             'scanned product-=-=-=-=-${state.scannedProduct}',
                           );
-                          return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: products.length,
+                          return isLoading
+                              ? _shimmerProductList() // <- Your shimmer placeholder here
+                              : ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: products.length,
 
-                            itemBuilder: (context, i) {
-                              final data = products[i];
+                                  itemBuilder: (context, i) {
+                                    final data = products[i];
 
-                              return Container(
-                                margin: EdgeInsets.only(bottom: 12.h),
-                                height: 150.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  border: Border.all(color: Color(0XFFF4F5F5)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-
-                                  children: [
-                                    Row(
-                                      children: [
-                                        7.horizontalSpace,
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: CachedNetworkImage(
-                                            height: 55.h,
-                                            width: 55.w,
-                                            imageUrl:
-                                                (data.images?.isEmpty ?? false)
-                                                ? ''
-                                                : data.images?[0].medium ?? '',
-                                            errorWidget: (context, url, error) {
-                                              return Icon(Icons.photo);
-                                            },
-                                          ),
+                                    return Container(
+                                      margin: EdgeInsets.only(bottom: 12.h),
+                                      height: 150.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
                                         ),
+                                        border: Border.all(
+                                          color: Color(0XFFF4F5F5),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
 
-                                        12.horizontalSpace,
-
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
                                             children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Flexible(
-                                                    child: Text(
-                                                      data.productName ?? '',
-                                                      style:
-                                                          FontPalette.hW700S13,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                    ),
-                                                  ),
+                                              7.horizontalSpace,
+                                              Padding(
+                                                padding: const EdgeInsets.all(
+                                                  8.0,
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  height: 55.h,
+                                                  width: 55.w,
+                                                  imageUrl:
+                                                      (data.images?.isEmpty ??
+                                                          false)
+                                                      ? ''
+                                                      : data
+                                                                .images?[0]
+                                                                .medium ??
+                                                            '',
+                                                  errorWidget:
+                                                      (context, url, error) {
+                                                        return Icon(
+                                                          Icons.photo,
+                                                        );
+                                                      },
+                                                ),
+                                              ),
 
-                                                  GestureDetector(
-                                                    onTap: () async {
-                                                      final editedResponse =
-                                                          await showModalBottomSheet<
-                                                            EditUpdateResponse
-                                                          >(
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius.only(
-                                                                    topLeft:
-                                                                        Radius.circular(
-                                                                          12.r,
-                                                                        ),
-                                                                    topRight:
-                                                                        Radius.circular(
-                                                                          12.r,
-                                                                        ),
-                                                                  ),
-                                                            ),
-                                                            isScrollControlled:
-                                                                true,
-                                                            backgroundColor:
-                                                                kWhite,
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return EditProduct(
-                                                                product: data,
-                                                              );
-                                                            },
-                                                          );
-                                                    },
-                                                    child: Row(
+                                              12.horizontalSpace,
+
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
-                                                        SvgPicture.asset(
-                                                          'assets/icons/Edit.svg',
+                                                        Flexible(
+                                                          child: Text(
+                                                            data.productName ??
+                                                                '',
+                                                            style: FontPalette
+                                                                .hW700S13,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            maxLines: 2,
+                                                          ),
                                                         ),
-                                                        3.horizontalSpace,
+
+                                                        GestureDetector(
+                                                          onTap: () async {
+                                                            final editedResponse =
+                                                                await showModalBottomSheet<
+                                                                  EditUpdateResponse
+                                                                >(
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.only(
+                                                                      topLeft:
+                                                                          Radius.circular(
+                                                                            12.r,
+                                                                          ),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                            12.r,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  backgroundColor:
+                                                                      kWhite,
+                                                                  context:
+                                                                      context,
+                                                                  builder: (context) {
+                                                                    return EditProduct(
+                                                                      product:
+                                                                          data,
+                                                                    );
+                                                                  },
+                                                                );
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                'assets/icons/Edit.svg',
+                                                              ),
+                                                              3.horizontalSpace,
+                                                              Text(
+                                                                'Edit',
+                                                                style: FontPalette
+                                                                    .hW700S14
+                                                                    .copyWith(
+                                                                      color:
+                                                                          kPrimaryColor,
+                                                                    ),
+                                                              ),
+                                                              6.horizontalSpace,
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    6.verticalSpace,
+
+                                                    Row(
+                                                      children: [
                                                         Text(
-                                                          'Edit',
+                                                          'Price : ${data.productPrice ?? ''}',
                                                           style: FontPalette
-                                                              .hW700S14
+                                                              .hW500S13,
+                                                        ),
+                                                        10.horizontalSpace,
+                                                        Text(
+                                                          'QTY : ${data.productQty ?? ''}',
+                                                          style: FontPalette
+                                                              .hW500S13,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    4.verticalSpace,
+                                                    Text(
+                                                      'Prod Code : ${data.productCode ?? ''}',
+                                                      style:
+                                                          FontPalette.hW500S13,
+                                                    ),
+                                                    4.verticalSpace,
+
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                              ProductCubit
+                                                            >()
+                                                            .closeButton();
+                                                        if (data.isVariant ==
+                                                                1 &&
+                                                            data.maintainStock ==
+                                                                1) {
+                                                          context
+                                                              .read<
+                                                                ProductCubit
+                                                              >()
+                                                              .getVariants(
+                                                                data.productId!,
+                                                              );
+                                                          commonnShowBottomSheet(
+                                                            context: context,
+                                                            child: VariantStockUpdateCard(
+                                                              maintainStock: data
+                                                                  .maintainStock!,
+                                                            ),
+                                                          );
+                                                          // showModalBottomSheet(
+                                                          //   shape: RoundedRectangleBorder(
+                                                          //     borderRadius:
+                                                          //         BorderRadius.only(
+                                                          //           topLeft:
+                                                          //               Radius.circular(
+                                                          //                 12.r,
+                                                          //               ),
+                                                          //           topRight:
+                                                          //               Radius.circular(
+                                                          //                 12.r,
+                                                          //               ),
+                                                          //         ),
+                                                          //   ),
+                                                          //   backgroundColor: kWhite,
+                                                          //   context: context,
+                                                          //   isScrollControlled: true,
+
+                                                          //   builder: (context) {
+                                                          //     return VariantStockUpdateCard(
+                                                          //       maintainStock: data
+                                                          //           .maintainStock!,
+                                                          //     );
+                                                          //   },
+                                                          // );
+                                                        } else {
+                                                          commonnShowBottomSheet(
+                                                            context: context,
+                                                            child: StockUpdateCard(
+                                                              currentStock: data
+                                                                  .productQty,
+                                                              productId: data
+                                                                  .productId,
+                                                              maintainStock: data
+                                                                  .maintainStock,
+                                                              fromVariant:
+                                                                  false,
+                                                            ),
+                                                          );
+                                                          // showModalBottomSheet(
+                                                          //   shape: RoundedRectangleBorder(
+                                                          //     borderRadius:
+                                                          //         BorderRadius.only(
+                                                          //           topLeft:
+                                                          //               Radius.circular(
+                                                          //                 12.r,
+                                                          //               ),
+                                                          //           topRight:
+                                                          //               Radius.circular(
+                                                          //                 12.r,
+                                                          //               ),
+                                                          //         ),
+                                                          //   ),
+                                                          //   backgroundColor: kWhite,
+                                                          //   context: context,
+                                                          //   isScrollControlled: true,
+
+                                                          //   builder: (context) {
+                                                          //     return StockUpdateCard(
+                                                          //       currentStock:
+                                                          //           data.productQty,
+                                                          //       productId:
+                                                          //           data.productId,
+                                                          //       maintainStock: data
+                                                          //           .maintainStock,
+                                                          //       fromVariant: false,
+                                                          //     );
+                                                          //   },
+                                                          // );
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        height: 32.h,
+                                                        width: 108.w,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                6.r,
+                                                              ),
+                                                          border: Border.all(
+                                                            color:
+                                                                kPrimaryColor,
+                                                          ),
+                                                        ),
+                                                        child: Text(
+                                                          'Stock Update',
+                                                          style: FontPalette
+                                                              .hW700S13
                                                               .copyWith(
                                                                 color:
                                                                     kPrimaryColor,
                                                               ),
                                                         ),
-                                                        6.horizontalSpace,
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              6.verticalSpace,
-
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Price : ${data.productPrice ?? ''}',
-                                                    style: FontPalette.hW500S13,
-                                                  ),
-                                                  10.horizontalSpace,
-                                                  Text(
-                                                    'QTY : ${data.productQty ?? ''}',
-                                                    style: FontPalette.hW500S13,
-                                                  ),
-                                                ],
-                                              ),
-                                              4.verticalSpace,
-                                              Text(
-                                                'Prod Code : ${data.productCode ?? ''}',
-                                                style: FontPalette.hW500S13,
-                                              ),
-                                              4.verticalSpace,
-
-                                              GestureDetector(
-                                                onTap: () {
-                                                  context
-                                                      .read<ProductCubit>()
-                                                      .closeButton();
-                                                  if (data.isVariant == 1 &&
-                                                      data.maintainStock == 1) {
-                                                    context
-                                                        .read<ProductCubit>()
-                                                        .getVariants(
-                                                          data.productId!,
-                                                        );
-                                                        commonnShowBottomSheet(context: context,child:VariantStockUpdateCard(
-                                                          maintainStock: data
-                                                              .maintainStock!,
-                                                        ));
-                                                    // showModalBottomSheet(
-                                                    //   shape: RoundedRectangleBorder(
-                                                    //     borderRadius:
-                                                    //         BorderRadius.only(
-                                                    //           topLeft:
-                                                    //               Radius.circular(
-                                                    //                 12.r,
-                                                    //               ),
-                                                    //           topRight:
-                                                    //               Radius.circular(
-                                                    //                 12.r,
-                                                    //               ),
-                                                    //         ),
-                                                    //   ),
-                                                    //   backgroundColor: kWhite,
-                                                    //   context: context,
-                                                    //   isScrollControlled: true,
-
-                                                    //   builder: (context) {
-                                                    //     return VariantStockUpdateCard(
-                                                    //       maintainStock: data
-                                                    //           .maintainStock!,
-                                                    //     );
-                                                    //   },
-                                                    // );
-                                                  } else {
-                                                    commonnShowBottomSheet(context: context, child: 
-                                                    StockUpdateCard(
-                                                          currentStock:
-                                                              data.productQty,
-                                                          productId:
-                                                              data.productId,
-                                                          maintainStock: data
-                                                              .maintainStock,
-                                                          fromVariant: false,
-                                                    )
-                                                    
-                            );
-                                                    // showModalBottomSheet(
-                                                    //   shape: RoundedRectangleBorder(
-                                                    //     borderRadius:
-                                                    //         BorderRadius.only(
-                                                    //           topLeft:
-                                                    //               Radius.circular(
-                                                    //                 12.r,
-                                                    //               ),
-                                                    //           topRight:
-                                                    //               Radius.circular(
-                                                    //                 12.r,
-                                                    //               ),
-                                                    //         ),
-                                                    //   ),
-                                                    //   backgroundColor: kWhite,
-                                                    //   context: context,
-                                                    //   isScrollControlled: true,
-
-                                                    //   builder: (context) {
-                                                    //     return StockUpdateCard(
-                                                    //       currentStock:
-                                                    //           data.productQty,
-                                                    //       productId:
-                                                    //           data.productId,
-                                                    //       maintainStock: data
-                                                    //           .maintainStock,
-                                                    //       fromVariant: false,
-                                                    //     );
-                                                    //   },
-                                                    // );
-                                                  }
-                                                },
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  height: 32.h,
-                                                  width: 108.w,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          6.r,
-                                                        ),
-                                                    border: Border.all(
-                                                      color: kPrimaryColor,
-                                                    ),
-                                                  ),
-                                                  child: Text(
-                                                    'Stock Update',
-                                                    style: FontPalette.hW700S13
-                                                        .copyWith(
-                                                          color: kPrimaryColor,
-                                                        ),
-                                                  ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
                         },
                       ),
                     ],
@@ -641,6 +687,57 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+Widget _shimmerProductList() {
+  return ListView.builder(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: 8,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+        child: Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [ShimmerWidget.rectangular(width: 325.w, height: 100.h)],
+        ),
+      );
+    },
+  );
+}
+
+class ShimmerWidget extends StatelessWidget {
+  final double width;
+  final double height;
+  final ShapeBorder shapeBorder;
+
+  const ShimmerWidget.rectangular({
+    super.key,
+    required this.width,
+    required this.height,
+  }) : shapeBorder = const RoundedRectangleBorder();
+
+  const ShimmerWidget.circular({
+    super.key,
+    required this.width,
+    required this.height,
+  }) : shapeBorder = const CircleBorder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: ShapeDecoration(
+          color: Colors.grey[400]!,
+          shape: shapeBorder,
+        ),
       ),
     );
   }

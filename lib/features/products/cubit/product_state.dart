@@ -20,6 +20,8 @@ part of 'product_cubit.dart';
   final String? name;
   final String? quantity;
   final String? price;
+  final List<Product>? prodList;
+  final Product? selectProduct;
 
   const ProductState({
     this.isProduct,
@@ -40,7 +42,9 @@ part of 'product_cubit.dart';
     this.selectedStore,
     this.name,
     this.price,
-    this.quantity
+    this.quantity,
+    this.prodList,
+    this.selectProduct
   });
 
   ProductState copyWith({
@@ -63,6 +67,9 @@ part of 'product_cubit.dart';
     String? name,
     String? quantity,
     String? price,
+    List<Product>? prodList,
+    Product? selectProduct
+
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -82,7 +89,9 @@ part of 'product_cubit.dart';
     updateData: updateData ?? this.updateData,
     name: name ?? this.name,
     price: price?? this.price,
-    quantity: quantity ?? this.quantity
+    quantity: quantity ?? this.quantity,
+    prodList: prodList ?? this.prodList,
+    selectProduct: selectProduct ?? this.selectProduct
   );
 
   @override
@@ -105,7 +114,9 @@ part of 'product_cubit.dart';
     updateData,
     name,
     price,
-    quantity
+    quantity,
+    prodList,
+    selectProduct
   ];
 }
 

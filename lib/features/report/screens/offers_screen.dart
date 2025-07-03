@@ -51,7 +51,9 @@ class ProductOffer extends StatelessWidget {
                     fillColor: const Color(0XFFEFF1F1),
 
                     onChanged: (p0) {
-                      context.read<ReportCubit>().loadOffers(storeId: state.selectedStore?.storeId);
+                      context.read<ReportCubit>().loadOffers(
+                        storeId: state.selectedStore?.storeId,
+                      );
                       context.read<DashboardCubit>().selectedStore(p0);
                     },
                     labelText: '',
@@ -61,7 +63,7 @@ class ProductOffer extends StatelessWidget {
               BlocBuilder<ReportCubit, ReportState>(
                 builder: (context, state) {
                   return SizedBox(
-                    height: 400,
+                    height: 900,
                     child: CommonTableWidget(
                       isLoading: state.isOffersReport == ApiFetchStatus.loading,
                       headers: ["#", "IMAGE", "OFFER", "OFFER ARABIC NAME"],
