@@ -1,5 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
-import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -75,7 +73,7 @@ class ExpenseReportScreen extends StatelessWidget {
                       items:
                           state.accountList?.map((e) {
                             return DropdownMenuItem<int>(
-                              value: e.accountHeadId ,
+                              value: e.accountHeadId,
                               child: Text(e.accountHeadName ?? ''),
                             );
                           }).toList() ??
@@ -91,7 +89,9 @@ class ExpenseReportScreen extends StatelessWidget {
                         if (select != null &&
                             select.accountHeadId !=
                                 state.selectedAccount?.accountHeadId) {
-                          context.read<DashboardCubit>().selectedAccount(select);
+                          context.read<DashboardCubit>().selectedAccount(
+                            select,
+                          );
                         }
                       },
                       labelText: '',
@@ -177,7 +177,7 @@ class ExpenseReportScreen extends StatelessWidget {
                             "INVOICE NO",
                             "TRAN DATE",
                             "DESCRIPTION",
-                            "ACCOUNT",
+                            "ACCOUNT NAME",
                             "AMOUNT",
                           ],
                           columnFlex: [1, 3, 5, 3, 3, 3],
@@ -190,7 +190,7 @@ class ExpenseReportScreen extends StatelessWidget {
                                   'INVOICE NO': e.invoiceNumber ?? '',
                                   'TRAN DATE': e.acTransactionDate ?? '',
                                   'DESCRIPTION': e.description ?? '',
-                                  "ACCOUNT": e.accountName ?? '',
+                                  "ACCOUNT NAME": e.accountName ?? '',
                                   'AMOUNT': e.amount ?? '',
                                 };
                               }).toList() ??

@@ -1,6 +1,5 @@
 //import 'dart:math';
 
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -56,9 +55,9 @@ class DaySummaryReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
@@ -129,7 +128,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                                         state.daySummary?[0].modeOfPayments?[i];
                                     print('.,.,.,gc.,.,.,:$data');
 
-                                    return _rowWidget(name:data!.cash??0 );
+                                    return _rowWidget(name: data!.cash ?? 0);
                                   },
                                 ),
                         ],

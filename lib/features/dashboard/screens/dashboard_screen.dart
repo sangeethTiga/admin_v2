@@ -134,7 +134,7 @@ class DashboardScreen extends StatelessWidget {
                     ),
 
                     ListTile(
-                      leading: Icon(Icons.attach_money),
+                      leading: Icon(Icons.shopping_cart),
                       title: Text('Category Sales '),
                       onTap: () {
                         context.push(routeCategorySales);
@@ -216,7 +216,9 @@ class DashboardScreen extends StatelessWidget {
                       leading: Icon(Icons.discount_outlined),
                       title: Text('Offer'),
                       onTap: () {
-                        //context.read<ReportCubit>().loadOffers();
+                        context.read<ReportCubit>().loadOffers(
+                          storeId: state.selectedStore?.storeId,
+                        );
 
                         context.push(routeOffers);
                       },

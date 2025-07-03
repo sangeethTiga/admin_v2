@@ -45,7 +45,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: const Icon(Icons.arrow_right),
+                     // suffixWidget: const Icon(Icons.arrow_right),
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },

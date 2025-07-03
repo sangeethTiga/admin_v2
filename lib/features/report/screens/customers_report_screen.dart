@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -54,9 +53,9 @@ class CustomersReportScreen extends StatelessWidget {
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
+                      // suffixWidget: SvgPicture.asset(
+                      //   'assets/icons/Arrow - Right.svg',
+                      // ),
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
@@ -121,60 +120,61 @@ class CustomersReportScreen extends StatelessWidget {
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      return NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isCustomersReport !=
-                                  ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadCustomersReport(
-                              page: state.currentPage + 1,
-                              limit: state.pageSize,
-                              //isLoadMore: true,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
-                          return false;
-                        },
+                      return
+                      //  NotificationListener<ScrollNotification>(
+                      //   onNotification: (ScrollNotification scrollInfo) {
+                      //     if (scrollInfo.metrics.pixels >=
+                      //             scrollInfo.metrics.maxScrollExtent - 50 &&
+                      //         state.isCustomersReport !=
+                      //             ApiFetchStatus.loading) {
+                      //       context.read<ReportCubit>().loadCustomersReport(
+                      //         page: state.currentPage + 1,
+                      //         limit: state.pageSize,
+                      //         //isLoadMore: true,
+                      //         storeId: store.selectedStore?.storeId,
+                      //       );
+                      //     }
+                      //     return false;
+                      //   },
+                      //   child:
+                      CommonTableWidget(
+                        isLoading:
+                            state.isCustomersReport == ApiFetchStatus.loading,
+                        headers: [
+                          "#",
+                          "Customer",
+                          "E-Mail",
+                          "Mobile",
+                          "Registration Date",
+                          "Order Count",
+                          "Purchase Amount(AED)",
+                          "Balance(AED)",
+                          // "Action",
+                        ],
 
-                        child: CommonTableWidget(
-                          isLoading:
-                              state.isCustomersReport == ApiFetchStatus.loading,
-                          headers: [
-                            "#",
-                            "Customer",
-                            "E-Mail",
-                            "Mobile",
-                            "Registration Date",
-                            "Order Count",
-                            "Purchase Amount(AED)",
-                            "Balance(AED)",
-                            // "Action",
-                          ],
-
-                          columnFlex: [1, 2, 2, 2, 2, 1, 1, 1],
-                          data:
-                              state.customersReport?.map((e) {
-                                int index =
-                                    state.customersReport?.indexOf(e) ?? 0;
-                                return {
-                                  '#': index + 1,
-                                  'Customer': e.custName ?? '',
-                                  'E-Mail': e.custEmail ?? '',
-                                  'Mobile': e.custMobile ?? '',
-                                  'Registration Date':
-                                      e.createdDate?.toString() ?? '',
-                                  'Order Count': e.orderCount.toString(),
-                                  'Purchase Amount(AED)': e.totalPurchaseAmount
-                                      .toString(),
-                                  'Balance(AED)': e.balanceAmt.toString(),
-                                  // 'Action':
-                                  //     'Action', // Placeholder for action button
-                                };
-                              }).toList() ??
-                              [],
-                        ),
+                        columnFlex: [1, 2, 2, 2, 3, 2, 2, 2],
+                        data:
+                            state.customersReport?.map((e) {
+                              int index =
+                                  state.customersReport?.indexOf(e) ?? 0;
+                              return {
+                                '#': index + 1,
+                                'Customer': e.custName ?? '',
+                                'E-Mail': e.custEmail ?? '',
+                                'Mobile': e.custMobile ?? '',
+                                'Registration Date':
+                                    e.createdDate?.toString() ?? '',
+                                'Order Count': e.orderCount.toString(),
+                                'Purchase Amount(AED)': e.totalPurchaseAmount
+                                    .toString(),
+                                'Balance(AED)': e.balanceAmt.toString(),
+                                // 'Action':
+                                //     'Action', // Placeholder for action button
+                              };
+                            }).toList() ??
+                            [],
                       );
+                      //);
                     },
                   );
                 },
