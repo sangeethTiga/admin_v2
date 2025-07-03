@@ -131,9 +131,17 @@ class _ProductScreenState extends State<ProductScreen> {
                                     ),
                                   ),
                                   borderColor: kBlack,
-                                  value: state.selectProduct,
+                                  labelText: 'All Products',
+                                  value:
+                                      state.productList?.contains(
+                                            state.selectProduct,
+                                          ) ==
+                                          true
+                                      ? state.selectProduct
+                                      : null,
+                                  // state.selectProduct,
                                   items:
-                                      state.productList?.map((value) {
+                                      products.map((value) {
                                         return DropdownMenuItem<Product>(
                                           value: value,
                                           child: Text(value.name ?? ''),

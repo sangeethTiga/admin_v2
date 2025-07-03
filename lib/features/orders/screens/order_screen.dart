@@ -183,7 +183,7 @@ class OrderScreen extends StatelessWidget {
                                         return Padding(
                                           padding: EdgeInsets.only(
                                             left: 9.w,
-                                            right: 9.w,
+                                            right: 6.w,
                                           ),
                                           child: Row(
                                             children: [
