@@ -414,7 +414,7 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: (res.data is List)                                           
+          data: (res.data is List)
               ? List<OffersResponse>.from(
                   res.data.map((e) => OffersResponse.fromJson(e)),
                 )
@@ -426,7 +426,7 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<SaleOnDeals>>>loadSaleOnDealsReport({
+  Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
     required int storeId,
     required String fromDate,
     required String toDate,
@@ -445,7 +445,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-     print('SaleOnDeals res: $res');
+    print('SaleOnDeals res: $res');
     switch (res.statusCode) {
       case 200:
       case 201:
@@ -807,47 +807,27 @@ class ReportService implements ReportRepositories {
     }
   }
 
-  @override
-    Future<ResponseResult<CreateOfferResponse>>loadProductOffer(
-      CreateOfferResponse ? request,
-      int productId,
-      int storeId,
+@override
+Future<ResponseResult<CreateOfferResponse>> createProductOffer(
+  CreateOfferResponse? offer,
+  int productId,
+) async {
+  final networkProvider = await NetworkProvider.create();
 
+  final res = await networkProvider.post(
+    ApiEndpoints.createOffer(productId), 
+    data: offer?.toJson(),              
+  );
 
-    ) async{
-    final networkProvider = await NetworkProvider.create();
-        final res = await networkProvider.post(
-      ApiEndpoints.createOffer(productId),
-      data: request?.toJson(),
-    );
-
-        switch (res.statusCode) {
-      case 200:
-      case 201:
-        dynamic decoded = res.data;
-        if (res.data is String) {
-          decoded = jsonDecode(res.data);
-        }
-
-        if (decoded is Map<String, dynamic>) {
-          return ResponseResult(data: CreateOfferResponse.fromJson(decoded));
-        } else {
-          return ResponseResult(error: 'Unexpected response format: $decoded');
-        }
-
-      default:
-        return ResponseResult(error: '');
-    }
- 
-
-
-
-
-    }
-
-
-
-
-
+  switch (res.statusCode) {
+    case 200:
+    case 201:
+      return ResponseResult(
+        data: CreateOfferResponse.fromJson(res.data),
+      );
+    default:
+      return ResponseResult(error: 'Create offer failed');
+  }
+}
 
 }

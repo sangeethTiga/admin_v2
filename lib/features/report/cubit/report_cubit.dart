@@ -889,7 +889,7 @@ class ReportCubit extends Cubit<ReportState> {
         state.copyWith(
           productOffers: newList,
           isProductOffers: ApiFetchStatus.success,
-          filteredProducts: res.data
+          filteredProducts: res.data,
         ),
       );
     }
@@ -934,22 +934,20 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-  Future<void> loadProductOffer(
-    CreateOfferResponse createOffer,
-    int productId,
-    int storeId,
-  ) async {
-    emit(state.copyWith(isProductOffers: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadProductOffer(
-      createOffer,
-      productId,
-      storeId,
-    );
-    if (res.data != null) {
-      return;
-    }
-    emit(state.copyWith(isProductOffers: ApiFetchStatus.failed));
+Future<void> createOffer(CreateOfferResponse offer, int productId) async {
+  emit(state.copyWith(isCreated: ApiFetchStatus.loading));
+
+  final res = await _reportRepositories.createProductOffer(offer, productId);
+
+  if (res.data != null) {
+    emit(state.copyWith(isCreated: ApiFetchStatus.success));
+  } else {
+    emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
+}
+
+
+
 
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,
@@ -963,7 +961,7 @@ class ReportCubit extends Cubit<ReportState> {
       storeId,
     );
     if (res.data != null) {
-      final updatedProduct = res.data!;
+      // final updatedProduct = res.data!;
       emit(
         state.copyWith(isAdded: ApiFetchStatus.success, editData: editOffer),
       );
