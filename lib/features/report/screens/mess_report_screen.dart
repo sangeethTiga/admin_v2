@@ -121,20 +121,22 @@ class MessReportScreen extends StatelessWidget {
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      return NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isMessReport != ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadMessReport(
-                              isLoadMore: true,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
-                          return false;
-                        },
+                      return
+                      //  NotificationListener<ScrollNotification>(
+                      //   onNotification: (ScrollNotification scrollInfo) {
+                      //     if (scrollInfo.metrics.pixels >=
+                      //             scrollInfo.metrics.maxScrollExtent - 50 &&
+                      //         state.isMessReport != ApiFetchStatus.loading) {
+                      //       context.read<ReportCubit>().loadMessReport(
+                      //         isLoadMore: true,
+                      //         storeId: store.selectedStore?.storeId,
+                      //       );
+                      //     }
+                      //     return false;
+                      //   },
 
-                        child: CommonTableWidget(
+                      //   child:
+                         CommonTableWidget(
                           isLoading:
                               state.isMessReport == ApiFetchStatus.loading,
                           headers: [
@@ -163,8 +165,8 @@ class MessReportScreen extends StatelessWidget {
                                 };
                               }).toList() ??
                               [],
-                        ),
-                      );
+                 );
+                      //);
                     },
                   );
                 },

@@ -119,23 +119,25 @@ class UserShiftReportScreen extends StatelessWidget {
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      return NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isUserShiftReport !=
-                                  ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadUserShiftReport(
-                              page: state.currentPage + 1,
-                              limit: state.pageSize,
-                              isLoadMore: true,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
-                          return false;
-                        },
+                       return 
+                      // NotificationListener<ScrollNotification>(
+                      //   onNotification: (ScrollNotification scrollInfo) {
+                      //     if (scrollInfo.metrics.pixels >=
+                      //             scrollInfo.metrics.maxScrollExtent - 50 &&
+                      //         state.isUserShiftReport !=
+                      //             ApiFetchStatus.loading) {
+                      //       context.read<ReportCubit>().loadUserShiftReport(
+                      //         page: state.currentPage + 1,
+                      //         limit: state.pageSize,
+                      //         isLoadMore: true,
+                      //         storeId: store.selectedStore?.storeId,
+                      //       );
+                      //     }
+                      //     return false;
+                      //   },
 
-                        child: CommonTableWidget(
+                        // child:
+                         CommonTableWidget(
                           isLoading:
                               state.isUserShiftReport == ApiFetchStatus.loading,
                           headers: [
@@ -171,14 +173,15 @@ class UserShiftReportScreen extends StatelessWidget {
                                 };
                               }).toList() ??
                               [],
-                        ),
+                        );}
                       );
-                    },
-                  );
-                },
+                }
+                    
+                  ),
+                
               ),
             ),
-          ),
+          
         ],
       ),
     );
