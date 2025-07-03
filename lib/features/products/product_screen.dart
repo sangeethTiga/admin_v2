@@ -14,6 +14,7 @@ import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
+import 'package:admin_v2/shared/widgets/common_widgets/common_show_dialogue/common_show_dialogue.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
@@ -525,52 +526,38 @@ class _ProductScreenState extends State<ProductScreen> {
                                                         .getVariants(
                                                           data.productId!,
                                                         );
-                                                    showModalBottomSheet(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                              topLeft:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                              topRight:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                            ),
-                                                      ),
-                                                      backgroundColor: kWhite,
-                                                      context: context,
-                                                      isScrollControlled: true,
-
-                                                      builder: (context) {
-                                                        return VariantStockUpdateCard(
+                                                        commonnShowBottomSheet(context: context,child:VariantStockUpdateCard(
                                                           maintainStock: data
                                                               .maintainStock!,
-                                                        );
-                                                      },
-                                                    );
-                                                  } else {
-                                                    showModalBottomSheet(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                              topLeft:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                              topRight:
-                                                                  Radius.circular(
-                                                                    12.r,
-                                                                  ),
-                                                            ),
-                                                      ),
-                                                      backgroundColor: kWhite,
-                                                      context: context,
-                                                      isScrollControlled: true,
+                                                        ));
+                                                    // showModalBottomSheet(
+                                                    //   shape: RoundedRectangleBorder(
+                                                    //     borderRadius:
+                                                    //         BorderRadius.only(
+                                                    //           topLeft:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //           topRight:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //         ),
+                                                    //   ),
+                                                    //   backgroundColor: kWhite,
+                                                    //   context: context,
+                                                    //   isScrollControlled: true,
 
-                                                      builder: (context) {
-                                                        return StockUpdateCard(
+                                                    //   builder: (context) {
+                                                    //     return VariantStockUpdateCard(
+                                                    //       maintainStock: data
+                                                    //           .maintainStock!,
+                                                    //     );
+                                                    //   },
+                                                    // );
+                                                  } else {
+                                                    commonnShowBottomSheet(context: context, child: 
+                                                    StockUpdateCard(
                                                           currentStock:
                                                               data.productQty,
                                                           productId:
@@ -578,9 +565,39 @@ class _ProductScreenState extends State<ProductScreen> {
                                                           maintainStock: data
                                                               .maintainStock,
                                                           fromVariant: false,
-                                                        );
-                                                      },
-                                                    );
+                                                    )
+                                                    
+                            );
+                                                    // showModalBottomSheet(
+                                                    //   shape: RoundedRectangleBorder(
+                                                    //     borderRadius:
+                                                    //         BorderRadius.only(
+                                                    //           topLeft:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //           topRight:
+                                                    //               Radius.circular(
+                                                    //                 12.r,
+                                                    //               ),
+                                                    //         ),
+                                                    //   ),
+                                                    //   backgroundColor: kWhite,
+                                                    //   context: context,
+                                                    //   isScrollControlled: true,
+
+                                                    //   builder: (context) {
+                                                    //     return StockUpdateCard(
+                                                    //       currentStock:
+                                                    //           data.productQty,
+                                                    //       productId:
+                                                    //           data.productId,
+                                                    //       maintainStock: data
+                                                    //           .maintainStock,
+                                                    //       fromVariant: false,
+                                                    //     );
+                                                    //   },
+                                                    // );
                                                   }
                                                 },
                                                 child: Container(

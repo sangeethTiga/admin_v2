@@ -7,6 +7,23 @@ class Dates {
   Dates({this.id, this.title});
 }
 
+List<ListOfDemo>durationMonths=[
+ListOfDemo(name:'Current Month',id: 1),
+ListOfDemo(name:'Last Month',id: 2),
+ListOfDemo(name:'Last 3 Months',id: 3),
+ListOfDemo(name:'Last 6 Months',id: 4),
+ListOfDemo(name:'Custom',id: 5),
+
+
+];
+
+List<ListOfDemo>shifts=[
+ListOfDemo(name: 'All',id: 1),
+ListOfDemo(name: 'Morning Shift',id: 2),
+ListOfDemo(name: 'Evening Shift',id: 3),
+ListOfDemo(name: 'Evening Shift',id: 4),
+
+];
 List<Dates> custDates = [
   Dates(title: 'Days', id: '01'),
   Dates(title: 'Hrs', id: '08'),

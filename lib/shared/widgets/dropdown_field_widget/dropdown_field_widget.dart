@@ -99,7 +99,7 @@ class DropDownFieldWidget extends StatelessWidget {
       children: [
         5.verticalSpace,
         if (topLabelText != null)
-          Text(topLabelText!, style: FontPalette.hW500S13),
+          Text(topLabelText!, style: FontPalette.hW700S14),
         5.verticalSpace,
         ShimmerWidget(
           isLoading: isLoading,
