@@ -88,22 +88,24 @@ class _EditProductOfferState extends State<EditProductOffer> {
               ),
             ),
 
-            // Padding(
-            //   padding: EdgeInsets.all(13),
-            //   child: TextFeildWidget(
-            //     topLabelText: 'Product Name',
-            //     hight: 48.h,
-            //     fillColor: kWhite,
-            //     inputBorder: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(8.r),
-            //       borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-            //     ),
-            //     contentPadding: EdgeInsets.symmetric(
-            //       vertical: 14.h,
-            //       horizontal: 8.w,
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: EdgeInsets.all(13),
+              child: TextFeildWidget(
+                controller: nameController,
+                topLabelText: 'Product Name',
+                hight: 48.h,
+                enabled: false,
+                fillColor: kWhite,
+                inputBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                  borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 14.h,
+                  horizontal: 8.w,
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.all(13),
               child: BlocBuilder<ReportCubit, ReportState>(
