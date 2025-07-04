@@ -599,10 +599,8 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required int roleId,
     required int userId,
-     required String searchText,
+    required String searchText,
     required int categoryId,
-   
-    
   }) async {
     final networkProvider = await NetworkProvider.create();
     final user = await AuthUtils.instance.readUserData();
@@ -617,10 +615,8 @@ class ReportService implements ReportRepositories {
         toDate,
         roleId,
         userId,
-         searchText,
+        searchText,
         categoryId,
-       
-        
       ),
     );
     switch (res.statusCode) {
@@ -788,7 +784,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse? request,
     int productId,
-   // int storeId,
+    // int storeId,
   ) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -823,8 +819,6 @@ class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<CreateOfferResponse>> createProductOffer(
     CreateOfferResponse? offer,
-    int productId,
-  
   ) async {
     final networkProvider = await NetworkProvider.create();
 

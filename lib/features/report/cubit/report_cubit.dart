@@ -937,30 +937,21 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-Future<void> createProductOffer({
-  required CreateOfferResponse offer,
-  required int productId,
-}) async {
-  emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-  final res = await _reportRepositories.createProductOffer(offer, productId);
+  Future<void> createProductOffer({required CreateOfferResponse offer}) async {
+    emit(state.copyWith(isCreated: ApiFetchStatus.loading));
+    final res = await _reportRepositories.createProductOffer(offer);
 
-  if (res.data != null) {
-    emit(state.copyWith(
-      isCreated: ApiFetchStatus.success,
-    ));
+    if (res.data != null) {
+      emit(state.copyWith(isCreated: ApiFetchStatus.success));
 
-    final storeId = _dashboardCubit.state.selectedStore?.storeId;
-    if (storeId != null) {
-      await loadProductOffers(storeId: storeId); 
+      final storeId = _dashboardCubit.state.selectedStore?.storeId;
+      if (storeId != null) {
+        await loadProductOffers(storeId: storeId);
+      }
+    } else {
+      emit(state.copyWith(isCreated: ApiFetchStatus.failed));
     }
-  } else {
-    emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
-}
-
-
-
-
 
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,
@@ -1044,10 +1035,8 @@ Future<void> createProductOffer({
     String? toDate,
     int? roleId,
     int? userId,
-      String? searchText,
-      int? categoryId,
-  
-  
+    String? searchText,
+    int? categoryId,
 
     bool isLoadMore = false,
   }) async {
@@ -1062,17 +1051,15 @@ Future<void> createProductOffer({
     final int offset = page * limit;
     emit(state.copyWith(isProductReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadProductReport(
-       pageFirstResult: offset,
+      pageFirstResult: offset,
       resultPerPage: limit,
-       storeId: storeId ?? 0,
+      storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       roleId: roleId ?? 0,
       userId: userId ?? 0,
-      searchText: searchText ?? '', 
+      searchText: searchText ?? '',
       categoryId: categoryId ?? 0,
-     
-     
     );
 
     log('Response data: ${res.data}');
@@ -1086,7 +1073,7 @@ Future<void> createProductOffer({
       emit(
         state.copyWith(
           isProductReport: ApiFetchStatus.success,
-          productsReport: newList, 
+          productsReport: newList,
         ),
       );
       return;
