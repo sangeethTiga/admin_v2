@@ -785,7 +785,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse? request,
     int productId,
-    int storeId,
+   // int storeId,
   ) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -820,12 +820,12 @@ class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<CreateOfferResponse>> createProductOffer(
     CreateOfferResponse? offer,
-    int productId,
+  
   ) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.post(
-      ApiEndpoints.createOffer(productId),
+      ApiEndpoints.createOffer(),
       data: offer?.toJson(),
     );
 

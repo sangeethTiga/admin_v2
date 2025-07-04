@@ -113,8 +113,7 @@ class _CreateOfferState extends State<CreateOffer> {
               },
             ),
 
-
-                 Padding(
+            Padding(
               padding: EdgeInsets.all(13),
               child: BlocBuilder<ReportCubit, ReportState>(
                 builder: (context, state) {
@@ -133,10 +132,13 @@ class _CreateOfferState extends State<CreateOffer> {
                     value: state.selectedProductName,
                     items:
                         state.getproductName?.map((e) {
-                          return DropdownMenuItem<ProductNameResponse>( 
+                          return DropdownMenuItem<ProductNameResponse>(
                             value: e,
 
-                            child: Text(e.productName ?? ''),
+                            child: Text(
+                              e.productName ?? '',
+                              style: TextStyle(fontSize: 25),
+                            ),
                           );
                         }).toList() ??
                         [],
@@ -146,11 +148,12 @@ class _CreateOfferState extends State<CreateOffer> {
                       // context.read<ReportCubit>().
                       context.read<ReportCubit>().loadSelectedName(p0);
                     },
-                    labelText: '',
+                    labelText: 'ProductName',
                   );
                 },
               ),
             ),
+
             // Padding(
             //   padding: EdgeInsets.all(10),
             //   child: TextFeildWidget(
@@ -168,7 +171,6 @@ class _CreateOfferState extends State<CreateOffer> {
             //     ),
             //   ),
             // ),
-
             Padding(
               padding: EdgeInsets.all(13),
               child: BlocBuilder<ReportCubit, ReportState>(
@@ -342,10 +344,10 @@ class _CreateOfferState extends State<CreateOffer> {
                       offerFromDate: context.read<ReportCubit>().state.fromDate,
                       offerToDate: context.read<ReportCubit>().state.toDate,
                     );
-                    final productId = widget.offers.productId ?? 0;
+                    
                     await context.read<ReportCubit>().createProductOffer(
                       offer: offerRequest,
-                      productId: productId,
+                  
                     );
                   },
                 ),

@@ -162,7 +162,7 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectedDate: selectedDate));
   }
 
-  Future<void> changeStore(StoreResponse res) async {
+  Future<void> changeStore(StoreResponse res)  async {
     emit(state.copyWith(selectedStore: res));
   }
 
@@ -182,11 +182,13 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> clearCategory() async {
     emit(state.copyWith(selectCategory: CategoryResponse()));
   }
-   Future<void> selectProduct(Product? productOption) async {
-     print("Selected product: ${productOption?.name}");
+
+  Future<void> selectProduct(Product? productOption) async {
+    print("Selected product: ${productOption?.name}");
     emit(state.copyWith(selectProduct: productOption));
   }
-Future<void> changeProducType(Product v) async {
+
+  Future<void> changeProducType(Product v) async {
     emit(state.copyWith(selectProduct: v));
   }
   // Future<void> loadFilteredProducts(Product? filter) async {

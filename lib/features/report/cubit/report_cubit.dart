@@ -38,11 +38,11 @@ part 'report_state.dart';
 
 @injectable
 class ReportCubit extends Cubit<ReportState> {
-   final ReportRepositories _reportRepositories;
+  final ReportRepositories _reportRepositories;
   final DashboardCubit _dashboardCubit;
- 
+
   ReportCubit(this._reportRepositories, this._dashboardCubit)
-      : super(InitialReportState());
+    : super(InitialReportState());
 
   Future<void> loadSalesReport({
     int? storeId,
@@ -938,10 +938,10 @@ class ReportCubit extends Cubit<ReportState> {
 
   Future<void> createProductOffer({
     required CreateOfferResponse offer,
-    required int productId,
+  
   }) async {
     emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-    final res = await _reportRepositories.createProductOffer(offer, productId);
+    final res = await _reportRepositories.createProductOffer(offer );
 
     log('/////CREATE DATA////: ${res.data}');
     if (res.data != null) {
@@ -992,14 +992,16 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,
     int productId,
-    int storeId,
+    // int storeId,
   ) async {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
       productId,
-      storeId,
+      // storeId,
     );
+    log('EDIT DATA/////: ${res.data}');
+
     if (res.data != null) {
       // final updatedProduct = res.data!;
       emit(
