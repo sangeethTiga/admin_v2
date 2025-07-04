@@ -178,10 +178,14 @@ class FontPalette {
 
 extension ResponsiveFontSize on num {
   double get rf {
-    final screenWidth = ScreenUtil().screenWidth;
-    if (screenWidth >= 768) {
-      return (this * 1.4).sp;
+    try {
+      final screenWidth = ScreenUtil().screenWidth;
+      if (screenWidth >= 768) {
+        return (this * 1.4).sp;
+      }
+      return sp;
+    } catch (e) {
+      return toDouble();
     }
-    return sp;
   }
 }

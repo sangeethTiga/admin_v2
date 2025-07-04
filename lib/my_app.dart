@@ -10,17 +10,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: _getDesignSize(context),
-      minTextAdapt: true,
-      useInheritedMediaQuery: true,
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Admin v2',
+      theme: AppTheme.lightTheme,
+      themeMode: ThemeMode.light,
+      routerConfig: router,
       builder: (context, child) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'Admin v2',
-          theme: AppTheme.lightTheme,
-          themeMode: ThemeMode.light,
-          routerConfig: router,
+        return ScreenUtilInit(
+          designSize: _getDesignSize(context),
+          minTextAdapt: true,
+          // useInheritedMediaQuery: true,
+          builder: (context, child) => child!,
+          child: child,
         );
       },
     );
