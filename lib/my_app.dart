@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: _getDesignSize(context),
       minTextAdapt: true,
       useInheritedMediaQuery: true,
       builder: (context, child) {
@@ -25,4 +25,13 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+Size _getDesignSize(BuildContext context) {
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  if (screenWidth >= 768) {
+    return const Size(768, 1024);
+  }
+  return const Size(375, 812);
 }
