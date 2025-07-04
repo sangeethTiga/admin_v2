@@ -110,27 +110,27 @@ class OrderDetailScreen extends StatelessWidget {
                   ),
                 ),
 
-                MainPadding(
-                  bottom: 8.h,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'ITEMS',
-                        style: FontPalette.hW700S11.copyWith(
-                          color: Color(0XFF5E6566),
-                        ),
-                      ),
-                      Text(
-                        'View all',
-                        style: FontPalette.hW600S14.copyWith(
-                          color: kPrimaryColor,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // MainPadding(
+                //   bottom: 8.h,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         'ITEMS',
+                //         style: FontPalette.hW700S11.copyWith(
+                //           color: Color(0XFF5E6566),
+                //         ),
+                //       ),
+                //       Text(
+                //         'View all',
+                //         style: FontPalette.hW600S14.copyWith(
+                //           color: kPrimaryColor,
+                //           decoration: TextDecoration.underline,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Container(
                   margin: EdgeInsets.only(left: 12.w, right: 12.w),
                   padding: EdgeInsets.all(12.r),

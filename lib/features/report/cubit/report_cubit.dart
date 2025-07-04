@@ -15,6 +15,7 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/produ
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -38,8 +39,9 @@ part 'report_state.dart';
 @injectable
 class ReportCubit extends Cubit<ReportState> {
   final ReportRepositories _reportRepositories;
+  final DashboardCubit _dashboardCubit;
 
-  ReportCubit(this._reportRepositories)
+  ReportCubit(this._reportRepositories, this._dashboardCubit)
     : super(InitialReportState());
 
   Future<void> loadSalesReport({
@@ -516,9 +518,9 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       pageFirstLimit: offset,
       resultPerPage: limit,
-      purchaseType:
-          //purchaseType?? 0
-          state.selectedPurchaseType?.id ?? 0,
+      purchaseType: (state.selectedPurchaseType is int)
+          ? state.selectedPurchaseType as int
+          : purchaseType ?? 0,
     );
     // print('purchase:${res.data}');
 
@@ -934,30 +936,58 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-Future<void> createProductOffer({
-  required CreateOfferResponse offer,
-  required int productId,
-}) async {
-  emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-  final res = await _reportRepositories.createProductOffer(offer, productId);
+  Future<void> createProductOffer({
+    required CreateOfferResponse offer,
+    required int productId,
+  }) async {
+    emit(state.copyWith(isCreated: ApiFetchStatus.loading));
+    final res = await _reportRepositories.createProductOffer(offer, productId);
 
-  if (res.data != null) {
-    emit(state.copyWith(
-      isCreated: ApiFetchStatus.success,
-    ));
+    log('/////CREATE DATA////: ${res.data}');
+    if (res.data != null) {
+      emit(state.copyWith(isCreated: ApiFetchStatus.success));
 
-    final storeId = _dashboardCubit.state.selectedStore?.storeId;
-    if (storeId != null) {
-      await loadProductOffers(storeId: storeId); 
+      final storeId = _dashboardCubit.state.selectedStore?.storeId;
+      if (storeId != null) {
+        await loadProductOffers(storeId: storeId);
+      }
+    } else {
+      emit(state.copyWith(isCreated: ApiFetchStatus.failed));
     }
-  } else {
-    emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
-}
 
+  Future<void> loadProductName({String? query, int? storeId}) async {
+    emit(state.copyWith(isProductName: ApiFetchStatus.loading));
+    final res = await _reportRepositories.getProductName(
+      storeId: storeId ?? 0,
+      query: query ?? '',
+    );
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<ProductNameResponse> fetchedList = rawList.map((element) {
+        if (element is ProductNameResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return ProductNameResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
 
+      emit(
+        state.copyWith(
+          getProductName: res.data,
+          isProductName: ApiFetchStatus.success,
+        ),
+      );
+    }
+  }
 
-
+  Future<void> loadSelectedName(ProductNameResponse name) async {
+    emit(state.copyWith(selectedProductName: name));
+  }
 
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,

@@ -20,6 +20,7 @@ import 'package:admin_v2/features/report/domain/models/offers/offers_response.da
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/paymentMethod/payment_method_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -792,6 +793,10 @@ class ReportService implements ReportRepositories {
       ApiEndpoints.editOffer(productId),
       data: request?.toJson(),
     );
+    log(">>> RAW RESPONSE object//: $res");
+    log(">>> STATUS CODE,,,: ${res.statusCode}");
+    log(">>> RESPONSE DATA???: ${res.data}");
+    log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
     switch (res.statusCode) {
       case 200:
@@ -812,19 +817,19 @@ class ReportService implements ReportRepositories {
     }
   }
 
-@override
-Future<ResponseResult<CreateOfferResponse>> createProductOffer(
-  CreateOfferResponse? offer,
-  int productId,
-) async {
-  final networkProvider = await NetworkProvider.create();
+  @override
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
+    CreateOfferResponse? offer,
+    int productId,
+  ) async {
+    final networkProvider = await NetworkProvider.create();
 
-  final res = await networkProvider.post(
-    ApiEndpoints.createOffer(productId), 
-    data: offer?.toJson(),              
-  );
+    final res = await networkProvider.post(
+      ApiEndpoints.createOffer(productId),
+      data: offer?.toJson(),
+    );
 
-        switch (res.statusCode) {
+    switch (res.statusCode) {
       case 200:
       case 201:
         dynamic decoded = res.data;
@@ -841,96 +846,124 @@ Future<ResponseResult<CreateOfferResponse>> createProductOffer(
       default:
         return ResponseResult(error: '');
     }
- 
-
-    }
-
-  @override
-  Future <ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({required int deliveryPartnerId, required int storeId})async {
- final networkProvider = await NetworkProvider.create();  
- final res = await networkProvider.get(
-      ApiEndpoints.getDeliveryAgent(deliveryPartnerId,storeId ),);  
- switch (res.statusCode) {
-    case 200:
-    case 201:
-      return ResponseResult(
-        data: List<DeliveryAgentResponse>.from(
-          res.data.map((e) => DeliveryAgentResponse.fromJson(e)),
-        ),
-      );
-    default:
-      return ResponseResult(data: []);
-  }
-}
-
-  @override
-  Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod() async{
-     final networkProvider = await NetworkProvider.create();  
-
-    final res=await networkProvider.get(ApiEndpoints.getPaymethod());
-  switch(res.statusCode){
-    case 200:
-    case 201:
-    return ResponseResult(
-      data: List<PaymentMethodResponse>.from(res.data.map((e)=>PaymentMethodResponse.fromJson(e)),
-    ));
-    default:
-      return ResponseResult(data: []);
-  }
-
   }
 
   @override
-  Future<ResponseResult<List<WaitersResponse>>> getWaiters({required int storeId}) async{
-    final networkProvider= await NetworkProvider.create();
-    final res=await networkProvider.get(ApiEndpoints.getWaiters(storeId),
-    
-    
+  Future<ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({
+    required int deliveryPartnerId,
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.getDeliveryAgent(deliveryPartnerId, storeId),
     );
-    switch(res.statusCode){
-
+    switch (res.statusCode) {
       case 200:
       case 201:
-
-      return ResponseResult(
-        data: List<WaitersResponse>.from(res.data.map((e)=>WaitersResponse.fromJson(e)))
-      );
+        return ResponseResult(
+          data: List<DeliveryAgentResponse>.from(
+            res.data.map((e) => DeliveryAgentResponse.fromJson(e)),
+          ),
+        );
       default:
-      return ResponseResult(data: []);
-
+        return ResponseResult(data: []);
     }
- 
   }
 
   @override
-  Future<ResponseResult<List<KioskResponse>>> getKiosk({required int storeId})async {
-    final networkProvider=await NetworkProvider.create();
-    final res=await  networkProvider.get(ApiEndpoints.getKiosk(storeId));
-   switch(res.statusCode){
-    case 200:
-    case 201:
+  Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod() async {
+    final networkProvider = await NetworkProvider.create();
 
-    return ResponseResult(
-      data: List<KioskResponse>.from(res.data.map((e)=>KioskResponse.fromJson(e)))
-    );
-    default:return ResponseResult(data: []);
-   }
+    final res = await networkProvider.get(ApiEndpoints.getPaymethod());
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<PaymentMethodResponse>.from(
+            res.data.map((e) => PaymentMethodResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
   }
 
- @override
-  Future<ResponseResult<List<CashierResponse>>> getCashier({required int storeId})async {
-    final networkProvider=await NetworkProvider.create();
-    final res=await  networkProvider.get(ApiEndpoints.getCashier(storeId));
-   switch(res.statusCode){
-    case 200:
-    case 201:
-
-    return ResponseResult(
-      data: List<CashierResponse>.from(res.data.map((e)=>CashierResponse.fromJson(e)))
-    );
-    default:return ResponseResult(data: []);
-   }
+  @override
+  Future<ResponseResult<List<WaitersResponse>>> getWaiters({
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(ApiEndpoints.getWaiters(storeId));
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<WaitersResponse>.from(
+            res.data.map((e) => WaitersResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
   }
 
+  @override
+  Future<ResponseResult<List<KioskResponse>>> getKiosk({
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(ApiEndpoints.getKiosk(storeId));
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<KioskResponse>.from(
+            res.data.map((e) => KioskResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
 
+  @override
+  Future<ResponseResult<List<CashierResponse>>> getCashier({
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(ApiEndpoints.getCashier(storeId));
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<CashierResponse>.from(
+            res.data.map((e) => CashierResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<ProductNameResponse>>> getProductName({
+    required String query,
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.getProductName(query, storeId),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ProductNameResponse>.from(
+            res.data.map((e) => ProductNameResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
 }

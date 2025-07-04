@@ -80,7 +80,13 @@ class PurchaseScreen extends StatelessWidget {
                         ),
                       ),
                       borderColor: kBlack,
-                      value: state.selectedPurchaseType,
+                      value:
+                          state.purchaseType?.contains(
+                                state.selectedPurchaseType,
+                              ) ==
+                              true
+                          ? state.selectedPurchaseType
+                          : null,
                       items:
                           state.purchaseType?.map((value) {
                             return DropdownMenuItem<PurchaseType>(
@@ -142,10 +148,7 @@ class PurchaseScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadPurchaseReport(
                           storeId: state.selectedStore?.storeId,
-                      purchaseType: state.selectedPurchaseType?.id,
-                        );
-                        print(
-                          '=-=-=-=-=-Selected Purchase Type ID=-=-=-=-: ${state.selectedPurchaseType?.id}',
+                          // purchaseType: state.selectedPurchaseType?.id,
                         );
                       },
                       buttonText: 'View Report',

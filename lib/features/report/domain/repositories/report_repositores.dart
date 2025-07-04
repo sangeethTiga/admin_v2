@@ -17,6 +17,7 @@ import 'package:admin_v2/features/report/domain/models/offers/offers_response.da
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/paymentMethod/payment_method_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 //import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
@@ -214,16 +215,25 @@ abstract class ReportRepositories {
     int storeId,
   );
 
-  Future<ResponseResult<CreateOfferResponse>>createProductOffer( 
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
     CreateOfferResponse? offer,
-   int productId
+    int productId,
   );
-  Future<ResponseResult <List<DeliveryAgentResponse>>>getDeliveryAgent(
-    {required int deliveryPartnerId,required int storeId}
-  );
+  Future<ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({
+    required int deliveryPartnerId,
+    required int storeId,
+  });
 
-  Future<ResponseResult <List<PaymentMethodResponse>>> getPaymethod();
-  Future<ResponseResult<List<WaitersResponse>>>getWaiters({required int storeId});
-  Future<ResponseResult<List<KioskResponse>>>getKiosk({required int storeId});
-  Future<ResponseResult<List<CashierResponse>>>getCashier({required int storeId});
+  Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod();
+  Future<ResponseResult<List<WaitersResponse>>> getWaiters({
+    required int storeId,
+  });
+  Future<ResponseResult<List<KioskResponse>>> getKiosk({required int storeId});
+  Future<ResponseResult<List<CashierResponse>>> getCashier({
+    required int storeId,
+  });
+  Future<ResponseResult<List<ProductNameResponse>>> getProductName({
+    required String query,
+    required int storeId,
+  });
 }

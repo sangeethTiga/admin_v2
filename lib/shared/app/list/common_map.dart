@@ -132,15 +132,21 @@ List<Item> mapItems = [
 ];
 
 class PurchaseType {
-  int? id;
+    int? Id;
   String? name;
-  PurchaseType({this.id, this.name});
+  PurchaseType({this.Id, this.name});
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is PurchaseType &&Id == other.Id;
+
+  @override
+  int get hashCode => Id.hashCode;
 }
 
 List<PurchaseType> purchaseTypes = [
-  PurchaseType(name: 'All', id: 0),
-  PurchaseType(name: 'Cash', id: 1),
-  PurchaseType(name: 'Card', id: 2),
+  PurchaseType(name: 'All', Id: 0),
+  PurchaseType(name: 'Cash', Id: 1),
+  PurchaseType(name: 'Card', Id: 2),
 ];
 
 class Product {
