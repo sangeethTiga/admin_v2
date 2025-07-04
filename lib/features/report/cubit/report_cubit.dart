@@ -38,11 +38,11 @@ part 'report_state.dart';
 
 @injectable
 class ReportCubit extends Cubit<ReportState> {
-  final ReportRepositories _reportRepositories;
+   final ReportRepositories _reportRepositories;
   final DashboardCubit _dashboardCubit;
-
+ 
   ReportCubit(this._reportRepositories, this._dashboardCubit)
-    : super(InitialReportState());
+      : super(InitialReportState());
 
   Future<void> loadSalesReport({
     int? storeId,

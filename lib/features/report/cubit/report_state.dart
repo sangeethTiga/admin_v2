@@ -16,6 +16,7 @@ class ReportState extends Equatable {
   final int offset;
   final int page;
   final String status;
+  final String option;
   final List<CustomersResponse>? customersReport;
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
@@ -140,6 +141,7 @@ class ReportState extends Equatable {
     this.isAdded,
     this.isCreated,
     this.createData,
+    this.option='',
     this.getproductName,
     this.isProductName,
   });
@@ -160,6 +162,7 @@ class ReportState extends Equatable {
     int? offset,
     int? page,
     String? status,
+    String? option,
     List<CustomersResponse>? customersReport,
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,

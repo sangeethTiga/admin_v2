@@ -203,7 +203,7 @@ class ProductOffersScreen extends StatelessWidget {
 
                     return Container(
                       margin: EdgeInsets.only(bottom: 12.h),
-                      height: 385.h,
+                      height: 440.h,
                       width: 351.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.r),

@@ -108,6 +108,7 @@ class ProfitLossScreen extends StatelessWidget {
                   2.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
+                      
                       double calculateTotalRevenue(ReportState state) {
                         final receipts =
                             state.profitlossReport?[0].receiptsData;

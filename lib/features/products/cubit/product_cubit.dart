@@ -9,6 +9,7 @@ import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
@@ -169,16 +170,52 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectCategory: CategoryResponse()));
   }
 
- Future<void> getVariants(int productId) async {
-  try {
-    final variantList = await _productRepositories.getVariant(productId); 
-    emit(state.copyWith(variantList: variantList.data)); 
-  } catch (e, s) {
-    log('getVariant error: $e\nStackTrace: $s');
+  Future<void> getVariants(int productId) async {
+    try {
+      final variantList = await _productRepositories.getVariant(productId);
+      emit(state.copyWith(variantList: variantList.data));
+    } catch (e, s) {
+      log('getVariant error: $e\nStackTrace: $s');
+    }
   }
-}
 
- Future <void> clearCategory() async{
-  emit(state.copyWith(selectCategory: CategoryResponse()));
- }
+  Future<void> clearCategory() async {
+    emit(state.copyWith(selectCategory: CategoryResponse()));
+  }
+   Future<void> selectProduct(Product? productOption) async {
+     print("Selected product: ${productOption?.name}");
+    emit(state.copyWith(selectProduct: productOption));
+  }
+Future<void> changeProducType(Product v) async {
+    emit(state.copyWith(selectProduct: v));
+  }
+  // Future<void> loadFilteredProducts(Product? filter) async {
+  //   List<Product> allProducts = [
+  //     Product(filterId: 0, name: 'All Products'),
+  //     Product(filterId: 1, name: 'Out of stock products'),
+  //     Product(filterId: 2, name: 'Hidden Products'),
+  //     Product(filterId: 3, name: 'Stock Less than or equal'),
+  //     Product(filterId: 4, name: 'Variant Products'),
+  //     Product(filterId: 5, name: 'Best Selling'),
+  //     Product(filterId: 6, name: 'Featured'),
+  //     Product(filterId: 7, name: 'Not Hidden'),
+  //     Product(filterId: 8, name: 'Purchasable'),
+  //     Product(filterId: 9, name: 'Sellable'),
+  //     Product(filterId: 10, name: 'POS Only'),
+  //   ]; // Original unfiltered list
+  //   List<Product> filtered;
+
+  //   switch (filter?.filterId) {
+  //     case 1: // 'Out of stock products'
+  //       filtered = allProducts.where((p) => p.stock == 0).toList();
+  //       break;
+  //     case 5: // 'Best Selling'
+  //       filtered = allProducts.where((p) => p.isBestSelling).toList();
+  //       break;
+  //     default:
+  //       filtered = allProducts;
+  //   }
+
+  //   emit(state.copyWith(filteredProducts: filtered));
+  // }
 }

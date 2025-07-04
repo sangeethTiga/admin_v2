@@ -175,12 +175,12 @@ class ExpenseReportScreen extends StatelessWidget {
                           headers: [
                             "#",
                             "INVOICE NO",
-                            "TRAN DATE",
+                            "TRANSACTION DATE",
                             "DESCRIPTION",
                             "ACCOUNT NAME",
                             "AMOUNT",
                           ],
-                          columnFlex: [1, 3, 5, 3, 3, 3],
+                          columnFlex: [1, 3, 5, 5, 4, 3],
                           data:
                               state.expenseReport?.map((e) {
                                 int index =
@@ -188,7 +188,7 @@ class ExpenseReportScreen extends StatelessWidget {
                                 return {
                                   '#': index + 1,
                                   'INVOICE NO': e.invoiceNumber ?? '',
-                                  'TRAN DATE': e.acTransactionDate ?? '',
+                                  'TRANSACTION DATE': e.acTransactionDate ?? '',
                                   'DESCRIPTION': e.description ?? '',
                                   "ACCOUNT NAME": e.accountName ?? '',
                                   'AMOUNT': e.amount ?? '',
