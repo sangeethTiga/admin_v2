@@ -19,6 +19,7 @@ import 'package:admin_v2/features/report/domain/models/offers/offers_response.da
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/paymentMethod/payment_method_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -787,7 +788,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse? request,
     int productId,
-    int storeId,
+   // int storeId,
   ) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -795,6 +796,10 @@ class ReportService implements ReportRepositories {
       ApiEndpoints.editOffer(productId),
       data: request?.toJson(),
     );
+    log(">>> RAW RESPONSE object//: $res");
+    log(">>> STATUS CODE,,,: ${res.statusCode}");
+    log(">>> RESPONSE DATA???: ${res.data}");
+    log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
     switch (res.statusCode) {
       case 200:
@@ -819,11 +824,12 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<CreateOfferResponse>> createProductOffer(
     CreateOfferResponse? offer,
     int productId,
+  
   ) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.post(
-      ApiEndpoints.createOffer(productId),
+      ApiEndpoints.createOffer(),
       data: offer?.toJson(),
     );
 
@@ -937,6 +943,28 @@ class ReportService implements ReportRepositories {
           data: List<CashierResponse>.from(
             res.data.map((e) => CashierResponse.fromJson(e)),
           ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<ProductNameResponse>>> getProductName({
+    required String query,
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.getProductName(query, storeId),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<ProductNameResponse>.from(
+            res.data.map((e) => ProductNameResponse.fromJson(e)),
+          ).toList(),
         );
       default:
         return ResponseResult(data: []);

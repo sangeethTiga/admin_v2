@@ -231,7 +231,7 @@ class _EditProductOfferState extends State<EditProductOffer> {
                   );
                   await context.read<ReportCubit>().loadEditOffer(
                     editOffer,
-                    widget.product.storeId ?? 0,
+                  //  widget.product.storeId ?? 0,
                     widget.product.productId ?? 0,
                   );
                   context.pop();

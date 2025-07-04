@@ -11,12 +11,12 @@ import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_resp
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/kiosk_response/kiosk_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
-import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/paymentMethod/payment_method_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 //import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
@@ -174,7 +174,7 @@ abstract class ReportRepositories {
   //   required int storeId,
   //   required int categoryId
   // });
-  Future<ResponseResult<List<ProductsResponse>>>  loadProductReport({
+  Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
     required int pageFirstResult,
     required int resultPerPage,
     required int storeId,
@@ -212,7 +212,7 @@ abstract class ReportRepositories {
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse req,
     int productId,
-    int storeId,
+    //int storeId,
   );
 
   Future<ResponseResult<CreateOfferResponse>> createProductOffer(
@@ -230,6 +230,10 @@ abstract class ReportRepositories {
   });
   Future<ResponseResult<List<KioskResponse>>> getKiosk({required int storeId});
   Future<ResponseResult<List<CashierResponse>>> getCashier({
+    required int storeId,
+  });
+  Future<ResponseResult<List<ProductNameResponse>>> getProductName({
+    required String query,
     required int storeId,
   });
 }

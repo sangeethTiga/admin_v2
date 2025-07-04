@@ -42,6 +42,9 @@ class ProductOffersScreen extends StatelessWidget {
               context.read<ReportCubit>().loadSpecialOffer(
                 storeId: state.selectedType?.storeId,
               );
+              context.read<ReportCubit>().loadProductName(
+                storeId: state.selectedProductName?.storeId,
+              );
               final result = await showModalBottomSheet<bool>(
                 context: context,
                 isScrollControlled: true,
@@ -51,9 +54,9 @@ class ProductOffersScreen extends StatelessWidget {
                     top: Radius.circular(12.r),
                   ),
                 ),
-                builder: (context) => CreateOffer(
-                  offers: ProductOffersResponse(productId: 20113),
-                ),
+
+                builder: (context) =>
+                    CreateOffer(offers: ProductOffersResponse()),
               );
               if (result == true) {
                 final storeId = context
@@ -111,6 +114,7 @@ class ProductOffersScreen extends StatelessWidget {
                         context.read<ReportCubit>().loadProductOffers(
                           storeId: state.selectedStore?.storeId,
                         );
+
                         // context.read<OrderCubit>().orders(
                         //   req: OrderRequest(
                         //     storeId: state.selectedStore?.storeId,
@@ -254,6 +258,7 @@ class ProductOffersScreen extends StatelessWidget {
                                               topRight: Radius.circular(12.r),
                                             ),
                                           ),
+                                          isScrollControlled: true,
                                           backgroundColor: kWhite,
                                           context: context,
                                           builder: (context) {

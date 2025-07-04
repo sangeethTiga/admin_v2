@@ -3,6 +3,7 @@ import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 import 'package:admin_v2/features/report/domain/models/specialOffer/special_offer_response.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -113,23 +114,63 @@ class _CreateOfferState extends State<CreateOffer> {
             ),
 
             Padding(
-              padding: EdgeInsets.all(10),
-              child: TextFeildWidget(
-                controller: nameController,
-                topLabelText: 'Product Name',
-                hight: 48.h,
-                fillColor: kWhite,
-                inputBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 14.h,
-                  horizontal: 8.w,
-                ),
+              padding: EdgeInsets.all(13),
+              child: BlocBuilder<ReportCubit, ReportState>(
+                builder: (context, state) {
+                  return DropDownFieldWidget(
+                    isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                    prefixIcon: Container(
+                      margin: EdgeInsets.only(left: 12.w),
+                      child: SvgPicture.asset(
+                        'assets/icons/package-box-pin-location.svg',
+                        width: 20.w,
+                        height: 20.h,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    borderColor: kBlack,
+                    value: state.selectedProductName,
+                    items:
+                        state.getproductName?.map((e) {
+                          return DropdownMenuItem<ProductNameResponse>(
+                            value: e,
+
+                            child: Text(
+                              e.productName ?? '',
+                              style: TextStyle(fontSize: 25),
+                            ),
+                          );
+                        }).toList() ??
+                        [],
+                    fillColor: const Color(0XFFEFF1F1),
+
+                    onChanged: (p0) {
+                      // context.read<ReportCubit>().
+                      context.read<ReportCubit>().loadSelectedName(p0);
+                    },
+                    labelText: 'ProductName',
+                  );
+                },
               ),
             ),
 
+            // Padding(
+            //   padding: EdgeInsets.all(10),
+            //   child: TextFeildWidget(
+            //     controller: nameController,
+            //     topLabelText: 'Product Name',
+            //     hight: 48.h,
+            //     fillColor: kWhite,
+            //     inputBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8.r),
+            //       borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+            //     ),
+            //     contentPadding: EdgeInsets.symmetric(
+            //       vertical: 14.h,
+            //       horizontal: 8.w,
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.all(13),
               child: BlocBuilder<ReportCubit, ReportState>(
@@ -303,10 +344,10 @@ class _CreateOfferState extends State<CreateOffer> {
                       offerFromDate: context.read<ReportCubit>().state.fromDate,
                       offerToDate: context.read<ReportCubit>().state.toDate,
                     );
-                    final productId = widget.offers.productId ?? 0;
+                    
                     await context.read<ReportCubit>().createProductOffer(
                       offer: offerRequest,
-                      productId: productId,
+                  
                     );
                   },
                 ),

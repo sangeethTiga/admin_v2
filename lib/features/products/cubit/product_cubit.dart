@@ -197,34 +197,39 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> changeProducType(Product product) async {
     emit(state.copyWith(selectProduct: product));
     // filterProductListByType(product.filterId);
-  }
-
-  void filterProductListByType(int? filterId) {
-    List<ProductModel>? filtered = [];
-
-    switch (filterId) {
-      case 0:
-        filtered = state.allProducts;
-        break;
-      case 1:
-        filtered = state.allProducts?.where((p) => p.stock == 0).toList();
-        break;
-      case 2:
-        filtered = state.allProducts?.where((p) => p.isHidden == true).toList();
-        break;
-      case 3:
-        filtered = state.allProducts?.where((p) => p.stock <= 10).toList();
-        break;
-      case 4:
-        filtered = state.allProducts
-            ?.where((p) => p.isVariant == true)
-            .toList();
-        break;
-      // Add other filter cases here as needed
-      default:
-        filtered = state.allProducts;
+    Future<void> changeProducType(Product v) async {
+      emit(state.copyWith(selectProduct: v));
     }
 
-    emit(state.copyWith(filteredProduct: filtered));
+    void filterProductListByType(int? filterId) {
+      List<ProductModel>? filtered = [];
+
+      switch (filterId) {
+        case 0:
+          filtered = state.allProducts;
+          break;
+        case 1:
+          filtered = state.allProducts?.where((p) => p.stock == 0).toList();
+          break;
+        case 2:
+          filtered = state.allProducts
+              ?.where((p) => p.isHidden == true)
+              .toList();
+          break;
+        case 3:
+          filtered = state.allProducts?.where((p) => p.stock <= 10).toList();
+          break;
+        case 4:
+          filtered = state.allProducts
+              ?.where((p) => p.isVariant == true)
+              .toList();
+          break;
+        // Add other filter cases here as needed
+        default:
+          filtered = state.allProducts;
+      }
+
+      emit(state.copyWith(filteredProduct: filtered));
+    }
   }
 }

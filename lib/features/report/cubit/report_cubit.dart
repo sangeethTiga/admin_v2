@@ -16,6 +16,7 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/produ
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
+import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
@@ -518,9 +519,9 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       pageFirstLimit: offset,
       resultPerPage: limit,
-      purchaseType:
-          //purchaseType?? 0
-          state.selectedPurchaseType?.id ?? 0,
+      purchaseType: (state.selectedPurchaseType is int)
+          ? state.selectedPurchaseType as int
+          : purchaseType ?? 0,
     );
     // print('purchase:${res.data}');
 
@@ -936,36 +937,44 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-  Future<void> createProductOffer({
-    required CreateOfferResponse offer,
-    required int productId,
-  }) async {
-    emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-    final res = await _reportRepositories.createProductOffer(offer, productId);
+Future<void> createProductOffer({
+  required CreateOfferResponse offer,
+  required int productId,
+}) async {
+  emit(state.copyWith(isCreated: ApiFetchStatus.loading));
+  final res = await _reportRepositories.createProductOffer(offer, productId);
 
-    if (res.data != null) {
-      emit(state.copyWith(isCreated: ApiFetchStatus.success));
+  if (res.data != null) {
+    emit(state.copyWith(
+      isCreated: ApiFetchStatus.success,
+    ));
 
-      final storeId = _dashboardCubit.state.selectedStore?.storeId;
-      if (storeId != null) {
-        await loadProductOffers(storeId: storeId);
-      }
-    } else {
-      emit(state.copyWith(isCreated: ApiFetchStatus.failed));
+    final storeId = _dashboardCubit.state.selectedStore?.storeId;
+    if (storeId != null) {
+      await loadProductOffers(storeId: storeId); 
     }
+  } else {
+    emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
+}
+
+
+
+
 
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,
     int productId,
-    int storeId,
+    // int storeId,
   ) async {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
       productId,
-      storeId,
+      // storeId,
     );
+    log('EDIT DATA/////: ${res.data}');
+
     if (res.data != null) {
       // final updatedProduct = res.data!;
       emit(
