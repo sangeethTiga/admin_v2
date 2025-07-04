@@ -14,7 +14,6 @@ import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_resp
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/kiosk_response/kiosk_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
-import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
@@ -569,26 +568,26 @@ class ReportService implements ReportRepositories {
     }
   }
 
-  @override
-  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
-    required int storeId,
-  }) async {
-    final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider.get(
-      ApiEndpoints.sellingProducts(storeId),
-    );
-    switch (res.statusCode) {
-      case 200:
-      case 201:
-        return ResponseResult(
-          data: List<MostSellingResponse>.from(
-            res.data.map((e) => MostSellingResponse.fromJson(e)),
-          ).toList(),
-        );
-      default:
-        return ResponseResult(data: []);
-    }
-  }
+  // @override
+  // Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+  //   required int storeId,
+  // }) async {
+  //   final networkProvider = await NetworkProvider.create();
+  //   final res = await networkProvider.get(
+  //     ApiEndpoints.categoryProduct(storeId),
+  //   );
+  //   switch (res.statusCode) {
+  //     case 200:
+  //     case 201:
+  //       return ResponseResult(
+  //         data: List<MostSellingResponse>.from(
+  //           res.data.map((e) => MostSellingResponse.fromJson(e)),
+  //         ).toList(),
+  //       );
+  //     default:
+  //       return ResponseResult(data: []);
+  //   }
+  // }
 
   @override
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
@@ -599,8 +598,10 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required int roleId,
     required int userId,
+     required String searchText,
     required int categoryId,
-    required String searchText,
+   
+    
   }) async {
     final networkProvider = await NetworkProvider.create();
     final user = await AuthUtils.instance.readUserData();
@@ -615,8 +616,10 @@ class ReportService implements ReportRepositories {
         toDate,
         roleId,
         userId,
-        searchText,
+         searchText,
         categoryId,
+       
+        
       ),
     );
     switch (res.statusCode) {
@@ -812,19 +815,19 @@ class ReportService implements ReportRepositories {
     }
   }
 
-@override
-Future<ResponseResult<CreateOfferResponse>> createProductOffer(
-  CreateOfferResponse? offer,
-  int productId,
-) async {
-  final networkProvider = await NetworkProvider.create();
+  @override
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
+    CreateOfferResponse? offer,
+    int productId,
+  ) async {
+    final networkProvider = await NetworkProvider.create();
 
-  final res = await networkProvider.post(
-    ApiEndpoints.createOffer(productId), 
-    data: offer?.toJson(),              
-  );
+    final res = await networkProvider.post(
+      ApiEndpoints.createOffer(productId),
+      data: offer?.toJson(),
+    );
 
-        switch (res.statusCode) {
+    switch (res.statusCode) {
       case 200:
       case 201:
         dynamic decoded = res.data;
@@ -841,96 +844,102 @@ Future<ResponseResult<CreateOfferResponse>> createProductOffer(
       default:
         return ResponseResult(error: '');
     }
- 
-
-    }
-
-  @override
-  Future <ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({required int deliveryPartnerId, required int storeId})async {
- final networkProvider = await NetworkProvider.create();  
- final res = await networkProvider.get(
-      ApiEndpoints.getDeliveryAgent(deliveryPartnerId,storeId ),);  
- switch (res.statusCode) {
-    case 200:
-    case 201:
-      return ResponseResult(
-        data: List<DeliveryAgentResponse>.from(
-          res.data.map((e) => DeliveryAgentResponse.fromJson(e)),
-        ),
-      );
-    default:
-      return ResponseResult(data: []);
-  }
-}
-
-  @override
-  Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod() async{
-     final networkProvider = await NetworkProvider.create();  
-
-    final res=await networkProvider.get(ApiEndpoints.getPaymethod());
-  switch(res.statusCode){
-    case 200:
-    case 201:
-    return ResponseResult(
-      data: List<PaymentMethodResponse>.from(res.data.map((e)=>PaymentMethodResponse.fromJson(e)),
-    ));
-    default:
-      return ResponseResult(data: []);
-  }
-
   }
 
   @override
-  Future<ResponseResult<List<WaitersResponse>>> getWaiters({required int storeId}) async{
-    final networkProvider= await NetworkProvider.create();
-    final res=await networkProvider.get(ApiEndpoints.getWaiters(storeId),
-    
-    
+  Future<ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({
+    required int deliveryPartnerId,
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.getDeliveryAgent(deliveryPartnerId, storeId),
     );
-    switch(res.statusCode){
-
+    switch (res.statusCode) {
       case 200:
       case 201:
-
-      return ResponseResult(
-        data: List<WaitersResponse>.from(res.data.map((e)=>WaitersResponse.fromJson(e)))
-      );
+        return ResponseResult(
+          data: List<DeliveryAgentResponse>.from(
+            res.data.map((e) => DeliveryAgentResponse.fromJson(e)),
+          ),
+        );
       default:
-      return ResponseResult(data: []);
-
+        return ResponseResult(data: []);
     }
- 
   }
 
   @override
-  Future<ResponseResult<List<KioskResponse>>> getKiosk({required int storeId})async {
-    final networkProvider=await NetworkProvider.create();
-    final res=await  networkProvider.get(ApiEndpoints.getKiosk(storeId));
-   switch(res.statusCode){
-    case 200:
-    case 201:
+  Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod() async {
+    final networkProvider = await NetworkProvider.create();
 
-    return ResponseResult(
-      data: List<KioskResponse>.from(res.data.map((e)=>KioskResponse.fromJson(e)))
-    );
-    default:return ResponseResult(data: []);
-   }
+    final res = await networkProvider.get(ApiEndpoints.getPaymethod());
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<PaymentMethodResponse>.from(
+            res.data.map((e) => PaymentMethodResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
   }
 
- @override
-  Future<ResponseResult<List<CashierResponse>>> getCashier({required int storeId})async {
-    final networkProvider=await NetworkProvider.create();
-    final res=await  networkProvider.get(ApiEndpoints.getCashier(storeId));
-   switch(res.statusCode){
-    case 200:
-    case 201:
-
-    return ResponseResult(
-      data: List<CashierResponse>.from(res.data.map((e)=>CashierResponse.fromJson(e)))
-    );
-    default:return ResponseResult(data: []);
-   }
+  @override
+  Future<ResponseResult<List<WaitersResponse>>> getWaiters({
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(ApiEndpoints.getWaiters(storeId));
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<WaitersResponse>.from(
+            res.data.map((e) => WaitersResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
   }
 
+  @override
+  Future<ResponseResult<List<KioskResponse>>> getKiosk({
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(ApiEndpoints.getKiosk(storeId));
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<KioskResponse>.from(
+            res.data.map((e) => KioskResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
 
+  @override
+  Future<ResponseResult<List<CashierResponse>>> getCashier({
+    required int storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(ApiEndpoints.getCashier(storeId));
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<CashierResponse>.from(
+            res.data.map((e) => CashierResponse.fromJson(e)),
+          ),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
 }

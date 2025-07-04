@@ -19,6 +19,7 @@ class ProductService implements ProductRepositories {
     int? catId,
     String? search,
     String? barCode,
+    int? filterId
   }) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -28,6 +29,7 @@ class ProductService implements ProductRepositories {
         catId ?? 0,
         search ?? '',
         barCode ?? '',
+        filterId ?? 0
       ),
     );
     switch (res.statusCode) {
@@ -102,6 +104,7 @@ class ProductService implements ProductRepositories {
   Future<ResponseResult<EditUpdateResponse>>updateProduct(
     EditUpdateResponse? request,
     int? productId,
+    int? mainCategoryId
   
   ) async {
     final networkProvider = await NetworkProvider.create();

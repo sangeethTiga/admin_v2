@@ -107,6 +107,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 0,
                                 '',
                                 '',
+                                0
                               );
                             },
                             labelText: '',
@@ -119,49 +120,88 @@ class _ProductScreenState extends State<ProductScreen> {
                           Expanded(
                             child: BlocBuilder<ProductCubit, ProductState>(
                               builder: (context, state) {
-                                return DropDownFieldWidget(
-                                  isLoading: false,
-                                  prefixIcon: Container(
-                                    margin: EdgeInsets.only(left: 12.w),
-                                    child: SvgPicture.asset(
-                                      'assets/icons/package-box-pin-location.svg',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                  borderColor: kBlack,
-                                  labelText: 'All Products',
-                                  value:
-                                      state.productList?.contains(
-                                            state.selectProduct,
-                                          ) ==
-                                          true
-                                      ? state.selectProduct
-                                      : null,
-                                  // state.selectProduct,
-                                  items:
-                                      products.map((value) {
-                                        return DropdownMenuItem<Product>(
-                                          value: value,
+                                return BlocBuilder<
+                                  DashboardCubit,
+                                  DashboardState
+                                >(
+                                  builder: (context, common) {
+                                    return DropDownFieldWidget(
+                                      isLoading: false,
+                                      // prefixIcon: Container(
+                                      //   margin: EdgeInsets.only(left: 12.w),
+                                      //   child: SvgPicture.asset(
+                                      //     'assets/icons/package-box-pin-location.svg',
+                                      //     width: 20.w,
+                                      //     height: 20.h,
+                                      //     fit: BoxFit.contain,
+                                      //   ),
+                                      // ),
+                                      borderColor: kBlack,
+                                      labelText: 'All Products',
+                                      value:
+                                          state.prodList?.any(
+                                                (e) =>
+                                                    e.filterId ==
+                                                    state
+                                                        .selectProduct
+                                                        ?.filterId,
+                                              ) ==
+                                              true
+                                          ? state.selectProduct
+                                          : null,
+                                      // state.productList?.contains(
+                                      //       state.selectProduct,
+                                      //     ) ==
+                                      //     true
+                                      // ? state.selectProduct
+                                      // : null,
+                                      // state.selectProduct,
+                                      items:
+                                          products.map((value) {
+                                            return DropdownMenuItem<Product>(
+                                              value: value,
 
-                                          child: Text(
-                                            value.name ?? '',
-                                            maxLines: 1,
-                                          ),
+                                              child: Text(
+                                                value.name ?? '',
+                                                maxLines: 1,
+                                              ),
+                                            );
+                                          }).toList() ??
+                                          [],
+
+                                      fillColor: const Color(0XFFEFF1F1),
+                                      inputBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          8.r,
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Color(0XFFB7C6C2),
+                                        ),
+                                      ),
+
+                                      onChanged: (product) {
+                                        final selected = state.prodList
+                                            ?.firstWhere(
+                                              (e) =>
+                                                  e.filterId ==
+                                                  product.filterId,
+                                            );
+                                        context
+                                            .read<ProductCubit>()
+                                            .selectProduct(product);
+                                        context
+                                            .read<ProductCubit>()
+                                            .changeProducType(product);
+                                        context.read<ProductCubit>().product(
+                                          common.selectedStore?.storeId ?? 0,
+
+                                          selected?.filterId ?? 0,
+                                          '',
+                                          '',
+                                          0
                                         );
-                                      }).toList() ??
-                                      [],
-
-                                  fillColor: const Color(0XFFEFF1F1),
-
-                                  onChanged: (product) {
-                                    context.read<ProductCubit>().selectProduct(
-                                      product,
+                                      },
                                     );
-                                    context
-                                        .read<ProductCubit>()
-                                        .changeProducType(product);
                                   },
                                 );
                               },
@@ -177,15 +217,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       ApiFetchStatus.loading,
                                   hintStyle: FontPalette.hW500S14,
                                   labelText: 'Select category',
-                                  // prefixIcon: Container(
-                                  //   margin: EdgeInsets.only(left: 12.w),
-                                  //   child: SvgPicture.asset(
-                                  //     'assets/icons/package-box-pin-location.svg',
-                                  //     width: 20.w,
-                                  //     height: 20.h,
-                                  //     fit: BoxFit.contain,
-                                  //   ),
-                                  // ),
+                              
                                   borderColor: kBlack,
                                   value:
                                       state.categoryList?.any(
@@ -232,6 +264,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       selectedCategory.details?.categoryId ?? 0,
                                       '',
                                       '',
+                                      0
                                     );
                                   },
                                   inputBorder: OutlineInputBorder(
@@ -246,70 +279,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                         ],
                       ),
-                      // BlocBuilder<DashboardCubit, DashboardState>(
-                      //   builder: (context, common) {
-                      //     return DropDownFieldWidget(
-                      //       isLoading:
-                      //           state.apiFetchStatus == ApiFetchStatus.loading,
-                      //       hintStyle: FontPalette.hW500S14,
-                      //       labelText: 'Select category',
-                      //       prefixIcon: Container(
-                      //         margin: EdgeInsets.only(left: 12.w),
-                      //         child: SvgPicture.asset(
-                      //           'assets/icons/package-box-pin-location.svg',
-                      //           width: 20.w,
-                      //           height: 20.h,
-                      //           fit: BoxFit.contain,
-                      //         ),
-                      //       ),
-                      //       borderColor: kBlack,
-                      //       value:
-                      //           state.categoryList?.any(
-                      //                 (e) =>
-                      //                     e.details?.categoryId ==
-                      //                     state
-                      //                         .selectCategory
-                      //                         ?.details
-                      //                         ?.categoryId,
-                      //               ) ==
-                      //               true
-                      //           ? state.selectCategory?.details?.categoryId
-                      //           : null,
-                      //       //state.selectCategory?.details?.categoryId,
-                      //       items:
-                      //           state.categoryList?.map((e) {
-                      //             return DropdownMenuItem<int>(
-                      //               value: e.details?.categoryId,
-                      //               child: Text(e.details?.categoryName ?? ''),
-                      //             );
-                      //           }).toList() ??
-                      //           [],
-                      //       fillColor: const Color(0XFFEFF1F1),
 
-                      //       onChanged: (categoryId) {
-                      //         mobileScannerController.clear();
-                      //         final selectedCategory = state.categoryList
-                      //             ?.firstWhere(
-                      //               (e) => e.details?.categoryId == categoryId,
-                      //             );
-                      //         context.read<ProductCubit>().changeCategory(
-                      //           selectedCategory!,
-                      //         );
-                      //         context.read<ProductCubit>().product(
-                      //           common.selectedStore?.storeId ?? 0,
-
-                      //           selectedCategory.details?.categoryId ?? 0,
-                      //           '',
-                      //           '',
-                      //         );
-                      //       },
-                      //       inputBorder: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(8.r),
-                      //         borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
                       3.verticalSpace,
 
                       TextFeildWidget(
@@ -336,8 +306,12 @@ class _ProductScreenState extends State<ProductScreen> {
                           }
                         },
 
-                        prefix: Icon(Icons.search),
-                        hintText: 'search for product',
+                        prefix: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: SvgPicture.asset('assets/icons/Search.svg'),
+                        ),
+                        hintText: 'search for products',
+                        hintStyle: FontPalette.hW500S14,
                         controller: mobileScannerController,
 
                         borderColor: kBlack,
@@ -369,6 +343,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 0,
                                 '',
                                 scannedCode,
+                                0
                               );
                             }
                           },

@@ -7,22 +7,19 @@ class Dates {
   Dates({this.id, this.title});
 }
 
-List<ListOfDemo>durationMonths=[
-ListOfDemo(name:'Current Month',id: 0),
-ListOfDemo(name:'Last Month',id: 1),
-ListOfDemo(name:'Last 3 Months',id: 3),
-ListOfDemo(name:'Last 6 Months',id: 6),
-ListOfDemo(name:'Custom',id: 5),
-
-
+List<ListOfDemo> durationMonths = [
+  ListOfDemo(name: 'Current Month', id: 0),
+  ListOfDemo(name: 'Last Month', id: 1),
+  ListOfDemo(name: 'Last 3 Months', id: 3),
+  ListOfDemo(name: 'Last 6 Months', id: 6),
+  ListOfDemo(name: 'Custom', id: 5),
 ];
 
-List<ListOfDemo>shifts=[
-ListOfDemo(name: 'All',id: 0),
-ListOfDemo(name: 'Morning Shift',id: 1),
-ListOfDemo(name: 'Evening Shift',id: 2),
-ListOfDemo(name: 'Evening Shift',id: 3),
-
+List<ListOfDemo> shifts = [
+  ListOfDemo(name: 'All', id: 0),
+  ListOfDemo(name: 'Morning Shift', id: 1),
+  ListOfDemo(name: 'Evening Shift', id: 2),
+  ListOfDemo(name: 'Evening Shift', id: 3),
 ];
 List<Dates> custDates = [
   Dates(title: 'Days', id: '01'),
@@ -31,17 +28,12 @@ List<Dates> custDates = [
   Dates(title: 'Sec', id: '23'),
 ];
 
-
-List<Dates>groupBy=[
-Dates(title: 'Months',id: 'month'),
-Dates(title: "Delivery Agent",id: 'delivery_agent'),
-Dates(title: "Delivery Partner",id: 'delivery_partner'),
-Dates(title: "Bill Type",id: 'bill_type'),
-Dates(title: "Waiter",id: 'supplier'),
-
-
-
-
+List<Dates> groupBy = [
+  Dates(title: 'Months', id: 'month'),
+  Dates(title: "Delivery Agent", id: 'delivery_agent'),
+  Dates(title: "Delivery Partner", id: 'delivery_partner'),
+  Dates(title: "Bill Type", id: 'bill_type'),
+  Dates(title: "Waiter", id: 'supplier'),
 ];
 List<ListOfDemo> custDate = [
   ListOfDemo(name: 'Today', id: 1),
@@ -168,3 +160,31 @@ List<Product> products = [
   Product(filterId: 9, name: 'Sellable'),
   Product(filterId: 10, name: 'POS Only'),
 ];
+
+class ProductModel {
+  final String allProducts;
+  final int stock;
+  final bool isHidden;
+  final bool isLessThan;
+  final bool isVariant;
+  final bool isBestSelling;
+  final bool isFeatured;
+  final bool notHidden;
+  final bool purchasable;
+  final bool isSellable;
+  final bool isPOSonly;
+
+  ProductModel({
+    required this.allProducts,
+    required this.stock,
+    required this.isHidden,
+    required this.isLessThan,
+    required this.isVariant,
+    required this.isBestSelling,
+    required this.isFeatured,
+    required this.notHidden,
+    required this.purchasable,
+    required this.isSellable,
+    required this.isPOSonly,
+  });
+}

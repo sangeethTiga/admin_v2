@@ -186,9 +186,13 @@ class DashboardScreen extends StatelessWidget {
                       title: Text('Most Selling Products'),
                       leading: Icon(Icons.sell_sharp),
                       onTap: () {
-                        context.read<CommonCubit>().loadSellingProducts(
+                        // context.read<ReportCubit>().loadProductReport(
+                        //   storeId: state.selectedStore?.storeId ?? 0,
+                        //   categoryId: state.selectedCategory?.categoryId ?? 0,
+                        // );
+                        context.read<CommonCubit>().loadProductsCategory(
                           state.selectedStore?.storeId,
-                          0,
+                          //0,
                         );
                         context.push(routeSellingProducts);
                       },
@@ -402,11 +406,16 @@ class DashboardScreen extends StatelessWidget {
                                 0,
                                 '',
                                 '',
+                                0,
+                              );
+                              context.read<ProductCubit>().selectProduct(
+                                Product(filterId: 0, name: 'All Products'),
                               );
                               context.read<ProductCubit>().catgeory(
                                 state.selectedStore?.storeId ?? 0,
                               );
                               context.read<ProductCubit>().stockStatus();
+
                               context.read<ProductCubit>().clearEvent();
                               context.push(routeProducts);
                               break;

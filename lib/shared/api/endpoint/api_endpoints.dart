@@ -81,8 +81,9 @@ class ApiEndpoints {
     int catId,
     String search,
     String barCode,
+    int filterId,
   ) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=0&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=0&result_per_page=50';
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=0&result_per_page=500';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
@@ -177,7 +178,7 @@ class ApiEndpoints {
   ) =>
       '/api/mess?page_first_result=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&query=$query&meal_plans_id=$mealPlansId';
 
-  static String sellingProducts(int storeId) =>
+  static String categoryProduct(int storeId) =>
       '/api/category?Admin&store_id=$storeId';
   static String productReport(
     int pageFirstResult,
@@ -221,12 +222,13 @@ class ApiEndpoints {
   static String editOffer(int productId) => '/api/product_offer/$productId';
   static String createOffer(int productId) => '/api/product_offer/$productId';
 
-  static String getDeliveryAgent(int deliveryPartnerId,int storeId)=>'/api/delivery_agent?delivery_partner_id=$deliveryPartnerId&store_id=$storeId';
-  static String getPaymethod()=>'/api/payment_method';
-  static String getWaiters(int storeId)=>'/api/store_users?store_id=$storeId&role_id=9';
-  static String getKiosk(int storeId)=>'/api/kiosk?store_id=$storeId';
-  static String getCashier(int storeId)=>'/api/store_users?store_id=$storeId&cashier=1';
+  static String getDeliveryAgent(int deliveryPartnerId, int storeId) =>
+      '/api/delivery_agent?delivery_partner_id=$deliveryPartnerId&store_id=$storeId';
+  static String getPaymethod() => '/api/payment_method';
+  static String getWaiters(int storeId) =>
+      '/api/store_users?store_id=$storeId&role_id=9';
+  static String getKiosk(int storeId) => '/api/kiosk?store_id=$storeId';
+  static String getCashier(int storeId) =>
+      '/api/store_users?store_id=$storeId&cashier=1';
   // static String showReport(int storeId,int selectedMonth,int deliveryAgentId,int deliveryPartnerId,int paymethodId,int waiterId,int shift,int cashierId,int selctedKiosk,int groupby)=>'/api/salesReport?store_id=$storeId&duration=$selectedMonth%20months&del_agent_id=$deliveryAgentId&delivery_partner_id=$deliveryPartnerId&pay_method_id=$paymethodId&waiter_id=$waiterId&shift_id=$shift&day_close_based=0&cashier_id=$cashierId&kiosk_id=$selctedKiosk&group_by=$groupby';
-
-  
 }

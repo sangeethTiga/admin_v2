@@ -12,10 +12,12 @@ abstract class ProductRepositories {
     int? catId,
     String? search,
     String? barCode,
+    int? filterId
   });
   Future<ResponseResult<EditUpdateResponse>> updateProduct(
     EditUpdateResponse req,
     int? productId,
+    int? mainCategoryId
   );
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus();
   Future<ResponseResult<dynamic>> stockUpdate({StockUpdateRequest request});

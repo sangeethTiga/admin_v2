@@ -11,6 +11,7 @@ import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
@@ -37,11 +38,11 @@ part 'report_state.dart';
 
 @injectable
 class ReportCubit extends Cubit<ReportState> {
-   final ReportRepositories _reportRepositories;
+  final ReportRepositories _reportRepositories;
   final DashboardCubit _dashboardCubit;
- 
+
   ReportCubit(this._reportRepositories, this._dashboardCubit)
-      : super(InitialReportState());
+    : super(InitialReportState());
 
   Future<void> loadSalesReport({
     int? storeId,
@@ -935,30 +936,24 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-Future<void> createProductOffer({
-  required CreateOfferResponse offer,
-  required int productId,
-}) async {
-  emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-  final res = await _reportRepositories.createProductOffer(offer, productId);
+  Future<void> createProductOffer({
+    required CreateOfferResponse offer,
+    required int productId,
+  }) async {
+    emit(state.copyWith(isCreated: ApiFetchStatus.loading));
+    final res = await _reportRepositories.createProductOffer(offer, productId);
 
-  if (res.data != null) {
-    emit(state.copyWith(
-      isCreated: ApiFetchStatus.success,
-    ));
+    if (res.data != null) {
+      emit(state.copyWith(isCreated: ApiFetchStatus.success));
 
-    final storeId = _dashboardCubit.state.selectedStore?.storeId;
-    if (storeId != null) {
-      await loadProductOffers(storeId: storeId); 
+      final storeId = _dashboardCubit.state.selectedStore?.storeId;
+      if (storeId != null) {
+        await loadProductOffers(storeId: storeId);
+      }
+    } else {
+      emit(state.copyWith(isCreated: ApiFetchStatus.failed));
     }
-  } else {
-    emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
-}
-
-
-
-
 
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,
@@ -1040,8 +1035,10 @@ Future<void> createProductOffer({
     String? toDate,
     int? roleId,
     int? userId,
-    String? searchText,
-    int? categoryId,
+      String? searchText,
+      int? categoryId,
+  
+  
 
     bool isLoadMore = false,
   }) async {
@@ -1056,15 +1053,17 @@ Future<void> createProductOffer({
     final int offset = page * limit;
     emit(state.copyWith(isProductReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadProductReport(
-      roleId: roleId ?? 0,
-      userId: userId ?? 0,
-      storeId: storeId ?? 0,
+       pageFirstResult: offset,
+      resultPerPage: limit,
+       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
-      pageFirstResult: offset,
-      resultPerPage: limit,
-      searchText: searchText ?? '',
+      roleId: roleId ?? 0,
+      userId: userId ?? 0,
+      searchText: searchText ?? '', 
       categoryId: categoryId ?? 0,
+     
+     
     );
 
     log('Response data: ${res.data}');
@@ -1077,13 +1076,17 @@ Future<void> createProductOffer({
 
       emit(
         state.copyWith(
-          productsReport: newList,
           isProductReport: ApiFetchStatus.success,
+          productsReport: newList, 
         ),
       );
       return;
     }
     emit(state.copyWith(isProductReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> changeCategory(MostSellingResponse cate) async {
+    emit(state.copyWith(selectCategory: cate));
   }
 
   Future<void> loadDaySummary({

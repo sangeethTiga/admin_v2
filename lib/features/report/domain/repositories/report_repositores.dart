@@ -170,10 +170,11 @@ abstract class ReportRepositories {
   Future<ResponseResult<List<ChequestatusResponse>>> loadStatus({
     required int storeId,
   });
-  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
-    required int storeId,
-  });
-  Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
+  // Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+  //   required int storeId,
+  //   required int categoryId
+  // });
+  Future<ResponseResult<List<ProductsResponse>>>  loadProductReport({
     required int pageFirstResult,
     required int resultPerPage,
     required int storeId,
@@ -214,16 +215,21 @@ abstract class ReportRepositories {
     int storeId,
   );
 
-  Future<ResponseResult<CreateOfferResponse>>createProductOffer( 
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
     CreateOfferResponse? offer,
-   int productId
+    int productId,
   );
-  Future<ResponseResult <List<DeliveryAgentResponse>>>getDeliveryAgent(
-    {required int deliveryPartnerId,required int storeId}
-  );
+  Future<ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({
+    required int deliveryPartnerId,
+    required int storeId,
+  });
 
-  Future<ResponseResult <List<PaymentMethodResponse>>> getPaymethod();
-  Future<ResponseResult<List<WaitersResponse>>>getWaiters({required int storeId});
-  Future<ResponseResult<List<KioskResponse>>>getKiosk({required int storeId});
-  Future<ResponseResult<List<CashierResponse>>>getCashier({required int storeId});
+  Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod();
+  Future<ResponseResult<List<WaitersResponse>>> getWaiters({
+    required int storeId,
+  });
+  Future<ResponseResult<List<KioskResponse>>> getKiosk({required int storeId});
+  Future<ResponseResult<List<CashierResponse>>> getCashier({
+    required int storeId,
+  });
 }

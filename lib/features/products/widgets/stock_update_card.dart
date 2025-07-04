@@ -305,6 +305,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                           0,
                           '',
                           '',
+                          0
                         );
 
                         Navigator.pop(context);
