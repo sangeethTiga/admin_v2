@@ -29,26 +29,21 @@ class RevenueGraph extends StatelessWidget {
               labelIntersectAction: AxisLabelIntersectAction.rotate45,
               majorGridLines: MajorGridLines(width: 1),
             ),
-            primaryYAxis: NumericAxis(
-              majorGridLines: MajorGridLines(width: 1),
-            ),
-                            tooltipBehavior: TooltipBehavior(enable: true),
+            primaryYAxis: NumericAxis(majorGridLines: MajorGridLines(width: 1)),
+            tooltipBehavior: TooltipBehavior(enable: true),
 
-            // primaryYAxis: NumericAxis(minimum: 0, interval: 50000),
             series: <CartesianSeries>[
               ColumnSeries<RevenueResponse, String>(
                 name: 'Revenue',
                 dataSource: state.revenueReport,
-                xValueMapper: (rev, _) =>
-                    rev.monthname?.substring(0, 3) ?? '',
+                xValueMapper: (rev, _) => rev.monthname?.substring(0, 3) ?? '',
                 yValueMapper: (rev, _) => rev.income?.toDouble() ?? 0,
                 color: Colors.cyan,
               ),
               ColumnSeries<RevenueResponse, String>(
                 name: 'Expense',
                 dataSource: state.revenueReport,
-                xValueMapper: (rev, _) =>
-                    rev.monthname?.substring(0, 3) ?? '',
+                xValueMapper: (rev, _) => rev.monthname?.substring(0, 3) ?? '',
                 yValueMapper: (rev, _) => rev.expense?.toDouble() ?? 0,
                 color: Colors.pinkAccent,
               ),
