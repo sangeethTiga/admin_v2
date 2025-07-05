@@ -783,13 +783,13 @@ class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse? request,
-    int productId,
-    // int storeId,
+    int? productId,
+    int? storeId,
   ) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.put(
-      ApiEndpoints.editOffer(productId),
+      ApiEndpoints.editOffer(productId ?? 0),
       data: request?.toJson(),
     );
     log(">>> RAW RESPONSE object//: $res");
@@ -797,7 +797,7 @@ class ReportService implements ReportRepositories {
     log(">>> RESPONSE DATA???: ${res.data}");
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
-    switch (res. statusCode) {
+    switch (res.statusCode) {
       case 200:
       case 201:
         dynamic decoded = res.data;
@@ -807,6 +807,9 @@ class ReportService implements ReportRepositories {
 
         if (decoded is Map<String, dynamic>) {
           return ResponseResult(data: EditOfferResponse.fromJson(decoded));
+        } else if (decoded is int) {
+     
+          return ResponseResult(data: request);
         } else {
           return ResponseResult(error: 'Unexpected response format: $decoded');
         }

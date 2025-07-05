@@ -121,7 +121,7 @@ class ProfitLossScreen extends StatelessWidget {
 
                       return Container(
                         // height: 120.h,
-                        width: double.infinity,
+                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.r),
                           border: Border.all(color: kLightBorderColor),

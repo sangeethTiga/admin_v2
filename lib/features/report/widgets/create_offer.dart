@@ -79,7 +79,8 @@ class _CreateOfferState extends State<CreateOffer> {
 
             BlocBuilder<DashboardCubit, DashboardState>(
               builder: (context, state) {
-                return Padding(
+                return 
+                Padding(
                   padding: const EdgeInsets.all(10),
                   child: DropDownFieldWidget(
                     isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
