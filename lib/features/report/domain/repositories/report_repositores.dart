@@ -215,10 +215,10 @@ abstract class ReportRepositories {
     //int storeId,
   );
 
-  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
-    CreateOfferResponse? offer,
-
-  );
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer({
+     required CreateOfferResponse? offer,
+    required int storeId,
+  });
   Future<ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({
     required int deliveryPartnerId,
     required int storeId,

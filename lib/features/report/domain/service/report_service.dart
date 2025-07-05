@@ -785,7 +785,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse? request,
     int productId,
-   // int storeId,
+    // int storeId,
   ) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -798,7 +798,7 @@ class ReportService implements ReportRepositories {
     log(">>> RESPONSE DATA???: ${res.data}");
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
-    switch (res.statusCode) {
+    switch (res. statusCode) {
       case 200:
       case 201:
         dynamic decoded = res.data;
@@ -818,10 +818,10 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
-    CreateOfferResponse? offer,
-  
-  ) async {
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer({
+    required CreateOfferResponse? offer,
+    required int storeId,
+  }) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.post(

@@ -118,6 +118,7 @@ class _CreateOfferState extends State<CreateOffer> {
               child: BlocBuilder<ReportCubit, ReportState>(
                 builder: (context, state) {
                   return DropDownFieldWidget(
+                  //  validator: ,
                     isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                     prefixIcon: Container(
                       margin: EdgeInsets.only(left: 12.w),
@@ -335,20 +336,30 @@ class _CreateOfferState extends State<CreateOffer> {
                         .state
                         .selectedType;
 
-                    if (selectedStore == null || selectedOffer == null) return;
+                    final selectedName = context
+                        .read<ReportCubit>()
+                        .state
+                        .selectedProductName;
+
+                
 
                     final offerRequest = CreateOfferResponse(
+                      offerPrice: int.tryParse(offerPriceController.text),
                       offerPricePercentage: int.tryParse(
                         discountController.text,
                       ),
+                     // productId: selectedName.productId,
+
+
                       offerFromDate: context.read<ReportCubit>().state.fromDate,
                       offerToDate: context.read<ReportCubit>().state.toDate,
+                      // storeId:
                     );
-                    
-                    await context.read<ReportCubit>().createProductOffer(
-                      offer: offerRequest,
-                  
-                    );
+
+                    // await context.read<ReportCubit>().createProductOffer(
+                    //   offer: offerRequest,
+                    //   storeId: selectedStore.storeId,
+                    // );
                   },
                 ),
               ),
@@ -359,7 +370,7 @@ class _CreateOfferState extends State<CreateOffer> {
               //     buttonText: 'Save',
               //     onPressed: () async {
               //       final selectedStore = context
-              //           .read<DashboardCubit>()
+              //           .read<DashboardCubit>() 
               //           .state
               //           .selectedStore;
               //       final selectedOffer = context

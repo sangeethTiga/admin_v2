@@ -938,10 +938,11 @@ class ReportCubit extends Cubit<ReportState> {
 
   Future<void> createProductOffer({
     required CreateOfferResponse offer,
+   required int?storeId
   
   }) async {
     emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-    final res = await _reportRepositories.createProductOffer(offer );
+    final res = await _reportRepositories.createProductOffer(offer: offer, storeId: storeId ?? 0, );
 
     log('/////CREATE DATA////: ${res.data}');
     if (res.data != null) {
