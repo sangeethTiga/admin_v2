@@ -37,6 +37,8 @@ mixin _$EditUpdateResponse {
   int? get maintainStock => throw _privateConstructorUsedError;
   @JsonKey(name: "product_hidden")
   int? get productHidden => throw _privateConstructorUsedError;
+  @JsonKey(name: "main_category_id")
+  int? get mainCategoryId => throw _privateConstructorUsedError;
 
   /// Serializes this EditUpdateResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,6 +66,7 @@ abstract class $EditUpdateResponseCopyWith<$Res> {
     @JsonKey(name: "product_id") int? productId,
     @JsonKey(name: "maintain_stock") int? maintainStock,
     @JsonKey(name: "product_hidden") int? productHidden,
+    @JsonKey(name: "main_category_id") int? mainCategoryId,
   });
 }
 
@@ -90,6 +93,7 @@ class _$EditUpdateResponseCopyWithImpl<$Res, $Val extends EditUpdateResponse>
     Object? productId = freezed,
     Object? maintainStock = freezed,
     Object? productHidden = freezed,
+    Object? mainCategoryId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -125,6 +129,10 @@ class _$EditUpdateResponseCopyWithImpl<$Res, $Val extends EditUpdateResponse>
                 ? _value.productHidden
                 : productHidden // ignore: cast_nullable_to_non_nullable
                       as int?,
+            mainCategoryId: freezed == mainCategoryId
+                ? _value.mainCategoryId
+                : mainCategoryId // ignore: cast_nullable_to_non_nullable
+                      as int?,
           )
           as $Val,
     );
@@ -149,6 +157,7 @@ abstract class _$$EditUpdateResponseImplCopyWith<$Res>
     @JsonKey(name: "product_id") int? productId,
     @JsonKey(name: "maintain_stock") int? maintainStock,
     @JsonKey(name: "product_hidden") int? productHidden,
+    @JsonKey(name: "main_category_id") int? mainCategoryId,
   });
 }
 
@@ -174,6 +183,7 @@ class __$$EditUpdateResponseImplCopyWithImpl<$Res>
     Object? productId = freezed,
     Object? maintainStock = freezed,
     Object? productHidden = freezed,
+    Object? mainCategoryId = freezed,
   }) {
     return _then(
       _$EditUpdateResponseImpl(
@@ -209,6 +219,10 @@ class __$$EditUpdateResponseImplCopyWithImpl<$Res>
             ? _value.productHidden
             : productHidden // ignore: cast_nullable_to_non_nullable
                   as int?,
+        mainCategoryId: freezed == mainCategoryId
+            ? _value.mainCategoryId
+            : mainCategoryId // ignore: cast_nullable_to_non_nullable
+                  as int?,
       ),
     );
   }
@@ -226,6 +240,7 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
     @JsonKey(name: "product_id") this.productId,
     @JsonKey(name: "maintain_stock") this.maintainStock,
     @JsonKey(name: "product_hidden") this.productHidden,
+    @JsonKey(name: "main_category_id") this.mainCategoryId,
   });
 
   factory _$EditUpdateResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -255,10 +270,13 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
   @override
   @JsonKey(name: "product_hidden")
   final int? productHidden;
+  @override
+  @JsonKey(name: "main_category_id")
+  final int? mainCategoryId;
 
   @override
   String toString() {
-    return 'EditUpdateResponse(productName: $productName, productQuantity: $productQuantity, productPrice: $productPrice, updatedDate: $updatedDate, storeId: $storeId, productId: $productId, maintainStock: $maintainStock, productHidden: $productHidden)';
+    return 'EditUpdateResponse(productName: $productName, productQuantity: $productQuantity, productPrice: $productPrice, updatedDate: $updatedDate, storeId: $storeId, productId: $productId, maintainStock: $maintainStock, productHidden: $productHidden, mainCategoryId: $mainCategoryId)';
   }
 
   @override
@@ -280,7 +298,9 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
             (identical(other.maintainStock, maintainStock) ||
                 other.maintainStock == maintainStock) &&
             (identical(other.productHidden, productHidden) ||
-                other.productHidden == productHidden));
+                other.productHidden == productHidden) &&
+            (identical(other.mainCategoryId, mainCategoryId) ||
+                other.mainCategoryId == mainCategoryId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -295,6 +315,7 @@ class _$EditUpdateResponseImpl implements _EditUpdateResponse {
     productId,
     maintainStock,
     productHidden,
+    mainCategoryId,
   );
 
   /// Create a copy of EditUpdateResponse
@@ -324,6 +345,7 @@ abstract class _EditUpdateResponse implements EditUpdateResponse {
     @JsonKey(name: "product_id") final int? productId,
     @JsonKey(name: "maintain_stock") final int? maintainStock,
     @JsonKey(name: "product_hidden") final int? productHidden,
+    @JsonKey(name: "main_category_id") final int? mainCategoryId,
   }) = _$EditUpdateResponseImpl;
 
   factory _EditUpdateResponse.fromJson(Map<String, dynamic> json) =
@@ -353,6 +375,9 @@ abstract class _EditUpdateResponse implements EditUpdateResponse {
   @override
   @JsonKey(name: "product_hidden")
   int? get productHidden;
+  @override
+  @JsonKey(name: "main_category_id")
+  int? get mainCategoryId;
 
   /// Create a copy of EditUpdateResponse
   /// with the given fields replaced by the non-null parameter values.

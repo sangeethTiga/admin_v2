@@ -19,6 +19,7 @@ import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+
 part 'dashboard_state.dart';
 
 @injectable
@@ -26,7 +27,11 @@ class DashboardCubit extends Cubit<DashboardState> {
   final DashboardRepositories _dashboardRepositories;
   final CommonRepostories _commonRepostories;
   final ReportRepositories _reportRepositories;
-  DashboardCubit(this._commonRepostories,this._dashboardRepositories,this._reportRepositories) : super(InitialDashBoardState());
+  DashboardCubit(
+    this._commonRepostories,
+    this._dashboardRepositories,
+    this._reportRepositories,
+  ) : super(InitialDashBoardState());
   Future<void> store() async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
@@ -47,7 +52,7 @@ class DashboardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
     }
   }
-  
+
   Future<void> account() async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
@@ -66,9 +71,11 @@ class DashboardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
     }
   }
-Future<void> selectedAccount(AccountDataResponse store) async {
+
+  Future<void> selectedAccount(AccountDataResponse store) async {
     emit(state.copyWith(selectedAccount: store));
   }
+
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));
   }
@@ -121,7 +128,7 @@ Future<void> selectedAccount(AccountDataResponse store) async {
     // }
     emit(state.copyWith(isOrdersReport: ApiFetchStatus.loading));
     final res = await _dashboardRepositories.ordersGraph(
-      dateRangeId: state.selectDate !.id.toString(),
+      dateRangeId: state.selectDate?.id.toString() ?? '',
       roleId: 1,
       storeArray: state.selectedStore?.storeId ?? 0,
       userId: 1,
@@ -144,100 +151,94 @@ Future<void> selectedAccount(AccountDataResponse store) async {
     emit(state.copyWith(isOrdersReport: ApiFetchStatus.failed));
   }
 
-    Future<void> monthSelection(ListOfDemo selectedMonth) async {
+  Future<void> monthSelection(ListOfDemo selectedMonth) async {
     emit(state.copyWith(selectMonth: selectedMonth));
   }
 
-  Future <void>getDeliveryAgent()async{
-    try{
-
-  final res=await _reportRepositories.getDeliveryAgent(deliveryPartnerId:state.selectedDeliveryPartner??0, storeId:state.selectedStore?.storeId??0 );
-  emit(state.copyWith(deliveryAgents: res.data,));
-
-
-
-    }catch(e,s){
-        log('$e',stackTrace: s);
+  Future<void> getDeliveryAgent() async {
+    try {
+      final res = await _reportRepositories.getDeliveryAgent(
+        deliveryPartnerId: state.selectedDeliveryPartner ?? 0,
+        storeId: state.selectedStore?.storeId ?? 0,
+      );
+      emit(state.copyWith(deliveryAgents: res.data));
+    } catch (e, s) {
+      log('$e', stackTrace: s);
     }
-  
- 
   }
-  Future<void>selectedDeliveryAgent(DeliveryAgentResponse agent )async{
+
+  Future<void> selectedDeliveryAgent(DeliveryAgentResponse agent) async {
     emit(state.copyWith(selectedDeliveryAgent: agent));
-
-
   }
-  Future<void>getPaymethod()async{
-    try{
-      final res=await _reportRepositories.getPaymethod();
+
+  Future<void> getPaymethod() async {
+    try {
+      final res = await _reportRepositories.getPaymethod();
 
       emit(state.copyWith(paymethodList: res.data));
-
-    }catch(e,s){
-log('$e',stackTrace: s);
-
+    } catch (e, s) {
+      log('$e', stackTrace: s);
     }
   }
 
-  Future<void>selectedPayMethod(PaymentMethodResponse paymethod )async{
+  Future<void> selectedPayMethod(PaymentMethodResponse paymethod) async {
     emit(state.copyWith(selectedPaymethod: paymethod));
-
-
   }
-  Future <void>getWaiters()async{
-    try{
 
-      final res= await _reportRepositories.getWaiters(storeId: state.selectedStore?.storeId??0);
+  Future<void> getWaiters() async {
+    try {
+      final res = await _reportRepositories.getWaiters(
+        storeId: state.selectedStore?.storeId ?? 0,
+      );
 
       emit(state.copyWith(waitersList: res.data));
-
-    }
-    catch(e,s){
-      log('$e',stackTrace: s);
+    } catch (e, s) {
+      log('$e', stackTrace: s);
     }
   }
 
-  Future <void>selectedWaiter(WaitersResponse waiter)async{
-
+  Future<void> selectedWaiter(WaitersResponse waiter) async {
     emit(state.copyWith(selectedWaiter: waiter));
   }
 
-
-  Future<void>getKiosk()async{
-    try{
-      final res=await _reportRepositories.getKiosk(storeId: state.selectedStore?.storeId??0);
+  Future<void> getKiosk() async {
+    try {
+      final res = await _reportRepositories.getKiosk(
+        storeId: state.selectedStore?.storeId ?? 0,
+      );
       emit(state.copyWith(kioskList: res.data));
-    }catch(e,s){
-      log('$e',stackTrace: s);
+    } catch (e, s) {
+      log('$e', stackTrace: s);
     }
   }
-  Future<void>selectedKiosk(KioskResponse kiosk)async{
-    emit(state.copyWith(selectedKiosk:kiosk ));
+
+  Future<void> selectedKiosk(KioskResponse kiosk) async {
+    emit(state.copyWith(selectedKiosk: kiosk));
   }
-  Future<void>selctedShift(ListOfDemo shift)async{
+
+  Future<void> selctedShift(ListOfDemo shift) async {
     emit(state.copyWith(selectedShift: shift));
   }
 
-  Future<void>getCashier()async{
-    final res=await _reportRepositories.getCashier(storeId: state.selectedStore?.storeId??0);
-    try{
+  Future<void> getCashier() async {
+    final res = await _reportRepositories.getCashier(
+      storeId: state.selectedStore?.storeId ?? 0,
+    );
+    try {
       emit(state.copyWith(cashierList: res.data));
-
-
-    }catch(e,s){
-      log('$e',stackTrace: s);
-
+    } catch (e, s) {
+      log('$e', stackTrace: s);
     }
-
   }
-    Future<void>selectedCashier(CashierResponse cashier)async{
+
+  Future<void> selectedCashier(CashierResponse cashier) async {
     emit(state.copyWith(selectedCashier: cashier));
   }
 
-
-    Future<void>selectedGroupBy(Dates selectedGroupby)async{
+  Future<void> selectedGroupBy(Dates selectedGroupby) async {
     emit(state.copyWith(selectedGroupBy: selectedGroupby));
   }
+
   Future<void> changeFromDate(DateTime date) async {
     emit(state.copyWith(fromDate: date));
   }
@@ -245,5 +246,4 @@ log('$e',stackTrace: s);
   Future<void> changeToDate(DateTime date) async {
     emit(state.copyWith(toDate: date));
   }
-
 }

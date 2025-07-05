@@ -68,6 +68,7 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isAdded;
   final ApiFetchStatus? isCreated;
   final CreateOfferResponse? createData;
+  final MostSellingResponse? selectCategory;
   final List<ProductNameResponse>? getproductName;
   final ApiFetchStatus? isProductName;
   final ProductNameResponse? selectedProductName;
@@ -130,6 +131,7 @@ class ReportState extends Equatable {
     this.purchaseType,
     this.filteredProducts,
     this.createOffer,
+    this.selectCategory,
     this.selectedProductName,
 
     //this.purchaseType,
@@ -141,7 +143,7 @@ class ReportState extends Equatable {
     this.isAdded,
     this.isCreated,
     this.createData,
-    this.option='',
+    this.option = '',
     this.getproductName,
     this.isProductName,
   });
@@ -215,6 +217,7 @@ class ReportState extends Equatable {
     ApiFetchStatus? isAdded,
     ApiFetchStatus? isCreated,
     CreateOfferResponse? createData,
+    MostSellingResponse? selectCategory,
     List<ProductNameResponse>? getProductName,
     ApiFetchStatus? isProductName,
     ProductNameResponse? selectedProductName,
@@ -288,6 +291,7 @@ class ReportState extends Equatable {
       isAdded: isAdded ?? this.isAdded,
       isCreated: isCreated ?? this.isCreated,
       createData: createData ?? this.createData,
+      selectCategory: selectCategory?? this.selectCategory,
       getproductName: getProductName ?? getproductName,
       isProductName: isProductName ?? this.isProductName,
       selectedProductName: selectedProductName ?? this.selectedProductName,
@@ -359,6 +363,7 @@ class ReportState extends Equatable {
     isAdded,
     isCreated,
     createData,
+    selectCategory,
     getproductName,
     isProductName,
     selectedProductName,

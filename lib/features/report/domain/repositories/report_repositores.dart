@@ -11,7 +11,6 @@ import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_resp
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/kiosk_response/kiosk_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
-import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
@@ -171,9 +170,10 @@ abstract class ReportRepositories {
   Future<ResponseResult<List<ChequestatusResponse>>> loadStatus({
     required int storeId,
   });
-  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
-    required int storeId,
-  });
+  // Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+  //   required int storeId,
+  //   required int categoryId
+  // });
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
     required int pageFirstResult,
     required int resultPerPage,
@@ -215,10 +215,9 @@ abstract class ReportRepositories {
     //int storeId,
   );
 
-  Future<ResponseResult<CreateOfferResponse>> createProductOffer({
-     required CreateOfferResponse? offer,
-    required int storeId,
-  });
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
+    CreateOfferResponse? offer,
+  );
   Future<ResponseResult<List<DeliveryAgentResponse>>> getDeliveryAgent({
     required int deliveryPartnerId,
     required int storeId,

@@ -81,8 +81,9 @@ class ApiEndpoints {
     int catId,
     String search,
     String barCode,
+    int filterId,
   ) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=0&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=0&result_per_page=50';
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=0&result_per_page=500';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
@@ -177,7 +178,7 @@ class ApiEndpoints {
   ) =>
       '/api/mess?page_first_result=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&query=$query&meal_plans_id=$mealPlansId';
 
-  static String sellingProducts(int storeId) =>
+  static String categoryProduct(int storeId) =>
       '/api/category?Admin&store_id=$storeId';
   static String productReport(
     int pageFirstResult,

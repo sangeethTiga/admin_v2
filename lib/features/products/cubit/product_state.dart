@@ -1,6 +1,6 @@
 part of 'product_cubit.dart';
 
- class ProductState extends Equatable {
+class ProductState extends Equatable {
   final ApiFetchStatus? isProduct;
   final List<ProductResponse>? productList;
   final ProductResponse? selectedProduct;
@@ -21,7 +21,12 @@ part of 'product_cubit.dart';
   final String? quantity;
   final String? price;
   final List<Product>? prodList;
+  final List<ProductModel>? allProducts;
+  final List<ProductModel>? filteredProduct;
   final Product? selectProduct;
+  final List<MostSellingResponse>? sellingProductsReport;
+  final ApiFetchStatus? isMostSelling;
+  final MostSellingResponse? selectedProducts;
 
   const ProductState({
     this.isProduct,
@@ -44,7 +49,12 @@ part of 'product_cubit.dart';
     this.price,
     this.quantity,
     this.prodList,
-    this.selectProduct
+    this.selectProduct,
+    this.filteredProduct,
+    this.allProducts,
+     this.isMostSelling,
+    this.sellingProductsReport,
+    this.selectedProducts,
   });
 
   ProductState copyWith({
@@ -68,8 +78,12 @@ part of 'product_cubit.dart';
     String? quantity,
     String? price,
     List<Product>? prodList,
-    Product? selectProduct
-
+    Product? selectProduct,
+    List<ProductModel>? filteredProduct,
+    List<ProductModel>? allProducts,
+      List<MostSellingResponse>? sellingProductsReport,
+    ApiFetchStatus? isMostSelling,
+    MostSellingResponse? selectedProducts,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -88,10 +102,15 @@ part of 'product_cubit.dart';
     selectedStore: selectedStore ?? this.selectedStore,
     updateData: updateData ?? this.updateData,
     name: name ?? this.name,
-    price: price?? this.price,
+    price: price ?? this.price,
     quantity: quantity ?? this.quantity,
     prodList: prodList ?? this.prodList,
-    selectProduct: selectProduct ?? this.selectProduct
+    selectProduct: selectProduct ?? this.selectProduct,
+    filteredProduct: filteredProduct ?? this.filteredProduct,
+    allProducts: allProducts ?? this.allProducts,
+     sellingProductsReport: sellingProductsReport ?? this.sellingProductsReport,
+    isMostSelling: isMostSelling ?? this.isMostSelling,
+    selectedProducts: selectedProducts ?? this.selectedProducts,
   );
 
   @override
@@ -116,7 +135,12 @@ part of 'product_cubit.dart';
     price,
     quantity,
     prodList,
-    selectProduct
+    selectProduct,
+    filteredProduct,
+    allProducts,
+     sellingProductsReport,
+    isMostSelling,
+    selectedProducts,
   ];
 }
 

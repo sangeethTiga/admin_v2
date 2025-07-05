@@ -14,7 +14,6 @@ import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_resp
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/kiosk_response/kiosk_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
-import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
@@ -570,26 +569,26 @@ class ReportService implements ReportRepositories {
     }
   }
 
-  @override
-  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
-    required int storeId,
-  }) async {
-    final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider.get(
-      ApiEndpoints.sellingProducts(storeId),
-    );
-    switch (res.statusCode) {
-      case 200:
-      case 201:
-        return ResponseResult(
-          data: List<MostSellingResponse>.from(
-            res.data.map((e) => MostSellingResponse.fromJson(e)),
-          ).toList(),
-        );
-      default:
-        return ResponseResult(data: []);
-    }
-  }
+  // @override
+  // Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+  //   required int storeId,
+  // }) async {
+  //   final networkProvider = await NetworkProvider.create();
+  //   final res = await networkProvider.get(
+  //     ApiEndpoints.categoryProduct(storeId),
+  //   );
+  //   switch (res.statusCode) {
+  //     case 200:
+  //     case 201:
+  //       return ResponseResult(
+  //         data: List<MostSellingResponse>.from(
+  //           res.data.map((e) => MostSellingResponse.fromJson(e)),
+  //         ).toList(),
+  //       );
+  //     default:
+  //       return ResponseResult(data: []);
+  //   }
+  // }
 
   @override
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
@@ -600,8 +599,8 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required int roleId,
     required int userId,
-    required int categoryId,
     required String searchText,
+    required int categoryId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final user = await AuthUtils.instance.readUserData();
@@ -818,10 +817,9 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<CreateOfferResponse>> createProductOffer({
-    required CreateOfferResponse? offer,
-    required int storeId,
-  }) async {
+  Future<ResponseResult<CreateOfferResponse>> createProductOffer(
+    CreateOfferResponse? offer,
+  ) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.post(

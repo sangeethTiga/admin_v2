@@ -19,6 +19,7 @@ _$EditUpdateResponseImpl _$$EditUpdateResponseImplFromJson(
   productId: (json['product_id'] as num?)?.toInt(),
   maintainStock: (json['maintain_stock'] as num?)?.toInt(),
   productHidden: (json['product_hidden'] as num?)?.toInt(),
+  mainCategoryId: (json['main_category_id'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$$EditUpdateResponseImplToJson(
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$EditUpdateResponseImplToJson(
   'product_id': instance.productId,
   'maintain_stock': instance.maintainStock,
   'product_hidden': instance.productHidden,
+  'main_category_id': instance.mainCategoryId,
 };

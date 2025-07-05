@@ -81,13 +81,13 @@ class CommonService implements CommonRepostories {
   }
 
   @override
-  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+  Future<ResponseResult<List<MostSellingResponse>>> loadProductsCategory({
     required int storeId,
-    required int categoryId,
+   // required int categoryId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
-      ApiEndpoints.sellingProducts(storeId),
+      ApiEndpoints.categoryProduct(storeId),
     );
     switch (res.statusCode) {
       case 200:

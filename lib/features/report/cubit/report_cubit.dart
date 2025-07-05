@@ -11,6 +11,7 @@ import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/mess/mess_report_response.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/products_response.dart';
 import 'package:admin_v2/features/report/domain/models/offers/offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_response.dart';
@@ -936,15 +937,10 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedType: offer));
   }
 
-  Future<void> createProductOffer({
-    required CreateOfferResponse offer,
-   required int?storeId
-  
-  }) async {
+  Future<void> createProductOffer({required CreateOfferResponse offer}) async {
     emit(state.copyWith(isCreated: ApiFetchStatus.loading));
-    final res = await _reportRepositories.createProductOffer(offer: offer, storeId: storeId ?? 0, );
+    final res = await _reportRepositories.createProductOffer(offer);
 
-    log('/////CREATE DATA////: ${res.data}');
     if (res.data != null) {
       emit(state.copyWith(isCreated: ApiFetchStatus.success));
 
@@ -957,44 +953,7 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
-  Future<void> loadProductName({String? query, int? storeId}) async {
-    emit(state.copyWith(isProductName: ApiFetchStatus.loading));
-    final res = await _reportRepositories.getProductName(
-      storeId: storeId ?? 0,
-      query: query ?? '',
-    );
-    if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<ProductNameResponse> fetchedList = rawList.map((element) {
-        if (element is ProductNameResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return ProductNameResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
-
-      emit(
-        state.copyWith(
-          getProductName: res.data,
-          isProductName: ApiFetchStatus.success,
-        ),
-      );
-    }
-  }
-
-  Future<void> loadSelectedName(ProductNameResponse name) async {
-    emit(state.copyWith(selectedProductName: name));
-  }
-
-  Future<void> loadEditOffer(
-    EditOfferResponse editOffer,
-    int productId,
-    // int storeId,
-  ) async {
+  Future<void> loadEditOffer(EditOfferResponse editOffer, int productId) async {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
@@ -1088,13 +1047,13 @@ class ReportCubit extends Cubit<ReportState> {
     final int offset = page * limit;
     emit(state.copyWith(isProductReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadProductReport(
-      roleId: roleId ?? 0,
-      userId: userId ?? 0,
+      pageFirstResult: offset,
+      resultPerPage: limit,
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
-      pageFirstResult: offset,
-      resultPerPage: limit,
+      roleId: roleId ?? 0,
+      userId: userId ?? 0,
       searchText: searchText ?? '',
       categoryId: categoryId ?? 0,
     );
@@ -1109,13 +1068,17 @@ class ReportCubit extends Cubit<ReportState> {
 
       emit(
         state.copyWith(
-          productsReport: newList,
           isProductReport: ApiFetchStatus.success,
+          productsReport: newList,
         ),
       );
       return;
     }
     emit(state.copyWith(isProductReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> changeCategory(MostSellingResponse cate) async {
+    emit(state.copyWith(selectCategory: cate));
   }
 
   Future<void> loadDaySummary({
@@ -1188,6 +1151,39 @@ class ReportCubit extends Cubit<ReportState> {
     // }
 
     emit(state.copyWith(isDaySummary: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadProductName({String? query, int? storeId}) async {
+    emit(state.copyWith(isProductName: ApiFetchStatus.loading));
+    final res = await _reportRepositories.getProductName(
+      storeId: storeId ?? 0,
+      query: query ?? '',
+    );
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<ProductNameResponse> fetchedList = rawList.map((element) {
+        if (element is ProductNameResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return ProductNameResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      emit(
+        state.copyWith(
+          getProductName: res.data,
+          isProductName: ApiFetchStatus.success,
+        ),
+      );
+    }
+  }
+
+  Future<void> loadSelectedName(ProductNameResponse name) async {
+    emit(state.copyWith(selectedProductName: name));
   }
 }
 

@@ -14,6 +14,7 @@ class EditUpdateResponse with _$EditUpdateResponse {
     @JsonKey(name: "product_id") int? productId,
     @JsonKey(name: "maintain_stock") int? maintainStock,
     @JsonKey(name: "product_hidden") int? productHidden,
+    @JsonKey(name: "main_category_id") int? mainCategoryId,
   }) = _EditUpdateResponse;
 
   factory EditUpdateResponse.fromJson(Map<String, dynamic> json) =>

@@ -7,6 +7,7 @@ import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
+import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +26,8 @@ class TaxScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            12.verticalSpace,
+            dividerWidget(height: 6.h),
+            52.verticalSpace,
             BlocBuilder<ReportCubit, ReportState>(
               builder: (context, state) {
                 final taxResponse = state.taxReport;
@@ -41,9 +43,9 @@ class TaxScreen extends StatelessWidget {
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
-                        5.verticalSpace,
+                        3.verticalSpace,
                         Text(
-                          '${taxResponse.totalTaxCollected?.toStringAsFixed(2) ?? 0.00}',
+                         ' ${(taxResponse.totalTaxCollected ?? 0.0).toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
@@ -53,7 +55,7 @@ class TaxScreen extends StatelessWidget {
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
-                        5.verticalSpace,
+                        3.verticalSpace,
                         Text(
                           '${taxResponse.totalTaxPaid?.toStringAsFixed(2) ?? 0.00}',
                           textAlign: TextAlign.center,
@@ -65,7 +67,7 @@ class TaxScreen extends StatelessWidget {
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
-                        5.verticalSpace,
+                        3.verticalSpace,
                         Text(
                           ' ${taxResponse.netPayable?.toStringAsFixed(2) ?? 0.00}',
                           textAlign: TextAlign.center,
@@ -85,33 +87,33 @@ class TaxScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
 
-                        11.verticalSpace,
+                         3.verticalSpace,
                         Text(
-                          '${taxResponse?.totalTaxCollected?.toStringAsFixed(2) ?? 0.00}',
+                            ' ${(taxResponse?.totalTaxCollected ?? 0.00).toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
-                        8.verticalSpace,
+                         28.verticalSpace,
                         Text(
                           'Total Tax Paid',
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
-                        11.verticalSpace,
+                       3.verticalSpace,
                         Text(
-                          '${taxResponse?.totalTaxPaid?.toStringAsFixed(2) ?? 0.00}',
+                          '${(taxResponse?.totalTaxPaid ?? 0.00).toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
-                        8.verticalSpace,
+                         28.verticalSpace,
                         Text(
                           'Net Payable',
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
-                        11.verticalSpace,
+                        3.verticalSpace,
                         Text(
-                          ' ${taxResponse?.netPayable?.toStringAsFixed(2) ?? 0.00}',
+                         '${(taxResponse?.netPayable ?? 0.00).toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),

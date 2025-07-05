@@ -8,6 +8,7 @@ import 'package:admin_v2/features/products/domain/models/stock_status/stock_stat
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
@@ -27,6 +28,7 @@ class ProductCubit extends Cubit<ProductState> {
     int catId,
     String search,
     String barCode,
+    int filterId,
   ) async {
     try {
       emit(state.copyWith(isProduct: ApiFetchStatus.loading));
@@ -36,25 +38,27 @@ class ProductCubit extends Cubit<ProductState> {
         catId: catId,
         search: search,
         barCode: barCode,
+        filterId: state.selectProduct?.filterId,
       );
       if (res.data != null) {
+        final sortList = List<ProductResponse>.from(res.data!);
+        sortList.sort((a, b) => a.productName!.compareTo(b.productName!));
         final product = res.data!;
         final scanned = barCode.isNotEmpty
             ? product.firstWhereOrNull(
                 (p) => (p.barCode?.trim() ?? '') == barCode.trim(),
               )
             : null;
-        log('first-=-=-=-=--${scanned?.productName ?? 'no match'}');
 
         emit(
           state.copyWith(
             isProduct: ApiFetchStatus.success,
             productList: res.data,
-            filteredProducts: res.data,
+            filteredProducts: sortList,
+            //selectProduct:
             scannedProduct: scanned,
           ),
         );
-        print("Scanned Result Count: ${res.data?.length}");
       }
       return;
     } catch (e, s) {
@@ -138,12 +142,14 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> updateProduct(
     EditUpdateResponse updateProduct,
     int productId,
+    int mainCategoryId,
   ) async {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
 
     final res = await _productRepositories.updateProduct(
       updateProduct,
       productId,
+      mainCategoryId,
     );
     if (res.data != null) {
       final updatedProduct = res.data!;
@@ -162,7 +168,7 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectedDate: selectedDate));
   }
 
-  Future<void> changeStore(StoreResponse res)  async {
+  Future<void> changeStore(StoreResponse res) async {
     emit(state.copyWith(selectedStore: res));
   }
 
@@ -188,36 +194,42 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectProduct: productOption));
   }
 
-  Future<void> changeProducType(Product v) async {
-    emit(state.copyWith(selectProduct: v));
+  Future<void> changeProducType(Product product) async {
+    emit(state.copyWith(selectProduct: product));
+    // filterProductListByType(product.filterId);
+    Future<void> changeProducType(Product v) async {
+      emit(state.copyWith(selectProduct: v));
+    }
+
+    void filterProductListByType(int? filterId) {
+      List<ProductModel>? filtered = [];
+
+      switch (filterId) {
+        case 0:
+          filtered = state.allProducts;
+          break;
+        case 1:
+          filtered = state.allProducts?.where((p) => p.stock == 0).toList();
+          break;
+        case 2:
+          filtered = state.allProducts
+              ?.where((p) => p.isHidden == true)
+              .toList();
+          break;
+        case 3:
+          filtered = state.allProducts?.where((p) => p.stock <= 10).toList();
+          break;
+        case 4:
+          filtered = state.allProducts
+              ?.where((p) => p.isVariant == true)
+              .toList();
+          break;
+        // Add other filter cases here as needed
+        default:
+          filtered = state.allProducts;
+      }
+
+      emit(state.copyWith(filteredProduct: filtered));
+    }
   }
-  // Future<void> loadFilteredProducts(Product? filter) async {
-  //   List<Product> allProducts = [
-  //     Product(filterId: 0, name: 'All Products'),
-  //     Product(filterId: 1, name: 'Out of stock products'),
-  //     Product(filterId: 2, name: 'Hidden Products'),
-  //     Product(filterId: 3, name: 'Stock Less than or equal'),
-  //     Product(filterId: 4, name: 'Variant Products'),
-  //     Product(filterId: 5, name: 'Best Selling'),
-  //     Product(filterId: 6, name: 'Featured'),
-  //     Product(filterId: 7, name: 'Not Hidden'),
-  //     Product(filterId: 8, name: 'Purchasable'),
-  //     Product(filterId: 9, name: 'Sellable'),
-  //     Product(filterId: 10, name: 'POS Only'),
-  //   ]; // Original unfiltered list
-  //   List<Product> filtered;
-
-  //   switch (filter?.filterId) {
-  //     case 1: // 'Out of stock products'
-  //       filtered = allProducts.where((p) => p.stock == 0).toList();
-  //       break;
-  //     case 5: // 'Best Selling'
-  //       filtered = allProducts.where((p) => p.isBestSelling).toList();
-  //       break;
-  //     default:
-  //       filtered = allProducts;
-  //   }
-
-  //   emit(state.copyWith(filteredProducts: filtered));
-  // }
 }

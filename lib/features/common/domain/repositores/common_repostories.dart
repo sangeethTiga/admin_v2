@@ -14,8 +14,8 @@ abstract class CommonRepostories {
     required int storeId,
     required int appTypeId,
   });
-  Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
+  Future<ResponseResult<List<MostSellingResponse>>> loadProductsCategory({
     required int storeId,
-    required int categoryId,
+   // required int categoryId,
   });
 }

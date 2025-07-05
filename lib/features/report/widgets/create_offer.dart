@@ -147,7 +147,7 @@ class _CreateOfferState extends State<CreateOffer> {
 
                     onChanged: (p0) {
                       // context.read<ReportCubit>().
-                      context.read<ReportCubit>().loadSelectedName(p0);
+                      // context.read<ReportCubit>().loadSelectedName(p0);
                     },
                     labelText: 'ProductName',
                   );

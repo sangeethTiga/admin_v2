@@ -84,12 +84,15 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedPurchaseType: options));
   }
 
-  Future<void> loadSellingProducts(int? storeId, int? categoryId) async {
+  Future<void> loadProductsCategory(int? storeId,
+   //int? categoryId
+   ) 
+   async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.loadSellingProducts(
+      final res = await _commonRepostories.loadProductsCategory(
         storeId: storeId ?? 0,
-        categoryId: categoryId ?? 0,
+        //categoryId: categoryId ?? 0,
       );
       if (res.data != null) {
         emit(

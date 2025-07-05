@@ -42,9 +42,9 @@ class ProductOffersScreen extends StatelessWidget {
               context.read<ReportCubit>().loadSpecialOffer(
                 storeId: state.selectedType?.storeId,
               );
-              context.read<ReportCubit>().loadProductName(
-                storeId: state.selectedProductName?.storeId,
-              );
+              // context.read<ReportCubit>().loadProductName(
+              //   storeId: state.selectedProductName?.storeId,
+              // );
               final result = await showModalBottomSheet<bool>(
                 context: context,
                 isScrollControlled: true,
