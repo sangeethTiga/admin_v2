@@ -42,38 +42,37 @@ import 'package:injectable/injectable.dart';
 class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<List<SalesReportResponse>>> loadSalesReport({
-    required int storeId,
-    required String type,
-    required String duration,
-    required String paymentMethod,
-    required String waiter,
-    required String shift,
-    required String cashier,
-    required String status,
-    required String kiosks,
-    required String cashe,
-    required String groupBy,
-    required String deliveryPartner,
-    required String isDayClosed,
-    required String fromDate,
-    required String toDate,
+    required int? selectedStoreId,
+    required String? fromDate,
+    required String? toDate,
+    required String? selectedDeliveryAgentId,
+    required String? selectedPaymentMethodId,
+    required String? selectedWaiterId,
+    required String? selectedShiftId,
+    required bool? isDayClosed,
+    required String? selectedCashierId,
+    required String? selectedKIOSK,
+    required String? selectedGroupBy,
+    required int? selectedDuration,
   }) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(
       ApiEndpoints.salesReport(
-        selectedStoreId: storeId,
-        selectedDeliveryPartner: deliveryPartner,
-        selectedPaymentMethods: paymentMethod,
-        selectedWaites: waiter,
-        selectedShifts: shift,
-        isDayClosed: isDayClosed == 'true' ? true : false,
-        selectedCashe: cashe,
-        selectedKIOS: kiosks,
-        selectedGroupBy: groupBy,
-        tempFromDate: fromDate,
+        selectedStoreId: selectedStoreId,
+        fromDate: fromDate,
         toDate: toDate,
-        selectedDuration: duration,
+        isDayClosed: isDayClosed,
+        selectedCashierId: selectedCashierId.toString(),
+        selectedDeliveryAgentId: selectedDeliveryAgentId.toString(),
+        selectedDuration: selectedDuration,
+        selectedGroupBy: selectedGroupBy,
+        selectedKIOSK: selectedKIOSK.toString(),
+        selectedPaymentMethodId: selectedPaymentMethodId.toString(),
+        selectedShiftId: selectedShiftId.toString(),
+        selectedWaiterId: selectedWaiterId.toString(),
+        
+        
       ),
     );
     switch (res.statusCode) {
@@ -797,7 +796,7 @@ class ReportService implements ReportRepositories {
     log(">>> RESPONSE DATA???: ${res.data}");
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
-    switch (res.statusCode) {
+    switch (res. statusCode) {
       case 200:
       case 201:
         dynamic decoded = res.data;

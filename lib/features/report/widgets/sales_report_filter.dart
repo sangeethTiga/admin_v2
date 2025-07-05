@@ -73,22 +73,20 @@ class SalesReportFilter extends StatelessWidget {
                         context.read<DashboardCubit>().monthSelection(p0);
                       },
                     ),
-                    if (state.selectMonth?.id == 5)...[
+                    if (state.selectMonth?.id == 5) ...[
                       10.verticalSpace,
-                       BlocBuilder<ReportCubit, ReportState>(
+                      BlocBuilder<ReportCubit, ReportState>(
                         builder: (context, state) {
                           return Row(
                             children: [
-                                  
-
                               Expanded(
                                 child: DatePickerContainer(
                                   firstDate: state.fromDate ?? DateTime.now(),
                                   labelText: 'Date',
                                   changeDate: (DateTime pickedDate) {
-                                    context.read<DashboardCubit>().changeFromDate(
-                                      pickedDate,
-                                    );
+                                    context
+                                        .read<DashboardCubit>()
+                                        .changeFromDate(pickedDate);
                                   },
                                 ),
                               ),
@@ -107,9 +105,8 @@ class SalesReportFilter extends StatelessWidget {
                           );
                         },
                       ),
-                      
                     ],
-                     
+
                     10.verticalSpace,
 
                     DropDownFieldWidget(
@@ -276,13 +273,15 @@ class SalesReportFilter extends StatelessWidget {
                             items: (groupBy).map((e) {
                               return DropdownMenuItem<Dates>(
                                 value: e,
-                                child: Text(e.title??''),
+                                child: Text(e.title ?? ''),
                               );
                             }).toList(),
                             fillColor: Color(0XFFEFF1F1),
 
                             onChanged: (p0) {
-                              context.read<DashboardCubit>().selectedGroupBy(p0);
+                              context.read<DashboardCubit>().selectedGroupBy(
+                                p0,
+                              );
                             },
                           ),
                         ),
@@ -303,12 +302,28 @@ class SalesReportFilter extends StatelessWidget {
                             textColor: kPrimaryColor,
                           ),
                         ),
-                        Expanded(child: CustomMaterialBtton(onPressed: ()async {
-
-                          context.read<ReportCubit>().loadSalesReport(storeId: state.selectedStore?.storeId,deliveryPartner: state.selectedDeliveryPartner.toString(),paymentMethod: state.selectedPaymethod?.payMethodId.toString(),waiter: state.selectedWaiter?.userId.toString(),shift: state.selectedShift?.id.toString(),cashe:state.selectedCashier?.userId.toString(),kiosks: state.selectedKiosk?.kioskId.toString(),duration: state.selectMonth?.id.toString(),groupBy: state.selectedGroupBy?.id,fromDate:state.fromDate.toString(),toDate: state.toDate.toString()  );
-                        Navigator.pop(context);
-                        
-                        })),
+                        Expanded(
+                          child: CustomMaterialBtton(
+                            onPressed: () async {
+                              
+                              context.read<ReportCubit>().loadSalesReport(
+                                selectedStoreId: state.selectedStore?.storeId,
+                                selectedPaymentMethodId: state
+                                    .selectedPaymethod
+                                    ?.payMethodId.toString(),
+                                selectedWaiterId: state.selectedWaiter?.userId.toString(),
+                                selectedShiftId: state.selectedShift?.id.toString(),
+                                selectedCashierId: state.selectedCashier?.userId.toString(),
+                                selectedKIOSK: state.selectedKiosk?.kioskId.toString(),
+                                selectedDuration: state.selectMonth?.id??0,
+                                selectedGroupBy: state.selectedGroupBy?.id,
+                                fromDate: state.fromDate.toString(),
+                                toDate: state.toDate.toString(),
+                              );
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ],

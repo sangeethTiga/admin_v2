@@ -232,7 +232,7 @@ void _navigateToSales(int storeId, BuildContext context) {
 
     final reportCubit = GetIt.instance<ReportCubit>();
     reportCubit.loadSalesReport(
-      storeId: storeId,
+      selectedStoreId: storeId,
       fromDate: _formatDate(oneYearAgo),
       toDate: _formatDate(now),
     );

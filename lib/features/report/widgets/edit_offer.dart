@@ -228,10 +228,13 @@ class _EditProductOfferState extends State<EditProductOffer> {
                         int.tryParse(discountController.text) ?? 0,
                     storeId: widget.product.storeId ?? 0,
                     productId: widget.product.productId ?? 0,
+
+                    
+                    
                   );
                   await context.read<ReportCubit>().loadEditOffer(
                     editOffer,
-                  //  widget.product.storeId ?? 0,
+            
                     widget.product.productId ?? 0,
                   );
                   context.pop();

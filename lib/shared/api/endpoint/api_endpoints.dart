@@ -6,26 +6,27 @@ class ApiEndpoints {
 
   static String salesReport({
     int? selectedStoreId,
-    String? selectedDeliveryPartner,
-    String? selectedPaymentMethods,
-    String? selectedWaites,
-    String? selectedShifts,
-    bool? isDayClosed,
-    String? selectedCashe,
-    String? selectedKIOS,
-    String? selectedGroupBy,
-    String? tempFromDate,
+    String? fromDate,
     String? toDate,
-    String? selectedDuration,
+    String? selectedDeliveryAgentId,
+    String? selectedPaymentMethodId,
+    String? selectedWaiterId,
+    String? selectedShiftId,
+    bool? isDayClosed,
+    String? selectedCashierId,
+    String? selectedKIOSK,
+    String? selectedGroupBy,
+
+    int? selectedDuration,
   }) {
     var queryStrinng = '';
-    if (tempFromDate != null && toDate != null) {
-      queryStrinng = '&from_date=$tempFromDate&to_date=$toDate';
+    if (selectedDuration == 5) {
+      queryStrinng = '&from_date=$fromDate&to_date=$toDate';
     } else {
-      queryStrinng = '&duration=$selectedDuration';
+      queryStrinng = '&duration=$selectedDuration%20month';
     }
 
-    return "/api/salesReport?store_id=$selectedStoreId$queryStrinng&del_agent_id=$selectedDeliveryPartner&delivery_partner_id=$selectedDeliveryPartner&pay_method_id=$selectedPaymentMethods&waiter_id=$selectedWaites&shift_id=$selectedShifts&day_close_based=${isDayClosed == true ? 1 : 0}&cashier_id=$selectedCashe&kiosk_id=$selectedKIOS&group_by=${selectedGroupBy ?? 'month'}";
+    return "/api/salesReport?store_id=$selectedStoreId$queryStrinng&del_agent_id=$selectedDeliveryAgentId&pay_method_id=$selectedPaymentMethodId&waiter_id=$selectedWaiterId&shift_id=$selectedShiftId&day_close_based=${isDayClosed == true ? 1 : 0}&cashier_id=$selectedCashierId&kiosk_id=$selectedKIOSK&group_by=${selectedGroupBy ?? 'month'}";
   }
 
   static String revenueReport(
@@ -220,7 +221,9 @@ class ApiEndpoints {
   static String specialOffer(int storeId) =>
       '/api/product_offer_type?store_id=20';
   static String editOffer(int productId) => '/api/product_offer/$productId';
-  static String createOffer() => '/api/product_offer/';
+  static String createOffer(
+  
+  ) => '/api/product_offer';
 
   static String getDeliveryAgent(int deliveryPartnerId, int storeId) =>
       '/api/delivery_agent?delivery_partner_id=$deliveryPartnerId&store_id=$storeId';

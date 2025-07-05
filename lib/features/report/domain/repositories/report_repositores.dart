@@ -37,21 +37,19 @@ import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ReportRepositories {
   Future<ResponseResult<List<SalesReportResponse>>> loadSalesReport({
-    required int storeId,
-    required String type,
-    required String duration,
-    required String paymentMethod,
-    required String waiter,
-    required String shift,
-    required String cashier,
-    required String status,
-    required String kiosks,
-    required String cashe,
-    required String groupBy,
-    required String deliveryPartner,
-    required String isDayClosed,
-    required String fromDate,
-    required String toDate,
+      required int? selectedStoreId,
+    required String? fromDate,
+    required String? toDate,
+    required String? selectedDeliveryAgentId,
+    required String? selectedPaymentMethodId,
+    required String? selectedWaiterId,
+    required String? selectedShiftId,
+    required bool? isDayClosed,
+    required String? selectedCashierId,
+    required String? selectedKIOSK,
+    required String? selectedGroupBy,
+
+    required int? selectedDuration,
   });
 
   Future<ResponseResult<List<ReveneReportResponse>>> loadRevenueReport({
