@@ -152,6 +152,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   Future<void> monthSelection(ListOfDemo selectedMonth) async {
+    print('sole-=-=-=-"${selectedMonth.id}');
     emit(state.copyWith(selectMonth: selectedMonth));
   }
 
@@ -245,5 +246,16 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   Future<void> changeToDate(DateTime date) async {
     emit(state.copyWith(toDate: date));
+  }
+  
+  Future<void>clearData()async{
+    emit(state.copyWith(selectedWaiter: WaitersResponse(),
+    selectedShift: ListOfDemo(),
+    selectedCashier: CashierResponse(),
+    selectedKiosk: KioskResponse(),
+    selectMonth: durationMonths.first ,
+    selectedGroupBy: Dates()  ,
+    selectedPaymethod: PaymentMethodResponse()
+    ));
   }
 }
