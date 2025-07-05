@@ -186,10 +186,10 @@ class DashboardScreen extends StatelessWidget {
                       title: Text('Most Selling Products'),
                       leading: Icon(Icons.sell_sharp),
                       onTap: () {
-                        // context.read<ReportCubit>().loadProductReport(
-                        //   storeId: state.selectedStore?.storeId ?? 0,
-                        //   categoryId: state.selectedCategory?.categoryId ?? 0,
-                        // );
+                        context.read<ReportCubit>().loadProductReport(
+                          storeId: state.selectedStore?.storeId ?? 0,
+                          categoryId: 0,
+                        );
                         context.read<CommonCubit>().loadProductsCategory(
                           state.selectedStore?.storeId,
                           //0,

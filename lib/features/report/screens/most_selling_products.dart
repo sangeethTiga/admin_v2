@@ -93,14 +93,19 @@ class MostSellingProducts extends StatelessWidget {
                           ),
                           fillColor: const Color(0XFFEFF1F1),
                           value:
-                              common.sellingProductsReport?.any(
-                                    (e) =>
-                                        e.categoryId ==
-                                        state.selectedCategory?.categoryId,
-                                  ) ==
-                                  true
+                              (common.sellingProductsReport ?? [])
+                                  .map((e) => e.categoryId)
+                                  .contains(state.selectedCategory?.categoryId)
                               ? state.selectedCategory?.categoryId
                               : null,
+                          // common.sellingProductsReport?.any(
+                          //       (e) =>
+                          //           e.categoryId ==
+                          //           state.selectedCategory?.categoryId,
+                          //     ) ==
+                          //     true
+                          // ? state.selectedCategory?.categoryId
+                          // : null,
 
                           // state.selectedProducts,
                           items:
