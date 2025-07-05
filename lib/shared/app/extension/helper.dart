@@ -2,12 +2,20 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
+import 'package:admin_v2/features/common/cubit/common_cubit.dart';
+import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
+import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
+import 'package:admin_v2/features/products/cubit/product_cubit.dart';
+import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/failures/bad_request.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -136,3 +144,141 @@ class Helper {
     }
   }
 }
+
+
+void navigateToFeature(
+  String featureName,
+  BuildContext context, {
+  int? storeId,
+  int? accountId,
+}) {
+  try {
+  
+    final today = _formatDate(DateTime.now());
+
+    switch (featureName) {
+      case 'Product':
+        _navigateToProducts(storeId ?? 0, context);
+      case 'Profit/loss':
+        _navigateToProfitLoss(storeId ?? 0, today, context);
+      case 'Orders':
+        _navigateToOrders(storeId ?? 0, today, context);
+      case 'Sales':
+        _navigateToSales(storeId ?? 0, context);
+      case 'Revenue':
+        _navigateToRevenue(storeId ?? 0, today, context);
+      case 'Expense':
+        _navigateToExpense(storeId ?? 0, accountId ?? 0, today, context);
+      case 'Customers':
+        context.push(routeCustomers);
+      case 'Purchase':
+        _navigateToPurchase(context);
+      case 'Day Summary':
+        context.push(routeDaySummary);
+      default:
+    }
+  } catch (e) {}
+}
+
+String _formatDate(DateTime date) {
+  return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+}
+
+void _navigateToProducts(int storeId, BuildContext context) {
+  try {
+    final productCubit = GetIt.instance<ProductCubit>();
+    productCubit.product(storeId, 0, '', '', 0);
+    productCubit.selectProduct(Product(filterId: 0, name: 'All Products'));
+    productCubit.catgeory(storeId);
+    productCubit.stockStatus();
+    productCubit.clearEvent();
+    context.push(routeProducts);
+  } catch (e) {
+    log('Failed to load products');
+  }
+}
+
+void _navigateToProfitLoss(int storeId, String date, BuildContext context) {
+  try {
+    final reportCubit = GetIt.instance<ReportCubit>();
+    reportCubit.loadProfitAndLoss(
+      storeId: storeId,
+      fromDate: date,
+      toDate: date,
+    );
+    context.push(routeProfitloss);
+  } catch (e) {
+    log('Failed to load report');
+  }
+}
+
+void _navigateToOrders(int storeId, String date, BuildContext context) {
+  try {
+    final orderCubit = GetIt.instance<OrderCubit>();
+    orderCubit.orderStatus();
+    orderCubit.orders(
+      req: OrderRequest(storeId: storeId, fromDate: date, toDate: date),
+    );
+    context.push(routeOrders);
+  } catch (e) {
+    log('Failed to load orders');
+  }
+}
+
+void _navigateToSales(int storeId, BuildContext context) {
+  try {
+    final now = DateTime.now();
+    final oneYearAgo = DateTime(now.year - 1, now.month, now.day);
+
+    final reportCubit = GetIt.instance<ReportCubit>();
+    reportCubit.loadSalesReport(
+      storeId: storeId,
+      fromDate: _formatDate(oneYearAgo),
+      toDate: _formatDate(now),
+    );
+    context.push(routeSale);
+  } catch (e) {}
+}
+
+void _navigateToRevenue(int storeId, String date, BuildContext context) {
+  try {
+    final reportCubit = GetIt.instance<ReportCubit>();
+    reportCubit.loadReveneueReport(
+      storeId: storeId,
+      fromDate: date,
+      toDate: date,
+    );
+    context.push(routeRevenue);
+  } catch (e) {}
+}
+
+void _navigateToExpense(
+  int storeId,
+  int accountId,
+  String date,
+  BuildContext context,
+) {
+  try {
+    final reportCubit = GetIt.instance<ReportCubit>();
+    final dashboardCubit = GetIt.instance<DashboardCubit>();
+
+    reportCubit.loadExpenseReport(
+      accountId: accountId,
+      storeId: storeId,
+      fromDate: date,
+      toDate: date,
+    );
+    dashboardCubit.account();
+    context.push(routeExpense);
+  } catch (e) {}
+}
+
+void _navigateToPurchase(BuildContext context) {
+  try {
+    final commonCubit = GetIt.instance<CommonCubit>();
+    commonCubit.purchaseType();
+    context.push(routePurchase);
+  } catch (e) {}
+}
+
+

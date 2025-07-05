@@ -953,11 +953,7 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
-  Future<void> loadEditOffer(
-    EditOfferResponse editOffer,
-    int productId,
-    // int storeId,
-  ) async {
+  Future<void> loadEditOffer(EditOfferResponse editOffer, int productId) async {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
