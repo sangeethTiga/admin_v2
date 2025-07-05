@@ -71,6 +71,8 @@ class SalesReportScreen extends StatelessWidget {
                         ),
                          IconButton(onPressed: (){
 
+                          context.read<DashboardCubit>().clearData();
+
                           commonnShowBottomSheet(context:context,child:SalesReportFilter());
                           context.read<DashboardCubit>().getDeliveryAgent();
                           context.read<DashboardCubit>().getPaymethod();
@@ -124,7 +126,7 @@ class SalesReportScreen extends StatelessWidget {
                     return CustomMaterialBtton(
                       onPressed: () {
                         context.read<ReportCubit>().loadSalesReport(
-                          storeId: state.selectedStore?.storeId,
+                          selectedStoreId: state.selectedStore?.storeId,
                         );
                       },
                       buttonText: 'View Report',

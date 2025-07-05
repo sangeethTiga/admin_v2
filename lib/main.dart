@@ -27,10 +27,11 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (context) => getIt<AuthCubit>()),
         BlocProvider(create: (context) => getIt<CommonCubit>()),
+           BlocProvider(create: (cotext)=> getIt<DashboardCubit>()),
         BlocProvider(create: (context) => getIt<ReportCubit>(),child: TaxScreen(),),
         BlocProvider(create: (context) => getIt<OrderCubit>()),
         BlocProvider(create: (context) => getIt<ProductCubit>()),
-        BlocProvider(create: (cotext)=> getIt<DashboardCubit>())
+     
       ],
       child: MyApp(),
     ),
