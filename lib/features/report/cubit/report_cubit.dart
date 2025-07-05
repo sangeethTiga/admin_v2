@@ -1148,6 +1148,39 @@ class ReportCubit extends Cubit<ReportState> {
 
     emit(state.copyWith(isDaySummary: ApiFetchStatus.failed));
   }
+
+  Future<void> loadProductName({String? query, int? storeId}) async {
+    emit(state.copyWith(isProductName: ApiFetchStatus.loading));
+    final res = await _reportRepositories.getProductName(
+      storeId: storeId ?? 0,
+      query: query ?? '',
+    );
+    if (res.data != null) {
+      final List<dynamic> rawList = res.data!;
+      final List<ProductNameResponse> fetchedList = rawList.map((element) {
+        if (element is ProductNameResponse) {
+          return element;
+        } else if (element is Map<String, dynamic>) {
+          return ProductNameResponse.fromJson(element);
+        } else {
+          throw Exception(
+            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+          );
+        }
+      }).toList();
+
+      emit(
+        state.copyWith(
+          getProductName: res.data,
+          isProductName: ApiFetchStatus.success,
+        ),
+      );
+    }
+  }
+
+  Future<void> loadSelectedName(ProductNameResponse name) async {
+    emit(state.copyWith(selectedProductName: name));
+  }
 }
 
     // if (res.data != null) {

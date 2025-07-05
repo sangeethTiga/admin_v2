@@ -107,7 +107,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 0,
                                 '',
                                 '',
-                                0
+                                0,
                               );
                             },
                             labelText: '',
@@ -149,13 +149,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                               true
                                           ? state.selectProduct
                                           : null,
-                                      // state.productList?.contains(
-                                      //       state.selectProduct,
-                                      //     ) ==
-                                      //     true
-                                      // ? state.selectProduct
-                                      // : null,
-                                      // state.selectProduct,
+
                                       items:
                                           products.map((value) {
                                             return DropdownMenuItem<Product>(
@@ -198,7 +192,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                           selected?.filterId ?? 0,
                                           '',
                                           '',
-                                          0
+                                          0,
                                         );
                                       },
                                     );
@@ -217,7 +211,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       ApiFetchStatus.loading,
                                   hintStyle: FontPalette.hW500S14,
                                   labelText: 'Select category',
-                              
+
                                   borderColor: kBlack,
                                   value:
                                       state.categoryList?.any(
@@ -264,7 +258,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       selectedCategory.details?.categoryId ?? 0,
                                       '',
                                       '',
-                                      0
+                                      0,
                                     );
                                   },
                                   inputBorder: OutlineInputBorder(
@@ -343,7 +337,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                 0,
                                 '',
                                 scannedCode,
-                                0
+                                0,
                               );
                             }
                           },

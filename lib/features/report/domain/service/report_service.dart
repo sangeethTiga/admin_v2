@@ -796,7 +796,7 @@ class ReportService implements ReportRepositories {
     log(">>> RESPONSE DATA???: ${res.data}");
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
-    switch (res.statusCode) {
+    switch (res. statusCode) {
       case 200:
       case 201:
         dynamic decoded = res.data;
