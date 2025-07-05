@@ -67,43 +67,62 @@ class PurchaseScreen extends StatelessWidget {
                 12.horizontalSpace,
 
                 BlocBuilder<CommonCubit, CommonState>(
-                  builder: (context, state) {
-                    return DropDownFieldWidget(
-                      isLoading: false,
-                      prefixIcon: Container(
-                        margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      borderColor: kBlack,
-                      value:
-                          state.purchaseType?.contains(
-                                state.selectedPurchaseType,
-                              ) ==
-                              true
-                          ? state.selectedPurchaseType
-                          : null,
-                      items:
-                          state.purchaseType?.map((value) {
-                            return DropdownMenuItem<PurchaseType>(
-                              value: value,
-                              child: Text(value.name ?? ''),
+                  builder: (context, common) {
+                    return BlocBuilder<DashboardCubit, DashboardState>(
+                      builder: (context, state) {
+                        return DropDownFieldWidget(
+                          isLoading: false,
+                          prefixIcon: Container(
+                            margin: EdgeInsets.only(left: 12.w),
+                            child: SvgPicture.asset(
+                              'assets/icons/package-box-pin-location.svg',
+                              width: 20.w,
+                              height: 20.h,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          borderColor: kBlack,
+                          labelText: 'Purchase type',
+                          value:
+                              common.purchaseType?.any(
+                                    (e) =>
+                                        e.id == state.selectedPurchaseType?.id,
+                                  ) ==
+                                  true
+                              ? state.selectedPurchaseType
+                              : null,
+                          items:
+                              purchaseTypes.map((value) {
+                                return DropdownMenuItem<PurchaseType>(
+                                  value: value,
+                                  child: Text(value.name ?? ''),
+                                );
+                              }).toList() ??
+                              [],
+
+                          fillColor: const Color(0XFFEFF1F1),
+
+                          // suffixWidget: SvgPicture.asset(
+                          //   'assets/icons/Arrow - Right.svg',
+                          // ),
+                          onChanged: (purchase) {
+                            final selected = common.purchaseType?.firstWhere(
+                              (e) => e.id == purchase.id,
                             );
-                          }).toList() ??
-                          [],
-
-                      fillColor: const Color(0XFFEFF1F1),
-                      suffixWidget: SvgPicture.asset(
-                        'assets/icons/Arrow - Right.svg',
-                      ),
-
-                      onChanged: (p0) {
-                        context.read<CommonCubit>().selectedPurchase(p0);
-                        //context.read<ReportCubit>().changePucrhaeType(p0);
+                            context.read<CommonCubit>().selectedPurchase(
+                              purchase,
+                            );
+                            context.read<ReportCubit>().changePucrhaeType(
+                              purchase,
+                            );
+                            context.read<ReportCubit>().loadPurchaseReport(
+                              storeId: state.selectedStore?.storeId,
+                              fromDate: '',
+                              toDate: '',
+                              purchaseType: selected?.id ?? 0,
+                            );
+                          },
+                        );
                       },
                     );
                   },
@@ -148,7 +167,7 @@ class PurchaseScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadPurchaseReport(
                           storeId: state.selectedStore?.storeId,
-                          // purchaseType: state.selectedPurchaseType?.id,
+                           purchaseType: state.selectedPurchaseType?.id,
                         );
                       },
                       buttonText: 'View Report',

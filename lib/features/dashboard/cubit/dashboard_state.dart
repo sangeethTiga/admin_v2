@@ -13,23 +13,27 @@ class DashboardState extends Equatable {
   final List<AccountDataResponse>? accountList;
   final OptionResponse? selectedOption;
   final MostSellingResponse? selectedCategory;
+  final ApiFetchStatus? isMostSelling;
   final PurchaseType? selectedPurchaseType;
   final ListOfDemo? selectMonth;
   final ListOfDemo? selectedShift;
   final List<DeliveryAgentResponse>? deliveryAgents;
   final int? selectedDeliveryPartner;
   final DeliveryAgentResponse? selectedDeliveryAgent;
-  final List <PaymentMethodResponse>?paymethodList;
-  final PaymentMethodResponse ? selectedPaymethod;
+  final List<PaymentMethodResponse>? paymethodList;
+  final PaymentMethodResponse? selectedPaymethod;
   final List<WaitersResponse>? waitersList;
-  final WaitersResponse ?selectedWaiter;
-  final List<KioskResponse>?kioskList;
+  final WaitersResponse? selectedWaiter;
+  final List<KioskResponse>? kioskList;
   final KioskResponse? selectedKiosk;
-  final List<CashierResponse>?cashierList;
-  final CashierResponse?selectedCashier;
+  final List<CashierResponse>? cashierList;
+  final CashierResponse? selectedCashier;
   final Dates? selectedGroupBy;
-   final DateTime? fromDate;
+  final DateTime? fromDate;
   final DateTime? toDate;
+  final List<MostSellingResponse>? sellingProductsReport;
+  
+  final MostSellingResponse? selectedProducts;
   const DashboardState({
     this.isRevenueGraph,
     this.revenueReport,
@@ -58,8 +62,12 @@ class DashboardState extends Equatable {
     this.cashierList,
     this.selectedCashier,
     this.selectedGroupBy,
-       this.fromDate,
+    this.fromDate,
     this.toDate,
+    this.isMostSelling,
+     
+    this.sellingProductsReport,
+    this.selectedProducts,
   });
 
   DashboardState copyWith({
@@ -75,25 +83,29 @@ class DashboardState extends Equatable {
     AccountDataResponse? selectedAccount,
     List<AccountDataResponse>? accountList,
     OptionResponse? selectedOption,
-    MostSellingResponse? selectedProducts,
+    MostSellingResponse? selectedCategory,
     PurchaseType? selectedPurchaseType,
     ListOfDemo? selectMonth,
     List<DeliveryAgentResponse>? deliveryAgents,
 
     int? selectedDeliveryPartner,
     DeliveryAgentResponse? selectedDeliveryAgent,
-    List <PaymentMethodResponse>?paymethodList,
-     PaymentMethodResponse ? selectedPaymethod,
-     List<WaitersResponse>? waitersList,
-     WaitersResponse ?selectedWaiter,
-      List<KioskResponse>?kioskList,
-      ListOfDemo? selectedShift,
-  KioskResponse? selectedKiosk,
-  List<CashierResponse> ?cashierList,
-  CashierResponse?selectedCashier,
-  Dates? selectedGroupBy,
-   DateTime? fromDate,
+    List<PaymentMethodResponse>? paymethodList,
+    PaymentMethodResponse? selectedPaymethod,
+    List<WaitersResponse>? waitersList,
+    WaitersResponse? selectedWaiter,
+    List<KioskResponse>? kioskList,
+    ListOfDemo? selectedShift,
+    KioskResponse? selectedKiosk,
+    List<CashierResponse>? cashierList,
+    CashierResponse? selectedCashier,
+    Dates? selectedGroupBy,
+    DateTime? fromDate,
     DateTime? toDate,
+       List<MostSellingResponse>? sellingProductsReport,
+    ApiFetchStatus? isMostSelling,
+    MostSellingResponse? selectedProducts,
+  
   }) {
     return DashboardState(
       isRevenueGraph: isRevenueGraph ?? this.isRevenueGraph,
@@ -107,7 +119,7 @@ class DashboardState extends Equatable {
       selectedAccount: selectedAccount ?? this.selectedAccount,
       accountList: accountList ?? this.accountList,
       selectedOption: selectedOption ?? this.selectedOption,
-      selectedCategory: selectedProducts ?? this.selectedCategory,
+      selectedCategory: selectedCategory ?? this.selectedCategory,
       selectedPurchaseType: selectedPurchaseType ?? this.selectedPurchaseType,
       selectMonth: selectMonth ?? this.selectMonth,
       deliveryAgents: deliveryAgents ?? this.deliveryAgents,
@@ -115,18 +127,22 @@ class DashboardState extends Equatable {
           selectedDeliveryPartner ?? this.selectedDeliveryPartner,
       selectedDeliveryAgent:
           selectedDeliveryAgent ?? this.selectedDeliveryAgent,
-          paymethodList: paymethodList ?? this.paymethodList,
-          selectedPaymethod: selectedPaymethod ?? this.selectedPaymethod,
-          waitersList: waitersList ??this.waitersList,
-          selectedWaiter: selectedWaiter ??this.selectedWaiter,
-          kioskList: kioskList ?? this.kioskList,
-          selectedKiosk: selectedKiosk ??this.selectedKiosk,
-          selectedShift: selectedShift ??this.selectedShift,
-          cashierList: cashierList??this.cashierList,
-          selectedCashier: selectedCashier??this.selectedCashier,
-          selectedGroupBy: selectedGroupBy ?? this.selectedGroupBy,
-            fromDate: fromDate ?? this.fromDate,
+      paymethodList: paymethodList ?? this.paymethodList,
+      selectedPaymethod: selectedPaymethod ?? this.selectedPaymethod,
+      waitersList: waitersList ?? this.waitersList,
+      selectedWaiter: selectedWaiter ?? this.selectedWaiter,
+      kioskList: kioskList ?? this.kioskList,
+      selectedKiosk: selectedKiosk ?? this.selectedKiosk,
+      selectedShift: selectedShift ?? this.selectedShift,
+      cashierList: cashierList ?? this.cashierList,
+      selectedCashier: selectedCashier ?? this.selectedCashier,
+      selectedGroupBy: selectedGroupBy ?? this.selectedGroupBy,
+      fromDate: fromDate ?? this.fromDate,
       toDate: toDate ?? this.toDate,
+    
+       sellingProductsReport: sellingProductsReport ?? this.sellingProductsReport,
+    isMostSelling: isMostSelling ?? this.isMostSelling,
+    selectedProducts: selectedProducts ?? this.selectedProducts,
     );
   }
 
@@ -159,9 +175,11 @@ class DashboardState extends Equatable {
     cashierList,
     selectedCashier,
     selectedGroupBy,
-     fromDate,
+    fromDate,
     toDate,
-    
+     sellingProductsReport,
+    isMostSelling,
+    selectedProducts,
   ];
 }
 

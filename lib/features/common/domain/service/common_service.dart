@@ -8,7 +8,6 @@ import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: CommonRepostories)
@@ -80,25 +79,5 @@ class CommonService implements CommonRepostories {
     throw UnimplementedError();
   }
 
-  @override
-  Future<ResponseResult<List<MostSellingResponse>>> loadProductsCategory({
-    required int storeId,
-   // required int categoryId,
-  }) async {
-    final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider.get(
-      ApiEndpoints.categoryProduct(storeId),
-    );
-    switch (res.statusCode) {
-      case 200:
-      case 201:
-        return ResponseResult(
-          data: List<MostSellingResponse>.from(
-            res.data.map((e) => MostSellingResponse.fromJson(e)),
-          ).toList(),
-        );
-      default:
-        return ResponseResult(data: []);
-    }
-  }
+
 }

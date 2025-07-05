@@ -1,9 +1,9 @@
 import 'package:admin_v2/features/dashboard/domain/models/Ordergraph/orders_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/models/revenueGraph/revenue_graph_response.dart';
 import 'package:admin_v2/features/dashboard/domain/repositories/dashboard_repositories.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
-
 import 'package:admin_v2/shared/utils/result.dart';
 import 'package:injectable/injectable.dart';
 
@@ -65,6 +65,28 @@ class DashboardService implements DashboardRepositories {
         return ResponseResult(
           data: List<RevenueResponse>.from(
             res.data.map((e) => RevenueResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<List<MostSellingResponse>>> loadProductsCategory({
+    required int storeId,
+    // required int categoryId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.categoryProduct(storeId),
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<MostSellingResponse>.from(
+            res.data.map((e) => MostSellingResponse.fromJson(e)),
           ).toList(),
         );
       default:

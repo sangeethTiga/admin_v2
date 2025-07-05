@@ -519,9 +519,10 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       pageFirstLimit: offset,
       resultPerPage: limit,
-      purchaseType: (state.selectedPurchaseType is int)
-          ? state.selectedPurchaseType as int
-          : purchaseType ?? 0,
+      purchaseType: state.selectedPurchaseType?.id ?? 0,
+      // (state.selectedPurchaseType is int)
+      //     ? state.selectedPurchaseType as int
+      //     : purchaseType ?? 0,
     );
     // print('purchase:${res.data}');
 
@@ -1045,6 +1046,7 @@ class ReportCubit extends Cubit<ReportState> {
       );
     }
     final int offset = page * limit;
+
     emit(state.copyWith(isProductReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadProductReport(
       pageFirstResult: offset,
@@ -1055,16 +1057,14 @@ class ReportCubit extends Cubit<ReportState> {
       roleId: roleId ?? 0,
       userId: userId ?? 0,
       searchText: searchText ?? '',
-      categoryId: categoryId ?? 0,
+      categoryId: state.selectCategory?.categoryId,
     );
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<ProductsResponse> fetchedList = res.data!;
-
       final List<ProductsResponse> newList = isLoadMore
-          ? <ProductsResponse>[...?state.productsReport, ...fetchedList]
-          : fetchedList;
+          ? <ProductsResponse>[...?state.productsReport, ...res.data!]
+          : res.data!;
 
       emit(
         state.copyWith(
@@ -1185,6 +1185,14 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> loadSelectedName(ProductNameResponse name) async {
     emit(state.copyWith(selectedProductName: name));
   }
+
+  Future<void> clearCategories() async {
+    emit(state.copyWith(selectCategory: MostSellingResponse()));
+  }
+
+  // Future<void> clearSelectedCategory() async {
+  //   emit(state.copyWith(selectCategory: null));
+  // }
 }
 
     // if (res.data != null) {

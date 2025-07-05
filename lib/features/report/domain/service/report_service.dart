@@ -592,15 +592,15 @@ class ReportService implements ReportRepositories {
 
   @override
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
-    required int pageFirstResult,
-    required int resultPerPage,
-    required int storeId,
-    required String fromDate,
-    required String toDate,
-    required int roleId,
-    required int userId,
-    required String searchText,
-    required int categoryId,
+     int? pageFirstResult,
+     int? resultPerPage,
+     int?storeId,
+     String? fromDate,
+     String?toDate,
+     int? roleId,
+     int? userId,
+     String? searchText,
+     int? categoryId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final user = await AuthUtils.instance.readUserData();
@@ -608,15 +608,15 @@ class ReportService implements ReportRepositories {
     final int roleId = user?.user?.userRoleId ?? 0;
     final res = await networkProvider.get(
       ApiEndpoints.productReport(
-        pageFirstResult,
-        resultPerPage,
-        storeId,
-        fromDate,
-        toDate,
+        pageFirstResult ??0,
+        resultPerPage ??0,
+        storeId?? 0,
+        fromDate ??'',
+        toDate ??'',
         roleId,
         userId,
-        searchText,
-        categoryId,
+        searchText ?? '',
+        categoryId ?? 0,
       ),
     );
     switch (res.statusCode) {
