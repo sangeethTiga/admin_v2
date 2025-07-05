@@ -209,8 +209,8 @@ abstract class ReportRepositories {
   });
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse req,
-    int productId,
-    //int storeId,
+    int? productId,
+    int? storeId,
   );
 
   Future<ResponseResult<CreateOfferResponse>> createProductOffer(

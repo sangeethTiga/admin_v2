@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
@@ -19,7 +20,7 @@ class ProductService implements ProductRepositories {
     int? catId,
     String? search,
     String? barCode,
-    int? filterId
+    int? filterId,
   }) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -29,7 +30,7 @@ class ProductService implements ProductRepositories {
         catId ?? 0,
         search ?? '',
         barCode ?? '',
-        filterId ?? 0
+        filterId ?? 0,
       ),
     );
     switch (res.statusCode) {
@@ -46,7 +47,7 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<List<StockStatusResponse>>> stockStatus() async {
+  Future<ResponseResult<List<StockStatusResponse>>>stockStatus() async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(ApiEndpoints.stockStatus);
@@ -101,11 +102,10 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<EditUpdateResponse>>updateProduct(
+  Future<ResponseResult<EditUpdateResponse>> updateProduct(
     EditUpdateResponse? request,
     int? productId,
-    int? mainCategoryId
-  
+    int? mainCategoryId,
   ) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.post(
@@ -115,7 +115,6 @@ class ProductService implements ProductRepositories {
     switch (res.statusCode) {
       case 200:
       case 201:
-        
         dynamic decoded = res.data;
         if (res.data is String) {
           decoded = jsonDecode(res.data);
@@ -133,20 +132,21 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<List<VariantsResponse>>> getVariant(int productId) async{
+  Future<ResponseResult<List<VariantsResponse>>> getVariant(
+    int productId,
+  ) async {
     final networkProvider = await NetworkProvider.create();
-    final res=await networkProvider.get(ApiEndpoints.getVariant(productId));
-    switch(res.statusCode){
+    final res = await networkProvider.get(ApiEndpoints.getVariant(productId));
+    switch (res.statusCode) {
       case 200:
       case 201:
-      return ResponseResult(data: List<VariantsResponse>.from(
-        res.data.map((e) => VariantsResponse.fromJson(e)),
+        return ResponseResult(
+          data: List<VariantsResponse>.from(
+            res.data.map((e) => VariantsResponse.fromJson(e)),
           ).toList(),
         );
       default:
         return ResponseResult(data: []);
     }
   }
-
-  }
-
+}

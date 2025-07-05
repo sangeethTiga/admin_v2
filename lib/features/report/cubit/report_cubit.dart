@@ -937,6 +937,7 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> createProductOffer({required CreateOfferResponse offer}) async {
     emit(state.copyWith(isCreated: ApiFetchStatus.loading));
     final res = await _reportRepositories.createProductOffer(offer);
+    log('LOAD DATA/////: ${res.data}');
 
     if (res.data != null) {
       emit(state.copyWith(isCreated: ApiFetchStatus.success));
@@ -950,24 +951,29 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
-  Future<void> loadEditOffer(EditOfferResponse editOffer, int productId) async {
+  Future<void> loadEditOffer(
+    EditOfferResponse editOffer,
+    int productId,
+    int storeId,
+  ) async {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
       productId,
-      // storeId,
+      storeId,
     );
     log('EDIT DATA/////: ${res.data}');
 
     if (res.data != null) {
-      // final updatedProduct = res.data!;
+      final updatedProduct = res.data!;
       emit(
         state.copyWith(isAdded: ApiFetchStatus.success, editData: editOffer),
       );
 
       return;
+    } else {
+      emit(state.copyWith(isAdded: ApiFetchStatus.failed));
     }
-    emit(state.copyWith(isAdded: ApiFetchStatus.failed));
   }
 
   Future<void> loadSuppliersReport({
@@ -1154,6 +1160,7 @@ class ReportCubit extends Cubit<ReportState> {
     final res = await _reportRepositories.getProductName(
       storeId: storeId ?? 0,
       query: query ?? '',
+      
     );
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
@@ -1178,8 +1185,8 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
-  Future<void> loadSelectedName(ProductNameResponse name) async {
-    emit(state.copyWith(selectedProductName: name));
+  void loadSelectedName(ProductNameResponse product) {
+    emit(state.copyWith(selectedProductName: product));
   }
 
   Future<void> clearCategories() async {
