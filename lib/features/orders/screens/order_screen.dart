@@ -30,496 +30,29 @@ class OrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'New Orders'),
+      appBar: const AppbarWidget(title: 'New Orders'),
       body: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
+          log("STATUS LENGTH 1=-= -${state.statusList?.length}");
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 dividerWidget(height: 6.h),
                 8.verticalSpace,
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, common) {
-                    return SizedBox(
-                      height: 60.h,
-                      child: ListView.builder(
-                        padding: EdgeInsets.only(left: 12.w),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: state.statusList?.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, i) {
-                          return GestureDetector(
-                            onTap: () {
-                              context.read<OrderCubit>().chnageStatus(
-                                state.statusList?[i] ?? OrderStatusResponse(),
-                              );
-                              context.read<OrderCubit>().orders(
-                                req: OrderRequest(
-                                  orderStatusId:
-                                      state.statusList?[i].orderStatusId,
-                                  storeId: common.selectedStore?.storeId,
-                                  fromDate: parsedDate(
-                                    state.fromDate ?? DateTime.now(),
-                                  ),
-                                  toDate: parsedDate(
-                                    state.toDate ?? DateTime.now(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(right: 8.w),
-                              height: 40.h,
-                              width: 106.w,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color:
-                                      state.selectedOrder?.orderStatusId ==
-                                          state.statusList?[i].orderStatusId
-                                      ? kPrimaryColor
-                                      : kLightBorderColor,
-                                ),
-                                color:
-                                    state.selectedOrder?.orderStatusId ==
-                                        state.statusList?[i].orderStatusId
-                                    ? kPrimaryColor
-                                    : kWhite,
-                                borderRadius: BorderRadius.circular(44.r),
-                              ),
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                state.statusList?[i].orderStatusName ?? '',
-                                style: FontPalette.hW700S13.copyWith(
-                                  color:
-                                      state.selectedOrder?.orderStatusId ==
-                                          state.statusList?[i].orderStatusId
-                                      ? kWhite
-                                      : kBlack,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
+                _buildStatusFilterSection(),
                 4.verticalSpace,
-                Divider(),
+                const Divider(),
                 MainPadding(
                   child: Column(
                     children: [
                       5.verticalSpace,
-                      BlocBuilder<DashboardCubit, DashboardState>(
-                        builder: (context, state) {
-                          return DropDownFieldWidget(
-                            isLoading:
-                                state.apiFetchStatus == ApiFetchStatus.loading,
-                            prefixIcon: Container(
-                              margin: EdgeInsets.only(left: 12.w),
-                              child: SvgPicture.asset(
-                                'assets/icons/package-box-pin-location.svg',
-                                width: 20.w,
-                                height: 20.h,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            borderColor: kBlack,
-                            value: state.selectedStore,
-                            items:
-                                state.storeList?.map((e) {
-                                  return DropdownMenuItem<StoreResponse>(
-                                    value: e,
-                                    child: Text(e.storeName ?? ''),
-                                  );
-                                }).toList() ??
-                                [],
-                            fillColor: const Color(0XFFEFF1F1),
-                            // suffixWidget: SvgPicture.asset(
-                            //   'assets/icons/Arrow - Right.svg',
-                            // ),
-                            onChanged: (p0) {
-                              context.read<DashboardCubit>().selectedStore(p0);
-                              context.read<OrderCubit>().orders(
-                                req: OrderRequest(
-                                  storeId: state.selectedStore?.storeId,
-                                  fromDate: parsedDate(DateTime.now()),
-                                  toDate: parsedDate(DateTime.now()),
-                                ),
-                              );
-                            },
-
-                            // fillColor: Color(0XFFEFF1F1),
-                            // suffixWidget: Padding(
-                            //   padding: const EdgeInsets.all(15.0),
-                            //   child: SvgPicture.asset(
-                            //     'assets/icons/Arrow - Right.svg',
-                            //   ),
-                            // ),
-                            labelText: '',
-                          );
-                        },
-                      ),
+                      _buildStoreDropdown(),
                       4.verticalSpace,
-                      Container(
-                        height: 125.h,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: kLightBorderColor),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: BlocBuilder<DashboardCubit, DashboardState>(
-                          builder: (context, common) {
-                            return Column(
-                              children: [
-                                Row(
-                                  children: mapItems.map((item) {
-                                    return BlocBuilder<OrderCubit, OrderState>(
-                                      builder: (context, state) {
-                                        final isSelected = state.selectedIds
-                                            ?.contains(item.id);
-
-                                        return Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 4.w,
-                                            right: 4.w,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Checkbox(
-                                                materialTapTargetSize:
-                                                    MaterialTapTargetSize
-                                                        .shrinkWrap,
-
-                                                side: BorderSide(
-                                                  color: Color(0xFFCBD7D4),
-                                                  width: 1.5,
-                                                ),
-                                                activeColor: kPrimaryColor,
-                                                shape: const CircleBorder(),
-                                                value: isSelected ?? false,
-                                                onChanged: (v) {
-                                                  context
-                                                      .read<OrderCubit>()
-                                                      .ordersDatesEvent(
-                                                        item.id,
-                                                      );
-
-                                                  context
-                                                      .read<OrderCubit>()
-                                                      .orders(
-                                                        req: OrderRequest(
-                                                          filterId:
-                                                              state.selectedIds,
-                                                          storeId: common
-                                                              .selectedStore
-                                                              ?.storeId,
-                                                          fromDate: parsedDate(
-                                                            DateTime.now(),
-                                                          ),
-                                                          toDate: parsedDate(
-                                                            DateTime.now(),
-                                                          ),
-                                                        ),
-                                                      );
-                                                  log(
-                                                    "What ans this = -=- =- ${state.selectedIds?.length}",
-                                                  );
-                                                },
-                                              ),
-                                              Text(
-                                                item.title,
-                                                style: FontPalette.hW500S12,
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }).toList(),
-                                ),
-                                7.verticalSpace,
-                                // SingleChildScrollView(
-                                //   scrollDirection: Axis.horizontal,
-                                //   child: Row(
-                                //     children: [
-                                //       _rowCheckBox('Order date', (v) {}, true),
-                                //       _rowCheckBox('Delivery date', (v) {}, true),
-                                //       _rowCheckBox('Pick Up date', (v) {}, true),
-                                //     ],
-                                //   ),
-                                // ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 10.w,
-                                    right: 5.w,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: DatePickerContainer(
-                                          firstDate:
-                                              state.fromDate ?? DateTime.now(),
-
-                                          hintText: '',
-                                          changeDate: (DateTime pickedDate) {
-                                            context
-                                                .read<OrderCubit>()
-                                                .chnageFromDate(pickedDate);
-                                            context.read<OrderCubit>().orders(
-                                              req: OrderRequest(
-                                                filterId: state.selectedIds,
-                                                storeId: common
-                                                    .selectedStore
-                                                    ?.storeId,
-                                                fromDate: parsedDate(
-                                                  DateTime.now(),
-                                                ),
-                                                toDate: parsedDate(
-                                                  DateTime.now(),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      8.horizontalSpace,
-                                      Expanded(
-                                        child: DatePickerContainer(
-                                          firstDate:
-                                              state.toDate ?? DateTime.now(),
-                                          hintText: '',
-                                          changeDate: (DateTime pickedDate) {
-                                            context
-                                                .read<OrderCubit>()
-                                                .chnageToDate(pickedDate);
-                                            context.read<OrderCubit>().orders(
-                                              req: OrderRequest(
-                                                filterId: state.selectedIds,
-                                                storeId: common
-                                                    .selectedStore
-                                                    ?.storeId,
-                                                fromDate: parsedDate(
-                                                  DateTime.now(),
-                                                ),
-                                                toDate: parsedDate(
-                                                  DateTime.now(),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      8.horizontalSpace,
-                                      Container(
-                                        width: 39.w,
-                                        height: 44.h,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            8.r,
-                                          ),
-                                          border: Border.all(
-                                            color: kPrimaryColor,
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/Frame 2147226159.svg',
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                      _buildFilterContainer(state),
                       12.verticalSpace,
-                      if (state.isLoading == ApiFetchStatus.loading) ...{
-                        shimmerOrderCard(),
-                      } else if (state.orderList?.isEmpty ?? false) ...{
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 110.h),
-                            child: Text(
-                              'No orders found!',
-                              style: FontPalette.hW700S13,
-                            ),
-                          ),
-                        ),
-                      } else ...{
-                        ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: state.orderList?.length,
-                          itemBuilder: (context, i) {
-                            final data = state.orderList?[i];
-
-                            final dateTime = DateFormat(
-                              "dd-MMM-yyyy hh:mm:ss a",
-                            ).parse(data?.orderDate ?? '');
-
-                            final timeOnly = DateFormat(
-                              "hh:mm a",
-                            ).format(dateTime);
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 12.h),
-                              width: 351.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.r),
-                                color: kWhite,
-                                border: Border.all(color: kLightBorderColor),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 12.w,
-                                      top: 12.h,
-                                      right: 16.w,
-                                      bottom: 6.h,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Order: #${data?.prodOrderId}',
-                                          style: FontPalette.hW700S13.copyWith(
-                                            color: kBlack,
-                                          ),
-                                        ),
-                                        Spacer(),
-
-                                        3.horizontalSpace,
-                                        Text(
-                                          'Delivery',
-                                          style: FontPalette.hW700S14.copyWith(
-                                            color: kPrimaryColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  dividerWidget(color: kLightBorderColor),
-                                  10.verticalSpace,
-                                  _rowWidget(
-                                    isPrimary: true,
-                                    label: 'Customer name',
-                                    label1: "Mobile number",
-                                    name: data?.billCustName ?? 'N/A',
-                                    name2: data?.billMobile ?? 'N/A',
-                                  ),
-                                  16.verticalSpace,
-                                  _rowWidget(
-                                    label: 'Date',
-                                    label1: "Time",
-                                    name:
-                                        data?.orderDate?.substring(0, 10) ?? '',
-                                    name2: timeOnly,
-                                  ),
-                                  10.verticalSpace,
-
-                                  _containerWidget(
-                                    name: 'Total :',
-                                    status: ' AED ${data?.totalNetAmount ?? 0}',
-                                  ),
-                                  10.verticalSpace,
-
-                                  _containerWidget(
-                                    name: 'Delivery agent :',
-                                    status: data?.deliveryBoyName ?? 'N/A',
-                                  ),
-                                  10.verticalSpace,
-                                  Row(
-                                    children: [
-                                      10.horizontalSpace,
-                                      Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            _dialogBuilder(context);
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            margin: EdgeInsets.only(
-                                              top: 10.h,
-                                              left: 10.w,
-                                              right: 10.w,
-                                            ),
-                                            height: 44.h,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: kPrimaryColor,
-                                              ),
-                                              color: kWhite,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  data?.orderStatusName ?? '',
-                                                  style: FontPalette.hW700S14
-                                                      .copyWith(
-                                                        color: kPrimaryColor,
-                                                      ),
-                                                ),
-                                                4.horizontalSpace,
-                                                SvgPicture.asset(
-                                                  'assets/icons/Arrow - Right.svg',
-                                                  color: kPrimaryColor,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            context
-                                                .read<OrderCubit>()
-                                                .orderDetail(
-                                                  data?.prodOrderId ?? 0,
-                                                );
-                                            context.push(routeOrderDetail);
-                                          },
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            margin: EdgeInsets.only(
-                                              top: 10.h,
-                                              left: 10.w,
-                                              right: 10.w,
-                                            ),
-                                            height: 44.h,
-                                            decoration: BoxDecoration(
-                                              color: kPrimaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r),
-                                            ),
-                                            child: Text(
-                                              'View order',
-                                              style: FontPalette.hW700S14
-                                                  .copyWith(color: kWhite),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  10.verticalSpace,
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      },
+                      _buildOrdersList(state),
                     ],
                   ),
                 ),
@@ -529,6 +62,508 @@ class OrderScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget _buildStatusFilterSection() {
+    return BlocBuilder<OrderCubit, OrderState>(
+      builder: (context, state) {
+        return BlocBuilder<DashboardCubit, DashboardState>(
+          builder: (context, common) {
+            log("STATUS LENGTH =-= -${state.statusList?.length}");
+            return SizedBox(
+              height: 45.h,
+              child: ListView.builder(
+                padding: EdgeInsets.only(left: 12.w),
+                scrollDirection: Axis.horizontal,
+                itemCount: state.statusList?.length ?? 0,
+                shrinkWrap: true,
+                itemBuilder: (context, i) {
+                  final statusItem = state.statusList?[i];
+                  if (statusItem == null) return const SizedBox.shrink();
+
+                  final isSelected =
+                      state.selectedOrder?.orderStatusId ==
+                      statusItem.orderStatusId;
+
+                  return _StatusFilterChip(
+                    statusItem: statusItem,
+                    isSelected: isSelected,
+                    onTap: () =>
+                        _handleStatusFilter(context, statusItem, common, state),
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildStoreDropdown() {
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (context, state) {
+        return DropDownFieldWidget(
+          isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+          prefixIcon: Container(
+            margin: EdgeInsets.only(left: 12.w),
+            child: SvgPicture.asset(
+              'assets/icons/package-box-pin-location.svg',
+              width: 20.w,
+              height: 20.h,
+              fit: BoxFit.contain,
+            ),
+          ),
+          borderColor: kBlack,
+          value: state.selectedStore,
+          items:
+              state.storeList?.map((e) {
+                return DropdownMenuItem<StoreResponse>(
+                  value: e,
+                  child: Text(e.storeName ?? ''),
+                );
+              }).toList() ??
+              [],
+          fillColor: const Color(0XFFEFF1F1),
+          onChanged: (p0) => _handleStoreChange(context, p0, state),
+          labelText: '',
+        );
+      },
+    );
+  }
+
+  Widget _buildFilterContainer(OrderState state) {
+    return Container(
+      height: 125.h,
+      decoration: BoxDecoration(
+        border: Border.all(color: kLightBorderColor),
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: BlocBuilder<DashboardCubit, DashboardState>(
+        builder: (context, common) {
+          return Column(
+            children: [
+              _buildCheckboxRow(state, common, context),
+              7.verticalSpace,
+              _buildDatePickerRow(state, common, context),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildCheckboxRow(
+    OrderState state,
+    DashboardState common,
+    BuildContext context,
+  ) {
+    return Row(
+      children: mapItems.map((item) {
+        final isSelected = state.selectedIds?.contains(item.id) ?? false;
+
+        return _FilterCheckbox(
+          item: item,
+          isSelected: isSelected,
+          onChanged: (v) =>
+              _handleCheckboxChange(context, item.id, state, common),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildDatePickerRow(
+    OrderState state,
+    DashboardState common,
+    BuildContext context,
+  ) {
+    return Padding(
+      padding: EdgeInsets.only(left: 10.w, right: 5.w),
+      child: Row(
+        children: [
+          Expanded(
+            child: DatePickerContainer(
+              firstDate: state.fromDate ?? DateTime.now(),
+              hintText: '',
+              changeDate: (DateTime pickedDate) =>
+                  _handleFromDateChange(context, pickedDate, state, common),
+            ),
+          ),
+          8.horizontalSpace,
+          Expanded(
+            child: DatePickerContainer(
+              firstDate: state.toDate ?? DateTime.now(),
+              hintText: '',
+              changeDate: (DateTime pickedDate) =>
+                  _handleToDateChange(context, pickedDate, state, common),
+            ),
+          ),
+          8.horizontalSpace,
+          Container(
+            width: 39.w,
+            height: 44.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: kPrimaryColor),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SvgPicture.asset('assets/icons/Frame 2147226159.svg'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOrdersList(OrderState state) {
+    if (state.isLoading == ApiFetchStatus.loading) {
+      return _buildShimmerList();
+    }
+
+    if (state.orderList?.isEmpty ?? false) {
+      return _buildEmptyState();
+    }
+
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: state.orderList?.length ?? 0,
+      itemBuilder: (context, i) {
+        final data = state.orderList?[i];
+        return _OrderCard(orderData: data);
+      },
+    );
+  }
+
+  Widget _buildShimmerList() {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: 3,
+      itemBuilder: (context, index) => _shimmerOrderCard(),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(top: 110.h),
+        child: Text('No orders found!', style: FontPalette.hW700S13),
+      ),
+    );
+  }
+
+  void _handleStatusFilter(
+    BuildContext context,
+    OrderStatusResponse statusItem,
+    DashboardState common,
+    OrderState state,
+  ) {
+    context.read<OrderCubit>().chnageStatus(statusItem);
+    context.read<OrderCubit>().orders(
+      req: OrderRequest(
+        orderStatusId: statusItem.orderStatusId,
+        storeId: common.selectedStore?.storeId,
+        fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+        toDate: parsedDate(state.toDate ?? DateTime.now()),
+      ),
+    );
+  }
+
+  void _handleStoreChange(
+    BuildContext context,
+    StoreResponse? store,
+    DashboardState state,
+  ) {
+    context.read<DashboardCubit>().selectedStore(store ?? StoreResponse());
+    context.read<OrderCubit>().orders(
+      req: OrderRequest(
+        storeId: store?.storeId,
+        fromDate: parsedDate(DateTime.now()),
+        toDate: parsedDate(DateTime.now()),
+      ),
+    );
+  }
+
+  void _handleCheckboxChange(
+    BuildContext context,
+    int itemId,
+    OrderState state,
+    DashboardState common,
+  ) {
+    context.read<OrderCubit>().ordersDatesEvent(itemId);
+    context.read<OrderCubit>().orders(
+      req: OrderRequest(
+        filterId: state.selectedIds,
+        storeId: common.selectedStore?.storeId,
+        fromDate: parsedDate(DateTime.now()),
+        toDate: parsedDate(DateTime.now()),
+      ),
+    );
+    log("Selected IDs count: ${state.selectedIds?.length}");
+  }
+
+  void _handleFromDateChange(
+    BuildContext context,
+    DateTime pickedDate,
+    OrderState state,
+    DashboardState common,
+  ) {
+    context.read<OrderCubit>().chnageFromDate(pickedDate);
+    _updateOrdersWithNewDate(context, state, common);
+  }
+
+  void _handleToDateChange(
+    BuildContext context,
+    DateTime pickedDate,
+    OrderState state,
+    DashboardState common,
+  ) {
+    context.read<OrderCubit>().chnageToDate(pickedDate);
+    _updateOrdersWithNewDate(context, state, common);
+  }
+
+  void _updateOrdersWithNewDate(
+    BuildContext context,
+    OrderState state,
+    DashboardState common,
+  ) {
+    context.read<OrderCubit>().orders(
+      req: OrderRequest(
+        filterId: state.selectedIds,
+        storeId: common.selectedStore?.storeId,
+        fromDate: parsedDate(DateTime.now()),
+        toDate: parsedDate(DateTime.now()),
+      ),
+    );
+  }
+}
+
+class _StatusFilterChip extends StatelessWidget {
+  final OrderStatusResponse statusItem;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _StatusFilterChip({
+    required this.statusItem,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(right: 8.w),
+        height: 40.h,
+        width: 106.w,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: isSelected ? kPrimaryColor : kLightBorderColor,
+          ),
+          color: isSelected ? kPrimaryColor : kWhite,
+          borderRadius: BorderRadius.circular(44.r),
+        ),
+        child: Text(
+          textAlign: TextAlign.center,
+          statusItem.orderStatusName ?? '',
+          style: FontPalette.hW700S13.copyWith(
+            color: isSelected ? kWhite : kBlack,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FilterCheckbox extends StatelessWidget {
+  final dynamic item;
+  final bool isSelected;
+  final ValueChanged<bool?> onChanged;
+
+  const _FilterCheckbox({
+    required this.item,
+    required this.isSelected,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 4.w, right: 4.w),
+      child: Row(
+        children: [
+          Checkbox(
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            side: const BorderSide(color: Color(0xFFCBD7D4), width: 1.5),
+            activeColor: kPrimaryColor,
+            shape: const CircleBorder(),
+            value: isSelected,
+            onChanged: onChanged,
+          ),
+          Text(item.title, style: FontPalette.hW500S12),
+        ],
+      ),
+    );
+  }
+}
+
+class _OrderCard extends StatelessWidget {
+  final dynamic orderData;
+
+  const _OrderCard({required this.orderData});
+
+  @override
+  Widget build(BuildContext context) {
+    if (orderData == null) return const SizedBox.shrink();
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h),
+      width: 351.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.r),
+        color: kWhite,
+        border: Border.all(color: kLightBorderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildOrderHeader(),
+          dividerWidget(color: kLightBorderColor),
+          10.verticalSpace,
+          _buildCustomerInfo(),
+          16.verticalSpace,
+          _buildDateTimeInfo(),
+          10.verticalSpace,
+          _buildTotalAmount(),
+          10.verticalSpace,
+          _buildDeliveryAgent(),
+          10.verticalSpace,
+          _buildActionButtons(context),
+          10.verticalSpace,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOrderHeader() {
+    return Padding(
+      padding: EdgeInsets.only(left: 12.w, top: 12.h, right: 16.w, bottom: 6.h),
+      child: Row(
+        children: [
+          Text(
+            'Order: #${orderData?.prodOrderId ?? 0}',
+            style: FontPalette.hW700S13.copyWith(color: kBlack),
+          ),
+          const Spacer(),
+          3.horizontalSpace,
+          Text(
+            'Delivery',
+            style: FontPalette.hW700S14.copyWith(color: kPrimaryColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCustomerInfo() {
+    return _rowWidget(
+      isPrimary: true,
+      label: 'Customer name',
+      label1: "Mobile number",
+      name: orderData?.billCustName ?? 'N/A',
+      name2: orderData?.billMobile ?? 'N/A',
+    );
+  }
+
+  Widget _buildDateTimeInfo() {
+    return _rowWidget(
+      label: 'Date',
+      label1: "Time",
+      name: orderData?.orderDate?.isNotEmpty == true
+          ? orderData!.orderDate?.substring(0, 10)
+          : 'Date not available',
+      name2: orderData?.orderDate?.isNotEmpty == true
+          ? parseOrderTime(orderData!.orderDate)
+          : '--:--',
+    );
+  }
+
+  Widget _buildTotalAmount() {
+    return _containerWidget(
+      name: 'Total :',
+      status: ' AED ${orderData?.totalNetAmount ?? 0}',
+    );
+  }
+
+  Widget _buildDeliveryAgent() {
+    return _containerWidget(
+      name: 'Delivery agent :',
+      status: orderData?.deliveryBoyName ?? 'N/A',
+    );
+  }
+
+  Widget _buildActionButtons(BuildContext context) {
+    return Row(
+      children: [
+        10.horizontalSpace,
+        Expanded(
+          child: InkWell(
+            onTap: () => _dialogBuilder(context),
+            child: Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
+              height: 44.h,
+              decoration: BoxDecoration(
+                border: Border.all(color: kPrimaryColor),
+                color: kWhite,
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    orderData?.orderStatusName ?? '',
+                    style: FontPalette.hW700S14.copyWith(color: kPrimaryColor),
+                  ),
+                  4.horizontalSpace,
+                  SvgPicture.asset(
+                    'assets/icons/Arrow - Right.svg',
+                    color: kPrimaryColor,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: GestureDetector(
+            onTap: () => _navigateToOrderDetail(context),
+            child: Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
+              height: 44.h,
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Text(
+                'View order',
+                style: FontPalette.hW700S14.copyWith(color: kWhite),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _navigateToOrderDetail(BuildContext context) {
+    context.read<OrderCubit>().orderDetail(orderData?.prodOrderId ?? 0);
+    context.push(routeOrderDetail);
   }
 }
 
@@ -549,15 +584,18 @@ Widget _rowWidget({
               flex: 3,
               child: Text(
                 label ?? '',
-                style: FontPalette.hW500S11.copyWith(color: Color(0XFF5E6566)),
+                style: FontPalette.hW500S11.copyWith(
+                  color: const Color(0XFF5E6566),
+                ),
               ),
             ),
-
             Expanded(
               flex: 3,
               child: Text(
                 label1 ?? '',
-                style: FontPalette.hW500S11.copyWith(color: Color(0XFF5E6566)),
+                style: FontPalette.hW500S11.copyWith(
+                  color: const Color(0XFF5E6566),
+                ),
               ),
             ),
           ],
@@ -569,7 +607,6 @@ Widget _rowWidget({
               flex: 3,
               child: Text(name ?? '', style: FontPalette.hW500S13),
             ),
-
             Expanded(
               flex: 3,
               child: Row(
@@ -617,7 +654,7 @@ Widget _containerWidget({String? name, String? status}) {
   );
 }
 
-Widget shimmerOrderCard() {
+Widget _shimmerOrderCard() {
   return Shimmer.fromColors(
     baseColor: Colors.grey.shade300,
     highlightColor: Colors.grey.shade100,
@@ -628,7 +665,6 @@ Widget shimmerOrderCard() {
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        // color: Colors.white,
         border: Border.all(color: kLightBorderColor),
       ),
       child: Column(
@@ -715,7 +751,6 @@ Future<void> _dialogBuilder(BuildContext context) {
                 ),
               ),
             ),
-
             actions: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
@@ -741,4 +776,47 @@ Future<void> _dialogBuilder(BuildContext context) {
       );
     },
   );
+}
+
+final Map<String, String> _timeCache = {};
+
+String parseOrderTime(String? orderDate) {
+  if (orderDate == null || orderDate.trim().isEmpty) {
+    return '--:--';
+  }
+
+  if (_timeCache.containsKey(orderDate)) {
+    return _timeCache[orderDate]!;
+  }
+
+  try {
+    const formats = [
+      "dd-MMM-yyyy hh:mm:ss a",
+      "dd-MMM-yyyy HH:mm:ss",
+      "yyyy-MM-dd HH:mm:ss",
+      "dd/MM/yyyy HH:mm:ss",
+      "yyyy-MM-ddTHH:mm:ss.000Z",
+      "yyyy-MM-ddTHH:mm:ss",
+    ];
+
+    for (final format in formats) {
+      try {
+        final dateTime = DateFormat(format).parse(orderDate);
+        final formattedTime = DateFormat("hh:mm a").format(dateTime);
+
+        _timeCache[orderDate] = formattedTime;
+        return formattedTime;
+      } catch (e) {
+        continue;
+      }
+    }
+
+    log('Could not parse date with any format: $orderDate');
+    _timeCache[orderDate] = '--:--';
+    return '--:--';
+  } catch (e) {
+    log('Error parsing date: $orderDate - $e');
+    _timeCache[orderDate] = '--:--';
+    return '--:--';
+  }
 }

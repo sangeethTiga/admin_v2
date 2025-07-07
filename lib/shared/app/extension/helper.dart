@@ -15,7 +15,6 @@ import 'package:admin_v2/shared/utils/failures/bad_request.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -145,7 +144,6 @@ class Helper {
   }
 }
 
-
 void navigateToFeature(
   String featureName,
   BuildContext context, {
@@ -153,7 +151,6 @@ void navigateToFeature(
   int? accountId,
 }) {
   try {
-  
     final today = _formatDate(DateTime.now());
 
     switch (featureName) {
@@ -186,7 +183,7 @@ String _formatDate(DateTime date) {
 
 void _navigateToProducts(int storeId, BuildContext context) {
   try {
-    final productCubit = GetIt.instance<ProductCubit>();
+    final productCubit = context.read<ProductCubit>();
     productCubit.product(storeId, 0, '', '', 0);
     productCubit.selectProduct(Product(filterId: 0, name: 'All Products'));
     productCubit.catgeory(storeId);
@@ -200,7 +197,7 @@ void _navigateToProducts(int storeId, BuildContext context) {
 
 void _navigateToProfitLoss(int storeId, String date, BuildContext context) {
   try {
-    final reportCubit = GetIt.instance<ReportCubit>();
+    final reportCubit = context.read<ReportCubit>();
     reportCubit.loadProfitAndLoss(
       storeId: storeId,
       fromDate: date,
@@ -214,7 +211,7 @@ void _navigateToProfitLoss(int storeId, String date, BuildContext context) {
 
 void _navigateToOrders(int storeId, String date, BuildContext context) {
   try {
-    final orderCubit = GetIt.instance<OrderCubit>();
+    final orderCubit = context.read<OrderCubit>();
     orderCubit.orderStatus();
     orderCubit.orders(
       req: OrderRequest(storeId: storeId, fromDate: date, toDate: date),
@@ -230,7 +227,7 @@ void _navigateToSales(int storeId, BuildContext context) {
     final now = DateTime.now();
     final oneYearAgo = DateTime(now.year - 1, now.month, now.day);
 
-    final reportCubit = GetIt.instance<ReportCubit>();
+    final reportCubit = context.read<ReportCubit>();
     reportCubit.loadSalesReport(
       selectedStoreId: storeId,
       fromDate: _formatDate(oneYearAgo),
@@ -242,7 +239,7 @@ void _navigateToSales(int storeId, BuildContext context) {
 
 void _navigateToRevenue(int storeId, String date, BuildContext context) {
   try {
-    final reportCubit = GetIt.instance<ReportCubit>();
+    final reportCubit = context.read<ReportCubit>();
     reportCubit.loadReveneueReport(
       storeId: storeId,
       fromDate: date,
@@ -259,8 +256,8 @@ void _navigateToExpense(
   BuildContext context,
 ) {
   try {
-    final reportCubit = GetIt.instance<ReportCubit>();
-    final dashboardCubit = GetIt.instance<DashboardCubit>();
+    final reportCubit = context.read<ReportCubit>();
+    final dashboardCubit = context.read<DashboardCubit>();
 
     reportCubit.loadExpenseReport(
       accountId: accountId,
@@ -275,10 +272,8 @@ void _navigateToExpense(
 
 void _navigateToPurchase(BuildContext context) {
   try {
-    final commonCubit = GetIt.instance<CommonCubit>();
+    final commonCubit = context.read<CommonCubit>();
     commonCubit.purchaseType();
     context.push(routePurchase);
   } catch (e) {}
 }
-
-

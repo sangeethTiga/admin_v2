@@ -7,7 +7,6 @@ import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
-
 import 'package:admin_v2/features/report/screens/tax_screen.dart';
 import 'package:admin_v2/my_app.dart';
 import 'package:admin_v2/shared/dependency_injection/injectable.dart';
@@ -27,11 +26,15 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (context) => getIt<AuthCubit>()),
         BlocProvider(create: (context) => getIt<CommonCubit>()),
-           BlocProvider(create: (cotext)=> getIt<DashboardCubit>()),
-        BlocProvider(create: (context) => getIt<ReportCubit>(),child: TaxScreen(),),
-        BlocProvider(create: (context) => getIt<OrderCubit>()),
+        BlocProvider(create: (cotext) => getIt<DashboardCubit>()),
+        BlocProvider(
+          create: (context) => getIt<ReportCubit>(),
+          child: TaxScreen(),
+        ),
+        BlocProvider<OrderCubit>.value(
+          value: getIt<OrderCubit>(), // Use .value instead of create
+        ),
         BlocProvider(create: (context) => getIt<ProductCubit>()),
-     
       ],
       child: MyApp(),
     ),

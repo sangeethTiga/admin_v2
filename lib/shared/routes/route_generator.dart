@@ -35,7 +35,7 @@ import 'package:go_router/go_router.dart';
 class RouteGenerator {
   static GoRouter generateRoute() {
     return GoRouter(
-      initialLocation: routeRoot, 
+      initialLocation: routeRoot,
       routes: [
         GoRoute(
           path: routeRoot,
@@ -51,7 +51,7 @@ class RouteGenerator {
         ),
         GoRoute(
           path: routeProducts,
-          builder: (context, state) =>  ProductScreen(),
+          builder: (context, state) => ProductScreen(),
         ),
         GoRoute(
           path: routeProfitloss,
@@ -115,22 +115,30 @@ class RouteGenerator {
           path: routeMess,
           builder: (context, state) => MessReportScreen(),
         ),
-        GoRoute(path: routeSellingProducts,builder: (context,state)=> MostSellingProducts()),
-         GoRoute(path: routeSupplier,builder: (context,state)=> SuppliersReportScreen()),
-         GoRoute(path: routeRevenueGraph,builder: (context,state)=> RevenueGraph()),
-           GoRoute(path: routeOrderGraph,builder: (context,state)=> OrdersGraph()),
-             GoRoute(path: routeDaySummary,builder: (context,state)=> DaySummaryReportScreen()),
-           
-           
-         
-
+        GoRoute(
+          path: routeSellingProducts,
+          builder: (context, state) => MostSellingProducts(),
+        ),
+        GoRoute(
+          path: routeSupplier,
+          builder: (context, state) => SuppliersReportScreen(),
+        ),
+        GoRoute(
+          path: routeRevenueGraph,
+          builder: (context, state) => RevenueGraph(),
+        ),
+        GoRoute(
+          path: routeOrderGraph,
+          builder: (context, state) => OrdersGraph(),
+        ),
+        GoRoute(
+          path: routeDaySummary,
+          builder: (context, state) => DaySummaryReportScreen(),
+        ),
       ],
       errorBuilder: (context, state) =>
           errorRoute(error: state.error?.toString()).builder(context),
     );
-    
-
-      
   }
 
   static MaterialPageRoute errorRoute({String? error, bool argsError = false}) {

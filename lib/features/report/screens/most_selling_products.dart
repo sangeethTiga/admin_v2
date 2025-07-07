@@ -57,9 +57,9 @@ class MostSellingProducts extends StatelessWidget {
 
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
-                        context.read<DashboardCubit>().loadProductsCategory(
-                          p0?.storeId,
-                        );
+                        // context.read<DashboardCubit>().loadProductsCategory(
+                        //   p0?.storeId,
+                        // );
 
                         context.read<ReportCubit>().clearCategories();
 
@@ -127,9 +127,9 @@ class MostSellingProducts extends StatelessWidget {
                         if (selectedCategory != null &&
                             selectedCategory.categoryId !=
                                 state.selectedCategory?.categoryId) {
-                          context.read<DashboardCubit>().selectCategory(
-                            selectedCategory,
-                          );
+                          // context.read<DashboardCubit>().selectCategory(
+                          //   selectedCategory,
+                          // );
                           context.read<ReportCubit>().changeCategory(
                             selectedCategory,
                           );
