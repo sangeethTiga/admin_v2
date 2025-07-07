@@ -21,6 +21,8 @@ part 'product_state.dart';
 @injectable
 class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
+  static const int _itemsPerPage = 10;
+
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
   Future<void> product(
@@ -31,40 +33,146 @@ class ProductCubit extends Cubit<ProductState> {
     int filterId,
   ) async {
     try {
-      emit(state.copyWith(isProduct: ApiFetchStatus.loading));
+      final isNewSearch = _isNewSearch(
+        storeId,
+        catId,
+        search,
+        barCode,
+        filterId,
+      );
+
+      if (isNewSearch) {
+        emit(
+          state.copyWith(
+            isProduct: ApiFetchStatus.loading,
+            currentPage: 0,
+            hasMoreData: true,
+            productList: [],
+            filteredProducts: [],
+            scannedProduct: null,
+            lastSearchQuery: search,
+            lastBarCode: barCode,
+            lastStoreId: storeId,
+            lastCatId: catId,
+            lastFilterId: filterId,
+          ),
+        );
+      } else {
+        emit(state.copyWith(isProduct: ApiFetchStatus.loading));
+      }
 
       final res = await _productRepositories.products(
         storeId: storeId,
         catId: catId,
         search: search,
         barCode: barCode,
-        filterId: state.selectProduct?.filterId,
+        filterId: filterId,
+        page: 0,
       );
+
       if (res.data != null) {
-        final sortList = List<ProductResponse>.from(res.data!);
-        sortList.sort((a, b) => a.productName!.compareTo(b.productName!));
-        final product = res.data!;
+        final newProducts = List<ProductResponse>.from(res.data!);
+
+        newProducts.sort((a, b) => a.productName!.compareTo(b.productName!));
         final scanned = barCode.isNotEmpty
-            ? product.firstWhereOrNull(
+            ? newProducts.firstWhereOrNull(
                 (p) => (p.barCode?.trim() ?? '') == barCode.trim(),
               )
             : null;
-
+        final hasMore = newProducts.length >= _itemsPerPage;
         emit(
           state.copyWith(
             isProduct: ApiFetchStatus.success,
-            productList: res.data,
-            filteredProducts: sortList,
-            //selectProduct:
+            productList: newProducts,
+            filteredProducts: newProducts,
             scannedProduct: scanned,
+            currentPage: 0,
+            hasMoreData: hasMore,
+            totalItems: newProducts.length,
           ),
         );
+      } else {
+        emit(state.copyWith(isProduct: ApiFetchStatus.failed));
       }
-      return;
     } catch (e, s) {
-      log("$e", stackTrace: s);
+      log("Error loading products: $e", stackTrace: s);
       emit(state.copyWith(isProduct: ApiFetchStatus.failed));
     }
+  }
+
+  Future<void> loadMoreProducts() async {
+    if (state.isLoadingMore ?? false || !(state.hasMoreData ?? false)) return;
+
+    try {
+      emit(state.copyWith(isLoadingMore: true));
+      final nextPage = (state.currentPage ?? 0) + 1;
+      final pageFirstResult = nextPage * _itemsPerPage;
+      final res = await _productRepositories.products(
+        storeId: state.lastStoreId,
+        catId: state.lastCatId,
+        search: state.lastSearchQuery,
+        barCode: state.lastBarCode,
+        filterId: state.lastFilterId,
+        page: pageFirstResult,
+      );
+
+      if (res.data != null && res.data!.isNotEmpty) {
+        final newProducts = List<ProductResponse>.from(res.data!);
+        final allProducts = List<ProductResponse>.from(state.productList ?? []);
+        allProducts.addAll(newProducts);
+        allProducts.sort((a, b) => a.productName!.compareTo(b.productName!));
+        final hasMore = newProducts.length >= _itemsPerPage;
+        emit(
+          state.copyWith(
+            isLoadingMore: false,
+            productList: allProducts,
+            filteredProducts: allProducts,
+            currentPage: nextPage,
+            hasMoreData: hasMore,
+            totalItems: allProducts.length,
+          ),
+        );
+      } else {
+        emit(state.copyWith(isLoadingMore: false, hasMoreData: false));
+      }
+    } catch (e, s) {
+      log("Error loading more products: $e", stackTrace: s);
+      emit(state.copyWith(isLoadingMore: false));
+    }
+  }
+
+  void searchProducts(String query) {
+    final allProducts = state.productList ?? [];
+
+    if (query.isEmpty) {
+      emit(state.copyWith(filteredProducts: allProducts));
+    } else {
+      final filtered = allProducts.where((product) {
+        final productName = product.productName?.toLowerCase() ?? '';
+        final productCode = product.productCode?.toLowerCase() ?? '';
+        final barCode = product.barCode?.toLowerCase() ?? '';
+        final queryLower = query.toLowerCase();
+        return productName.contains(queryLower) ||
+            productCode.contains(queryLower) ||
+            barCode.contains(queryLower);
+      }).toList();
+
+      emit(state.copyWith(filteredProducts: filtered));
+    }
+  }
+
+  bool _isNewSearch(
+    int storeId,
+    int catId,
+    String search,
+    String barCode,
+    int filterId,
+  ) {
+    return state.lastStoreId != storeId ||
+        state.lastCatId != catId ||
+        state.lastSearchQuery != search ||
+        state.lastBarCode != barCode ||
+        state.lastFilterId != filterId;
   }
 
   Future<void> stockStatus() async {

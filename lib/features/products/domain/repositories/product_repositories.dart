@@ -12,7 +12,8 @@ abstract class ProductRepositories {
     int? catId,
     String? search,
     String? barCode,
-    int? filterId
+    int? filterId,
+    int? page
   });
   Future<ResponseResult<EditUpdateResponse>> updateProduct(
     EditUpdateResponse req,
