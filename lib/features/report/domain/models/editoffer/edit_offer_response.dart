@@ -4,7 +4,7 @@
 //     final editOfferResponse = editOfferResponseFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'edit_offer_response.freezed.dart';
 part 'edit_offer_response.g.dart';

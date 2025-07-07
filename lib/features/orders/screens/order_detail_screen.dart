@@ -139,6 +139,7 @@ class OrderDetailScreen extends StatelessWidget {
                     border: Border.all(color: kLightBorderColor),
                   ),
                   child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: state.orderDetail?.productOrderItem?.length,
                     itemBuilder: (context, i) {
@@ -210,7 +211,7 @@ class OrderDetailScreen extends StatelessWidget {
                         children: [
                           Text('Customer:  ${state.orderDetail?.billCustName}'),
                           Text('Email: ${state.orderDetail?.billEmail}'),
-                          Text('Mobile: ${state.orderDetail?.shipMobile}')
+                          Text('Mobile: ${state.orderDetail?.shipMobile}'),
                         ],
                       ),
                     ),

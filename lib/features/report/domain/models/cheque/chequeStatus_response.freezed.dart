@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-ChequestatusResponse _$ChequestatusResponseFromJson(Map<String, dynamic> json) {
-  return _ChequestatusResponse.fromJson(json);
+ChequeStatusResponse _$ChequeStatusResponseFromJson(Map<String, dynamic> json) {
+  return _ChequeStatusResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ChequestatusResponse {
+mixin _$ChequeStatusResponse {
   @JsonKey(name: "cheque_status_id")
   int? get chequeStatusId => throw _privateConstructorUsedError;
   @JsonKey(name: "store_id")
@@ -38,22 +38,22 @@ mixin _$ChequestatusResponse {
   @JsonKey(name: "updated_at")
   dynamic get updatedAt => throw _privateConstructorUsedError;
 
-  /// Serializes this ChequestatusResponse to a JSON map.
+  /// Serializes this ChequeStatusResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of ChequestatusResponse
+  /// Create a copy of ChequeStatusResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ChequestatusResponseCopyWith<ChequestatusResponse> get copyWith =>
+  $ChequeStatusResponseCopyWith<ChequeStatusResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ChequestatusResponseCopyWith<$Res> {
-  factory $ChequestatusResponseCopyWith(
-    ChequestatusResponse value,
-    $Res Function(ChequestatusResponse) then,
-  ) = _$ChequestatusResponseCopyWithImpl<$Res, ChequestatusResponse>;
+abstract class $ChequeStatusResponseCopyWith<$Res> {
+  factory $ChequeStatusResponseCopyWith(
+    ChequeStatusResponse value,
+    $Res Function(ChequeStatusResponse) then,
+  ) = _$ChequeStatusResponseCopyWithImpl<$Res, ChequeStatusResponse>;
   @useResult
   $Res call({
     @JsonKey(name: "cheque_status_id") int? chequeStatusId,
@@ -68,19 +68,19 @@ abstract class $ChequestatusResponseCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ChequestatusResponseCopyWithImpl<
+class _$ChequeStatusResponseCopyWithImpl<
   $Res,
-  $Val extends ChequestatusResponse
+  $Val extends ChequeStatusResponse
 >
-    implements $ChequestatusResponseCopyWith<$Res> {
-  _$ChequestatusResponseCopyWithImpl(this._value, this._then);
+    implements $ChequeStatusResponseCopyWith<$Res> {
+  _$ChequeStatusResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ChequestatusResponse
+  /// Create a copy of ChequeStatusResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -135,12 +135,12 @@ class _$ChequestatusResponseCopyWithImpl<
 }
 
 /// @nodoc
-abstract class _$$ChequestatusResponseImplCopyWith<$Res>
-    implements $ChequestatusResponseCopyWith<$Res> {
-  factory _$$ChequestatusResponseImplCopyWith(
-    _$ChequestatusResponseImpl value,
-    $Res Function(_$ChequestatusResponseImpl) then,
-  ) = __$$ChequestatusResponseImplCopyWithImpl<$Res>;
+abstract class _$$ChequeStatusResponseImplCopyWith<$Res>
+    implements $ChequeStatusResponseCopyWith<$Res> {
+  factory _$$ChequeStatusResponseImplCopyWith(
+    _$ChequeStatusResponseImpl value,
+    $Res Function(_$ChequeStatusResponseImpl) then,
+  ) = __$$ChequeStatusResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -156,15 +156,15 @@ abstract class _$$ChequestatusResponseImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ChequestatusResponseImplCopyWithImpl<$Res>
-    extends _$ChequestatusResponseCopyWithImpl<$Res, _$ChequestatusResponseImpl>
-    implements _$$ChequestatusResponseImplCopyWith<$Res> {
-  __$$ChequestatusResponseImplCopyWithImpl(
-    _$ChequestatusResponseImpl _value,
-    $Res Function(_$ChequestatusResponseImpl) _then,
+class __$$ChequeStatusResponseImplCopyWithImpl<$Res>
+    extends _$ChequeStatusResponseCopyWithImpl<$Res, _$ChequeStatusResponseImpl>
+    implements _$$ChequeStatusResponseImplCopyWith<$Res> {
+  __$$ChequeStatusResponseImplCopyWithImpl(
+    _$ChequeStatusResponseImpl _value,
+    $Res Function(_$ChequeStatusResponseImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of ChequestatusResponse
+  /// Create a copy of ChequeStatusResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -179,7 +179,7 @@ class __$$ChequestatusResponseImplCopyWithImpl<$Res>
     Object? updatedAt = freezed,
   }) {
     return _then(
-      _$ChequestatusResponseImpl(
+      _$ChequeStatusResponseImpl(
         chequeStatusId: freezed == chequeStatusId
             ? _value.chequeStatusId
             : chequeStatusId // ignore: cast_nullable_to_non_nullable
@@ -219,8 +219,8 @@ class __$$ChequestatusResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ChequestatusResponseImpl implements _ChequestatusResponse {
-  const _$ChequestatusResponseImpl({
+class _$ChequeStatusResponseImpl implements _ChequeStatusResponse {
+  const _$ChequeStatusResponseImpl({
     @JsonKey(name: "cheque_status_id") this.chequeStatusId,
     @JsonKey(name: "store_id") this.storeId,
     @JsonKey(name: "cheque_status_name") this.chequeStatusName,
@@ -231,8 +231,8 @@ class _$ChequestatusResponseImpl implements _ChequestatusResponse {
     @JsonKey(name: "updated_at") this.updatedAt,
   });
 
-  factory _$ChequestatusResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ChequestatusResponseImplFromJson(json);
+  factory _$ChequeStatusResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChequeStatusResponseImplFromJson(json);
 
   @override
   @JsonKey(name: "cheque_status_id")
@@ -261,14 +261,14 @@ class _$ChequestatusResponseImpl implements _ChequestatusResponse {
 
   @override
   String toString() {
-    return 'ChequestatusResponse(chequeStatusId: $chequeStatusId, storeId: $storeId, chequeStatusName: $chequeStatusName, chequeStatusArabicName: $chequeStatusArabicName, menuOrder: $menuOrder, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'ChequeStatusResponse(chequeStatusId: $chequeStatusId, storeId: $storeId, chequeStatusName: $chequeStatusName, chequeStatusArabicName: $chequeStatusArabicName, menuOrder: $menuOrder, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChequestatusResponseImpl &&
+            other is _$ChequeStatusResponseImpl &&
             (identical(other.chequeStatusId, chequeStatusId) ||
                 other.chequeStatusId == chequeStatusId) &&
             (identical(other.storeId, storeId) || other.storeId == storeId) &&
@@ -299,26 +299,26 @@ class _$ChequestatusResponseImpl implements _ChequestatusResponse {
     const DeepCollectionEquality().hash(updatedAt),
   );
 
-  /// Create a copy of ChequestatusResponse
+  /// Create a copy of ChequeStatusResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChequestatusResponseImplCopyWith<_$ChequestatusResponseImpl>
+  _$$ChequeStatusResponseImplCopyWith<_$ChequeStatusResponseImpl>
   get copyWith =>
-      __$$ChequestatusResponseImplCopyWithImpl<_$ChequestatusResponseImpl>(
+      __$$ChequeStatusResponseImplCopyWithImpl<_$ChequeStatusResponseImpl>(
         this,
         _$identity,
       );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ChequestatusResponseImplToJson(this);
+    return _$$ChequeStatusResponseImplToJson(this);
   }
 }
 
-abstract class _ChequestatusResponse implements ChequestatusResponse {
-  const factory _ChequestatusResponse({
+abstract class _ChequeStatusResponse implements ChequeStatusResponse {
+  const factory _ChequeStatusResponse({
     @JsonKey(name: "cheque_status_id") final int? chequeStatusId,
     @JsonKey(name: "store_id") final int? storeId,
     @JsonKey(name: "cheque_status_name") final String? chequeStatusName,
@@ -328,10 +328,10 @@ abstract class _ChequestatusResponse implements ChequestatusResponse {
     @JsonKey(name: "is_active") final int? isActive,
     @JsonKey(name: "created_at") final DateTime? createdAt,
     @JsonKey(name: "updated_at") final dynamic updatedAt,
-  }) = _$ChequestatusResponseImpl;
+  }) = _$ChequeStatusResponseImpl;
 
-  factory _ChequestatusResponse.fromJson(Map<String, dynamic> json) =
-      _$ChequestatusResponseImpl.fromJson;
+  factory _ChequeStatusResponse.fromJson(Map<String, dynamic> json) =
+      _$ChequeStatusResponseImpl.fromJson;
 
   @override
   @JsonKey(name: "cheque_status_id")
@@ -358,10 +358,10 @@ abstract class _ChequestatusResponse implements ChequestatusResponse {
   @JsonKey(name: "updated_at")
   dynamic get updatedAt;
 
-  /// Create a copy of ChequestatusResponse
+  /// Create a copy of ChequeStatusResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ChequestatusResponseImplCopyWith<_$ChequestatusResponseImpl>
+  _$$ChequeStatusResponseImplCopyWith<_$ChequeStatusResponseImpl>
   get copyWith => throw _privateConstructorUsedError;
 }

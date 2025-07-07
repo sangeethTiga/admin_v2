@@ -6,9 +6,9 @@ part of 'chequeStatus_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChequestatusResponseImpl _$$ChequestatusResponseImplFromJson(
+_$ChequeStatusResponseImpl _$$ChequeStatusResponseImplFromJson(
   Map<String, dynamic> json,
-) => _$ChequestatusResponseImpl(
+) => _$ChequeStatusResponseImpl(
   chequeStatusId: (json['cheque_status_id'] as num?)?.toInt(),
   storeId: (json['store_id'] as num?)?.toInt(),
   chequeStatusName: json['cheque_status_name'] as String?,
@@ -21,8 +21,8 @@ _$ChequestatusResponseImpl _$$ChequestatusResponseImplFromJson(
   updatedAt: json['updated_at'],
 );
 
-Map<String, dynamic> _$$ChequestatusResponseImplToJson(
-  _$ChequestatusResponseImpl instance,
+Map<String, dynamic> _$$ChequeStatusResponseImplToJson(
+  _$ChequeStatusResponseImpl instance,
 ) => <String, dynamic>{
   'cheque_status_id': instance.chequeStatusId,
   'store_id': instance.storeId,

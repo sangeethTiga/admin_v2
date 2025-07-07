@@ -1,7 +1,7 @@
 import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
-import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
+
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 

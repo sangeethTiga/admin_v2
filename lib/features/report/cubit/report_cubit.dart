@@ -767,10 +767,10 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('Response data: ${res.data}');
     if (res.data != null) {
-      final List<ChequestatusResponse> fetchedList = res.data!;
+      final List<ChequeStatusResponse> fetchedList = res.data!;
 
-      final List<ChequestatusResponse> newList = isLoadMore
-          ? <ChequestatusResponse>[...?state.chequeStatus, ...fetchedList]
+      final List<ChequeStatusResponse> newList = isLoadMore
+          ? <ChequeStatusResponse>[...?state.chequeStatus, ...fetchedList]
           : fetchedList;
 
       emit(
@@ -783,7 +783,7 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isChequeStatus: ApiFetchStatus.failed));
   }
 
-  Future<void> selectedStatus(ChequestatusResponse data) async {
+  Future<void> selectedStatus(ChequeStatusResponse data) async {
     emit(
       state.copyWith(
         selectedStatus: data,
@@ -965,7 +965,7 @@ class ReportCubit extends Cubit<ReportState> {
     log('EDIT DATA/////: ${res.data}');
 
     if (res.data != null) {
-      final updatedProduct = res.data!;
+     
       emit(
         state.copyWith(isAdded: ApiFetchStatus.success, editData: editOffer),
       );
@@ -1115,7 +1115,7 @@ class ReportCubit extends Cubit<ReportState> {
           isDaySummary: ApiFetchStatus.success,
         ),
       );
-      print('///fswsd///:${res.data}');
+    
       return;
     }
 

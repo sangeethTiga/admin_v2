@@ -120,7 +120,7 @@ class ChequetransScreen extends StatelessWidget {
                                 storeId: commonState.selectedStore?.storeId,
                                 status: selectedStatusId?.toString(),
                               );
-                              print('statusssss-=-=-$selectedStatusId');
+                            
                             },
                             buttonText: 'View Report',
                           );

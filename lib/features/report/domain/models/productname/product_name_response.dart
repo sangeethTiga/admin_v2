@@ -4,7 +4,7 @@
 //     final productNameResponse = productNameResponseFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'product_name_response.freezed.dart';
 part 'product_name_response.g.dart';

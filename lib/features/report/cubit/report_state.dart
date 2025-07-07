@@ -39,9 +39,9 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isOfferTypeList;
   final List<ChequeTrans>? chequeTransReport;
   final ApiFetchStatus? isChequeReport;
-  final List<ChequestatusResponse>? chequeStatus;
+  final List<ChequeStatusResponse>? chequeStatus;
   final ApiFetchStatus? isChequeStatus;
-  final ChequestatusResponse? selectedStatus;
+  final ChequeStatusResponse? selectedStatus;
   final ApiFetchStatus? apiFetchStatus;
   final List<MessReportResponse>? messReport;
   final ApiFetchStatus? isMessReport;
@@ -186,9 +186,9 @@ class ReportState extends Equatable {
     List<SaleOnDeals>? salesDealsReport,
     List<ChequeTrans>? chequeTransReport,
     ApiFetchStatus? isChequeReport,
-    List<ChequestatusResponse>? chequeStatus,
+    List<ChequeStatusResponse>? chequeStatus,
     ApiFetchStatus? isChequeStatus,
-    ChequestatusResponse? selectedStatus,
+    ChequeStatusResponse? selectedStatus,
     ApiFetchStatus? apiFetchStatus,
     List<MessReportResponse>? messReport,
 

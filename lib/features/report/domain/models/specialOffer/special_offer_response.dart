@@ -3,7 +3,7 @@
 //     final specialOfferResponse = specialOfferResponseFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'special_offer_response.freezed.dart';
 part 'special_offer_response.g.dart';

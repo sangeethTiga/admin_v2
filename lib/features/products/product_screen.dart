@@ -427,7 +427,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
                                                         GestureDetector(
                                                           onTap: () async {
-                                                            final editedResponse =
+                                                          
                                                                 await showModalBottomSheet<
                                                                   EditUpdateResponse
                                                                 >(

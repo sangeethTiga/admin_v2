@@ -81,7 +81,7 @@ class DaySummaryReportScreen extends StatelessWidget {
 
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
-                    print('.,.,.,storeId.,.,.:${state.selectedStore}');
+                   
                     return CustomMaterialBtton(
                       onPressed: () {
                         context.read<ReportCubit>().loadDaySummary(

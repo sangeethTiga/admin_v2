@@ -95,7 +95,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                           isLoadMore: false,
                           storeId: state.selectedStore?.storeId,
                         );
-                        print('Store ID: ${state.selectedStore?.storeId}');
+                      
                       },
                       buttonText: 'View Report',
                     );

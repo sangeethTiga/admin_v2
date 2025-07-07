@@ -165,7 +165,7 @@ abstract class ReportRepositories {
     required String query,
     required int mealPlansId,
   });
-  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus({
+  Future<ResponseResult<List<ChequeStatusResponse>>> loadStatus({
     required int storeId,
   });
   // Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({

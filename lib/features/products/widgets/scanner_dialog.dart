@@ -21,7 +21,7 @@ class ScannerDialog extends StatelessWidget {
               onDetect: (capture) {
                 final barCode = capture.barcodes.firstOrNull;
                 final code = barCode?.rawValue;
-                print('scanner-=-=-=-=-=-=$code');
+              
                 if (code != null && code.isNotEmpty) {
                   Navigator.of(context).pop(code);
                 }

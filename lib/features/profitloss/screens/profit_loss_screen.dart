@@ -141,6 +141,7 @@ class ProfitLossScreen extends StatelessWidget {
                             state.isSaleReport == ApiFetchStatus.loading
                                 ? _shimmerExpenseList()
                                 : ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: state
                                         .profitlossReport?[0]

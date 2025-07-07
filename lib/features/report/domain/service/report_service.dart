@@ -449,7 +449,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-    print('SaleOnDeals res: $res');
+    
     switch (res.statusCode) {
       case 200:
       case 201:
@@ -500,7 +500,7 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<ChequestatusResponse>>> loadStatus({
+  Future<ResponseResult<List<ChequeStatusResponse>>> loadStatus({
     required int storeId,
 
     // required String fromChequeIssueDate,
@@ -524,8 +524,8 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<ChequestatusResponse>.from(
-            res.data.map((e) => ChequestatusResponse.fromJson(e)),
+          data: List<ChequeStatusResponse>.from(
+            res.data.map((e) => ChequeStatusResponse.fromJson(e)),
           ).toList(),
         );
       default:

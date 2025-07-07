@@ -4,8 +4,8 @@ part 'chequeStatus_response.freezed.dart';
 part 'chequeStatus_response.g.dart';
 
 @freezed
-class ChequestatusResponse with _$ChequestatusResponse {
-  const factory ChequestatusResponse({
+class ChequeStatusResponse with _$ChequeStatusResponse {
+  const factory ChequeStatusResponse({
     @JsonKey(name: "cheque_status_id") int? chequeStatusId,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "cheque_status_name") String? chequeStatusName,
@@ -14,8 +14,8 @@ class ChequestatusResponse with _$ChequestatusResponse {
     @JsonKey(name: "is_active") int? isActive,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") dynamic updatedAt,
-  }) = _ChequestatusResponse;
+  }) = _ChequeStatusResponse;
 
-  factory ChequestatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$ChequestatusResponseFromJson(json);
+  factory ChequeStatusResponse.fromJson(Map<String, dynamic> json) =>
+      _$ChequeStatusResponseFromJson(json);
 }

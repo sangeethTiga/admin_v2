@@ -4,7 +4,7 @@
 //     final offertypeResponse = offertypeResponseFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 part 'offertype_response.freezed.dart';
 part 'offertype_response.g.dart';
 

@@ -2,7 +2,7 @@ import 'package:admin_v2/features/common/domain/models/account/account_response.
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
-import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
+
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
@@ -64,7 +64,7 @@ class CommonCubit extends Cubit<CommonState> {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.purchaseType();
 
-      print('////all////:${res.data}');
+      
       if (res.data != null) {
         emit(
           state.copyWith(

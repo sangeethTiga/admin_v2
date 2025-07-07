@@ -157,7 +157,7 @@ class DashboardScreenState extends State<DashboardScreen>
           selectedStore: state.selectedStore,
           selectedAccount: state.selectedAccount,
           onTap: () {
-            print("{yfdghbjnkmk}");
+          
             navigateToFeature(
               accountList[index].name ?? '',
               context,
