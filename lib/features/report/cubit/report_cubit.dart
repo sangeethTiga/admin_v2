@@ -1107,9 +1107,7 @@ class ReportCubit extends Cubit<ReportState> {
 
     if (res.data != null && res.data!.isNotEmpty) {
       final DaySummaryResponse fetched = res.data!.first;
-      // final List<DaySummaryResponse> newList = isLoadMore
-      //     ? <DaySummaryResponse>[...?state.daySummary, fetched]
-      //     : [fetched];
+
 
       emit(
         state.copyWith(
