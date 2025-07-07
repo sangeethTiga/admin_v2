@@ -247,15 +247,47 @@ class DashboardCubit extends Cubit<DashboardState> {
   Future<void> changeToDate(DateTime date) async {
     emit(state.copyWith(toDate: date));
   }
-  
-  Future<void>clearData()async{
-    emit(state.copyWith(selectedWaiter: WaitersResponse(),
-    selectedShift: ListOfDemo(),
-    selectedCashier: CashierResponse(),
-    selectedKiosk: KioskResponse(),
-    selectMonth: durationMonths.first ,
-    selectedGroupBy: Dates()  ,
-    selectedPaymethod: PaymentMethodResponse()
-    ));
+
+  Future<void> clearSelectedCategories() async {
+    emit(state.copyWith(selectedCategory: null));
+  }
+
+  Future<void> loadProductsCategory(int? storeId) async {
+    try {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+      final res = await _dashboardRepositories.loadProductsCategory(
+        storeId: storeId ?? 0,
+      );
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.success,
+            sellingProductsReport: res.data,
+            selectedProducts: res.data?.first,
+          ),
+        );
+      }
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    }
+  }
+
+  Future<void> selectCategory(MostSellingResponse products) async {
+    emit(state.copyWith(selectedProducts: products));
+  }
+
+  Future<void> clearData() async {
+    emit(
+      state.copyWith(
+        selectedWaiter: WaitersResponse(),
+        selectedShift: ListOfDemo(),
+        selectedCashier: CashierResponse(),
+        selectedKiosk: KioskResponse(),
+        selectMonth: durationMonths.first,
+        selectedGroupBy: Dates(),
+        selectedPaymethod: PaymentMethodResponse(),
+      ),
+    );
   }
 }

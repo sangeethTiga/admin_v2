@@ -187,6 +187,13 @@ class OrderDetailScreen extends StatelessWidget {
                     label: 'Shipping Address',
                     expandedWidget: Container(
                       decoration: BoxDecoration(color: kGreenColor),
+                      child: Column(
+                        children: [
+                          Text('Customer:  ${state.orderDetail?.billCustName}'),
+                          Text('Email:  ${state.orderDetail?.billEmail}'),
+                          Text('Mobile: ${state.orderDetail?.shipMobile}'),
+                        ],
+                      ),
                     ),
                     isExpand: true,
                   ),
@@ -199,13 +206,20 @@ class OrderDetailScreen extends StatelessWidget {
                     label: 'Billing Address',
                     expandedWidget: Container(
                       decoration: BoxDecoration(color: kGreenColor),
+                      child: Column(
+                        children: [
+                          Text('Customer:  ${state.orderDetail?.billCustName}'),
+                          Text('Email: ${state.orderDetail?.billEmail}'),
+                          Text('Mobile: ${state.orderDetail?.shipMobile}')
+                        ],
+                      ),
                     ),
                     isExpand: true,
                   ),
                 ),
                 MainPadding(
                   child: Text(
-                    'PRIEC DETAILS',
+                    'PRICE DETAILS',
                     style: FontPalette.hW700S11.copyWith(
                       color: Color(0XFF5E6566),
                     ),

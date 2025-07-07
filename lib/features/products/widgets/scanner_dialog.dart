@@ -7,7 +7,6 @@ class ScannerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return AlertDialog(
       content: SizedBox(
         height: 300,
@@ -23,7 +22,7 @@ class ScannerDialog extends StatelessWidget {
                 final barCode = capture.barcodes.firstOrNull;
                 final code = barCode?.rawValue;
                 print('scanner-=-=-=-=-=-=$code');
-               if (code != null && code.isNotEmpty) {
+                if (code != null && code.isNotEmpty) {
                   Navigator.of(context).pop(code);
                 }
               },

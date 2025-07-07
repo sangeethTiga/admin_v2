@@ -1,10 +1,7 @@
-
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
-
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
@@ -15,7 +12,7 @@ import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/svg.dart'; 
 
 class ChequetransScreen extends StatelessWidget {
   const ChequetransScreen({super.key});
@@ -57,9 +54,7 @@ class ChequetransScreen extends StatelessWidget {
                             }).toList() ??
                             [],
                         fillColor: const Color(0XFFEFF1F1),
-                        // suffixWidget: SvgPicture.asset(
-                        //   'assets/icons/Arrow - Right.svg',
-                        // ),
+
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
                         },
@@ -111,7 +106,6 @@ class ChequetransScreen extends StatelessWidget {
 
                   BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, commonState) {
-                    
                       return BlocBuilder<ReportCubit, ReportState>(
                         builder: (context, reportState) {
                           return CustomMaterialBtton(
@@ -121,11 +115,7 @@ class ChequetransScreen extends StatelessWidget {
                             onPressed: () {
                               final selectedStatusId =
                                   reportState.selectedStatus?.chequeStatusId;
-                              // if (selectedStatusId == null) {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     SnackBar(content: Text('Please select a status')),
-                              //   );
-                              // }
+
                               context.read<ReportCubit>().loadChequeTrans(
                                 storeId: commonState.selectedStore?.storeId,
                                 status: selectedStatusId?.toString(),
@@ -154,7 +144,7 @@ class ChequetransScreen extends StatelessWidget {
                             "STATUS",
                             "AMOUNT",
                           ],
-                          columnFlex: [1, 2, 2, 2, 2, 2, 2],
+                          columnFlex: [1, 3, 3, 3, 3, 4, 3],
                           data:
                               state.chequeTransReport?.map((e) {
                                 int index =

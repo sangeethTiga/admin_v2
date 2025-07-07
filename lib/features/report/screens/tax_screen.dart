@@ -39,19 +39,19 @@ class TaxScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Total Tax Collected',
+                          'Total tax collected',
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
                         3.verticalSpace,
                         Text(
-                         ' ${(taxResponse.totalTaxCollected ?? 0.0).toStringAsFixed(2)}',
+                          ' ${(taxResponse.totalTaxCollected ?? 0.0).toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
                         28.verticalSpace,
                         Text(
-                          'Total Tax Paid',
+                          'Total tax paid',
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
@@ -63,7 +63,7 @@ class TaxScreen extends StatelessWidget {
                         ),
                         28.verticalSpace,
                         Text(
-                          'Net Payable',
+                          'Net payable',
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
@@ -82,38 +82,40 @@ class TaxScreen extends StatelessWidget {
                     return Column(
                       children: [
                         Text(
-                          'Total Tax Collected',
+                          'Total tax collected',
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
 
-                         3.verticalSpace,
+                        3.verticalSpace,
                         Text(
-                            ' ${(taxResponse?.totalTaxCollected ?? 0.00).toStringAsFixed(2)}',
+                          ' ${(taxResponse?.totalTaxCollected ?? 0.00).toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),
-                         28.verticalSpace,
+                        28.verticalSpace,
                         Text(
-                          'Total Tax Paid',
-                          style: FontPalette.hW600S13,
-                          textAlign: TextAlign.center,
-                        ),
-                       3.verticalSpace,
-                        Text(
-                          '${(taxResponse?.totalTaxPaid ?? 0.00).toStringAsFixed(2)}',
-                          textAlign: TextAlign.center,
-                          style: FontPalette.hW800S40,
-                        ),
-                         28.verticalSpace,
-                        Text(
-                          'Net Payable',
+                          'Total tax paid',
                           style: FontPalette.hW600S13,
                           textAlign: TextAlign.center,
                         ),
                         3.verticalSpace,
                         Text(
-                         '${(taxResponse?.netPayable ?? 0.00).toStringAsFixed(2)}',
+                          (taxResponse?.totalTaxPaid ?? 0.00).toStringAsFixed(
+                            2,
+                          ),
+                          textAlign: TextAlign.center,
+                          style: FontPalette.hW800S40,
+                        ),
+                        28.verticalSpace,
+                        Text(
+                          'Net payable',
+                          style: FontPalette.hW600S13,
+                          textAlign: TextAlign.center,
+                        ),
+                        3.verticalSpace,
+                        Text(
+                          (taxResponse?.netPayable ?? 0.00).toStringAsFixed(2),
                           textAlign: TextAlign.center,
                           style: FontPalette.hW800S40,
                         ),

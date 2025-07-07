@@ -173,7 +173,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                             .selectProduct(product);
                                         context
                                             .read<ProductCubit>()
-                                            .changeProducType(product);
+                                            .changeProductType(product);
                                         context.read<ProductCubit>().product(
                                           common.selectedStore?.storeId ?? 0,
 
