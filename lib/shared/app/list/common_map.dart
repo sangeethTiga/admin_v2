@@ -124,21 +124,21 @@ List<Item> mapItems = [
 ];
 
 class PurchaseType {
-    int? Id;
+  int? id;
   String? name;
-  PurchaseType({this.Id, this.name});
+  PurchaseType({this.id, this.name});
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is PurchaseType &&Id == other.Id;
+      identical(this, other) || other is PurchaseType && id == other.id;
 
   @override
-  int get hashCode => Id.hashCode;
+  int get hashCode => id.hashCode;
 }
 
 List<PurchaseType> purchaseTypes = [
-  PurchaseType(name: 'All', Id: 0),
-  PurchaseType(name: 'Cash', Id: 1),
-  PurchaseType(name: 'Card', Id: 2),
+  PurchaseType(name: 'All', id: 0),
+  PurchaseType(name: 'Cash', id: 1),
+  PurchaseType(name: 'Credit', id: 2),
 ];
 
 class Product {
@@ -166,31 +166,3 @@ List<Product> products = [
   Product(filterId: 9, name: 'Sellable'),
   Product(filterId: 10, name: 'POS Only'),
 ];
-
-class ProductModel {
-  final String allProducts;
-  final int stock;
-  final bool isHidden;
-  final bool isLessThan;
-  final bool isVariant;
-  final bool isBestSelling;
-  final bool isFeatured;
-  final bool notHidden;
-  final bool purchasable;
-  final bool isSellable;
-  final bool isPOSonly;
-
-  ProductModel({
-    required this.allProducts,
-    required this.stock,
-    required this.isHidden,
-    required this.isLessThan,
-    required this.isVariant,
-    required this.isBestSelling,
-    required this.isFeatured,
-    required this.notHidden,
-    required this.purchasable,
-    required this.isSellable,
-    required this.isPOSonly,
-  });
-}

@@ -173,15 +173,15 @@ abstract class ReportRepositories {
   //   required int categoryId
   // });
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
-    required int pageFirstResult,
-    required int resultPerPage,
-    required int storeId,
-    required String fromDate,
-    required String toDate,
-    required int roleId,
-    required int userId,
-    required int categoryId,
-    required String searchText,
+     int? pageFirstResult,
+     int? resultPerPage,
+     int? storeId,
+     String? fromDate,
+     String? toDate,
+     int? roleId,
+     int? userId,
+     int? categoryId,
+     String? searchText,
   });
 
   Future<ResponseResult<List<SuppliersResponse>>> loadSuppliers({

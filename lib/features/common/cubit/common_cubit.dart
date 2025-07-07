@@ -84,34 +84,34 @@ class CommonCubit extends Cubit<CommonState> {
     emit(state.copyWith(selectedPurchaseType: options));
   }
 
-  Future<void> loadProductsCategory(int? storeId,
-   //int? categoryId
-   ) 
-   async {
-    try {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
-      final res = await _commonRepostories.loadProductsCategory(
-        storeId: storeId ?? 0,
-        //categoryId: categoryId ?? 0,
-      );
-      if (res.data != null) {
-        emit(
-          state.copyWith(
-            apiFetchStatus: ApiFetchStatus.success,
-            sellingProductsReport: res.data,
-            selectedProducts: res.data?.first,
-          ),
-        );
-      }
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    } catch (e) {
-      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
-    }
-  }
+  // Future<void> loadProductsCategory(int? storeId,
+  //  //int? categoryId
+  //  ) 
+  //  async {
+  //   try {
+  //     emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+  //     final res = await _commonRepostories.loadProductsCategory(
+  //       storeId: storeId ?? 0,
+  //       //categoryId: categoryId ?? 0,
+  //     );
+  //     if (res.data != null) {
+  //       emit(
+  //         state.copyWith(
+  //           apiFetchStatus: ApiFetchStatus.success,
+  //           sellingProductsReport: res.data,
+  //           selectedProducts: res.data?.first,
+  //         ),
+  //       );
+  //     }
+  //     emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+  //   } catch (e) {
+  //     emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+  //   }
+  // }
 
-  Future<void> selectedProducts(MostSellingResponse products) async {
-    emit(state.copyWith(selectedProducts: products));
-  }
+  // Future<void> selectedProducts(MostSellingResponse products) async {
+  //   emit(state.copyWith(selectedProducts: products));
+  // }
 
   // Future<void> selectProduct(Product? productOption) async {
   //    print("Selected product: ${productOption?.name}");

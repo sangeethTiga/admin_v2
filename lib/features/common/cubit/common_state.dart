@@ -10,9 +10,7 @@ class CommonState extends Equatable {
   final OptionResponse? selectedOption;
   final List<PurchaseType>? purchaseType;
   final PurchaseType? selectedPurchaseType;
-  final List<MostSellingResponse>? sellingProductsReport;
-  final ApiFetchStatus? isMostSelling;
-  final MostSellingResponse? selectedProducts;
+  
   final ApiFetchStatus? isChequeStatus;
   final int? currentPage;
   final StoreResponse? storeForProfitloss;
@@ -28,9 +26,7 @@ class CommonState extends Equatable {
     this.optionList,
     this.purchaseType,
     this.selectedPurchaseType,
-    this.isMostSelling,
-    this.sellingProductsReport,
-    this.selectedProducts,
+   
     this.isChequeStatus,
     this.currentPage,
     this.storeForProfitloss,
@@ -47,9 +43,7 @@ class CommonState extends Equatable {
     OptionResponse? selectedOption,
     List<PurchaseType>? purchaseType,
     PurchaseType? selectedPurchaseType,
-    List<MostSellingResponse>? sellingProductsReport,
-    ApiFetchStatus? isMostSelling,
-    MostSellingResponse? selectedProducts,
+ 
     ApiFetchStatus? isChequeStatus,
     int? currentPage,
     List<Product>? productList,
@@ -65,9 +59,7 @@ class CommonState extends Equatable {
     selectedOption: selectedOption ?? this.selectedOption,
     purchaseType: purchaseType ?? this.purchaseType,
     selectedPurchaseType: selectedPurchaseType ?? selectedPurchaseType,
-    sellingProductsReport: sellingProductsReport ?? this.sellingProductsReport,
-    isMostSelling: isMostSelling ?? this.isMostSelling,
-    selectedProducts: selectedProducts ?? this.selectedProducts,
+    
     isChequeStatus: isChequeStatus ?? this.isChequeStatus,
     currentPage: currentPage ?? this.currentPage,
     storeForProfitloss: storeForProfitloss ?? this.storeForProfitloss,
@@ -84,9 +76,7 @@ class CommonState extends Equatable {
     optionList,
     selectedOption,
     purchaseType,
-    sellingProductsReport,
-    isMostSelling,
-    selectedProducts,
+   
     isChequeStatus,
     currentPage,
     storeForProfitloss,

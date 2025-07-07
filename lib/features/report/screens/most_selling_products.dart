@@ -1,6 +1,6 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -44,7 +44,7 @@ class MostSellingProducts extends StatelessWidget {
                         ),
                       ),
                       borderColor: kBlack,
-                      value: state.selectedStore,
+                      value: context.read<DashboardCubit>().state.selectedStore,
                       items:
                           state.storeList?.map((e) {
                             return DropdownMenuItem<StoreResponse>(
@@ -57,14 +57,17 @@ class MostSellingProducts extends StatelessWidget {
 
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
-                        context.read<CommonCubit>().loadProductsCategory(
+                        context.read<DashboardCubit>().loadProductsCategory(
                           p0?.storeId,
-                          // state.selectedProducts?.categoryId,
                         );
-                        // context.read<ReportCubit>().loadProductReport(
-                        //   storeId: p0?.storeId,
-                        //   categoryId: ,
-                        // );
+
+                        context.read<ReportCubit>().clearCategories();
+
+                        context.read<ProductCubit>().changeStore(p0);
+                        context.read<ReportCubit>().loadProductReport(
+                          storeId: p0?.storeId,
+                          categoryId: state.selectedCategory?.categoryId,
+                        );
                       },
                       labelText: '',
                     );
@@ -72,72 +75,72 @@ class MostSellingProducts extends StatelessWidget {
                 ),
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
-                    return BlocBuilder<CommonCubit, CommonState>(
-                      builder: (context, common) {
-                        return DropDownFieldWidget(
-                          isLoading:
-                              state.apiFetchStatus == ApiFetchStatus.loading,
-                          prefixIcon: Container(
-                            margin: EdgeInsets.only(left: 12.w),
-                            child: SvgPicture.asset(
-                              'assets/icons/package-box-pin-location.svg',
-                              width: 20.w,
-                              height: 20.h,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          borderColor: kBlack,
-                          inputBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                          ),
-                          fillColor: const Color(0XFFEFF1F1),
-                          value:
-                              (common.sellingProductsReport ?? [])
-                                  .map((e) => e.categoryId)
-                                  .contains(state.selectedCategory?.categoryId)
-                              ? state.selectedCategory?.categoryId
-                              : null,
-                          // common.sellingProductsReport?.any(
-                          //       (e) =>
-                          //           e.categoryId ==
-                          //           state.selectedCategory?.categoryId,
-                          //     ) ==
-                          //     true
-                          // ? state.selectedCategory?.categoryId
-                          // : null,
+                    return DropDownFieldWidget(
+                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                      prefixIcon: Container(
+                        margin: EdgeInsets.only(left: 12.w),
+                        child: SvgPicture.asset(
+                          'assets/icons/package-box-pin-location.svg',
+                          width: 20.w,
+                          height: 20.h,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      borderColor: kBlack,
+                      inputBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                      ),
+                      fillColor: const Color(0XFFEFF1F1),
+                      value: (() {
+                        final selectedId = state.selectedCategory?.categoryId;
 
-                          // state.selectedProducts,
-                          items:
-                              common.sellingProductsReport?.map((e) {
-                                return DropdownMenuItem<int>(
-                                  value: e.categoryId,
-                                  child: Text(e.categoryName ?? ''),
-                                );
-                              }).toList() ??
-                              [],
-
-                          onChanged: (categoryId) {
-                            final selectedCategory = common
-                                .sellingProductsReport
-                                ?.firstWhere((e) => e.categoryId == categoryId);
-
-                            if (selectedCategory != null &&
-                                selectedCategory.categoryId !=
-                                    state.selectedCategory?.categoryId) {
-                              context.read<ReportCubit>().changeCategory(
-                                selectedCategory,
-                              );
-                            }
-                            context.read<ReportCubit>().loadProductReport(
-                              storeId: state.selectedStore?.storeId,
-                              categoryId: selectedCategory?.categoryId,
-                            );
-                          },
-
-                          labelText: 'select category',
+                        final valid = (state.sellingProductsReport ?? []).where(
+                          (e) => e.categoryId == selectedId,
                         );
+
+                        return valid.length == 1 ? selectedId : null;
+                      })(),
+
+                      // value:
+                      //     common.sellingProductsReport?.any(
+                      //           (e) =>
+                      //               e.categoryId ==
+                      //               state.selectedCategory?.categoryId,
+                      //         ) ==
+                      //         true
+                      //     ? state.selectedCategory?.categoryId
+                      //     : null,
+                      items:
+                          state.sellingProductsReport?.map((e) {
+                            return DropdownMenuItem<int>(
+                              value: e.categoryId,
+                              child: Text(e.categoryName ?? ''),
+                            );
+                          }).toList() ??
+                          [],
+
+                      onChanged: (categoryId) {
+                        final selectedCategory = state.sellingProductsReport
+                            ?.firstWhere((e) => e.categoryId == categoryId);
+
+                        if (selectedCategory != null &&
+                            selectedCategory.categoryId !=
+                                state.selectedCategory?.categoryId) {
+                          context.read<DashboardCubit>().selectCategory(
+                            selectedCategory,
+                          );
+                          context.read<ReportCubit>().changeCategory(
+                            selectedCategory,
+                          );
+                          // context.read<ReportCubit>().loadProductReport(
+                          //   storeId: state.selectedStore?.storeId,
+                          //   categoryId: selectedCategory.categoryId,
+                          // );
+                        }
                       },
+
+                      labelText: 'select category',
                     );
                   },
                 ),
@@ -175,19 +178,22 @@ class MostSellingProducts extends StatelessWidget {
                   },
                 ),
                 12.verticalSpace,
-                BlocBuilder<DashboardCubit, DashboardState>(
+                BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
-                    return BlocBuilder<CommonCubit, CommonState>(
+                    return BlocBuilder<DashboardCubit, DashboardState>(
                       builder: (context, common) {
                         return CustomMaterialBtton(
                           isLoading:
                               common.isMostSelling == ApiFetchStatus.loading,
                           onPressed: () {
-                            final selectedCatId =
-                                state.selectedCategory?.categoryId;
+                            final categoryId = context
+                                .read<DashboardCubit>()
+                                .state
+                                .selectedCategory
+                                ?.categoryId;
                             context.read<ReportCubit>().loadProductReport(
-                              storeId: state.selectedStore?.storeId,
-                              categoryId: selectedCatId,
+                              storeId: common.selectedStore?.storeId,
+                              categoryId: categoryId,
                             );
                           },
                           buttonText: 'View Report',

@@ -34,19 +34,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final TextEditingController mobileScannerController = TextEditingController();
-  final List<Map<String, dynamic>> filterTypes = [
-    {'filter_id': 0, 'name': 'All Products'},
-    {'filter_id': 1, 'name': 'Out of stock products'},
-    {'filter_id': 2, 'name': 'Hidden Products'},
-    {'filter_id': 3, 'name': 'Stock Less than or equal'},
-    {'filter_id': 4, 'name': 'Variant Products'},
-    {'filter_id': 5, 'name': 'Best Selling'},
-    {'filter_id': 6, 'name': 'Featured'},
-    {'filter_id': 7, 'name': 'Not Hidden'},
-    {'filter_id': 8, 'name': 'Purchasable'},
-    {'filter_id': 9, 'name': 'Sellable'},
-    {'filter_id': 10, 'name': 'POS Only'},
-  ];
+
 
   int? selectedFilter;
   @override

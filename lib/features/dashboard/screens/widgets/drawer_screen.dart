@@ -166,7 +166,7 @@ class _DrawerContent extends StatelessWidget {
       title: 'Most Selling Products',
       route: routeSellingProducts,
       onTap: (context) {
-        context.read<CommonCubit>().loadProductsCategory(
+        context.read<DashboardCubit>().loadProductsCategory(
           selectedStore?.storeId,
         );
         context.push(routeSellingProducts);
