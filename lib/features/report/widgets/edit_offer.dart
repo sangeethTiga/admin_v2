@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
 class EditProductOffer extends StatefulWidget {
   final bool isEdit;
@@ -84,7 +83,13 @@ class _EditProductOfferState extends State<EditProductOffer> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Update Product Offer', style: FontPalette.hW700S14),
+                  Text(
+                    widget.isEdit
+                        ? 'Update Product Offer'
+                        : 'Add Product Offer',
+                    style: FontPalette.hW700S14,
+                  ),
+
                   GestureDetector(
                     onTap: () async {
                       Navigator.pop(context);
@@ -426,92 +431,113 @@ class _EditProductOfferState extends State<EditProductOffer> {
                     //   );
 
                     //   await cubit.createProductOffer(offer: newOffer);
+                    // }  else {
+                    //   final editOffer = EditOfferResponse(
+                    //     offerPrice: double.tryParse(offerPriceController.text) ?? 0.0,
+                    //     offerPricePercentage: int.tryParse(discountController.text) ?? 0,
+                    //     storeId: widget.product?.storeId ?? 0,
+                    //     productId: widget.product?.productId ?? 0,
+                    //     branchId: widget.product?.branchId ?? 0,
+                    //     couponId: widget.product?.couponId ?? 0,
+                    //     createdBy: widget.product?.createdBy ?? 0,
+                    //     deliveryPartnerId: widget.product?.deliveryPartnerId ?? 0,
+                    //     maxOrderQty: widget.product?.maxOrderQty ?? 0,
+                    //     offerTypeId: widget.product?.offerTypeId ?? 0,
+                    //     prodOfferTypeId: widget.product?.prodOfferTypeId ?? 0,
+                    //     updatedBy: widget.product?.updatedBy ?? 0,
+                    //     resourceId: widget.product?.resourceId ?? 0,
+                    //     prodVarCode: widget.product?.prodVarCode,
+                    //     offerFromDate: context.read<ReportCubit>().state.fromDate,
+                    //     offerToDate: context.read<ReportCubit>().state.toDate,
+                    //   );
+
+                    //   await context.read<ReportCubit>().loadEditOffer(
+                    //     editOffer,
+                    //     widget.product?.productId ?? 0,
+                    //     widget.product?.storeId ?? 0,
+                    //   );
+                    //   context.pop(true);
+                    //   final offer = CreateOfferResponse(
+                    //     productId: widget.product?.productId ?? 0,
+                    //     storeId: widget.product?.storeId ?? 0,
+                    //     branchId: widget.product?.branchId ?? 0,
+                    //     offerFromDate: context.read<ReportCubit>().state.fromDate,
+                    //     offerToDate: context.read<ReportCubit>().state.toDate,
+                    //     offerPrice: int.tryParse(offerPriceController.text) ?? 0,
+                    //     offerPricePercentage: int.tryParse(discountController.text) ?? 0,
+                    //    // offerTypeId: context.read<ReportCubit>().state.selectedType?.offerTypeId,
+                    //     createdBy: widget.product?.createdBy ?? 0,
+                    //     updatedBy: widget.product?.updatedBy ?? 0,
+                    //     deliveryPartnerId: widget.product?.deliveryPartnerId ?? 0,
+                    //     prodOfferTypeId: context.read<ReportCubit>().state.selectedType?.prodOfferTypeId ?? 0,
+                    //     prodVarCode: widget.product?.prodVarCode,
+                    //     resourceId: widget.product?.resourceId ?? 0,
+                    //     maxOrderQty: widget.product?.maxOrderQty ?? 0,
+                    //   );
+
+                    //   await context.read<ReportCubit>().createProductOffer(offer: offer);
+                    //   context.pop(true);
+                    // } else {
+                    //   final editOffer = EditOfferResponse(
+                    //     offerPrice: double.tryParse(offerPriceController.text) ?? 0.0,
+                    //     offerPricePercentage: int.tryParse(discountController.text) ?? 0,
+                    //     storeId: widget.product?.storeId ?? 0,
+                    //     productId: widget.product?.productId ?? 0,
+                    //     branchId: widget.product?.branchId ?? 0,
+                    //     couponId: widget.product?.couponId ?? 0,
+                    //     createdBy: widget.product?.createdBy ?? 0,
+                    //     deliveryPartnerId: widget.product?.deliveryPartnerId ?? 0,
+                    //     maxOrderQty: widget.product?.maxOrderQty ?? 0,
+                    //     offerTypeId: widget.product?.offerTypeId ?? 0,
+                    //     prodOfferTypeId: widget.product?.prodOfferTypeId ?? 0,
+                    //     updatedBy: widget.product?.updatedBy ?? 0,
+                    //     resourceId: widget.product?.resourceId ?? 0,
+                    //     prodVarCode: widget.product?.prodVarCode,
+                    //     offerFromDate: context.read<ReportCubit>().state.fromDate,
+                    //     offerToDate: context.read<ReportCubit>().state.toDate,
+                    //   );
+
+                    //   await context.read<ReportCubit>().loadEditOffer(
+                    //     editOffer,
+                    //     widget.product?.productId ?? 0,
+                    //     widget.product?.storeId ?? 0,
+                    //   );
+                    //   context.pop(true);
                     // }
-                  
                   }
-                  context.pop();
 
-                  // if (widget.isCreated) {
-                  //   final offer = CreateOfferResponse(
-                  //     productId: widget.product?.productId ?? 0,
-                  //     storeId: widget.product?.storeId ?? 0,
-                  //     branchId: widget.product?.branchId ?? 0,
-                  //     offerFromDate: context.read<ReportCubit>().state.fromDate,
-                  //     offerToDate: context.read<ReportCubit>().state.toDate,
-                  //     offerPrice: int.tryParse(offerPriceController.text) ?? 0,
-                  //     offerPricePercentage: int.tryParse(discountController.text) ?? 0,
-                  //    // offerTypeId: context.read<ReportCubit>().state.selectedType?.offerTypeId,
-                  //     createdBy: widget.product?.createdBy ?? 0,
-                  //     updatedBy: widget.product?.updatedBy ?? 0,
-                  //     deliveryPartnerId: widget.product?.deliveryPartnerId ?? 0,
-                  //     prodOfferTypeId: context.read<ReportCubit>().state.selectedType?.prodOfferTypeId ?? 0,
-                  //     prodVarCode: widget.product?.prodVarCode,
-                  //     resourceId: widget.product?.resourceId ?? 0,
-                  //     maxOrderQty: widget.product?.maxOrderQty ?? 0,
-                  //   );
-
-                  //   await context.read<ReportCubit>().createProductOffer(offer: offer);
-                  //   context.pop(true);
-                  // } else {
+                  //  buttonText: 'Update',
+                  // onPressed: () async {
                   //   final editOffer = EditOfferResponse(
-                  //     offerPrice: double.tryParse(offerPriceController.text) ?? 0.0,
-                  //     offerPricePercentage: int.tryParse(discountController.text) ?? 0,
-                  //     storeId: widget.product?.storeId ?? 0,
-                  //     productId: widget.product?.productId ?? 0,
-                  //     branchId: widget.product?.branchId ?? 0,
-                  //     couponId: widget.product?.couponId ?? 0,
-                  //     createdBy: widget.product?.createdBy ?? 0,
-                  //     deliveryPartnerId: widget.product?.deliveryPartnerId ?? 0,
-                  //     maxOrderQty: widget.product?.maxOrderQty ?? 0,
-                  //     offerTypeId: widget.product?.offerTypeId ?? 0,
-                  //     prodOfferTypeId: widget.product?.prodOfferTypeId ?? 0,
-                  //     updatedBy: widget.product?.updatedBy ?? 0,
-                  //     resourceId: widget.product?.resourceId ?? 0,
-                  //     prodVarCode: widget.product?.prodVarCode,
-                  //     offerFromDate: context.read<ReportCubit>().state.fromDate,
-                  //     offerToDate: context.read<ReportCubit>().state.toDate,
+                  //     offerPrice:
+                  //         double.tryParse(offerPriceController.text) ?? 0.0,
+                  //     offerPricePercentage:
+                  //         int.tryParse(discountController.text) ?? 0,
+                  //     storeId: widget.product.storeId ?? 0,
+                  //     productId: widget.product.productId ?? 0,
+                  //     branchId: widget.product.branchId ?? 0,
+                  //     couponId: widget.product.couponId ?? 0,
+                  //     createdBy: widget.product.createdBy ?? 0,
+                  //     deliveryPartnerId: widget.product.deliveryPartnerId ?? 0,
+                  //     maxOrderQty: widget.product.maxOrderQty ?? 0,
+                  //     offerTypeId: widget.product.offerTypeId ?? 0,
+                  //     prodOfferTypeId: widget.product.prodOfferTypeId ?? 0,
+                  //     updatedBy: widget.product.updatedBy ?? 0,
+                  //     resourceId: widget.product.resourceId ?? 0,
+                  //     prodVarCode: widget.product.prodVarCode,
+                  //     offerFromDate: widget.product.offerFromDate,
+                  //     offerToDate: widget.product.offerToDate,
+                  //     priceTypeId: widget.product.priceTypeId ?? 0,
                   //   );
-
                   //   await context.read<ReportCubit>().loadEditOffer(
                   //     editOffer,
-                  //     widget.product?.productId ?? 0,
-                  //     widget.product?.storeId ?? 0,
+
+                  //     widget.product.productId ?? 0,
+                  //     widget.product.storeId ?? 0,
                   //   );
-                  //   context.pop(true);
-                  // }
+                  //   context.pop();
+                  // },
                 },
-
-                //  buttonText: 'Update',
-                // onPressed: () async {
-                //   final editOffer = EditOfferResponse(
-                //     offerPrice:
-                //         double.tryParse(offerPriceController.text) ?? 0.0,
-                //     offerPricePercentage:
-                //         int.tryParse(discountController.text) ?? 0,
-                //     storeId: widget.product.storeId ?? 0,
-                //     productId: widget.product.productId ?? 0,
-                //     branchId: widget.product.branchId ?? 0,
-                //     couponId: widget.product.couponId ?? 0,
-                //     createdBy: widget.product.createdBy ?? 0,
-                //     deliveryPartnerId: widget.product.deliveryPartnerId ?? 0,
-                //     maxOrderQty: widget.product.maxOrderQty ?? 0,
-                //     offerTypeId: widget.product.offerTypeId ?? 0,
-                //     prodOfferTypeId: widget.product.prodOfferTypeId ?? 0,
-                //     updatedBy: widget.product.updatedBy ?? 0,
-                //     resourceId: widget.product.resourceId ?? 0,
-                //     prodVarCode: widget.product.prodVarCode,
-                //     offerFromDate: widget.product.offerFromDate,
-                //     offerToDate: widget.product.offerToDate,
-                //     priceTypeId: widget.product.priceTypeId ?? 0,
-                //   );
-                //   await context.read<ReportCubit>().loadEditOffer(
-                //     editOffer,
-
-                //     widget.product.productId ?? 0,
-                //     widget.product.storeId ?? 0,
-                //   );
-                //   context.pop();
-                // },
               ),
             ),
           ],

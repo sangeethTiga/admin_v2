@@ -697,15 +697,14 @@ class ReportService implements ReportRepositories {
     required String toDate,
   }) async {
     final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider.get(
+    final res = await networkProvider .get(
       ApiEndpoints.daySummary(storeId, toDate),
     );
     log(">>> RAW RESPONSE object//: $res");
     log(">>> STATUS CODE,,,: ${res.statusCode}");
     log(">>> RESPONSE DATA???: ${res.data}");
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
-    // log(" ///API raw response: ${res.toString()}");
-    // log(" res.statusCode/// = ${res.statusCode}, res.data = ${res.data}");
+
 
     switch (res.statusCode) {
       case 200:
