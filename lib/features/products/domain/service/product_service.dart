@@ -21,6 +21,7 @@ class ProductService implements ProductRepositories {
     String? search,
     String? barCode,
     int? filterId,
+    int? page
   }) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -31,6 +32,7 @@ class ProductService implements ProductRepositories {
         search ?? '',
         barCode ?? '',
         filterId ?? 0,
+        page ?? 0,
       ),
     );
     switch (res.statusCode) {
@@ -47,7 +49,7 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  Future<ResponseResult<List<StockStatusResponse>>>stockStatus() async {
+  Future<ResponseResult<List<StockStatusResponse>>> stockStatus() async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(ApiEndpoints.stockStatus);

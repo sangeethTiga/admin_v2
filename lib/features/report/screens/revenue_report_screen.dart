@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -29,49 +28,7 @@ class RevenueReportScreen extends StatelessWidget {
             children: [
               dividerWidget(height: 6.h),
               10.verticalSpace,
-              // SizedBox(
-              //   height: 40.h,
-              //   child: ListView.builder(
-              //     padding: EdgeInsets.only(left: 12.w),
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: payMethod.length,
-              //     shrinkWrap: true,
-              //     itemBuilder: (context, i) {
-              //       return GestureDetector(
-              //         onTap: () {
-              //           context.read<ReportCubit>().changeMethod(payMethod[i]);
-              //         },
-              //         child: Container(
-              //           alignment: Alignment.center,
-              //           margin: EdgeInsets.only(right: 8.w),
-              //           height: 40.h,
-              //           width: 106.w,
-              //           decoration: BoxDecoration(
-              //             border: Border.all(
-              //               color:
-              //                   state.selectedMethod?.name == payMethod[i].name
-              //                   ? kPrimaryColor
-              //                   : Color(0XFFDFE8E9),
-              //             ),
-              //             color: state.selectedMethod?.name == payMethod[i].name
-              //                 ? kPrimaryColor
-              //                 : kWhite,
-              //             borderRadius: BorderRadius.circular(44.r),
-              //           ),
-              //           child: Text(
-              //             payMethod[i].name ?? '',
-              //             style: FontPalette.hW700S13.copyWith(
-              //               color:
-              //                   state.selectedMethod?.name == payMethod[i].name
-              //                   ? kWhite
-              //                   : kBlack,
-              //             ),
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
+
               MainPadding(
                 child: Column(
                   children: [

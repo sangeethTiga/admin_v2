@@ -83,8 +83,9 @@ class ApiEndpoints {
     String search,
     String barCode,
     int filterId,
+    int pageFirstResult,
   ) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=0&result_per_page=500';
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=10';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
@@ -221,9 +222,7 @@ class ApiEndpoints {
   static String specialOffer(int storeId) =>
       '/api/product_offer_type?store_id=20';
   static String editOffer(int productId) => '/api/product_offer/$productId';
-  static String createOffer(
-  
-  ) => '/api/product_offer';
+  static String createOffer() => '/api/product_offer';
 
   static String getDeliveryAgent(int deliveryPartnerId, int storeId) =>
       '/api/delivery_agent?delivery_partner_id=$deliveryPartnerId&store_id=$storeId';

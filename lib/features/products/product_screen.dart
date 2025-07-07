@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:async';
 
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -33,637 +33,771 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  final TextEditingController mobileScannerController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  Timer? _debounceTimer;
 
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+    _scrollController.addListener(_onScrollChanged);
+  }
 
-  int? selectedFilter;
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _scrollController.removeListener(_onScrollChanged);
+    _searchController.dispose();
+    _scrollController.dispose();
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      _performSearch(_searchController.text);
+    });
+  }
+
+  void _onScrollChanged() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      _loadMoreProducts();
+    }
+  }
+
+  void _performSearch(String query) {
+    context.read<ProductCubit>().searchProducts(query);
+  }
+
+  void _loadMoreProducts() {
+    context.read<ProductCubit>().loadMoreProducts();
+  }
+
+  Future<void> _refreshProducts() async {
+    // await context.read<ProductCubit>().refreshProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Products'),
-      body: BlocBuilder<ProductCubit, ProductState>(
-        builder: (context, state) {
-          // if (state.isProduct == ApiFetchStatus.loading) {
-          //   return Center(child: CircularProgressIndicator());
-          // }
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                dividerWidget(height: 6.h),
-                MainPadding(
-                  child: Column(
-                    children: [
-                      BlocBuilder<DashboardCubit, DashboardState>(
-                        builder: (context, state) {
-                          return DropDownFieldWidget(
-                            isLoading:
-                                state.apiFetchStatus == ApiFetchStatus.loading,
-                            prefixIcon: Container(
-                              margin: EdgeInsets.only(left: 12.w),
-                              child: SvgPicture.asset(
-                                'assets/icons/package-box-pin-location.svg',
-                                width: 20.w,
-                                height: 20.h,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            borderColor: kBlack,
-                            value: context
-                                .read<DashboardCubit>()
-                                .state
-                                .selectedStore,
-                            items:
-                                state.storeList?.map((e) {
-                                  return DropdownMenuItem<StoreResponse>(
-                                    value: e,
-                                    child: Text(e.storeName ?? ''),
-                                  );
-                                }).toList() ??
-                                [],
-                            fillColor: const Color(0XFFEFF1F1),
-
-                            onChanged: (p0) {
-                              context.read<DashboardCubit>().selectedStore(p0);
-
-                              context.read<ProductCubit>().catgeory(
-                                p0?.storeId,
-                              );
-                              context.read<ProductCubit>().clearCategory();
-                              context.read<ProductCubit>().changeStore(p0);
-                              context.read<ProductCubit>().product(
-                                p0?.storeId,
-                                0,
-                                '',
-                                '',
-                                0,
-                              );
-                            },
-                            labelText: '',
-                          );
-                        },
-                      ),
-                      // 2.verticalSpace,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: BlocBuilder<ProductCubit, ProductState>(
-                              builder: (context, state) {
-                                return BlocBuilder<
-                                  DashboardCubit,
-                                  DashboardState
-                                >(
-                                  builder: (context, common) {
-                                    return DropDownFieldWidget(
-                                      isLoading: false,
-                                      // prefixIcon: Container(
-                                      //   margin: EdgeInsets.only(left: 12.w),
-                                      //   child: SvgPicture.asset(
-                                      //     'assets/icons/package-box-pin-location.svg',
-                                      //     width: 20.w,
-                                      //     height: 20.h,
-                                      //     fit: BoxFit.contain,
-                                      //   ),
-                                      // ),
-                                      borderColor: kBlack,
-                                      labelText: 'All Products',
-                                      value:
-                                          state.prodList?.any(
-                                                (e) =>
-                                                    e.filterId ==
-                                                    state
-                                                        .selectProduct
-                                                        ?.filterId,
-                                              ) ==
-                                              true
-                                          ? state.selectProduct
-                                          : null,
-
-                                      items:
-                                          products.map((value) {
-                                            return DropdownMenuItem<Product>(
-                                              value: value,
-
-                                              child: Text(
-                                                value.name ?? '',
-                                                maxLines: 1,
-                                              ),
-                                            );
-                                          }).toList() ??
-                                          [],
-
-                                      fillColor: const Color(0XFFEFF1F1),
-                                      inputBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          8.r,
-                                        ),
-                                        borderSide: BorderSide(
-                                          color: Color(0XFFB7C6C2),
-                                        ),
-                                      ),
-
-                                      onChanged: (product) {
-                                        final selected = state.prodList
-                                            ?.firstWhere(
-                                              (e) =>
-                                                  e.filterId ==
-                                                  product.filterId,
-                                            );
-                                        context
-                                            .read<ProductCubit>()
-                                            .selectProduct(product);
-                                        context
-                                            .read<ProductCubit>()
-                                            .changeProducType(product);
-                                        context.read<ProductCubit>().product(
-                                          common.selectedStore?.storeId ?? 0,
-
-                                          selected?.filterId ?? 0,
-                                          '',
-                                          '',
-                                          0,
-                                        );
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: BlocBuilder<DashboardCubit, DashboardState>(
-                              builder: (context, common) {
-                                return DropDownFieldWidget(
-                                  isLoading:
-                                      state.apiFetchStatus ==
-                                      ApiFetchStatus.loading,
-                                  hintStyle: FontPalette.hW500S14,
-                                  labelText: 'Select category',
-
-                                  borderColor: kBlack,
-                                  value:
-                                      state.categoryList?.any(
-                                            (e) =>
-                                                e.details?.categoryId ==
-                                                state
-                                                    .selectCategory
-                                                    ?.details
-                                                    ?.categoryId,
-                                          ) ==
-                                          true
-                                      ? state
-                                            .selectCategory
-                                            ?.details
-                                            ?.categoryId
-                                      : null,
-                                  //state.selectCategory?.details?.categoryId,
-                                  items:
-                                      state.categoryList?.map((e) {
-                                        return DropdownMenuItem<int>(
-                                          value: e.details?.categoryId,
-                                          child: Text(
-                                            e.details?.categoryName ?? '',
-                                          ),
-                                        );
-                                      }).toList() ??
-                                      [],
-                                  fillColor: const Color(0XFFEFF1F1),
-
-                                  onChanged: (categoryId) {
-                                    mobileScannerController.clear();
-                                    final selectedCategory = state.categoryList
-                                        ?.firstWhere(
-                                          (e) =>
-                                              e.details?.categoryId ==
-                                              categoryId,
-                                        );
-                                    context.read<ProductCubit>().changeCategory(
-                                      selectedCategory!,
-                                    );
-                                    context.read<ProductCubit>().product(
-                                      common.selectedStore?.storeId ?? 0,
-
-                                      selectedCategory.details?.categoryId ?? 0,
-                                      '',
-                                      '',
-                                      0,
-                                    );
-                                  },
-                                  inputBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: BorderSide(
-                                      color: Color(0XFFB7C6C2),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      3.verticalSpace,
-
-                      TextFeildWidget(
-                        onChanged: (value) {
-                          final productCubit = context.read<ProductCubit>();
-                          final allProducts =
-                              productCubit.state.productList ?? [];
-                          if (value!.isEmpty) {
-                            productCubit.state.copyWith(
-                              filteredProducts: allProducts,
-                            );
-                          } else {
-                            final filtered = allProducts.where((product) {
-                              return product.productName
-                                      ?.toLowerCase()
-                                      .contains(value.toLowerCase()) ??
-                                  false;
-                            }).toList();
-                            productCubit.emit(
-                              productCubit.state.copyWith(
-                                filteredProducts: filtered,
-                              ),
-                            );
-                          }
-                        },
-
-                        prefix: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: SvgPicture.asset('assets/icons/Search.svg'),
-                        ),
-                        hintText: 'search for products',
-                        hintStyle: FontPalette.hW500S14,
-                        controller: mobileScannerController,
-
-                        borderColor: kBlack,
-                        hight: 48.h,
-                        fillColor: kWhite,
-                        inputBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () async {
-                            final scannedCode = await showDialog<String>(
-                              context: context,
-                              builder: (_) => ScannerDialog(),
-                            );
-                            log('scanned-=-=-=-=-=-=$scannedCode');
-                            if (scannedCode != null) {
-                              mobileScannerController.text = scannedCode;
-                              final storeId =
-                                  context
-                                      .read<DashboardCubit>()
-                                      .state
-                                      .selectedStore
-                                      ?.storeId ??
-                                  0;
-
-                              context.read<ProductCubit>().product(
-                                storeId,
-                                0,
-                                '',
-                                scannedCode,
-                                0,
-                              );
-                            }
-                          },
-                          icon: Icon(Icons.qr_code_scanner_outlined),
-                        ),
-                      ),
-
-                      12.verticalSpace,
-                      BlocBuilder<ProductCubit, ProductState>(
-                        builder: (context, state) {
-                          final isLoading =
-                              state.isProduct == ApiFetchStatus.loading;
-                          //   final products = state.filteredProducts ?? [];
-                          final products = state.scannedProduct != null
-                              ? [state.scannedProduct!]
-                              : state.filteredProducts ?? [];
-                          log(
-                            'scanned product-=-=-=-=-${state.scannedProduct}',
-                          );
-                          return isLoading
-                              ? _shimmerProductList() // <- Your shimmer placeholder here
-                              : ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: products.length,
-
-                                  itemBuilder: (context, i) {
-                                    final data = products[i];
-
-                                    return Container(
-                                      margin: EdgeInsets.only(bottom: 12.h),
-                                      height: 150.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          12.r,
-                                        ),
-                                        border: Border.all(
-                                          color: Color(0XFFF4F5F5),
-                                        ),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-
-                                        children: [
-                                          Row(
-                                            children: [
-                                              7.horizontalSpace,
-                                              Padding(
-                                                padding: const EdgeInsets.all(
-                                                  8.0,
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  height: 55.h,
-                                                  width: 55.w,
-                                                  imageUrl:
-                                                      (data.images?.isEmpty ??
-                                                          false)
-                                                      ? ''
-                                                      : data
-                                                                .images?[0]
-                                                                .medium ??
-                                                            '',
-                                                  errorWidget:
-                                                      (context, url, error) {
-                                                        return Icon(
-                                                          Icons.photo,
-                                                        );
-                                                      },
-                                                ),
-                                              ),
-
-                                              12.horizontalSpace,
-
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Flexible(
-                                                          child: Text(
-                                                            data.productName ??
-                                                                '',
-                                                            style: FontPalette
-                                                                .hW700S13,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            maxLines: 2,
-                                                          ),
-                                                        ),
-
-                                                        GestureDetector(
-                                                          onTap: () async {
-                                                            final editedResponse =
-                                                                await showModalBottomSheet<
-                                                                  EditUpdateResponse
-                                                                >(
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.only(
-                                                                      topLeft:
-                                                                          Radius.circular(
-                                                                            12.r,
-                                                                          ),
-                                                                      topRight:
-                                                                          Radius.circular(
-                                                                            12.r,
-                                                                          ),
-                                                                    ),
-                                                                  ),
-                                                                  isScrollControlled:
-                                                                      true,
-                                                                  backgroundColor:
-                                                                      kWhite,
-                                                                  context:
-                                                                      context,
-                                                                  builder: (context) {
-                                                                    return EditProduct(
-                                                                      product:
-                                                                          data,
-                                                                    );
-                                                                  },
-                                                                );
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              SvgPicture.asset(
-                                                                'assets/icons/Edit.svg',
-                                                              ),
-                                                              3.horizontalSpace,
-                                                              Text(
-                                                                'Edit',
-                                                                style: FontPalette
-                                                                    .hW700S14
-                                                                    .copyWith(
-                                                                      color:
-                                                                          kPrimaryColor,
-                                                                    ),
-                                                              ),
-                                                              6.horizontalSpace,
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    6.verticalSpace,
-
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'Price : ${data.productPrice ?? ''}',
-                                                          style: FontPalette
-                                                              .hW500S13,
-                                                        ),
-                                                        10.horizontalSpace,
-                                                        Text(
-                                                          'QTY : ${data.productQty ?? ''}',
-                                                          style: FontPalette
-                                                              .hW500S13,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    4.verticalSpace,
-                                                    Text(
-                                                      'Prod Code : ${data.productCode ?? ''}',
-                                                      style:
-                                                          FontPalette.hW500S13,
-                                                    ),
-                                                    4.verticalSpace,
-
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        context
-                                                            .read<
-                                                              ProductCubit
-                                                            >()
-                                                            .closeButton();
-                                                        if (data.isVariant ==
-                                                                1 &&
-                                                            data.maintainStock ==
-                                                                1) {
-                                                          context
-                                                              .read<
-                                                                ProductCubit
-                                                              >()
-                                                              .getVariants(
-                                                                data.productId!,
-                                                              );
-                                                          commonnShowBottomSheet(
-                                                            context: context,
-                                                            child: VariantStockUpdateCard(
-                                                              maintainStock: data
-                                                                  .maintainStock!,
-                                                            ),
-                                                          );
-                                                          // showModalBottomSheet(
-                                                          //   shape: RoundedRectangleBorder(
-                                                          //     borderRadius:
-                                                          //         BorderRadius.only(
-                                                          //           topLeft:
-                                                          //               Radius.circular(
-                                                          //                 12.r,
-                                                          //               ),
-                                                          //           topRight:
-                                                          //               Radius.circular(
-                                                          //                 12.r,
-                                                          //               ),
-                                                          //         ),
-                                                          //   ),
-                                                          //   backgroundColor: kWhite,
-                                                          //   context: context,
-                                                          //   isScrollControlled: true,
-
-                                                          //   builder: (context) {
-                                                          //     return VariantStockUpdateCard(
-                                                          //       maintainStock: data
-                                                          //           .maintainStock!,
-                                                          //     );
-                                                          //   },
-                                                          // );
-                                                        } else {
-                                                          commonnShowBottomSheet(
-                                                            context: context,
-                                                            child: StockUpdateCard(
-                                                              currentStock: data
-                                                                  .productQty,
-                                                              productId: data
-                                                                  .productId,
-                                                              maintainStock: data
-                                                                  .maintainStock,
-                                                              fromVariant:
-                                                                  false,
-                                                            ),
-                                                          );
-                                                          // showModalBottomSheet(
-                                                          //   shape: RoundedRectangleBorder(
-                                                          //     borderRadius:
-                                                          //         BorderRadius.only(
-                                                          //           topLeft:
-                                                          //               Radius.circular(
-                                                          //                 12.r,
-                                                          //               ),
-                                                          //           topRight:
-                                                          //               Radius.circular(
-                                                          //                 12.r,
-                                                          //               ),
-                                                          //         ),
-                                                          //   ),
-                                                          //   backgroundColor: kWhite,
-                                                          //   context: context,
-                                                          //   isScrollControlled: true,
-
-                                                          //   builder: (context) {
-                                                          //     return StockUpdateCard(
-                                                          //       currentStock:
-                                                          //           data.productQty,
-                                                          //       productId:
-                                                          //           data.productId,
-                                                          //       maintainStock: data
-                                                          //           .maintainStock,
-                                                          //       fromVariant: false,
-                                                          //     );
-                                                          //   },
-                                                          // );
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        height: 32.h,
-                                                        width: 108.w,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                6.r,
-                                                              ),
-                                                          border: Border.all(
-                                                            color:
-                                                                kPrimaryColor,
-                                                          ),
-                                                        ),
-                                                        child: Text(
-                                                          'Stock Update',
-                                                          style: FontPalette
-                                                              .hW700S13
-                                                              .copyWith(
-                                                                color:
-                                                                    kPrimaryColor,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                        },
-                      ),
-                    ],
+      appBar: const AppbarWidget(title: 'Products'),
+      body: RefreshIndicator(
+        onRefresh: _refreshProducts,
+        color: kPrimaryColor,
+        child: BlocBuilder<ProductCubit, ProductState>(
+          builder: (context, state) {
+            return SingleChildScrollView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  dividerWidget(height: 6.h),
+                  MainPadding(
+                    child: Column(
+                      children: [
+                        _buildStoreDropdown(),
+                        _buildCategoryAndProductDropdowns(state),
+                        3.verticalSpace,
+                        _buildSearchField(),
+                        12.verticalSpace,
+                        _buildProductsHeader(state),
+                        _buildProductsList(state),
+                        _buildPaginationFooter(state),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
+
+  Widget _buildStoreDropdown() {
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (context, state) {
+        return DropDownFieldWidget(
+          isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+          prefixIcon: Container(
+            margin: EdgeInsets.only(left: 12.w),
+            child: SvgPicture.asset(
+              'assets/icons/package-box-pin-location.svg',
+              width: 20.w,
+              height: 20.h,
+              fit: BoxFit.contain,
+            ),
+          ),
+          borderColor: kBlack,
+          value: state.selectedStore,
+          items:
+              state.storeList?.map((e) {
+                return DropdownMenuItem<StoreResponse>(
+                  value: e,
+                  child: Text(e.storeName ?? ''),
+                );
+              }).toList() ??
+              [],
+          fillColor: const Color(0XFFEFF1F1),
+          onChanged: (store) => _handleStoreChange(store),
+          labelText: '',
+        );
+      },
+    );
+  }
+
+  Widget _buildCategoryAndProductDropdowns(ProductState state) {
+    return Row(
+      children: [
+        Expanded(child: _buildProductTypeDropdown(state)),
+        const SizedBox(width: 8),
+        Expanded(child: _buildCategoryDropdown(state)),
+      ],
+    );
+  }
+
+  Widget _buildProductTypeDropdown(ProductState state) {
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (context, common) {
+        return DropDownFieldWidget(
+          isLoading: false,
+          borderColor: kBlack,
+          labelText: 'All Products',
+          value:
+              state.prodList?.any(
+                    (e) => e.filterId == state.selectProduct?.filterId,
+                  ) ==
+                  true
+              ? state.selectProduct
+              : null,
+          items: products.map((value) {
+            return DropdownMenuItem<Product>(
+              value: value,
+              child: Text(value.name ?? '', maxLines: 1),
+            );
+          }).toList(),
+          fillColor: const Color(0XFFEFF1F1),
+          inputBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
+          ),
+          onChanged: (product) =>
+              _handleProductTypeChange(product, state, common),
+        );
+      },
+    );
+  }
+
+  Widget _buildCategoryDropdown(ProductState state) {
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (context, common) {
+        return DropDownFieldWidget(
+          isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+          hintStyle: FontPalette.hW500S14,
+          labelText: 'Select category',
+          borderColor: kBlack,
+          value:
+              state.categoryList?.any(
+                    (e) =>
+                        e.details?.categoryId ==
+                        state.selectCategory?.details?.categoryId,
+                  ) ==
+                  true
+              ? state.selectCategory?.details?.categoryId
+              : null,
+          items:
+              state.categoryList?.map((e) {
+                return DropdownMenuItem<int>(
+                  value: e.details?.categoryId,
+                  child: Text(e.details?.categoryName ?? ''),
+                );
+              }).toList() ??
+              [],
+          fillColor: const Color(0XFFEFF1F1),
+          onChanged: (categoryId) =>
+              _handleCategoryChange(categoryId, state, common),
+          inputBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSearchField() {
+    return TextFeildWidget(
+      controller: _searchController,
+      prefix: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: SvgPicture.asset('assets/icons/Search.svg'),
+      ),
+      hintText: 'Search for products',
+      hintStyle: FontPalette.hW500S14,
+      borderColor: kBlack,
+      hight: 48.h,
+      fillColor: kWhite,
+      inputBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.r),
+        borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
+      ),
+      suffixIcon: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_searchController.text.isNotEmpty)
+            IconButton(
+              onPressed: () {
+                _searchController.clear();
+                _performSearch('');
+              },
+              icon: Icon(Icons.clear, color: Colors.grey[600]),
+            ),
+          IconButton(
+            onPressed: _handleQRScan,
+            icon: const Icon(Icons.qr_code_scanner_outlined),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductsHeader(ProductState state) {
+    final products = state.filteredProducts ?? [];
+    final isSearchActive = _searchController.text.isNotEmpty;
+
+    if (products.isEmpty && state.isProduct != ApiFetchStatus.loading) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      margin: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${products.length} Products',
+                  style: FontPalette.hW600S14.copyWith(color: kPrimaryColor),
+                ),
+                if (isSearchActive)
+                  Text(
+                    'Filtered results for "${_searchController.text}"',
+                    style: FontPalette.hW400S13.copyWith(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          if (state.hasMoreData == true)
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+              decoration: BoxDecoration(
+                color: kPrimaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Text(
+                'More available',
+                style: FontPalette.hW500S10.copyWith(color: kPrimaryColor),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductsList(ProductState state) {
+    final isLoading = state.isProduct == ApiFetchStatus.loading;
+    final products = state.scannedProduct != null
+        ? [state.scannedProduct!]
+        : state.filteredProducts ?? [];
+
+    if (isLoading && products.isEmpty) {
+      return _buildShimmerList();
+    }
+
+    if (products.isEmpty && !isLoading) {
+      return _buildEmptyState();
+    }
+
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: products.length,
+      itemBuilder: (context, index) => _ProductCard(
+        key: ValueKey(products[index].productId),
+        product: products[index],
+      ),
+    );
+  }
+
+  Widget _buildPaginationFooter(ProductState state) {
+    final isLoadingMore = state.isLoadingMore == true;
+    final hasMoreData = state.hasMoreData == true;
+    final products = state.filteredProducts ?? [];
+    final currentPage = state.currentPage ?? 0;
+
+    if (products.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      margin: EdgeInsets.only(top: 16.h, bottom: 20.h),
+      child: Column(
+        children: [
+          if (isLoadingMore)
+            Container(
+              padding: EdgeInsets.all(16.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 20.w,
+                    height: 20.h,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                    ),
+                  ),
+                  12.horizontalSpace,
+                  Text(
+                    'Loading more products...',
+                    style: FontPalette.hW500S14.copyWith(color: kPrimaryColor),
+                  ),
+                ],
+              ),
+            ),
+
+          if (!isLoadingMore && hasMoreData)
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.symmetric(horizontal: 20.w),
+              child: ElevatedButton(
+                onPressed: _loadMoreProducts,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: kPrimaryColor,
+                  side: BorderSide(color: kPrimaryColor),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.expand_more, size: 20.w),
+                    8.horizontalSpace,
+                    Text('Load More Products', style: FontPalette.hW600S14),
+                  ],
+                ),
+              ),
+            ),
+
+          if (!hasMoreData && products.isNotEmpty && !isLoadingMore)
+            Container(
+              padding: EdgeInsets.all(16.h),
+              child: Column(
+                children: [
+                  Container(
+                    width: 40.w,
+                    height: 2.h,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(1.r),
+                    ),
+                  ),
+                  8.verticalSpace,
+                  Text(
+                    'No more products to load',
+                    style: FontPalette.hW500S12.copyWith(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  if (currentPage > 0)
+                    Text(
+                      'Showing ${products.length} products',
+                      style: FontPalette.hW400S10.copyWith(
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShimmerList() {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 8,
+      itemBuilder: (context, index) => const _ShimmerProductCard(),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    final isSearchActive = _searchController.text.isNotEmpty;
+
+    return Container(
+      padding: EdgeInsets.all(40.h),
+      child: Column(
+        children: [
+          Icon(
+            isSearchActive ? Icons.search_off : Icons.inventory_2_outlined,
+            size: 64.w,
+            color: Colors.grey[400],
+          ),
+          16.verticalSpace,
+          Text(
+            isSearchActive ? 'No products found' : 'No products available',
+            style: FontPalette.hW500S16.copyWith(color: Colors.grey[700]),
+          ),
+          8.verticalSpace,
+          Text(
+            isSearchActive
+                ? 'Try adjusting your search or filters'
+                : 'Products will appear here when available',
+            style: FontPalette.hW400S14.copyWith(color: Colors.grey[500]),
+            textAlign: TextAlign.center,
+          ),
+          if (isSearchActive) ...[
+            16.verticalSpace,
+            ElevatedButton(
+              onPressed: () {
+                _searchController.clear();
+                _performSearch('');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kPrimaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+              ),
+              child: Text(
+                'Clear Search',
+                style: FontPalette.hW600S14.copyWith(color: Colors.white),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  void _handleStoreChange(StoreResponse? store) {
+    final productCubit = context.read<ProductCubit>();
+    final dashboardCubit = context.read<DashboardCubit>();
+    dashboardCubit.selectedStore(store ?? StoreResponse());
+    productCubit.catgeory(store?.storeId ?? 0);
+    productCubit.clearCategory();
+    productCubit.changeStore(store ?? StoreResponse());
+    productCubit.product(store?.storeId ?? 0, 0, '', '', 0);
+    _searchController.clear();
+  }
+
+  void _handleProductTypeChange(
+    Product? product,
+    ProductState state,
+    DashboardState common,
+  ) {
+    final productCubit = context.read<ProductCubit>();
+    final selected = state.prodList?.firstWhere(
+      (e) => e.filterId == product?.filterId,
+    );
+
+    productCubit.selectProduct(product);
+    productCubit.changeProducType(product ?? Product());
+    productCubit.product(
+      common.selectedStore?.storeId ?? 0,
+      selected?.filterId ?? 0,
+      _searchController.text,
+      '',
+      0,
+    );
+  }
+
+  void _handleCategoryChange(
+    int? categoryId,
+    ProductState state,
+    DashboardState common,
+  ) {
+    final selectedCategory = state.categoryList?.firstWhere(
+      (e) => e.details?.categoryId == categoryId,
+    );
+
+    final productCubit = context.read<ProductCubit>();
+    productCubit.changeCategory(selectedCategory!);
+    productCubit.product(
+      common.selectedStore?.storeId ?? 0,
+      selectedCategory.details?.categoryId ?? 0,
+      _searchController.text,
+      '',
+      0,
+    );
+  }
+
+  Future<void> _handleQRScan() async {
+    final scannedCode = await showDialog<String>(
+      context: context,
+      builder: (_) => const ScannerDialog(),
+    );
+
+    if (scannedCode != null) {
+      _searchController.text = scannedCode;
+      final storeId =
+          context.read<DashboardCubit>().state.selectedStore?.storeId ?? 0;
+      context.read<ProductCubit>().product(storeId, 0, '', scannedCode, 0);
+    }
+  }
 }
 
-Widget _shimmerProductList() {
-  return ListView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: 8,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [ShimmerWidget.rectangular(width: 325.w, height: 100.h)],
+class _ProductCard extends StatelessWidget {
+  final dynamic product;
+
+  const _ProductCard({super.key, required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h),
+      height: 122.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0XFFF4F5F5)),
+      ),
+      child: Row(
+        children: [
+          _buildProductImage(),
+          12.horizontalSpace,
+          Expanded(child: _buildProductDetails(context)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductImage() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.r),
+        child: CachedNetworkImage(
+          height: 55.h,
+          width: 55.w,
+          imageUrl: (product.images?.isEmpty ?? true)
+              ? ''
+              : product.images?[0].medium ?? '',
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Container(
+            color: Colors.grey[200],
+            child: const Icon(Icons.image, color: Colors.grey),
+          ),
+          errorWidget: (context, url, error) => Container(
+            color: Colors.grey[200],
+            child: const Icon(Icons.photo, color: Colors.grey),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductDetails(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildProductHeader(context),
+        4.verticalSpace,
+        _buildProductInfo(),
+        4.verticalSpace,
+        _buildProductCode(),
+        4.verticalSpace,
+        _buildStockUpdateButton(context),
+      ],
+    );
+  }
+
+  Widget _buildProductHeader(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            product.productName ?? '',
+            style: FontPalette.hW700S13,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
+        ),
+        _buildEditButton(context),
+      ],
+    );
+  }
+
+  Widget _buildEditButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showEditModal(context),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset('assets/icons/Edit.svg'),
+          3.horizontalSpace,
+          Text(
+            'Edit',
+            style: FontPalette.hW700S14.copyWith(color: kPrimaryColor),
+          ),
+          6.horizontalSpace,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductInfo() {
+    return Row(
+      children: [
+        Text(
+          'Price : ${product.productPrice ?? ''}',
+          style: FontPalette.hW500S13,
+        ),
+        10.horizontalSpace,
+        Text('QTY : ${product.productQty ?? ''}', style: FontPalette.hW500S13),
+      ],
+    );
+  }
+
+  Widget _buildProductCode() {
+    return Text(
+      'Prod Code : ${product.productCode ?? ''}',
+      style: FontPalette.hW500S13,
+    );
+  }
+
+  Widget _buildStockUpdateButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _showStockUpdateModal(context),
+      child: Container(
+        alignment: Alignment.center,
+        height: 32.h,
+        width: 108.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.r),
+          border: Border.all(color: kPrimaryColor),
+        ),
+        child: Text(
+          'Stock Update',
+          style: FontPalette.hW700S13.copyWith(color: kPrimaryColor),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showEditModal(BuildContext context) async {
+    await showModalBottomSheet<EditUpdateResponse>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: kWhite,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.r),
+          topRight: Radius.circular(12.r),
+        ),
+      ),
+      builder: (context) => EditProduct(product: product),
+    );
+  }
+
+  void _showStockUpdateModal(BuildContext context) {
+    context.read<ProductCubit>().closeButton();
+
+    if (product.isVariant == 1 && product.maintainStock == 1) {
+      context.read<ProductCubit>().getVariants(product.productId!);
+      commonnShowBottomSheet(
+        context: context,
+        child: VariantStockUpdateCard(maintainStock: product.maintainStock!),
+      );
+    } else {
+      commonnShowBottomSheet(
+        context: context,
+        child: StockUpdateCard(
+          currentStock: product.productQty,
+          productId: product.productId,
+          maintainStock: product.maintainStock,
+          fromVariant: false,
         ),
       );
-    },
-  );
+    }
+  }
+}
+
+class _ShimmerProductCard extends StatelessWidget {
+  const _ShimmerProductCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 12.h),
+        height: 150.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: const Color(0XFFF4F5F5)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(8.0),
+              height: 55.h,
+              width: 55.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+            ),
+            12.horizontalSpace,
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 16.h,
+                      width: double.infinity,
+                      color: Colors.white,
+                    ),
+                    6.verticalSpace,
+                    Container(height: 12.h, width: 150.w, color: Colors.white),
+                    4.verticalSpace,
+                    Container(height: 12.h, width: 100.w, color: Colors.white),
+                    4.verticalSpace,
+                    Container(height: 32.h, width: 108.w, color: Colors.white),
+                  ],
+                ),
+              ),
+            ),
+            16.horizontalSpace,
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class ShimmerWidget extends StatelessWidget {
@@ -676,12 +810,6 @@ class ShimmerWidget extends StatelessWidget {
     required this.width,
     required this.height,
   }) : shapeBorder = const RoundedRectangleBorder();
-
-  const ShimmerWidget.circular({
-    super.key,
-    required this.width,
-    required this.height,
-  }) : shapeBorder = const CircleBorder();
 
   @override
   Widget build(BuildContext context) {

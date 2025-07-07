@@ -26,6 +26,15 @@ class ProductState extends Equatable {
   final List<MostSellingResponse>? sellingProductsReport;
   final ApiFetchStatus? isMostSelling;
   final MostSellingResponse? selectedProducts;
+  final bool? isLoadingMore;
+  final bool? hasMoreData;
+  final int? currentPage;
+  final int? totalItems;
+  final String? lastSearchQuery;
+  final String? lastBarCode;
+  final int? lastStoreId;
+  final int? lastCatId;
+  final int? lastFilterId;
 
   const ProductState({
     this.isProduct,
@@ -53,6 +62,15 @@ class ProductState extends Equatable {
     this.isMostSelling,
     this.sellingProductsReport,
     this.selectedProducts,
+    this.isLoadingMore = false,
+    this.hasMoreData = true,
+    this.currentPage = 1,
+    this.totalItems = 0,
+    this.lastSearchQuery = '',
+    this.lastBarCode = '',
+    this.lastStoreId = 0,
+    this.lastCatId = 0,
+    this.lastFilterId = 0,
   });
 
   ProductState copyWith({
@@ -81,6 +99,16 @@ class ProductState extends Equatable {
     List<MostSellingResponse>? sellingProductsReport,
     ApiFetchStatus? isMostSelling,
     MostSellingResponse? selectedProducts,
+
+    bool? isLoadingMore,
+    bool? hasMoreData,
+    int? currentPage,
+    int? totalItems,
+    String? lastSearchQuery,
+    String? lastBarCode,
+    int? lastStoreId,
+    int? lastCatId,
+    int? lastFilterId,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -107,6 +135,15 @@ class ProductState extends Equatable {
     sellingProductsReport: sellingProductsReport ?? this.sellingProductsReport,
     isMostSelling: isMostSelling ?? this.isMostSelling,
     selectedProducts: selectedProducts ?? this.selectedProducts,
+    isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+    hasMoreData: hasMoreData ?? this.hasMoreData,
+    currentPage: currentPage ?? this.currentPage,
+    totalItems: totalItems ?? this.totalItems,
+    lastSearchQuery: lastSearchQuery ?? this.lastSearchQuery,
+    lastBarCode: lastBarCode ?? this.lastBarCode,
+    lastStoreId: lastStoreId ?? this.lastStoreId,
+    lastCatId: lastCatId ?? this.lastCatId,
+    lastFilterId: lastFilterId ?? this.lastFilterId,
   );
 
   @override
@@ -136,6 +173,13 @@ class ProductState extends Equatable {
     sellingProductsReport,
     isMostSelling,
     selectedProducts,
+    isLoadingMore,
+    hasMoreData,
+    currentPage,
+    totalItems,
+    lastSearchQuery,
+    lastBarCode,
+    lastStoreId,
   ];
 }
 
