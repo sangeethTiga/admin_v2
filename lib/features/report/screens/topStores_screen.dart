@@ -1,6 +1,5 @@
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
@@ -21,9 +20,9 @@ class TopStores extends StatelessWidget {
               const Center(child: CircularProgressIndicator());
             }
             return CommonTableWidget(
-              isLoading:state.isTopStores==ApiFetchStatus.loading ,
+              isLoading: state.isTopStores == ApiFetchStatus.loading,
               headers: ["#", "STORES", "SALES"],
-              columnFlex: [2, 2, 2],
+              columnFlex: [1, 3, 2],
               data:
                   state.topStores?.map((e) {
                     int index = state.topStores?.indexOf(e) ?? 0;

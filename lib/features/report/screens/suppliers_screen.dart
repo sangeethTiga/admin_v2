@@ -92,7 +92,7 @@ class SuppliersReportScreen extends StatelessWidget {
                     isLoading: state.isSupplierReport == ApiFetchStatus.loading,
 
                     headers: ["#", "Name", "Phone", "Email", "Balance"],
-                    columnFlex: [1, 2, 2, 2, 1],
+                    columnFlex: [1, 2, 3, 3, 3],
 
                     data:
                         state.suppliersReport?.map((e) {

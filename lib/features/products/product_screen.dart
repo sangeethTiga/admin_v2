@@ -522,7 +522,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
 
     productCubit.selectProduct(product);
-    productCubit.changeProducType(product ?? Product());
+    // productCubit.changeProducType(product ?? Product());
     productCubit.product(
       common.selectedStore?.storeId ?? 0,
       selected?.filterId ?? 0,

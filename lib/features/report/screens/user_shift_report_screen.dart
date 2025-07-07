@@ -119,7 +119,7 @@ class UserShiftReportScreen extends StatelessWidget {
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                       return 
+                      return
                       // NotificationListener<ScrollNotification>(
                       //   onNotification: (ScrollNotification scrollInfo) {
                       //     if (scrollInfo.metrics.pixels >=
@@ -135,53 +135,49 @@ class UserShiftReportScreen extends StatelessWidget {
                       //     }
                       //     return false;
                       //   },
+                      // child:
+                      CommonTableWidget(
+                        isLoading:
+                            state.isUserShiftReport == ApiFetchStatus.loading,
+                        headers: [
+                          "#",
+                          "Shift ",
+                          "Role",
+                          "User",
+                          "Device ",
+                          "Open",
+                          "Opening Balance",
+                          "Close",
+                          "Closing Balance",
+                        ],
 
-                        // child:
-                         CommonTableWidget(
-                          isLoading:
-                              state.isUserShiftReport == ApiFetchStatus.loading,
-                          headers: [
-                            "#",
-                            "Shift ",
-                            "Role",
-                            "User",
-                            "Device ",
-                            "Open",
-                            "Opening Balance",
-                            "Close",
-                            "Closing Balance",
-                          ],
+                        columnFlex: [1, 2, 2, 2, 2, 2, 2, 2, 2],
+                        data:
+                            state.userShiftReport?.map((e) {
+                              int index =
+                                  state.userShiftReport?.indexOf(e) ?? 0;
+                              return {
+                                '#': index + 1,
+                                'Shift ': e.shiftName ?? '',
+                                'Role': e.roleName ?? '',
+                                'User': e.userName ?? '',
+                                'Device ': e.deviceName ?? '',
+                                'Open': e.openingTime ?? '',
+                                'Opening Balance': e.openingBalance.toString(),
+                                'Close': e.closingTime ?? '',
+                                'Closing Balance': e.closingBalance ?? '',
 
-                          columnFlex: [1, 2, 2, 2, 2, 2, 2, 2, 1],
-                          data:
-                              state.userShiftReport?.map((e) {
-                                int index =
-                                    state.userShiftReport?.indexOf(e) ?? 0;
-                                return {
-                                  '#': index + 1,
-                                  'Shift ': e.shiftName ?? '',
-                                  'Role': e.roleName ?? '',
-                                  'User': e.userName ?? '',
-                                  'Device ': e.deviceName ?? '',
-                                  'Open': e.openingTime ?? '',
-                                  'Opening Balance': e.openingBalance
-                                      .toString(),
-                                  'Close': e.closingTime ?? '',
-                                  'Closing Balance': e.closingBalance ?? '',
-
-                                  // Placeholder for action button
-                                };
-                              }).toList() ??
-                              [],
-                        );}
+                                // Placeholder for action button
+                              };
+                            }).toList() ??
+                            [],
                       );
-                }
-                    
-                  ),
-                
+                    },
+                  );
+                },
               ),
             ),
-          
+          ),
         ],
       ),
     );

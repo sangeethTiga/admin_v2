@@ -302,7 +302,7 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectProduct: productOption));
   }
 
-  Future<void> changeProducType(Product product) async {
+  Future<void> changeProductType(Product product) async {
     emit(state.copyWith(selectProduct: product));
   }
 }
