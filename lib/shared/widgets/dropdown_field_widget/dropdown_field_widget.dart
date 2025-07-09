@@ -52,6 +52,8 @@ class DropDownFieldWidget extends StatelessWidget {
     this.value,
     this.isLoading = false,
     required this.items,
+    this.searchController,
+    this.onSearchChanged,
   });
 
   final GlobalKey<FormFieldState>? dropdownKey;
@@ -91,6 +93,8 @@ class DropDownFieldWidget extends StatelessWidget {
   final double? fontSize, hintSize;
   final TextAlign textAlign;
   final bool isLoading;
+  final TextEditingController? searchController;
+  final void Function(String)? onSearchChanged;
 
   @override
   Widget build(BuildContext context) {

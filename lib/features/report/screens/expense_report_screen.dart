@@ -117,7 +117,7 @@ class ExpenseReportScreen extends StatelessWidget {
                         12.horizontalSpace,
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate ?? DateTime.now(),
+                            firstDate: state.fromDate ,
 
                             hintText: '',
                             changeDate: (DateTime pickedDate) {

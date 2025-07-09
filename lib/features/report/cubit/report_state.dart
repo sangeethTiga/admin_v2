@@ -72,6 +72,7 @@ class ReportState extends Equatable {
   final List<ProductNameResponse>? getproductName;
   final ApiFetchStatus? isProductName;
   final ProductNameResponse? selectedProductName;
+  final ProductNameResponse? selectedProductPrice;
 
   const ReportState({
     this.salesReport,
@@ -146,6 +147,7 @@ class ReportState extends Equatable {
     this.option = '',
     this.getproductName,
     this.isProductName,
+    this.selectedProductPrice
   });
 
   ReportState copyWith({
@@ -221,6 +223,7 @@ class ReportState extends Equatable {
     List<ProductNameResponse>? getProductName,
     ApiFetchStatus? isProductName,
     ProductNameResponse? selectedProductName,
+    ProductNameResponse? selectedProductPrice,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -291,10 +294,11 @@ class ReportState extends Equatable {
       isAdded: isAdded ?? this.isAdded,
       isCreated: isCreated ?? this.isCreated,
       createData: createData ?? this.createData,
-      selectCategory: selectCategory?? this.selectCategory,
+      selectCategory: selectCategory ?? this.selectCategory,
       getproductName: getProductName ?? getproductName,
       isProductName: isProductName ?? this.isProductName,
       selectedProductName: selectedProductName ?? this.selectedProductName,
+      selectedProductPrice: selectedProductPrice ?? this.selectedProductPrice,
     );
   }
 
@@ -367,6 +371,7 @@ class ReportState extends Equatable {
     getproductName,
     isProductName,
     selectedProductName,
+    selectedProductPrice,
   ];
 }
 

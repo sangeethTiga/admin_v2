@@ -46,32 +46,31 @@ class ReportCubit extends Cubit<ReportState> {
     : super(InitialReportState());
 
   Future<void> loadSalesReport({
-    
-        int? selectedStoreId,
-     String? fromDate,
-     String? toDate,
-     String? selectedDeliveryAgentId,
-     String? selectedPaymentMethodId,
-     String? selectedWaiterId,
-     String? selectedShiftId,
-     bool? isDayClosed,
-     String? selectedCashierId,
-     String? selectedKIOSK,
-     String? selectedGroupBy,
+    int? selectedStoreId,
+    String? fromDate,
+    String? toDate,
+    String? selectedDeliveryAgentId,
+    String? selectedPaymentMethodId,
+    String? selectedWaiterId,
+    String? selectedShiftId,
+    bool? isDayClosed,
+    String? selectedCashierId,
+    String? selectedKIOSK,
+    String? selectedGroupBy,
 
-     int? selectedDuration,
+    int? selectedDuration,
   }) async {
     emit(state.copyWith(isSaleReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadSalesReport(
       selectedStoreId: selectedStoreId ?? 0,
-      selectedDuration: selectedDuration??0,
-      selectedPaymentMethodId: selectedPaymentMethodId??'',
-      selectedWaiterId: selectedWaiterId??"",
-      selectedShiftId: selectedShiftId??'',
-      selectedCashierId:selectedCashierId??"",
-      selectedKIOSK: selectedKIOSK??'',
+      selectedDuration: selectedDuration ?? 0,
+      selectedPaymentMethodId: selectedPaymentMethodId ?? '',
+      selectedWaiterId: selectedWaiterId ?? "",
+      selectedShiftId: selectedShiftId ?? '',
+      selectedCashierId: selectedCashierId ?? "",
+      selectedKIOSK: selectedKIOSK ?? '',
       selectedGroupBy: selectedGroupBy ?? '',
-      selectedDeliveryAgentId: selectedDeliveryAgentId??'',
+      selectedDeliveryAgentId: selectedDeliveryAgentId ?? '',
       isDayClosed: isDayClosed,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
@@ -953,19 +952,18 @@ class ReportCubit extends Cubit<ReportState> {
 
   Future<void> loadEditOffer(
     EditOfferResponse editOffer,
-    int productId,
+    int prodOfferId,
     int storeId,
   ) async {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
-      productId,
+      prodOfferId,
       storeId,
     );
-    log('EDIT DATA/////: ${res.data}');
+    log('EDIT DATA////: ${res.data}');
 
     if (res.data != null) {
-     
       emit(
         state.copyWith(isAdded: ApiFetchStatus.success, editData: editOffer),
       );
@@ -1108,14 +1106,13 @@ class ReportCubit extends Cubit<ReportState> {
     if (res.data != null && res.data!.isNotEmpty) {
       final DaySummaryResponse fetched = res.data!.first;
 
-
       emit(
         state.copyWith(
           daySummary: res.data,
           isDaySummary: ApiFetchStatus.success,
         ),
       );
-    
+
       return;
     }
 
@@ -1153,13 +1150,42 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isDaySummary: ApiFetchStatus.failed));
   }
 
+//   Future<void> loadProductName({String? query, int? storeId}) async {
+//   emit(state.copyWith(isProductName: ApiFetchStatus.loading));
+//   final res = await _reportRepositories.getProductName(
+//     storeId: storeId ?? 0,
+//     query: query ?? '',
+//   );
+
+//   if (res.data != null) {
+//     final List<ProductNameResponse> fetchedList = res.data!
+//         .map<ProductNameResponse>((e) {
+//           if (e is ProductNameResponse) {
+//             return e;
+//           } else if (e is Map<String, dynamic>) {
+//             return ProductNameResponse.fromJson(e);
+//           } else {
+//             throw Exception(
+//               'Unexpected element type in loadProductName: ${e.runtimeType}',
+//             );
+//           }
+//         })
+//         .toList();
+
+//     emit(state.copyWith(
+//       getProductName: fetchedList,
+//       isProductName: ApiFetchStatus.success,
+//     ));
+//   }
+// }
+
+
   Future<void> loadProductName({String? query, int? storeId}) async {
     emit(state.copyWith(isProductName: ApiFetchStatus.loading));
     final res = await _reportRepositories.getProductName(
       storeId: storeId ?? 0,
       query: query ?? '',
-      
-    );
+    ); 
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
       final List<ProductNameResponse> fetchedList = rawList.map((element) {

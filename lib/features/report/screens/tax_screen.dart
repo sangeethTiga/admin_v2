@@ -183,7 +183,7 @@ class TaxScreen extends StatelessWidget {
                       Expanded(
                         child: DatePickerContainer(
                           hintText: '',
-                          firstDate: state.fromDate ?? DateTime.now(),
+                          firstDate: state.fromDate ,
                           changeDate: (DateTime pickDate) {
                             context.read<ReportCubit>().changeToDate(pickDate);
                           },
