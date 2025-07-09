@@ -31,12 +31,12 @@ class ApiEndpoints {
 
   static String revenueReport(
     int pageFirstResult,
-    int resultPerPage,
+    //int resultPerPage,
     int storeId,
     String fromDate,
     String toDate,
   ) =>
-      '/api/revenuereport?page_first_limit=$pageFirstResult&result_per_page=100&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=0';
+      '/api/revenuereport?page_first_limit=$pageFirstResult&result_per_page=10&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=0';
 
   static String expenseReport(
     int pageFirstResult,

@@ -72,6 +72,11 @@ class ReportState extends Equatable {
   final List<ProductNameResponse>? getproductName;
   final ApiFetchStatus? isProductName;
   final ProductNameResponse? selectedProductName;
+  final bool? hasMoreData;
+  final bool? isLoadingMore;
+  final int? totalItems;
+  final int? lastStoreId;
+  final StoreResponse? selectedStore;
 
   const ReportState({
     this.salesReport,
@@ -80,7 +85,7 @@ class ReportState extends Equatable {
     this.toDate,
     this.selectedMethod,
     this.revenueReport,
-    this.currentPage = 0,
+    this.currentPage = 1,
     this.pageSize = 20,
     this.expenseReport,
     this.profitlossReport,
@@ -146,6 +151,11 @@ class ReportState extends Equatable {
     this.option = '',
     this.getproductName,
     this.isProductName,
+    this.hasMoreData,
+    this.isLoadingMore,
+    this.totalItems,
+    this.lastStoreId = 0,
+    this.selectedStore
   });
 
   ReportState copyWith({
@@ -221,6 +231,11 @@ class ReportState extends Equatable {
     List<ProductNameResponse>? getProductName,
     ApiFetchStatus? isProductName,
     ProductNameResponse? selectedProductName,
+    bool? hasMoreData,
+    bool? isLoadingMore,
+    int? totalItems,
+    int? lastStoreId,
+    StoreResponse? selectedStore,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -291,10 +306,15 @@ class ReportState extends Equatable {
       isAdded: isAdded ?? this.isAdded,
       isCreated: isCreated ?? this.isCreated,
       createData: createData ?? this.createData,
-      selectCategory: selectCategory?? this.selectCategory,
+      selectCategory: selectCategory ?? this.selectCategory,
       getproductName: getProductName ?? getproductName,
       isProductName: isProductName ?? this.isProductName,
       selectedProductName: selectedProductName ?? this.selectedProductName,
+      hasMoreData: hasMoreData ?? this.hasMoreData,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      totalItems: totalItems ?? this.totalItems,
+      lastStoreId: lastStoreId ?? this.lastStoreId,
+      selectedStore: selectedStore ?? this.selectedStore
     );
   }
 
@@ -367,6 +387,11 @@ class ReportState extends Equatable {
     getproductName,
     isProductName,
     selectedProductName,
+    isLoadingMore,
+    hasMoreData,
+    totalItems,
+    lastStoreId,
+    selectedStore
   ];
 }
 

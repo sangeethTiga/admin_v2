@@ -159,7 +159,7 @@ class DashboardState extends Equatable {
     selectedAccount,
     accountList,
     selectedOption,
-    selectedCategory,
+    selectedCategory?.categoryId,
     selectedPurchaseType,
     selectMonth,
     deliveryAgents,

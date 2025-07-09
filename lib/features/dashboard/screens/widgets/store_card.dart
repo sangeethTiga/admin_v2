@@ -53,6 +53,12 @@ class StoreDropdown extends StatelessWidget {
         onStoreChanged(v);
       },
       labelText: '',
+      textStyle: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+        letterSpacing: 0.5,
+      ),
     );
   }
 }
@@ -79,6 +85,12 @@ class DateDropdown extends StatelessWidget {
         );
       }).toList(),
       fillColor: const Color(0XFFEFF1F1),
+      textStyle: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+        letterSpacing: 0.5,
+      ),
       onChanged: (v) {
         onDateChanged(v);
       },

@@ -52,6 +52,7 @@ class DropDownFieldWidget extends StatelessWidget {
     this.value,
     this.isLoading = false,
     required this.items,
+    this.menuMaxHeight
   });
 
   final GlobalKey<FormFieldState>? dropdownKey;
@@ -91,6 +92,7 @@ class DropDownFieldWidget extends StatelessWidget {
   final double? fontSize, hintSize;
   final TextAlign textAlign;
   final bool isLoading;
+  final double? menuMaxHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +146,7 @@ class DropDownFieldWidget extends StatelessWidget {
                 constraints: constraints,
                 contentPadding: contentPadding,
               ),
+              menuMaxHeight:menuMaxHeight ,
               style:
                   textStyle ??
                   FontPalette.hW400S10.copyWith(
@@ -152,6 +155,7 @@ class DropDownFieldWidget extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
               isExpanded: true,
+              
               value: items.any((item) => item.value == value) ? value : null,
               items: items.map<DropdownMenuItem<dynamic>>((item) {
                 if (item is DropdownMenuItem) return item;

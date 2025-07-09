@@ -61,6 +61,12 @@ class PurchaseScreen extends StatelessWidget {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
+                       textStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          ),
                     );
                   },
                 ),
@@ -136,7 +142,7 @@ class PurchaseScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.fromDate ?? DateTime.now(),
+                            firstDate: state.fromDate,
                             changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeFromDate(
                                 pickDate,
@@ -148,7 +154,7 @@ class PurchaseScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.fromDate ?? DateTime.now(),
+                            firstDate: state.toDate,
                             changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickDate,
@@ -167,7 +173,7 @@ class PurchaseScreen extends StatelessWidget {
                       onPressed: () {
                         context.read<ReportCubit>().loadPurchaseReport(
                           storeId: state.selectedStore?.storeId,
-                           purchaseType: state.selectedPurchaseType?.id,
+                          purchaseType: state.selectedPurchaseType?.id,
                         );
                       },
                       buttonText: 'View Report',

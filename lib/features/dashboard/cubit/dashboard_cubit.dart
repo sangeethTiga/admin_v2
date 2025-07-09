@@ -152,7 +152,6 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   Future<void> monthSelection(ListOfDemo selectedMonth) async {
-    
     emit(state.copyWith(selectMonth: selectedMonth));
   }
 
@@ -273,8 +272,8 @@ class DashboardCubit extends Cubit<DashboardState> {
     }
   }
 
-  Future<void> selectCategory(MostSellingResponse products) async {
-    emit(state.copyWith(selectedProducts: products));
+  Future<void> selectCategory(MostSellingResponse category) async {
+    emit(state.copyWith(selectedCategory: category));
   }
 
   Future<void> clearData() async {

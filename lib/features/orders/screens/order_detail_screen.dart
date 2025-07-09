@@ -188,11 +188,8 @@ class OrderDetailScreen extends StatelessWidget {
                     label: 'Shipping Address',
                     expandedWidget: Container(
                       decoration: BoxDecoration(color: kGreenColor),
-                      child: Column(
-                        children: [
-                          Text('Customer:  ${state.orderDetail?.billCustName}'),
-                          Text('Email:  ${state.orderDetail?.billEmail}'),
-                          Text('Mobile: ${state.orderDetail?.shipMobile}'),
+                      child: Column(children: [
+                        
                         ],
                       ),
                     ),
@@ -205,13 +202,18 @@ class OrderDetailScreen extends StatelessWidget {
                     image: 'Component 806 (1).svg',
                     expand: () {},
                     label: 'Billing Address',
+                    labelStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+
                     expandedWidget: Container(
                       decoration: BoxDecoration(color: kGreenColor),
                       child: Column(
                         children: [
-                          Text('Customer:  ${state.orderDetail?.billCustName}'),
-                          Text('Email: ${state.orderDetail?.billEmail}'),
-                          Text('Mobile: ${state.orderDetail?.shipMobile}'),
+                          // Text('Customer:  ${state.orderDetail?.billCustName}'),
+                          // Text('Email: ${state.orderDetail?.billEmail}'),
+                          // Text('Mobile: ${state.orderDetail?.shipMobile}'),
                         ],
                       ),
                     ),
@@ -308,6 +310,7 @@ class OrderDetailScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                16.verticalSpace,
               ],
             );
           },
@@ -329,6 +332,7 @@ Widget addItemDetails({
   Widget? columnWidgets,
   required bool isExpand,
   Color? color,
+  TextStyle? labelStyle,
 }) {
   return Container(
     clipBehavior: Clip.antiAliasWithSaveLayer,

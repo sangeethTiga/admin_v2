@@ -145,6 +145,12 @@ class _ProductScreenState extends State<ProductScreen> {
           fillColor: const Color(0XFFEFF1F1),
           onChanged: (store) => _handleStoreChange(store),
           labelText: '',
+          textStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          ),
         );
       },
     );
@@ -166,7 +172,7 @@ class _ProductScreenState extends State<ProductScreen> {
         return DropDownFieldWidget(
           isLoading: false,
           borderColor: kBlack,
-          labelText: 'All Products',
+          hintText: 'All Products',
           value:
               state.prodList?.any(
                     (e) => e.filterId == state.selectProduct?.filterId,
@@ -174,19 +180,28 @@ class _ProductScreenState extends State<ProductScreen> {
                   true
               ? state.selectProduct
               : null,
+
           items: products.map((value) {
             return DropdownMenuItem<Product>(
               value: value,
               child: Text(value.name ?? '', maxLines: 1),
             );
           }).toList(),
-          fillColor: const Color(0XFFEFF1F1),
+          fillColor: Colors.white,
+
           inputBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
             borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
           ),
           onChanged: (product) =>
               _handleProductTypeChange(product, state, common),
+          suffixWidget: SvgPicture.asset(
+            'assets/icons/down -arrow.svg.svg',
+            width: 20.w,
+            height: 20.h,
+            fit: BoxFit.contain,
+            color: Colors.black,
+          ),
         );
       },
     );
@@ -198,7 +213,7 @@ class _ProductScreenState extends State<ProductScreen> {
         return DropDownFieldWidget(
           isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
           hintStyle: FontPalette.hW500S14,
-          labelText: 'Select category',
+          hintText: 'Select category',
           borderColor: kBlack,
           value:
               state.categoryList?.any(
@@ -217,7 +232,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 );
               }).toList() ??
               [],
-          fillColor: const Color(0XFFEFF1F1),
+          fillColor: Colors.white,
           onChanged: (categoryId) =>
               _handleCategoryChange(categoryId, state, common),
           inputBorder: OutlineInputBorder(
@@ -258,7 +273,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
           IconButton(
             onPressed: _handleQRScan,
-            icon: const Icon(Icons.qr_code_scanner_outlined),
+            icon: SvgPicture.asset('assets/icons/Scaner.svg'),
           ),
         ],
       ),
@@ -506,6 +521,7 @@ class _ProductScreenState extends State<ProductScreen> {
     dashboardCubit.selectedStore(store ?? StoreResponse());
     productCubit.catgeory(store?.storeId ?? 0);
     productCubit.clearCategory();
+    productCubit.clearAllProducts();
     productCubit.changeStore(store ?? StoreResponse());
     productCubit.product(store?.storeId ?? 0, 0, '', '', 0);
     _searchController.clear();
@@ -530,6 +546,7 @@ class _ProductScreenState extends State<ProductScreen> {
       '',
       0,
     );
+    productCubit.clearCategory();
   }
 
   void _handleCategoryChange(
@@ -576,15 +593,27 @@ class _ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
-      height: 122.h,
+      height: 140.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: const Color(0XFFF4F5F5)),
       ),
       child: Row(
         children: [
-          _buildProductImage(),
-          12.horizontalSpace,
+          Container(
+            height: 140.h,
+            width: 74.w,
+            padding: EdgeInsets.all(18),
+            color: Color(0xffF9FCFB),
+            child: Center(
+              child: SizedBox(
+                height: 55.h,
+                width: 55.w,
+                child: _buildProductImage(),
+              ),
+            ),
+          ),
+          10.horizontalSpace,
           Expanded(child: _buildProductDetails(context)),
         ],
       ),
@@ -621,6 +650,7 @@ class _ProductCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        8.verticalSpace,
         _buildProductHeader(context),
         4.verticalSpace,
         _buildProductInfo(),
@@ -628,6 +658,7 @@ class _ProductCard extends StatelessWidget {
         _buildProductCode(),
         4.verticalSpace,
         _buildStockUpdateButton(context),
+        12.verticalSpace,
       ],
     );
   }
