@@ -124,7 +124,7 @@ mixin _$OrderDetailResponse {
   @JsonKey(name: "country_name")
   String? get countryName => throw _privateConstructorUsedError;
   @JsonKey(name: "grand_total")
-  int? get grandTotal => throw _privateConstructorUsedError;
+  double? get grandTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "account_id")
   int? get accountId => throw _privateConstructorUsedError;
   @JsonKey(name: "loyalty_no")
@@ -386,7 +386,7 @@ abstract class $OrderDetailResponseCopyWith<$Res> {
     @JsonKey(name: "net_amount_wallet_points") int? netAmountWalletPoints,
     @JsonKey(name: "state_name") String? stateName,
     @JsonKey(name: "country_name") String? countryName,
-    @JsonKey(name: "grand_total") int? grandTotal,
+    @JsonKey(name: "grand_total") double? grandTotal,
     @JsonKey(name: "account_id") int? accountId,
     @JsonKey(name: "loyalty_no") String? loyaltyNo,
     @JsonKey(name: "cust_id") int? custId,
@@ -860,7 +860,7 @@ class _$OrderDetailResponseCopyWithImpl<$Res, $Val extends OrderDetailResponse>
             grandTotal: freezed == grandTotal
                 ? _value.grandTotal
                 : grandTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             accountId: freezed == accountId
                 ? _value.accountId
                 : accountId // ignore: cast_nullable_to_non_nullable
@@ -1309,7 +1309,7 @@ abstract class _$$OrderDetailResponseImplCopyWith<$Res>
     @JsonKey(name: "net_amount_wallet_points") int? netAmountWalletPoints,
     @JsonKey(name: "state_name") String? stateName,
     @JsonKey(name: "country_name") String? countryName,
-    @JsonKey(name: "grand_total") int? grandTotal,
+    @JsonKey(name: "grand_total") double? grandTotal,
     @JsonKey(name: "account_id") int? accountId,
     @JsonKey(name: "loyalty_no") String? loyaltyNo,
     @JsonKey(name: "cust_id") int? custId,
@@ -1782,7 +1782,7 @@ class __$$OrderDetailResponseImplCopyWithImpl<$Res>
         grandTotal: freezed == grandTotal
             ? _value.grandTotal
             : grandTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         accountId: freezed == accountId
             ? _value.accountId
             : accountId // ignore: cast_nullable_to_non_nullable
@@ -2494,7 +2494,7 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   final String? countryName;
   @override
   @JsonKey(name: "grand_total")
-  final int? grandTotal;
+  final double? grandTotal;
   @override
   @JsonKey(name: "account_id")
   final int? accountId;
@@ -3354,7 +3354,7 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
     @JsonKey(name: "net_amount_wallet_points") final int? netAmountWalletPoints,
     @JsonKey(name: "state_name") final String? stateName,
     @JsonKey(name: "country_name") final String? countryName,
-    @JsonKey(name: "grand_total") final int? grandTotal,
+    @JsonKey(name: "grand_total") final double? grandTotal,
     @JsonKey(name: "account_id") final int? accountId,
     @JsonKey(name: "loyalty_no") final String? loyaltyNo,
     @JsonKey(name: "cust_id") final int? custId,
@@ -3616,7 +3616,7 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   String? get countryName;
   @override
   @JsonKey(name: "grand_total")
-  int? get grandTotal;
+  double? get grandTotal;
   @override
   @JsonKey(name: "account_id")
   int? get accountId;
@@ -4177,11 +4177,11 @@ mixin _$ProductOrderItem {
   @JsonKey(name: "offer_price")
   int? get offerPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "product_price")
-  int? get productPrice => throw _privateConstructorUsedError;
+  double? get productPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_item_purchase_price")
   int? get orderItemPurchasePrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_item_price")
-  int? get orderItemPrice => throw _privateConstructorUsedError;
+  double? get orderItemPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_item_offer_price")
   int? get orderItemOfferPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_item_disc")
@@ -4373,9 +4373,9 @@ abstract class $ProductOrderItemCopyWith<$Res> {
     @JsonKey(name: "tax_id") int? taxId,
     @JsonKey(name: "itemsubstitute") List<dynamic>? itemsubstitute,
     @JsonKey(name: "offer_price") int? offerPrice,
-    @JsonKey(name: "product_price") int? productPrice,
+    @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "order_item_purchase_price") int? orderItemPurchasePrice,
-    @JsonKey(name: "order_item_price") int? orderItemPrice,
+    @JsonKey(name: "order_item_price") double? orderItemPrice,
     @JsonKey(name: "order_item_offer_price") int? orderItemOfferPrice,
     @JsonKey(name: "order_item_disc") int? orderItemDisc,
     @JsonKey(name: "order_item_net_amt") int? orderItemNetAmt,
@@ -4653,7 +4653,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             productPrice: freezed == productPrice
                 ? _value.productPrice
                 : productPrice // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             orderItemPurchasePrice: freezed == orderItemPurchasePrice
                 ? _value.orderItemPurchasePrice
                 : orderItemPurchasePrice // ignore: cast_nullable_to_non_nullable
@@ -4661,7 +4661,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             orderItemPrice: freezed == orderItemPrice
                 ? _value.orderItemPrice
                 : orderItemPrice // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             orderItemOfferPrice: freezed == orderItemOfferPrice
                 ? _value.orderItemOfferPrice
                 : orderItemOfferPrice // ignore: cast_nullable_to_non_nullable
@@ -5012,9 +5012,9 @@ abstract class _$$ProductOrderItemImplCopyWith<$Res>
     @JsonKey(name: "tax_id") int? taxId,
     @JsonKey(name: "itemsubstitute") List<dynamic>? itemsubstitute,
     @JsonKey(name: "offer_price") int? offerPrice,
-    @JsonKey(name: "product_price") int? productPrice,
+    @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "order_item_purchase_price") int? orderItemPurchasePrice,
-    @JsonKey(name: "order_item_price") int? orderItemPrice,
+    @JsonKey(name: "order_item_price") double? orderItemPrice,
     @JsonKey(name: "order_item_offer_price") int? orderItemOfferPrice,
     @JsonKey(name: "order_item_disc") int? orderItemDisc,
     @JsonKey(name: "order_item_net_amt") int? orderItemNetAmt,
@@ -5292,7 +5292,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         productPrice: freezed == productPrice
             ? _value.productPrice
             : productPrice // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         orderItemPurchasePrice: freezed == orderItemPurchasePrice
             ? _value.orderItemPurchasePrice
             : orderItemPurchasePrice // ignore: cast_nullable_to_non_nullable
@@ -5300,7 +5300,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         orderItemPrice: freezed == orderItemPrice
             ? _value.orderItemPrice
             : orderItemPrice // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         orderItemOfferPrice: freezed == orderItemOfferPrice
             ? _value.orderItemOfferPrice
             : orderItemOfferPrice // ignore: cast_nullable_to_non_nullable
@@ -5790,13 +5790,13 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   final int? offerPrice;
   @override
   @JsonKey(name: "product_price")
-  final int? productPrice;
+  final double? productPrice;
   @override
   @JsonKey(name: "order_item_purchase_price")
   final int? orderItemPurchasePrice;
   @override
   @JsonKey(name: "order_item_price")
-  final int? orderItemPrice;
+  final double? orderItemPrice;
   @override
   @JsonKey(name: "order_item_offer_price")
   final int? orderItemOfferPrice;
@@ -6442,10 +6442,10 @@ abstract class _ProductOrderItem implements ProductOrderItem {
     @JsonKey(name: "tax_id") final int? taxId,
     @JsonKey(name: "itemsubstitute") final List<dynamic>? itemsubstitute,
     @JsonKey(name: "offer_price") final int? offerPrice,
-    @JsonKey(name: "product_price") final int? productPrice,
+    @JsonKey(name: "product_price") final double? productPrice,
     @JsonKey(name: "order_item_purchase_price")
     final int? orderItemPurchasePrice,
-    @JsonKey(name: "order_item_price") final int? orderItemPrice,
+    @JsonKey(name: "order_item_price") final double? orderItemPrice,
     @JsonKey(name: "order_item_offer_price") final int? orderItemOfferPrice,
     @JsonKey(name: "order_item_disc") final int? orderItemDisc,
     @JsonKey(name: "order_item_net_amt") final int? orderItemNetAmt,
@@ -6589,13 +6589,13 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   int? get offerPrice;
   @override
   @JsonKey(name: "product_price")
-  int? get productPrice;
+  double? get productPrice;
   @override
   @JsonKey(name: "order_item_purchase_price")
   int? get orderItemPurchasePrice;
   @override
   @JsonKey(name: "order_item_price")
-  int? get orderItemPrice;
+  double? get orderItemPrice;
   @override
   @JsonKey(name: "order_item_offer_price")
   int? get orderItemOfferPrice;

@@ -226,7 +226,7 @@ class OrderScreen extends StatelessWidget {
           8.horizontalSpace,
           Container(
             width: 39.w,
-            height: 52.h,
+            height: 54.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(color: kPrimaryColor),

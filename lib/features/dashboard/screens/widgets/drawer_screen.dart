@@ -1,7 +1,9 @@
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -36,6 +38,8 @@ class _DrawerContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int storeId =
+        context.read<DashboardCubit>().state.selectedStore?.storeId ?? 0;
     return ListView(
       padding: EdgeInsets.zero,
       children: [
@@ -43,6 +47,7 @@ class _DrawerContent extends StatelessWidget {
         _buildReportsSection(),
         _buildOffersSection(),
         _buildTopStoresSection(),
+        _buildInventory(storeId),
         _buildLogoutSection(context),
       ],
     );
@@ -104,12 +109,12 @@ class _DrawerContent extends StatelessWidget {
   List<Widget> get _reportsItems => [
     _buildDrawerItem(
       icon: Icons.delivery_dining_sharp,
-      title: 'Delivery Charge',
+      title: Text('Delivery Charge'),
       route: routeDeliveryCharge,
     ),
     _buildDrawerItem(
       icon: Icons.flatware,
-      title: 'Parcel Charge',
+      title: Text('Parcel Charge'),
       route: routeParcel,
       onTap: (context) {
         context.read<CommonCubit>().orderOption(selectedStore?.storeId, 0);
@@ -118,32 +123,32 @@ class _DrawerContent extends StatelessWidget {
     ),
     _buildDrawerItem(
       icon: Icons.bar_chart_sharp,
-      title: 'Tax Report',
+      title: Text('Tax Report'),
       route: routeTax,
     ),
     _buildDrawerItem(
       icon: Icons.shopping_cart,
-      title: 'Category Sales',
+      title: Text('Category Sales'),
       route: routeCategorySales,
     ),
-    _buildDrawerItem(
-      icon: Icons.dining_rounded,
-      title: 'Mess Report',
-      route: routeMess,
-    ),
+    // _buildDrawerItem(
+    //   icon: Icons.dining_rounded,
+    //   title: 'Mess Report',
+    //   route: routeMess,
+    // ),
     _buildDrawerItem(
       icon: Icons.people,
-      title: 'Supplier',
+      title: Text('Supplier'),
       route: routeSupplier,
     ),
-    _buildDrawerItem(
-      icon: Icons.account_circle_outlined,
-      title: 'User Shift',
-      route: routeUserShift,
-    ),
+    // _buildDrawerItem(
+    //   icon: Icons.account_circle_outlined,
+    //   title: 'User Shift',
+    //   route: routeUserShift,
+    // ),
     _buildDrawerItem(
       icon: Icons.shopify_outlined,
-      title: 'Sale on Deals',
+      title: Text('Sale on Deals'),
       route: routeSaleDeals,
       onTap: (context) {
         context.read<ReportCubit>().loadSalesDealsReport(
@@ -154,7 +159,7 @@ class _DrawerContent extends StatelessWidget {
     ),
     _buildDrawerItem(
       icon: Icons.money_rounded,
-      title: 'Cheque Transaction',
+      title: Text('Cheque Transaction'),
       route: routeCheque,
       onTap: (context) {
         context.read<ReportCubit>().loadStatus();
@@ -163,7 +168,7 @@ class _DrawerContent extends StatelessWidget {
     ),
     _buildDrawerItem(
       icon: Icons.sell_sharp,
-      title: 'Most Selling Products',
+      title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {
         context.read<DashboardCubit>().loadProductsCategory(
@@ -184,7 +189,7 @@ class _DrawerContent extends StatelessWidget {
       children: [
         _buildDrawerItem(
           icon: Icons.shopify_outlined,
-          title: 'Product offers',
+          title: Text('Product offers'),
           route: routeProductOffers,
           onTap: (context) {
             context.read<ReportCubit>().loadProductOffers(
@@ -195,7 +200,7 @@ class _DrawerContent extends StatelessWidget {
         ),
         _buildDrawerItem(
           icon: Icons.discount_outlined,
-          title: 'Offer',
+          title: Text('Offer'),
           route: routeOffers,
           onTap: (context) {
             context.read<ReportCubit>().loadOffers(
@@ -208,10 +213,37 @@ class _DrawerContent extends StatelessWidget {
     );
   }
 
+  Widget _buildInventory(int storeId) {
+    return ExpansionTile(
+      title: const Text(
+        'Inventory',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      leading: const Icon(Icons.inventory),
+      children: [
+        _buildDrawerItem(
+          icon: Icons.widgets_sharp,
+          title: Text('Products'),
+          onTap: (context) {
+            final productCubit = context.read<ProductCubit>();
+            productCubit.product(storeId, 0, '', '', 0);
+            productCubit.selectProduct(
+              Product(filterId: 0, name: 'All Products'),
+            );
+            productCubit.catgeory(storeId);
+            productCubit.stockStatus();
+            productCubit.clearEvent();
+            context.push(routeProducts);
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _buildTopStoresSection() {
     return _buildDrawerItem(
       icon: Icons.home_work_outlined,
-      title: 'Top Stores',
+      title: Text('Top Stores', style: TextStyle(fontWeight: FontWeight.bold)),
       route: routeTopStores,
       onTap: (context) {
         context.read<ReportCubit>().loadTopStores();
@@ -222,14 +254,14 @@ class _DrawerContent extends StatelessWidget {
 
   Widget _buildDrawerItem({
     required IconData icon,
-    required String title,
+    required Widget title,
     String? route,
     void Function(BuildContext)? onTap,
   }) {
     return Builder(
       builder: (context) => ListTile(
         leading: Icon(icon),
-        title: Text(title),
+        title: title,
         onTap: () {
           if (onTap != null) {
             onTap(context);
