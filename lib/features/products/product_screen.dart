@@ -200,7 +200,6 @@ class _ProductScreenState extends State<ProductScreen> {
             width: 20.w,
             height: 20.h,
             fit: BoxFit.contain,
-            color: Colors.black,
           ),
         );
       },
@@ -233,6 +232,12 @@ class _ProductScreenState extends State<ProductScreen> {
               }).toList() ??
               [],
           fillColor: Colors.white,
+          suffixWidget: SvgPicture.asset(
+            'assets/icons/down -arrow.svg.svg',
+            width: 20.w,
+            height: 20.h,
+            fit: BoxFit.contain,
+          ),
           onChanged: (categoryId) =>
               _handleCategoryChange(categoryId, state, common),
           inputBorder: OutlineInputBorder(
@@ -593,7 +598,7 @@ class _ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
-      height: 140.h,
+      // height: 140.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: const Color(0XFFF4F5F5)),
