@@ -221,8 +221,7 @@ class ApiEndpoints {
       '/api/product_variantdetail/$productId';
   static String specialOffer(int storeId) =>
       '/api/product_offer_type?store_id=20';
-  static String editOffer(int prodOfferId) =>
-      '/api/product_offer/1752064917775926';
+  static String editOffer(int prodOfferId) => '/api/product_offer/$prodOfferId';
   static String createOffer() => '/api/product_offer';
 
   static String getDeliveryAgent(int deliveryPartnerId, int storeId) =>

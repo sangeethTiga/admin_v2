@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 class OfferForm extends StatefulWidget {
   final bool isEdit;
@@ -35,6 +37,7 @@ class _OfferFormState extends State<OfferForm> {
   late final TextEditingController discountController;
   late final TextEditingController fromDateController;
   late final TextEditingController toDateController;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -336,7 +339,7 @@ class _OfferFormState extends State<OfferForm> {
                     );
                     await cubit.loadEditOffer(
                       updatedOffer,
-                      widget.product!.productId!,
+                      widget.product!.prodOfferId!,
                       widget.product!.storeId!,
                     );
                   } else {
@@ -352,8 +355,10 @@ class _OfferFormState extends State<OfferForm> {
                         .read<ReportCubit>()
                         .state
                         .selectedType;
-                     context.read<ReportCubit>().loadProductOffers();
-                        
+                    await cubit.loadProductOffers(
+                      storeId: selectedStore?.storeId ?? 0,
+                    );
+                    context.pop();
 
                     if (selectedProduct != null) {
                       final newOffer = CreateOfferResponse(
@@ -384,14 +389,35 @@ class _OfferFormState extends State<OfferForm> {
 
                         isSingleProductOffer: 1,
                       );
-                    
-                      
-
                       await cubit.createProductOffer(offer: newOffer);
-                        context.read<ReportCubit>().loadProductOffers();
+
+                      bool dataLoaded = false;
+                      int attempts = 0;
+
+                      while (!dataLoaded && attempts < 3) {
+                        await Future.delayed(const Duration(milliseconds: 500));
+                        await cubit.loadProductOffers(
+                          storeId: selectedStore?.storeId ?? 0,
+                        );
+
+                        final offers = cubit.state.productOffers ?? [];
+                        if (offers.isNotEmpty) {
+                          dataLoaded = true;
+                        }
+
+                        attempts++;
+                      }
+
+                      context.pop();
+
+                      // await cubit.createProductOffer(offer: newOffer);
+                      // await Future.delayed(Duration(milliseconds: 300));
+
+                      // await cubit.loadProductOffers(
+                      //   storeId: selectedStore?.stateId,
+                      // );
+                      // context.pop();
                     }
-                  
-                     
 
                     // final storeId = context
                     //     .read<DashboardCubit>()
@@ -521,7 +547,6 @@ class _OfferFormState extends State<OfferForm> {
                   //   );
                   //   context.pop();
                   // },
-                  
                 },
               ),
             ),
@@ -1225,3 +1250,49 @@ class _OfferFormState extends State<OfferForm> {
 // }
     
     
+class ShimmerWidget extends StatelessWidget {
+  final double width;
+  final double height;
+  final ShapeBorder shapeBorder;
+
+  const ShimmerWidget.rectangular({
+    super.key,
+    required this.width,
+    required this.height,
+  }) : shapeBorder = const RoundedRectangleBorder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: ShapeDecoration(
+          color: Colors.grey[400]!,
+          shape: shapeBorder,
+        ),
+      ),
+    );
+  }
+}
+Widget _shimmerProductOfferList() {
+  return ListView.builder(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: 7,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ShimmerWidget.rectangular(width: 200.w, height: 25.h),
+            ShimmerWidget.rectangular(width: 60.w, height: 25.h),
+          ],
+        ),
+      );
+    },
+  );
+}

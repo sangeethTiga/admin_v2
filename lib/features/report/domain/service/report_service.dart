@@ -790,10 +790,10 @@ class ReportService implements ReportRepositories {
       ApiEndpoints.editOffer(prodOfferId ?? 0),
       data: request?.toJson(),
     );
-    log(">>> RAW RESPONSE object//: $res");
-    log(">>> STATUS CODE,,,: ${res.statusCode}");
-    log(">>> RESPONSE DATA???: ${res.data}");
-    log(">>> DATA TYPE---: ${res.data.runtimeType}");
+    // log(">>> RAW RESPONSE object//: $res");
+    // log(">>> STATUS CODE,,,: ${res.statusCode}");
+    // log(">>> RESPONSE DATA???: ${res.data}");
+    // log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
     switch (res.statusCode) {
       case 200:
