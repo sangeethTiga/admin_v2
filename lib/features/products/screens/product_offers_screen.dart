@@ -54,9 +54,9 @@ class ProductOffersScreen extends StatelessWidget {
                 ),
                 builder: (context) => const OfferForm(isEdit: false),
 
-           
+                // builder: (context) =>
+                //     CreateOffer(offers: ProductOffersResponse()),
               );
-              context.read<ReportCubit>().loadProductOffers();
             },
 
             child: Icon(Icons.add, color: kWhite, size: 25.h),
@@ -252,9 +252,6 @@ class ProductOffersScreen extends StatelessWidget {
                                               product: offer,
                                             ),
                                           );
-                                          context
-                                              .read<ReportCubit>()
-                                              .loadProductOffers();
                                         },
                                         child: Row(
                                           children: [

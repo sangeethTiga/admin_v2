@@ -945,6 +945,7 @@ class ReportCubit extends Cubit<ReportState> {
           productOffers: newList,
           isProductOffers: ApiFetchStatus.success,
           filteredProducts: res.data,
+          apiFetchStatus: ApiFetchStatus.success,
         ),
       );
     }
