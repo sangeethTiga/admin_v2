@@ -75,7 +75,7 @@ class CategorySalesReportScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate,
+                            firstDate: state.fromDate ,
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(

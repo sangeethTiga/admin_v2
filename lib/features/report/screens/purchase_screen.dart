@@ -142,7 +142,7 @@ class PurchaseScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.fromDate,
+                            firstDate: state.fromDate ,
                             changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeFromDate(
                                 pickDate,

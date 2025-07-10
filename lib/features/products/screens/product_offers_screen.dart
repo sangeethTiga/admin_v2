@@ -2,8 +2,7 @@ import 'package:admin_v2/features/common/domain/models/store/store_response.dart
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
-
-import 'package:admin_v2/features/report/widgets/edit_offer.dart';
+import 'package:admin_v2/features/report/widgets/offer_form.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -53,8 +52,7 @@ class ProductOffersScreen extends StatelessWidget {
                     top: Radius.circular(12.r),
                   ),
                 ),
-                  builder: (context) => const EditProductOffer(isEdit: false,),
-
+                builder: (context) => const EditProductOffer(isEdit: false),
 
                 // builder: (context) =>
                 //     CreateOffer(offers: ProductOffersResponse()),
@@ -104,6 +102,7 @@ class ProductOffersScreen extends StatelessWidget {
                           context.read<DashboardCubit>().selectedStore(p0);
                           context.read<ReportCubit>().loadProductOffers(
                             storeId: state.selectedStore?.storeId,
+
                           );
 
                           // context.read<OrderCubit>().orders(
@@ -126,7 +125,7 @@ class ProductOffersScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: DatePickerContainer(
-                              firstDate: state.fromDate ?? DateTime.now(),
+                              firstDate: state.fromDate,
                               hintText: '',
                               changeDate: (DateTime pickedDate) {
                                 context.read<ReportCubit>().changeFromDate(
@@ -257,11 +256,12 @@ class ProductOffersScreen extends StatelessWidget {
                                             isScrollControlled: true,
                                             backgroundColor: kWhite,
                                             context: context,
-                                            builder: (context) =>
-                                                EditProductOffer(
-                                                  isEdit: true,
-                                                  product: offer,
-                                                ),
+                                            builder: (context) => EditProductOffer(
+                                              isEdit: true,
+                                              product: offer,
+                                              
+
+                                            ),
                                           );
                                         },
                                         child: Row(
@@ -330,270 +330,7 @@ class ProductOffersScreen extends StatelessWidget {
                     },
                   ),
 
-                  // BlocBuilder<ReportCubit, ReportState>(
-                  //   builder: (context, state) {
-                  //     final productOffers =
-                  //         state.filteredProducts ?? state.productOffers ?? [];
-                  //     return ListView.builder(
-                  //       itemCount: productOffers.length,
-                  //       physics:
-                  //           const NeverScrollableScrollPhysics(), // allow outer scroll
-                  //       shrinkWrap: true,
-                  //       itemBuilder: (context, i) {
-                  //         final offer = productOffers[i];
-                  //         return Container(
-                  //           margin: EdgeInsets.only(bottom: 12.h),
-                  //           padding: EdgeInsets.symmetric(vertical: 12.h),
-                  //           decoration: BoxDecoration(
-                  //             borderRadius: BorderRadius.circular(12.r),
-                  //             color: kWhite,
-                  //             border: Border.all(color: kLightBorderColor),
-                  //           ),
-                  //           child: Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               Padding(
-                  //                 padding: EdgeInsets.symmetric(
-                  //                   horizontal: 12.w,
-                  //                 ),
-                  //                 child: Row(
-                  //                   children: [
-                  //                     Text(
-                  //                       offer.productName ?? '',
-                  //                       style: FontPalette.hW700S13.copyWith(
-                  //                         color: kBlack,
-                  //                       ),
-                  //                     ),
-                  //                     const Spacer(),
-                  //                     GestureDetector(
-                  //                       onTap: () async {
-                  //                         context
-                  //                             .read<ReportCubit>()
-                  //                             .loadSpecialOffer(
-                  //                               storeId:
-                  //                                   state.selectedType?.storeId,
-                  //                             );
-                  //                         await showModalBottomSheet<
-                  //                           EditOfferResponse
-                  //                         >(
-                  //                           shape: RoundedRectangleBorder(
-                  //                             borderRadius:
-                  //                                 BorderRadius.vertical(
-                  //                                   top: Radius.circular(12.r),
-                  //                                 ),
-                  //                           ),
-                  //                           isScrollControlled: true,
-                  //                           backgroundColor: kWhite,
-                  //                           context: context,
-                  //                           builder: (context) =>
-                  //                               EditProductOffer(
-                  //                                 product: offer,
-                  //                               ),
-                  //                         );
-                  //                       },
-                  //                       child: Row(
-                  //                         children: [
-                  //                           SvgPicture.asset(
-                  //                             'assets/icons/Edit.svg',
-                  //                           ),
-                  //                           3.horizontalSpace,
-                  //                           Text(
-                  //                             'Edit',
-                  //                             style: FontPalette.hW700S14
-                  //                                 .copyWith(
-                  //                                   color: kPrimaryColor,
-                  //                                 ),
-                  //                           ),
-                  //                         ],
-                  //                       ),
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //               dividerWidget(height: 2.h),
-
-                  //               10.verticalSpace,
-                  //               rowWidget(
-                  //                 name: 'Offer',
-                  //                 status: offer.offerTypeName ?? '',
-                  //               ),
-                  //               8.verticalSpace,
-                  //               rowWidget(
-                  //                 name: 'Offer price',
-                  //                 status:
-                  //                     offer.offerPrice?.toStringAsFixed(2) ??
-                  //                     '0.00',
-                  //               ),
-                  //               8.verticalSpace,
-                  //               rowWidget(
-                  //                 name: 'Discount',
-                  //                 status:
-                  //                     offer.offerPricePercentage?.toString() ??
-                  //                     '0',
-                  //               ),
-                  //               8.verticalSpace,
-                  //               rowWidget(
-                  //                 name: 'From date',
-                  //                 status: offer.offerFromDate != null
-                  //                     ? formatDate(offer.offerFromDate!)
-                  //                     : '',
-                  //               ),
-                  //               8.verticalSpace,
-                  //               rowWidget(
-                  //                 name: 'To date',
-                  //                 status: offer.offerToDate != null
-                  //                     ? formatDate(offer.offerToDate!)
-                  //                     : '',
-                  //               ),
-                  //               8.verticalSpace,
-                  //               rowWidget(
-                  //                 name: 'Status',
-                  //                 status: offer.offerStatus ?? '',
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         );
-                  //       },
-                  //     );
-
-                  //     // return Container(
-                  //     //   margin: EdgeInsets.only(bottom: 12.h),
-                  //     //   height: 440.h,
-                  //     //   width: 351.w,
-                  //     //   decoration: BoxDecoration(
-                  //     //     borderRadius: BorderRadius.circular(12.r),
-                  //     //     color: kWhite,
-                  //     //     border: Border.all(color: kLightBorderColor),
-                  //     //   ),
-                  //     //   child: ListView.builder(
-                  //     //     itemCount: productOffers.length,
-                  //     //     shrinkWrap: true,
-
-                  //     //     itemBuilder: (context, i) {
-                  //     //       final offer = productOffers[i];
-                  //     //       // final offer = state.productOffers?[i];
-                  //     //       return Column(
-                  //     //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //     //         children: [
-                  //     //           Padding(
-                  //     //             padding: EdgeInsets.only(
-                  //     //               left: 12.w,
-                  //     //               top: 12.h,
-                  //     //               right: 16.w,
-                  //     //               bottom: 6.h,
-                  //     //             ),
-                  //     //             child: Row(
-                  //     //               children: [
-                  //     //                 Text(
-                  //     //                   (offer.productName ?? ''),
-                  //     //                   style: FontPalette.hW700S13.copyWith(
-                  //     //                     color: kBlack,
-                  //     //                   ),
-                  //     //                 ),
-                  //     //                 Spacer(),
-
-                  //     //                 3.horizontalSpace,
-
-                  //     //                 GestureDetector(
-                  //     //                   onTap: () async {
-                  //     //                     print(state.selectedType?.storeId);
-                  //     //                     context
-                  //     //                         .read<ReportCubit>()
-                  //     //                         .loadSpecialOffer(
-                  //     //                           storeId:
-                  //     //                               state.selectedType?.storeId,
-                  //     //                         );
-
-                  //     //                     await showModalBottomSheet<
-                  //     //                       EditOfferResponse
-                  //     //                     >(
-                  //     //                       shape: RoundedRectangleBorder(
-                  //     //                         borderRadius: BorderRadius.only(
-                  //     //                           topLeft: Radius.circular(12.r),
-                  //     //                           topRight: Radius.circular(12.r),
-                  //     //                         ),
-                  //     //                       ),
-                  //     //                       isScrollControlled: true,
-                  //     //                       backgroundColor: kWhite,
-                  //     //                       context: context,
-                  //     //                       builder: (context) {
-                  //     //                         return EditProductOffer(
-                  //     //                           product: offer,
-                  //     //                         );
-                  //     //                       },
-                  //     //                     );
-                  //     //                   },
-                  //     //                   child: Row(
-                  //     //                     children: [
-                  //     //                       SvgPicture.asset(
-                  //     //                         'assets/icons/Edit.svg',
-                  //     //                       ),
-                  //     //                       3.horizontalSpace,
-                  //     //                       Text(
-                  //     //                         'Edit',
-                  //     //                         style: FontPalette.hW700S14
-                  //     //                             .copyWith(
-                  //     //                               color: kPrimaryColor,
-                  //     //                             ),
-                  //     //                       ),
-                  //     //                       6.horizontalSpace,
-                  //     //                     ],
-                  //     //                   ),
-                  //     //                 ),
-                  //     //               ],
-                  //     //             ),
-                  //     //           ),
-
-                  //     //           // dividerWidget(color: kLightBorderColor),
-                  //     //           10.verticalSpace,
-                  //     //           rowWidget(
-                  //     //             name: 'Offer',
-                  //     //             status: offer.offerTypeName ?? '',
-                  //     //           ),
-                  //     //           8.verticalSpace,
-                  //     //           rowWidget(
-                  //     //             name: 'Offer price',
-                  //     //             status:
-                  //     //                 offer.offerPrice?.toStringAsFixed(2) ??
-                  //     //                 '0.00',
-                  //     //           ),
-                  //     //           8.verticalSpace,
-                  //     //           rowWidget(
-                  //     //             name: 'Discount',
-                  //     //             status:
-                  //     //                 offer.offerPricePercentage?.toString() ??
-                  //     //                 '0',
-                  //     //           ),
-                  //     //           8.verticalSpace,
-
-                  //     //           rowWidget(
-                  //     //             name: 'From date',
-                  //     //             status: offer.offerFromDate != null
-                  //     //                 ? formatDate(offer.offerFromDate!)
-                  //     //                 : '',
-                  //     //           ),
-                  //     //           8.verticalSpace,
-
-                  //     //           rowWidget(
-                  //     //             name: 'To date',
-                  //     //             status: offer.offerToDate != null
-                  //     //                 ? formatDate(offer.offerToDate!)
-                  //     //                 : '',
-                  //     //           ),
-                  //     //           5.verticalSpace,
-
-                  //     //           rowWidget(
-                  //     //             name: 'Status',
-                  //     //             status: offer.offerStatus ?? '',
-                  //     //           ),
-                  //     //           dividerWidget(height: 6.h),
-                  //     //         ],
-                  //     //       );
-                  //     //     },
-                  //     //   ),
-                  //     // );
-                  //   },
-                  // ),
+                 
                 ],
               ),
             ),

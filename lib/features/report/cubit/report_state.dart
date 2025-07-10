@@ -72,6 +72,7 @@ class ReportState extends Equatable {
   final List<ProductNameResponse>? getproductName;
   final ApiFetchStatus? isProductName;
   final ProductNameResponse? selectedProductName;
+  final ProductNameResponse? selectedProductPrice;
   final bool? hasMoreData;
   final bool? isLoadingMore;
   final int? totalItems;
@@ -151,11 +152,13 @@ class ReportState extends Equatable {
     this.option = '',
     this.getproductName,
     this.isProductName,
+    this.selectedProductPrice,
     this.hasMoreData,
     this.isLoadingMore,
+    this.lastStoreId,
+    this.selectedStore,
     this.totalItems,
-    this.lastStoreId = 0,
-    this.selectedStore
+    
   });
 
   ReportState copyWith({
@@ -231,11 +234,11 @@ class ReportState extends Equatable {
     List<ProductNameResponse>? getProductName,
     ApiFetchStatus? isProductName,
     ProductNameResponse? selectedProductName,
+    ProductNameResponse? selectedProductPrice,
     bool? hasMoreData,
     bool? isLoadingMore,
     int? totalItems,
-    int? lastStoreId,
-    StoreResponse? selectedStore,
+    StoreResponse? selectedStore
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -310,11 +313,11 @@ class ReportState extends Equatable {
       getproductName: getProductName ?? getproductName,
       isProductName: isProductName ?? this.isProductName,
       selectedProductName: selectedProductName ?? this.selectedProductName,
-      hasMoreData: hasMoreData ?? this.hasMoreData,
-      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      totalItems: totalItems ?? this.totalItems,
-      lastStoreId: lastStoreId ?? this.lastStoreId,
-      selectedStore: selectedStore ?? this.selectedStore
+      selectedProductPrice: selectedProductPrice ?? this.selectedProductPrice,
+      hasMoreData: hasMoreData?? this.hasMoreData,
+      totalItems: totalItems?? this.totalItems,
+      isLoadingMore: isLoadingMore?? this.isLoadingMore,
+      selectedStore: selectedStore?? this.selectedStore
     );
   }
 
@@ -387,10 +390,10 @@ class ReportState extends Equatable {
     getproductName,
     isProductName,
     selectedProductName,
-    isLoadingMore,
+    selectedProductPrice,
     hasMoreData,
+    isLoadingMore,
     totalItems,
-    lastStoreId,
     selectedStore
   ];
 }

@@ -781,13 +781,13 @@ class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse? request,
-    int? productId,
+    int? prodOfferId,
     int? storeId,
   ) async {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.put(
-      ApiEndpoints.editOffer(productId ?? 0),
+      ApiEndpoints.editOffer(prodOfferId ?? 0),
       data: request?.toJson(),
     );
     log(">>> RAW RESPONSE object//: $res");
