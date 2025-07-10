@@ -280,7 +280,7 @@ class _DrawerContent extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => Helper().logout(context),
+        onTap: () => _showLogoutConfirmation(context),
           borderRadius: BorderRadius.circular(12.r),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
@@ -305,4 +305,39 @@ class _DrawerContent extends StatelessWidget {
       ),
     );
   }
+
+  void _showLogoutConfirmation(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext dialogContext) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        title: const Text('Confirm Logout'),
+        content: const Text('Are you sure you want to sign out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop(); // Close the dialog
+              Helper().logout(context); // Proceed to logout
+            },
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: kRedColor),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+
+
 }

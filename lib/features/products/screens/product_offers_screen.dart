@@ -52,11 +52,11 @@ class ProductOffersScreen extends StatelessWidget {
                     top: Radius.circular(12.r),
                   ),
                 ),
-                builder: (context) => const EditProductOffer(isEdit: false),
+                builder: (context) => const OfferForm(isEdit: false),
 
-                // builder: (context) =>
-                //     CreateOffer(offers: ProductOffersResponse()),
+           
               );
+              context.read<ReportCubit>().loadProductOffers();
             },
 
             child: Icon(Icons.add, color: kWhite, size: 25.h),
@@ -103,14 +103,6 @@ class ProductOffersScreen extends StatelessWidget {
                           context.read<ReportCubit>().loadProductOffers(
                             storeId: state.selectedStore?.storeId,
                           );
-
-                          // context.read<OrderCubit>().orders(
-                          //   req: OrderRequest(
-                          //     storeId: state.selectedStore?.storeId,
-                          //     fromDate: parsedDate(DateTime.now()),
-                          //     toDate: parsedDate(DateTime.now()),
-                          //   ),
-                          // );
                         },
 
                         labelText: '',
@@ -255,12 +247,14 @@ class ProductOffersScreen extends StatelessWidget {
                                             isScrollControlled: true,
                                             backgroundColor: kWhite,
                                             context: context,
-                                            builder: (context) =>
-                                                EditProductOffer(
-                                                  isEdit: true,
-                                                  product: offer,
-                                                ),
+                                            builder: (context) => OfferForm(
+                                              isEdit: true,
+                                              product: offer,
+                                            ),
                                           );
+                                          context
+                                              .read<ReportCubit>()
+                                              .loadProductOffers();
                                         },
                                         child: Row(
                                           children: [
@@ -322,8 +316,8 @@ class ProductOffersScreen extends StatelessWidget {
                                   statusColor:
                                       (offer.offerStatus?.toLowerCase() ==
                                           'active')
-                                      ? Colors.green
-                                      : Colors.red,
+                                      ? kPrimaryColor
+                                      : kRedColor,
                                 ),
                               ],
                             ),
@@ -410,9 +404,7 @@ Widget rowWidget({String? name, String? status, Color? statusColor}) {
           flex: 3,
           child: Text(
             status ?? '',
-            style: FontPalette.hW400S13.copyWith(
-              color: statusColor ?? Colors.black,
-            ),
+            style: FontPalette.hW400S13.copyWith(color: statusColor ?? kBlack),
           ),
         ),
       ],

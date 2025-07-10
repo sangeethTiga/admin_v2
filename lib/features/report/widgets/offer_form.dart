@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -21,16 +19,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class EditProductOffer extends StatefulWidget {
+class OfferForm extends StatefulWidget {
   final bool isEdit;
   final ProductOffersResponse? product;
-  const EditProductOffer({super.key, this.isEdit = false, this.product});
+  const OfferForm({super.key, this.isEdit = false, this.product});
 
   @override
-  State<EditProductOffer> createState() => _EditProductOfferState();
+  State<OfferForm> createState() => _OfferFormState();
 }
 
-class _EditProductOfferState extends State<EditProductOffer> {
+class _OfferFormState extends State<OfferForm> {
   late final TextEditingController nameController;
   late final TextEditingController offerController;
   late final TextEditingController offerPriceController;
