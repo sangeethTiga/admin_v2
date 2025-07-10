@@ -79,7 +79,9 @@ class OrderDetailScreen extends StatelessWidget {
                       10.verticalSpace,
                       rowWidget(
                         name: 'Reference number',
-                        status: state.orderDetail?.referenceNo ?? '',
+                        status:
+                            state.orderDetail?.referenceNo ??
+                            ''.replaceAll(':', ''),
                       ),
                       8.verticalSpace,
                       rowWidget(

@@ -209,7 +209,7 @@ class OrderScreen extends StatelessWidget {
             child: DatePickerContainer(
               firstDate: state.fromDate,
               hintText: '',
-              
+
               changeDate: (DateTime pickedDate) =>
                   _handleFromDateChange(context, pickedDate, state, common),
             ),
@@ -527,7 +527,7 @@ class _OrderCard extends StatelessWidget {
   Widget _buildDeliveryAgent() {
     return _containerWidget(
       name: 'Delivery agent : ',
-      status: orderData?.deliveryBoyName ?? 'N/A',
+      status: orderData?.deliveryBoyName ?? 'NA',
     );
   }
 
