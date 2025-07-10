@@ -1,12 +1,14 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
-import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
+import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart'
+    hide DeliveryPartner;
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
@@ -41,6 +43,7 @@ part 'report_state.dart';
 class ReportCubit extends Cubit<ReportState> {
   final ReportRepositories _reportRepositories;
   final DashboardCubit _dashboardCubit;
+  static const int _itemsPerPage = 10;
 
   ReportCubit(this._reportRepositories, this._dashboardCubit)
     : super(InitialReportState());
@@ -57,6 +60,7 @@ class ReportCubit extends Cubit<ReportState> {
     String? selectedCashierId,
     String? selectedKIOSK,
     String? selectedGroupBy,
+   
 
     int? selectedDuration,
   }) async {
@@ -86,6 +90,10 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isSaleReport: ApiFetchStatus.failed));
   }
 
+  Future<void> changeStore(StoreResponse res) async {
+    emit(state.copyWith(selectedStore: res));
+  }
+
   Future<void> changeFromDate(DateTime date) async {
     emit(state.copyWith(fromDate: date));
   }
@@ -104,24 +112,29 @@ class ReportCubit extends Cubit<ReportState> {
     String? fromDate,
     String? toDate,
     int page = 0,
-    int limit = 20,
+    //  int limit = 20,
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
       emit(
-        state.copyWith(isSaleReport: ApiFetchStatus.loading, revenueReport: []),
+        state.copyWith(
+          isSaleReport: ApiFetchStatus.loading,
+          revenueReport: [],
+          currentPage: 0,
+          hasMoreData: true,
+        ),
       );
     }
-    final int offset = page * limit;
+    // final int offset = page * limit;
 
     final res = await _reportRepositories.loadRevenueReport(
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
-      pageFirstResult: offset,
-      resultPerPage: limit,
+      pageFirstResult: 0,
+      // resultPerPage: limit,
     );
-    log("$offset $limit");
+
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
       final List<ReveneReportResponse> fetchedList = rawList.map((element) {
@@ -135,18 +148,61 @@ class ReportCubit extends Cubit<ReportState> {
           );
         }
       }).toList();
-
-      final List<ReveneReportResponse> newList = isLoadMore
-          ? <ReveneReportResponse>[...?state.revenueReport, ...fetchedList]
-          : fetchedList;
+      final newData = List<ReveneReportResponse>.from(res.data!);
+      // final List<ReveneReportResponse> newList = isLoadMore
+      //     ? <ReveneReportResponse>[...?state.revenueReport, ...fetchedList]
+      //     : fetchedList;
+      final hasMore = newData.length >= _itemsPerPage;
       emit(
         state.copyWith(
-          revenueReport: newList,
+          revenueReport: newData,
           isSaleReport: ApiFetchStatus.success,
+          currentPage: 0,
+          hasMoreData: hasMore,
+          totalItems: newData.length,
         ),
       );
     }
     emit(state.copyWith(isSaleReport: ApiFetchStatus.failed));
+  }
+
+  Future<void> loadMoreProducts() async {
+    if (state.isLoadingMore ?? false || !(state.hasMoreData ?? false)) return;
+    try {
+      emit(state.copyWith(isLoadingMore: true));
+      final nextPage = (state.currentPage ?? 0) + 1;
+      final pageFirstResult = nextPage * _itemsPerPage;
+      final res = await _reportRepositories.loadRevenueReport(
+        pageFirstResult: pageFirstResult,
+        storeId: state.lastStoreId!,
+        fromDate: '',
+        toDate: '',
+      );
+      if (res.data != null && res.data!.isNotEmpty) {
+        final newProducts = List<ReveneReportResponse>.from(res.data!);
+        final allProducts = List<ReveneReportResponse>.from(
+          state.revenueReport ?? [],
+        );
+        allProducts.addAll(newProducts);
+
+        final hasMore = newProducts.length >= _itemsPerPage;
+        emit(
+          state.copyWith(
+            isLoadingMore: false,
+            revenueReport: allProducts,
+
+            currentPage: nextPage,
+            hasMoreData: hasMore,
+            totalItems: allProducts.length,
+          ),
+        );
+      } else {
+        emit(state.copyWith(isLoadingMore: false, hasMoreData: false));
+      }
+    } catch (e, s) {
+      log("Error loading more products: $e", stackTrace: s);
+      emit(state.copyWith(isLoadingMore: false));
+    }
   }
 
   Future<void> loadExpenseReport({

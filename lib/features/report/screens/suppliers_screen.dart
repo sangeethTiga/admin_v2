@@ -59,6 +59,12 @@ class SuppliersReportScreen extends StatelessWidget {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
+                       textStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          ),
                     );
                   },
                 ),

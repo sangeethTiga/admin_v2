@@ -231,11 +231,9 @@ class ProductCubit extends Cubit<ProductState> {
     if (state.selectedStockResponse?.productItemConditionId == 1) {
       final double updatedStock = curentStock + totalStock;
       emit(state.copyWith(totalStock: updatedStock));
-     
     } else {
       final double updatedStock = curentStock - totalStock;
       emit(state.copyWith(totalStock: updatedStock));
-      
     }
   }
 
@@ -260,7 +258,6 @@ class ProductCubit extends Cubit<ProductState> {
       mainCategoryId,
     );
     if (res.data != null) {
-      
       emit(
         state.copyWith(
           isAdded: ApiFetchStatus.success,
@@ -297,8 +294,11 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(selectCategory: CategoryResponse()));
   }
 
+  Future<void> clearAllProducts() async {
+    emit(state.copyWith(selectProduct: Product()));
+  }
+
   Future<void> selectProduct(Product? productOption) async {
-   
     emit(state.copyWith(selectProduct: productOption));
   }
 

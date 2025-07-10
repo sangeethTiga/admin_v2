@@ -13,30 +13,32 @@ class TopStores extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Top Performing Stores'),
-      body: MainPadding(
-        child: BlocBuilder<ReportCubit, ReportState>(
-          builder: (context, state) {
-            if (state.apiFetchStatus == ApiFetchStatus.loading) {
-              const Center(child: CircularProgressIndicator());
-            }
-            return CommonTableWidget(
-              isLoading: state.isTopStores == ApiFetchStatus.loading,
-              headers: ["#", "STORES", "SALES"],
-              columnFlex: [1, 3, 2],
-              data:
-                  state.topStores?.map((e) {
-                    int index = state.topStores?.indexOf(e) ?? 0;
-                    return {
-                      "#": index + 1,
-                      "STORES": e.storeName ?? '',
-                      "SALES": e.totalorders ?? '',
-                    };
-                  }).toList() ??
-                  [],
-            );
-          },
-        ),
-      ),
+      body: MainPadding(child: _topStoresList()),
+    );
+  }
+
+  Widget _topStoresList() {
+    return BlocBuilder<ReportCubit, ReportState>(
+      builder: (context, state) {
+        if (state.apiFetchStatus == ApiFetchStatus.loading) {
+          const Center(child: CircularProgressIndicator());
+        }
+        return CommonTableWidget(
+          isLoading: state.isTopStores == ApiFetchStatus.loading,
+          headers: ["#", "STORES", "SALES"],
+          columnFlex: [1, 3, 2],
+          data:
+              state.topStores?.map((e) {
+                int index = state.topStores?.indexOf(e) ?? 0;
+                return {
+                  "#": index + 1,
+                  "STORES": e.storeName ?? '',
+                  "SALES": e.totalorders ?? '',
+                };
+              }).toList() ??
+              [],
+        );
+      },
     );
   }
 }

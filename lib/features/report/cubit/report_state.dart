@@ -73,6 +73,11 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isProductName;
   final ProductNameResponse? selectedProductName;
   final ProductNameResponse? selectedProductPrice;
+  final bool? hasMoreData;
+  final bool? isLoadingMore;
+  final int? totalItems;
+  final int? lastStoreId;
+  final StoreResponse? selectedStore;
 
   const ReportState({
     this.salesReport,
@@ -81,7 +86,7 @@ class ReportState extends Equatable {
     this.toDate,
     this.selectedMethod,
     this.revenueReport,
-    this.currentPage = 0,
+    this.currentPage = 1,
     this.pageSize = 20,
     this.expenseReport,
     this.profitlossReport,
@@ -147,7 +152,13 @@ class ReportState extends Equatable {
     this.option = '',
     this.getproductName,
     this.isProductName,
-    this.selectedProductPrice
+    this.selectedProductPrice,
+    this.hasMoreData,
+    this.isLoadingMore,
+    this.lastStoreId,
+    this.selectedStore,
+    this.totalItems,
+    
   });
 
   ReportState copyWith({
@@ -224,6 +235,10 @@ class ReportState extends Equatable {
     ApiFetchStatus? isProductName,
     ProductNameResponse? selectedProductName,
     ProductNameResponse? selectedProductPrice,
+    bool? hasMoreData,
+    bool? isLoadingMore,
+    int? totalItems,
+    StoreResponse? selectedStore
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -299,6 +314,10 @@ class ReportState extends Equatable {
       isProductName: isProductName ?? this.isProductName,
       selectedProductName: selectedProductName ?? this.selectedProductName,
       selectedProductPrice: selectedProductPrice ?? this.selectedProductPrice,
+      hasMoreData: hasMoreData?? this.hasMoreData,
+      totalItems: totalItems?? this.totalItems,
+      isLoadingMore: isLoadingMore?? this.isLoadingMore,
+      selectedStore: selectedStore?? this.selectedStore
     );
   }
 
@@ -372,6 +391,10 @@ class ReportState extends Equatable {
     isProductName,
     selectedProductName,
     selectedProductPrice,
+    hasMoreData,
+    isLoadingMore,
+    totalItems,
+    selectedStore
   ];
 }
 

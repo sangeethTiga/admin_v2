@@ -66,7 +66,9 @@ class ProfitLossScreen extends StatelessWidget {
                               .selectedStoreforProfitloss(p0);
 
                           final reportCubit = context.read<ReportCubit>();
-                          reportCubit.loadProfitAndLoss(storeId: p0?.storeId ?? 0);
+                          reportCubit.loadProfitAndLoss(
+                            storeId: p0?.storeId ?? 0,
+                          );
                         },
                         labelText: '',
                       );
@@ -92,7 +94,7 @@ class ProfitLossScreen extends StatelessWidget {
                           Expanded(
                             child: DatePickerContainer(
                               hintText: '',
-                              firstDate: state.fromDate,
+                              firstDate: state.toDate,
                               changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeToDate(
                                   pickDate,
@@ -108,7 +110,6 @@ class ProfitLossScreen extends StatelessWidget {
                   2.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      
                       double calculateTotalRevenue(ReportState state) {
                         final receipts =
                             state.profitlossReport?[0].receiptsData;
@@ -121,7 +122,7 @@ class ProfitLossScreen extends StatelessWidget {
 
                       return Container(
                         // height: 120.h,
-                         width: double.infinity,
+                        width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.r),
                           border: Border.all(color: kLightBorderColor),
@@ -141,7 +142,7 @@ class ProfitLossScreen extends StatelessWidget {
                             state.isSaleReport == ApiFetchStatus.loading
                                 ? _shimmerExpenseList()
                                 : ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
+                                    physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: state
                                         .profitlossReport?[0]
@@ -159,10 +160,10 @@ class ProfitLossScreen extends StatelessWidget {
                                       );
                                     },
                                   ),
-
+ 
                             Container(
                               width: double.infinity,
-                              height: 45.h,
+                              height: 47.h,
                               decoration: BoxDecoration(
                                 color: kPrimaryColor1,
                                 borderRadius: BorderRadius.only(
@@ -233,6 +234,7 @@ class ProfitLossScreen extends StatelessWidget {
                             state.isSaleReport == ApiFetchStatus.loading
                                 ? _shimmerExpenseList()
                                 : ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     itemCount: state
                                         .profitlossReport?[0]
@@ -288,6 +290,7 @@ class ProfitLossScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  6.verticalSpace,
                 ],
               ),
             ),

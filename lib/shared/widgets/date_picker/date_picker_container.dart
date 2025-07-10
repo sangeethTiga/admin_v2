@@ -98,7 +98,7 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
                 } else {
                   pickerInitialDate = DateTime.now();
                 }
-                final firstDate = widget.firstDate ?? DateTime(2015, 1, 1);
+                final firstDate = widget.firstDate ?? DateTime(2015);
                 final lastDate = widget.lastDate ?? DateTime(2101);
 
                 if (pickerInitialDate.isBefore(firstDate)) {

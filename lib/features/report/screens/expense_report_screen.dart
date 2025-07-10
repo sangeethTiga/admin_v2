@@ -60,6 +60,12 @@ class ExpenseReportScreen extends StatelessWidget {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
+                       textStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          ),
                     );
                   },
                 ),
@@ -105,7 +111,7 @@ class ExpenseReportScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate ?? DateTime.now(),
+                            firstDate: state.fromDate,
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
@@ -162,7 +168,7 @@ class ExpenseReportScreen extends StatelessWidget {
                               state.isSaleReport != ApiFetchStatus.loading) {
                             context.read<ReportCubit>().loadReveneueReport(
                               page: state.currentPage + 1,
-                              limit: state.pageSize,
+                             
                               isLoadMore: true,
                               storeId: store.selectedStore?.storeId,
                             );

@@ -30,7 +30,29 @@ class OrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppbarWidget(title: 'New Orders'),
+      appBar: AppbarWidget(
+        title: 'New Orders',
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: SvgPicture.asset(
+              'assets/icons/Search.svg',
+              height: 20.h,
+              width: 20.w,
+            ),
+          ),
+
+          IconButton(
+            onPressed: () {},
+            icon: SvgPicture.asset(
+              'assets/icons/bell-icon.svg',
+              height: 32.h,
+              width: 32.w,
+            ),
+          ),
+        ],
+      ),
+
       body: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
           log("STATUS LENGTH 1=-= -${state.statusList?.length}");
@@ -40,9 +62,9 @@ class OrderScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 dividerWidget(height: 6.h),
-                8.verticalSpace,
+                10.verticalSpace,
                 _buildStatusFilterSection(),
-                4.verticalSpace,
+                12.verticalSpace,
                 const Divider(),
                 MainPadding(
                   child: Column(
@@ -71,7 +93,7 @@ class OrderScreen extends StatelessWidget {
           builder: (context, common) {
             log("STATUS LENGTH =-= -${state.statusList?.length}");
             return SizedBox(
-              height: 45.h,
+              height: 48.h,
               child: ListView.builder(
                 padding: EdgeInsets.only(left: 12.w),
                 scrollDirection: Axis.horizontal,
@@ -159,6 +181,8 @@ class OrderScreen extends StatelessWidget {
     BuildContext context,
   ) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: mapItems.map((item) {
         final isSelected = state.selectedIds?.contains(item.id) ?? false;
 
@@ -183,8 +207,9 @@ class OrderScreen extends StatelessWidget {
         children: [
           Expanded(
             child: DatePickerContainer(
-              firstDate: state.fromDate ?? DateTime.now(),
+              firstDate: state.fromDate,
               hintText: '',
+              
               changeDate: (DateTime pickedDate) =>
                   _handleFromDateChange(context, pickedDate, state, common),
             ),
@@ -192,7 +217,7 @@ class OrderScreen extends StatelessWidget {
           8.horizontalSpace,
           Expanded(
             child: DatePickerContainer(
-              firstDate: state.toDate ?? DateTime.now(),
+              firstDate: state.toDate,
               hintText: '',
               changeDate: (DateTime pickedDate) =>
                   _handleToDateChange(context, pickedDate, state, common),
@@ -201,7 +226,7 @@ class OrderScreen extends StatelessWidget {
           8.horizontalSpace,
           Container(
             width: 39.w,
-            height: 44.h,
+            height: 52.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(color: kPrimaryColor),
@@ -455,7 +480,7 @@ class _OrderCard extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            'Order: #${orderData?.prodOrderId ?? 0}',
+            'Order: ${orderData?.prodOrderId ?? 0}',
             style: FontPalette.hW700S13.copyWith(color: kBlack),
           ),
           const Spacer(),
@@ -501,7 +526,7 @@ class _OrderCard extends StatelessWidget {
 
   Widget _buildDeliveryAgent() {
     return _containerWidget(
-      name: 'Delivery agent :',
+      name: 'Delivery agent : ',
       status: orderData?.deliveryBoyName ?? 'N/A',
     );
   }
@@ -509,7 +534,7 @@ class _OrderCard extends StatelessWidget {
   Widget _buildActionButtons(BuildContext context) {
     return Row(
       children: [
-        10.horizontalSpace,
+        1.horizontalSpace,
         Expanded(
           child: InkWell(
             onTap: () => _dialogBuilder(context),
@@ -611,7 +636,12 @@ Widget _rowWidget({
               flex: 3,
               child: Row(
                 children: [
-                  if (isPrimary) SvgPicture.asset('assets/icons/Call.svg'),
+                  if (isPrimary)
+                    SvgPicture.asset(
+                      'assets/icons/Call.svg',
+                      height: 14.h,
+                      width: 12.w,
+                    ),
                   4.horizontalSpace,
                   Text(
                     name2 ?? '',
