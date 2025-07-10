@@ -408,7 +408,12 @@ Widget rowWidget({String? name, String? status, Color? statusColor}) {
         ),
         Expanded(
           flex: 3,
-          child: Text(status ?? '', style: FontPalette.hW400S13),
+          child: Text(
+            status ?? '',
+            style: FontPalette.hW400S13.copyWith(
+              color: statusColor ?? Colors.black,
+            ),
+          ),
         ),
       ],
     ),
