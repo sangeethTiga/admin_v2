@@ -102,7 +102,6 @@ class ProductOffersScreen extends StatelessWidget {
                           context.read<DashboardCubit>().selectedStore(p0);
                           context.read<ReportCubit>().loadProductOffers(
                             storeId: state.selectedStore?.storeId,
-
                           );
 
                           // context.read<OrderCubit>().orders(
@@ -256,12 +255,11 @@ class ProductOffersScreen extends StatelessWidget {
                                             isScrollControlled: true,
                                             backgroundColor: kWhite,
                                             context: context,
-                                            builder: (context) => EditProductOffer(
-                                              isEdit: true,
-                                              product: offer,
-                                              
-
-                                            ),
+                                            builder: (context) =>
+                                                EditProductOffer(
+                                                  isEdit: true,
+                                                  product: offer,
+                                                ),
                                           );
                                         },
                                         child: Row(
@@ -321,6 +319,11 @@ class ProductOffersScreen extends StatelessWidget {
                                 rowWidget(
                                   name: 'Status',
                                   status: offer.offerStatus ?? '',
+                                  statusColor:
+                                      (offer.offerStatus?.toLowerCase() ==
+                                          'active')
+                                      ? Colors.green
+                                      : Colors.red,
                                 ),
                               ],
                             ),
@@ -329,8 +332,6 @@ class ProductOffersScreen extends StatelessWidget {
                       );
                     },
                   ),
-
-                 
                 ],
               ),
             ),
@@ -395,7 +396,7 @@ Widget _shimmerProductOfferList() {
   );
 }
 
-Widget rowWidget({String? name, String? status}) {
+Widget rowWidget({String? name, String? status, Color? statusColor}) {
   return MainPadding(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -407,7 +408,12 @@ Widget rowWidget({String? name, String? status}) {
         ),
         Expanded(
           flex: 3,
-          child: Text(status ?? '', style: FontPalette.hW400S13),
+          child: Text(
+            status ?? '',
+            style: FontPalette.hW400S13.copyWith(
+              color: statusColor ?? Colors.black,
+            ),
+          ),
         ),
       ],
     ),
