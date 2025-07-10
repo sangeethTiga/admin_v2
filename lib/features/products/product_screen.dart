@@ -195,12 +195,12 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           onChanged: (product) =>
               _handleProductTypeChange(product, state, common),
-          suffixWidget: SvgPicture.asset(
-            'assets/icons/down -arrow.svg.svg',
-            width: 20.w,
-            height: 20.h,
-            fit: BoxFit.contain,
-          ),
+          // suffixWidget: SvgPicture.asset(
+          //   'assets/icons/down -arrow.svg.svg',
+          //   width: 20.w,
+          //   height: 20.h,
+          //   fit: BoxFit.contain,
+          // ),
         );
       },
     );
@@ -232,12 +232,12 @@ class _ProductScreenState extends State<ProductScreen> {
               }).toList() ??
               [],
           fillColor: Colors.white,
-          suffixWidget: SvgPicture.asset(
-            'assets/icons/down -arrow.svg.svg',
-            width: 20.w,
-            height: 20.h,
-            fit: BoxFit.contain,
-          ),
+          // suffixWidget: SvgPicture.asset(
+          //   'assets/icons/down -arrow.svg.svg',
+          //   width: 20.w,
+          //   height: 20.h,
+          //   fit: BoxFit.contain,
+          // ),
           onChanged: (categoryId) =>
               _handleCategoryChange(categoryId, state, common),
           inputBorder: OutlineInputBorder(

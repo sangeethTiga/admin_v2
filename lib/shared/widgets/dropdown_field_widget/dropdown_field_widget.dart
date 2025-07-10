@@ -112,7 +112,7 @@ class DropDownFieldWidget extends StatelessWidget {
               dropdownColor: dropdownColor,
               iconDisabledColor: kRedColor,
 
-              // icon: const SizedBox.shrink(), // Hides default icon in all states
+              //icon: const SizedBox.shrink(), // Hides default icon in all states
               hint: hintText != null
                   ? Text(hintText!, style: FontPalette.hW500S14)
                   : null,

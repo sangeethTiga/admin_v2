@@ -73,7 +73,12 @@ dependencies:
   permission_handler: ^11.4.0
   cherry_toast: ^1.13.0
   dropdown_search: ^5.0.6
-
+  flutter_launcher_icons: ^0.14.4
+ 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/skyaio_icon.png"
 dev_dependencies:
   flutter_test:
     sdk: flutter

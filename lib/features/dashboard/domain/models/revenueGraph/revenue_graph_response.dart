@@ -10,7 +10,7 @@ class RevenueResponse with _$RevenueResponse {
     const factory RevenueResponse({
         @JsonKey(name: "monthname")
         String? monthname,
-        @JsonKey(name: "income")
+        @JsonKey(name: "income",)
         int? income,
         @JsonKey(name: "expense")
         int? expense,

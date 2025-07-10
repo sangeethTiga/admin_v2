@@ -34,7 +34,7 @@ class RevenueGraph extends StatelessWidget {
                 Text('Revenue & Expense', style: FontPalette.hW700S16),
                 SizedBox(height: 12),
                 SizedBox(
-                  height: 400,
+                  height: 500,
                   width: double.infinity,
                   child: SfCartesianChart(
                     // title: ChartTitle(text: 'Revenue & Expense'),

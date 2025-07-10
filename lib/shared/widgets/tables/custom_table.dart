@@ -77,7 +77,25 @@ class CommonTableWidget extends StatelessWidget {
                 )
               : data.isEmpty
               ? Center(
-                  child: Text('No data found', style: FontPalette.hW600S14),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          'No data available to load',
+                          style: FontPalette.hW500S16.copyWith(
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ),
+                      14.verticalSpace,
+                      Icon(
+                        Icons.inventory,
+                        size: 64.w,
+                        color: Colors.grey[400],
+                      ),
+                    ],
+                  ),
                 )
               : ListView.builder(
                   itemCount: data.length,
