@@ -32,7 +32,7 @@ class DashboardState extends Equatable {
   final DateTime? fromDate;
   final DateTime? toDate;
   final List<MostSellingResponse>? sellingProductsReport;
-  
+
   final MostSellingResponse? selectedProducts;
   const DashboardState({
     this.isRevenueGraph,
@@ -65,7 +65,7 @@ class DashboardState extends Equatable {
     this.fromDate,
     this.toDate,
     this.isMostSelling,
-     
+
     this.sellingProductsReport,
     this.selectedProducts,
   });
@@ -102,10 +102,9 @@ class DashboardState extends Equatable {
     Dates? selectedGroupBy,
     DateTime? fromDate,
     DateTime? toDate,
-       List<MostSellingResponse>? sellingProductsReport,
+    List<MostSellingResponse>? sellingProductsReport,
     ApiFetchStatus? isMostSelling,
     MostSellingResponse? selectedProducts,
-  
   }) {
     return DashboardState(
       isRevenueGraph: isRevenueGraph ?? this.isRevenueGraph,
@@ -139,10 +138,11 @@ class DashboardState extends Equatable {
       selectedGroupBy: selectedGroupBy ?? this.selectedGroupBy,
       fromDate: fromDate ?? this.fromDate,
       toDate: toDate ?? this.toDate,
-    
-       sellingProductsReport: sellingProductsReport ?? this.sellingProductsReport,
-    isMostSelling: isMostSelling ?? this.isMostSelling,
-    selectedProducts: selectedProducts ?? this.selectedProducts,
+
+      sellingProductsReport:
+          sellingProductsReport ?? this.sellingProductsReport,
+      isMostSelling: isMostSelling ?? this.isMostSelling,
+      selectedProducts: selectedProducts ?? this.selectedProducts,
     );
   }
 
@@ -159,7 +159,7 @@ class DashboardState extends Equatable {
     selectedAccount,
     accountList,
     selectedOption,
-    selectedCategory?.categoryId,
+    selectedCategory,
     selectedPurchaseType,
     selectMonth,
     deliveryAgents,
@@ -177,7 +177,7 @@ class DashboardState extends Equatable {
     selectedGroupBy,
     fromDate,
     toDate,
-     sellingProductsReport,
+    sellingProductsReport,
     isMostSelling,
     selectedProducts,
   ];

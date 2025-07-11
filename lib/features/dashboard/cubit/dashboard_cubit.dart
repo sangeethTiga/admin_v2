@@ -255,12 +255,19 @@ class DashboardCubit extends Cubit<DashboardState> {
       final res = await _dashboardRepositories.loadProductsCategory(
         storeId: storeId ?? 0,
       );
-      if (res.data != null) {
+      if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         emit(
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
             sellingProductsReport: res.data,
             selectedProducts: res.data?.first,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.failed,
+            sellingProductsReport: [],
           ),
         );
       }

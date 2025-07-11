@@ -1113,22 +1113,24 @@ class ReportCubit extends Cubit<ReportState> {
       roleId: roleId ?? 0,
       userId: userId ?? 0,
       searchText: searchText ?? '',
-      categoryId: state.selectCategory?.categoryId,
+      categoryId: categoryId,
     );
 
     log('Response data: ${res.data}');
-    if (res.data != null) {
-      final List<ProductsResponse> newList = isLoadMore
-          ? <ProductsResponse>[...?state.productsReport, ...res.data!]
-          : res.data!;
-
+    if (res.data != null && (res.data?.isNotEmpty ?? false)) {
       emit(
         state.copyWith(
           isProductReport: ApiFetchStatus.success,
-          productsReport: newList,
+          productsReport: res.data,
         ),
       );
-      return;
+    } else {
+      emit(
+        state.copyWith(
+          isProductReport: ApiFetchStatus.failed,
+          productsReport: [],
+        ),
+      );
     }
     emit(state.copyWith(isProductReport: ApiFetchStatus.failed));
   }
@@ -1233,6 +1235,10 @@ class ReportCubit extends Cubit<ReportState> {
 
   Future<void> clearCategories() async {
     emit(state.copyWith(selectCategory: MostSellingResponse()));
+  }
+
+  Future<void> selectedStore(StoreResponse store) async {
+    emit(state.copyWith(selectedStore: store));
   }
 
   // Future<void> clearSelectedCategory() async {

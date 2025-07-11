@@ -235,7 +235,7 @@ Datum _$DatumFromJson(Map<String, dynamic> json) {
 mixin _$Datum {
   @JsonKey(name: "account_head_name")
   String? get accountHeadName => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   double? get amount => throw _privateConstructorUsedError;
 
   /// Serializes this Datum to a JSON map.
@@ -254,7 +254,7 @@ abstract class $DatumCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "account_head_name") String? accountHeadName,
-    @JsonKey(name: "amount") double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
   });
 }
 
@@ -299,7 +299,7 @@ abstract class _$$DatumImplCopyWith<$Res> implements $DatumCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "account_head_name") String? accountHeadName,
-    @JsonKey(name: "amount") double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
   });
 }
 
@@ -337,7 +337,7 @@ class __$$DatumImplCopyWithImpl<$Res>
 class _$DatumImpl implements _Datum {
   const _$DatumImpl({
     @JsonKey(name: "account_head_name") this.accountHeadName,
-    @JsonKey(name: "amount") this.amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) this.amount,
   });
 
   factory _$DatumImpl.fromJson(Map<String, dynamic> json) =>
@@ -347,7 +347,7 @@ class _$DatumImpl implements _Datum {
   @JsonKey(name: "account_head_name")
   final String? accountHeadName;
   @override
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   final double? amount;
 
   @override
@@ -386,7 +386,7 @@ class _$DatumImpl implements _Datum {
 abstract class _Datum implements Datum {
   const factory _Datum({
     @JsonKey(name: "account_head_name") final String? accountHeadName,
-    @JsonKey(name: "amount") final double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) final double? amount,
   }) = _$DatumImpl;
 
   factory _Datum.fromJson(Map<String, dynamic> json) = _$DatumImpl.fromJson;
@@ -395,7 +395,7 @@ abstract class _Datum implements Datum {
   @JsonKey(name: "account_head_name")
   String? get accountHeadName;
   @override
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   double? get amount;
 
   /// Create a copy of Datum
