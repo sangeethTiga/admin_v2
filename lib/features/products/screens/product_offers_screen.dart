@@ -154,9 +154,7 @@ class ProductOffersScreen extends StatelessWidget {
                               ) ??
                               false;
                         }).toList();
-                        offers.emit(
-                          offers.state.copyWith(filteredProducts: filtered),
-                        );
+                 
                       }
                     },
                     borderColor: kBlack,

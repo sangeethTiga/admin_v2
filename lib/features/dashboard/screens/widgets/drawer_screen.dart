@@ -313,8 +313,14 @@ class _DrawerContent extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.r),
           ),
-          title: const Text('Confirm Logout'),
-          content: const Text('Are you sure you want to sign out?'),
+          title: Text(
+            'Confirm Logout',
+            style: TextStyle(fontSize: 15.sp),
+          ),
+          content: Text(
+            'Are you sure you want to sign out?',
+            style: TextStyle(fontSize: 13.sp),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
