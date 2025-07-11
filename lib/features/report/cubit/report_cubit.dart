@@ -328,8 +328,9 @@ class ReportCubit extends Cubit<ReportState> {
             isDeliverychargeReport: ApiFetchStatus.success,
           ),
         );
+      } else {
+        emit(state.copyWith(isDeliverychargeReport: ApiFetchStatus.failed));
       }
-      emit(state.copyWith(isDeliverychargeReport: ApiFetchStatus.failed));
     }
   }
 
@@ -1143,11 +1144,7 @@ class ReportCubit extends Cubit<ReportState> {
     String? toDate,
     bool isLoadMore = false,
   }) async {
-    if (!isLoadMore) {
-      emit(
-        state.copyWith(isDaySummary: ApiFetchStatus.loading, daySummary: []),
-      );
-    }
+    emit(state.copyWith(isDaySummary: ApiFetchStatus.loading, daySummary: []));
 
     final res = await _reportRepositories.loadDaySummary(
       storeId: storeId ?? 0,
@@ -1155,14 +1152,7 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
     );
 
-    log(" ///API raw response//////: ${res.toString()}");
-    // log(" res.statusCode/// = ${res.statusCode}, res.data = ${res.data}");
-
-    log('.,.,.,.,.,Response data.,.,.,.,: ${res.data}');
-
     if (res.data != null && res.data!.isNotEmpty) {
-      final DaySummaryResponse fetched = res.data!.first;
-
       emit(
         state.copyWith(
           daySummary: res.data,
@@ -1172,37 +1162,6 @@ class ReportCubit extends Cubit<ReportState> {
 
       return;
     }
-
-    // if (res.data != null && res.data!.isNotEmpty) {
-    //   final List<DaySummaryResponse> newList = isLoadMore
-    //       ? <DaySummaryResponse>[...?state.daySummary, ...res.data!]
-    //       : res.data!;
-
-    //   emit(
-    //     state.copyWith(
-    //       daySummary: newList,
-    //       isDaySummary: ApiFetchStatus.success,
-    //     ),
-    //   );
-    //   return;
-    // }
-
-    // if (res.data != null) {
-    //   final fetched = DaySummaryResponse.fromJson(
-    //     res.data as Map<String, dynamic>,
-    //   );
-    //   final List<DaySummaryResponse> newList = isLoadMore
-    //       ? <DaySummaryResponse>[...?state.daySummary, fetched]
-    //       : [fetched];
-
-    //   emit(
-    //     state.copyWith(
-    //       daySummary: newList,
-    //       isDaySummary: ApiFetchStatus.success,
-    //     ),
-    //   );
-    //   return;
-    // }
 
     emit(state.copyWith(isDaySummary: ApiFetchStatus.failed));
   }

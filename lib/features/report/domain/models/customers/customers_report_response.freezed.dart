@@ -21,7 +21,7 @@ CustomersResponse _$CustomersResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CustomersResponse {
-  @JsonKey(name: "cust_id")
+  @JsonKey(name: "cust_id", fromJson: parseInt)
   int? get custId => throw _privateConstructorUsedError;
   @JsonKey(name: "cust_name")
   String? get custName => throw _privateConstructorUsedError;
@@ -31,17 +31,17 @@ mixin _$CustomersResponse {
   String? get custEmail => throw _privateConstructorUsedError;
   @JsonKey(name: "created_date")
   String? get createdDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_active")
+  @JsonKey(name: "is_active", fromJson: parseInt)
   int? get isActive => throw _privateConstructorUsedError;
-  @JsonKey(name: "rowcount")
+  @JsonKey(name: "rowcount", fromJson: parseInt)
   int? get rowcount => throw _privateConstructorUsedError;
-  @JsonKey(name: "account_id")
+  @JsonKey(name: "account_id", fromJson: parseInt)
   int? get accountId => throw _privateConstructorUsedError;
-  @JsonKey(name: "balance_amt")
+  @JsonKey(name: "balance_amt", fromJson: parseInt)
   int? get balanceAmt => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_count")
+  @JsonKey(name: "order_count", fromJson: parseInt)
   int? get orderCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_purchase_amount")
+  @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
   int? get totalPurchaseAmount => throw _privateConstructorUsedError;
 
   /// Serializes this CustomersResponse to a JSON map.
@@ -62,17 +62,18 @@ abstract class $CustomersResponseCopyWith<$Res> {
   ) = _$CustomersResponseCopyWithImpl<$Res, CustomersResponse>;
   @useResult
   $Res call({
-    @JsonKey(name: "cust_id") int? custId,
+    @JsonKey(name: "cust_id", fromJson: parseInt) int? custId,
     @JsonKey(name: "cust_name") String? custName,
     @JsonKey(name: "cust_mobile") String? custMobile,
     @JsonKey(name: "cust_email") String? custEmail,
     @JsonKey(name: "created_date") String? createdDate,
-    @JsonKey(name: "is_active") int? isActive,
-    @JsonKey(name: "rowcount") int? rowcount,
-    @JsonKey(name: "account_id") int? accountId,
-    @JsonKey(name: "balance_amt") int? balanceAmt,
-    @JsonKey(name: "order_count") int? orderCount,
-    @JsonKey(name: "total_purchase_amount") int? totalPurchaseAmount,
+    @JsonKey(name: "is_active", fromJson: parseInt) int? isActive,
+    @JsonKey(name: "rowcount", fromJson: parseInt) int? rowcount,
+    @JsonKey(name: "account_id", fromJson: parseInt) int? accountId,
+    @JsonKey(name: "balance_amt", fromJson: parseInt) int? balanceAmt,
+    @JsonKey(name: "order_count", fromJson: parseInt) int? orderCount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
+    int? totalPurchaseAmount,
   });
 }
 
@@ -165,17 +166,18 @@ abstract class _$$CustomersResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(name: "cust_id") int? custId,
+    @JsonKey(name: "cust_id", fromJson: parseInt) int? custId,
     @JsonKey(name: "cust_name") String? custName,
     @JsonKey(name: "cust_mobile") String? custMobile,
     @JsonKey(name: "cust_email") String? custEmail,
     @JsonKey(name: "created_date") String? createdDate,
-    @JsonKey(name: "is_active") int? isActive,
-    @JsonKey(name: "rowcount") int? rowcount,
-    @JsonKey(name: "account_id") int? accountId,
-    @JsonKey(name: "balance_amt") int? balanceAmt,
-    @JsonKey(name: "order_count") int? orderCount,
-    @JsonKey(name: "total_purchase_amount") int? totalPurchaseAmount,
+    @JsonKey(name: "is_active", fromJson: parseInt) int? isActive,
+    @JsonKey(name: "rowcount", fromJson: parseInt) int? rowcount,
+    @JsonKey(name: "account_id", fromJson: parseInt) int? accountId,
+    @JsonKey(name: "balance_amt", fromJson: parseInt) int? balanceAmt,
+    @JsonKey(name: "order_count", fromJson: parseInt) int? orderCount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
+    int? totalPurchaseAmount,
   });
 }
 
@@ -260,24 +262,25 @@ class __$$CustomersResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CustomersResponseImpl implements _CustomersResponse {
   const _$CustomersResponseImpl({
-    @JsonKey(name: "cust_id") this.custId,
+    @JsonKey(name: "cust_id", fromJson: parseInt) this.custId,
     @JsonKey(name: "cust_name") this.custName,
     @JsonKey(name: "cust_mobile") this.custMobile,
     @JsonKey(name: "cust_email") this.custEmail,
     @JsonKey(name: "created_date") this.createdDate,
-    @JsonKey(name: "is_active") this.isActive,
-    @JsonKey(name: "rowcount") this.rowcount,
-    @JsonKey(name: "account_id") this.accountId,
-    @JsonKey(name: "balance_amt") this.balanceAmt,
-    @JsonKey(name: "order_count") this.orderCount,
-    @JsonKey(name: "total_purchase_amount") this.totalPurchaseAmount,
+    @JsonKey(name: "is_active", fromJson: parseInt) this.isActive,
+    @JsonKey(name: "rowcount", fromJson: parseInt) this.rowcount,
+    @JsonKey(name: "account_id", fromJson: parseInt) this.accountId,
+    @JsonKey(name: "balance_amt", fromJson: parseInt) this.balanceAmt,
+    @JsonKey(name: "order_count", fromJson: parseInt) this.orderCount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
+    this.totalPurchaseAmount,
   });
 
   factory _$CustomersResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$CustomersResponseImplFromJson(json);
 
   @override
-  @JsonKey(name: "cust_id")
+  @JsonKey(name: "cust_id", fromJson: parseInt)
   final int? custId;
   @override
   @JsonKey(name: "cust_name")
@@ -292,22 +295,22 @@ class _$CustomersResponseImpl implements _CustomersResponse {
   @JsonKey(name: "created_date")
   final String? createdDate;
   @override
-  @JsonKey(name: "is_active")
+  @JsonKey(name: "is_active", fromJson: parseInt)
   final int? isActive;
   @override
-  @JsonKey(name: "rowcount")
+  @JsonKey(name: "rowcount", fromJson: parseInt)
   final int? rowcount;
   @override
-  @JsonKey(name: "account_id")
+  @JsonKey(name: "account_id", fromJson: parseInt)
   final int? accountId;
   @override
-  @JsonKey(name: "balance_amt")
+  @JsonKey(name: "balance_amt", fromJson: parseInt)
   final int? balanceAmt;
   @override
-  @JsonKey(name: "order_count")
+  @JsonKey(name: "order_count", fromJson: parseInt)
   final int? orderCount;
   @override
-  @JsonKey(name: "total_purchase_amount")
+  @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
   final int? totalPurchaseAmount;
 
   @override
@@ -379,24 +382,25 @@ class _$CustomersResponseImpl implements _CustomersResponse {
 
 abstract class _CustomersResponse implements CustomersResponse {
   const factory _CustomersResponse({
-    @JsonKey(name: "cust_id") final int? custId,
+    @JsonKey(name: "cust_id", fromJson: parseInt) final int? custId,
     @JsonKey(name: "cust_name") final String? custName,
     @JsonKey(name: "cust_mobile") final String? custMobile,
     @JsonKey(name: "cust_email") final String? custEmail,
     @JsonKey(name: "created_date") final String? createdDate,
-    @JsonKey(name: "is_active") final int? isActive,
-    @JsonKey(name: "rowcount") final int? rowcount,
-    @JsonKey(name: "account_id") final int? accountId,
-    @JsonKey(name: "balance_amt") final int? balanceAmt,
-    @JsonKey(name: "order_count") final int? orderCount,
-    @JsonKey(name: "total_purchase_amount") final int? totalPurchaseAmount,
+    @JsonKey(name: "is_active", fromJson: parseInt) final int? isActive,
+    @JsonKey(name: "rowcount", fromJson: parseInt) final int? rowcount,
+    @JsonKey(name: "account_id", fromJson: parseInt) final int? accountId,
+    @JsonKey(name: "balance_amt", fromJson: parseInt) final int? balanceAmt,
+    @JsonKey(name: "order_count", fromJson: parseInt) final int? orderCount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
+    final int? totalPurchaseAmount,
   }) = _$CustomersResponseImpl;
 
   factory _CustomersResponse.fromJson(Map<String, dynamic> json) =
       _$CustomersResponseImpl.fromJson;
 
   @override
-  @JsonKey(name: "cust_id")
+  @JsonKey(name: "cust_id", fromJson: parseInt)
   int? get custId;
   @override
   @JsonKey(name: "cust_name")
@@ -411,22 +415,22 @@ abstract class _CustomersResponse implements CustomersResponse {
   @JsonKey(name: "created_date")
   String? get createdDate;
   @override
-  @JsonKey(name: "is_active")
+  @JsonKey(name: "is_active", fromJson: parseInt)
   int? get isActive;
   @override
-  @JsonKey(name: "rowcount")
+  @JsonKey(name: "rowcount", fromJson: parseInt)
   int? get rowcount;
   @override
-  @JsonKey(name: "account_id")
+  @JsonKey(name: "account_id", fromJson: parseInt)
   int? get accountId;
   @override
-  @JsonKey(name: "balance_amt")
+  @JsonKey(name: "balance_amt", fromJson: parseInt)
   int? get balanceAmt;
   @override
-  @JsonKey(name: "order_count")
+  @JsonKey(name: "order_count", fromJson: parseInt)
   int? get orderCount;
   @override
-  @JsonKey(name: "total_purchase_amount")
+  @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
   int? get totalPurchaseAmount;
 
   /// Create a copy of CustomersResponse

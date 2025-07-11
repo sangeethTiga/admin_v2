@@ -9,9 +9,11 @@ part of 'day_summary_response.dart';
 _$DaySummaryResponseImpl _$$DaySummaryResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$DaySummaryResponseImpl(
-  modeOfPayments: (json['mode_of_payments'] as List<dynamic>?)
-      ?.map((e) => ModeOfPayments.fromJson(e as Map<String, dynamic>))
-      .toList(),
+  modeOfPayments: json['mode_of_payments'] == null
+      ? null
+      : ModeOfPayments.fromJson(
+          json['mode_of_payments'] as Map<String, dynamic>,
+        ),
   isDayCloseEnabled: (json['is_day_close_enabled'] as num?)?.toInt(),
   billTypeDetails: (json['bill_type_details'] as List<dynamic>?)
       ?.map((e) => BillTypeDetail.fromJson(e as Map<String, dynamic>))

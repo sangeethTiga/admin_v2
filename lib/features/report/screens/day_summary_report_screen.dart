@@ -1,15 +1,15 @@
+//import 'dart:math';
+
+import 'dart:developer';
+
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
-import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
-import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
-import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
-import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,554 +22,404 @@ class DaySummaryReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'DaySummary'),
-      body: Column(
-        children: [
-          dividerWidget(height: 6.0),
-          MainPadding(
-            child: Column(
-              children: [
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                    return DropDownFieldWidget(
-                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                      prefixIcon: Container(
-                        margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
+      appBar: AppbarWidget(title: 'Day Summary'),
+
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+        child: Column(
+          children: [
+            _buildStoreDropdown(),
+
+            10.verticalSpace,
+
+            BlocBuilder<ReportCubit, ReportState>(
+              buildWhen: (previous, current) =>
+                  previous.fromDate != current.fromDate,
+              builder: (context, state) {
+                return Row(
+                  children: [
+                    Expanded(
+                      child: DatePickerContainer(
+                        hintText: '',
+                        value: state.fromDate?.toIso8601String(),
+                        changeDate: (DateTime date) {
+                          context.read<ReportCubit>().changeToDate(date);
+                        },
                       ),
-                      borderColor: kBlack,
-                      value: state.selectedStore,
-                      items:
-                          state.storeList?.map((e) {
-                            return DropdownMenuItem<StoreResponse>(
-                              value: e,
-                              child: Text(e.storeName ?? ''),
-                            );
-                          }).toList() ??
-                          [],
-                      fillColor: const Color(0XFFEFF1F1),
-                      // suffixWidget: SvgPicture.asset(
-                      //   'assets/icons/Arrow - Right.svg',
-                      // ),
-                      onChanged: (p0) {
-                        context.read<DashboardCubit>().selectedStore(p0);
-                      },
-                      labelText: '',
-                    );
-                  },
-                ),
-
-                12.verticalSpace,
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return DatePickerContainer(
-                      hintText: '',
-                      changeDate: (DateTime pickedDate) {
-                        context.read<ReportCubit>().changeToDate(pickedDate);
-                      },
-                    );
-                  },
-                ),
-
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                   
-                    return CustomMaterialBtton(
-                      onPressed: () {
-                        context.read<ReportCubit>().loadDaySummary(
-                          storeId: state.selectedStore?.storeId,
-                        );
-                      },
-                      buttonText: 'View Report',
-                    );
-                  },
-                ),
-
-                10.verticalSpace,
-
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                        
-                          if (state.isDaySummary == ApiFetchStatus.loading) {
-                return _shimmerDaySummaryList();
-              }
-              if (state.daySummary?.isEmpty ?? true) {
-                return Center(child: Text("No data"));
-              }
-
-              final data = state.daySummary!.first;
-                    return  
-              //       Column(
-              //   children: [
-              //     _modeOfPaymentsWidget(data.modeOfPayments?.first),
-              //     12.verticalSpace,
-              //     _billTypeDetailsWidget(data.billTypeDetails),
-              //     12.verticalSpace,
-              //    // _deliveryPartnersWidget(data.deliveryPartners),
-              //     12.verticalSpace,
-              //     _receiptWidget(data.receiptsData),
-              //     12.verticalSpace,
-              //     _paymentWidget(data.paymentData),
-              //     12.verticalSpace,
-              //     _amountByDeviceWidget(data.amountByDevice),
-              //   ],
-              // );
-
-                     Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: kLightBorderColor),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          12.verticalSpace,
-                          Padding(
-                            padding: EdgeInsets.only(left: 12.w),
-
-                            child: Text('Mode Of Payments'),
-                          ),
-                          12.verticalSpace,
-                          state.isDaySummary == ApiFetchStatus.loading
-                              ? _shimmerDaySummaryList()
-                              : ListView.builder(
-                                  shrinkWrap: true,
-
-                                  itemCount:
-                                      state
-                                          .daySummary?[0]
-                                          .modeOfPayments
-                                          ?.length ??
-                                      0,
-                                  itemBuilder: (context, i) {
-                                    final data =
-                                        state.daySummary?[0].modeOfPayments?[i];
-                                    print('.,.,.,gc.,.,.,:$data');
-
-                                  //  return _rowWidget(name: data!.cash ?? 0);
-                                  },
-                                ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+                    ),
+                  ],
+                );
+              },
             ),
-          ),
-        ],
+            10.verticalSpace,
+
+            Container(
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+              ),
+              child: titleAndValue(
+                whilte: true,
+                bold: true,
+
+                title: "DAY SUMMARY",
+                value: "",
+                label: '',
+              ),
+            ),
+
+            BlocConsumer<ReportCubit, ReportState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {},
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        if (state.daySummary?.isNotEmpty ?? false) ...[
+                          _buildModeOfPayments(state),
+                          _buildBillTypeDetails(state),
+                          _buildDeliveryPartners(state),
+                          _buildReceipts(state),
+                          _buildPayments(state),
+                          _buildWaiters(state),
+                          _buildDevices(state),
+                          _buildDeliveryBoys(state),
+                          _buildSettlers(state),
+                          _buildDiscountBillType(state),
+                          _buildCashiers(state),
+                          _buildKiosks(state),
+                          _buildMainCategories(state),
+                          _buildShiftDetails(state),
+                        ],
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
-}
 
-Widget _shimmerDaySummaryList() {
-  return ListView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: 8,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildLoadingShimmer(double screenWidth, double screenHeight) {
+    return Expanded(
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: ListView(
+          shrinkWrap: true,
           children: [
-            ShimmerWidget.rectangular(width: 200.w, height: 25.h),
-            ShimmerWidget.rectangular(width: 60.w, height: 25.h),
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.012,
+                vertical: screenWidth * .02,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.12,
+                      vertical: screenWidth * .2,
+                    ),
+                    height: screenHeight * 0.065,
+                    color: Colors.grey[300],
+                  ),
+                  const SizedBox(height: 10),
+                  for (int i = 0; i < 8; i++)
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      color: Colors.grey[200],
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
-      );
-    },
-  );
+      ),
+    );
+  }
+
+  Widget _buildModeOfPayments(ReportState state) {
+    if (state.daySummary?.isEmpty ?? false) return const SizedBox.shrink();
+
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Mode Of Payments",
+            bold: true,
+            value: "Amount",
+            label: '',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, i) {
+            final bill = state.daySummary?[i];
+
+            log(
+              "===================================${bill?.modeOfPayments?.card}",
+            );
+            return Column(
+              children: [
+                titleAndValue(
+                  label: '',
+
+                  title: 'Card',
+                  value: bill?.modeOfPayments?.card,
+                ),
+                titleAndValue(
+                  label: '',
+
+                  title: 'Cash',
+                  value: bill?.modeOfPayments?.cash,
+                ),
+                titleAndValue(
+                  label: '',
+
+                  title: 'Credit',
+                  value: bill?.modeOfPayments?.credit,
+                ),
+                titleAndValue(
+                  label: '',
+
+                  title: 'Online',
+                  value: bill?.modeOfPayments?.online,
+                ),
+              ],
+            );
+          },
+        ),
+        Container(
+          color: Colors.grey,
+          child: titleAndValue(
+            whilte: true,
+            title: "Total",
+            bold: true,
+            value: '',
+            label: '',
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBillTypeDetails(ReportState state) {
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Bill Type Details",
+            bold: true,
+            value: "Amount",
+            label: 'count',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index];
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.billTypeDetails?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    final bill = data?.billTypeDetails?[i];
+                    return titleAndValue(
+                      label: bill?.ordercount.toString(),
+
+                      title: bill?.orderOptionName ?? '',
+                      value: bill?.totalamount?.toStringAsFixed(2),
+                    );
+                  },
+                ),
+                Container(
+                  color: Colors.grey,
+                  child: titleAndValue(
+                    whilte: true,
+                    title: "Total",
+                    bold: true,
+                    value: '',
+                    label: '',
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDeliveryPartners(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildReceipts(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildPayments(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildWaiters(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildDevices(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildDeliveryBoys(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildSettlers(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildDiscountBillType(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildCashiers(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildKiosks(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildMainCategories(ReportState state) {
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildShiftDetails(ReportState state) {
+    return const SizedBox.shrink();
+  }
 }
 
-// Widget _modeOfPaymentsWidget(ModeOfPayments? m) {
-//   final total = (m?.cash ?? 0) + (m?.card ?? 0) + (m?.online ?? 0) + (m?.credit ?? 0);
-
-//   return _sectionCard(
-//     title: 'Mode of Payments',
-//     columns: ['Type', 'Amount'],
-//     rows: [
-//       ['Card', (m?.card ?? 0).toStringAsFixed(2)],
-//       ['Cash', (m?.cash ?? 0).toStringAsFixed(2)],
-//       ['Credit', (m?.credit ?? 0).toStringAsFixed(2)],
-//       ['Online', (m?.online ?? 0).toStringAsFixed(2)],
-//       ['Total', total.toStringAsFixed(2)],
-//     ],
-//   );
-// }
-// Widget _billTypeDetailsWidget(List<BillTypeDetail>? list) {
-//   int total = 0;
-//   return _sectionCard(
-//     title: 'Bill Type Details',
-//     columns: ['Type', 'Count', 'Amount'],
-//     rows: [
-//       ...?list?.map((e) {
-//         total += e.totalamount ?? 0;
-//         return [
-//           e.orderOptionName ?? '',
-//           e.ordercount?.toString() ?? '0',
-//           (e.totalamount ?? 0).toStringAsFixed(2),
-//         ];
-//       }),
-//       ['Total', '', total.toStringAsFixed(2)],
-//     ],
-//   );
-// }
-
-
-// Widget _receiptWidget(List<Datum>? data) => _accountHeadSection('Receipt', data);
-// Widget _paymentWidget(List<Datum>? data) => _accountHeadSection('Payment', data);
-
-// Widget _accountHeadSection(String title, List<Datum>? data) {
-//   int total = 0;
-//   return _sectionCard(
-//     title: title,
-//     columns: ['Account Head', 'Amount'],
-//     rows: [
-//       ...?data?.map((e) {
-//         total += e.amount ?? 0;
-//         return [
-//           e.accountHeadName ?? '',
-//           (e.amount ?? 0).toStringAsFixed(2),
-//         ];
-//       }),
-//       ['Total', total.toStringAsFixed(2)],
-//     ],
-//   );
-// }
-// Widget _amountByDeviceWidget(List<AmountByDevice>? list) {
-//   int total = 0;
-//   return _sectionCard(
-//     title: 'Amount - By Device',
-//     columns: ['Device', 'Count', 'Amount'],
-//     rows: [
-//       ...?list?.map((e) {
-//         total += e.totalamount ?? 0;
-//         return [
-//           e.deviceName ?? '',
-//           (e.ordercount ?? 0).toString(),
-//           (e.totalamount ?? 0).toStringAsFixed(2),
-//         ];
-//       }),
-//       ['Total', '', total.toStringAsFixed(2)],
-//     ],
-//   );
-// }
-
-
-// Widget _sectionCard({
-//   required String title,
-//   required List<String> columns,
-//   required List<List<String>> rows,
-// }) {
-//   return Container(
-//     padding: EdgeInsets.all(12),
-//     decoration: BoxDecoration(
-//       borderRadius: BorderRadius.circular(12),
-//       color: Colors.white,
-//       boxShadow: [
-//         BoxShadow(
-//           blurRadius: 4,
-//           color: Colors.black.withOpacity(0.05),
-//         ),
-//       ],
-//     ),
-//     child: Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(title, style: FontPalette.hW500S14),
-//         SizedBox(height: 12),
-//         Table(
-//           border: TableBorder.symmetric(
-//             inside: BorderSide(width: 0.5, color: Colors.grey.shade300),
-//           ),
-//           columnWidths: const {
-//             0: FlexColumnWidth(2),
-//             1: FlexColumnWidth(),
-//             2: FlexColumnWidth(),
-//           },
-//           children: [
-//             TableRow(
-//               decoration: BoxDecoration(color: Colors.grey.shade100),
-//               children: columns
-//                   .map((c) => Padding(
-//                         padding: EdgeInsets.symmetric(vertical: 8),
-//                         child: Text(c, style: FontPalette.hW600S13),
-//                       ))
-//                   .toList(),
-//             ),
-//             ...rows.map(
-//               (row) => TableRow(
-//                 children: row
-//                     .map((cell) => Padding(
-//                           padding: EdgeInsets.symmetric(vertical: 8),
-//                           child: Text(cell, style: FontPalette.hW400S13),
-//                         ))
-//                     .toList(),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ],
-//     ),
-//   );
-
-
-
-
-
-Widget _rowWidget({dynamic name, String? status, }) {
-  return MainPadding(
-    left: 12,
-    top: 0.h,
-    bottom: 8.h,
+Container titleAndValue({
+  required title,
+  required label,
+  required value,
+  String? extra,
+  bool isExtraNeed = false,
+  bool bold = false,
+  bool whilte = false,
+}) {
+  return Container(
+    padding: EdgeInsets.all(10),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name ?? '', style: FontPalette.hW400S13),
-
-        // Text(status ?? '', style: FontPalette.hW400S13),
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 12,
+              color: whilte ? Colors.white : Colors.black,
+              fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              color: whilte ? Colors.white : Colors.black,
+              fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
+            ),
+          ),
+        ),
+        if (isExtraNeed) ...[
+          Expanded(
+            child: Text(
+              extra ?? '',
+              style: TextStyle(
+                fontSize: 13,
+                color: whilte ? Colors.white : Colors.black,
+                fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
+              ),
+            ),
+          ),
+        ],
+        Text(
+          value.toString(),
+          style: TextStyle(
+            fontSize: 13,
+            color: whilte ? Colors.white : Colors.black,
+            fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
+          ),
+        ),
       ],
     ),
   );
 }
 
-class ShimmerWidget extends StatelessWidget {
-  final double width;
-  final double height;
-  final ShapeBorder shapeBorder;
-
-  const ShimmerWidget.rectangular({
-    super.key,
-    required this.width,
-    required this.height,
-  }) : shapeBorder = const RoundedRectangleBorder();
-
-  const ShimmerWidget.circular({
-    super.key,
-    required this.width,
-    required this.height,
-  }) : shapeBorder = const CircleBorder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: ShapeDecoration(
-          color: Colors.grey[400]!,
-          shape: shapeBorder,
+Widget _buildStoreDropdown() {
+  return BlocBuilder<DashboardCubit, DashboardState>(
+    builder: (context, state) {
+      return DropDownFieldWidget(
+        isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+        prefixIcon: Container(
+          margin: EdgeInsets.only(left: 12.w),
+          child: SvgPicture.asset(
+            'assets/icons/package-box-pin-location.svg',
+            width: 20.w,
+            height: 20.h,
+            fit: BoxFit.contain,
+          ),
         ),
-      ),
-    );
-  }
+        borderColor: kBlack,
+        value: state.selectedStore,
+        items:
+            state.storeList?.map((e) {
+              return DropdownMenuItem<StoreResponse>(
+                value: e,
+                child: Text(e.storeName ?? ''),
+              );
+            }).toList() ??
+            [],
+        fillColor: const Color(0XFFEFF1F1),
+        onChanged: (store) {
+          context.read<ReportCubit>().loadDaySummary(
+            storeId: state.selectedStore?.storeId,
+          );
+        },
+        labelText: '',
+        textStyle: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+          letterSpacing: 0.5,
+        ),
+      );
+    },
+  );
 }
-
-
-
-
-
-    // Container(
-                //   height: 0.065,
-                //   decoration: BoxDecoration(
-                //     borderRadius: const BorderRadius.only(
-                //       topLeft: Radius.circular(10),
-                //       topRight: Radius.circular(10),
-                //     ),
-                //   ),
-                //   child: titleAndValue(
-                //     whilte: true,
-                //     bold: true,
-
-                //     title: 'Day Summary',
-                //     label: '',
-                //     value: '',
-                //   ),
-                // ),
-
-                // BlocBuilder<ReportCubit, ReportState>(
-                //   builder: (context, state) {
-                //     if (state.isDaySummary == ApiFetchStatus.loading) {
-                //       return Expanded(
-                //         child: Shimmer.fromColors(
-                //           baseColor: Colors.grey[300]!,
-                //           highlightColor: Colors.grey[100]!,
-                //           child: ListView(
-                //             shrinkWrap: true,
-                //             children: [
-                //               Container(
-                //                 margin: EdgeInsets.symmetric(
-                //                   horizontal: 0.12,
-                //                   vertical: .2,
-                //                 ),
-                //                 height: 0.065,
-                //                 color: Colors.grey[300],
-                //               ),
-                //               const SizedBox(height: 10),
-                //               Container(height: 0.05, color: Colors.grey[200]),
-                //               for (int i = 0; i < 3; i++)
-                //                 Container(
-                //                   height: 0.05,
-                //                   margin: const EdgeInsets.symmetric(
-                //                     vertical: 4.0,
-                //                   ),
-                //                   color: Colors.grey[200],
-                //                 ),
-                //               Container(height: 0.05, color: Colors.grey[200]),
-                //               for (int i = 0; i < 3; i++)
-                //                 Container(
-                //                   height: 0.05,
-                //                   margin: const EdgeInsets.symmetric(
-                //                     vertical: 4.0,
-                //                   ),
-                //                   color: Colors.grey[200],
-                //                 ),
-                //               Container(height: 0.05, color: Colors.grey[200]),
-                //               Container(height: 0.05, color: Colors.grey[200]),
-                //             ],
-                //           ),
-                //         ),
-                //       );
-                //     } else {
-                //       return ListView(
-                //         shrinkWrap: true,
-                //         physics: const AlwaysScrollableScrollPhysics(),
-                //         children: [
-                //           Container(
-                //             height:
-                //                 50,
-                //             color: Colors.black,
-                //             child: titleAndValue(
-                //               whilte: true,
-                //               title: "Bill Type Details",
-                //               bold: true,
-                //               value: "Amount",
-                //               label: 'count',
-                //             ),
-                //           ),
-                //           ListView.builder(
-                //             shrinkWrap: true,
-                //             physics:
-                //                 const NeverScrollableScrollPhysics(), // Prevent nested scrolling
-                //             itemCount: state.daySummary?.length ?? 0,
-                //             itemBuilder: (context, index) {
-                //               final bill = state.daySummary![index];
-                //               return titleAndValue(
-                //                 label: bill.billTypeDetails,
-                //                 title: '',
-                //                 value: '',
-                //               );
-                //             },
-                //           ),
-                //         ],
-                //       );
-
-                //       // return ListView(
-                //       //   shrinkWrap: true,
-                //       //   physics: const AlwaysScrollableScrollPhysics(),
-                //       //   children: [
-                //       //   //  if (state.daySummary!.isNotEmpty) ...{
-                //       //       Container(
-                //       //         height: 0.05,
-                //       //         color: Colors.black,
-                //       //         child: titleAndValue(
-                //       //           whilte: true,
-                //       //           title: "Bill Type Details",
-                //       //           bold: true,
-                //       //           value: "Amount",
-                //       //           label: 'count',
-                //       //         ),
-                //       //       ),
-                //       //       ListView.builder(
-                //       //         itemCount: state.daySummary?.length,
-
-                //       //         itemBuilder: (context, index) {
-                //       //           final data = state.daySummary?[index];
-                //       //           return Column(
-                //       //             crossAxisAlignment: CrossAxisAlignment.start,
-                //       //             children: [
-                //       //               ListView.builder(
-                //       //                 physics:
-                //       //                     const NeverScrollableScrollPhysics(),
-                //       //                 itemCount: state.daySummary?.length,
-
-                //       //                 shrinkWrap: true,
-
-                //       //                 itemBuilder: (context, i) {
-                //       //                   final bill = state.daySummary?[i];
-                //       //                   return titleAndValue(
-                //       //                     label: bill?.billTypeDetails,
-                //       //                     title: '',
-                //       //                     value: '',
-                //       //                   );
-                //     }
-                //     ;
-                //   },
-                // ),
-
-
-
-
-                // Container titleAndValue({
-//   required title,
-//   required label,
-//   required value,
-//   String? extra,
-//   bool isExtraNeed = false,
-//   bool bold = false,
-//   bool whilte = false,
-// }) {
-//   return Container(
-//     padding: EdgeInsets.symmetric(horizontal: 0.04),
-//     child: Row(
-//       children: [
-//         Expanded(
-//           child: Text(
-//             title,
-//             style: TextStyle(
-//               color: whilte ? Colors.white : Colors.black,
-//               fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
-//             ),
-//           ),
-//         ),
-//         Expanded(
-//           child: Text(
-//             label,
-//             style: TextStyle(
-//               color: whilte ? Colors.white : Colors.black,
-//               fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
-//             ),
-//           ),
-//         ),
-//         if (isExtraNeed) ...{
-//           Expanded(
-//             child: Text(
-//               extra ?? '',
-//               style: TextStyle(
-//                 color: whilte ? Colors.white : Colors.black,
-//                 fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
-//               ),
-//             ),
-//           ),
-//         },
-//         Text(
-//           value.toString(),
-//           style: TextStyle(
-//             color: whilte ? Colors.white : Colors.black,
-//             fontWeight: bold ? FontWeight.w800 : FontWeight.normal,
-//           ),
-//         ),
-//       ],
-//     ),
-//   );

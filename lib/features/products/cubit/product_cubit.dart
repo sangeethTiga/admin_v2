@@ -295,7 +295,12 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   Future<void> clearAllProducts() async {
-    emit(state.copyWith(selectProduct: Product()));
+    emit(
+      state.copyWith(
+        selectProduct: Product(filterId: 0, name: 'All products'),
+        isMakeItNull: true,
+      ),
+    );
   }
 
   Future<void> selectProduct(Product? productOption) async {

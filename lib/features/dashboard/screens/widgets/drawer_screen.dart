@@ -227,9 +227,7 @@ class _DrawerContent extends StatelessWidget {
           onTap: (context) {
             final productCubit = context.read<ProductCubit>();
             productCubit.product(storeId, 0, '', '', 0);
-            productCubit.selectProduct(
-              Product(filterId: 0, name: 'All Products'),
-            );
+            productCubit.selectProduct(Product());
             productCubit.catgeory(storeId);
             productCubit.stockStatus();
             productCubit.clearEvent();
@@ -281,6 +279,7 @@ class _DrawerContent extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () => _showLogoutConfirmation(context),
+     
           borderRadius: BorderRadius.circular(12.r),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
@@ -314,13 +313,8 @@ class _DrawerContent extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.r),
           ),
-          title: Text('Confirm Logout',
-          //  style: TextStyle(fontSize: 16.sp)
-           ),
-          content: Text(
-            'Are you sure you want to sign out?',
-            // style: TextStyle(fontSize: 12.sp),
-          ),
+          title: const Text('Confirm Logout'),
+          content: const Text('Are you sure you want to sign out?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
@@ -328,8 +322,8 @@ class _DrawerContent extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(dialogContext).pop();
-                Helper().logout(context);
+                Navigator.of(dialogContext).pop(); // Close the dialog
+                Helper().logout(context); // Proceed to logout
               },
               child: const Text('Logout', style: TextStyle(color: kRedColor)),
             ),

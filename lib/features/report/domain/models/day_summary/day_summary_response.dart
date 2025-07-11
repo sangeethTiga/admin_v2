@@ -10,7 +10,7 @@ class DaySummaryResponse with _$DaySummaryResponse {
   const factory DaySummaryResponse({
 //     @JsonKey(name: "mode_of_payments")
 // ModeOfPayments? modeOfPayments,
-     @JsonKey(name: "mode_of_payments")List <ModeOfPayments>? modeOfPayments,
+     @JsonKey(name: "mode_of_payments")ModeOfPayments? modeOfPayments,
     @JsonKey(name: "is_day_close_enabled") int? isDayCloseEnabled,
     @JsonKey(name: "bill_type_details") List<BillTypeDetail>? billTypeDetails,
     @JsonKey(name: "bill_type_total_order_count") int? billTypeTotalOrderCount,

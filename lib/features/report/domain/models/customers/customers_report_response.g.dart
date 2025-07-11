@@ -9,17 +9,17 @@ part of 'customers_report_response.dart';
 _$CustomersResponseImpl _$$CustomersResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$CustomersResponseImpl(
-  custId: (json['cust_id'] as num?)?.toInt(),
+  custId: parseInt(json['cust_id']),
   custName: json['cust_name'] as String?,
   custMobile: json['cust_mobile'] as String?,
   custEmail: json['cust_email'] as String?,
   createdDate: json['created_date'] as String?,
-  isActive: (json['is_active'] as num?)?.toInt(),
-  rowcount: (json['rowcount'] as num?)?.toInt(),
-  accountId: (json['account_id'] as num?)?.toInt(),
-  balanceAmt: (json['balance_amt'] as num?)?.toInt(),
-  orderCount: (json['order_count'] as num?)?.toInt(),
-  totalPurchaseAmount: (json['total_purchase_amount'] as num?)?.toInt(),
+  isActive: parseInt(json['is_active']),
+  rowcount: parseInt(json['rowcount']),
+  accountId: parseInt(json['account_id']),
+  balanceAmt: parseInt(json['balance_amt']),
+  orderCount: parseInt(json['order_count']),
+  totalPurchaseAmount: parseInt(json['total_purchase_amount']),
 );
 
 Map<String, dynamic> _$$CustomersResponseImplToJson(

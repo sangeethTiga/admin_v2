@@ -8,7 +8,7 @@ part of 'tax_response.dart';
 
 _$TaxResponseImpl _$$TaxResponseImplFromJson(Map<String, dynamic> json) =>
     _$TaxResponseImpl(
-      totalTaxCollected: (json['total_tax_collected'] as num?)?.toDouble(),
+      totalTaxCollected: parseInt(json['total_tax_collected']),
       totalTaxPaid: (json['total_tax_paid'] as num?)?.toInt(),
       netPayable: (json['net_payable'] as num?)?.toDouble(),
     );

@@ -173,15 +173,15 @@ class _ProductScreenState extends State<ProductScreen> {
           isLoading: false,
           borderColor: kBlack,
           hintText: 'All Products',
-          value:
-              state.prodList?.any(
-                    (e) => e.filterId == state.selectProduct?.filterId,
-                  ) ==
-                  true
-              ? state.selectProduct
-              : null,
+          value: state.selectProduct,
 
-          items: products.map((value) {
+          // state.prodList?.any(
+          //       (e) => e.filterId == state.selectProduct?.filterId,
+          //     ) ==
+          //     true
+          // ? state.selectProduct
+          // : null,
+          items: products.map((Product value) {
             return DropdownMenuItem<Product>(
               value: value,
               child: Text(value.name ?? '', maxLines: 1),
@@ -193,8 +193,9 @@ class _ProductScreenState extends State<ProductScreen> {
             borderRadius: BorderRadius.circular(8.r),
             borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
           ),
-          onChanged: (product) =>
-              _handleProductTypeChange(product, state, common),
+          onChanged: (product) {
+            _handleProductTypeChange(product, state, common);
+          },
           // suffixWidget: SvgPicture.asset(
           //   'assets/icons/down -arrow.svg.svg',
           //   width: 20.w,
@@ -538,18 +539,15 @@ class _ProductScreenState extends State<ProductScreen> {
     DashboardState common,
   ) {
     final productCubit = context.read<ProductCubit>();
-    final selected = state.prodList?.firstWhere(
-      (e) => e.filterId == product?.filterId,
-    );
+    productCubit.changeProductType(product ?? Product());
 
     productCubit.selectProduct(product);
-    // productCubit.changeProducType(product ?? Product());
     productCubit.product(
       common.selectedStore?.storeId ?? 0,
-      selected?.filterId ?? 0,
+      state.selectedProduct?.mainCategoryId ?? 0,
       _searchController.text,
       '',
-      0,
+      state.selectProduct?.filterId ?? 0,
     );
     productCubit.clearCategory();
   }
@@ -570,7 +568,7 @@ class _ProductScreenState extends State<ProductScreen> {
       selectedCategory.details?.categoryId ?? 0,
       _searchController.text,
       '',
-      0,
+      state.selectProduct?.filterId ?? 0,
     );
   }
 
@@ -598,7 +596,7 @@ class _ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
-      // height: 140.h,
+      height: 140.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: const Color(0XFFF4F5F5)),
@@ -607,16 +605,9 @@ class _ProductCard extends StatelessWidget {
         children: [
           Container(
             height: 140.h,
-            width: 74.w,
-            padding: EdgeInsets.all(18),
+            width: 90.w,
             color: Color(0xffF9FCFB),
-            child: Center(
-              child: SizedBox(
-                height: 55.h,
-                width: 55.w,
-                child: _buildProductImage(),
-              ),
-            ),
+            child: Center(child: _buildProductImage()),
           ),
           10.horizontalSpace,
           Expanded(child: _buildProductDetails(context)),
@@ -626,25 +617,20 @@ class _ProductCard extends StatelessWidget {
   }
 
   Widget _buildProductImage() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.r),
-        child: CachedNetworkImage(
-          height: 55.h,
-          width: 55.w,
-          imageUrl: (product.images?.isEmpty ?? true)
-              ? ''
-              : product.images?[0].medium ?? '',
-          fit: BoxFit.cover,
-          placeholder: (context, url) => Container(
-            color: Colors.grey[200],
-            child: const Icon(Icons.image, color: Colors.grey),
-          ),
-          errorWidget: (context, url, error) => Container(
-            color: Colors.grey[200],
-            child: const Icon(Icons.photo, color: Colors.grey),
-          ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.r),
+      child: CachedNetworkImage(
+        imageUrl: (product.images?.isEmpty ?? true)
+            ? ''
+            : product.images?[0].medium ?? '',
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          color: Colors.grey[200],
+          child: const Icon(Icons.image, color: Colors.grey),
+        ),
+        errorWidget: (context, url, error) => Container(
+          color: Colors.grey[200],
+          child: const Icon(Icons.photo, color: Colors.grey),
         ),
       ),
     );
