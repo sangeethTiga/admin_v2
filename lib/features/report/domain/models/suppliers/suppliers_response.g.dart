@@ -23,7 +23,7 @@ _$SuppliersResponseImpl _$$SuppliersResponseImplFromJson(
   areaId: (json['area_id'] as num?)?.toInt(),
   stateId: (json['state_id'] as num?)?.toInt(),
   countryId: (json['country_id'] as num?)?.toInt(),
-  balanceAmt: (json['balance_amt'] as num?)?.toInt(),
+  balanceAmt: parseDouble(json['balance_amt']),
   storeId: json['store_id'] as String?,
   storeName: json['store_name'] as String?,
 );

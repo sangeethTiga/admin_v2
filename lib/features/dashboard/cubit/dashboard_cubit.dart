@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
@@ -19,7 +18,6 @@ import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 part 'dashboard_state.dart';
 
 @injectable
@@ -257,12 +255,19 @@ class DashboardCubit extends Cubit<DashboardState> {
       final res = await _dashboardRepositories.loadProductsCategory(
         storeId: storeId ?? 0,
       );
-      if (res.data != null) {
+      if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         emit(
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
             sellingProductsReport: res.data,
             selectedProducts: res.data?.first,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.failed,
+            sellingProductsReport: [],
           ),
         );
       }

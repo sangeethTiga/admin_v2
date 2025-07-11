@@ -171,9 +171,13 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {
+        final productCubit = context.read<ReportCubit>();
+
         context.read<DashboardCubit>().loadProductsCategory(
           selectedStore?.storeId,
         );
+        productCubit.loadProductReport(storeId: selectedStore?.storeId ?? 0);
+
         context.push(routeSellingProducts);
       },
     ),
@@ -279,7 +283,7 @@ class _DrawerContent extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () => _showLogoutConfirmation(context),
-     
+
           borderRadius: BorderRadius.circular(12.r),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
@@ -313,8 +317,14 @@ class _DrawerContent extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.r),
           ),
-          title: const Text('Confirm Logout'),
-          content: const Text('Are you sure you want to sign out?'),
+          title: Text(
+            'Confirm Logout',
+            style: TextStyle(fontSize: 15.sp),
+          ),
+          content: Text(
+            'Are you sure you want to sign out?',
+            style: TextStyle(fontSize: 13.sp),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
