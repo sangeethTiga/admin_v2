@@ -195,11 +195,12 @@ class BusinessType with _$BusinessType {
 
 @freezed
 class DeliveryPartner with _$DeliveryPartner {
-  const factory DeliveryPartner({
+   factory DeliveryPartner({
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "store_del_partner_id") int? storeDelPartnerId,
     @JsonKey(name: "name") String? name,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
+
   }) = _DeliveryPartner;
 
   factory DeliveryPartner.fromJson(Map<String, dynamic> json) =>

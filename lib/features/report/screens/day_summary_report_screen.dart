@@ -84,7 +84,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                         if (state.daySummary?.isNotEmpty ?? false) ...[
                           _buildModeOfPayments(state),
                           _buildBillTypeDetails(state),
-                          _buildDeliveryPartners(state),
+                          // _buildDeliveryPartners(state),
                           _buildReceipts(state),
                           _buildPayments(state),
                           _buildWaiters(state),
@@ -212,7 +212,7 @@ class DaySummaryReportScreen extends StatelessWidget {
             whilte: true,
             title: "Total",
             bold: true,
-            value: '',
+            value: '${state.daySummary?.first.totalSales}',
             label: '',
           ),
         ),
@@ -263,7 +263,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     whilte: true,
                     title: "Total",
                     bold: true,
-                    value: '',
+                    value: '${state.daySummary?.first.billTypeGrandTotal}',
                     label: '',
                   ),
                 ),
@@ -276,7 +276,61 @@ class DaySummaryReportScreen extends StatelessWidget {
   }
 
   Widget _buildDeliveryPartners(ReportState state) {
-    return const SizedBox.shrink();
+        if (state.daySummary?.isEmpty ?? false) return const SizedBox.shrink();
+        return Column(
+          children: [
+            Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Delivery Partners",
+            bold: true,
+            value: "Amount",
+            label: 'count',
+          ),
+        ),
+ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary![0].deliveryPartners?.length,
+          itemBuilder: (context, index) {
+            final data =state.daySummary![0].deliveryPartners;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: state.deliveryPartner?.length,
+                  itemBuilder: (context, i) {
+                    return 
+                    titleAndValue(
+                      label: '${data?.first.ordercount}',
+
+                      title: '${data?.first.name}',
+                      value: '${data?.first.totalamount}',
+                    );
+                  },
+                ),
+                Container(
+                  color: Colors.grey,
+                  child: titleAndValue(
+                    whilte: true,
+                    title: "Total",
+                    bold: true,
+                    value: '${state.daySummary?.first.billTypeGrandTotal}',
+                    label: '',
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+
+          ],
+        );
+
   }
 
   Widget _buildReceipts(ReportState state) {
