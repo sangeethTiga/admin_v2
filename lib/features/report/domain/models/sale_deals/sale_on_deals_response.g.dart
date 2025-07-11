@@ -10,13 +10,13 @@ _$SaleOnDealsImpl _$$SaleOnDealsImplFromJson(Map<String, dynamic> json) =>
     _$SaleOnDealsImpl(
       prodOrderId: (json['prod_order_id'] as num?)?.toInt(),
       productId: (json['product_id'] as num?)?.toInt(),
-      offerPrice: (json['offer_price'] as num?)?.toDouble(),
+      offerPrice: parseDouble(json['offer_price']),
       orderDate: json['order_date'] as String?,
       storeName: json['store_name'] as String?,
       productName: json['product_name'] as String?,
       orderItemQty: (json['order_item_qty'] as num?)?.toInt(),
-      orderItemTotal: (json['order_item_total'] as num?)?.toDouble(),
-      orderItemNetAmt: (json['order_item_net_amt'] as num?)?.toDouble(),
+      orderItemTotal: parseDouble(json['order_item_total']),
+      orderItemNetAmt: parseDouble(json['order_item_net_amt']),
       rowcount: (json['rowcount'] as num?)?.toInt(),
     );
 

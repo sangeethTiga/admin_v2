@@ -34,7 +34,7 @@ class RevenueGraph extends StatelessWidget {
                 Text('Revenue & Expense', style: FontPalette.hW700S16),
                 SizedBox(height: 12),
                 SizedBox(
-                  height: 500,
+                  height: 400,
                   width: double.infinity,
                   child: SfCartesianChart(
                     // title: ChartTitle(text: 'Revenue & Expense'),
@@ -49,10 +49,11 @@ class RevenueGraph extends StatelessWidget {
                       edgeLabelPlacement: EdgeLabelPlacement.shift,
                       interval: 1,
                       labelIntersectAction: AxisLabelIntersectAction.rotate45,
-                      majorGridLines: MajorGridLines(width: 1),
+                      majorGridLines: MajorGridLines(width: 0),
                     ),
                     primaryYAxis: NumericAxis(
-                      majorGridLines: MajorGridLines(width: 1),
+                      majorGridLines: MajorGridLines(width: 0),
+                      // interval: 20,
                     ),
 
                     tooltipBehavior: TooltipBehavior(enable: true),

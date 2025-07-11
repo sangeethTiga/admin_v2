@@ -106,6 +106,13 @@ int? parseInt(dynamic value) {
   return null;
 }
 
+double? parseDouble(dynamic value) {
+  if (value is double) return value;
+  if (value is String) return double.tryParse(value) ?? 0.0;
+  if (value is int) return value.toDouble();
+  return null;
+}
+
 String truncateTo2Decimals(double? value) {
   if (value == null) return '0.00';
   int truncated = (value * 100).truncate();
@@ -116,12 +123,12 @@ String parsedDate(DateTime date) => DateFormat('yyyy-MM-dd').format(date);
 
 DateTime getCurrentDate() {
   final now = DateTime.now();
-  return DateTime(now.year, now.month, now.day);  
+  return DateTime(now.year, now.month, now.day);
 }
+
 int? _toInt(dynamic value) {
   if (value == null) return null;
   if (value is int) return value;
   if (value is String) return int.tryParse(value);
   return null;
 }
-

@@ -25,7 +25,7 @@ mixin _$SaleOnDeals {
   int? get prodOrderId => throw _privateConstructorUsedError;
   @JsonKey(name: "product_id")
   int? get productId => throw _privateConstructorUsedError;
-  @JsonKey(name: "offer_price")
+  @JsonKey(name: "offer_price", fromJson: parseDouble)
   double? get offerPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_date")
   String? get orderDate => throw _privateConstructorUsedError;
@@ -35,9 +35,9 @@ mixin _$SaleOnDeals {
   String? get productName => throw _privateConstructorUsedError;
   @JsonKey(name: "order_item_qty")
   int? get orderItemQty => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_item_total")
+  @JsonKey(name: "order_item_total", fromJson: parseDouble)
   double? get orderItemTotal => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_item_net_amt")
+  @JsonKey(name: "order_item_net_amt", fromJson: parseDouble)
   double? get orderItemNetAmt => throw _privateConstructorUsedError;
   @JsonKey(name: "rowcount")
   int? get rowcount => throw _privateConstructorUsedError;
@@ -62,13 +62,15 @@ abstract class $SaleOnDealsCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "prod_order_id") int? prodOrderId,
     @JsonKey(name: "product_id") int? productId,
-    @JsonKey(name: "offer_price") double? offerPrice,
+    @JsonKey(name: "offer_price", fromJson: parseDouble) double? offerPrice,
     @JsonKey(name: "order_date") String? orderDate,
     @JsonKey(name: "store_name") String? storeName,
     @JsonKey(name: "product_name") String? productName,
     @JsonKey(name: "order_item_qty") int? orderItemQty,
-    @JsonKey(name: "order_item_total") double? orderItemTotal,
-    @JsonKey(name: "order_item_net_amt") double? orderItemNetAmt,
+    @JsonKey(name: "order_item_total", fromJson: parseDouble)
+    double? orderItemTotal,
+    @JsonKey(name: "order_item_net_amt", fromJson: parseDouble)
+    double? orderItemNetAmt,
     @JsonKey(name: "rowcount") int? rowcount,
   });
 }
@@ -159,13 +161,15 @@ abstract class _$$SaleOnDealsImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "prod_order_id") int? prodOrderId,
     @JsonKey(name: "product_id") int? productId,
-    @JsonKey(name: "offer_price") double? offerPrice,
+    @JsonKey(name: "offer_price", fromJson: parseDouble) double? offerPrice,
     @JsonKey(name: "order_date") String? orderDate,
     @JsonKey(name: "store_name") String? storeName,
     @JsonKey(name: "product_name") String? productName,
     @JsonKey(name: "order_item_qty") int? orderItemQty,
-    @JsonKey(name: "order_item_total") double? orderItemTotal,
-    @JsonKey(name: "order_item_net_amt") double? orderItemNetAmt,
+    @JsonKey(name: "order_item_total", fromJson: parseDouble)
+    double? orderItemTotal,
+    @JsonKey(name: "order_item_net_amt", fromJson: parseDouble)
+    double? orderItemNetAmt,
     @JsonKey(name: "rowcount") int? rowcount,
   });
 }
@@ -248,13 +252,15 @@ class _$SaleOnDealsImpl implements _SaleOnDeals {
   const _$SaleOnDealsImpl({
     @JsonKey(name: "prod_order_id") this.prodOrderId,
     @JsonKey(name: "product_id") this.productId,
-    @JsonKey(name: "offer_price") this.offerPrice,
+    @JsonKey(name: "offer_price", fromJson: parseDouble) this.offerPrice,
     @JsonKey(name: "order_date") this.orderDate,
     @JsonKey(name: "store_name") this.storeName,
     @JsonKey(name: "product_name") this.productName,
     @JsonKey(name: "order_item_qty") this.orderItemQty,
-    @JsonKey(name: "order_item_total") this.orderItemTotal,
-    @JsonKey(name: "order_item_net_amt") this.orderItemNetAmt,
+    @JsonKey(name: "order_item_total", fromJson: parseDouble)
+    this.orderItemTotal,
+    @JsonKey(name: "order_item_net_amt", fromJson: parseDouble)
+    this.orderItemNetAmt,
     @JsonKey(name: "rowcount") this.rowcount,
   });
 
@@ -268,7 +274,7 @@ class _$SaleOnDealsImpl implements _SaleOnDeals {
   @JsonKey(name: "product_id")
   final int? productId;
   @override
-  @JsonKey(name: "offer_price")
+  @JsonKey(name: "offer_price", fromJson: parseDouble)
   final double? offerPrice;
   @override
   @JsonKey(name: "order_date")
@@ -283,10 +289,10 @@ class _$SaleOnDealsImpl implements _SaleOnDeals {
   @JsonKey(name: "order_item_qty")
   final int? orderItemQty;
   @override
-  @JsonKey(name: "order_item_total")
+  @JsonKey(name: "order_item_total", fromJson: parseDouble)
   final double? orderItemTotal;
   @override
-  @JsonKey(name: "order_item_net_amt")
+  @JsonKey(name: "order_item_net_amt", fromJson: parseDouble)
   final double? orderItemNetAmt;
   @override
   @JsonKey(name: "rowcount")
@@ -358,13 +364,16 @@ abstract class _SaleOnDeals implements SaleOnDeals {
   const factory _SaleOnDeals({
     @JsonKey(name: "prod_order_id") final int? prodOrderId,
     @JsonKey(name: "product_id") final int? productId,
-    @JsonKey(name: "offer_price") final double? offerPrice,
+    @JsonKey(name: "offer_price", fromJson: parseDouble)
+    final double? offerPrice,
     @JsonKey(name: "order_date") final String? orderDate,
     @JsonKey(name: "store_name") final String? storeName,
     @JsonKey(name: "product_name") final String? productName,
     @JsonKey(name: "order_item_qty") final int? orderItemQty,
-    @JsonKey(name: "order_item_total") final double? orderItemTotal,
-    @JsonKey(name: "order_item_net_amt") final double? orderItemNetAmt,
+    @JsonKey(name: "order_item_total", fromJson: parseDouble)
+    final double? orderItemTotal,
+    @JsonKey(name: "order_item_net_amt", fromJson: parseDouble)
+    final double? orderItemNetAmt,
     @JsonKey(name: "rowcount") final int? rowcount,
   }) = _$SaleOnDealsImpl;
 
@@ -378,7 +387,7 @@ abstract class _SaleOnDeals implements SaleOnDeals {
   @JsonKey(name: "product_id")
   int? get productId;
   @override
-  @JsonKey(name: "offer_price")
+  @JsonKey(name: "offer_price", fromJson: parseDouble)
   double? get offerPrice;
   @override
   @JsonKey(name: "order_date")
@@ -393,10 +402,10 @@ abstract class _SaleOnDeals implements SaleOnDeals {
   @JsonKey(name: "order_item_qty")
   int? get orderItemQty;
   @override
-  @JsonKey(name: "order_item_total")
+  @JsonKey(name: "order_item_total", fromJson: parseDouble)
   double? get orderItemTotal;
   @override
-  @JsonKey(name: "order_item_net_amt")
+  @JsonKey(name: "order_item_net_amt", fromJson: parseDouble)
   double? get orderItemNetAmt;
   @override
   @JsonKey(name: "rowcount")

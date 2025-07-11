@@ -29,7 +29,7 @@ mixin _$ReveneReportResponse {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "invoice_number")
   String? get invoiceNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   double? get amount => throw _privateConstructorUsedError;
   @JsonKey(name: "account_name")
   String? get accountName => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $ReveneReportResponseCopyWith<$Res> {
     @JsonKey(name: "ac_transaction_date") String? acTransactionDate,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "invoice_number") String? invoiceNumber,
-    @JsonKey(name: "amount") double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
     @JsonKey(name: "raw_count") int? rawCount,
     @JsonKey(name: "totalamount") String? totalamount,
@@ -148,7 +148,7 @@ abstract class _$$ReveneReportResponseImplCopyWith<$Res>
     @JsonKey(name: "ac_transaction_date") String? acTransactionDate,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "invoice_number") String? invoiceNumber,
-    @JsonKey(name: "amount") double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
     @JsonKey(name: "raw_count") int? rawCount,
     @JsonKey(name: "totalamount") String? totalamount,
@@ -225,7 +225,7 @@ class _$ReveneReportResponseImpl implements _ReveneReportResponse {
     @JsonKey(name: "ac_transaction_date") this.acTransactionDate,
     @JsonKey(name: "description") this.description,
     @JsonKey(name: "invoice_number") this.invoiceNumber,
-    @JsonKey(name: "amount") this.amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) this.amount,
     @JsonKey(name: "account_name") this.accountName,
     @JsonKey(name: "raw_count") this.rawCount,
     @JsonKey(name: "totalamount") this.totalamount,
@@ -247,7 +247,7 @@ class _$ReveneReportResponseImpl implements _ReveneReportResponse {
   @JsonKey(name: "invoice_number")
   final String? invoiceNumber;
   @override
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   final double? amount;
   @override
   @JsonKey(name: "account_name")
@@ -324,7 +324,7 @@ abstract class _ReveneReportResponse implements ReveneReportResponse {
     @JsonKey(name: "ac_transaction_date") final String? acTransactionDate,
     @JsonKey(name: "description") final String? description,
     @JsonKey(name: "invoice_number") final String? invoiceNumber,
-    @JsonKey(name: "amount") final double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) final double? amount,
     @JsonKey(name: "account_name") final String? accountName,
     @JsonKey(name: "raw_count") final int? rawCount,
     @JsonKey(name: "totalamount") final String? totalamount,
@@ -346,7 +346,7 @@ abstract class _ReveneReportResponse implements ReveneReportResponse {
   @JsonKey(name: "invoice_number")
   String? get invoiceNumber;
   @override
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   double? get amount;
   @override
   @JsonKey(name: "account_name")

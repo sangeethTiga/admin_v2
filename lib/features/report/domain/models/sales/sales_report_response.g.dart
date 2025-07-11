@@ -9,14 +9,12 @@ part of 'sales_report_response.dart';
 _$SalesReportResponseImpl _$$SalesReportResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$SalesReportResponseImpl(
-  totalSales: (json['total_sales'] as num?)?.toDouble(),
-  taxPayable: (json['tax_payable'] as num?)?.toDouble(),
-  totalOrders: (json['total_orders'] as num?)?.toInt(),
-  formattedOrderDate: json['formatted_order_date'] == null
-      ? null
-      : DateTime.parse(json['formatted_order_date'] as String),
+  totalSales: parseDouble(json['total_sales']),
+  taxPayable: parseDouble(json['tax_payable']),
+  totalOrders: parseDouble(json['total_orders']),
+  formattedOrderDate: json['formatted_order_date'] as String?,
   itemHeading: json['item_heading'] as String?,
-  date: json['date'] as String?,
+  date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
   dayCloseId: (json['day_close_id'] as num?)?.toInt(),
 );
 
@@ -26,8 +24,8 @@ Map<String, dynamic> _$$SalesReportResponseImplToJson(
   'total_sales': instance.totalSales,
   'tax_payable': instance.taxPayable,
   'total_orders': instance.totalOrders,
-  'formatted_order_date': instance.formattedOrderDate?.toIso8601String(),
+  'formatted_order_date': instance.formattedOrderDate,
   'item_heading': instance.itemHeading,
-  'date': instance.date,
+  'date': instance.date?.toIso8601String(),
   'day_close_id': instance.dayCloseId,
 };
