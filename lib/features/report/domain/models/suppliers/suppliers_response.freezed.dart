@@ -49,8 +49,8 @@ mixin _$SuppliersResponse {
   int? get stateId => throw _privateConstructorUsedError;
   @JsonKey(name: "country_id")
   int? get countryId => throw _privateConstructorUsedError;
-  @JsonKey(name: "balance_amt")
-  int? get balanceAmt => throw _privateConstructorUsedError;
+  @JsonKey(name: "balance_amt", fromJson: parseDouble)
+  double? get balanceAmt => throw _privateConstructorUsedError;
   @JsonKey(name: "store_id")
   String? get storeId => throw _privateConstructorUsedError;
   @JsonKey(name: "store_name")
@@ -88,7 +88,7 @@ abstract class $SuppliersResponseCopyWith<$Res> {
     @JsonKey(name: "area_id") int? areaId,
     @JsonKey(name: "state_id") int? stateId,
     @JsonKey(name: "country_id") int? countryId,
-    @JsonKey(name: "balance_amt") int? balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble) double? balanceAmt,
     @JsonKey(name: "store_id") String? storeId,
     @JsonKey(name: "store_name") String? storeName,
   });
@@ -188,7 +188,7 @@ class _$SuppliersResponseCopyWithImpl<$Res, $Val extends SuppliersResponse>
             balanceAmt: freezed == balanceAmt
                 ? _value.balanceAmt
                 : balanceAmt // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             storeId: freezed == storeId
                 ? _value.storeId
                 : storeId // ignore: cast_nullable_to_non_nullable
@@ -227,7 +227,7 @@ abstract class _$$SuppliersResponseImplCopyWith<$Res>
     @JsonKey(name: "area_id") int? areaId,
     @JsonKey(name: "state_id") int? stateId,
     @JsonKey(name: "country_id") int? countryId,
-    @JsonKey(name: "balance_amt") int? balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble) double? balanceAmt,
     @JsonKey(name: "store_id") String? storeId,
     @JsonKey(name: "store_name") String? storeName,
   });
@@ -326,7 +326,7 @@ class __$$SuppliersResponseImplCopyWithImpl<$Res>
         balanceAmt: freezed == balanceAmt
             ? _value.balanceAmt
             : balanceAmt // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         storeId: freezed == storeId
             ? _value.storeId
             : storeId // ignore: cast_nullable_to_non_nullable
@@ -358,7 +358,7 @@ class _$SuppliersResponseImpl implements _SuppliersResponse {
     @JsonKey(name: "area_id") this.areaId,
     @JsonKey(name: "state_id") this.stateId,
     @JsonKey(name: "country_id") this.countryId,
-    @JsonKey(name: "balance_amt") this.balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble) this.balanceAmt,
     @JsonKey(name: "store_id") this.storeId,
     @JsonKey(name: "store_name") this.storeName,
   });
@@ -409,8 +409,8 @@ class _$SuppliersResponseImpl implements _SuppliersResponse {
   @JsonKey(name: "country_id")
   final int? countryId;
   @override
-  @JsonKey(name: "balance_amt")
-  final int? balanceAmt;
+  @JsonKey(name: "balance_amt", fromJson: parseDouble)
+  final double? balanceAmt;
   @override
   @JsonKey(name: "store_id")
   final String? storeId;
@@ -512,7 +512,8 @@ abstract class _SuppliersResponse implements SuppliersResponse {
     @JsonKey(name: "area_id") final int? areaId,
     @JsonKey(name: "state_id") final int? stateId,
     @JsonKey(name: "country_id") final int? countryId,
-    @JsonKey(name: "balance_amt") final int? balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble)
+    final double? balanceAmt,
     @JsonKey(name: "store_id") final String? storeId,
     @JsonKey(name: "store_name") final String? storeName,
   }) = _$SuppliersResponseImpl;
@@ -563,8 +564,8 @@ abstract class _SuppliersResponse implements SuppliersResponse {
   @JsonKey(name: "country_id")
   int? get countryId;
   @override
-  @JsonKey(name: "balance_amt")
-  int? get balanceAmt;
+  @JsonKey(name: "balance_amt", fromJson: parseDouble)
+  double? get balanceAmt;
   @override
   @JsonKey(name: "store_id")
   String? get storeId;

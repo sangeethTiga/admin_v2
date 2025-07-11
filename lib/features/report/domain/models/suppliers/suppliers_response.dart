@@ -3,6 +3,7 @@
 //
 //     final suppliersResponse = suppliersResponseFromJson(jsonString);
 
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 
@@ -42,8 +43,8 @@ class SuppliersResponse with _$SuppliersResponse {
         int? stateId,
         @JsonKey(name: "country_id")
         int? countryId,
-        @JsonKey(name: "balance_amt")
-        int? balanceAmt,
+        @JsonKey(name: "balance_amt",fromJson: parseDouble)
+        double? balanceAmt,
         @JsonKey(name: "store_id")
         String? storeId,
         @JsonKey(name: "store_name")
