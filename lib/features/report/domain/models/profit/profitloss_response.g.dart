@@ -26,7 +26,7 @@ Map<String, dynamic> _$$ProfitlossResponseImplToJson(
 
 _$DatumImpl _$$DatumImplFromJson(Map<String, dynamic> json) => _$DatumImpl(
   accountHeadName: json['account_head_name'] as String?,
-  amount: (json['amount'] as num?)?.toDouble(),
+  amount: parseDouble(json['amount']),
 );
 
 Map<String, dynamic> _$$DatumImplToJson(_$DatumImpl instance) =>

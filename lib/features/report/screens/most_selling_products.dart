@@ -1,7 +1,7 @@
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
-import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -44,7 +44,7 @@ class MostSellingProducts extends StatelessWidget {
                         ),
                       ),
                       borderColor: kBlack,
-                      value: context.read<DashboardCubit>().state.selectedStore,
+                      value: state.selectedStore,
                       items:
                           state.storeList?.map((e) {
                             return DropdownMenuItem<StoreResponse>(
@@ -57,31 +57,28 @@ class MostSellingProducts extends StatelessWidget {
 
                       onChanged: (p0) {
                         context.read<DashboardCubit>().selectedStore(p0);
-                        // context.read<DashboardCubit>().loadProductsCategory(
-                        //   p0?.storeId,
-                        // );
+                        context.read<DashboardCubit>().loadProductsCategory(
+                          p0.storeId,
+                        );
 
                         context.read<ReportCubit>().clearCategories();
-
-                        context.read<ProductCubit>().changeStore(p0);
                         context.read<ReportCubit>().loadProductReport(
                           storeId: p0?.storeId,
                           categoryId: state.selectedCategory?.categoryId,
                         );
                       },
                       labelText: '',
-                       textStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            letterSpacing: 0.5,
-          ),
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
                     );
                   },
                 ),
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
-                    final selectedId = state.selectedCategory?.categoryId;
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                       prefixIcon: Container(
@@ -109,42 +106,32 @@ class MostSellingProducts extends StatelessWidget {
 
                       //   return valid.length == 1 ? selectedId : null;
                       // })(),
-                      value:
-                          state.sellingProductsReport?.any(
-                                (e) =>
-                                    e.categoryId ==
-                                    state.selectedCategory?.categoryId,
-                              ) ==
-                              true
-                          ? selectedId
-                          : null,
+                      value: state.selectedCategory,
+                      // state.sellingProductsReport?.any(
+                      //       (e) =>
+                      //           e.categoryId ==
+                      //           state.selectedCategory?.categoryId,
+                      //     ) ==
+                      //     true
+                      // ? selectedId
+                      // : null,
                       items:
                           state.sellingProductsReport?.map((e) {
-                            return DropdownMenuItem<int>(
-                              value: e.categoryId,
+                            return DropdownMenuItem<MostSellingResponse>(
+                              value: e,
                               child: Text(e.categoryName ?? ''),
-                            );  
+                            );
                           }).toList() ??
                           [],
 
                       onChanged: (categoryId) {
-                        final selectedCategory = state.sellingProductsReport
-                            ?.firstWhere((e) => e.categoryId == categoryId);
-
-                        if (selectedCategory != null &&
-                            selectedCategory.categoryId !=
-                                state.selectedCategory?.categoryId) {
-                          // context.read<DashboardCubit>().selectCategory(
-                          //   selectedCategory,
-                          // );
-                          context.read<DashboardCubit>().selectCategory(
-                            selectedCategory,
-                          );
-                          // context.read<ReportCubit>().loadProductReport(
-                          //   storeId: state.selectedStore?.storeId,
-                          //   categoryId: selectedCategory.categoryId,
-                          // );
-                        }
+                        context.read<DashboardCubit>().selectCategory(
+                          categoryId,
+                        );
+                        context.read<ReportCubit>().loadProductReport(
+                          storeId: state.selectedStore?.storeId,
+                          categoryId: categoryId.categoryId,
+                        );
                       },
 
                       labelText: 'select category',
@@ -172,7 +159,7 @@ class MostSellingProducts extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.fromDate ,
+                            firstDate: state.fromDate,
                             changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickDate,
@@ -214,7 +201,7 @@ class MostSellingProducts extends StatelessWidget {
                 child: CommonTableWidget(
                   isLoading: state.isProductReport == ApiFetchStatus.loading,
                   headers: [
-                    "#",
+                    // "#",
                     "Product",
                     "Selling Price",
                     "Order Quantity",
@@ -222,12 +209,12 @@ class MostSellingProducts extends StatelessWidget {
                     "Total Sales",
                     "Profit",
                   ],
-                  columnFlex: [1, 3, 2, 2, 3, 3, 2],
+                  columnFlex: [3, 3, 2, 3, 3, 2],
                   data:
                       state.productsReport?.map((e) {
                         int index = state.productsReport?.indexOf(e) ?? 0;
                         return {
-                          "#": index + 1,
+                          // "#": index + 1,
                           "Product": e.productName ?? '',
 
                           "Selling Price": e.sellingPrice ?? '',

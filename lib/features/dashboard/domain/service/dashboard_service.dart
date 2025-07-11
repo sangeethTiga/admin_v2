@@ -75,7 +75,6 @@ class DashboardService implements DashboardRepositories {
   @override
   Future<ResponseResult<List<MostSellingResponse>>> loadProductsCategory({
     required int storeId,
-    // required int categoryId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(

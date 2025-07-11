@@ -171,9 +171,13 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {
+        final productCubit = context.read<ReportCubit>();
+
         context.read<DashboardCubit>().loadProductsCategory(
           selectedStore?.storeId,
         );
+        productCubit.loadProductReport(storeId: selectedStore?.storeId ?? 0);
+
         context.push(routeSellingProducts);
       },
     ),
@@ -279,7 +283,7 @@ class _DrawerContent extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () => _showLogoutConfirmation(context),
-     
+
           borderRadius: BorderRadius.circular(12.r),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
