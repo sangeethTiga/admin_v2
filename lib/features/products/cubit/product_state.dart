@@ -109,6 +109,7 @@ class ProductState extends Equatable {
     int? lastStoreId,
     int? lastCatId,
     int? lastFilterId,
+    bool? isMakeItNull = false,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -130,7 +131,9 @@ class ProductState extends Equatable {
     price: price ?? this.price,
     quantity: quantity ?? this.quantity,
     prodList: prodList ?? this.prodList,
-    selectProduct: selectProduct ?? this.selectProduct,
+    selectProduct: isMakeItNull == true
+        ? Product()
+        : selectProduct ?? this.selectProduct,
 
     sellingProductsReport: sellingProductsReport ?? this.sellingProductsReport,
     isMostSelling: isMostSelling ?? this.isMostSelling,

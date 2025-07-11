@@ -118,4 +118,10 @@ DateTime getCurrentDate() {
   final now = DateTime.now();
   return DateTime(now.year, now.month, now.day);  
 }
+int? _toInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is String) return int.tryParse(value);
+  return null;
+}
 

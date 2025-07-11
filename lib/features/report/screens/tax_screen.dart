@@ -60,7 +60,7 @@ class TaxScreen extends StatelessWidget {
                 ),
                 3.verticalSpace,
                 Text(
-                  ' ${(taxResponse.totalTaxCollected ?? 0.0).toStringAsFixed(2)}',
+                  ' ${(taxResponse.totalTaxCollected ?? 0).toStringAsFixed(2)}',
                   textAlign: TextAlign.center,
                   style: FontPalette.hW800S40,
                 ),

@@ -81,18 +81,18 @@ class CommonTableWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
-                        child: Text(
-                          'No data available to load',
-                          style: FontPalette.hW500S16.copyWith(
-                            color: Colors.grey[700],
-                          ),
+                        child: Icon(
+                          Icons.inventory,
+                          size: 64.w,
+                          color: Colors.grey[400],
                         ),
                       ),
                       14.verticalSpace,
-                      Icon(
-                        Icons.inventory,
-                        size: 64.w,
-                        color: Colors.grey[400],
+                      Text(
+                        'No data available to load',
+                        style: FontPalette.hW500S16.copyWith(
+                          color: Colors.grey[700],
+                        ),
                       ),
                     ],
                   ),

@@ -13,8 +13,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
-class OrderDetailScreen extends StatelessWidget {
+class OrderDetailScreen extends StatefulWidget {
   const OrderDetailScreen({super.key});
+
+  @override
+  State<OrderDetailScreen> createState() => _OrderDetailScreenState();
+}
+
+class _OrderDetailScreenState extends State<OrderDetailScreen> {
+  bool isShippingExpanded = false;
+  bool hasShippingLoaded = false;
+
+  bool isBillingExpanded = false;
+  bool hasBillingLoaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -188,15 +199,49 @@ class OrderDetailScreen extends StatelessWidget {
                   top: 16.h,
                   child: addItemDetails(
                     image: 'Component 806.svg',
-                    expand: () {},
+                    expand: () {
+                      setState(() {
+                        isShippingExpanded = !isShippingExpanded;
+                      });
+                    },
                     label: 'Shipping Address',
-                    expandedWidget: Container(
-                      decoration: BoxDecoration(color: kGreenColor),
-                      child: Column(children: [
-                        
-                        ],
-                      ),
-                    ),
+                    expandedWidget: isShippingExpanded
+                        ? Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            margin: EdgeInsets.only(left: 6),
+                            child: SizedBox(
+                              width: double.infinity,
+                              //decoration: BoxDecoration(color: kGreenColor),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Customer:  ${state.orderDetail?.billCustName}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Email: ${state.orderDetail?.billEmail}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Mobile: ${state.orderDetail?.shipMobile}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : SizedBox.shrink(),
                     isExpand: true,
                   ),
                 ),
@@ -204,23 +249,53 @@ class OrderDetailScreen extends StatelessWidget {
                   top: 0.h,
                   child: addItemDetails(
                     image: 'Component 806 (1).svg',
-                    expand: () {},
+                    expand: () {
+                      setState(() {
+                        isBillingExpanded = !isBillingExpanded;
+                      });
+                    },
                     label: 'Billing Address',
                     labelStyle: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
 
-                    expandedWidget: Container(
-                      decoration: BoxDecoration(color: kGreenColor),
-                      child: Column(
-                        children: [
-                          // Text('Customer:  ${state.orderDetail?.billCustName}'),
-                          // Text('Email: ${state.orderDetail?.billEmail}'),
-                          // Text('Mobile: ${state.orderDetail?.shipMobile}'),
-                        ],
-                      ),
-                    ),
+                    expandedWidget: isBillingExpanded
+                        ? Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            margin: EdgeInsets.only(left: 6),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Customer:  ${state.orderDetail?.billCustName}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Email: ${state.orderDetail?.billEmail}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Mobile: ${state.orderDetail?.shipMobile}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                     isExpand: true,
                   ),
                 ),
@@ -271,12 +346,14 @@ class OrderDetailScreen extends StatelessWidget {
                       8.verticalSpace,
                       _rowWidget(
                         name: 'Total before tax',
-                        status: 'AED ${state.orderDetail?.taxAmount ?? 0}',
+                        status:
+                            'AED ${(state.orderDetail?.taxAmount ?? 0).toStringAsFixed(2)}',
                       ),
                       8.verticalSpace,
                       _rowWidget(
                         name: 'Tax Incl',
-                        status: "AED ${state.orderDetail?.taxAmount ?? 0}",
+                        status:
+                            "AED ${(state.orderDetail?.taxAmount ?? 0).toStringAsFixed(2)}",
                       ),
                       8.verticalSpace,
 

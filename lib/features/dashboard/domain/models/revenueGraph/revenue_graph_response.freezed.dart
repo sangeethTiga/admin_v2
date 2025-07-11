@@ -23,9 +23,9 @@ RevenueResponse _$RevenueResponseFromJson(Map<String, dynamic> json) {
 mixin _$RevenueResponse {
   @JsonKey(name: "monthname")
   String? get monthname => throw _privateConstructorUsedError;
-  @JsonKey(name: "income")
+  @JsonKey(name: "income", fromJson: parseInt)
   int? get income => throw _privateConstructorUsedError;
-  @JsonKey(name: "expense")
+  @JsonKey(name: "expense", fromJson: parseInt)
   int? get expense => throw _privateConstructorUsedError;
 
   /// Serializes this RevenueResponse to a JSON map.
@@ -47,8 +47,8 @@ abstract class $RevenueResponseCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "monthname") String? monthname,
-    @JsonKey(name: "income") int? income,
-    @JsonKey(name: "expense") int? expense,
+    @JsonKey(name: "income", fromJson: parseInt) int? income,
+    @JsonKey(name: "expense", fromJson: parseInt) int? expense,
   });
 }
 
@@ -102,8 +102,8 @@ abstract class _$$RevenueResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: "monthname") String? monthname,
-    @JsonKey(name: "income") int? income,
-    @JsonKey(name: "expense") int? expense,
+    @JsonKey(name: "income", fromJson: parseInt) int? income,
+    @JsonKey(name: "expense", fromJson: parseInt) int? expense,
   });
 }
 
@@ -149,8 +149,8 @@ class __$$RevenueResponseImplCopyWithImpl<$Res>
 class _$RevenueResponseImpl implements _RevenueResponse {
   const _$RevenueResponseImpl({
     @JsonKey(name: "monthname") this.monthname,
-    @JsonKey(name: "income") this.income,
-    @JsonKey(name: "expense") this.expense,
+    @JsonKey(name: "income", fromJson: parseInt) this.income,
+    @JsonKey(name: "expense", fromJson: parseInt) this.expense,
   });
 
   factory _$RevenueResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -160,10 +160,10 @@ class _$RevenueResponseImpl implements _RevenueResponse {
   @JsonKey(name: "monthname")
   final String? monthname;
   @override
-  @JsonKey(name: "income")
+  @JsonKey(name: "income", fromJson: parseInt)
   final int? income;
   @override
-  @JsonKey(name: "expense")
+  @JsonKey(name: "expense", fromJson: parseInt)
   final int? expense;
 
   @override
@@ -206,8 +206,8 @@ class _$RevenueResponseImpl implements _RevenueResponse {
 abstract class _RevenueResponse implements RevenueResponse {
   const factory _RevenueResponse({
     @JsonKey(name: "monthname") final String? monthname,
-    @JsonKey(name: "income") final int? income,
-    @JsonKey(name: "expense") final int? expense,
+    @JsonKey(name: "income", fromJson: parseInt) final int? income,
+    @JsonKey(name: "expense", fromJson: parseInt) final int? expense,
   }) = _$RevenueResponseImpl;
 
   factory _RevenueResponse.fromJson(Map<String, dynamic> json) =
@@ -217,10 +217,10 @@ abstract class _RevenueResponse implements RevenueResponse {
   @JsonKey(name: "monthname")
   String? get monthname;
   @override
-  @JsonKey(name: "income")
+  @JsonKey(name: "income", fromJson: parseInt)
   int? get income;
   @override
-  @JsonKey(name: "expense")
+  @JsonKey(name: "expense", fromJson: parseInt)
   int? get expense;
 
   /// Create a copy of RevenueResponse

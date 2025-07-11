@@ -11,7 +11,6 @@ import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
-import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
@@ -24,17 +23,56 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
+
+  @override
+  State<OrderScreen> createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
+  bool showSearch = false;
+  final TextEditingController searchController = TextEditingController();
+
+  void _toggleSearch() {
+    setState(() {
+      showSearch = !showSearch;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(
-        title: 'New Orders',
+      appBar: AppBar(
+        title: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (child, animation) {
+            return SizeTransition(
+              sizeFactor: animation,
+              axis: Axis.horizontal,
+              child: child,
+            );
+          },
+          child: showSearch
+              ? TextField(
+                  key: ValueKey('search field'),
+                  controller: searchController,
+                  autofocus: true,
+                  decoration: InputDecoration(hintText: 'search'),
+                )
+              : Text(
+                  'New Orders',
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.start,
+                  key: ValueKey('title text'),
+                ),
+        ),
+        backgroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _toggleSearch();
+            },
             icon: SvgPicture.asset(
               'assets/icons/Search.svg',
               height: 20.h,
