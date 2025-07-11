@@ -78,7 +78,7 @@ class CustomersReportScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate ,
+                            firstDate: state.fromDate,
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
@@ -159,7 +159,7 @@ class CustomersReportScreen extends StatelessWidget {
                           // "Action",
                         ],
 
-                        columnFlex: [1, 3, 3, 4, 3, 2, 3, 3],
+                        columnFlex: [1, 3, 3, 4, 3, 2],
                         data:
                             state.customersReport?.map((e) {
                               int index =
@@ -181,7 +181,6 @@ class CustomersReportScreen extends StatelessWidget {
                             [],
                       );
 
-                      
                       //);
                     },
                   );
@@ -193,5 +192,4 @@ class CustomersReportScreen extends StatelessWidget {
       ),
     );
   }
-  
 }

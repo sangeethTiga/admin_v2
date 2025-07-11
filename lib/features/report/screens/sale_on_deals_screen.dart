@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -13,6 +11,7 @@ import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class SaleOnDealsScreen extends StatelessWidget {
   const SaleOnDealsScreen({super.key});
@@ -51,12 +50,12 @@ class SaleOnDealsScreen extends StatelessWidget {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
-                       textStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            letterSpacing: 0.5,
-          ),
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
                     );
                   },
                 ),
@@ -137,7 +136,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                               state.isSalesDealsReport ==
                               ApiFetchStatus.loading,
                           headers: [
-                            "#",
+                            // "#",
                             "Order No",
                             "Order Date",
                             "Product",
@@ -145,19 +144,21 @@ class SaleOnDealsScreen extends StatelessWidget {
                             "Total",
                           ],
 
-                          columnFlex: [1, 2, 2, 2, 2, 2],
+                          columnFlex: [3, 4, 4, 3, 2, 3, 3],
                           data:
                               state.salesDealsReport?.map((e) {
                                 int index =
                                     state.salesDealsReport?.indexOf(e) ?? 0;
 
-                                log(
-                                  '=-=-=-=-=Sale on Deals Report-=-=-=-=-= ${e.orderDate}',
-                                );
                                 return {
-                                  '#': index + 1,
+                                  // '#': index + 1,
                                   'Order No': e.prodOrderId ?? '',
-                                  'Order Date': e.orderDate ?? '',
+
+                                  'Order Date': e.orderDate?.toString().padLeft(
+                                    2,
+                                    '0',
+                                  ),
+
                                   'Product': e.productName ?? '',
                                   'Offer Price': e.offerPrice ?? '',
                                   'Total': e.orderItemTotal ?? '',
@@ -175,5 +176,65 @@ class SaleOnDealsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class DateTimeabc {
+  static String formatDateTimeFromString(String dateString) {
+    try {
+      DateTime? dateTime;
+
+      if (dateString.contains('-') && dateString.contains(':')) {
+        List<String> parts = dateString.split(' ');
+        if (parts.length >= 2) {
+          String datePart = parts[0];
+          String timePart = parts[1];
+          String fixInvalidTime(String timeString) {
+            try {
+              List<String> parts = timeString.split(':');
+              int hour = int.parse(parts[0]);
+              int minute = int.parse(parts[1]);
+
+              if (minute >= 60) {
+                int extraHours = minute ~/ 60;
+                minute = minute % 60;
+                hour += extraHours;
+              }
+
+              if (hour >= 24) {
+                hour = hour % 24;
+              }
+
+              return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+            } catch (e) {
+              return '00:00';
+            }
+          }
+
+          timePart = fixInvalidTime(timePart);
+
+          List<String> dateParts = datePart.split('-');
+          if (dateParts.length == 3) {
+            int day = int.parse(dateParts[0]);
+            int month = int.parse(dateParts[1]);
+            int year = int.parse(dateParts[2]);
+
+            List<String> timeParts = timePart.split(':');
+            int hour = int.parse(timeParts[0]);
+            int minute = int.parse(timeParts[1]);
+
+            dateTime = DateTime(year, month, day, hour, minute);
+          }
+        }
+      }
+
+      if (dateTime != null) {
+        return DateFormat('dd MMM yyyy').format(dateTime);
+      } else {
+        return 'Invalid date format';
+      }
+    } catch (e) {
+      return 'Error parsing date: $e';
+    }
   }
 }

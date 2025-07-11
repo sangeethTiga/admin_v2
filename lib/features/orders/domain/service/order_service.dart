@@ -1,6 +1,7 @@
 import 'package:admin_v2/features/orders/domain/models/order/order_response.dart';
 import 'package:admin_v2/features/orders/domain/models/order_detail/order_detail_response.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
+import 'package:admin_v2/features/orders/domain/models/searchOrder/search_response.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/features/orders/domain/repositories/order_repositories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
@@ -50,6 +51,7 @@ class OrderService implements OrderRepositories {
         return ResponseResult(data: []);
     }
   }
+  
 
   @override
   Future<ResponseResult<OrderDetailResponse>> orderDetail(int orderId) async {
@@ -61,6 +63,29 @@ class OrderService implements OrderRepositories {
         return ResponseResult(data: OrderDetailResponse.fromJson(res.data));
       default:
         return ResponseResult(error: 'error');
+    }
+  }
+  
+    @override
+  Future<ResponseResult<List<SearchResponse>>> searchOrder({
+     int?  storeId,
+    String? search
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.get(
+      ApiEndpoints.searchOrder(storeId ?? 0,search ?? ''),
+    );
+    
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(
+          data: List<SearchResponse>.from(
+            res.data.map((e) => SearchResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        return ResponseResult(data: []);
     }
   }
 }

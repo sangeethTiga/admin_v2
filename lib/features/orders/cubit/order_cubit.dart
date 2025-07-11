@@ -104,4 +104,11 @@ class OrderCubit extends Cubit<OrderState> {
       emit(state.copyWith(isLoading: ApiFetchStatus.failed));
     }
   }
+
+  // Future<void> searchOrder( int storeId,String search)async{
+  //  try{
+
+  //  }
+
+  // }
 }

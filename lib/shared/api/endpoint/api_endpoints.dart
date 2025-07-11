@@ -137,7 +137,7 @@ class ApiEndpoints {
     int pageFirstResult,
     int resultPerPage,
   ) =>
-      '/api/product_offer?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';
+      '/api/saleondeals?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';
   static String purchaseReport(
     int storeId,
     String fromDate,
@@ -235,4 +235,13 @@ class ApiEndpoints {
   // static String showReport(int storeId,int selectedMonth,int deliveryAgentId,int deliveryPartnerId,int paymethodId,int waiterId,int shift,int cashierId,int selctedKiosk,int groupby)=>'/api/salesReport?store_id=$storeId&duration=$selectedMonth%20months&del_agent_id=$deliveryAgentId&delivery_partner_id=$deliveryPartnerId&pay_method_id=$paymethodId&waiter_id=$waiterId&shift_id=$shift&day_close_based=0&cashier_id=$cashierId&kiosk_id=$selctedKiosk&group_by=$groupby';
   static String getProductName(String query, int storeId) =>
       '/api/product?query=$query&store_id=$storeId&page_first_result=0&result_per_page=30';
+
+  static String searchOrder(
+    int storeId,
+    String search,
+    
+    // int pageFirstResult,
+    // int resultPerPage,
+  ) =>
+      'order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
 }

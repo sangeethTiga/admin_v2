@@ -715,8 +715,7 @@ class ReportCubit extends Cubit<ReportState> {
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
-      // fromDate: '',
-      // toDate: '',
+
       pageFirstResult: 0,
       resultPerPage: 50,
       pageSize: 10,

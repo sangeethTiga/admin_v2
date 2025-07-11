@@ -13,7 +13,7 @@ _$ReveneReportResponseImpl _$$ReveneReportResponseImplFromJson(
   acTransactionDate: json['ac_transaction_date'] as String?,
   description: json['description'] as String?,
   invoiceNumber: json['invoice_number'] as String?,
-  amount: (json['amount'] as num?)?.toDouble(),
+  amount: parseDouble(json['amount']),
   accountName: json['account_name'] as String?,
   rawCount: (json['raw_count'] as num?)?.toInt(),
   totalamount: json['totalamount'] as String?,

@@ -34,13 +34,17 @@ class OrdersGraph extends StatelessWidget {
                   Text('Orders', style: FontPalette.hW500S16),
                   SizedBox(height: 12),
                   SizedBox(
-                    height: 500,
+                    height: 400,
                     width: double.infinity,
                     child: SfCartesianChart(
                       primaryXAxis: CategoryAxis(
                         labelPlacement: LabelPlacement.betweenTicks,
                         labelRotation: 0,
                         labelIntersectAction: AxisLabelIntersectAction.none,
+                        majorGridLines: MajorGridLines(width: 0),
+                      ),
+                      primaryYAxis: NumericAxis(
+                        majorGridLines: MajorGridLines(width: 0),
                       ),
 
                       // title: ChartTitle(text: 'Order'),
@@ -63,7 +67,6 @@ class OrdersGraph extends StatelessWidget {
                               : data.monthname ?? '',
 
                           yValueMapper: (data, _) => data.ordercount,
-                          
                         ),
                       ],
                     ),

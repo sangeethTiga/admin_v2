@@ -21,18 +21,18 @@ SalesReportResponse _$SalesReportResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SalesReportResponse {
-  @JsonKey(name: "total_sales")
+  @JsonKey(name: "total_sales", fromJson: parseDouble)
   double? get totalSales => throw _privateConstructorUsedError;
-  @JsonKey(name: "tax_payable")
+  @JsonKey(name: "tax_payable", fromJson: parseDouble)
   double? get taxPayable => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_orders")
-  int? get totalOrders => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_orders", fromJson: parseDouble)
+  double? get totalOrders => throw _privateConstructorUsedError;
   @JsonKey(name: "formatted_order_date")
-  DateTime? get formattedOrderDate => throw _privateConstructorUsedError;
+  String? get formattedOrderDate => throw _privateConstructorUsedError;
   @JsonKey(name: "item_heading")
   String? get itemHeading => throw _privateConstructorUsedError;
   @JsonKey(name: "date")
-  String? get date => throw _privateConstructorUsedError;
+  DateTime? get date => throw _privateConstructorUsedError;
   @JsonKey(name: "day_close_id")
   int? get dayCloseId => throw _privateConstructorUsedError;
 
@@ -54,12 +54,12 @@ abstract class $SalesReportResponseCopyWith<$Res> {
   ) = _$SalesReportResponseCopyWithImpl<$Res, SalesReportResponse>;
   @useResult
   $Res call({
-    @JsonKey(name: "total_sales") double? totalSales,
-    @JsonKey(name: "tax_payable") double? taxPayable,
-    @JsonKey(name: "total_orders") int? totalOrders,
-    @JsonKey(name: "formatted_order_date") DateTime? formattedOrderDate,
+    @JsonKey(name: "total_sales", fromJson: parseDouble) double? totalSales,
+    @JsonKey(name: "tax_payable", fromJson: parseDouble) double? taxPayable,
+    @JsonKey(name: "total_orders", fromJson: parseDouble) double? totalOrders,
+    @JsonKey(name: "formatted_order_date") String? formattedOrderDate,
     @JsonKey(name: "item_heading") String? itemHeading,
-    @JsonKey(name: "date") String? date,
+    @JsonKey(name: "date") DateTime? date,
     @JsonKey(name: "day_close_id") int? dayCloseId,
   });
 }
@@ -100,11 +100,11 @@ class _$SalesReportResponseCopyWithImpl<$Res, $Val extends SalesReportResponse>
             totalOrders: freezed == totalOrders
                 ? _value.totalOrders
                 : totalOrders // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             formattedOrderDate: freezed == formattedOrderDate
                 ? _value.formattedOrderDate
                 : formattedOrderDate // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
+                      as String?,
             itemHeading: freezed == itemHeading
                 ? _value.itemHeading
                 : itemHeading // ignore: cast_nullable_to_non_nullable
@@ -112,7 +112,7 @@ class _$SalesReportResponseCopyWithImpl<$Res, $Val extends SalesReportResponse>
             date: freezed == date
                 ? _value.date
                 : date // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as DateTime?,
             dayCloseId: freezed == dayCloseId
                 ? _value.dayCloseId
                 : dayCloseId // ignore: cast_nullable_to_non_nullable
@@ -133,12 +133,12 @@ abstract class _$$SalesReportResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(name: "total_sales") double? totalSales,
-    @JsonKey(name: "tax_payable") double? taxPayable,
-    @JsonKey(name: "total_orders") int? totalOrders,
-    @JsonKey(name: "formatted_order_date") DateTime? formattedOrderDate,
+    @JsonKey(name: "total_sales", fromJson: parseDouble) double? totalSales,
+    @JsonKey(name: "tax_payable", fromJson: parseDouble) double? taxPayable,
+    @JsonKey(name: "total_orders", fromJson: parseDouble) double? totalOrders,
+    @JsonKey(name: "formatted_order_date") String? formattedOrderDate,
     @JsonKey(name: "item_heading") String? itemHeading,
-    @JsonKey(name: "date") String? date,
+    @JsonKey(name: "date") DateTime? date,
     @JsonKey(name: "day_close_id") int? dayCloseId,
   });
 }
@@ -178,11 +178,11 @@ class __$$SalesReportResponseImplCopyWithImpl<$Res>
         totalOrders: freezed == totalOrders
             ? _value.totalOrders
             : totalOrders // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         formattedOrderDate: freezed == formattedOrderDate
             ? _value.formattedOrderDate
             : formattedOrderDate // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
+                  as String?,
         itemHeading: freezed == itemHeading
             ? _value.itemHeading
             : itemHeading // ignore: cast_nullable_to_non_nullable
@@ -190,7 +190,7 @@ class __$$SalesReportResponseImplCopyWithImpl<$Res>
         date: freezed == date
             ? _value.date
             : date // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as DateTime?,
         dayCloseId: freezed == dayCloseId
             ? _value.dayCloseId
             : dayCloseId // ignore: cast_nullable_to_non_nullable
@@ -204,9 +204,9 @@ class __$$SalesReportResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SalesReportResponseImpl implements _SalesReportResponse {
   const _$SalesReportResponseImpl({
-    @JsonKey(name: "total_sales") this.totalSales,
-    @JsonKey(name: "tax_payable") this.taxPayable,
-    @JsonKey(name: "total_orders") this.totalOrders,
+    @JsonKey(name: "total_sales", fromJson: parseDouble) this.totalSales,
+    @JsonKey(name: "tax_payable", fromJson: parseDouble) this.taxPayable,
+    @JsonKey(name: "total_orders", fromJson: parseDouble) this.totalOrders,
     @JsonKey(name: "formatted_order_date") this.formattedOrderDate,
     @JsonKey(name: "item_heading") this.itemHeading,
     @JsonKey(name: "date") this.date,
@@ -217,23 +217,23 @@ class _$SalesReportResponseImpl implements _SalesReportResponse {
       _$$SalesReportResponseImplFromJson(json);
 
   @override
-  @JsonKey(name: "total_sales")
+  @JsonKey(name: "total_sales", fromJson: parseDouble)
   final double? totalSales;
   @override
-  @JsonKey(name: "tax_payable")
+  @JsonKey(name: "tax_payable", fromJson: parseDouble)
   final double? taxPayable;
   @override
-  @JsonKey(name: "total_orders")
-  final int? totalOrders;
+  @JsonKey(name: "total_orders", fromJson: parseDouble)
+  final double? totalOrders;
   @override
   @JsonKey(name: "formatted_order_date")
-  final DateTime? formattedOrderDate;
+  final String? formattedOrderDate;
   @override
   @JsonKey(name: "item_heading")
   final String? itemHeading;
   @override
   @JsonKey(name: "date")
-  final String? date;
+  final DateTime? date;
   @override
   @JsonKey(name: "day_close_id")
   final int? dayCloseId;
@@ -295,12 +295,15 @@ class _$SalesReportResponseImpl implements _SalesReportResponse {
 
 abstract class _SalesReportResponse implements SalesReportResponse {
   const factory _SalesReportResponse({
-    @JsonKey(name: "total_sales") final double? totalSales,
-    @JsonKey(name: "tax_payable") final double? taxPayable,
-    @JsonKey(name: "total_orders") final int? totalOrders,
-    @JsonKey(name: "formatted_order_date") final DateTime? formattedOrderDate,
+    @JsonKey(name: "total_sales", fromJson: parseDouble)
+    final double? totalSales,
+    @JsonKey(name: "tax_payable", fromJson: parseDouble)
+    final double? taxPayable,
+    @JsonKey(name: "total_orders", fromJson: parseDouble)
+    final double? totalOrders,
+    @JsonKey(name: "formatted_order_date") final String? formattedOrderDate,
     @JsonKey(name: "item_heading") final String? itemHeading,
-    @JsonKey(name: "date") final String? date,
+    @JsonKey(name: "date") final DateTime? date,
     @JsonKey(name: "day_close_id") final int? dayCloseId,
   }) = _$SalesReportResponseImpl;
 
@@ -308,23 +311,23 @@ abstract class _SalesReportResponse implements SalesReportResponse {
       _$SalesReportResponseImpl.fromJson;
 
   @override
-  @JsonKey(name: "total_sales")
+  @JsonKey(name: "total_sales", fromJson: parseDouble)
   double? get totalSales;
   @override
-  @JsonKey(name: "tax_payable")
+  @JsonKey(name: "tax_payable", fromJson: parseDouble)
   double? get taxPayable;
   @override
-  @JsonKey(name: "total_orders")
-  int? get totalOrders;
+  @JsonKey(name: "total_orders", fromJson: parseDouble)
+  double? get totalOrders;
   @override
   @JsonKey(name: "formatted_order_date")
-  DateTime? get formattedOrderDate;
+  String? get formattedOrderDate;
   @override
   @JsonKey(name: "item_heading")
   String? get itemHeading;
   @override
   @JsonKey(name: "date")
-  String? get date;
+  DateTime? get date;
   @override
   @JsonKey(name: "day_close_id")
   int? get dayCloseId;
