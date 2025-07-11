@@ -9,6 +9,7 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
+import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,16 +60,55 @@ class SuppliersReportScreen extends StatelessWidget {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
-                       textStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            letterSpacing: 0.5,
-          ),
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
                     );
                   },
                 ),
 
+                //  8.verticalSpace,
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: TextFeildWidget(
+                    onChanged: (value) {
+                      final name = context.read<ReportCubit>();
+                      final SuppliersName = name.state.suppliersReport ?? [];
+                      if (value!.isEmpty) {
+                        name.state.copyWith(filteredProduct: SuppliersName);
+                      } else {
+                        final filtered = SuppliersName.where((supplier) {
+                          return supplier.supplierName?.toLowerCase().contains(
+                                value.toLowerCase(),
+                              ) ??
+                              false;
+                        }).toList();
+                        name.emit(
+                          name.state.copyWith(filteredProduct: filtered),
+                        );
+                      }
+                    },
+                    borderColor: kBlack,
+                    hight: 48.h,
+                    fillColor: kWhite,
+                    inputBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                    ),
+                    prefix: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset('assets/icons/Search.svg'),
+                    ),
+                    hintText: 'Search product offers',
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: SvgPicture.asset('assets/icons/x-close.svg'),
+                    ),
+                  ),
+                ),
                 10.verticalSpace,
 
                 BlocBuilder<DashboardCubit, DashboardState>(

@@ -279,6 +279,7 @@ class _DrawerContent extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () => _showLogoutConfirmation(context),
+     
           borderRadius: BorderRadius.circular(12.r),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),

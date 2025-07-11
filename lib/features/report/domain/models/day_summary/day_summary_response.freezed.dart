@@ -24,8 +24,7 @@ mixin _$DaySummaryResponse {
   //     @JsonKey(name: "mode_of_payments")
   // ModeOfPayments? modeOfPayments,
   @JsonKey(name: "mode_of_payments")
-  List<ModeOfPayments>? get modeOfPayments =>
-      throw _privateConstructorUsedError;
+  ModeOfPayments? get modeOfPayments => throw _privateConstructorUsedError;
   @JsonKey(name: "is_day_close_enabled")
   int? get isDayCloseEnabled => throw _privateConstructorUsedError;
   @JsonKey(name: "bill_type_details")
@@ -160,7 +159,7 @@ abstract class $DaySummaryResponseCopyWith<$Res> {
   ) = _$DaySummaryResponseCopyWithImpl<$Res, DaySummaryResponse>;
   @useResult
   $Res call({
-    @JsonKey(name: "mode_of_payments") List<ModeOfPayments>? modeOfPayments,
+    @JsonKey(name: "mode_of_payments") ModeOfPayments? modeOfPayments,
     @JsonKey(name: "is_day_close_enabled") int? isDayCloseEnabled,
     @JsonKey(name: "bill_type_details") List<BillTypeDetail>? billTypeDetails,
     @JsonKey(name: "bill_type_total_order_count") int? billTypeTotalOrderCount,
@@ -225,6 +224,8 @@ abstract class $DaySummaryResponseCopyWith<$Res> {
     @JsonKey(name: "last_close_date") String? lastCloseDate,
     @JsonKey(name: "last_day_close_time") String? lastDayCloseTime,
   });
+
+  $ModeOfPaymentsCopyWith<$Res>? get modeOfPayments;
 }
 
 /// @nodoc
@@ -304,7 +305,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             modeOfPayments: freezed == modeOfPayments
                 ? _value.modeOfPayments
                 : modeOfPayments // ignore: cast_nullable_to_non_nullable
-                      as List<ModeOfPayments>?,
+                      as ModeOfPayments?,
             isDayCloseEnabled: freezed == isDayCloseEnabled
                 ? _value.isDayCloseEnabled
                 : isDayCloseEnabled // ignore: cast_nullable_to_non_nullable
@@ -529,6 +530,20 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
           as $Val,
     );
   }
+
+  /// Create a copy of DaySummaryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ModeOfPaymentsCopyWith<$Res>? get modeOfPayments {
+    if (_value.modeOfPayments == null) {
+      return null;
+    }
+
+    return $ModeOfPaymentsCopyWith<$Res>(_value.modeOfPayments!, (value) {
+      return _then(_value.copyWith(modeOfPayments: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -541,7 +556,7 @@ abstract class _$$DaySummaryResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(name: "mode_of_payments") List<ModeOfPayments>? modeOfPayments,
+    @JsonKey(name: "mode_of_payments") ModeOfPayments? modeOfPayments,
     @JsonKey(name: "is_day_close_enabled") int? isDayCloseEnabled,
     @JsonKey(name: "bill_type_details") List<BillTypeDetail>? billTypeDetails,
     @JsonKey(name: "bill_type_total_order_count") int? billTypeTotalOrderCount,
@@ -606,6 +621,9 @@ abstract class _$$DaySummaryResponseImplCopyWith<$Res>
     @JsonKey(name: "last_close_date") String? lastCloseDate,
     @JsonKey(name: "last_day_close_time") String? lastDayCloseTime,
   });
+
+  @override
+  $ModeOfPaymentsCopyWith<$Res>? get modeOfPayments;
 }
 
 /// @nodoc
@@ -682,9 +700,9 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
     return _then(
       _$DaySummaryResponseImpl(
         modeOfPayments: freezed == modeOfPayments
-            ? _value._modeOfPayments
+            ? _value.modeOfPayments
             : modeOfPayments // ignore: cast_nullable_to_non_nullable
-                  as List<ModeOfPayments>?,
+                  as ModeOfPayments?,
         isDayCloseEnabled: freezed == isDayCloseEnabled
             ? _value.isDayCloseEnabled
             : isDayCloseEnabled // ignore: cast_nullable_to_non_nullable
@@ -914,8 +932,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   const _$DaySummaryResponseImpl({
-    @JsonKey(name: "mode_of_payments")
-    final List<ModeOfPayments>? modeOfPayments,
+    @JsonKey(name: "mode_of_payments") this.modeOfPayments,
     @JsonKey(name: "is_day_close_enabled") this.isDayCloseEnabled,
     @JsonKey(name: "bill_type_details")
     final List<BillTypeDetail>? billTypeDetails,
@@ -982,8 +999,7 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
     @JsonKey(name: "day_close_date") this.dayCloseDate,
     @JsonKey(name: "last_close_date") this.lastCloseDate,
     @JsonKey(name: "last_day_close_time") this.lastDayCloseTime,
-  }) : _modeOfPayments = modeOfPayments,
-       _billTypeDetails = billTypeDetails,
+  }) : _billTypeDetails = billTypeDetails,
        _discBillTypeDetails = discBillTypeDetails,
        _amountByCashier = amountByCashier,
        _amountByKiosk = amountByKiosk,
@@ -1007,19 +1023,9 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
 
   //     @JsonKey(name: "mode_of_payments")
   // ModeOfPayments? modeOfPayments,
-  final List<ModeOfPayments>? _modeOfPayments;
-  //     @JsonKey(name: "mode_of_payments")
-  // ModeOfPayments? modeOfPayments,
   @override
   @JsonKey(name: "mode_of_payments")
-  List<ModeOfPayments>? get modeOfPayments {
-    final value = _modeOfPayments;
-    if (value == null) return null;
-    if (_modeOfPayments is EqualUnmodifiableListView) return _modeOfPayments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final ModeOfPayments? modeOfPayments;
   @override
   @JsonKey(name: "is_day_close_enabled")
   final int? isDayCloseEnabled;
@@ -1345,10 +1351,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DaySummaryResponseImpl &&
-            const DeepCollectionEquality().equals(
-              other._modeOfPayments,
-              _modeOfPayments,
-            ) &&
+            (identical(other.modeOfPayments, modeOfPayments) ||
+                other.modeOfPayments == modeOfPayments) &&
             (identical(other.isDayCloseEnabled, isDayCloseEnabled) ||
                 other.isDayCloseEnabled == isDayCloseEnabled) &&
             const DeepCollectionEquality().equals(
@@ -1525,7 +1529,7 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   @override
   int get hashCode => Object.hashAll([
     runtimeType,
-    const DeepCollectionEquality().hash(_modeOfPayments),
+    modeOfPayments,
     isDayCloseEnabled,
     const DeepCollectionEquality().hash(_billTypeDetails),
     billTypeTotalOrderCount,
@@ -1602,8 +1606,7 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
 
 abstract class _DaySummaryResponse implements DaySummaryResponse {
   const factory _DaySummaryResponse({
-    @JsonKey(name: "mode_of_payments")
-    final List<ModeOfPayments>? modeOfPayments,
+    @JsonKey(name: "mode_of_payments") final ModeOfPayments? modeOfPayments,
     @JsonKey(name: "is_day_close_enabled") final int? isDayCloseEnabled,
     @JsonKey(name: "bill_type_details")
     final List<BillTypeDetail>? billTypeDetails,
@@ -1682,7 +1685,7 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   // ModeOfPayments? modeOfPayments,
   @override
   @JsonKey(name: "mode_of_payments")
-  List<ModeOfPayments>? get modeOfPayments;
+  ModeOfPayments? get modeOfPayments;
   @override
   @JsonKey(name: "is_day_close_enabled")
   int? get isDayCloseEnabled;

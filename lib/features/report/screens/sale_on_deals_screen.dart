@@ -161,7 +161,6 @@ class SaleOnDealsScreen extends StatelessWidget {
 
                                   'Product': e.productName ?? '',
                                   'Offer Price': e.offerPrice ?? '',
-
                                   'Total': e.orderItemTotal ?? '',
                                 };
                               }).toList() ??
