@@ -37,6 +37,7 @@ class _OfferFormState extends State<OfferForm> {
   late final TextEditingController discountController;
   late final TextEditingController fromDateController;
   late final TextEditingController toDateController;
+  late final TextEditingController productPriceController;
   bool isLoading = false;
 
   @override
@@ -58,6 +59,9 @@ class _OfferFormState extends State<OfferForm> {
     toDateController = TextEditingController(
       text: widget.product?.offerToDate?.toString() ?? '',
     );
+    productPriceController = TextEditingController(
+  text: widget.product?.productPrice?.toString() ?? '',
+);
 
     if (widget.isEdit) {
       final cubit = context.read<ReportCubit>();
@@ -77,6 +81,7 @@ class _OfferFormState extends State<OfferForm> {
     discountController.dispose();
     fromDateController.dispose();
     toDateController.dispose();
+    productPriceController.dispose();
     super.dispose();
   }
 
@@ -195,7 +200,9 @@ class _OfferFormState extends State<OfferForm> {
                               [],
                           fillColor: const Color(0XFFEFF1F1),
                           onChanged: (p0) {
-                            context.read<ReportCubit>().loadSelectedName(p0);
+                            context.read<ReportCubit>().selectedProductName(p0);
+                           
+                            // productPriceController.text = p0?.productPrice?.toString() ?? '';
                           },
                           labelText: 'Product Name',
                         );
@@ -231,7 +238,6 @@ class _OfferFormState extends State<OfferForm> {
                     fillColor: const Color(0XFFEFF1F1),
 
                     onChanged: (p0) async {
-                      // context.read<ReportCubit>().
                       context.read<ReportCubit>().loadSelectedOffer(p0);
                     },
                     labelText: '',
@@ -240,6 +246,24 @@ class _OfferFormState extends State<OfferForm> {
               ),
             ),
 
+            Padding(
+              padding: EdgeInsets.all(13),
+              child: TextFeildWidget(
+                topLabelText: 'Product Price',
+                 enabled: false, 
+                controller: productPriceController,
+                hight: 48.h,
+                fillColor: kWhite,
+                inputBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                  borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 14.h,
+                  horizontal: 8.w,
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.all(13),
               child: TextFeildWidget(
@@ -333,8 +357,9 @@ class _OfferFormState extends State<OfferForm> {
                       resourceId: widget.product?.resourceId ?? 0,
                       prodVarCode: widget.product?.prodVarCode,
                       priceTypeId: widget.product?.priceTypeId ?? 0,
+                      // offerFromDate: cubit.state.fromDate,
+                      // offerToDate: cubit.state.toDate,
                       offerToDate: context.read<ReportCubit>().state.toDate,
-
                       offerFromDate: context.read<ReportCubit>().state.fromDate,
                     );
                     await cubit.loadEditOffer(
@@ -342,6 +367,10 @@ class _OfferFormState extends State<OfferForm> {
                       widget.product!.prodOfferId!,
                       widget.product!.storeId!,
                     );
+                    await cubit.loadProductOffers(
+                      storeId: widget.product!.storeId!,
+                    );
+                    Navigator.pop(context, updatedOffer);
                   } else {
                     final selectedStore = context
                         .read<DashboardCubit>()
@@ -358,7 +387,9 @@ class _OfferFormState extends State<OfferForm> {
                     await cubit.loadProductOffers(
                       storeId: selectedStore?.storeId ?? 0,
                     );
+
                     context.pop();
+               
 
                     if (selectedProduct != null) {
                       final newOffer = CreateOfferResponse(
@@ -556,7 +587,7 @@ class _OfferFormState extends State<OfferForm> {
     );
   }
 }
- 
+
 // class OfferForm extends StatefulWidget {
 //   final bool isEdit;
 //   final ProductOffersResponse? product;
@@ -758,13 +789,13 @@ class _OfferFormState extends State<OfferForm> {
 //                         state.specialOffer?.map((e) {
 //                           return DropdownMenuItem<SpecialOfferResponse>(
 //                             value: e,
- 
+
 //                             child: Text(e.offerTypeName ?? ''),
 //                           );
 //                         }).toList() ??
 //                         [],
 //                     fillColor: const Color(0XFFEFF1F1),
- 
+
 //                     onChanged: (p0) async {
 //                       // context.read<ReportCubit>().
 //                       context.read<ReportCubit>().loadSelectedOffer(p0);
@@ -843,7 +874,7 @@ class _OfferFormState extends State<OfferForm> {
 //   //                         fillColor: const Color(0XFFEFF1F1),
 //   //                         onChanged: (p0) {
 //   //              print('Selected product: ${p0.productName}');
-//   // print('Product price: ${p0.productPrice}');                        
+//   // print('Product price: ${p0.productPrice}');
 //   //                           context.read<ReportCubit>().loadSelectedName(p0);
 
 //   //                           setState(() {
@@ -863,7 +894,7 @@ class _OfferFormState extends State<OfferForm> {
 //             //   padding: EdgeInsets.all(13),
 //             //   child: Row(
 //             //     children: [
-           
+
 //             //       12.horizontalSpace,
 //             //       Expanded(
 //             //         child: TextFeildWidget(
@@ -1248,8 +1279,7 @@ class _OfferFormState extends State<OfferForm> {
 //     }
 //   }
 // }
-    
-    
+
 class ShimmerWidget extends StatelessWidget {
   final double width;
   final double height;
@@ -1277,6 +1307,7 @@ class ShimmerWidget extends StatelessWidget {
     );
   }
 }
+
 Widget _shimmerProductOfferList() {
   return ListView.builder(
     shrinkWrap: true,

@@ -71,8 +71,6 @@ class ReportService implements ReportRepositories {
         selectedPaymentMethodId: selectedPaymentMethodId.toString(),
         selectedShiftId: selectedShiftId.toString(),
         selectedWaiterId: selectedWaiterId.toString(),
-        
-        
       ),
     );
     switch (res.statusCode) {
@@ -91,7 +89,7 @@ class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<List<ReveneReportResponse>>> loadRevenueReport({
     required int pageFirstResult,
-   // required int resultPerPage,
+    // required int resultPerPage,
     required int storeId,
     required String fromDate,
     required String toDate,
@@ -101,7 +99,7 @@ class ReportService implements ReportRepositories {
     final res = await networkProvider.get(
       ApiEndpoints.revenueReport(
         pageFirstResult,
-       // resultPerPage,
+        // resultPerPage,
         storeId,
         fromDate,
         toDate,
@@ -449,7 +447,7 @@ class ReportService implements ReportRepositories {
         resultPerPage,
       ),
     );
-    
+
     switch (res.statusCode) {
       case 200:
       case 201:
@@ -591,15 +589,15 @@ class ReportService implements ReportRepositories {
 
   @override
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
-     int? pageFirstResult,
-     int? resultPerPage,
-     int?storeId,
-     String? fromDate,
-     String?toDate,
-     int? roleId,
-     int? userId,
-     String? searchText,
-     int? categoryId,
+    int? pageFirstResult,
+    int? resultPerPage,
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int? roleId,
+    int? userId,
+    String? searchText,
+    int? categoryId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final user = await AuthUtils.instance.readUserData();
@@ -607,11 +605,11 @@ class ReportService implements ReportRepositories {
     final int roleId = user?.user?.userRoleId ?? 0;
     final res = await networkProvider.get(
       ApiEndpoints.productReport(
-        pageFirstResult ??0,
-        resultPerPage ??0,
-        storeId?? 0,
-        fromDate ??'',
-        toDate ??'',
+        pageFirstResult ?? 0,
+        resultPerPage ?? 0,
+        storeId ?? 0,
+        fromDate ?? '',
+        toDate ?? '',
         roleId,
         userId,
         searchText ?? '',
@@ -697,14 +695,13 @@ class ReportService implements ReportRepositories {
     required String toDate,
   }) async {
     final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider .get(
+    final res = await networkProvider.get(
       ApiEndpoints.daySummary(storeId, toDate),
     );
     log(">>> RAW RESPONSE object//: $res");
     log(">>> STATUS CODE,,,: ${res.statusCode}");
     log(">>> RESPONSE DATA???: ${res.data}");
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
-
 
     switch (res.statusCode) {
       case 200:
@@ -790,10 +787,10 @@ class ReportService implements ReportRepositories {
       ApiEndpoints.editOffer(prodOfferId ?? 0),
       data: request?.toJson(),
     );
-    // log(">>> RAW RESPONSE object//: $res");
-    // log(">>> STATUS CODE,,,: ${res.statusCode}");
-    // log(">>> RESPONSE DATA???: ${res.data}");
-    // log(">>> DATA TYPE---: ${res.data.runtimeType}");
+    log(">>> RAW RESPONSE object//: $res");
+    log(">>> STATUS CODE,,,: ${res.statusCode}");
+    log(">>> RESPONSE DATA???: ${res.data}");
+    log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
     switch (res.statusCode) {
       case 200:
@@ -806,7 +803,6 @@ class ReportService implements ReportRepositories {
         if (decoded is Map<String, dynamic>) {
           return ResponseResult(data: EditOfferResponse.fromJson(decoded));
         } else if (decoded is int) {
-     
           return ResponseResult(data: request);
         } else {
           return ResponseResult(error: 'Unexpected response format: $decoded');
@@ -953,6 +949,15 @@ class ReportService implements ReportRepositories {
     final res = await networkProvider.get(
       ApiEndpoints.getProductName(query, storeId),
     );
+    log(">>> RAW RESPONSE object//: $res");
+    log(">>> STATUS CODE,,,: ${res.statusCode}");
+    log(">>> RESPONSE DATA???: ${res.data}");          
+
+
+
+
+    
+    log(">>> DATA TYPE---: ${res.data.runtimeType}");
     switch (res.statusCode) {
       case 200:
       case 201:

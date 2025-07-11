@@ -60,7 +60,6 @@ class ReportCubit extends Cubit<ReportState> {
     String? selectedCashierId,
     String? selectedKIOSK,
     String? selectedGroupBy,
-   
 
     int? selectedDuration,
   }) async {
@@ -1074,6 +1073,7 @@ class ReportCubit extends Cubit<ReportState> {
       emit(
         state.copyWith(
           suppliersReport: newList,
+          filteredProduct: res.data,
           isSupplierReport: ApiFetchStatus.success,
         ),
       );
@@ -1207,42 +1207,41 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isDaySummary: ApiFetchStatus.failed));
   }
 
-//   Future<void> loadProductName({String? query, int? storeId}) async {
-//   emit(state.copyWith(isProductName: ApiFetchStatus.loading));
-//   final res = await _reportRepositories.getProductName(
-//     storeId: storeId ?? 0,
-//     query: query ?? '',
-//   );
+  //   Future<void> loadProductName({String? query, int? storeId}) async {
+  //   emit(state.copyWith(isProductName: ApiFetchStatus.loading));
+  //   final res = await _reportRepositories.getProductName(
+  //     storeId: storeId ?? 0,
+  //     query: query ?? '',
+  //   );
 
-//   if (res.data != null) {
-//     final List<ProductNameResponse> fetchedList = res.data!
-//         .map<ProductNameResponse>((e) {
-//           if (e is ProductNameResponse) {
-//             return e;
-//           } else if (e is Map<String, dynamic>) {
-//             return ProductNameResponse.fromJson(e);
-//           } else {
-//             throw Exception(
-//               'Unexpected element type in loadProductName: ${e.runtimeType}',
-//             );
-//           }
-//         })
-//         .toList();
+  //   if (res.data != null) {
+  //     final List<ProductNameResponse> fetchedList = res.data!
+  //         .map<ProductNameResponse>((e) {
+  //           if (e is ProductNameResponse) {
+  //             return e;
+  //           } else if (e is Map<String, dynamic>) {
+  //             return ProductNameResponse.fromJson(e);
+  //           } else {
+  //             throw Exception(
+  //               'Unexpected element type in loadProductName: ${e.runtimeType}',
+  //             );
+  //           }
+  //         })
+  //         .toList();
 
-//     emit(state.copyWith(
-//       getProductName: fetchedList,
-//       isProductName: ApiFetchStatus.success,
-//     ));
-//   }
-// }
-
+  //     emit(state.copyWith(
+  //       getProductName: fetchedList,
+  //       isProductName: ApiFetchStatus.success,
+  //     ));
+  //   }
+  // }
 
   Future<void> loadProductName({String? query, int? storeId}) async {
     emit(state.copyWith(isProductName: ApiFetchStatus.loading));
     final res = await _reportRepositories.getProductName(
       storeId: storeId ?? 0,
       query: query ?? '',
-    ); 
+    );
     if (res.data != null) {
       final List<dynamic> rawList = res.data!;
       final List<ProductNameResponse> fetchedList = rawList.map((element) {
@@ -1266,8 +1265,9 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
-  void loadSelectedName(ProductNameResponse product) {
-    emit(state.copyWith(selectedProductName: product));
+  Future<void> selectedProductName(ProductNameResponse product) async {
+    emit(state.copyWith(selectedProductName: product,
+    selectedProductPrice: product));
   }
 
   Future<void> clearCategories() async {

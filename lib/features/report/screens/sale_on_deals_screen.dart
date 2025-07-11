@@ -139,11 +139,9 @@ class SaleOnDealsScreen extends StatelessWidget {
                           headers: [
                             "#",
                             "Order No",
-
                             "Order Date",
                             "Product",
                             "Offer Price",
-
                             "Total",
                           ],
 
@@ -159,11 +157,9 @@ class SaleOnDealsScreen extends StatelessWidget {
                                 return {
                                   '#': index + 1,
                                   'Order No': e.prodOrderId ?? '',
-
                                   'Order Date': e.orderDate ?? '',
                                   'Product': e.productName ?? '',
                                   'Offer Price': e.offerPrice ?? '',
-
                                   'Total': e.orderItemTotal ?? '',
                                 };
                               }).toList() ??
