@@ -82,20 +82,33 @@ class DaySummaryReportScreen extends StatelessWidget {
                       physics: const AlwaysScrollableScrollPhysics(),
                       children: [
                         if (state.daySummary?.isNotEmpty ?? false) ...[
+                          Text('Mode Of Payments'),
                           _buildModeOfPayments(state),
+                          10.verticalSpace,
+                          Text('Bill Type Details'),
                           _buildBillTypeDetails(state),
-                          // _buildDeliveryPartners(state),
+                          10.verticalSpace,
+                          Text(" Amount - By Delivery Partners"),
+                          _buildDeliveryPartners(state),
+                          10.verticalSpace,
+                          Text('Receipt'),
                           _buildReceipts(state),
+                                                    10.verticalSpace,
+
+                          Text('Payment'),
                           _buildPayments(state),
-                          _buildWaiters(state),
-                          _buildDevices(state),
-                          _buildDeliveryBoys(state),
-                          _buildSettlers(state),
-                          _buildDiscountBillType(state),
-                          _buildCashiers(state),
-                          _buildKiosks(state),
-                          _buildMainCategories(state),
-                          _buildShiftDetails(state),
+                          Text('Discount Bill Type'),
+                           _buildDiscountBillType(state),
+                                                     10.verticalSpace,
+                                                     Text('AMOUNT - BY CATEGORY'),
+
+                          _buildAmountByCategory(state),
+                                                                               10.verticalSpace,
+
+
+                          Text('AMOUNT - BY MAIN CATEGORY'),
+                          _buildAmountByMainCategories(state),
+                         
                         ],
                       ],
                     ),
@@ -160,7 +173,7 @@ class DaySummaryReportScreen extends StatelessWidget {
           color: Colors.black,
           child: titleAndValue(
             whilte: true,
-            title: "Mode Of Payments",
+            title: "Type",
             bold: true,
             value: "Amount",
             label: '',
@@ -227,7 +240,7 @@ class DaySummaryReportScreen extends StatelessWidget {
           color: Colors.black,
           child: titleAndValue(
             whilte: true,
-            title: "Bill Type Details",
+            title: "Type",
             bold: true,
             value: "Amount",
             label: 'count',
@@ -264,7 +277,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     title: "Total",
                     bold: true,
                     value: '${state.daySummary?.first.billTypeGrandTotal}',
-                    label: '',
+                    label: '${state.daySummary?.first.billTypeTotalOrderCount}',
                   ),
                 ),
               ],
@@ -292,9 +305,9 @@ class DaySummaryReportScreen extends StatelessWidget {
 ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: state.daySummary![0].deliveryPartners?.length,
+          itemCount: state.daySummary?.length,
           itemBuilder: (context, index) {
-            final data =state.daySummary![0].deliveryPartners;
+            final data =state.daySummary?[index].deliveryPartners;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,14 +315,14 @@ ListView.builder(
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: state.deliveryPartner?.length,
+                  itemCount: data?.length,
                   itemBuilder: (context, i) {
                     return 
                     titleAndValue(
-                      label: '${data?.first.ordercount}',
+                      label: '${data?[i].ordercount}',
 
-                      title: '${data?.first.name}',
-                      value: '${data?.first.totalamount}',
+                      title: '${data?[i].name}',
+                      value: '${data?[i].totalamount}',
                     );
                   },
                 ),
@@ -319,7 +332,7 @@ ListView.builder(
                     whilte: true,
                     title: "Total",
                     bold: true,
-                    value: '${state.daySummary?.first.billTypeGrandTotal}',
+                    value: '${state.daySummary?.first.deliveryPartnersTotal}',
                     label: '',
                   ),
                 ),
@@ -334,48 +347,250 @@ ListView.builder(
   }
 
   Widget _buildReceipts(ReportState state) {
-    return const SizedBox.shrink();
+    return  Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Account Head",
+            bold: true,
+            value: "Amount",
+            label: '',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index].receiptsData;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    // final bill = data?.billTypeDetails?[i];
+                    return titleAndValue(
+                      label: '',
+
+                      title: data?[i].accountHeadName ??'',
+                      value: data?[i].amount,
+                    );
+                  },
+                ),
+               
+              ],
+            );
+          },
+        ),
+      ],
+    );
+    // const SizedBox.shrink();
   }
 
   Widget _buildPayments(ReportState state) {
-    return const SizedBox.shrink();
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Account Head",
+            bold: true,
+            value: "Amount",
+            label: '',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index].paymentData;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    // final bill = data?.billTypeDetails?[i];
+                    return titleAndValue(
+                      label: '',
+
+                      title: data?[i].accountHeadName ??'',
+                      value: data?[i].amount,
+                    );
+                  },
+                ),
+               
+              ],
+            );
+          },
+        ),
+      ],
+    );
   }
 
-  Widget _buildWaiters(ReportState state) {
-    return const SizedBox.shrink();
+  Widget _buildAmountByCategory(ReportState state) {
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Category",
+            bold: true,
+            value: "Amount",
+            label: '',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index].amountByCategory;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    // final bill = data?.billTypeDetails?[i];
+                    return titleAndValue(
+                      label: '',
+
+                      title: '${data?[i]['category_name'] }',
+                      value: '${data?[i]['totalamount ']}',
+                    );
+                  },
+                ),
+                
+              ],
+            );
+          },
+        ),
+      ],
+    );
   }
 
-  Widget _buildDevices(ReportState state) {
-    return const SizedBox.shrink();
+  Widget _buildAmountByMainCategories(ReportState state) {
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Main Category",
+            bold: true,
+            value: "Amount",
+            label: '',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index].amountByMainCategory;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    // final bill = data?.billTypeDetails?[i];
+                    return titleAndValue(
+                      label: '',
+
+                      title: '${data?[i]['category_name'] }',
+                      value: '${data?[i]['totalamount']}',
+                    );
+                  },
+                ),
+                
+              ],
+            );
+          },
+        ),
+      ],
+    );
   }
 
-  Widget _buildDeliveryBoys(ReportState state) {
-    return const SizedBox.shrink();
-  }
+ 
 
-  Widget _buildSettlers(ReportState state) {
-    return const SizedBox.shrink();
-  }
+  
 
   Widget _buildDiscountBillType(ReportState state) {
-    return const SizedBox.shrink();
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Account Head",
+            bold: true,
+            value: "Amount",
+            label: 'Count',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index].discBillTypeDetails;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    // final bill = data?.billTypeDetails?[i];
+                    return titleAndValue(
+                      label: '${data?[i].ordercount}',
+
+                      title: '${data?[i].orderOptionName }',
+                      value: '${data?[i].discAmount}',
+                    );
+                  },
+                ),
+                 Container(
+                  color: Colors.grey,
+                  child: titleAndValue(
+                    whilte: true,
+                    title: "Total",
+                    bold: true,
+                    value: '${state.daySummary?.first.discBillTypeDetailsTotal}',
+                    label: '${state.daySummary?.first.discBillTypeDetailsCount}',
+                  ))
+               
+              ],
+            );
+          },
+        ),
+      ],
+    );
   }
 
-  Widget _buildCashiers(ReportState state) {
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildKiosks(ReportState state) {
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildMainCategories(ReportState state) {
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildShiftDetails(ReportState state) {
-    return const SizedBox.shrink();
-  }
+  
 }
 
 Container titleAndValue({
