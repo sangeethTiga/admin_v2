@@ -44,8 +44,12 @@ class DaySummaryReportScreen extends StatelessWidget {
                         value: apiFormat.format(
                           state.fromDate ?? DateTime.now(),
                         ),
-                        changeDate: (DateTime date) {
+                        changeDate: (DateTime date)async {
+                          
                           context.read<ReportCubit>().changeToDate(date);
+                          context.read<ReportCubit>().loadDaySummary(
+            storeId: context.read<DashboardCubit>().state.selectedStore?.storeId??0,toDate: date.toString()
+          );
                         },
                       ),
                     ),
@@ -54,8 +58,21 @@ class DaySummaryReportScreen extends StatelessWidget {
               },
             ),
             10.verticalSpace,
+            
 
-            Container(
+            BlocConsumer<ReportCubit, ReportState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                
+                return Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () async {},
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        if (state.daySummary?.isNotEmpty ?? false) ...[
+                          Container(
               decoration: BoxDecoration(
                 color: kPrimaryColor,
                 borderRadius: const BorderRadius.only(
@@ -72,45 +89,38 @@ class DaySummaryReportScreen extends StatelessWidget {
                 label: '',
               ),
             ),
-
-            BlocConsumer<ReportCubit, ReportState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                return Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: () async {},
-                    child: ListView(
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: [
-                        if (state.daySummary?.isNotEmpty ?? false) ...[
-                          Text('Mode Of Payments'),
+                          Center(child: Text('Mode Of Payments')),
                           _buildModeOfPayments(state),
                           10.verticalSpace,
-                          Text('Bill Type Details'),
+                          Center(child: Text('Bill Type Details')),
                           _buildBillTypeDetails(state),
                           10.verticalSpace,
-                          Text(" Amount - By Delivery Partners"),
+                          Center(child: Text(" Amount - By Delivery Partners")),
                           _buildDeliveryPartners(state),
                           10.verticalSpace,
-                          Text('Receipt'),
+                          Center(child: Text('Receipt')),
                           _buildReceipts(state),
                           10.verticalSpace,
 
-                          Text('Payment'),
+                          Center(child: Text('Payment')),
                           _buildPayments(state),
-                          Text('Discount Bill Type'),
+                          Center(child: Text('Discount Bill Type')),
                           _buildDiscountBillType(state),
                           10.verticalSpace,
-                          Text('AMOUNT - BY CATEGORY'),
+                        
+                           if (state.daySummary?.any((item) => item.amountByCategory!.isNotEmpty) ?? false) ...[
+                            Center(child: Text('AMOUNT - BY CATEGORY')),
+                            _buildAmountByCategory(state),
+                            10.verticalSpace,
+                          ],
+                           if (state.daySummary?.any((item) => item.amountByMainCategory!.isNotEmpty) ?? false) ...[
+                            Center(child: Text('AMOUNT - BY MAIN CATEGORY')),
+                            _buildAmountByMainCategories(state),
+                            10.verticalSpace,
 
-                          _buildAmountByCategory(state),
-                          10.verticalSpace,
-
-                          Text('AMOUNT - BY MAIN CATEGORY'),
-                          _buildAmountByMainCategories(state),
+                          
                         ],
-                      ],
+                      ]],
                     ),
                   ),
                 );
@@ -467,7 +477,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                       label: '',
 
                       title: '${data?[i]['category_name']}',
-                      value: '${data?[i]['totalamount ']}',
+                      value: '${data?[i]['totalamount']??0}',
                     );
                   },
                 ),
@@ -665,11 +675,12 @@ Widget _buildStoreDropdown() {
             }).toList() ??
             [],
         fillColor: const Color(0XFFEFF1F1),
-        onChanged: (store) {
-          context.read<ReportCubit>().loadDaySummary(
-            storeId: state.selectedStore?.storeId,
+        onChanged: (v) {
+          context. read<ReportCubit>().loadDaySummary(
+            storeId:v.storeId
           );
         },
+        
         labelText: '',
         textStyle: TextStyle(
           color: Colors.black,
