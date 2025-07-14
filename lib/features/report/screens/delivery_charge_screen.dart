@@ -20,7 +20,6 @@ class DeliveryChargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Delivery Charge'),
-<<<<<<< HEAD
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -41,20 +40,6 @@ class DeliveryChargeScreen extends StatelessWidget {
                   _buildCommonTable(),
                 ],
               ),
-=======
-      body: Column(
-        children: [
-          dividerWidget(height: 6.h),
-          MainPadding(
-            child: Column(
-              spacing: 14.h,
-              children: [
-                _buildStoreDropdown(),
-                _handleDate(),
-                _viewResults(),
-                _buildCommonTable(),
-              ],
->>>>>>> 7347236e7c70b67bfa630a0440246eb90def4577
             ),
           ],
         ),
