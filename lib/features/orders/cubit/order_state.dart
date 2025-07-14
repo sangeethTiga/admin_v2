@@ -11,7 +11,8 @@ class OrderState extends Equatable {
   final DateTime? toDate;
   final ApiFetchStatus? isLoading;
   final OrderDetailResponse? orderDetail;
-
+  final int? selectedStatusIndex;
+  final bool? isSelected;
 
   const OrderState({
     this.status = ApiFetchStatus.idle,
@@ -24,6 +25,8 @@ class OrderState extends Equatable {
     this.isLoading = ApiFetchStatus.idle,
     this.selectedOrder,
     this.orderDetail,
+    this.selectedStatusIndex,
+    this.isSelected,
   });
 
   OrderState copyWith({
@@ -37,6 +40,8 @@ class OrderState extends Equatable {
     ApiFetchStatus? isLoading,
     OrderStatusResponse? selectedOrder,
     OrderDetailResponse? orderDetail,
+    int? selectedStatusIndex,
+    bool? isSelected,
   }) {
     return OrderState(
       status: status ?? this.status,
@@ -49,6 +54,8 @@ class OrderState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       selectedOrder: selectedOrder ?? this.selectedOrder,
       orderDetail: orderDetail ?? this.orderDetail,
+      selectedStatusIndex: selectedStatusIndex ?? this.selectedStatusIndex,
+      isSelected: isSelected ?? this.isSelected,
     );
   }
 
@@ -64,6 +71,8 @@ class OrderState extends Equatable {
     isLoading,
     selectedOrder,
     orderDetail,
+    selectedStatusIndex,
+    isSelected,
   ];
 }
 

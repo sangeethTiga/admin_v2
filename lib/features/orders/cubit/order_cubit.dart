@@ -18,11 +18,9 @@ class OrderCubit extends Cubit<OrderState> {
   final OrderRepositories _orderRepositories;
   OrderCubit(this._orderRepositories) : super(InitialOrderState());
 
-  Future<void> orders({OrderRequest? req,bool? fromSerach}) async {
+  Future<void> orders({OrderRequest? req, bool? fromSerach}) async {
     try {
       emit(state.copyWith(isLoading: ApiFetchStatus.loading));
-
-
 
       final res = await _orderRepositories.orders(req: req ?? OrderRequest());
       if (res.data != null) {
@@ -148,5 +146,26 @@ class OrderCubit extends Cubit<OrderState> {
         storeId: storeId,
       ),
     );
+  }
+
+  void selectSingleStatus(int index) {
+    emit(state.copyWith(selectedStatusIndex: index));
+  }
+
+  void applySelectedStatus({int? storeId}) {
+    if (state.selectedStatusIndex != null && state.statusList != null) {
+      final selectedStatus = state.statusList![state.selectedStatusIndex!];
+
+      orders(
+        req: OrderRequest(
+          orderStatusId: [selectedStatus.orderStatusId ?? 0],
+          version: "v2",
+          fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+          toDate: parsedDate(state.toDate ?? DateTime.now()),
+          storeId: storeId,
+        ),
+      );
+      emit(state.copyWith(selectedStatusIndex: null));
+    }
   }
 }

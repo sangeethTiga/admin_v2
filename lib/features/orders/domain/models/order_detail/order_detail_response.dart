@@ -42,7 +42,8 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
     double? spotDiscountPercentage,
-    @JsonKey(name: "spot_discount_amt") int? spotDiscountAmt,
+    @JsonKey(name: "spot_discount_amt", fromJson: parseNumberAsDouble)
+    double? spotDiscountAmt,
     @JsonKey(name: "order_option_name") String? orderOptionName,
     @JsonKey(name: "order_status_id") int? orderStatusId,
     @JsonKey(name: "invoice_num") String? invoiceNum,
@@ -50,40 +51,55 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "mob_order_date") String? mobOrderDate,
     @JsonKey(name: "mob_order_time") String? mobOrderTime,
     @JsonKey(name: "mob_o_date") String? mobODate,
-    @JsonKey(name: "net_amount") double? netAmount,
-    @JsonKey(name: "amount_in_cash") int? amountInCash,
+    @JsonKey(name: "net_amount", fromJson: parseNumberAsDouble)
+    double? netAmount,
+    @JsonKey(name: "amount_in_cash", fromJson: parseNumberAsDouble)
+    double? amountInCash,
     @JsonKey(name: "time_cash") String? timeCash,
-    @JsonKey(name: "amount_by_card") int? amountByCard,
+    @JsonKey(name: "amount_by_card", fromJson: parseNumberAsDouble)
+    double? amountByCard,
     @JsonKey(name: "time_card") String? timeCard,
-    @JsonKey(name: "net_amount_wallet_money") int? netAmountWalletMoney,
-    @JsonKey(name: "net_amount_wallet_points") int? netAmountWalletPoints,
+    @JsonKey(name: "net_amount_wallet_money", fromJson: parseNumberAsDouble)
+    double? netAmountWalletMoney,
+    @JsonKey(name: "net_amount_wallet_points", fromJson: parseNumberAsDouble)
+    double? netAmountWalletPoints,
     @JsonKey(name: "state_name") String? stateName,
     @JsonKey(name: "country_name") String? countryName,
-    @JsonKey(name: "grand_total") double? grandTotal,
+    @JsonKey(name: "grand_total", fromJson: parseNumberAsDouble)
+    double? grandTotal,
     @JsonKey(name: "account_id") int? accountId,
     @JsonKey(name: "loyalty_no") String? loyaltyNo,
     @JsonKey(name: "cust_id") int? custId,
-    @JsonKey(name: "taxable_amount") double? taxableAmount,
+    @JsonKey(name: "taxable_amount", fromJson: parseNumberAsDouble)
+    double? taxableAmount,
     @JsonKey(name: "is_taxable") int? isTaxable,
     @JsonKey(name: "is_tax_inclusive") int? isTaxInclusive,
     @JsonKey(name: "tax_id") int? taxId,
     @JsonKey(name: "TRN") String? trn,
-    @JsonKey(name: "non_taxable_amt") int? nonTaxableAmt,
-    @JsonKey(name: "order_disc_percentage") int? orderDiscPercentage,
+    @JsonKey(name: "non_taxable_amt", fromJson: parseNumberAsDouble)
+    double? nonTaxableAmt,
+    @JsonKey(name: "order_disc_percentage", fromJson: parseNumberAsDouble)
+    double? orderDiscPercentage,
     @JsonKey(name: "ArabicNameSettings") int? arabicNameSettings,
     @JsonKey(name: "taxSettings") int? taxSettings,
     @JsonKey(name: "tax_name") String? taxName,
-    @JsonKey(name: "order_tax_percentage") int? orderTaxPercentage,
-    @JsonKey(name: "order_disc_amount") int? orderDiscAmount,
-    @JsonKey(name: "tax_amount") double? taxAmount,
-    @JsonKey(name: "shipping_charge") int? shippingCharge,
-    @JsonKey(name: "weight_scale") int? weightScale,
-    @JsonKey(name: "cancel_item_amount") int? cancelItemAmount,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    double? orderTaxPercentage,
+    @JsonKey(name: "order_disc_amount", fromJson: parseNumberAsDouble)
+    double? orderDiscAmount,
+    @JsonKey(name: "tax_amount", fromJson: parseNumberAsDouble)
+    double? taxAmount,
+    @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+    double? shippingCharge,
+    @JsonKey(name: "weight_scale", fromJson: parseNumberAsDouble)
+    double? weightScale,
+    @JsonKey(name: "cancel_item_amount", fromJson: parseNumberAsDouble)
+    double? cancelItemAmount,
     @JsonKey(name: "substitute_exist") int? substituteExist,
     @JsonKey(name: "sub_notification_status_id") int? subNotificationStatusId,
     @JsonKey(name: "sub_notification_status_name")
     String? subNotificationStatusName,
-    @JsonKey(name: "surge_amt") int? surgeAmt,
+    @JsonKey(name: "surge_amt", fromJson: parseNumberAsDouble) double? surgeAmt,
     @JsonKey(name: "order_surges") List<dynamic>? orderSurges,
     @JsonKey(name: "supplier_id") int? supplierId,
     @JsonKey(name: "waiter_name") String? waiterName,
@@ -334,7 +350,7 @@ class Variant with _$Variant {
     @JsonKey(name: "var_taxable") dynamic varTaxable,
     @JsonKey(name: "variant_price") int? variantPrice,
     @JsonKey(name: "var_offerPrice") int? varOfferPrice,
-    @JsonKey(name: "v_offer_to_date") int? vOfferToDate,
+    @JsonKey(name: "v_offer_to_date") String? vOfferToDate,
     @JsonKey(name: "offer_price_percentage") String? offerPricePercentage,
     @JsonKey(name: "variant_images") List<dynamic>? variantImages,
     @JsonKey(name: "v_add_to_cart") bool? vAddToCart,
