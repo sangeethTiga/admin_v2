@@ -102,12 +102,13 @@ class OrderCubit extends Cubit<OrderState> {
         );
       }
       emit(state.copyWith(isLoading: ApiFetchStatus.failed));
-    } catch (e) {
+    } catch (e, s) {
+      log("Error fetching order detail: $e", stackTrace: s);
       emit(state.copyWith(isLoading: ApiFetchStatus.failed));
     }
   }
 
-  void applyFiltersToData(Map<String, List<int>> filters) {
+  void applyFiltersToData(Map<String, List<int>> filters, int? storeId) {
     print('Applying filters to data...');
     print('Received filters: $filters');
 
@@ -127,10 +128,10 @@ class OrderCubit extends Cubit<OrderState> {
         ? filters['CASHIER']!.first
         : null;
 
-    print('Selected Payment Type ID: $selectedPaymentType');
-    print('Selected Waiter ID: $selectedWaiter');
-    print('Selected Kiosk ID: $selectedKiosk');
-    print('Selected Cashier ID: $selectedCashier');
+    // print('Selected Payment Type ID: $selectedPaymentType');
+    // print('Selected Waiter ID: $selectedWaiter');
+    // print('Selected Kiosk ID: $selectedKiosk');
+    // print('Selected Cashier ID: $selectedCashier');
 
     orders(
       req: OrderRequest(
@@ -141,6 +142,7 @@ class OrderCubit extends Cubit<OrderState> {
         version: "v2",
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
+        storeId: storeId,
       ),
     );
   }
