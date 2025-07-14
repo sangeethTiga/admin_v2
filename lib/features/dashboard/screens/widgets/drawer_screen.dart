@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -110,13 +109,18 @@ class _DrawerContent extends StatelessWidget {
     _buildDrawerItem(
       icon: Icons.delivery_dining_sharp,
       title: Text('Delivery Charge'),
-      route: routeDeliveryCharge,
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.push(routeDeliveryCharge);
+      },
+      // route: routeDeliveryCharge,
     ),
     _buildDrawerItem(
       icon: Icons.flatware,
       title: Text('Parcel Charge'),
       route: routeParcel,
       onTap: (context) {
+        context.read<ReportCubit>().initState();
         context.read<DashboardCubit>().orderOption(selectedStore?.storeId, 0);
         context.push(routeParcel);
       },
@@ -124,12 +128,20 @@ class _DrawerContent extends StatelessWidget {
     _buildDrawerItem(
       icon: Icons.bar_chart_sharp,
       title: Text('Tax Report'),
-      route: routeTax,
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.push(routeTax);
+      },
+      // route: routeTax,
     ),
     _buildDrawerItem(
       icon: Icons.shopping_cart,
       title: Text('Category Sales'),
-      route: routeCategorySales,
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.push(routeCategorySales);
+      },
+      //  route: routeCategorySales,
     ),
     // _buildDrawerItem(
     //   icon: Icons.dining_rounded,
@@ -151,6 +163,7 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Sale on Deals'),
       route: routeSaleDeals,
       onTap: (context) {
+         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadSalesDealsReport(
           storeId: selectedStore?.storeId,
         );
@@ -171,6 +184,7 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {
+         context.read<ReportCubit>().initState();
         final productCubit = context.read<ReportCubit>();
 
         context.read<DashboardCubit>().loadProductsCategory(
@@ -196,6 +210,7 @@ class _DrawerContent extends StatelessWidget {
           title: Text('Product offers'),
           route: routeProductOffers,
           onTap: (context) {
+             context.read<ReportCubit>().initState();
             context.read<ReportCubit>().loadProductOffers(
               storeId: selectedStore?.storeId,
             );
@@ -317,10 +332,7 @@ class _DrawerContent extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.r),
           ),
-          title: Text(
-            'Confirm Logout',
-            style: TextStyle(fontSize: 15.sp),
-          ),
+          title: Text('Confirm Logout', style: TextStyle(fontSize: 15.sp)),
           content: Text(
             'Are you sure you want to sign out?',
             style: TextStyle(fontSize: 13.sp),

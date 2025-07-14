@@ -155,26 +155,37 @@ void navigateToFeature(
 
     switch (featureName) {
       case 'Product':
+      
         _navigateToProducts(storeId ?? 0, context);
       case 'Profit/loss':
+        context.read<ReportCubit>().initState();
         _navigateToProfitLoss(storeId ?? 0, today, context);
       case 'Orders':
+        context.read<ReportCubit>().initState();
         _navigateToOrders(storeId ?? 0, today, context);
       case 'Sales':
+        context.read<ReportCubit>().initState();
         _navigateToSales(storeId ?? 0, context);
       case 'Revenue':
+        context.read<ReportCubit>().initState();
         _navigateToRevenue(storeId ?? 0, today, context);
       case 'Expense':
+        context.read<ReportCubit>().initState();
         _navigateToExpense(storeId ?? 0, accountId ?? 0, today, context);
       case 'Customers':
+        context.read<ReportCubit>().initState();
         context.push(routeCustomers);
       case 'Purchase':
+        context.read<ReportCubit>().initState();
         _navigateToPurchase(context);
       case 'Day Summary':
-      _navigateToDaySummary(context,storeId??0);
+        context.read<ReportCubit>().initState();
+        _navigateToDaySummary(context, storeId ?? 0);
       default:
     }
-  } catch (e) {log('$e');}
+  } catch (e) {
+    log('$e');
+  }
 }
 
 String _formatDate(DateTime date) {
@@ -278,14 +289,11 @@ void _navigateToPurchase(BuildContext context) {
   } catch (e) {}
 }
 
-
-void _navigateToDaySummary(BuildContext context,int storeId){
-  try{
-    context.read<ReportCubit>().loadDaySummary(storeId:storeId );
+void _navigateToDaySummary(BuildContext context, int storeId) {
+  try {
+    context.read<ReportCubit>().loadDaySummary(storeId: storeId);
     context.push(routeDaySummary);
-    
-  }catch(e,s){
-    log('$e',stackTrace: s);
-
+  } catch (e, s) {
+    log('$e', stackTrace: s);
   }
 }
