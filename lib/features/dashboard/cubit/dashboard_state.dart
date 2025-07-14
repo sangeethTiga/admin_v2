@@ -12,6 +12,7 @@ class DashboardState extends Equatable {
   final AccountDataResponse? selectedAccount;
   final List<AccountDataResponse>? accountList;
   final OptionResponse? selectedOption;
+   final List<OptionResponse>? optionList;
   final MostSellingResponse? selectedCategory;
   final ApiFetchStatus? isMostSelling;
   final PurchaseType? selectedPurchaseType;
@@ -46,6 +47,7 @@ class DashboardState extends Equatable {
     this.selectedAccount,
     this.accountList,
     this.selectedOption,
+    this.optionList,
     this.selectedCategory,
     this.selectedPurchaseType,
     this.selectMonth,
@@ -83,6 +85,7 @@ class DashboardState extends Equatable {
     AccountDataResponse? selectedAccount,
     List<AccountDataResponse>? accountList,
     OptionResponse? selectedOption,
+    List<OptionResponse>? optionList,
     MostSellingResponse? selectedCategory,
     PurchaseType? selectedPurchaseType,
     ListOfDemo? selectMonth,
@@ -118,6 +121,7 @@ class DashboardState extends Equatable {
       selectedAccount: selectedAccount ?? this.selectedAccount,
       accountList: accountList ?? this.accountList,
       selectedOption: selectedOption ?? this.selectedOption,
+      optionList: optionList?? this.optionList,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       selectedPurchaseType: selectedPurchaseType ?? this.selectedPurchaseType,
       selectMonth: selectMonth ?? this.selectMonth,
@@ -159,6 +163,7 @@ class DashboardState extends Equatable {
     selectedAccount,
     accountList,
     selectedOption,
+    optionList,
     selectedCategory,
     selectedPurchaseType,
     selectMonth,

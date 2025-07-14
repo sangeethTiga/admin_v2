@@ -128,11 +128,11 @@ class ChequetransScreen extends StatelessWidget {
               "CHEQUE NUMBER",
               "BANK NAME",
               "CHEQUE ISSUE DATE",
-              "CHEQUE DATE",
+              //"CHEQUE DATE",
               "STATUS",
               "AMOUNT",
             ],
-            columnFlex: [4, 3, 4, 4, 4, 3],
+            columnFlex: [4, 3, 5, 4, 4],
             data:
                 state.chequeTransReport?.map((e) {
                   int index = state.chequeTransReport?.indexOf(e) ?? 0;
@@ -141,7 +141,7 @@ class ChequetransScreen extends StatelessWidget {
                     "CHEQUE NUMBER": e.chequeNumber ?? '',
                     "BANK NAME": e.bankName ?? '',
                     "CHEQUE ISSUE DATE": e.chequeIssueDate ?? '',
-                    "CHEQUE DATE": e.chequeDate ?? '',
+                    // "CHEQUE DATE": e.chequeDate ?? '',
                     "STATUS": e.statusName ?? '',
                     "AMOUNT": e.amount ?? '',
                   };

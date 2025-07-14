@@ -117,7 +117,7 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Parcel Charge'),
       route: routeParcel,
       onTap: (context) {
-        context.read<CommonCubit>().orderOption(selectedStore?.storeId, 0);
+        context.read<DashboardCubit>().orderOption(selectedStore?.storeId, 0);
         context.push(routeParcel);
       },
     ),

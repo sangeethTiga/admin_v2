@@ -53,7 +53,7 @@ class ParcelCharge extends StatelessWidget {
   }
 
   Widget _buildOrderOptionDropDown() {
-    return BlocBuilder<CommonCubit, CommonState>(
+    return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
         return DropDownFieldWidget(
           contentPadding: EdgeInsets.symmetric(
@@ -89,8 +89,12 @@ class ParcelCharge extends StatelessWidget {
             );
             if (select != null &&
                 select.orderOptionId != state.selectedOption?.orderOptionId) {
-              context.read<CommonCubit>().selectedOption(select);
+              context.read<DashboardCubit>().selectedOption(select);
             }
+            // context.read<DashboardCubit>().orderOption(
+            //   state.selectedStore?.storeId,
+            //   0,
+            // );
           },
           labelText: 'order option',
         );

@@ -37,12 +37,12 @@ mixin _$CustomersResponse {
   int? get rowcount => throw _privateConstructorUsedError;
   @JsonKey(name: "account_id", fromJson: parseInt)
   int? get accountId => throw _privateConstructorUsedError;
-  @JsonKey(name: "balance_amt", fromJson: parseInt)
-  int? get balanceAmt => throw _privateConstructorUsedError;
+  @JsonKey(name: "balance_amt", fromJson: parseDouble)
+  double? get balanceAmt => throw _privateConstructorUsedError;
   @JsonKey(name: "order_count", fromJson: parseInt)
   int? get orderCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
-  int? get totalPurchaseAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
+  double? get totalPurchaseAmount => throw _privateConstructorUsedError;
 
   /// Serializes this CustomersResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -70,10 +70,10 @@ abstract class $CustomersResponseCopyWith<$Res> {
     @JsonKey(name: "is_active", fromJson: parseInt) int? isActive,
     @JsonKey(name: "rowcount", fromJson: parseInt) int? rowcount,
     @JsonKey(name: "account_id", fromJson: parseInt) int? accountId,
-    @JsonKey(name: "balance_amt", fromJson: parseInt) int? balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble) double? balanceAmt,
     @JsonKey(name: "order_count", fromJson: parseInt) int? orderCount,
-    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
-    int? totalPurchaseAmount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
+    double? totalPurchaseAmount,
   });
 }
 
@@ -141,7 +141,7 @@ class _$CustomersResponseCopyWithImpl<$Res, $Val extends CustomersResponse>
             balanceAmt: freezed == balanceAmt
                 ? _value.balanceAmt
                 : balanceAmt // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             orderCount: freezed == orderCount
                 ? _value.orderCount
                 : orderCount // ignore: cast_nullable_to_non_nullable
@@ -149,7 +149,7 @@ class _$CustomersResponseCopyWithImpl<$Res, $Val extends CustomersResponse>
             totalPurchaseAmount: freezed == totalPurchaseAmount
                 ? _value.totalPurchaseAmount
                 : totalPurchaseAmount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -174,10 +174,10 @@ abstract class _$$CustomersResponseImplCopyWith<$Res>
     @JsonKey(name: "is_active", fromJson: parseInt) int? isActive,
     @JsonKey(name: "rowcount", fromJson: parseInt) int? rowcount,
     @JsonKey(name: "account_id", fromJson: parseInt) int? accountId,
-    @JsonKey(name: "balance_amt", fromJson: parseInt) int? balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble) double? balanceAmt,
     @JsonKey(name: "order_count", fromJson: parseInt) int? orderCount,
-    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
-    int? totalPurchaseAmount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
+    double? totalPurchaseAmount,
   });
 }
 
@@ -244,7 +244,7 @@ class __$$CustomersResponseImplCopyWithImpl<$Res>
         balanceAmt: freezed == balanceAmt
             ? _value.balanceAmt
             : balanceAmt // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         orderCount: freezed == orderCount
             ? _value.orderCount
             : orderCount // ignore: cast_nullable_to_non_nullable
@@ -252,7 +252,7 @@ class __$$CustomersResponseImplCopyWithImpl<$Res>
         totalPurchaseAmount: freezed == totalPurchaseAmount
             ? _value.totalPurchaseAmount
             : totalPurchaseAmount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -270,9 +270,9 @@ class _$CustomersResponseImpl implements _CustomersResponse {
     @JsonKey(name: "is_active", fromJson: parseInt) this.isActive,
     @JsonKey(name: "rowcount", fromJson: parseInt) this.rowcount,
     @JsonKey(name: "account_id", fromJson: parseInt) this.accountId,
-    @JsonKey(name: "balance_amt", fromJson: parseInt) this.balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble) this.balanceAmt,
     @JsonKey(name: "order_count", fromJson: parseInt) this.orderCount,
-    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
+    @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
     this.totalPurchaseAmount,
   });
 
@@ -304,14 +304,14 @@ class _$CustomersResponseImpl implements _CustomersResponse {
   @JsonKey(name: "account_id", fromJson: parseInt)
   final int? accountId;
   @override
-  @JsonKey(name: "balance_amt", fromJson: parseInt)
-  final int? balanceAmt;
+  @JsonKey(name: "balance_amt", fromJson: parseDouble)
+  final double? balanceAmt;
   @override
   @JsonKey(name: "order_count", fromJson: parseInt)
   final int? orderCount;
   @override
-  @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
-  final int? totalPurchaseAmount;
+  @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
+  final double? totalPurchaseAmount;
 
   @override
   String toString() {
@@ -390,10 +390,11 @@ abstract class _CustomersResponse implements CustomersResponse {
     @JsonKey(name: "is_active", fromJson: parseInt) final int? isActive,
     @JsonKey(name: "rowcount", fromJson: parseInt) final int? rowcount,
     @JsonKey(name: "account_id", fromJson: parseInt) final int? accountId,
-    @JsonKey(name: "balance_amt", fromJson: parseInt) final int? balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble)
+    final double? balanceAmt,
     @JsonKey(name: "order_count", fromJson: parseInt) final int? orderCount,
-    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
-    final int? totalPurchaseAmount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
+    final double? totalPurchaseAmount,
   }) = _$CustomersResponseImpl;
 
   factory _CustomersResponse.fromJson(Map<String, dynamic> json) =
@@ -424,14 +425,14 @@ abstract class _CustomersResponse implements CustomersResponse {
   @JsonKey(name: "account_id", fromJson: parseInt)
   int? get accountId;
   @override
-  @JsonKey(name: "balance_amt", fromJson: parseInt)
-  int? get balanceAmt;
+  @JsonKey(name: "balance_amt", fromJson: parseDouble)
+  double? get balanceAmt;
   @override
   @JsonKey(name: "order_count", fromJson: parseInt)
   int? get orderCount;
   @override
-  @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
-  int? get totalPurchaseAmount;
+  @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
+  double? get totalPurchaseAmount;
 
   /// Create a copy of CustomersResponse
   /// with the given fields replaced by the non-null parameter values.

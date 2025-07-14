@@ -20,6 +20,7 @@ class DeliveryChargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Delivery Charge'),
+<<<<<<< HEAD
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -40,6 +41,20 @@ class DeliveryChargeScreen extends StatelessWidget {
                   _buildCommonTable(),
                 ],
               ),
+=======
+      body: Column(
+        children: [
+          dividerWidget(height: 6.h),
+          MainPadding(
+            child: Column(
+              spacing: 14.h,
+              children: [
+                _buildStoreDropdown(),
+                _handleDate(),
+                _viewResults(),
+                _buildCommonTable(),
+              ],
+>>>>>>> 7347236e7c70b67bfa630a0440246eb90def4577
             ),
           ],
         ),
@@ -100,7 +115,7 @@ class DeliveryChargeScreen extends StatelessWidget {
           child: CommonTableWidget(
             isLoading: state.isDeliverychargeReport == ApiFetchStatus.loading,
             headers: ["#", "BILL NO", "ORDER DATE", "COUNT", "SHIPPING CHARGE"],
-            columnFlex: [0, 3, 3, 2, 2],
+            columnFlex: [0, 3, 3, 2, 3],
             data:
                 state.deliverychargeReport?.map((e) {
                   int index = state.deliverychargeReport?.indexOf(e) ?? 0;
@@ -109,7 +124,12 @@ class DeliveryChargeScreen extends StatelessWidget {
                     "BILL NO": e.billNo ?? '',
                     "ORDER DATE": formatDateString(e.orderDate ?? ''),
                     "COUNT": e.rawCount ?? '',
-                    "SHIPPING CHARGE": e.shippingCharge ?? '',
+                    "SHIPPING CHARGE": e.shippingCharge != null
+                        ? double.tryParse(
+                                e.shippingCharge!,
+                              )?.toStringAsFixed(2) ??
+                              ''
+                        : '',
                   };
                 }).toList() ??
                 [],

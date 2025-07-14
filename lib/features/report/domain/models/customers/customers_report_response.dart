@@ -21,10 +21,10 @@ class CustomersResponse with _$CustomersResponse {
     @JsonKey(name: "is_active", fromJson: parseInt) int? isActive,
     @JsonKey(name: "rowcount", fromJson: parseInt) int? rowcount,
     @JsonKey(name: "account_id", fromJson: parseInt) int? accountId,
-    @JsonKey(name: "balance_amt", fromJson: parseInt) int? balanceAmt,
+    @JsonKey(name: "balance_amt", fromJson: parseDouble) double? balanceAmt,
     @JsonKey(name: "order_count", fromJson: parseInt) int? orderCount,
-    @JsonKey(name: "total_purchase_amount", fromJson: parseInt)
-    int? totalPurchaseAmount,
+    @JsonKey(name: "total_purchase_amount", fromJson: parseDouble)
+    double? totalPurchaseAmount,
   }) = _CustomersResponse;
 
   factory CustomersResponse.fromJson(Map<String, dynamic> json) =>

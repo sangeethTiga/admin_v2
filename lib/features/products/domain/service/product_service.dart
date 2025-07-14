@@ -21,7 +21,7 @@ class ProductService implements ProductRepositories {
     String? search,
     String? barCode,
     int? filterId,
-    int? page
+    int? page,
   }) async {
     final networkProvider = await NetworkProvider.create();
 
