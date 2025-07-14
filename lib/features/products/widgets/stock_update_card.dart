@@ -142,12 +142,12 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                         suffixWidget: Padding(
                           padding: const EdgeInsets.all(14.0),
                           child: SvgPicture.asset(
-              'assets/icons/down -arrow.svg',
-              width: 9.33.w,
-              height: 5.h,
-              fit: BoxFit.contain,
-              color: Colors.black,
-            ),
+                            'assets/icons/down -arrow.svg',
+                            width: 9.33.w,
+                            height: 12.h,
+                            fit: BoxFit.contain,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     );

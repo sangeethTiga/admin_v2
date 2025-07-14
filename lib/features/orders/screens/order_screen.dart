@@ -654,7 +654,7 @@ class _OrderCard extends StatelessWidget {
       label: 'Date',
       label1: "Time",
       name: orderData?.orderDate?.isNotEmpty == true
-          ? orderData!.orderDate?.substring(0, 10)
+          ? orderData!.orderDate?.substring(0, 11)
           : 'Date not available',
       name2: orderData?.orderDate?.isNotEmpty == true
           ? parseOrderTime(orderData!.orderDate)
@@ -665,7 +665,7 @@ class _OrderCard extends StatelessWidget {
   Widget _buildTotalAmount() {
     return _containerWidget(
       name: 'Total :',
-      status: ' AED ${orderData?.totalNetAmount ?? 0}',
+      status: ' AED ${orderData?.netAmount ?? 0}',
     );
   }
 
