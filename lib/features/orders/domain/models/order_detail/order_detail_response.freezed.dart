@@ -87,8 +87,8 @@ mixin _$OrderDetailResponse {
   String? get paymentStatusArabic => throw _privateConstructorUsedError;
   @JsonKey(name: "store_id")
   int? get storeId => throw _privateConstructorUsedError;
-  @JsonKey(name: "spot_discount_percentage")
-  int? get spotDiscountPercentage => throw _privateConstructorUsedError;
+  @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+  double? get spotDiscountPercentage => throw _privateConstructorUsedError;
   @JsonKey(name: "spot_discount_amt")
   int? get spotDiscountAmt => throw _privateConstructorUsedError;
   @JsonKey(name: "order_option_name")
@@ -368,7 +368,8 @@ abstract class $OrderDetailResponseCopyWith<$Res> {
     @JsonKey(name: "payment_status_name") String? paymentStatusName,
     @JsonKey(name: "payment_status_arabic") String? paymentStatusArabic,
     @JsonKey(name: "store_id") int? storeId,
-    @JsonKey(name: "spot_discount_percentage") int? spotDiscountPercentage,
+    @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+    double? spotDiscountPercentage,
     @JsonKey(name: "spot_discount_amt") int? spotDiscountAmt,
     @JsonKey(name: "order_option_name") String? orderOptionName,
     @JsonKey(name: "order_status_id") int? orderStatusId,
@@ -788,7 +789,7 @@ class _$OrderDetailResponseCopyWithImpl<$Res, $Val extends OrderDetailResponse>
             spotDiscountPercentage: freezed == spotDiscountPercentage
                 ? _value.spotDiscountPercentage
                 : spotDiscountPercentage // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             spotDiscountAmt: freezed == spotDiscountAmt
                 ? _value.spotDiscountAmt
                 : spotDiscountAmt // ignore: cast_nullable_to_non_nullable
@@ -1291,7 +1292,8 @@ abstract class _$$OrderDetailResponseImplCopyWith<$Res>
     @JsonKey(name: "payment_status_name") String? paymentStatusName,
     @JsonKey(name: "payment_status_arabic") String? paymentStatusArabic,
     @JsonKey(name: "store_id") int? storeId,
-    @JsonKey(name: "spot_discount_percentage") int? spotDiscountPercentage,
+    @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+    double? spotDiscountPercentage,
     @JsonKey(name: "spot_discount_amt") int? spotDiscountAmt,
     @JsonKey(name: "order_option_name") String? orderOptionName,
     @JsonKey(name: "order_status_id") int? orderStatusId,
@@ -1710,7 +1712,7 @@ class __$$OrderDetailResponseImplCopyWithImpl<$Res>
         spotDiscountPercentage: freezed == spotDiscountPercentage
             ? _value.spotDiscountPercentage
             : spotDiscountPercentage // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         spotDiscountAmt: freezed == spotDiscountAmt
             ? _value.spotDiscountAmt
             : spotDiscountAmt // ignore: cast_nullable_to_non_nullable
@@ -2205,7 +2207,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
     @JsonKey(name: "payment_status_name") this.paymentStatusName,
     @JsonKey(name: "payment_status_arabic") this.paymentStatusArabic,
     @JsonKey(name: "store_id") this.storeId,
-    @JsonKey(name: "spot_discount_percentage") this.spotDiscountPercentage,
+    @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+    this.spotDiscountPercentage,
     @JsonKey(name: "spot_discount_amt") this.spotDiscountAmt,
     @JsonKey(name: "order_option_name") this.orderOptionName,
     @JsonKey(name: "order_status_id") this.orderStatusId,
@@ -2439,8 +2442,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   @JsonKey(name: "store_id")
   final int? storeId;
   @override
-  @JsonKey(name: "spot_discount_percentage")
-  final int? spotDiscountPercentage;
+  @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+  final double? spotDiscountPercentage;
   @override
   @JsonKey(name: "spot_discount_amt")
   final int? spotDiscountAmt;
@@ -3335,8 +3338,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
     @JsonKey(name: "payment_status_name") final String? paymentStatusName,
     @JsonKey(name: "payment_status_arabic") final String? paymentStatusArabic,
     @JsonKey(name: "store_id") final int? storeId,
-    @JsonKey(name: "spot_discount_percentage")
-    final int? spotDiscountPercentage,
+    @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+    final double? spotDiscountPercentage,
     @JsonKey(name: "spot_discount_amt") final int? spotDiscountAmt,
     @JsonKey(name: "order_option_name") final String? orderOptionName,
     @JsonKey(name: "order_status_id") final int? orderStatusId,
@@ -3561,8 +3564,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   @JsonKey(name: "store_id")
   int? get storeId;
   @override
-  @JsonKey(name: "spot_discount_percentage")
-  int? get spotDiscountPercentage;
+  @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+  double? get spotDiscountPercentage;
   @override
   @JsonKey(name: "spot_discount_amt")
   int? get spotDiscountAmt;

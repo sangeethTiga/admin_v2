@@ -40,7 +40,8 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "payment_status_name") String? paymentStatusName,
     @JsonKey(name: "payment_status_arabic") String? paymentStatusArabic,
     @JsonKey(name: "store_id") int? storeId,
-    @JsonKey(name: "spot_discount_percentage") int? spotDiscountPercentage,
+    @JsonKey(name: "spot_discount_percentage", fromJson: parseNumberAsDouble)
+    double? spotDiscountPercentage,
     @JsonKey(name: "spot_discount_amt") int? spotDiscountAmt,
     @JsonKey(name: "order_option_name") String? orderOptionName,
     @JsonKey(name: "order_status_id") int? orderStatusId,
@@ -370,4 +371,15 @@ class Store with _$Store {
   }) = _Store;
 
   factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
+}
+
+double? parseNumberAsDouble(dynamic value) {
+  if (value == null) return null;
+
+  // Direct parsing without using parseNumber
+  if (value is double) return value;
+  if (value is int) return value.toDouble();
+  if (value is String) return double.tryParse(value);
+
+  return null;
 }

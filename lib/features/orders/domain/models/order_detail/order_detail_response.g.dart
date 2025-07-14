@@ -42,7 +42,7 @@ _$OrderDetailResponseImpl _$$OrderDetailResponseImplFromJson(
   paymentStatusName: json['payment_status_name'] as String?,
   paymentStatusArabic: json['payment_status_arabic'] as String?,
   storeId: (json['store_id'] as num?)?.toInt(),
-  spotDiscountPercentage: (json['spot_discount_percentage'] as num?)?.toInt(),
+  spotDiscountPercentage: parseNumberAsDouble(json['spot_discount_percentage']),
   spotDiscountAmt: (json['spot_discount_amt'] as num?)?.toInt(),
   orderOptionName: json['order_option_name'] as String?,
   orderStatusId: (json['order_status_id'] as num?)?.toInt(),

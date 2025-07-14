@@ -207,7 +207,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   Widget _buildFilterContainer(OrderState state) {
     return Container(
-      height: 125.h,
+      height: 75.h,
       decoration: BoxDecoration(
         border: Border.all(color: kLightBorderColor),
         borderRadius: BorderRadius.circular(8.r),
@@ -216,7 +216,7 @@ class _OrderScreenState extends State<OrderScreen> {
         builder: (context, common) {
           return Column(
             children: [
-              _buildCheckboxRow(state, common, context),
+              // _buildCheckboxRow(state, common, context),
               7.verticalSpace,
               _buildDatePickerRow(state, common, context),
             ],
@@ -348,7 +348,10 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: CommonOrderFilter(
                       categories: filter,
                       onFiltersChanged: (filters) {
-                        context.read<OrderCubit>().applyFiltersToData(filters);
+                        context.read<OrderCubit>().applyFiltersToData(
+                          filters,
+                          state.selectedStore?.storeId ?? 0,
+                        );
                       },
                     ),
                   );
