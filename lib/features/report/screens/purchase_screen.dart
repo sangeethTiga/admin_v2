@@ -36,102 +36,43 @@ class PurchaseScreen extends StatelessWidget {
                     context.read<DashboardCubit>().selectedStore(p0);
                   },
                 ),
-                // BlocBuilder<DashboardCubit, DashboardState>(
-                //   builder: (context, state) {
-                //     return DropDownFieldWidget(
-                //       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                //       prefixIcon: Container(
-                //         margin: EdgeInsets.only(left: 12.w),
-                //         child: SvgPicture.asset(
-                //           'assets/icons/package-box-pin-location.svg',
-                //           width: 20.w,
-                //           height: 20.h,
-                //           fit: BoxFit.contain,
-                //         ),
-                //       ),
-                //       borderColor: kBlack,
-                //       value: state.selectedStore,
-                //       items:
-                //           state.storeList?.map((e) {
-                //             return DropdownMenuItem<StoreResponse>(
-                //               value: e,
-                //               child: Text(e.storeName ?? ''),
-                //             );
-                //           }).toList() ??
-                //           [],
-                //       fillColor: const Color(0XFFEFF1F1),
-                //       // suffixWidget: SvgPicture.asset(
-                //       //   'assets/icons/Arrow - Right.svg',
-                //       // ),
-                //       onChanged: (p0) {
-                //         context.read<DashboardCubit>().selectedStore(p0);
-                //       },
-                //       labelText: '',
-                //       textStyle: TextStyle(
-                //         color: Colors.black,
-                //         fontWeight: FontWeight.w500,
-                //         fontSize: 16,
-                //         letterSpacing: 0.5,
-                //       ),
-                //     );
-                //   },
-                // ),
-                BlocBuilder<CommonCubit, CommonState>(
-                  builder: (context, common) {
-                    return BlocBuilder<DashboardCubit, DashboardState>(
-                      builder: (context, state) {
-                        return DropDownFieldWidget(
-                          isLoading: false,
-                          prefixIcon: Container(
-                            margin: EdgeInsets.only(left: 12.w),
-                            child: SvgPicture.asset(
-                              'assets/icons/package-box-pin-location.svg',
-                              width: 20.w,
-                              height: 20.h,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          borderColor: kBlack,
-                          labelText: 'Purchase type',
-                          value: state.selectedPurchaseType,
-                          // common.purchaseType?.any(
-                          //       (e) =>
-                          //           e.id == state.selectedPurchaseType?.id,
-                          //     ) ==
-                          //     true
-                          // ? state.selectedPurchaseType
-                          // : null,
-                          items:
-                              purchaseTypes.map((value) {
-                                return DropdownMenuItem<PurchaseType>(
-                                  value: value,
-                                  child: Text(value.name ?? ''),
-                                );
-                              }).toList() ??
-                              [],
 
-                          fillColor: const Color(0XFFEFF1F1),
+                BlocBuilder<ReportCubit, ReportState>(
+                  builder: (context, state) {
+                    return DropDownFieldWidget(
+                      isLoading: false,
+                      prefixIcon: Container(
+                        margin: EdgeInsets.only(left: 12.w),
+                        child: SvgPicture.asset(
+                          'assets/icons/package-box-pin-location.svg',
+                          width: 20.w,
+                          height: 20.h,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      borderColor: kBlack,
+                      labelText: 'Purchase type',
+                      value:
+                          state.selectedPurchaseType ??
+                          PurchaseType(id: 0, name: 'All'),
 
-                          // suffixWidget: SvgPicture.asset(
-                          //   'assets/icons/Arrow - Right.svg',
-                          // ),
-                          onChanged: (purchase) {
-                            final selected = common.purchaseType?.firstWhere(
-                              (e) => e.id == purchase.id,
-                            );
-                            context.read<CommonCubit>().selectedPurchase(
-                              purchase,
-                            );
-                            context.read<ReportCubit>().changePucrhaeType(
-                              purchase,
-                            );
-                            context.read<ReportCubit>().loadPurchaseReport(
-                              storeId: state.selectedStore?.storeId,
-                              fromDate: '',
-                              toDate: '',
-                              purchaseType: selected?.id ?? 0,
-                            );
-                          },
+                      items: purchaseTypes.map((value) {
+                        return DropdownMenuItem<PurchaseType>(
+                          value: value,
+                          child: Text(value.name ?? ''),
+                        );
+                      }).toList(),
+
+                      fillColor: const Color(0XFFEFF1F1),
+
+                      onChanged: (purchase) {
+                        context.read<CommonCubit>().selectedPurchase(purchase);
+                        context.read<ReportCubit>().changePucrhaeType(purchase);
+                        context.read<ReportCubit>().loadPurchaseReport(
+                          storeId: state.selectedStore?.storeId,
+                          fromDate: '',
+                          toDate: '',
+                          purchaseType: purchase?.id,
                         );
                       },
                     );

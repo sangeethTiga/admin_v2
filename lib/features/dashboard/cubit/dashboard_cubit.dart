@@ -91,16 +91,15 @@ class DashboardCubit extends Cubit<DashboardState> {
       );
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.loading));
-    final userAssign=await AuthUtils.instance.readUserData();
+    final userAssign = await AuthUtils.instance.readUserData();
 
     final res = await _dashboardRepositories.loadRevenueGraph(
-      dateRangeId: state.selectMonth?.id.toString()??" ",
-      roleId:userAssign?.user?.userRoleId??1,
+      dateRangeId: state.selectMonth?.id.toString() ?? " ",
+      roleId: userAssign?.user?.userRoleId ?? 1,
       storeArray: state.selectedStore!.storeId.toString(),
 
-      userId: userAssign?.user?.companyUsersId??0,
+      userId: userAssign?.user?.companyUsersId ?? 0,
     );
-   
 
     if (res.data != null) {
       final List<RevenueResponse> fetchedList = res.data!;
@@ -108,8 +107,6 @@ class DashboardCubit extends Cubit<DashboardState> {
       final List<RevenueResponse> newList = isLoadMore
           ? <RevenueResponse>[...?state.revenueReport, ...fetchedList]
           : fetchedList;
-
-       
 
       emit(
         state.copyWith(
@@ -132,12 +129,12 @@ class DashboardCubit extends Cubit<DashboardState> {
     //   );
     // }
     emit(state.copyWith(isOrdersReport: ApiFetchStatus.loading));
-    final userAssign=await AuthUtils.instance.readUserData();
+    final userAssign = await AuthUtils.instance.readUserData();
     final res = await _dashboardRepositories.ordersGraph(
       dateRangeId: state.selectMonth?.id.toString() ?? '',
-      roleId: userAssign?.user?.userRoleId??1,
+      roleId: userAssign?.user?.userRoleId ?? 1,
       storeArray: state.selectedStore?.storeId ?? 0,
-      userId: userAssign?.user?.companyUsersId??0,
+      userId: userAssign?.user?.companyUsersId ?? 0,
     );
     if (res.data != null) {
       // final List<OrdersGraphResponse> fetchedList = res.data!;
@@ -302,7 +299,8 @@ class DashboardCubit extends Cubit<DashboardState> {
       ),
     );
   }
-    Future<void> orderOption(int? storeId, int? appTypeId) async {
+
+  Future<void> orderOption(int? storeId, int? appTypeId) async {
     try {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.orderOption(
@@ -325,7 +323,6 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   Future<void> selectedOption(OptionResponse options) async {
-    emit(state.copyWith(selectedOption: options,),
-    );
+    emit(state.copyWith(selectedOption: options));
   }
 }

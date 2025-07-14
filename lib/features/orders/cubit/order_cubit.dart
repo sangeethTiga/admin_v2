@@ -18,11 +18,21 @@ class OrderCubit extends Cubit<OrderState> {
   final OrderRepositories _orderRepositories;
   OrderCubit(this._orderRepositories) : super(InitialOrderState());
 
-  Future<void> orders({OrderRequest? req, bool? fromSerach}) async {
+  Future<void> orders({
+    OrderRequest? req,
+    bool? fromSerach,
+    bool? isEdit,
+    int? orderId,
+  }) async {
     try {
       emit(state.copyWith(isLoading: ApiFetchStatus.loading));
 
-      final res = await _orderRepositories.orders(req: req ?? OrderRequest());
+      final res = await _orderRepositories.orders(
+        req: req ?? OrderRequest(),
+        isEdit: isEdit ?? false,
+        orderId: orderId,
+      );
+
       if (res.data != null) {
         emit(
           state.copyWith(
@@ -152,16 +162,18 @@ class OrderCubit extends Cubit<OrderState> {
     emit(state.copyWith(selectedStatusIndex: index));
   }
 
-  void applySelectedStatus({int? storeId}) {
+  void applySelectedStatus({int? storeId, int? orderId}) {
     if (state.selectedStatusIndex != null && state.statusList != null) {
       final selectedStatus = state.statusList![state.selectedStatusIndex!];
 
       orders(
+        orderId: orderId,
+        isEdit: true,
         req: OrderRequest(
           orderStatusId: [selectedStatus.orderStatusId ?? 0],
           version: "v2",
-          fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-          toDate: parsedDate(state.toDate ?? DateTime.now()),
+          // fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+          // toDate: parsedDate(state.toDate ?? DateTime.now()),
           storeId: storeId,
         ),
       );
