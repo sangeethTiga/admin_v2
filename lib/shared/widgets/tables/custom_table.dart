@@ -132,7 +132,7 @@ class CommonTableWidget extends StatelessWidget {
       flex: flex,
       child: Text(
         title,
-        style: FontPalette.hW700S14.copyWith(color: Color(0XFF5E6566)),
+        style: FontPalette.hW700S11.copyWith(color: Color(0XFF5E6566)),
         textAlign: TextAlign.center,
         maxLines: 2,
       ),
@@ -146,7 +146,7 @@ class CommonTableWidget extends StatelessWidget {
           ? value
           : Text(
               value.toString(),
-              style: FontPalette.hW400S13.copyWith(color: kBlack),
+              style: FontPalette.hW500S13.copyWith(color: kBlack),
               textAlign: TextAlign.center,
             ),
     );

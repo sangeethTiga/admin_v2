@@ -27,6 +27,7 @@ class CustomersReportScreen extends StatelessWidget {
           dividerWidget(height: 6.h),
 
           MainPadding(
+            top: 0.h,
             child: Column(
               children: [
                 BlocBuilder<DashboardCubit, DashboardState>(
@@ -70,8 +71,7 @@ class CustomersReportScreen extends StatelessWidget {
                   },
                 ),
 
-                12.verticalSpace,
-
+                // 12.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(

@@ -96,11 +96,11 @@ class _ProductScreenState extends State<ProductScreen> {
                 children: [
                   dividerWidget(height: 6.h),
                   MainPadding(
+                    top: 0.h,
                     child: Column(
                       children: [
                         _buildStoreDropdown(),
                         _buildCategoryAndProductDropdowns(state),
-                        3.verticalSpace,
                         _buildSearchField(),
                         12.verticalSpace,
                         _buildProductsHeader(state),

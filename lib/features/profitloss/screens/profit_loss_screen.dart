@@ -27,10 +27,10 @@ class ProfitLossScreen extends StatelessWidget {
         child: Column(
           children: [
             dividerWidget(height: 6.h),
-            14.verticalSpace,
             MainPadding(
+              top: 0.h,
               child: Column(
-                spacing: 12.h,
+                spacing: 6.h,
                 children: [
                   BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, state) {
