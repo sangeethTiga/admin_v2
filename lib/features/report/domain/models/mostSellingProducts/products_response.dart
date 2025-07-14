@@ -1,3 +1,4 @@
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 
@@ -28,8 +29,8 @@ class ProductsResponse with _$ProductsResponse {
         int? rowcount,
         @JsonKey(name: "profit")
         String? profit,
-        @JsonKey(name: "profit_percentage")
-        String? profitPercentage,
+        @JsonKey(name: "profit_percentage",fromJson: parseInt)
+        int? profitPercentage,
         @JsonKey(name: "grand_total")
         String? grandTotal,
     }) = _ProductsResponse;

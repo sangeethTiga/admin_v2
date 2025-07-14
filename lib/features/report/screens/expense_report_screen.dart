@@ -182,20 +182,20 @@ class ExpenseReportScreen extends StatelessWidget {
                           isLoading:
                               state.isSaleReport == ApiFetchStatus.loading,
                           headers: [
-                            "#",
+                            // "#",
                             "INVOICE NO",
                             "TRANSACTION DATE",
                             "DESCRIPTION",
                             "ACCOUNT NAME",
                             "AMOUNT",
                           ],
-                          columnFlex: [1, 3, 5, 5, 4, 3],
+                          columnFlex: [3, 5, 5, 4, 3],
                           data:
                               state.expenseReport?.map((e) {
                                 int index =
                                     state.expenseReport?.indexOf(e) ?? 0;
                                 return {
-                                  '#': index + 1,
+                                  // '#': index + 1,
                                   'INVOICE NO': e.invoiceNumber ?? '',
                                   'TRANSACTION DATE': e.acTransactionDate ?? '',
                                   'DESCRIPTION': e.description ?? '',

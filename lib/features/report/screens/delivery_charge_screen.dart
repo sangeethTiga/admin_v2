@@ -33,117 +33,6 @@ class DeliveryChargeScreen extends StatelessWidget {
                 _handleDate(),
                 _viewResults(),
                 _buildCommonTable(),
-                //       BlocBuilder<DashboardCubit, DashboardState>(
-                //         builder: (context, state) {
-                //           return DropDownFieldWidget(
-                //             isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                //             prefixIcon: Container(
-                //               margin: EdgeInsets.only(left: 12.w),
-                //               child: SvgPicture.asset(
-                //                 'assets/icons/package-box-pin-location.svg',
-                //                 width: 20.w,
-                //                 height: 20.h,
-                //                 fit: BoxFit.contain,
-                //               ),
-                //             ),
-                //             borderColor: kBlack,
-                //             value: state.selectedStore,
-                //             items:
-                //                 state.storeList?.map((e) {
-                //                   return DropdownMenuItem<StoreResponse>(
-                //                     value: e,
-                //                     child: Text(e.storeName ?? ''),
-                //                   );
-                //                 }).toList() ??
-                //                 [],
-                //             fillColor: const Color(0XFFEFF1F1),
-
-                //             onChanged: (p0) {
-                //               context.read<DashboardCubit>().selectedStore(p0);
-                //             },
-                //             labelText: '',
-                //           );
-                //         },
-                //       ),
-
-                //       BlocBuilder<ReportCubit, ReportState>(
-                //         builder: (context, state) {
-                //           return Row(
-                //             children: [
-                //               Expanded(
-                //                 child: DatePickerContainer(
-                //                   hintText: '',
-                //                   firstDate: state.fromDate ?? DateTime.now(),
-                //                   changeDate: (DateTime pickDate) {
-                //                     context.read<ReportCubit>().changeFromDate(
-                //                       pickDate,
-                //                     );
-                //                   },
-                //                 ),
-                //               ),
-                //               12.horizontalSpace,
-                //               Expanded(
-                //                 child: DatePickerContainer(
-                //                   hintText: '',
-                //                   firstDate: state.toDate,
-                //                   changeDate: (DateTime pickDate) {
-                //                     context.read<ReportCubit>().changeToDate(
-                //                       pickDate,
-                //                     );
-                //                   },
-                //                 ),
-                //               ),
-                //             ],
-                //           );
-                //         },
-                //       ),
-
-                //       BlocBuilder<DashboardCubit, DashboardState>(
-                //         builder: (context, state) {
-                //           return CustomMaterialBtton(
-                //             onPressed: () {
-                //               context.read<ReportCubit>().loadDeliveryChargeReport(
-                //                 storeId: state.selectedStore?.storeId,
-                //               );
-                //             },
-                //             buttonText: 'View Results',
-                //           );
-                //         },
-                //       ),
-                //     ],
-                //   ),
-                // ),
-
-                // BlocBuilder<ReportCubit, ReportState>(
-                //   builder: (context, state) {
-                //     return Expanded(
-                //       child: CommonTableWidget(
-                //         isLoading:
-                //             state.isDeliverychargeReport == ApiFetchStatus.loading,
-                //         headers: [
-                //           "#",
-                //           "BILL NO",
-                //           "ORDER DATE",
-                //           "COUNT",
-                //           "SHIPPING CHARGE",
-                //         ],
-                //         columnFlex: [1, 2, 2, 1, 1],
-                //         data:
-                //             state.deliverychargeReport?.map((e) {
-                //               int index = state.deliverychargeReport?.indexOf(e) ?? 0;
-                //               return {
-                //                 "#": index + 1,
-                //                 "BILL NO": e.billNo ?? '',
-                //                 "ORDER DATE": e.orderDate ?? '',
-                //                 "COUNT": e.rawCount ?? '',
-                //                 "SHIPPING CHARGE": e.shippingCharge ?? '',
-                //               };
-                //             }).toList() ??
-                //             [],
-                //       ),
-                //     );
-                //   },
-                // ),
               ],
             ),
           ),
@@ -249,7 +138,7 @@ class DeliveryChargeScreen extends StatelessWidget {
           child: CommonTableWidget(
             isLoading: state.isDeliverychargeReport == ApiFetchStatus.loading,
             headers: ["#", "BILL NO", "ORDER DATE", "COUNT", "SHIPPING CHARGE"],
-            columnFlex: [0, 3, 3, 2, 2],
+            columnFlex: [0, 3, 3, 2, 3],
             data:
                 state.deliverychargeReport?.map((e) {
                   int index = state.deliverychargeReport?.indexOf(e) ?? 0;
@@ -258,7 +147,12 @@ class DeliveryChargeScreen extends StatelessWidget {
                     "BILL NO": e.billNo ?? '',
                     "ORDER DATE": e.orderDate ?? '',
                     "COUNT": e.rawCount ?? '',
-                    "SHIPPING CHARGE": e.shippingCharge ?? '',
+                    "SHIPPING CHARGE": e.shippingCharge != null
+                        ? double.tryParse(
+                                e.shippingCharge!,
+                              )?.toStringAsFixed(2) ??
+                              ''
+                        : '',
                   };
                 }).toList() ??
                 [],

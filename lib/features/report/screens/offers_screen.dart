@@ -51,10 +51,10 @@ class ProductOffer extends StatelessWidget {
                     fillColor: const Color(0XFFEFF1F1),
 
                     onChanged: (p0) {
-                      context.read<ReportCubit>().loadOffers(
-                        storeId: state.selectedStore?.storeId,
-                      );
                       context.read<DashboardCubit>().selectedStore(p0);
+                      context.read<ReportCubit>().loadOffers(
+                        storeId: p0?.storeId,
+                      );
                     },
                     labelText: '',
                     textStyle: TextStyle(

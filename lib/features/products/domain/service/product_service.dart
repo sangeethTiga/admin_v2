@@ -110,7 +110,7 @@ class ProductService implements ProductRepositories {
     int? mainCategoryId,
   ) async {
     final networkProvider = await NetworkProvider.create();
-    final res = await networkProvider.put(
+    final res = await networkProvider.post(
       ApiEndpoints.updateProduct(productId!),
       data: request?.toJson(),
     );

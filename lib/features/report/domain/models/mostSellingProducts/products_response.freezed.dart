@@ -41,8 +41,8 @@ mixin _$ProductsResponse {
   int? get rowcount => throw _privateConstructorUsedError;
   @JsonKey(name: "profit")
   String? get profit => throw _privateConstructorUsedError;
-  @JsonKey(name: "profit_percentage")
-  String? get profitPercentage => throw _privateConstructorUsedError;
+  @JsonKey(name: "profit_percentage", fromJson: parseInt)
+  int? get profitPercentage => throw _privateConstructorUsedError;
   @JsonKey(name: "grand_total")
   String? get grandTotal => throw _privateConstructorUsedError;
 
@@ -74,7 +74,8 @@ abstract class $ProductsResponseCopyWith<$Res> {
     @JsonKey(name: "total_cost_price") String? totalCostPrice,
     @JsonKey(name: "rowcount") int? rowcount,
     @JsonKey(name: "profit") String? profit,
-    @JsonKey(name: "profit_percentage") String? profitPercentage,
+    @JsonKey(name: "profit_percentage", fromJson: parseInt)
+    int? profitPercentage,
     @JsonKey(name: "grand_total") String? grandTotal,
   });
 }
@@ -152,7 +153,7 @@ class _$ProductsResponseCopyWithImpl<$Res, $Val extends ProductsResponse>
             profitPercentage: freezed == profitPercentage
                 ? _value.profitPercentage
                 : profitPercentage // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as int?,
             grandTotal: freezed == grandTotal
                 ? _value.grandTotal
                 : grandTotal // ignore: cast_nullable_to_non_nullable
@@ -183,7 +184,8 @@ abstract class _$$ProductsResponseImplCopyWith<$Res>
     @JsonKey(name: "total_cost_price") String? totalCostPrice,
     @JsonKey(name: "rowcount") int? rowcount,
     @JsonKey(name: "profit") String? profit,
-    @JsonKey(name: "profit_percentage") String? profitPercentage,
+    @JsonKey(name: "profit_percentage", fromJson: parseInt)
+    int? profitPercentage,
     @JsonKey(name: "grand_total") String? grandTotal,
   });
 }
@@ -260,7 +262,7 @@ class __$$ProductsResponseImplCopyWithImpl<$Res>
         profitPercentage: freezed == profitPercentage
             ? _value.profitPercentage
             : profitPercentage // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as int?,
         grandTotal: freezed == grandTotal
             ? _value.grandTotal
             : grandTotal // ignore: cast_nullable_to_non_nullable
@@ -284,7 +286,8 @@ class _$ProductsResponseImpl implements _ProductsResponse {
     @JsonKey(name: "total_cost_price") this.totalCostPrice,
     @JsonKey(name: "rowcount") this.rowcount,
     @JsonKey(name: "profit") this.profit,
-    @JsonKey(name: "profit_percentage") this.profitPercentage,
+    @JsonKey(name: "profit_percentage", fromJson: parseInt)
+    this.profitPercentage,
     @JsonKey(name: "grand_total") this.grandTotal,
   });
 
@@ -322,8 +325,8 @@ class _$ProductsResponseImpl implements _ProductsResponse {
   @JsonKey(name: "profit")
   final String? profit;
   @override
-  @JsonKey(name: "profit_percentage")
-  final String? profitPercentage;
+  @JsonKey(name: "profit_percentage", fromJson: parseInt)
+  final int? profitPercentage;
   @override
   @JsonKey(name: "grand_total")
   final String? grandTotal;
@@ -410,7 +413,8 @@ abstract class _ProductsResponse implements ProductsResponse {
     @JsonKey(name: "total_cost_price") final String? totalCostPrice,
     @JsonKey(name: "rowcount") final int? rowcount,
     @JsonKey(name: "profit") final String? profit,
-    @JsonKey(name: "profit_percentage") final String? profitPercentage,
+    @JsonKey(name: "profit_percentage", fromJson: parseInt)
+    final int? profitPercentage,
     @JsonKey(name: "grand_total") final String? grandTotal,
   }) = _$ProductsResponseImpl;
 
@@ -448,8 +452,8 @@ abstract class _ProductsResponse implements ProductsResponse {
   @JsonKey(name: "profit")
   String? get profit;
   @override
-  @JsonKey(name: "profit_percentage")
-  String? get profitPercentage;
+  @JsonKey(name: "profit_percentage", fromJson: parseInt)
+  int? get profitPercentage;
   @override
   @JsonKey(name: "grand_total")
   String? get grandTotal;
