@@ -60,17 +60,21 @@ class _OrderScreenState extends State<OrderScreen> {
                   key: ValueKey('search field'),
                   controller: searchController,
                   autofocus: true,
-                  decoration: InputDecoration(hintText: 'Search,Order No/Bill No/Customer/Phone/Delivery Partner'),
-                  onChanged: (v){
+                  decoration: InputDecoration(
+                    hintText:
+                        'Search,Order No/Bill No/Customer/Phone/Delivery Partner',
+                  ),
+                  onChanged: (v) {
                     context.read<OrderCubit>().orders(
-      req: OrderRequest(
-        storeId: context.read<DashboardCubit>().state.selectedStore?.storeId,
-        orderNumber: v
-       
-        
-      ),
-    );
-
+                      req: OrderRequest(
+                        storeId: context
+                            .read<DashboardCubit>()
+                            .state
+                            .selectedStore
+                            ?.storeId,
+                        orderNumber: v,
+                      ),
+                    );
                   },
                 )
               : Text(
@@ -902,46 +906,73 @@ Future<void> _dialogBuilder(BuildContext context) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      return BlocBuilder<OrderCubit, OrderState>(
-        builder: (context, state) {
-          return AlertDialog(
-            backgroundColor: kWhite,
-            title: const Text('Status'),
-            content: SizedBox(
-              height: 260.h,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(
-                    state.statusList?.length ?? 0,
-                    (i) => MainPadding(
-                      top: 10.h,
-                      child: Text(state.statusList?[i].orderStatusName ?? ''),
+      return BlocBuilder<DashboardCubit, DashboardState>(
+        builder: (context, dash) {
+          return BlocBuilder<OrderCubit, OrderState>(
+            builder: (context, state) {
+              return AlertDialog(
+                backgroundColor: kWhite,
+                title: const Text('Status'),
+                content: SizedBox(
+                  height: 260.h,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        state.statusList?.length ?? 0,
+                        (i) => MainPadding(
+                          top: 10.h,
+                          child: Row(
+                            children: [
+                              Transform.scale(
+                                scale: 1.2,
+                                child: Radio<int>(
+                                  value: i,
+                                  groupValue: state.selectedStatusIndex,
+                                  onChanged: (value) {
+                                    context
+                                        .read<OrderCubit>()
+                                        .selectSingleStatus(value!);
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              10.horizontalSpace,
+                              Text(state.statusList?[i].orderStatusName ?? ''),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: Theme.of(context).textTheme.labelLarge,
-                ),
-                child: const Text('Disable'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: Theme.of(context).textTheme.labelLarge,
-                ),
-                child: const Text('Enable'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
+                actions: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Submit'),
+                    onPressed: () {
+                      if (state.selectedStatusIndex != null) {
+                        context.read<OrderCubit>().applySelectedStatus(
+                          storeId: dash.selectedStore?.storeId ?? 0,
+                        );
+                      }
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
           );
         },
       );
