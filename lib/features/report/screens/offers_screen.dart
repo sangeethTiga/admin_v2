@@ -30,7 +30,7 @@ class ProductOffer extends StatelessWidget {
                     onChanged: (p0) {
                       context.read<DashboardCubit>().selectedStore(p0);
                       context.read<ReportCubit>().loadOffers(
-                        storeId: p0?.storeId,
+                        storeId: p0.storeId,
                       );
                     },
                   ),

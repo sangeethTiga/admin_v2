@@ -57,6 +57,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                 hintText: '',
                 value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
+                 
                   context.read<ReportCubit>().changeFromDate(pickDate);
                 },
               ),
@@ -65,8 +66,10 @@ class DeliveryChargeScreen extends StatelessWidget {
             Expanded(
               child: DatePickerContainer(
                 hintText: '',
+
                 value: apiFormat.format(state.toDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
+                 
                   context.read<ReportCubit>().changeToDate(pickDate);
                 },
               ),
