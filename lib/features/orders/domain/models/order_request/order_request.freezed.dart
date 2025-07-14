@@ -59,6 +59,8 @@ mixin _$OrderRequest {
   String? get toTime => throw _privateConstructorUsedError;
   @JsonKey(name: "version")
   String? get version => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_number")
+  String? get orderNumber => throw _privateConstructorUsedError;
 
   /// Serializes this OrderRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -97,6 +99,7 @@ abstract class $OrderRequestCopyWith<$Res> {
     @JsonKey(name: "from_time") String? fromTime,
     @JsonKey(name: "to_time") String? toTime,
     @JsonKey(name: "version") String? version,
+    @JsonKey(name: "order_number") String? orderNumber,
   });
 }
 
@@ -134,6 +137,7 @@ class _$OrderRequestCopyWithImpl<$Res, $Val extends OrderRequest>
     Object? fromTime = freezed,
     Object? toTime = freezed,
     Object? version = freezed,
+    Object? orderNumber = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -213,6 +217,10 @@ class _$OrderRequestCopyWithImpl<$Res, $Val extends OrderRequest>
                 ? _value.version
                 : version // ignore: cast_nullable_to_non_nullable
                       as String?,
+            orderNumber: freezed == orderNumber
+                ? _value.orderNumber
+                : orderNumber // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -248,6 +256,7 @@ abstract class _$$OrderRequestImplCopyWith<$Res>
     @JsonKey(name: "from_time") String? fromTime,
     @JsonKey(name: "to_time") String? toTime,
     @JsonKey(name: "version") String? version,
+    @JsonKey(name: "order_number") String? orderNumber,
   });
 }
 
@@ -284,6 +293,7 @@ class __$$OrderRequestImplCopyWithImpl<$Res>
     Object? fromTime = freezed,
     Object? toTime = freezed,
     Object? version = freezed,
+    Object? orderNumber = freezed,
   }) {
     return _then(
       _$OrderRequestImpl(
@@ -363,6 +373,10 @@ class __$$OrderRequestImplCopyWithImpl<$Res>
             ? _value.version
             : version // ignore: cast_nullable_to_non_nullable
                   as String?,
+        orderNumber: freezed == orderNumber
+            ? _value.orderNumber
+            : orderNumber // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -391,6 +405,7 @@ class _$OrderRequestImpl implements _OrderRequest {
     @JsonKey(name: "from_time") this.fromTime,
     @JsonKey(name: "to_time") this.toTime,
     @JsonKey(name: "version") this.version,
+    @JsonKey(name: "order_number") this.orderNumber,
   }) : _orderStatusId = orderStatusId;
 
   factory _$OrderRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -461,10 +476,13 @@ class _$OrderRequestImpl implements _OrderRequest {
   @override
   @JsonKey(name: "version")
   final String? version;
+  @override
+  @JsonKey(name: "order_number")
+  final String? orderNumber;
 
   @override
   String toString() {
-    return 'OrderRequest(fromDate: $fromDate, toDate: $toDate, storeId: $storeId, filterId: $filterId, orderStatusId: $orderStatusId, pageFirstResult: $pageFirstResult, resultPerPage: $resultPerPage, payMethodId: $payMethodId, waiterId: $waiterId, paymentStatusId: $paymentStatusId, kioskId: $kioskId, shiftId: $shiftId, deliveryPartnerId: $deliveryPartnerId, orderOptionId: $orderOptionId, cashierId: $cashierId, referenceTypeId: $referenceTypeId, fromTime: $fromTime, toTime: $toTime, version: $version)';
+    return 'OrderRequest(fromDate: $fromDate, toDate: $toDate, storeId: $storeId, filterId: $filterId, orderStatusId: $orderStatusId, pageFirstResult: $pageFirstResult, resultPerPage: $resultPerPage, payMethodId: $payMethodId, waiterId: $waiterId, paymentStatusId: $paymentStatusId, kioskId: $kioskId, shiftId: $shiftId, deliveryPartnerId: $deliveryPartnerId, orderOptionId: $orderOptionId, cashierId: $cashierId, referenceTypeId: $referenceTypeId, fromTime: $fromTime, toTime: $toTime, version: $version, orderNumber: $orderNumber)';
   }
 
   @override
@@ -504,7 +522,9 @@ class _$OrderRequestImpl implements _OrderRequest {
             (identical(other.fromTime, fromTime) ||
                 other.fromTime == fromTime) &&
             (identical(other.toTime, toTime) || other.toTime == toTime) &&
-            (identical(other.version, version) || other.version == version));
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.orderNumber, orderNumber) ||
+                other.orderNumber == orderNumber));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -530,6 +550,7 @@ class _$OrderRequestImpl implements _OrderRequest {
     fromTime,
     toTime,
     version,
+    orderNumber,
   ]);
 
   /// Create a copy of OrderRequest
@@ -567,6 +588,7 @@ abstract class _OrderRequest implements OrderRequest {
     @JsonKey(name: "from_time") final String? fromTime,
     @JsonKey(name: "to_time") final String? toTime,
     @JsonKey(name: "version") final String? version,
+    @JsonKey(name: "order_number") final String? orderNumber,
   }) = _$OrderRequestImpl;
 
   factory _OrderRequest.fromJson(Map<String, dynamic> json) =
@@ -629,6 +651,9 @@ abstract class _OrderRequest implements OrderRequest {
   @override
   @JsonKey(name: "version")
   String? get version;
+  @override
+  @JsonKey(name: "order_number")
+  String? get orderNumber;
 
   /// Create a copy of OrderRequest
   /// with the given fields replaced by the non-null parameter values.

@@ -18,9 +18,12 @@ class OrderCubit extends Cubit<OrderState> {
   final OrderRepositories _orderRepositories;
   OrderCubit(this._orderRepositories) : super(InitialOrderState());
 
-  Future<void> orders({OrderRequest? req}) async {
+  Future<void> orders({OrderRequest? req,bool? fromSerach}) async {
     try {
       emit(state.copyWith(isLoading: ApiFetchStatus.loading));
+
+
+
       final res = await _orderRepositories.orders(req: req ?? OrderRequest());
       if (res.data != null) {
         emit(

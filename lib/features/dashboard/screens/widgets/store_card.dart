@@ -93,7 +93,6 @@ class DateDropdown extends StatelessWidget {
       ),
       onChanged: (v) {
         onDateChanged(v);
-        print('month-=-=-=-=-=${v}');
       },
     );
   }
