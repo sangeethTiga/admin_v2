@@ -132,22 +132,7 @@ class CustomersReportScreen extends StatelessWidget {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return
-                      //  NotificationListener<ScrollNotification>(
-                      //   onNotification: (ScrollNotification scrollInfo) {
-                      //     if (scrollInfo.metrics.pixels >=
-                      //             scrollInfo.metrics.maxScrollExtent - 50 &&
-                      //         state.isCustomersReport !=
-                      //             ApiFetchStatus.loading) {
-                      //       context.read<ReportCubit>().loadCustomersReport(
-                      //         page: state.currentPage + 1,
-                      //         limit: state.pageSize,
-                      //         //isLoadMore: true,
-                      //         storeId: store.selectedStore?.storeId,
-                      //       );
-                      //     }
-                      //     return false;
-                      //   },
-                      //   child:
+                 
                       CommonTableWidget(
                         isLoading:
                             state.isCustomersReport == ApiFetchStatus.loading,

@@ -105,10 +105,19 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
-  // Future<void> searchOrder( int storeId,String search)async{
-  //  try{
-
-  //  }
-
-  // }
+  Future<void> searchOrder(int storeId, String search) async {
+    try {
+      final res = await _orderRepositories.searchOrder(
+        search: search,
+        storeId: storeId,
+      );
+      if (res.data != null) {
+        emit(state.copyWith(isLoading: ApiFetchStatus.success));
+      } else {
+        emit(state.copyWith(isLoading: ApiFetchStatus.failed));
+      }
+    } catch (e, s) {
+      emit(state.copyWith(isLoading: ApiFetchStatus.failed));
+    }
+  }
 }

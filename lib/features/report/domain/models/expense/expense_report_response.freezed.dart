@@ -31,7 +31,7 @@ mixin _$ExpenseReportResponse {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "invoice_number")
   dynamic get invoiceNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   double? get amount => throw _privateConstructorUsedError;
   @JsonKey(name: "account_name")
   String? get accountName => throw _privateConstructorUsedError;
@@ -62,7 +62,7 @@ abstract class $ExpenseReportResponseCopyWith<$Res> {
     @JsonKey(name: "ac_transaction_date") String? acTransactionDate,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "invoice_number") dynamic invoiceNumber,
-    @JsonKey(name: "amount") double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
     @JsonKey(name: "raw_count") int? rawCount,
     @JsonKey(name: "totalamount") String? totalamount,
@@ -150,7 +150,7 @@ abstract class _$$ExpenseReportResponseImplCopyWith<$Res>
     @JsonKey(name: "ac_transaction_date") String? acTransactionDate,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "invoice_number") dynamic invoiceNumber,
-    @JsonKey(name: "amount") double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
     @JsonKey(name: "raw_count") int? rawCount,
     @JsonKey(name: "totalamount") String? totalamount,
@@ -228,7 +228,7 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
     @JsonKey(name: "ac_transaction_date") this.acTransactionDate,
     @JsonKey(name: "description") this.description,
     @JsonKey(name: "invoice_number") this.invoiceNumber,
-    @JsonKey(name: "amount") this.amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) this.amount,
     @JsonKey(name: "account_name") this.accountName,
     @JsonKey(name: "raw_count") this.rawCount,
     @JsonKey(name: "totalamount") this.totalamount,
@@ -250,7 +250,7 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
   @JsonKey(name: "invoice_number")
   final dynamic invoiceNumber;
   @override
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   final double? amount;
   @override
   @JsonKey(name: "account_name")
@@ -329,7 +329,7 @@ abstract class _ExpenseReportResponse implements ExpenseReportResponse {
     @JsonKey(name: "ac_transaction_date") final String? acTransactionDate,
     @JsonKey(name: "description") final String? description,
     @JsonKey(name: "invoice_number") final dynamic invoiceNumber,
-    @JsonKey(name: "amount") final double? amount,
+    @JsonKey(name: "amount", fromJson: parseDouble) final double? amount,
     @JsonKey(name: "account_name") final String? accountName,
     @JsonKey(name: "raw_count") final int? rawCount,
     @JsonKey(name: "totalamount") final String? totalamount,
@@ -351,7 +351,7 @@ abstract class _ExpenseReportResponse implements ExpenseReportResponse {
   @JsonKey(name: "invoice_number")
   dynamic get invoiceNumber;
   @override
-  @JsonKey(name: "amount")
+  @JsonKey(name: "amount", fromJson: parseDouble)
   double? get amount;
   @override
   @JsonKey(name: "account_name")
