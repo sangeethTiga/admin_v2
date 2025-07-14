@@ -215,6 +215,11 @@ class _DrawerContent extends StatelessWidget {
               storeId: selectedStore?.storeId,
             );
             context.push(routeProductOffers);
+
+            // context.read<ReportCubit>().loadProductOffers(
+            //   storeId: selectedStore?.storeId,
+            // );
+            // context.push(routeProductOffers);
           },
         ),
         _buildDrawerItem(

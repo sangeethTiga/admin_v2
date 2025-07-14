@@ -1052,7 +1052,7 @@ class ReportCubit extends Cubit<ReportState> {
     final res = await _reportRepositories.loadSuppliers(
       storeId: storeId ?? 0,
       admin: admin ?? 0,
-      query: '',
+      query: query ?? '',
     );
 
     log('Response data: ${res.data}');
@@ -1076,7 +1076,7 @@ class ReportCubit extends Cubit<ReportState> {
       emit(
         state.copyWith(
           suppliersReport: newList,
-          filteredProduct: res.data,
+          filteredProduct: newList,
           isSupplierReport: ApiFetchStatus.success,
         ),
       );
@@ -1232,7 +1232,7 @@ class ReportCubit extends Cubit<ReportState> {
     emit(
       state.copyWith(
         selectedProductName: product,
-        selectedProductPrice: product,
+    
       ),
     );
   }

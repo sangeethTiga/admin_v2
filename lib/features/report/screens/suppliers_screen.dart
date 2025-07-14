@@ -7,6 +7,7 @@ import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
+import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,7 +63,7 @@ class SuppliersReportScreen extends StatelessWidget {
                     columnFlex: [1, 2, 3, 3, 3],
 
                     data:
-                        state.suppliersReport?.map((e) {
+                        (state.filteredProduct)?.map((e) {
                           int index = state.suppliersReport?.indexOf(e) ?? 0;
                           return {
                             '#': index + 1,
