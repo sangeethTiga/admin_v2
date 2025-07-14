@@ -446,12 +446,10 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> loadParcelCharge({
-   
-   
     int page = 0,
     int limit = 20,
-     String? fromDate,
-      
+    String? fromDate,
+
     String? toDate,
     int? storeId,
     int? orderOptionId,
@@ -471,8 +469,7 @@ class ReportCubit extends Cubit<ReportState> {
     final res = await _reportRepositories.loadParcelReport(
       pageFirstLimit: offset,
       resultPerPage: limit,
-      
-      
+
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       storeId: storeId ?? 0,
@@ -1055,7 +1052,7 @@ class ReportCubit extends Cubit<ReportState> {
     final res = await _reportRepositories.loadSuppliers(
       storeId: storeId ?? 0,
       admin: admin ?? 0,
-      query: '',
+      query: query ?? '',
     );
 
     log('Response data: ${res.data}');
@@ -1079,7 +1076,7 @@ class ReportCubit extends Cubit<ReportState> {
       emit(
         state.copyWith(
           suppliersReport: newList,
-          filteredProduct: res.data,
+          filteredProduct: newList,
           isSupplierReport: ApiFetchStatus.success,
         ),
       );
@@ -1235,7 +1232,7 @@ class ReportCubit extends Cubit<ReportState> {
     emit(
       state.copyWith(
         selectedProductName: product,
-        selectedProductPrice: product,
+    
       ),
     );
   }
@@ -1248,6 +1245,9 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedStore: store));
   }
 
+  void initState() {
+    emit(state.copyWith(fromDate: DateTime.now(), toDate: DateTime.now()));
+  }
 
   // Future<void> clearSelectedCategory() async {
   //   emit(state.copyWith(selectCategory: null));

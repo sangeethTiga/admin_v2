@@ -23,10 +23,10 @@ RevenueResponse _$RevenueResponseFromJson(Map<String, dynamic> json) {
 mixin _$RevenueResponse {
   @JsonKey(name: "monthname")
   String? get monthname => throw _privateConstructorUsedError;
-  @JsonKey(name: "income", fromJson: parseInt)
-  int? get income => throw _privateConstructorUsedError;
-  @JsonKey(name: "expense", fromJson: parseInt)
-  int? get expense => throw _privateConstructorUsedError;
+  @JsonKey(name: "income", fromJson: parseNumberAsDouble)
+  double? get income => throw _privateConstructorUsedError;
+  @JsonKey(name: "expense", fromJson: parseNumberAsDouble)
+  double? get expense => throw _privateConstructorUsedError;
 
   /// Serializes this RevenueResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,8 +47,8 @@ abstract class $RevenueResponseCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "monthname") String? monthname,
-    @JsonKey(name: "income", fromJson: parseInt) int? income,
-    @JsonKey(name: "expense", fromJson: parseInt) int? expense,
+    @JsonKey(name: "income", fromJson: parseNumberAsDouble) double? income,
+    @JsonKey(name: "expense", fromJson: parseNumberAsDouble) double? expense,
   });
 }
 
@@ -80,11 +80,11 @@ class _$RevenueResponseCopyWithImpl<$Res, $Val extends RevenueResponse>
             income: freezed == income
                 ? _value.income
                 : income // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             expense: freezed == expense
                 ? _value.expense
                 : expense // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -102,8 +102,8 @@ abstract class _$$RevenueResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: "monthname") String? monthname,
-    @JsonKey(name: "income", fromJson: parseInt) int? income,
-    @JsonKey(name: "expense", fromJson: parseInt) int? expense,
+    @JsonKey(name: "income", fromJson: parseNumberAsDouble) double? income,
+    @JsonKey(name: "expense", fromJson: parseNumberAsDouble) double? expense,
   });
 }
 
@@ -134,11 +134,11 @@ class __$$RevenueResponseImplCopyWithImpl<$Res>
         income: freezed == income
             ? _value.income
             : income // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         expense: freezed == expense
             ? _value.expense
             : expense // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -149,8 +149,8 @@ class __$$RevenueResponseImplCopyWithImpl<$Res>
 class _$RevenueResponseImpl implements _RevenueResponse {
   const _$RevenueResponseImpl({
     @JsonKey(name: "monthname") this.monthname,
-    @JsonKey(name: "income", fromJson: parseInt) this.income,
-    @JsonKey(name: "expense", fromJson: parseInt) this.expense,
+    @JsonKey(name: "income", fromJson: parseNumberAsDouble) this.income,
+    @JsonKey(name: "expense", fromJson: parseNumberAsDouble) this.expense,
   });
 
   factory _$RevenueResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -160,11 +160,11 @@ class _$RevenueResponseImpl implements _RevenueResponse {
   @JsonKey(name: "monthname")
   final String? monthname;
   @override
-  @JsonKey(name: "income", fromJson: parseInt)
-  final int? income;
+  @JsonKey(name: "income", fromJson: parseNumberAsDouble)
+  final double? income;
   @override
-  @JsonKey(name: "expense", fromJson: parseInt)
-  final int? expense;
+  @JsonKey(name: "expense", fromJson: parseNumberAsDouble)
+  final double? expense;
 
   @override
   String toString() {
@@ -206,8 +206,10 @@ class _$RevenueResponseImpl implements _RevenueResponse {
 abstract class _RevenueResponse implements RevenueResponse {
   const factory _RevenueResponse({
     @JsonKey(name: "monthname") final String? monthname,
-    @JsonKey(name: "income", fromJson: parseInt) final int? income,
-    @JsonKey(name: "expense", fromJson: parseInt) final int? expense,
+    @JsonKey(name: "income", fromJson: parseNumberAsDouble)
+    final double? income,
+    @JsonKey(name: "expense", fromJson: parseNumberAsDouble)
+    final double? expense,
   }) = _$RevenueResponseImpl;
 
   factory _RevenueResponse.fromJson(Map<String, dynamic> json) =
@@ -217,11 +219,11 @@ abstract class _RevenueResponse implements RevenueResponse {
   @JsonKey(name: "monthname")
   String? get monthname;
   @override
-  @JsonKey(name: "income", fromJson: parseInt)
-  int? get income;
+  @JsonKey(name: "income", fromJson: parseNumberAsDouble)
+  double? get income;
   @override
-  @JsonKey(name: "expense", fromJson: parseInt)
-  int? get expense;
+  @JsonKey(name: "expense", fromJson: parseNumberAsDouble)
+  double? get expense;
 
   /// Create a copy of RevenueResponse
   /// with the given fields replaced by the non-null parameter values.

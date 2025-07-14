@@ -10,8 +10,8 @@ _$RevenueResponseImpl _$$RevenueResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$RevenueResponseImpl(
   monthname: json['monthname'] as String?,
-  income: parseInt(json['income']),
-  expense: parseInt(json['expense']),
+  income: parseNumberAsDouble(json['income']),
+  expense: parseNumberAsDouble(json['expense']),
 );
 
 Map<String, dynamic> _$$RevenueResponseImplToJson(

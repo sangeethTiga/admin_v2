@@ -54,6 +54,7 @@ class DashboardScreenState extends State<DashboardScreen>
   void _preloadDashboardData() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dashboardCubit = context.read<DashboardCubit>();
+
       if (dashboardCubit.state.selectedStore != null) {
         _loadGraphData();
       }
@@ -85,7 +86,7 @@ class DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildBody() {
     return MainPadding(
-      top: 16.h,
+      top: 10.h,
       child: BlocBuilder<DashboardCubit, DashboardState>(
         buildWhen: (previous, current) =>
             previous.selectedStore != current.selectedStore ||
@@ -117,19 +118,22 @@ class DashboardScreenState extends State<DashboardScreen>
                         width: 120.w,
                         child: DateDropdown(
                           selectedDate: state.selectDate,
-                          onDateChanged: _onDateChanged,
+                          onDateChanged: (v){
+                          
+                            _onDateChanged(v);
+                          },
                         ),
                       ),
                     ],
                   ),
-                  20.verticalSpace,
+                  // 5.verticalSpace,
                   _buildDashboardGrid(state),
                   20.verticalSpace,
                   if (state.revenueReport?.isNotEmpty ?? false)
-                    const RevenueGraph(),
+                     RevenueGraph(),
                   20.verticalSpace,
                   if (state.ordersReport?.isNotEmpty ?? false)
-                    const OrdersGraph(),
+                     OrdersGraph(),
                 ],
               ),
             ),
@@ -147,8 +151,8 @@ class DashboardScreenState extends State<DashboardScreen>
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 10.h,
+        crossAxisSpacing: 8.w,
+        mainAxisSpacing: 8.h,
         childAspectRatio: 1.23,
       ),
       itemBuilder: (context, index) {
@@ -163,6 +167,7 @@ class DashboardScreenState extends State<DashboardScreen>
               context,
               storeId: state.selectedStore?.storeId,
               accountId: state.selectedAccount?.accountHeadId,
+              
             );
           },
         );
@@ -186,8 +191,11 @@ class DashboardScreenState extends State<DashboardScreen>
   }
 
   void _onDateChanged(ListOfDemo? date) {
+
+
     if (date == null) return;
     context.read<CommonCubit>().selectedDate(date);
+    context.read<DashboardCubit>().monthSelection(date);
     Future.delayed(const Duration(milliseconds: 300), _loadGraphData);
   }
 }
