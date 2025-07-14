@@ -196,10 +196,20 @@ class _DrawerContent extends StatelessWidget {
           title: Text('Product offers'),
           route: routeProductOffers,
           onTap: (context) {
-            context.read<ReportCubit>().loadProductOffers(
-              storeId: selectedStore?.storeId,
-            );
+            final storeId = context
+                .read<DashboardCubit>()
+                .state
+                .selectedStore
+                ?.storeId;
+            if (storeId != null) {
+              context.read<ReportCubit>().loadProductOffers(storeId: storeId);
+            }
             context.push(routeProductOffers);
+
+            // context.read<ReportCubit>().loadProductOffers(
+            //   storeId: selectedStore?.storeId,
+            // );
+            // context.push(routeProductOffers);
           },
         ),
         _buildDrawerItem(
@@ -317,10 +327,7 @@ class _DrawerContent extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.r),
           ),
-          title: Text(
-            'Confirm Logout',
-            style: TextStyle(fontSize: 15.sp),
-          ),
+          title: Text('Confirm Logout', style: TextStyle(fontSize: 15.sp)),
           content: Text(
             'Are you sure you want to sign out?',
             style: TextStyle(fontSize: 13.sp),

@@ -37,12 +37,22 @@ class ProductOffersScreen extends StatelessWidget {
             ),
             backgroundColor: kPrimaryColor,
             onPressed: () async {
-              context.read<ReportCubit>().loadSpecialOffer(
-                storeId: state.selectedType?.storeId,
-              );
-              context.read<ReportCubit>().loadProductName(
-                storeId: state.selectedProductName?.storeId,
-              );
+              final storeId = context
+                  .read<DashboardCubit>()
+                  .state
+                  .selectedStore
+                  ?.storeId;
+              if (storeId != null) {
+                context.read<ReportCubit>().loadSpecialOffer(storeId: storeId);
+                context.read<ReportCubit>().loadProductName(storeId: storeId);
+              }
+
+              // context.read<ReportCubit>().loadSpecialOffer(
+              //   storeId: state.selectedType?.storeId,
+              // );
+              // context.read<ReportCubit>().loadProductName(
+              //   storeId: state.selectedProductName?.storeId,
+              // );
               await showModalBottomSheet<bool>(
                 context: context,
                 isScrollControlled: true,
@@ -101,7 +111,7 @@ class ProductOffersScreen extends StatelessWidget {
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
                           context.read<ReportCubit>().loadProductOffers(
-                            storeId: state.selectedStore?.storeId,
+                            storeId: p0?.storeId,
                           );
                         },
 
@@ -159,6 +169,9 @@ class ProductOffersScreen extends StatelessWidget {
                               ) ??
                               false;
                         }).toList();
+                        offers.emit(
+                          offers.state.copyWith(filteredProducts: filtered),
+                        );
                       }
                     },
                     borderColor: kBlack,

@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
@@ -7,7 +8,7 @@ import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.da
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart'
-hide DeliveryPartner;
+    hide DeliveryPartner;
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
@@ -1047,7 +1048,7 @@ class ReportCubit extends Cubit<ReportState> {
     final res = await _reportRepositories.loadSuppliers(
       storeId: storeId ?? 0,
       admin: admin ?? 0,
-      query: '',
+      query: query ?? '',
     );
 
     log('Response data: ${res.data}');
@@ -1071,7 +1072,7 @@ class ReportCubit extends Cubit<ReportState> {
       emit(
         state.copyWith(
           suppliersReport: newList,
-          filteredProduct: res.data,
+          filteredProduct: newList,
           isSupplierReport: ApiFetchStatus.success,
         ),
       );
@@ -1227,7 +1228,7 @@ class ReportCubit extends Cubit<ReportState> {
     emit(
       state.copyWith(
         selectedProductName: product,
-        selectedProductPrice: product,
+    
       ),
     );
   }
