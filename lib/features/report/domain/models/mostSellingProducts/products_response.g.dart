@@ -19,7 +19,7 @@ _$ProductsResponseImpl _$$ProductsResponseImplFromJson(
   totalCostPrice: json['total_cost_price'] as String?,
   rowcount: (json['rowcount'] as num?)?.toInt(),
   profit: json['profit'] as String?,
-  profitPercentage: json['profit_percentage'] as String?,
+  profitPercentage: parseInt(json['profit_percentage']),
   grandTotal: json['grand_total'] as String?,
 );
 

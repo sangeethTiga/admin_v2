@@ -96,11 +96,11 @@ class _ProductScreenState extends State<ProductScreen> {
                 children: [
                   dividerWidget(height: 6.h),
                   MainPadding(
+                    top: 0.h,
                     child: Column(
                       children: [
                         _buildStoreDropdown(),
                         _buildCategoryAndProductDropdowns(state),
-                        3.verticalSpace,
                         _buildSearchField(),
                         12.verticalSpace,
                         _buildProductsHeader(state),
@@ -181,6 +181,7 @@ class _ProductScreenState extends State<ProductScreen> {
           //     true
           // ? state.selectProduct
           // : null,
+          //contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
           items: products.map((Product value) {
             return DropdownMenuItem<Product>(
               value: value,
@@ -193,15 +194,22 @@ class _ProductScreenState extends State<ProductScreen> {
             borderRadius: BorderRadius.circular(8.r),
             borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
           ),
+          isDense: true,
           onChanged: (product) {
             _handleProductTypeChange(product, state, common);
           },
-          // suffixWidget: SvgPicture.asset(
-          //   'assets/icons/down -arrow.svg.svg',
-          //   width: 20.w,
-          //   height: 20.h,
-          //   fit: BoxFit.contain,
-          // ),
+
+          suffixWidget: SizedBox(
+            height: 12.h,
+            width: 12.w,
+            child: SvgPicture.asset(
+              'assets/icons/down -arrow.svg',
+              width: 9.33.w,
+              height: 5.h,
+              fit: BoxFit.contain,
+              color: Colors.black,
+            ),
+          ),
         );
       },
     );
@@ -233,12 +241,17 @@ class _ProductScreenState extends State<ProductScreen> {
               }).toList() ??
               [],
           fillColor: Colors.white,
-          // suffixWidget: SvgPicture.asset(
-          //   'assets/icons/down -arrow.svg.svg',
-          //   width: 20.w,
-          //   height: 20.h,
-          //   fit: BoxFit.contain,
-          // ),
+          suffixWidget: SizedBox(
+            height: 12.h,
+            width: 12.w,
+            child: SvgPicture.asset(
+              'assets/icons/down -arrow.svg',
+              width: 9.33.w,
+              height: 5.h,
+              fit: BoxFit.contain,
+              color: Colors.black,
+            ),
+          ),
           onChanged: (categoryId) =>
               _handleCategoryChange(categoryId, state, common),
           inputBorder: OutlineInputBorder(

@@ -13,10 +13,10 @@ _$ExpenseReportResponseImpl _$$ExpenseReportResponseImplFromJson(
   acTransactionDate: json['ac_transaction_date'] as String?,
   description: json['description'] as String?,
   invoiceNumber: json['invoice_number'],
-  amount: (json['amount'] as num?)?.toDouble(),
+  amount: parseNumberAsDouble(json['amount']),
   accountName: json['account_name'] as String?,
   rawCount: (json['raw_count'] as num?)?.toInt(),
-  totalamount: json['totalamount'] as String?,
+  totalamount: parseNumberAsDouble(json['totalamount']),
 );
 
 Map<String, dynamic> _$$ExpenseReportResponseImplToJson(

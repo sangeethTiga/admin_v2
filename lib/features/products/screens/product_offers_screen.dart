@@ -37,12 +37,22 @@ class ProductOffersScreen extends StatelessWidget {
             ),
             backgroundColor: kPrimaryColor,
             onPressed: () async {
-              context.read<ReportCubit>().loadSpecialOffer(
-                storeId: state.selectedType?.storeId,
-              );
-              context.read<ReportCubit>().loadProductName(
-                storeId: state.selectedProductName?.storeId,
-              );
+              final storeId = context
+                  .read<DashboardCubit>()
+                  .state
+                  .selectedStore
+                  ?.storeId;
+              if (storeId != null) {
+                context.read<ReportCubit>().loadSpecialOffer(storeId: storeId);
+                context.read<ReportCubit>().loadProductName(storeId: storeId);
+              }
+
+              // context.read<ReportCubit>().loadSpecialOffer(
+              //   storeId: state.selectedType?.storeId,
+              // );
+              // context.read<ReportCubit>().loadProductName(
+              //   storeId: state.selectedProductName?.storeId,
+              // );
               await showModalBottomSheet<bool>(
                 context: context,
                 isScrollControlled: true,
@@ -68,7 +78,6 @@ class ProductOffersScreen extends StatelessWidget {
         child: Column(
           children: [
             dividerWidget(height: 6.h),
-            16.verticalSpace,
             MainPadding(
               child: Column(
                 children: [
@@ -101,7 +110,7 @@ class ProductOffersScreen extends StatelessWidget {
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
                           context.read<ReportCubit>().loadProductOffers(
-                            storeId: state.selectedStore?.storeId,
+                            storeId: p0?.storeId,
                           );
                         },
 
@@ -109,7 +118,7 @@ class ProductOffersScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  14.verticalSpace,
+                  8.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return Row(
@@ -159,6 +168,9 @@ class ProductOffersScreen extends StatelessWidget {
                               ) ??
                               false;
                         }).toList();
+                        offers.emit(
+                          offers.state.copyWith(filteredProducts: filtered),
+                        );
                       }
                     },
                     borderColor: kBlack,
