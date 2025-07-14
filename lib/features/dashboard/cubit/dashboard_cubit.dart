@@ -131,7 +131,7 @@ class DashboardCubit extends Cubit<DashboardState> {
       storeArray: state.selectedStore?.storeId ?? 0,
       userId: 1,
     );
-    if (res.data != null) {
+    if (res.data != null) {             
       // final List<OrdersGraphResponse> fetchedList = res.data!;
 
       // final List<OrdersGraphResponse> newList = isLoadMore

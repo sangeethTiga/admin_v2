@@ -33,7 +33,7 @@ mixin _$ProductNameResponse {
   String? get oldProductPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "prod_var_id")
   int? get prodVarId => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_var_code")
+  @JsonKey(name: "prod_var_code", fromJson: parseInt)
   int? get prodVarCode => throw _privateConstructorUsedError;
   @JsonKey(name: "product_desc")
   String? get productDesc => throw _privateConstructorUsedError;
@@ -140,7 +140,7 @@ abstract class $ProductNameResponseCopyWith<$Res> {
     @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "old_product_price") String? oldProductPrice,
     @JsonKey(name: "prod_var_id") int? prodVarId,
-    @JsonKey(name: "prod_var_code") int? prodVarCode,
+    @JsonKey(name: "prod_var_code", fromJson: parseInt) int? prodVarCode,
     @JsonKey(name: "product_desc") String? productDesc,
     @JsonKey(name: "product_arabic_desc") String? productArabicDesc,
     @JsonKey(name: "product_arabic_name") String? productArabicName,
@@ -459,7 +459,7 @@ abstract class _$$ProductNameResponseImplCopyWith<$Res>
     @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "old_product_price") String? oldProductPrice,
     @JsonKey(name: "prod_var_id") int? prodVarId,
-    @JsonKey(name: "prod_var_code") int? prodVarCode,
+    @JsonKey(name: "prod_var_code", fromJson: parseInt) int? prodVarCode,
     @JsonKey(name: "product_desc") String? productDesc,
     @JsonKey(name: "product_arabic_desc") String? productArabicDesc,
     @JsonKey(name: "product_arabic_name") String? productArabicName,
@@ -770,7 +770,7 @@ class _$ProductNameResponseImpl implements _ProductNameResponse {
     @JsonKey(name: "product_price") this.productPrice,
     @JsonKey(name: "old_product_price") this.oldProductPrice,
     @JsonKey(name: "prod_var_id") this.prodVarId,
-    @JsonKey(name: "prod_var_code") this.prodVarCode,
+    @JsonKey(name: "prod_var_code", fromJson: parseInt) this.prodVarCode,
     @JsonKey(name: "product_desc") this.productDesc,
     @JsonKey(name: "product_arabic_desc") this.productArabicDesc,
     @JsonKey(name: "product_arabic_name") this.productArabicName,
@@ -836,7 +836,7 @@ class _$ProductNameResponseImpl implements _ProductNameResponse {
   @JsonKey(name: "prod_var_id")
   final int? prodVarId;
   @override
-  @JsonKey(name: "prod_var_code")
+  @JsonKey(name: "prod_var_code", fromJson: parseInt)
   final int? prodVarCode;
   @override
   @JsonKey(name: "product_desc")
@@ -1162,7 +1162,7 @@ abstract class _ProductNameResponse implements ProductNameResponse {
     @JsonKey(name: "product_price") final double? productPrice,
     @JsonKey(name: "old_product_price") final String? oldProductPrice,
     @JsonKey(name: "prod_var_id") final int? prodVarId,
-    @JsonKey(name: "prod_var_code") final int? prodVarCode,
+    @JsonKey(name: "prod_var_code", fromJson: parseInt) final int? prodVarCode,
     @JsonKey(name: "product_desc") final String? productDesc,
     @JsonKey(name: "product_arabic_desc") final String? productArabicDesc,
     @JsonKey(name: "product_arabic_name") final String? productArabicName,
@@ -1228,7 +1228,7 @@ abstract class _ProductNameResponse implements ProductNameResponse {
   @JsonKey(name: "prod_var_id")
   int? get prodVarId;
   @override
-  @JsonKey(name: "prod_var_code")
+  @JsonKey(name: "prod_var_code", fromJson: parseInt)
   int? get prodVarCode;
   @override
   @JsonKey(name: "product_desc")

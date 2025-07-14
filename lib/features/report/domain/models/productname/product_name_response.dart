@@ -3,6 +3,7 @@
 //
 //     final productNameResponse = productNameResponseFromJson(jsonString);
 
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 
@@ -25,7 +26,7 @@ class ProductNameResponse with _$ProductNameResponse {
         String? oldProductPrice,
         @JsonKey(name: "prod_var_id")
         int? prodVarId,
-        @JsonKey(name: "prod_var_code")
+        @JsonKey(name: "prod_var_code",fromJson: parseInt) 
         int? prodVarCode,
         @JsonKey(name: "product_desc")
         String? productDesc,
