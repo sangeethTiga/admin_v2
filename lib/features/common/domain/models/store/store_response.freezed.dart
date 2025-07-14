@@ -4770,7 +4770,7 @@ class __$$DeliveryPartnerImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DeliveryPartnerImpl implements _DeliveryPartner {
-  const _$DeliveryPartnerImpl({
+  _$DeliveryPartnerImpl({
     @JsonKey(name: "store_id") this.storeId,
     @JsonKey(name: "store_del_partner_id") this.storeDelPartnerId,
     @JsonKey(name: "name") this.name,
@@ -4839,7 +4839,7 @@ class _$DeliveryPartnerImpl implements _DeliveryPartner {
 }
 
 abstract class _DeliveryPartner implements DeliveryPartner {
-  const factory _DeliveryPartner({
+  factory _DeliveryPartner({
     @JsonKey(name: "store_id") final int? storeId,
     @JsonKey(name: "store_del_partner_id") final int? storeDelPartnerId,
     @JsonKey(name: "name") final String? name,
