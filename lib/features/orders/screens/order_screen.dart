@@ -5,12 +5,14 @@ import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
+import 'package:admin_v2/features/orders/screens/widgets/order_filter.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
+import 'package:admin_v2/shared/widgets/common_widgets/common_show_dialogue/common_show_dialogue.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
@@ -262,17 +264,100 @@ class _OrderScreenState extends State<OrderScreen> {
             ),
           ),
           8.horizontalSpace,
-          Container(
-            width: 39.w,
-            height: 54.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              border: Border.all(color: kPrimaryColor),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset('assets/icons/Frame 2147226159.svg'),
-            ),
+          BlocBuilder<DashboardCubit, DashboardState>(
+            builder: (context, state) {
+              return InkWell(
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) =>
+                        const Center(child: CircularProgressIndicator()),
+                  );
+
+                  await Future.wait([
+                    context.read<DashboardCubit>().getPaymethod(),
+                    context.read<DashboardCubit>().getWaiters(),
+                    context.read<DashboardCubit>().getKiosk(),
+                    context.read<DashboardCubit>().getCashier(),
+                  ]);
+
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+
+                  final updatedState = context.read<DashboardCubit>().state;
+
+                  final filter = [
+                    FilterCategory(
+                      title: 'Payment Type',
+                      items:
+                          updatedState.paymethodList
+                              ?.map(
+                                (item) => FilterItem(
+                                  id: item.payMethodId ?? 0,
+                                  name: item.payMethodName ?? '',
+                                  isSelected: false,
+                                ),
+                              )
+                              .toList() ??
+                          [],
+                    ),
+                    FilterCategory(
+                      title: 'Waiters',
+                      items:
+                          updatedState.waitersList
+                              ?.map(
+                                (item) => FilterItem(
+                                  id: item.userId ?? 0,
+                                  name: item.userName ?? '',
+                                  isSelected: false,
+                                ),
+                              )
+                              .toList() ??
+                          [],
+                    ),
+                    FilterCategory(
+                      title: 'KIOSK',
+                      items:
+                          updatedState.kioskList
+                              ?.map(
+                                (item) => FilterItem(
+                                  id: item.kioskId ?? 0,
+                                  name: item.kioskName ?? '',
+                                  isSelected: false,
+                                ),
+                              )
+                              .toList() ??
+                          [],
+                    ),
+                  ];
+                  commonnShowBottomSheet(
+                    context: context,
+                    child: CommonOrderFilter(
+                      categories: filter,
+                      onFiltersChanged: (filters) {
+                        context.read<OrderCubit>().applyFiltersToData(filters);
+                      },
+                    ),
+                  );
+                },
+                child: Container(
+                  width: 39.w,
+                  height: 54.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(color: kPrimaryColor),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SvgPicture.asset(
+                      'assets/icons/Frame 2147226159.svg',
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -326,10 +411,11 @@ class _OrderScreenState extends State<OrderScreen> {
     context.read<OrderCubit>().chnageStatus(statusItem);
     context.read<OrderCubit>().orders(
       req: OrderRequest(
-        orderStatusId: statusItem.orderStatusId,
+        orderStatusId: [statusItem.orderStatusId ?? 0],
         storeId: common.selectedStore?.storeId,
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
+        version: "v2",
       ),
     );
   }
@@ -345,6 +431,7 @@ class _OrderScreenState extends State<OrderScreen> {
         storeId: store?.storeId,
         fromDate: parsedDate(DateTime.now()),
         toDate: parsedDate(DateTime.now()),
+        version: "v2",
       ),
     );
   }
@@ -362,6 +449,7 @@ class _OrderScreenState extends State<OrderScreen> {
         storeId: common.selectedStore?.storeId,
         fromDate: parsedDate(DateTime.now()),
         toDate: parsedDate(DateTime.now()),
+        version: "v2",
       ),
     );
     log("Selected IDs count: ${state.selectedIds?.length}");
@@ -398,6 +486,7 @@ class _OrderScreenState extends State<OrderScreen> {
         storeId: common.selectedStore?.storeId,
         fromDate: parsedDate(DateTime.now()),
         toDate: parsedDate(DateTime.now()),
+        version: "v2",
       ),
     );
   }
