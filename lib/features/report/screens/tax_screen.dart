@@ -184,12 +184,6 @@ class TaxScreen extends StatelessWidget {
     );
   }
 
-  void _handleStoreChange(BuildContext context, StoreResponse? store) {
-    // final reportCubit = context.read<ReportCubit>();
-    final dashboardCubit = context.read<DashboardCubit>();
-    dashboardCubit.selectedStore(store ?? StoreResponse());
-  }
-
   Widget _handleDate() {
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
@@ -200,7 +194,7 @@ class TaxScreen extends StatelessWidget {
               Expanded(
                 child: DatePickerContainer(
                   hintText: '',
-                  firstDate: state.fromDate,
+                  value: apiFormat.format(state.fromDate ?? DateTime.now()),
                   changeDate: (DateTime pickDate) {
                     context.read<ReportCubit>().changeFromDate(pickDate);
                   },
@@ -210,7 +204,7 @@ class TaxScreen extends StatelessWidget {
               Expanded(
                 child: DatePickerContainer(
                   hintText: '',
-                  firstDate: state.toDate,
+                  value: apiFormat.format(state.toDate ?? DateTime.now()),
                   changeDate: (DateTime pickDate) {
                     context.read<ReportCubit>().changeToDate(pickDate);
                   },

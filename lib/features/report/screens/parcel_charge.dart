@@ -71,7 +71,7 @@ class ParcelCharge extends StatelessWidget {
           fillColor: const Color(0XFFEFF1F1),
           onChanged: (store) => _handleStoreChange(context, store),
           labelText: '',
-           textStyle: TextStyle(
+          textStyle: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -138,7 +138,7 @@ class ParcelCharge extends StatelessWidget {
             Expanded(
               child: DatePickerContainer(
                 hintText: '',
-                firstDate: state.fromDate,
+                value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeFromDate(pickDate);
                 },
@@ -148,7 +148,7 @@ class ParcelCharge extends StatelessWidget {
             Expanded(
               child: DatePickerContainer(
                 hintText: '',
-                firstDate: state.toDate,
+                value: apiFormat.format(state.toDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeToDate(pickDate);
                 },

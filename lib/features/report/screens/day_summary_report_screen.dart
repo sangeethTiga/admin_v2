@@ -41,7 +41,9 @@ class DaySummaryReportScreen extends StatelessWidget {
                     Expanded(
                       child: DatePickerContainer(
                         hintText: '',
-                        value: state.fromDate?.toIso8601String(),
+                        value: apiFormat.format(
+                          state.fromDate ?? DateTime.now(),
+                        ),
                         changeDate: (DateTime date) {
                           context.read<ReportCubit>().changeToDate(date);
                         },
@@ -93,22 +95,20 @@ class DaySummaryReportScreen extends StatelessWidget {
                           10.verticalSpace,
                           Text('Receipt'),
                           _buildReceipts(state),
-                                                    10.verticalSpace,
+                          10.verticalSpace,
 
                           Text('Payment'),
                           _buildPayments(state),
                           Text('Discount Bill Type'),
-                           _buildDiscountBillType(state),
-                                                     10.verticalSpace,
-                                                     Text('AMOUNT - BY CATEGORY'),
+                          _buildDiscountBillType(state),
+                          10.verticalSpace,
+                          Text('AMOUNT - BY CATEGORY'),
 
                           _buildAmountByCategory(state),
-                                                                               10.verticalSpace,
-
+                          10.verticalSpace,
 
                           Text('AMOUNT - BY MAIN CATEGORY'),
                           _buildAmountByMainCategories(state),
-                         
                         ],
                       ],
                     ),
@@ -289,10 +289,10 @@ class DaySummaryReportScreen extends StatelessWidget {
   }
 
   Widget _buildDeliveryPartners(ReportState state) {
-        if (state.daySummary?.isEmpty ?? false) return const SizedBox.shrink();
-        return Column(
-          children: [
-            Container(
+    if (state.daySummary?.isEmpty ?? false) return const SizedBox.shrink();
+    return Column(
+      children: [
+        Container(
           color: Colors.black,
           child: titleAndValue(
             whilte: true,
@@ -302,12 +302,12 @@ class DaySummaryReportScreen extends StatelessWidget {
             label: 'count',
           ),
         ),
-ListView.builder(
+        ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: state.daySummary?.length,
           itemBuilder: (context, index) {
-            final data =state.daySummary?[index].deliveryPartners;
+            final data = state.daySummary?[index].deliveryPartners;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,8 +317,7 @@ ListView.builder(
                   shrinkWrap: true,
                   itemCount: data?.length,
                   itemBuilder: (context, i) {
-                    return 
-                    titleAndValue(
+                    return titleAndValue(
                       label: '${data?[i].ordercount}',
 
                       title: '${data?[i].name}',
@@ -340,14 +339,12 @@ ListView.builder(
             );
           },
         ),
-
-          ],
-        );
-
+      ],
+    );
   }
 
   Widget _buildReceipts(ReportState state) {
-    return  Column(
+    return Column(
       children: [
         Container(
           color: Colors.black,
@@ -378,12 +375,11 @@ ListView.builder(
                     return titleAndValue(
                       label: '',
 
-                      title: data?[i].accountHeadName ??'',
+                      title: data?[i].accountHeadName ?? '',
                       value: data?[i].amount,
                     );
                   },
                 ),
-               
               ],
             );
           },
@@ -425,12 +421,11 @@ ListView.builder(
                     return titleAndValue(
                       label: '',
 
-                      title: data?[i].accountHeadName ??'',
+                      title: data?[i].accountHeadName ?? '',
                       value: data?[i].amount,
                     );
                   },
                 ),
-               
               ],
             );
           },
@@ -471,12 +466,11 @@ ListView.builder(
                     return titleAndValue(
                       label: '',
 
-                      title: '${data?[i]['category_name'] }',
+                      title: '${data?[i]['category_name']}',
                       value: '${data?[i]['totalamount ']}',
                     );
                   },
                 ),
-                
               ],
             );
           },
@@ -517,12 +511,11 @@ ListView.builder(
                     return titleAndValue(
                       label: '',
 
-                      title: '${data?[i]['category_name'] }',
+                      title: '${data?[i]['category_name']}',
                       value: '${data?[i]['totalamount']}',
                     );
                   },
                 ),
-                
               ],
             );
           },
@@ -530,10 +523,6 @@ ListView.builder(
       ],
     );
   }
-
- 
-
-  
 
   Widget _buildDiscountBillType(ReportState state) {
     return Column(
@@ -567,21 +556,23 @@ ListView.builder(
                     return titleAndValue(
                       label: '${data?[i].ordercount}',
 
-                      title: '${data?[i].orderOptionName }',
+                      title: '${data?[i].orderOptionName}',
                       value: '${data?[i].discAmount}',
                     );
                   },
                 ),
-                 Container(
+                Container(
                   color: Colors.grey,
                   child: titleAndValue(
                     whilte: true,
                     title: "Total",
                     bold: true,
-                    value: '${state.daySummary?.first.discBillTypeDetailsTotal}',
-                    label: '${state.daySummary?.first.discBillTypeDetailsCount}',
-                  ))
-               
+                    value:
+                        '${state.daySummary?.first.discBillTypeDetailsTotal}',
+                    label:
+                        '${state.daySummary?.first.discBillTypeDetailsCount}',
+                  ),
+                ),
               ],
             );
           },
@@ -589,8 +580,6 @@ ListView.builder(
       ],
     );
   }
-
-  
 }
 
 Container titleAndValue({

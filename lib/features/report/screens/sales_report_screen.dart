@@ -34,12 +34,11 @@ class SalesReportScreen extends StatelessWidget {
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return Row(
-                      
                       children: [
-                        
                         Expanded(
                           child: DropDownFieldWidget(
-                            isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                            isLoading:
+                                state.apiFetchStatus == ApiFetchStatus.loading,
                             prefixIcon: Container(
                               margin: EdgeInsets.only(left: 12.w),
                               child: SvgPicture.asset(
@@ -67,30 +66,30 @@ class SalesReportScreen extends StatelessWidget {
                               context.read<DashboardCubit>().selectedStore(p0);
                             },
                             labelText: '',
-                             textStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            letterSpacing: 0.5,
-          ),
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                            ),
                           ),
                         ),
-                         IconButton(onPressed: (){
+                        IconButton(
+                          onPressed: () {
+                            context.read<DashboardCubit>().clearData();
 
-                          context.read<DashboardCubit>().clearData();
-
-                          commonnShowBottomSheet(context:context,child:SalesReportFilter());
-                          context.read<DashboardCubit>().getDeliveryAgent();
-                          context.read<DashboardCubit>().getPaymethod();
-                          context.read<DashboardCubit>().getWaiters();
-                          context.read<DashboardCubit>().getKiosk();
-                          context.read<DashboardCubit>().getCashier();
-                    
-
-
-                         }, icon:Icon(
-                          Icons.tune_outlined
-                        ))
+                            commonnShowBottomSheet(
+                              context: context,
+                              child: SalesReportFilter(),
+                            );
+                            context.read<DashboardCubit>().getDeliveryAgent();
+                            context.read<DashboardCubit>().getPaymethod();
+                            context.read<DashboardCubit>().getWaiters();
+                            context.read<DashboardCubit>().getKiosk();
+                            context.read<DashboardCubit>().getCashier();
+                          },
+                          icon: Icon(Icons.tune_outlined),
+                        ),
                       ],
                     );
                   },
@@ -102,7 +101,9 @@ class SalesReportScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate ,
+                            value: apiFormat.format(
+                              state.fromDate ?? DateTime.now(),
+                            ),
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
@@ -115,7 +116,9 @@ class SalesReportScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.toDate,
+                            value: apiFormat.format(
+                              state.toDate ?? DateTime.now(),
+                            ),
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickedDate,

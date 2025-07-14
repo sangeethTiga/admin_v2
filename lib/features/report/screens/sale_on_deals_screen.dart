@@ -66,7 +66,9 @@ class SaleOnDealsScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate,
+                            value: apiFormat.format(
+                              state.fromDate ?? DateTime.now(),
+                            ),
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
@@ -79,7 +81,9 @@ class SaleOnDealsScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.toDate,
+                            value: apiFormat.format(
+                              state.toDate ?? DateTime.now(),
+                            ),
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickedDate,

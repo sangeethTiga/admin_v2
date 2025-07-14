@@ -6,13 +6,12 @@ import 'package:intl/intl.dart';
 class DatePickerContainer extends StatefulWidget {
   final String? hintText;
   final String? value;
-  final void Function(DateTime) changeDate;
+  final Function changeDate;
   final bool isUpdateDateText;
   final bool clearDate;
   final bool isDisable;
   final DateTime? initialDate;
   final DateTime? firstDate;
-  final DateTime? lastDate;
   final String? labelText;
 
   const DatePickerContainer({
@@ -25,7 +24,6 @@ class DatePickerContainer extends StatefulWidget {
     this.isDisable = false,
     this.initialDate,
     this.firstDate,
-    this.lastDate,
     this.labelText,
   });
 
@@ -34,7 +32,7 @@ class DatePickerContainer extends StatefulWidget {
 }
 
 class _DatePickerContainerState extends State<DatePickerContainer> {
-  DateTime? selectedDate;
+  DateTime selectedDate = DateTime.now();
   String? pickedDate;
 
   @override
@@ -43,34 +41,14 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
     _initFunction();
   }
 
-  @override
-  void didUpdateWidget(DatePickerContainer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value ||
-        oldWidget.initialDate != widget.initialDate) {
-      _initFunction();
-    }
-  }
-
   void _initFunction() {
-    if (widget.value != null && widget.value!.isNotEmpty) {
-      try {
-        selectedDate =
-            DateTime.tryParse(widget.value!) ?? apiFormat.parse(widget.value!);
-        pickedDate = apiFormat.format(selectedDate!);
-      } catch (e) {
-        selectedDate = widget.initialDate ?? DateTime.now();
-        pickedDate = apiFormat.format(selectedDate!);
+    if (widget.value == null) {
+      if (widget.clearDate == false) {
+        pickedDate = apiFormat.format(selectedDate);
       }
-    } else if (widget.initialDate != null) {
-      selectedDate = widget.initialDate;
-      pickedDate = apiFormat.format(selectedDate!);
-    } else if (widget.clearDate) {
-      selectedDate = null;
-      pickedDate = null;
     } else {
-      selectedDate = DateTime.now();
-      pickedDate = apiFormat.format(selectedDate!);
+      pickedDate = widget.value;
+      selectedDate = DateTime.parse(pickedDate!);
     }
   }
 
@@ -86,47 +64,31 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
         color: widget.isDisable ? Colors.grey[100] : Colors.white,
       ),
       child: InkWell(
-        onTap: widget.isDisable
-            ? null
-            : () async {
-                FocusManager.instance.primaryFocus?.unfocus();
-                DateTime pickerInitialDate;
-                if (selectedDate != null) {
-                  pickerInitialDate = selectedDate!;
-                } else if (widget.initialDate != null) {
-                  pickerInitialDate = widget.initialDate!;
-                } else {
-                  pickerInitialDate = DateTime.now();
-                }
-                final firstDate = widget.firstDate ?? DateTime(2015);
-                final lastDate = widget.lastDate ?? DateTime(2101);
+        onTap: () async {
+          FocusManager.instance.primaryFocus?.unfocus();
 
-                if (pickerInitialDate.isBefore(firstDate)) {
-                  pickerInitialDate = firstDate;
-                } else if (pickerInitialDate.isAfter(lastDate)) {
-                  pickerInitialDate = lastDate;
-                }
+          DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate:
+                widget.initialDate ?? widget.firstDate ?? DateTime.now(),
+            firstDate: widget.firstDate ?? DateTime(2015),
+            lastDate: DateTime(2101),
+          );
 
-                DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: pickerInitialDate,
-                  firstDate: firstDate,
-                  lastDate: lastDate,
-                );
-
-                if (picked != null) {
-                  setState(() {
-                    selectedDate = picked;
-                    pickedDate = apiFormat.format(picked);
-                  });
-                  widget.changeDate(picked);
-                } else if (widget.clearDate) {
-                  setState(() {
-                    selectedDate = null;
-                    pickedDate = null;
-                  });
-                }
-              },
+          if (picked != null) {
+            setState(() {
+              pickedDate = apiFormat.format(picked);
+              widget.changeDate(picked);
+            });
+          } else {
+            if (widget.clearDate) {
+              setState(() {
+                pickedDate = null;
+                widget.changeDate(picked);
+              });
+            }
+          }
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -149,28 +111,37 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
                   : MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          pickedDate ?? widget.hintText ?? 'Select Date',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: pickedDate != null
-                                ? Colors.black
-                                : Colors.grey[600],
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                  child: Builder(
+                    builder: (context) {
+                      if (widget.isUpdateDateText) {
+                        pickedDate = widget.value;
+                      }
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              pickedDate ?? widget.hintText ?? 'Select Date',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: pickedDate != null
+                                    ? Colors.black
+                                    : Colors.grey[600],
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      SvgPicture.asset(
-                        'assets/icons/calendar2.svg',
-                        color: widget.isDisable ? Colors.grey : null,
-                      ),
-                    ],
+                          const SizedBox(width: 16),
+                          SvgPicture.asset(
+                            'assets/icons/calendar2.svg',
+                            color: widget.isDisable ? Colors.grey : null,
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ],

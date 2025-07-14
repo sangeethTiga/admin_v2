@@ -246,7 +246,7 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
           fillColor: const Color(0XFFEFF1F1),
           onChanged: (store) => _handleStoreChange(store),
           labelText: '',
-           textStyle: TextStyle(
+          textStyle: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -264,7 +264,7 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
           children: [
             Expanded(
               child: DatePickerContainer(
-                firstDate: state.fromDate,
+                value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 hintText: '',
                 changeDate: (DateTime pickedDate) {
                   context.read<ReportCubit>().changeFromDate(pickedDate);
@@ -275,7 +275,7 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
             Expanded(
               child: DatePickerContainer(
                 hintText: '',
-                firstDate: state.toDate,
+                value: apiFormat.format(state.toDate ?? DateTime.now()),
                 changeDate: (DateTime pickedDate) {
                   context.read<ReportCubit>().changeToDate(pickedDate);
                 },

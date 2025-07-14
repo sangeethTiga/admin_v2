@@ -82,7 +82,9 @@ class ProfitLossScreen extends StatelessWidget {
                           Expanded(
                             child: DatePickerContainer(
                               hintText: '',
-                              firstDate: state.fromDate,
+                              value: apiFormat.format(
+                                state.fromDate ?? DateTime.now(),
+                              ),
                               changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeFromDate(
                                   pickDate,
@@ -94,7 +96,9 @@ class ProfitLossScreen extends StatelessWidget {
                           Expanded(
                             child: DatePickerContainer(
                               hintText: '',
-                              firstDate: state.toDate,
+                              value: apiFormat.format(
+                                state.toDate ?? DateTime.now(),
+                              ),
                               changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeToDate(
                                   pickDate,
@@ -160,7 +164,7 @@ class ProfitLossScreen extends StatelessWidget {
                                       );
                                     },
                                   ),
- 
+
                             Container(
                               width: double.infinity,
                               height: 47.h,

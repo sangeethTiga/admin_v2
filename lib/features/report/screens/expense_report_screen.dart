@@ -60,12 +60,12 @@ class ExpenseReportScreen extends StatelessWidget {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
-                       textStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            letterSpacing: 0.5,
-          ),
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
                     );
                   },
                 ),
@@ -111,7 +111,9 @@ class ExpenseReportScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate,
+                            value: apiFormat.format(
+                              state.fromDate ?? DateTime.now(),
+                            ),
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
@@ -123,8 +125,9 @@ class ExpenseReportScreen extends StatelessWidget {
                         12.horizontalSpace,
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate ,
-
+                            value: apiFormat.format(
+                              state.toDate ?? DateTime.now(),
+                            ),
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeToDate(
@@ -168,7 +171,7 @@ class ExpenseReportScreen extends StatelessWidget {
                               state.isSaleReport != ApiFetchStatus.loading) {
                             context.read<ReportCubit>().loadReveneueReport(
                               page: state.currentPage + 1,
-                             
+
                               isLoadMore: true,
                               storeId: store.selectedStore?.storeId,
                             );

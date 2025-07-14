@@ -147,7 +147,9 @@ class MostSellingProducts extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.fromDate,
+                            value: apiFormat.format(
+                              state.fromDate ?? DateTime.now(),
+                            ),
                             changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeFromDate(
                                 pickDate,
@@ -159,7 +161,9 @@ class MostSellingProducts extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.fromDate,
+                            value: apiFormat.format(
+                              state.toDate ?? DateTime.now(),
+                            ),
                             changeDate: (DateTime pickDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickDate,

@@ -1,4 +1,3 @@
-
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
@@ -60,12 +59,12 @@ class MessReportScreen extends StatelessWidget {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                       labelText: '',
-                       textStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            letterSpacing: 0.5,
-          ),
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                      ),
                     );
                   },
                 ),
@@ -77,7 +76,9 @@ class MessReportScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate ,
+                            value: apiFormat.format(
+                              state.fromDate ?? DateTime.now(),
+                            ),
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
@@ -90,7 +91,9 @@ class MessReportScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
-                            firstDate: state.toDate,
+                            value: apiFormat.format(
+                              state.toDate ?? DateTime.now(),
+                            ),
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickedDate,
@@ -141,38 +144,34 @@ class MessReportScreen extends StatelessWidget {
                       //     }
                       //     return false;
                       //   },
-
                       //   child:
-                         CommonTableWidget(
-                          isLoading:
-                              state.isMessReport == ApiFetchStatus.loading,
-                          headers: [
-                            "#",
-                            "Customer Name ",
-                           // "Meal Name",
-                            "Store Name",
-                            "Advance Amount ",
-                            "Balance Amount",
-                          
-                          ],
+                      CommonTableWidget(
+                        isLoading: state.isMessReport == ApiFetchStatus.loading,
+                        headers: [
+                          "#",
+                          "Customer Name ",
+                          // "Meal Name",
+                          "Store Name",
+                          "Advance Amount ",
+                          "Balance Amount",
+                        ],
 
-                          columnFlex: [1, 2, 2, 2, 2,  ],
-                          data:
-                              state.messReport?.map((e) {
-                                int index =
-                                    state.messReport?.indexOf(e) ?? 0;
-                                return {
-                                  '#': index + 1,
-                                  'Customer Name ': e.custName ?? '',
-                                 // 'Meal Name': e. ?? '',
-                                  'Store Name': e.storeName ?? '',
-                                  'Advance Amount ': e.advanceAmount ?? '',
-                                  'Balance Amount': e.balanceAmt ?? '',
-                           // Placeholder for action button
-                                };
-                              }).toList() ??
-                              [],
-                 );
+                        columnFlex: [1, 2, 2, 2, 2],
+                        data:
+                            state.messReport?.map((e) {
+                              int index = state.messReport?.indexOf(e) ?? 0;
+                              return {
+                                '#': index + 1,
+                                'Customer Name ': e.custName ?? '',
+                                // 'Meal Name': e. ?? '',
+                                'Store Name': e.storeName ?? '',
+                                'Advance Amount ': e.advanceAmount ?? '',
+                                'Balance Amount': e.balanceAmt ?? '',
+                                // Placeholder for action button
+                              };
+                            }).toList() ??
+                            [],
+                      );
                       //);
                     },
                   );

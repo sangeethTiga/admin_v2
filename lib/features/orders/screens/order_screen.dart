@@ -245,7 +245,7 @@ class _OrderScreenState extends State<OrderScreen> {
         children: [
           Expanded(
             child: DatePickerContainer(
-              firstDate: state.fromDate,
+              value: apiFormat.format(state.fromDate ?? DateTime.now()),
               hintText: '',
 
               changeDate: (DateTime pickedDate) =>
@@ -255,7 +255,7 @@ class _OrderScreenState extends State<OrderScreen> {
           8.horizontalSpace,
           Expanded(
             child: DatePickerContainer(
-              firstDate: state.toDate,
+              value: apiFormat.format(state.toDate ?? DateTime.now()),
               hintText: '',
               changeDate: (DateTime pickedDate) =>
                   _handleToDateChange(context, pickedDate, state, common),

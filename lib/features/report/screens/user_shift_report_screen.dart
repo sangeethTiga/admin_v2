@@ -76,7 +76,9 @@ class UserShiftReportScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            firstDate: state.fromDate,
+                            value: apiFormat.format(
+                              state.fromDate ?? DateTime.now(),
+                            ),
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
@@ -89,6 +91,9 @@ class UserShiftReportScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             hintText: '',
+                            value: apiFormat.format(
+                              state.toDate ?? DateTime.now(),
+                            ),
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickedDate,
