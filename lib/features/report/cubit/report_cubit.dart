@@ -1240,6 +1240,7 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(selectedStore: store));
   }
 
+
   // Future<void> clearSelectedCategory() async {
   //   emit(state.copyWith(selectCategory: null));
   // }

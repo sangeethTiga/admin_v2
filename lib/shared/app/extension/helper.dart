@@ -171,10 +171,10 @@ void navigateToFeature(
       case 'Purchase':
         _navigateToPurchase(context);
       case 'Day Summary':
-        context.push(routeDaySummary);
+      _navigateToDaySummary(context,storeId??0);
       default:
     }
-  } catch (e) {}
+  } catch (e) {log('$e');}
 }
 
 String _formatDate(DateTime date) {
@@ -276,4 +276,16 @@ void _navigateToPurchase(BuildContext context) {
     commonCubit.purchaseType();
     context.push(routePurchase);
   } catch (e) {}
+}
+
+
+void _navigateToDaySummary(BuildContext context,int storeId){
+  try{
+    context.read<ReportCubit>().loadDaySummary(storeId:storeId );
+    context.push(routeDaySummary);
+    
+  }catch(e,s){
+    log('$e',stackTrace: s);
+
+  }
 }
