@@ -1,6 +1,6 @@
-import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
@@ -27,10 +27,15 @@ class ChequetransScreen extends StatelessWidget {
           Expanded(
             child: MainPadding(
               child: Column(
-                spacing: 14.h,
                 children: [
-                  _buildStoreDropdown(),
+                  commonStoreDropDown(
+                    onChanged: (p0) {
+                      context.read<DashboardCubit>().selectedStore(p0);
+                    },
+                  ),
                   _buildStatusOption(),
+                  12.verticalSpace,
+
                   _buildViewReport(),
                   _buildCommonTable(),
                 ],
@@ -42,54 +47,14 @@ class ChequetransScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStoreDropdown() {
-    return BlocBuilder<DashboardCubit, DashboardState>(
-      builder: (context, state) {
-        return DropDownFieldWidget(
-          isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-          prefixIcon: Container(
-            margin: EdgeInsets.only(left: 12.w),
-            child: SvgPicture.asset(
-              'assets/icons/package-box-pin-location.svg',
-              width: 20.w,
-              height: 20.h,
-              fit: BoxFit.contain,
-            ),
-          ),
-          borderColor: kBlack,
-          value: state.selectedStore,
-          items:
-              state.storeList?.map((e) {
-                return DropdownMenuItem<StoreResponse>(
-                  value: e,
-                  child: Text(e.storeName ?? ''),
-                );
-              }).toList() ??
-              [],
-          fillColor: const Color(0XFFEFF1F1),
-          onChanged: (store) => _handleStoreChange(context, store),
-          labelText: '',
-          textStyle: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            letterSpacing: 0.5,
-          ),
-        );
-      },
-    );
-  }
-
-  void _handleStoreChange(BuildContext context, StoreResponse? store) {
-    // final reportCubit = context.read<ReportCubit>();
-    final dashboardCubit = context.read<DashboardCubit>();
-    dashboardCubit.selectedStore(store ?? StoreResponse());
-  }
-
   Widget _buildStatusOption() {
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
         return DropDownFieldWidget(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 12.w,
+            vertical: 17.h,
+          ),
           isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
           prefixIcon: Container(
             margin: EdgeInsets.only(left: 12.w),

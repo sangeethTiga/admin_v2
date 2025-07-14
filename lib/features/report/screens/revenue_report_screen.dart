@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+import 'package:admin_v2/features/report/screens/expense_report_screen.dart';
+import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -72,7 +74,8 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
                   MainPadding(
                     child: Column(
                       children: [
-                        _buildStoreDropdown(),
+                        commonStoreDropDown(),
+                        10.verticalSpace,
                         _handleDate(),
                         12.verticalSpace,
                         _viewReport(),
@@ -188,7 +191,7 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
                   return {
                     '#': index + 1,
                     'ORDER NUMBER': e.invoiceNumber ?? '',
-                    'DATE': e.acTransactionDate ?? '',
+                    'DATE': formatDateString(e.acTransactionDate ?? ''),
                     'AMOUNT': e.amount ?? '',
                   };
                 }).toList() ??

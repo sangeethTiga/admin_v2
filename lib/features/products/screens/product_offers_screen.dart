@@ -68,7 +68,6 @@ class ProductOffersScreen extends StatelessWidget {
         child: Column(
           children: [
             dividerWidget(height: 6.h),
-            16.verticalSpace,
             MainPadding(
               child: Column(
                 children: [
@@ -109,7 +108,7 @@ class ProductOffersScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  14.verticalSpace,
+                  8.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return Row(

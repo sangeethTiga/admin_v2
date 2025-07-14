@@ -28,50 +28,54 @@ class PurchaseScreen extends StatelessWidget {
         children: [
           dividerWidget(height: 6.h),
           MainPadding(
+            top: 0.h,
             child: Column(
               children: [
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                    return DropDownFieldWidget(
-                      isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                      prefixIcon: Container(
-                        margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      borderColor: kBlack,
-                      value: state.selectedStore,
-                      items:
-                          state.storeList?.map((e) {
-                            return DropdownMenuItem<StoreResponse>(
-                              value: e,
-                              child: Text(e.storeName ?? ''),
-                            );
-                          }).toList() ??
-                          [],
-                      fillColor: const Color(0XFFEFF1F1),
-                      // suffixWidget: SvgPicture.asset(
-                      //   'assets/icons/Arrow - Right.svg',
-                      // ),
-                      onChanged: (p0) {
-                        context.read<DashboardCubit>().selectedStore(p0);
-                      },
-                      labelText: '',
-                      textStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                      ),
-                    );
+                commonStoreDropDown(
+                  onChanged: (p0) {
+                    context.read<DashboardCubit>().selectedStore(p0);
                   },
                 ),
-                12.horizontalSpace,
-
+                // BlocBuilder<DashboardCubit, DashboardState>(
+                //   builder: (context, state) {
+                //     return DropDownFieldWidget(
+                //       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                //       prefixIcon: Container(
+                //         margin: EdgeInsets.only(left: 12.w),
+                //         child: SvgPicture.asset(
+                //           'assets/icons/package-box-pin-location.svg',
+                //           width: 20.w,
+                //           height: 20.h,
+                //           fit: BoxFit.contain,
+                //         ),
+                //       ),
+                //       borderColor: kBlack,
+                //       value: state.selectedStore,
+                //       items:
+                //           state.storeList?.map((e) {
+                //             return DropdownMenuItem<StoreResponse>(
+                //               value: e,
+                //               child: Text(e.storeName ?? ''),
+                //             );
+                //           }).toList() ??
+                //           [],
+                //       fillColor: const Color(0XFFEFF1F1),
+                //       // suffixWidget: SvgPicture.asset(
+                //       //   'assets/icons/Arrow - Right.svg',
+                //       // ),
+                //       onChanged: (p0) {
+                //         context.read<DashboardCubit>().selectedStore(p0);
+                //       },
+                //       labelText: '',
+                //       textStyle: TextStyle(
+                //         color: Colors.black,
+                //         fontWeight: FontWeight.w500,
+                //         fontSize: 16,
+                //         letterSpacing: 0.5,
+                //       ),
+                //     );
+                //   },
+                // ),
                 BlocBuilder<CommonCubit, CommonState>(
                   builder: (context, common) {
                     return BlocBuilder<DashboardCubit, DashboardState>(
@@ -134,7 +138,6 @@ class PurchaseScreen extends StatelessWidget {
                   },
                 ),
 
-                12.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(
@@ -240,4 +243,46 @@ class PurchaseScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget commonStoreDropDown({Function(StoreResponse)? onChanged}) {
+  return BlocBuilder<DashboardCubit, DashboardState>(
+    builder: (context, state) {
+      return DropDownFieldWidget(
+        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 15.h),
+        isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+        prefixIcon: Container(
+          margin: EdgeInsets.only(left: 12.w),
+          child: SvgPicture.asset(
+            'assets/icons/package-box-pin-location.svg',
+            width: 20.w,
+            height: 20.h,
+            fit: BoxFit.contain,
+          ),
+        ),
+        borderColor: kBlack,
+        value: state.selectedStore,
+        items:
+            state.storeList?.map((e) {
+              return DropdownMenuItem<StoreResponse>(
+                value: e,
+                child: Text(e.storeName ?? ''),
+              );
+            }).toList() ??
+            [],
+        fillColor: const Color(0XFFEFF1F1),
+
+        onChanged: (p0) {
+          onChanged?.call(p0);
+        },
+        labelText: '',
+        textStyle: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+          letterSpacing: 0.5,
+        ),
+      );
+    },
+  );
 }

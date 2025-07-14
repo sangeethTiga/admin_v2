@@ -106,13 +106,12 @@ class DropDownFieldWidget extends StatelessWidget {
         ShimmerWidget(
           isLoading: isLoading,
           child: SizedBox(
-            height: 65.h,
+            height: 55.h,
             child: DropdownButtonFormField(
               key: dropdownKey,
               dropdownColor: dropdownColor,
               iconDisabledColor: kRedColor,
 
-              //icon: const SizedBox.shrink(), // Hides default icon in all states
               hint: hintText != null
                   ? Text(hintText!, style: FontPalette.hW500S14)
                   : null,
