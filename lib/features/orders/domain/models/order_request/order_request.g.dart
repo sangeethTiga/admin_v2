@@ -29,6 +29,7 @@ _$OrderRequestImpl _$$OrderRequestImplFromJson(Map<String, dynamic> json) =>
       fromTime: json['from_time'] as String?,
       toTime: json['to_time'] as String?,
       version: json['version'] as String?,
+      orderNumber: json['order_number'] as String?,
     );
 
 Map<String, dynamic> _$$OrderRequestImplToJson(_$OrderRequestImpl instance) =>
@@ -52,4 +53,5 @@ Map<String, dynamic> _$$OrderRequestImplToJson(_$OrderRequestImpl instance) =>
       'from_time': instance.fromTime,
       'to_time': instance.toTime,
       'version': instance.version,
+      'order_number': instance.orderNumber,
     };

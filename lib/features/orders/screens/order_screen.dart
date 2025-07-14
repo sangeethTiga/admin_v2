@@ -60,7 +60,18 @@ class _OrderScreenState extends State<OrderScreen> {
                   key: ValueKey('search field'),
                   controller: searchController,
                   autofocus: true,
-                  decoration: InputDecoration(hintText: 'search'),
+                  decoration: InputDecoration(hintText: 'Search,Order No/Bill No/Customer/Phone/Delivery Partner'),
+                  onChanged: (v){
+                    context.read<OrderCubit>().orders(
+      req: OrderRequest(
+        storeId: context.read<DashboardCubit>().state.selectedStore?.storeId,
+        orderNumber: v
+       
+        
+      ),
+    );
+
+                  },
                 )
               : Text(
                   'New Orders',

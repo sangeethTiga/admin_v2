@@ -25,6 +25,7 @@ class OrderRequest with _$OrderRequest {
     @JsonKey(name: "from_time") String? fromTime,
     @JsonKey(name: "to_time") String? toTime,
     @JsonKey(name: "version") String? version,
+    @JsonKey(name: "order_number") String? orderNumber,
   }) = _OrderRequest;
 
   factory OrderRequest.fromJson(Map<String, dynamic> json) =>
