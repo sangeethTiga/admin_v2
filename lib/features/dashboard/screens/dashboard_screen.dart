@@ -54,6 +54,7 @@ class DashboardScreenState extends State<DashboardScreen>
   void _preloadDashboardData() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dashboardCubit = context.read<DashboardCubit>();
+
       if (dashboardCubit.state.selectedStore != null) {
         _loadGraphData();
       }
@@ -85,7 +86,7 @@ class DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildBody() {
     return MainPadding(
-      top: 16.h,
+      top: 10.h,
       child: BlocBuilder<DashboardCubit, DashboardState>(
         buildWhen: (previous, current) =>
             previous.selectedStore != current.selectedStore ||
@@ -122,7 +123,7 @@ class DashboardScreenState extends State<DashboardScreen>
                       ),
                     ],
                   ),
-                  20.verticalSpace,
+                  // 5.verticalSpace,
                   _buildDashboardGrid(state),
                   20.verticalSpace,
                   if (state.revenueReport?.isNotEmpty ?? false)
@@ -147,8 +148,8 @@ class DashboardScreenState extends State<DashboardScreen>
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 10.h,
+        crossAxisSpacing: 8.w,
+        mainAxisSpacing: 8.h,
         childAspectRatio: 1.23,
       ),
       itemBuilder: (context, index) {

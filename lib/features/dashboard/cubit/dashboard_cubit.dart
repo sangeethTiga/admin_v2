@@ -15,6 +15,7 @@ import 'package:admin_v2/features/report/domain/models/waiters_response/waiters_
 import 'package:admin_v2/features/report/domain/repositories/report_repositores.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
+import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -88,13 +89,14 @@ class DashboardCubit extends Cubit<DashboardState> {
       );
     }
     emit(state.copyWith(isRevenueGraph: ApiFetchStatus.loading));
+    final userAssign=await AuthUtils.instance.readUserData();
 
     final res = await _dashboardRepositories.loadRevenueGraph(
       dateRangeId: state.selectDate!.id.toString(),
-      roleId: 1,
+      roleId:userAssign?.user?.userRoleId??1,
       storeArray: state.selectedStore!.storeId.toString(),
 
-      userId: 1,
+      userId: userAssign?.user?.companyUsersId??0,
     );
 
     if (res.data != null) {
@@ -125,11 +127,12 @@ class DashboardCubit extends Cubit<DashboardState> {
     //   );
     // }
     emit(state.copyWith(isOrdersReport: ApiFetchStatus.loading));
+    final userAssign=await AuthUtils.instance.readUserData();
     final res = await _dashboardRepositories.ordersGraph(
       dateRangeId: state.selectDate?.id.toString() ?? '',
-      roleId: 1,
+      roleId: userAssign?.user?.userRoleId??1,
       storeArray: state.selectedStore?.storeId ?? 0,
-      userId: 1,
+      userId: userAssign?.user?.companyUsersId??0,
     );
     if (res.data != null) {             
       // final List<OrdersGraphResponse> fetchedList = res.data!;
