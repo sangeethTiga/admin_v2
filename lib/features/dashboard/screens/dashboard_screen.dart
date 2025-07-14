@@ -118,7 +118,10 @@ class DashboardScreenState extends State<DashboardScreen>
                         width: 120.w,
                         child: DateDropdown(
                           selectedDate: state.selectDate,
-                          onDateChanged: _onDateChanged,
+                          onDateChanged: (v){
+                          
+                            _onDateChanged(v);
+                          },
                         ),
                       ),
                     ],
@@ -127,10 +130,10 @@ class DashboardScreenState extends State<DashboardScreen>
                   _buildDashboardGrid(state),
                   20.verticalSpace,
                   if (state.revenueReport?.isNotEmpty ?? false)
-                    const RevenueGraph(),
+                     RevenueGraph(),
                   20.verticalSpace,
                   if (state.ordersReport?.isNotEmpty ?? false)
-                    const OrdersGraph(),
+                     OrdersGraph(),
                 ],
               ),
             ),
@@ -187,8 +190,11 @@ class DashboardScreenState extends State<DashboardScreen>
   }
 
   void _onDateChanged(ListOfDemo? date) {
+
+
     if (date == null) return;
     context.read<CommonCubit>().selectedDate(date);
+    context.read<DashboardCubit>().monthSelection(date);
     Future.delayed(const Duration(milliseconds: 300), _loadGraphData);
   }
 }
