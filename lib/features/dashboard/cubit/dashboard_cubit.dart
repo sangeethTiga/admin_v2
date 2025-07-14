@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
@@ -18,6 +19,7 @@ import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+
 part 'dashboard_state.dart';
 
 @injectable
@@ -131,7 +133,7 @@ class DashboardCubit extends Cubit<DashboardState> {
       storeArray: state.selectedStore?.storeId ?? 0,
       userId: 1,
     );
-    if (res.data != null) {             
+    if (res.data != null) {
       // final List<OrdersGraphResponse> fetchedList = res.data!;
 
       // final List<OrdersGraphResponse> newList = isLoadMore
@@ -292,6 +294,32 @@ class DashboardCubit extends Cubit<DashboardState> {
         selectedGroupBy: Dates(),
         selectedPaymethod: PaymentMethodResponse(),
       ),
+    );
+  }
+    Future<void> orderOption(int? storeId, int? appTypeId) async {
+    try {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
+      final res = await _commonRepostories.orderOption(
+        storeId: storeId ?? 0,
+        appTypeId: appTypeId ?? 0,
+      );
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            apiFetchStatus: ApiFetchStatus.success,
+            optionList: res.data,
+            selectedOption: res.data?.first,
+          ),
+        );
+      }
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    } catch (e) {
+      emit(state.copyWith(apiFetchStatus: ApiFetchStatus.failed));
+    }
+  }
+
+  Future<void> selectedOption(OptionResponse options) async {
+    emit(state.copyWith(selectedOption: options,),
     );
   }
 }

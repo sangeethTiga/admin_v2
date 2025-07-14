@@ -17,9 +17,9 @@ _$CustomersResponseImpl _$$CustomersResponseImplFromJson(
   isActive: parseInt(json['is_active']),
   rowcount: parseInt(json['rowcount']),
   accountId: parseInt(json['account_id']),
-  balanceAmt: parseInt(json['balance_amt']),
+  balanceAmt: parseDouble(json['balance_amt']),
   orderCount: parseInt(json['order_count']),
-  totalPurchaseAmount: parseInt(json['total_purchase_amount']),
+  totalPurchaseAmount: parseDouble(json['total_purchase_amount']),
 );
 
 Map<String, dynamic> _$$CustomersResponseImplToJson(

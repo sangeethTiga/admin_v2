@@ -1,4 +1,3 @@
-
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
@@ -48,8 +47,8 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
   final TextEditingController totalPriceController = TextEditingController();
   StockStatusResponse? selectedStockStatus;
 
-   @override
-     void initState() {
+  @override
+  void initState() {
     super.initState();
     final stockList = context.read<ProductCubit>().state.stockStatusList;
     if (stockList != null && stockList.isNotEmpty) {
@@ -58,15 +57,13 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
-      height: widget.fromVariant? 500.h: 700.h,
+      height: widget.fromVariant ? 500.h : 700.h,
 
       child: Column(
-        children: [ 
+        children: [
           MainPadding(
             top: 19.5.h,
             left: 12.w,
@@ -75,7 +72,12 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.fromVariant? '${widget.variantName} Stock Update':'Stock Details', style: FontPalette.hW700S14),
+                Text(
+                  widget.fromVariant
+                      ? '${widget.variantName} Stock Update'
+                      : 'Stock Details',
+                  style: FontPalette.hW700S14,
+                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -92,10 +94,10 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
             top: 0,
             child: Column(
               children: [
-                 Text(
-                            'Current stock : ${widget.currentStock}',
-                            style: FontPalette.hW500S13,
-                          ),
+                Text(
+                  'Current stock : ${widget.currentStock}',
+                  style: FontPalette.hW500S13,
+                ),
                 BlocSelector<
                   ProductCubit,
                   ProductState,
@@ -172,13 +174,13 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                   textStyle: FontPalette.hW500S12,
                 ),
                 12.verticalSpace,
-                 Container(
+                Container(
                   // alignment: Alignment.center,
-                   height: 64.h,
+                  height: 64.h,
                   width: double.infinity,
                   padding: EdgeInsets.only(top: 12.h, left: 12.w),
                   decoration: BoxDecoration(
-                    color: widget.fromVariant?kWhite: Color(0XFFEFF1F1),
+                    color: widget.fromVariant ? kWhite : Color(0XFFEFF1F1),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: BlocSelector<ProductCubit, ProductState, double>(
@@ -186,85 +188,93 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                       return state.totalStock ?? 0;
                     },
                     builder: (context, state) {
-                      return widget.fromVariant?Center(
-                        child: Text(
-                              'Total stock : ${state == 0 ? widget.currentStock : state}',
-                              style: FontPalette.hW500S13,
-                            ),
-                      ): Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Current stock : ${widget.currentStock}',
-                            style: FontPalette.hW500S13,
-                          ),
-                          
-                          Text(
-                            'Total stock : ${state == 0 ? widget.currentStock : state}',
-                            style: FontPalette.hW500S13,
-                          ),
-                        ],
-                      );
+                      return widget.fromVariant
+                          ? Center(
+                              child: Text(
+                                'Total stock : ${state == 0 ? widget.currentStock : state}',
+                                style: FontPalette.hW500S13,
+                              ),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Current stock : ${widget.currentStock}',
+                                  style: FontPalette.hW500S13,
+                                ),
+
+                                Text(
+                                  'Total stock : ${state == 0 ? widget.currentStock : state}',
+                                  style: FontPalette.hW500S13,
+                                ),
+                              ],
+                            );
                     },
                   ),
                 ),
                 10.verticalSpace,
 
-                widget.fromVariant?SizedBox(): DatePickerContainer(
-                  labelText: "Date",
-                  changeDate: (value) {
-                    context.read<ProductCubit>().dateSelection(value);
-                  },
-                ),
-                widget.fromVariant?SizedBox():10.verticalSpace,
+                widget.fromVariant
+                    ? SizedBox()
+                    : DatePickerContainer(
+                        labelText: "Date",
+                        changeDate: (value) {
+                          context.read<ProductCubit>().dateSelection(value);
+                        },
+                      ),
+                widget.fromVariant ? SizedBox() : 10.verticalSpace,
 
-               widget.fromVariant?SizedBox(): TextFeildWidget(
-                  borderColor: kBlack,
-                  hight: 48.h,
-                  fillColor: kWhite,
+                widget.fromVariant
+                    ? SizedBox()
+                    : TextFeildWidget(
+                        borderColor: kBlack,
+                        hight: 48.h,
+                        fillColor: kWhite,
 
-                  inputBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 14.h,
-                    horizontal: 8.w,
-                  ),
-                  textInputType: TextInputType.number,
+                        inputBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.h,
+                          horizontal: 8.w,
+                        ),
+                        textInputType: TextInputType.number,
 
-                  labelText: 'Enter a price per unit',
-                  controller: pricePerUnitController,
-                  onChanged: (p0) {
-                    updateTotalPrice();
-                  },
-                ),
-               widget.fromVariant?SizedBox(): 10.verticalSpace,
+                        labelText: 'Enter a price per unit',
+                        controller: pricePerUnitController,
+                        onChanged: (p0) {
+                          updateTotalPrice();
+                        },
+                      ),
+                widget.fromVariant ? SizedBox() : 10.verticalSpace,
 
-                widget.fromVariant?SizedBox(): TextFeildWidget(
-                  borderColor: kBlack,
-                  hight: 48.h,
-                  fillColor: kWhite,
+                widget.fromVariant
+                    ? SizedBox()
+                    : TextFeildWidget(
+                        borderColor: kBlack,
+                        hight: 48.h,
+                        fillColor: kWhite,
 
-                  inputBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 14.h,
-                    horizontal: 8.w,
-                  ),
-                  textInputType: TextInputType.number,
-                  controller: totalPriceController,
+                        inputBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.h,
+                          horizontal: 8.w,
+                        ),
+                        textInputType: TextInputType.number,
+                        controller: totalPriceController,
 
-                  labelText: 'Total Price',
-                ),
+                        labelText: 'Total Price',
+                      ),
               ],
             ),
           ),
-         widget.fromVariant?SizedBox(): 10.verticalSpace,
+          widget.fromVariant ? SizedBox() : 10.verticalSpace,
           Divider(color: kBorderColor, thickness: 1),
-          widget.fromVariant?SizedBox():10.verticalSpace,
+          widget.fromVariant ? SizedBox() : 10.verticalSpace,
           MainPadding(
             child: Row(
               children: [
@@ -305,7 +315,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                           0,
                           '',
                           '',
-                          0
+                          0,
                         );
 
                         Navigator.pop(context);
@@ -336,63 +346,56 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                         }
                         final cubit = context.read<ProductCubit>();
 
-                        if(widget.fromVariant){
-                          await cubit.stockUpdate(StockUpdateRequest(
-                            maintainStock: widget.maintainStock,
-                            prodVarId: widget.variantId,
-                            productId: widget.productId,
-                            productItemConditionId: context
-                                .read<ProductCubit>()
-                                .state
-                                .selectedStockResponse
-                                ?.productItemConditionId,
-                            stockQty:  double.tryParse(
-                              totalStockController.text,
-                            ),   
-                          ));
-
-
-
-                        }else{
+                        if (widget.fromVariant) {
                           await cubit.stockUpdate(
-                          StockUpdateRequest(
-                            maintainStock: widget.maintainStock,
-                            pricePerUnit: double.tryParse(
-                              pricePerUnitController.text,
+                            StockUpdateRequest(
+                              maintainStock: widget.maintainStock,
+                              prodVarId: widget.variantId,
+                              productId: widget.productId,
+                              productItemConditionId: context
+                                  .read<ProductCubit>()
+                                  .state
+                                  .selectedStockResponse
+                                  ?.productItemConditionId,
+                              stockQty: double.tryParse(
+                                totalStockController.text,
+                              ),
                             ),
-                            productId: widget.productId,
-                            prodVarId: 0,
-                            stockQty: double.tryParse(
-                              totalStockController.text,
+                          );
+                        } else {
+                          await cubit.stockUpdate(
+                            StockUpdateRequest(
+                              maintainStock: widget.maintainStock,
+                              pricePerUnit: double.tryParse(
+                                pricePerUnitController.text,
+                              ),
+                              productId: widget.productId,
+                              prodVarId: 0,
+                              stockQty: double.tryParse(
+                                totalStockController.text,
+                              ),
+                              productItemConditionId: context
+                                  .read<ProductCubit>()
+                                  .state
+                                  .selectedStockResponse
+                                  ?.productItemConditionId,
+                              totalPrice:
+                                  cubit.state.totalStock ??
+                                  0.0 *
+                                      (double.tryParse(
+                                            pricePerUnitController.text,
+                                          ) ??
+                                          0.0),
+
+                              updatedDate:
+                                  context
+                                      .read<ProductCubit>()
+                                      .state
+                                      .selectedDate ??
+                                  getCurrentDate(),
                             ),
-                            productItemConditionId: context
-                                .read<ProductCubit>()
-                                .state
-                                .selectedStockResponse
-                                ?.productItemConditionId,
-                            totalPrice:
-                                cubit.state.totalStock ??
-                                0.0 *
-                                    (double.tryParse(
-                                          pricePerUnitController.text,
-                                        ) ??
-                                        0.0),
-
-                            updatedDate:
-                                context
-                                    .read<ProductCubit>()
-                                    .state
-                                    .selectedDate ??
-                                getCurrentDate(),
-                          ),
-                        );
-
-
-
-
+                          );
                         }
-
-                       
                       },
                       buttonText: 'Submit',
                     ),

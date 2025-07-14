@@ -30,7 +30,7 @@ mixin _$OrderRequest {
   @JsonKey(name: "filter_id")
   dynamic get filterId => throw _privateConstructorUsedError;
   @JsonKey(name: "order_status_id")
-  dynamic get orderStatusId => throw _privateConstructorUsedError;
+  List<int>? get orderStatusId => throw _privateConstructorUsedError;
   @JsonKey(name: "page_first_result")
   int? get pageFirstResult => throw _privateConstructorUsedError;
   @JsonKey(name: "result_per_page")
@@ -82,7 +82,7 @@ abstract class $OrderRequestCopyWith<$Res> {
     @JsonKey(name: "to_date") String? toDate,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "filter_id") dynamic filterId,
-    @JsonKey(name: "order_status_id") dynamic orderStatusId,
+    @JsonKey(name: "order_status_id") List<int>? orderStatusId,
     @JsonKey(name: "page_first_result") int? pageFirstResult,
     @JsonKey(name: "result_per_page") int? resultPerPage,
     @JsonKey(name: "pay_method_id") int? payMethodId,
@@ -156,7 +156,7 @@ class _$OrderRequestCopyWithImpl<$Res, $Val extends OrderRequest>
             orderStatusId: freezed == orderStatusId
                 ? _value.orderStatusId
                 : orderStatusId // ignore: cast_nullable_to_non_nullable
-                      as dynamic,
+                      as List<int>?,
             pageFirstResult: freezed == pageFirstResult
                 ? _value.pageFirstResult
                 : pageFirstResult // ignore: cast_nullable_to_non_nullable
@@ -233,7 +233,7 @@ abstract class _$$OrderRequestImplCopyWith<$Res>
     @JsonKey(name: "to_date") String? toDate,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "filter_id") dynamic filterId,
-    @JsonKey(name: "order_status_id") dynamic orderStatusId,
+    @JsonKey(name: "order_status_id") List<int>? orderStatusId,
     @JsonKey(name: "page_first_result") int? pageFirstResult,
     @JsonKey(name: "result_per_page") int? resultPerPage,
     @JsonKey(name: "pay_method_id") int? payMethodId,
@@ -304,9 +304,9 @@ class __$$OrderRequestImplCopyWithImpl<$Res>
             : filterId // ignore: cast_nullable_to_non_nullable
                   as dynamic,
         orderStatusId: freezed == orderStatusId
-            ? _value.orderStatusId
+            ? _value._orderStatusId
             : orderStatusId // ignore: cast_nullable_to_non_nullable
-                  as dynamic,
+                  as List<int>?,
         pageFirstResult: freezed == pageFirstResult
             ? _value.pageFirstResult
             : pageFirstResult // ignore: cast_nullable_to_non_nullable
@@ -376,7 +376,7 @@ class _$OrderRequestImpl implements _OrderRequest {
     @JsonKey(name: "to_date") this.toDate,
     @JsonKey(name: "store_id") this.storeId,
     @JsonKey(name: "filter_id") this.filterId,
-    @JsonKey(name: "order_status_id") this.orderStatusId,
+    @JsonKey(name: "order_status_id") final List<int>? orderStatusId,
     @JsonKey(name: "page_first_result") this.pageFirstResult,
     @JsonKey(name: "result_per_page") this.resultPerPage,
     @JsonKey(name: "pay_method_id") this.payMethodId,
@@ -391,7 +391,7 @@ class _$OrderRequestImpl implements _OrderRequest {
     @JsonKey(name: "from_time") this.fromTime,
     @JsonKey(name: "to_time") this.toTime,
     @JsonKey(name: "version") this.version,
-  });
+  }) : _orderStatusId = orderStatusId;
 
   factory _$OrderRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderRequestImplFromJson(json);
@@ -408,9 +408,17 @@ class _$OrderRequestImpl implements _OrderRequest {
   @override
   @JsonKey(name: "filter_id")
   final dynamic filterId;
+  final List<int>? _orderStatusId;
   @override
   @JsonKey(name: "order_status_id")
-  final dynamic orderStatusId;
+  List<int>? get orderStatusId {
+    final value = _orderStatusId;
+    if (value == null) return null;
+    if (_orderStatusId is EqualUnmodifiableListView) return _orderStatusId;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   @JsonKey(name: "page_first_result")
   final int? pageFirstResult;
@@ -470,8 +478,8 @@ class _$OrderRequestImpl implements _OrderRequest {
             (identical(other.storeId, storeId) || other.storeId == storeId) &&
             const DeepCollectionEquality().equals(other.filterId, filterId) &&
             const DeepCollectionEquality().equals(
-              other.orderStatusId,
-              orderStatusId,
+              other._orderStatusId,
+              _orderStatusId,
             ) &&
             (identical(other.pageFirstResult, pageFirstResult) ||
                 other.pageFirstResult == pageFirstResult) &&
@@ -507,7 +515,7 @@ class _$OrderRequestImpl implements _OrderRequest {
     toDate,
     storeId,
     const DeepCollectionEquality().hash(filterId),
-    const DeepCollectionEquality().hash(orderStatusId),
+    const DeepCollectionEquality().hash(_orderStatusId),
     pageFirstResult,
     resultPerPage,
     payMethodId,
@@ -544,7 +552,7 @@ abstract class _OrderRequest implements OrderRequest {
     @JsonKey(name: "to_date") final String? toDate,
     @JsonKey(name: "store_id") final int? storeId,
     @JsonKey(name: "filter_id") final dynamic filterId,
-    @JsonKey(name: "order_status_id") final dynamic orderStatusId,
+    @JsonKey(name: "order_status_id") final List<int>? orderStatusId,
     @JsonKey(name: "page_first_result") final int? pageFirstResult,
     @JsonKey(name: "result_per_page") final int? resultPerPage,
     @JsonKey(name: "pay_method_id") final int? payMethodId,
@@ -578,7 +586,7 @@ abstract class _OrderRequest implements OrderRequest {
   dynamic get filterId;
   @override
   @JsonKey(name: "order_status_id")
-  dynamic get orderStatusId;
+  List<int>? get orderStatusId;
   @override
   @JsonKey(name: "page_first_result")
   int? get pageFirstResult;

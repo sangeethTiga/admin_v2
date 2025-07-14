@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/categorysales/categorySales_response.dart';
@@ -33,6 +34,7 @@ import 'package:admin_v2/features/report/domain/repositories/report_repositores.
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/utils/helper/helper.dart';
+import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -444,11 +446,14 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> loadParcelCharge({
-    int? storeId,
-    String? fromDate,
-    String? toDate,
+   
+   
     int page = 0,
     int limit = 20,
+     String? fromDate,
+      
+    String? toDate,
+    int? storeId,
     int? orderOptionId,
 
     bool isLoadMore = false,
@@ -466,13 +471,15 @@ class ReportCubit extends Cubit<ReportState> {
     final res = await _reportRepositories.loadParcelReport(
       pageFirstLimit: offset,
       resultPerPage: limit,
-      orderOptionId: orderOptionId ?? 0,
-      storeId: storeId ?? 0,
+      
+      
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
+      storeId: storeId ?? 0,
+      orderOptionId: orderOptionId ?? 0,
     );
 
-    log('Response data: ${res.data}');
+    log('Response data: $orderOptionId');
     if (res.data != null) {
       final List<ParcelChargeResponse> fetchedList = res.data!;
 
@@ -771,10 +778,10 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadCheque(
-      fromChequeDate: parsedDate(state.fromDate ?? DateTime.now()),
-      fromChequeIssueDate: parsedDate(state.fromDate ?? DateTime.now()),
-      toChequeDate: parsedDate(state.toDate ?? DateTime.now()),
-      toChequeIssueDate: parsedDate(state.toDate ?? DateTime.now()),
+      fromChequeDate: apiFormat.format(state.fromDate ?? DateTime.now()),
+      fromChequeIssueDate: apiFormat.format(state.fromDate ?? DateTime.now()),
+      toChequeDate: apiFormat.format(state.toDate ?? DateTime.now()),
+      toChequeIssueDate: apiFormat.format(state.toDate ?? DateTime.now()),
       storeId: storeId ?? 0,
       status: status ?? '',
       searchText: searchText ?? '',
@@ -1240,6 +1247,7 @@ class ReportCubit extends Cubit<ReportState> {
   Future<void> selectedStore(StoreResponse store) async {
     emit(state.copyWith(selectedStore: store));
   }
+
 
   // Future<void> clearSelectedCategory() async {
   //   emit(state.copyWith(selectCategory: null));

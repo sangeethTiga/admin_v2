@@ -79,6 +79,7 @@ class ReportState extends Equatable {
   final int? totalItems;
   final int? lastStoreId;
   final StoreResponse? selectedStore;
+  final OptionResponse? selectedOption;
 
   const ReportState({
     this.salesReport,
@@ -160,6 +161,7 @@ class ReportState extends Equatable {
     this.lastStoreId,
     this.selectedStore,
     this.totalItems,
+    this.selectedOption
   });
 
   ReportState copyWith({
@@ -242,6 +244,7 @@ class ReportState extends Equatable {
     bool? isLoadingMore,
     int? totalItems,
     StoreResponse? selectedStore,
+    OptionResponse? selectedOption
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -322,6 +325,7 @@ class ReportState extends Equatable {
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       selectedStore: selectedStore ?? this.selectedStore,
       filteredProduct: filteredProduct ?? this.filteredProduct,
+      selectedOption: selectedOption ?? this.selectedOption
 
     );
   }
@@ -401,6 +405,7 @@ class ReportState extends Equatable {
     totalItems,
     selectedStore,
     daySummary,
+    selectedOption
   ];
 }
 

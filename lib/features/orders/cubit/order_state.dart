@@ -12,6 +12,7 @@ class OrderState extends Equatable {
   final ApiFetchStatus? isLoading;
   final OrderDetailResponse? orderDetail;
 
+
   const OrderState({
     this.status = ApiFetchStatus.idle,
     this.statusList,

@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'order_response.freezed.dart';
@@ -42,12 +41,24 @@ class OrderResponse with _$OrderResponse {
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
     @JsonKey(name: "del_partner_name") String? delPartnerName,
     @JsonKey(name: "rowcount") int? rowcount,
-    @JsonKey(name: "total_net_amount") double? totalNetAmount,
-    @JsonKey(name: "order_group_total") double? orderGroupTotal,
-    @JsonKey(name: "order_group_count") int? orderGroupCount,
-    @JsonKey(name: "del_assign_type") int? delAssignType,
+    @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
+    double? totalNetAmount,
+    @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
+    double? orderGroupTotal,
+    @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+    double? orderGroupCount,
+    @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+    double? delAssignType,
   }) = _OrderResponse;
 
   factory OrderResponse.fromJson(Map<String, dynamic> json) =>
       _$OrderResponseFromJson(json);
+}
+
+double? parseNumberAsDouble(dynamic value) {
+  dynamic result = parseNumber(value);
+  if (result == null) return null;
+  if (result is double) return result;
+  if (result is int) return result.toDouble();
+  return null;
 }

@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
@@ -6,6 +5,7 @@ import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_resp
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 import 'package:admin_v2/features/report/domain/models/specialOffer/special_offer_response.dart';
+import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -43,7 +43,7 @@ class _OfferFormState extends State<OfferForm> {
   @override
   void initState() {
     super.initState();
-    final product = widget.product;
+        final product = widget.product;
     nameController = TextEditingController(
       text: widget.product?.productName ?? '',
     );
@@ -117,36 +117,9 @@ class _OfferFormState extends State<OfferForm> {
                 ],
               ),
             ),
-            BlocBuilder<DashboardCubit, DashboardState>(
-              builder: (context, state) {
-                return DropDownFieldWidget(
-                  isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                  prefixIcon: Container(
-                    margin: EdgeInsets.only(left: 12.w),
-                    child: SvgPicture.asset(
-                      'assets/icons/package-box-pin-location.svg',
-                      width: 20.w,
-                      height: 20.h,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  borderColor: kBlack,
-                  value: state.selectedStore,
-                  items:
-                      state.storeList?.map((e) {
-                        return DropdownMenuItem<StoreResponse>(
-                          value: e,
-                          child: Text(e.storeName ?? ''),
-                        );
-                      }).toList() ??
-                      [],
-                  fillColor: const Color(0XFFEFF1F1),
-
-                  onChanged: (p0) {
-                    context.read<DashboardCubit>().selectedStore(p0);
-                  },
-                  labelText: '',
-                );
+            commonStoreDropDown(
+              onChanged: (p0) {
+                context.read<DashboardCubit>().selectedStore(p0);
               },
             ),
 

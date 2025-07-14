@@ -89,14 +89,14 @@ mixin _$OrderResponse {
   String? get delPartnerName => throw _privateConstructorUsedError;
   @JsonKey(name: "rowcount")
   int? get rowcount => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_net_amount")
+  @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
   double? get totalNetAmount => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_group_total")
+  @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
   double? get orderGroupTotal => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_group_count")
-  int? get orderGroupCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "del_assign_type")
-  int? get delAssignType => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+  double? get orderGroupCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+  double? get delAssignType => throw _privateConstructorUsedError;
 
   /// Serializes this OrderResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -150,10 +150,14 @@ abstract class $OrderResponseCopyWith<$Res> {
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
     @JsonKey(name: "del_partner_name") String? delPartnerName,
     @JsonKey(name: "rowcount") int? rowcount,
-    @JsonKey(name: "total_net_amount") double? totalNetAmount,
-    @JsonKey(name: "order_group_total") double? orderGroupTotal,
-    @JsonKey(name: "order_group_count") int? orderGroupCount,
-    @JsonKey(name: "del_assign_type") int? delAssignType,
+    @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
+    double? totalNetAmount,
+    @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
+    double? orderGroupTotal,
+    @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+    double? orderGroupCount,
+    @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+    double? delAssignType,
   });
 }
 
@@ -360,11 +364,11 @@ class _$OrderResponseCopyWithImpl<$Res, $Val extends OrderResponse>
             orderGroupCount: freezed == orderGroupCount
                 ? _value.orderGroupCount
                 : orderGroupCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             delAssignType: freezed == delAssignType
                 ? _value.delAssignType
                 : delAssignType // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -415,10 +419,14 @@ abstract class _$$OrderResponseImplCopyWith<$Res>
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
     @JsonKey(name: "del_partner_name") String? delPartnerName,
     @JsonKey(name: "rowcount") int? rowcount,
-    @JsonKey(name: "total_net_amount") double? totalNetAmount,
-    @JsonKey(name: "order_group_total") double? orderGroupTotal,
-    @JsonKey(name: "order_group_count") int? orderGroupCount,
-    @JsonKey(name: "del_assign_type") int? delAssignType,
+    @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
+    double? totalNetAmount,
+    @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
+    double? orderGroupTotal,
+    @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+    double? orderGroupCount,
+    @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+    double? delAssignType,
   });
 }
 
@@ -624,11 +632,11 @@ class __$$OrderResponseImplCopyWithImpl<$Res>
         orderGroupCount: freezed == orderGroupCount
             ? _value.orderGroupCount
             : orderGroupCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         delAssignType: freezed == delAssignType
             ? _value.delAssignType
             : delAssignType // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -672,10 +680,14 @@ class _$OrderResponseImpl implements _OrderResponse {
     @JsonKey(name: "delivery_partner_id") this.deliveryPartnerId,
     @JsonKey(name: "del_partner_name") this.delPartnerName,
     @JsonKey(name: "rowcount") this.rowcount,
-    @JsonKey(name: "total_net_amount") this.totalNetAmount,
-    @JsonKey(name: "order_group_total") this.orderGroupTotal,
-    @JsonKey(name: "order_group_count") this.orderGroupCount,
-    @JsonKey(name: "del_assign_type") this.delAssignType,
+    @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
+    this.totalNetAmount,
+    @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
+    this.orderGroupTotal,
+    @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+    this.orderGroupCount,
+    @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+    this.delAssignType,
   });
 
   factory _$OrderResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -784,17 +796,17 @@ class _$OrderResponseImpl implements _OrderResponse {
   @JsonKey(name: "rowcount")
   final int? rowcount;
   @override
-  @JsonKey(name: "total_net_amount")
+  @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
   final double? totalNetAmount;
   @override
-  @JsonKey(name: "order_group_total")
+  @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
   final double? orderGroupTotal;
   @override
-  @JsonKey(name: "order_group_count")
-  final int? orderGroupCount;
+  @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+  final double? orderGroupCount;
   @override
-  @JsonKey(name: "del_assign_type")
-  final int? delAssignType;
+  @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+  final double? delAssignType;
 
   @override
   String toString() {
@@ -978,10 +990,14 @@ abstract class _OrderResponse implements OrderResponse {
     @JsonKey(name: "delivery_partner_id") final int? deliveryPartnerId,
     @JsonKey(name: "del_partner_name") final String? delPartnerName,
     @JsonKey(name: "rowcount") final int? rowcount,
-    @JsonKey(name: "total_net_amount") final double? totalNetAmount,
-    @JsonKey(name: "order_group_total") final double? orderGroupTotal,
-    @JsonKey(name: "order_group_count") final int? orderGroupCount,
-    @JsonKey(name: "del_assign_type") final int? delAssignType,
+    @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
+    final double? totalNetAmount,
+    @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
+    final double? orderGroupTotal,
+    @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+    final double? orderGroupCount,
+    @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+    final double? delAssignType,
   }) = _$OrderResponseImpl;
 
   factory _OrderResponse.fromJson(Map<String, dynamic> json) =
@@ -1090,17 +1106,17 @@ abstract class _OrderResponse implements OrderResponse {
   @JsonKey(name: "rowcount")
   int? get rowcount;
   @override
-  @JsonKey(name: "total_net_amount")
+  @JsonKey(name: "total_net_amount", fromJson: parseNumberAsDouble)
   double? get totalNetAmount;
   @override
-  @JsonKey(name: "order_group_total")
+  @JsonKey(name: "order_group_total", fromJson: parseNumberAsDouble)
   double? get orderGroupTotal;
   @override
-  @JsonKey(name: "order_group_count")
-  int? get orderGroupCount;
+  @JsonKey(name: "order_group_count", fromJson: parseNumberAsDouble)
+  double? get orderGroupCount;
   @override
-  @JsonKey(name: "del_assign_type")
-  int? get delAssignType;
+  @JsonKey(name: "del_assign_type", fromJson: parseNumberAsDouble)
+  double? get delAssignType;
 
   /// Create a copy of OrderResponse
   /// with the given fields replaced by the non-null parameter values.

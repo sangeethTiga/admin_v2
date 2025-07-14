@@ -107,9 +107,35 @@ int? parseInt(dynamic value) {
 }
 
 double? parseDouble(dynamic value) {
+  if (value == null) return null;
   if (value is double) return value;
   if (value is String) return double.tryParse(value) ?? 0.0;
   if (value is int) return value.toDouble();
+  return null;
+}
+
+dynamic parseNumber(dynamic value) {
+  if (value == null) return null;
+
+  if (value is num) {
+    if (value == value.toInt()) {
+      return value.toInt();
+    } else {
+      return value.toDouble();
+    }
+  }
+
+  if (value is String) {
+    double? doubleValue = double.tryParse(value);
+    if (doubleValue != null) {
+      if (doubleValue == doubleValue.toInt()) {
+        return doubleValue.toInt();
+      } else {
+        return doubleValue;
+      }
+    }
+  }
+
   return null;
 }
 
@@ -131,4 +157,36 @@ int? _toInt(dynamic value) {
   if (value is int) return value;
   if (value is String) return int.tryParse(value);
   return null;
+}
+
+class FilterItem {
+  final int id;
+  final String name;
+  final bool isSelected;
+  final Map<String, dynamic>? additionalData;
+
+  FilterItem({
+    required this.id,
+    required this.name,
+    this.isSelected = false,
+    this.additionalData,
+  });
+
+  FilterItem copyWith({bool? isSelected}) {
+    return FilterItem(
+      id: id,
+      name: name,
+      isSelected: isSelected ?? this.isSelected,
+      additionalData: additionalData,
+    );
+  }
+}
+
+class FilterCategory {
+  final String title;
+  final List<FilterItem> items;
+  final int selectedCount;
+
+  FilterCategory({required this.title, required this.items})
+    : selectedCount = items.where((item) => item.isSelected).length;
 }
