@@ -6,6 +6,7 @@ import 'package:admin_v2/features/orders/domain/models/order_request/order_reque
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/features/orders/domain/repositories/order_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -30,7 +31,8 @@ class OrderCubit extends Cubit<OrderState> {
         );
       }
       emit(state.copyWith(isLoading: ApiFetchStatus.failed));
-    } catch (e) {
+    } catch (e, s) {
+      log("Error fetching orders: $e", stackTrace: s);
       emit(state.copyWith(isLoading: ApiFetchStatus.failed));
     }
   }
@@ -105,19 +107,41 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
-  Future<void> searchOrder(int storeId, String search) async {
-    try {
-      final res = await _orderRepositories.searchOrder(
-        search: search,
-        storeId: storeId,
-      );
-      if (res.data != null) {
-        emit(state.copyWith(isLoading: ApiFetchStatus.success));
-      } else {
-        emit(state.copyWith(isLoading: ApiFetchStatus.failed));
-      }
-    } catch (e, s) {
-      emit(state.copyWith(isLoading: ApiFetchStatus.failed));
-    }
+  void applyFiltersToData(Map<String, List<int>> filters) {
+    print('Applying filters to data...');
+    print('Received filters: $filters');
+
+    int? selectedPaymentType = filters['Payment Type']?.isNotEmpty == true
+        ? filters['Payment Type']!.first
+        : null;
+
+    int? selectedWaiter = filters['Waiters']?.isNotEmpty == true
+        ? filters['Waiters']!.first
+        : null;
+
+    int? selectedKiosk = filters['KIOSK']?.isNotEmpty == true
+        ? filters['KIOSK']!.first
+        : null;
+
+    int? selectedCashier = filters['CASHIER']?.isNotEmpty == true
+        ? filters['CASHIER']!.first
+        : null;
+
+    print('Selected Payment Type ID: $selectedPaymentType');
+    print('Selected Waiter ID: $selectedWaiter');
+    print('Selected Kiosk ID: $selectedKiosk');
+    print('Selected Cashier ID: $selectedCashier');
+
+    orders(
+      req: OrderRequest(
+        payMethodId: selectedPaymentType,
+        waiterId: selectedWaiter,
+        kioskId: selectedKiosk,
+        cashierId: selectedCashier,
+        version: "v2",
+        fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+        toDate: parsedDate(state.toDate ?? DateTime.now()),
+      ),
+    );
   }
 }

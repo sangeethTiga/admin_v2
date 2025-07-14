@@ -64,25 +64,25 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
         onRefresh: _refreshReport,
         child: BlocBuilder<ReportCubit, ReportState>(
           builder: (context, state) {
-            return Column(
-              children: [
-                dividerWidget(height: 6.h),
-                10.verticalSpace,
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  dividerWidget(height: 6.h),
 
-                MainPadding(
-                  child: Column(
-                    children: [
-                      _buildStoreDropdown(),
-                      _handleDate(),
-                      12.verticalSpace,
-                      _viewReport(),
-                      2.verticalSpace,
-                      _commonTable(),
-
-                    ],
+                  MainPadding(
+                    child: Column(
+                      children: [
+                        _buildStoreDropdown(),
+                        _handleDate(),
+                        12.verticalSpace,
+                        _viewReport(),
+                        2.verticalSpace,
+                        _commonTable(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           },
         ),

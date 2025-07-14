@@ -31,14 +31,14 @@ mixin _$ExpenseReportResponse {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "invoice_number")
   dynamic get invoiceNumber => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount", fromJson: parseDouble)
+  @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
   double? get amount => throw _privateConstructorUsedError;
   @JsonKey(name: "account_name")
   String? get accountName => throw _privateConstructorUsedError;
   @JsonKey(name: "raw_count")
   int? get rawCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "totalamount")
-  String? get totalamount => throw _privateConstructorUsedError;
+  @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
+  double? get totalamount => throw _privateConstructorUsedError;
 
   /// Serializes this ExpenseReportResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -62,10 +62,11 @@ abstract class $ExpenseReportResponseCopyWith<$Res> {
     @JsonKey(name: "ac_transaction_date") String? acTransactionDate,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "invoice_number") dynamic invoiceNumber,
-    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
     @JsonKey(name: "raw_count") int? rawCount,
-    @JsonKey(name: "totalamount") String? totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
+    double? totalamount,
   });
 }
 
@@ -129,7 +130,7 @@ class _$ExpenseReportResponseCopyWithImpl<
             totalamount: freezed == totalamount
                 ? _value.totalamount
                 : totalamount // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as double?,
           )
           as $Val,
     );
@@ -150,10 +151,11 @@ abstract class _$$ExpenseReportResponseImplCopyWith<$Res>
     @JsonKey(name: "ac_transaction_date") String? acTransactionDate,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "invoice_number") dynamic invoiceNumber,
-    @JsonKey(name: "amount", fromJson: parseDouble) double? amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
     @JsonKey(name: "raw_count") int? rawCount,
-    @JsonKey(name: "totalamount") String? totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
+    double? totalamount,
   });
 }
 
@@ -214,7 +216,7 @@ class __$$ExpenseReportResponseImplCopyWithImpl<$Res>
         totalamount: freezed == totalamount
             ? _value.totalamount
             : totalamount // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as double?,
       ),
     );
   }
@@ -228,10 +230,11 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
     @JsonKey(name: "ac_transaction_date") this.acTransactionDate,
     @JsonKey(name: "description") this.description,
     @JsonKey(name: "invoice_number") this.invoiceNumber,
-    @JsonKey(name: "amount", fromJson: parseDouble) this.amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble) this.amount,
     @JsonKey(name: "account_name") this.accountName,
     @JsonKey(name: "raw_count") this.rawCount,
-    @JsonKey(name: "totalamount") this.totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
+    this.totalamount,
   });
 
   factory _$ExpenseReportResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -250,7 +253,7 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
   @JsonKey(name: "invoice_number")
   final dynamic invoiceNumber;
   @override
-  @JsonKey(name: "amount", fromJson: parseDouble)
+  @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
   final double? amount;
   @override
   @JsonKey(name: "account_name")
@@ -259,8 +262,8 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
   @JsonKey(name: "raw_count")
   final int? rawCount;
   @override
-  @JsonKey(name: "totalamount")
-  final String? totalamount;
+  @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
+  final double? totalamount;
 
   @override
   String toString() {
@@ -329,10 +332,12 @@ abstract class _ExpenseReportResponse implements ExpenseReportResponse {
     @JsonKey(name: "ac_transaction_date") final String? acTransactionDate,
     @JsonKey(name: "description") final String? description,
     @JsonKey(name: "invoice_number") final dynamic invoiceNumber,
-    @JsonKey(name: "amount", fromJson: parseDouble) final double? amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
+    final double? amount,
     @JsonKey(name: "account_name") final String? accountName,
     @JsonKey(name: "raw_count") final int? rawCount,
-    @JsonKey(name: "totalamount") final String? totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
+    final double? totalamount,
   }) = _$ExpenseReportResponseImpl;
 
   factory _ExpenseReportResponse.fromJson(Map<String, dynamic> json) =
@@ -351,7 +356,7 @@ abstract class _ExpenseReportResponse implements ExpenseReportResponse {
   @JsonKey(name: "invoice_number")
   dynamic get invoiceNumber;
   @override
-  @JsonKey(name: "amount", fromJson: parseDouble)
+  @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
   double? get amount;
   @override
   @JsonKey(name: "account_name")
@@ -360,8 +365,8 @@ abstract class _ExpenseReportResponse implements ExpenseReportResponse {
   @JsonKey(name: "raw_count")
   int? get rawCount;
   @override
-  @JsonKey(name: "totalamount")
-  String? get totalamount;
+  @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
+  double? get totalamount;
 
   /// Create a copy of ExpenseReportResponse
   /// with the given fields replaced by the non-null parameter values.

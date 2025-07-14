@@ -12,7 +12,9 @@ _$OrderRequestImpl _$$OrderRequestImplFromJson(Map<String, dynamic> json) =>
       toDate: json['to_date'] as String?,
       storeId: (json['store_id'] as num?)?.toInt(),
       filterId: json['filter_id'],
-      orderStatusId: json['order_status_id'],
+      orderStatusId: (json['order_status_id'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       pageFirstResult: (json['page_first_result'] as num?)?.toInt(),
       resultPerPage: (json['result_per_page'] as num?)?.toInt(),
       payMethodId: (json['pay_method_id'] as num?)?.toInt(),

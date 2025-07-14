@@ -10,7 +10,7 @@ class OrderRequest with _$OrderRequest {
     @JsonKey(name: "to_date") String? toDate,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "filter_id") dynamic filterId,
-    @JsonKey(name: "order_status_id") dynamic orderStatusId,
+    @JsonKey(name: "order_status_id") List<int>? orderStatusId,
     @JsonKey(name: "page_first_result") int? pageFirstResult,
     @JsonKey(name: "result_per_page") int? resultPerPage,
     @JsonKey(name: "pay_method_id") int? payMethodId,

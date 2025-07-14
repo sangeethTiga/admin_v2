@@ -27,11 +27,16 @@ class ExpenseReportScreen extends StatelessWidget {
           dividerWidget(height: 6.h),
 
           MainPadding(
+            bottom: 0,
             child: Column(
               children: [
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 17.h,
+                      ),
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                       prefixIcon: Container(
                         margin: EdgeInsets.only(left: 12.w),
@@ -72,6 +77,10 @@ class ExpenseReportScreen extends StatelessWidget {
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 17.h,
+                      ),
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
 
                       borderColor: kBlack,
@@ -104,7 +113,6 @@ class ExpenseReportScreen extends StatelessWidget {
                     );
                   },
                 ),
-                12.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(
@@ -126,7 +134,7 @@ class ExpenseReportScreen extends StatelessWidget {
                         Expanded(
                           child: DatePickerContainer(
                             value: apiFormat.format(
-                              state.toDate ?? DateTime.now(),
+                              state.fromDate ?? DateTime.now(),
                             ),
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
@@ -154,7 +162,6 @@ class ExpenseReportScreen extends StatelessWidget {
                     );
                   },
                 ),
-                10.verticalSpace,
               ],
             ),
           ),
@@ -164,47 +171,30 @@ class ExpenseReportScreen extends StatelessWidget {
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      return NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isSaleReport != ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadReveneueReport(
-                              page: state.currentPage + 1,
-
-                              isLoadMore: true,
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
-                          return false;
-                        },
-                        child: CommonTableWidget(
-                          isLoading:
-                              state.isSaleReport == ApiFetchStatus.loading,
-                          headers: [
-                            // "#",
-                            "INVOICE NO",
-                            "TRANSACTION DATE",
-                            "DESCRIPTION",
-                            "ACCOUNT NAME",
-                            "AMOUNT",
-                          ],
-                          columnFlex: [3, 5, 5, 4, 3],
-                          data:
-                              state.expenseReport?.map((e) {
-                                int index =
-                                    state.expenseReport?.indexOf(e) ?? 0;
-                                return {
-                                  // '#': index + 1,
-                                  'INVOICE NO': e.invoiceNumber ?? '',
-                                  'TRANSACTION DATE': e.acTransactionDate ?? '',
-                                  'DESCRIPTION': e.description ?? '',
-                                  "ACCOUNT NAME": e.accountName ?? '',
-                                  'AMOUNT': e.amount ?? '',
-                                };
-                              }).toList() ??
-                              [],
-                        ),
+                      return CommonTableWidget(
+                        isLoading: state.isSaleReport == ApiFetchStatus.loading,
+                        headers: [
+                          "#",
+                          "INVOICE NO",
+                          "TRANSACTION DATE",
+                          "DESCRIPTION",
+                          "ACCOUNT NAME",
+                          "AMOUNT",
+                        ],
+                        columnFlex: [1, 3, 5, 5, 4, 3],
+                        data:
+                            state.expenseReport?.map((e) {
+                              int index = state.expenseReport?.indexOf(e) ?? 0;
+                              return {
+                                '#': index + 1,
+                                'INVOICE NO': e.invoiceNumber ?? '',
+                                'TRANSACTION DATE': e.acTransactionDate ?? '',
+                                'DESCRIPTION': e.description ?? '',
+                                "ACCOUNT NAME": e.accountName ?? '',
+                                'AMOUNT': e.amount ?? '',
+                              };
+                            }).toList() ??
+                            [],
                       );
                     },
                   );

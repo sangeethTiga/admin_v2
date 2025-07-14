@@ -42,10 +42,10 @@ _$OrderResponseImpl _$$OrderResponseImplFromJson(Map<String, dynamic> json) =>
       deliveryPartnerId: (json['delivery_partner_id'] as num?)?.toInt(),
       delPartnerName: json['del_partner_name'] as String?,
       rowcount: (json['rowcount'] as num?)?.toInt(),
-      totalNetAmount: (json['total_net_amount'] as num?)?.toDouble(),
-      orderGroupTotal: (json['order_group_total'] as num?)?.toDouble(),
-      orderGroupCount: (json['order_group_count'] as num?)?.toInt(),
-      delAssignType: (json['del_assign_type'] as num?)?.toInt(),
+      totalNetAmount: parseNumberAsDouble(json['total_net_amount']),
+      orderGroupTotal: parseNumberAsDouble(json['order_group_total']),
+      orderGroupCount: parseNumberAsDouble(json['order_group_count']),
+      delAssignType: parseNumberAsDouble(json['del_assign_type']),
     );
 
 Map<String, dynamic> _$$OrderResponseImplToJson(_$OrderResponseImpl instance) =>
