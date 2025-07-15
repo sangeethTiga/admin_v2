@@ -15,31 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CustomersReportScreen extends StatefulWidget {
+class CustomersReportScreen extends StatelessWidget {
   const CustomersReportScreen({super.key});
-
-  @override
-  State<CustomersReportScreen> createState() => _CustomersReportScreenState();
-}
-
-class _CustomersReportScreenState extends State<CustomersReportScreen> {
-  void _loadMoreData() {
-    final reportState = context.read<ReportCubit>().state;
-    final dashboardState = context.read<DashboardCubit>().state;
-
-    print('_loadMoreData called');
-    print('hasMoreData: ${reportState.hasMoreData}');
-    print('isLoadingMore: ${reportState.isLoadingMore}');
-    print('currentPage: ${reportState.currentPage}');
-    print('total records: ${reportState.customersReport?.length}');
-
-    if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
-      context.read<ReportCubit>().loadCustomersReport(
-        storeId: dashboardState.selectedStore?.storeId,
-        isLoadMore: true,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +27,6 @@ class _CustomersReportScreenState extends State<CustomersReportScreen> {
           return Column(
             children: [
               dividerWidget(height: 6.h),
-
               MainPadding(
                 top: 0.h,
                 child: Column(
@@ -108,11 +84,8 @@ class _CustomersReportScreenState extends State<CustomersReportScreen> {
                                 ?.storeId ??
                             0;
 
-                        // Fixed: Call loadCustomersReport instead of loadSuppliersReport
                         context.read<ReportCubit>().loadCustomersReport(
                           storeId: storeId,
-                          // Add search query parameter if your API supports it
-                          // query: value?.trim(),
                         );
                       },
 
@@ -163,78 +136,79 @@ class _CustomersReportScreenState extends State<CustomersReportScreen> {
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      child: NotificationListener<ScrollNotification>(
-                                        onNotification:
-                                            (ScrollNotification scrollInfo) {
-                                              // More detailed scroll detection
-                                              if (scrollInfo
-                                                  is ScrollEndNotification) {
-                                                final maxScroll = scrollInfo
-                                                    .metrics
-                                                    .maxScrollExtent;
-                                                final currentScroll =
-                                                    scrollInfo.metrics.pixels;
-                                                final threshold =
-                                                    maxScroll -
-                                                    100; // Reduced threshold
+                                      child:
+                                          NotificationListener<
+                                            ScrollNotification
+                                          >(
+                                            onNotification:
+                                                (
+                                                  ScrollNotification scrollInfo,
+                                                ) {
+                                                  if (scrollInfo
+                                                      is ScrollEndNotification) {
+                                                    final maxScroll = scrollInfo
+                                                        .metrics
+                                                        .maxScrollExtent;
+                                                    final currentScroll =
+                                                        scrollInfo
+                                                            .metrics
+                                                            .pixels;
+                                                    final threshold =
+                                                        maxScroll - 100;
 
-                                                print(
-                                                  'Scroll - Current: $currentScroll, Max: $maxScroll, Threshold: $threshold',
-                                                );
+                                                    if (currentScroll >=
+                                                        threshold) {
+                                                      _loadMoreData(context);
+                                                    }
+                                                  }
+                                                  return false;
+                                                },
+                                            child: CommonTableWidget(
+                                              isLoading:
+                                                  state.isCustomersReport ==
+                                                  ApiFetchStatus.loading,
+                                              headers: [
+                                                "#",
+                                                "Customer",
+                                                "E-Mail",
+                                                "Mobile",
+                                                "Purchase(AED)",
+                                                "Balance",
+                                              ],
 
-                                                if (currentScroll >=
-                                                    threshold) {
-                                                  print(
-                                                    'Triggering load more...',
-                                                  );
-                                                  _loadMoreData();
-                                                }
-                                              }
-                                              return false;
-                                            },
-                                        child: CommonTableWidget(
-                                          isLoading:
-                                              state.isCustomersReport ==
-                                              ApiFetchStatus.loading,
-                                          headers: [
-                                            "#",
-                                            "Customer",
-                                            "E-Mail",
-                                            "Mobile",
-                                            "Purchase(AED)",
-                                            "Balance",
-                                          ],
+                                              columnFlex: [1, 3, 3, 4, 3, 2],
+                                              data:
+                                                  state.customersReport
+                                                      ?.asMap()
+                                                      .entries
+                                                      .map((entry) {
+                                                        int localIndex =
+                                                            entry.key;
+                                                        var e = entry.value;
+                                                        int globalIndex =
+                                                            localIndex + 1;
 
-                                          columnFlex: [1, 3, 3, 4, 3, 2],
-                                          data:
-                                              state.customersReport
-                                                  ?.asMap()
-                                                  .entries
-                                                  .map((entry) {
-                                                    int localIndex = entry.key;
-                                                    var e = entry.value;
-                                                    int globalIndex =
-                                                        localIndex + 1;
-
-                                                    return {
-                                                      '#': globalIndex,
-                                                      'Customer':
-                                                          e.custName ?? '',
-                                                      'E-Mail':
-                                                          e.custEmail ?? '',
-                                                      'Mobile':
-                                                          e.custMobile ?? '',
-                                                      'Purchase(AED)': e
-                                                          .totalPurchaseAmount
-                                                          .toString(),
-                                                      'Balance': e.balanceAmt
-                                                          .toString(),
-                                                    };
-                                                  })
-                                                  .toList() ??
-                                              [],
-                                        ),
-                                      ),
+                                                        return {
+                                                          '#': globalIndex,
+                                                          'Customer':
+                                                              e.custName ?? '',
+                                                          'E-Mail':
+                                                              e.custEmail ?? '',
+                                                          'Mobile':
+                                                              e.custMobile ??
+                                                              '',
+                                                          'Purchase(AED)': e
+                                                              .totalPurchaseAmount
+                                                              .toString(),
+                                                          'Balance': e
+                                                              .balanceAmt
+                                                              .toString(),
+                                                        };
+                                                      })
+                                                      .toList() ??
+                                                  [],
+                                            ),
+                                          ),
                                     ),
                                     if (state.isLoadingMore == true)
                                       Container(
@@ -257,7 +231,6 @@ class _CustomersReportScreenState extends State<CustomersReportScreen> {
                                   ],
                                 ),
                               ),
-                              _buildPageInfo(context, state),
                             ],
                           );
                         },
@@ -274,12 +247,20 @@ class _CustomersReportScreenState extends State<CustomersReportScreen> {
   }
 }
 
-Widget _buildPageInfo(BuildContext context, ReportState state) {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-    child: Text(
-      'Page ${(state.currentPage ?? 0) + 1} • ${state.customersReport?.length ?? 0} customers',
-      style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-    ),
-  );
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.customersReport?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadCustomersReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
+    );
+  }
 }

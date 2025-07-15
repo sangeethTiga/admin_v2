@@ -76,7 +76,7 @@ class ApiEndpoints {
     String toDate,
     int filterId,
   ) =>
-      "/api/customerreport?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=0&result_per_page=50&filter_id=$filterId";
+      "/api/customerreport?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_result=$pageFirstResult&result_per_page=$resultPerPage&filter_id=$filterId";
 
   static String proudtcList(
     int storeId,
@@ -245,7 +245,4 @@ class ApiEndpoints {
     // int resultPerPage,
   ) =>
       '/api/order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
-
-
-      
 }

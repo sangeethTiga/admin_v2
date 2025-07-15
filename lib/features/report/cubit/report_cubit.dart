@@ -342,12 +342,11 @@ class ReportCubit extends Cubit<ReportState> {
     String? fromDate,
     String? toDate,
     int? accountId,
-    int page = 0,
+    int page = 1,
     int limit = 20,
     bool isLoadMore = false,
   }) async {
     try {
-      // Set loading state based on whether it's load more or initial load
       if (isLoadMore) {
         emit(state.copyWith(isLoadingMore: true));
       } else {
@@ -362,8 +361,7 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      // Calculate the correct page number
-      final currentPage = isLoadMore ? (state.currentPage ?? 0) + 1 : 0;
+      final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
 
       final res = await _reportRepositories.loadCustomersReport(
         filterId: 1,
@@ -376,7 +374,7 @@ class ReportCubit extends Cubit<ReportState> {
 
       log('Response data: ${res.data}');
 
-      if (res.data != null) {
+      if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         List<CustomersResponse> updatedList;
         if (isLoadMore) {
           updatedList = [...(state.customersReport ?? []), ...res.data!];
