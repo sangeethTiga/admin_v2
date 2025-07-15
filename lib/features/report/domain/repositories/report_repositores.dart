@@ -188,6 +188,7 @@ abstract class ReportRepositories {
     required int storeId,
     required int admin,
     required String query,
+    
   });
 
   Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary({

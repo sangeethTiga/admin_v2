@@ -124,12 +124,13 @@ class CustomersReportScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
-              Expanded(
+               Expanded(
                 child: MainPadding(
                   child: BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, store) {
-                      return BlocBuilder<ReportCubit, ReportState>(
+                      return 
+                      
+                      BlocBuilder<ReportCubit, ReportState>(
                         builder: (context, state) {
                           return Column(
                             children: [
