@@ -115,18 +115,6 @@ class _CommonOrderFilterState extends State<CommonOrderFilter> {
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: _clearAllFilters,
-                      child: Text(
-                        'Clear All',
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 16.w),
-                    GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: SvgPicture.asset('assets/icons/x-close.svg'),
                     ),
@@ -158,6 +146,7 @@ class _CommonOrderFilterState extends State<CommonOrderFilter> {
                   child: CustomMaterialBtton(
                     onPressed: () {
                       _clearAllFilters();
+
                       context.pop(context);
                     },
 
