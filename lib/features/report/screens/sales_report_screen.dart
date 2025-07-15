@@ -58,39 +58,38 @@ class SalesReportScreen extends StatelessWidget {
                         ),
                       ],
                     );
+                   
                   },
+
                 ),
+                10.verticalSpace,
+                
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(
                       children: [
-                        Expanded(
-                          child: DatePickerContainer(
-                            value: apiFormat.format(
-                              state.fromDate ?? DateTime.now(),
-                            ),
-                            hintText: '',
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeFromDate(
-                                pickedDate,
-                              );
-                            },
-                          ),
-                        ),
-                        12.horizontalSpace,
-                        Expanded(
-                          child: DatePickerContainer(
-                            hintText: '',
-                            value: apiFormat.format(
-                              state.toDate ?? DateTime.now(),
-                            ),
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeToDate(
-                                pickedDate,
-                              );
-                            },
-                          ),
-                        ),
+                         Expanded(
+                                child: DatePickerContainer(
+                                   labelText: 'From Date',
+                                 
+                                  changeDate: (DateTime pickedDate) {
+                                    context
+                                        .read<ReportCubit>()
+                                        .changeFromDate(pickedDate);
+                                  },
+                                ),
+                              ),
+                              12.horizontalSpace,
+                              Expanded(
+                                child: DatePickerContainer(
+                                  labelText: 'To Date',
+                                  changeDate: (DateTime pickedDate) {
+                                    context.read<ReportCubit>().changeToDate(
+                                      pickedDate,
+                                    );
+                                  },
+                                ),
+                              ),
                       ],
                     );
                   },
@@ -98,13 +97,30 @@ class SalesReportScreen extends StatelessWidget {
                 10.verticalSpace,
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
-                    return CustomMaterialBtton(
-                      onPressed: () {
-                        context.read<ReportCubit>().loadSalesReport(
-                          selectedStoreId: state.selectedStore?.storeId,
-                        );
-                      },
-                      buttonText: 'View Report',
+                    return Column(
+                      children: [
+                        CustomMaterialBtton(
+                          onPressed: () {
+                            
+                           final reportCubit=context.read<ReportCubit>().state;
+
+                            context.read<ReportCubit>().loadSalesReport(
+                              selectedStoreId: state.selectedStore?.storeId,
+                              fromDate: reportCubit.fromDate.toString(),
+                              toDate: reportCubit.toDate.toString(),
+                              selectedDuration: 5,
+                              selectedPaymentMethodId: '',
+                              selectedCashierId: '',
+                              selectedDeliveryAgentId: '',
+                              selectedGroupBy: '',
+                              selectedKIOSK: '',
+                              selectedShiftId: '',
+                              selectedWaiterId: '',
+                            );
+                          },
+                          buttonText: 'View Report',
+                        ),
+                      ],
                     );
                   },
                 ),

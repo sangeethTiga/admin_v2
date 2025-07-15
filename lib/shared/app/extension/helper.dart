@@ -155,7 +155,6 @@ void navigateToFeature(
 
     switch (featureName) {
       case 'Product':
-      
         _navigateToProducts(storeId ?? 0, context);
       case 'Profit/loss':
         context.read<ReportCubit>().initState();
@@ -177,7 +176,7 @@ void navigateToFeature(
         context.push(routeCustomers);
       case 'Purchase':
         context.read<ReportCubit>().initState();
-        _navigateToPurchase(context);
+        _navigateToPurchase(context, storeId ?? 0, today);
       case 'Day Summary':
         context.read<ReportCubit>().initState();
         _navigateToDaySummary(context, storeId ?? 0);
@@ -225,6 +224,7 @@ void _navigateToOrders(int storeId, String date, BuildContext context) {
     final orderCubit = context.read<OrderCubit>();
     orderCubit.orderStatus();
     orderCubit.orders(
+      isEdit: false,
       req: OrderRequest(storeId: storeId, fromDate: date, toDate: date),
     );
     context.push(routeOrders);
@@ -281,10 +281,16 @@ void _navigateToExpense(
   } catch (e) {}
 }
 
-void _navigateToPurchase(BuildContext context) {
+void _navigateToPurchase(BuildContext context, int storeId, String date) {
   try {
     final commonCubit = context.read<CommonCubit>();
     commonCubit.purchaseType();
+    context.read<ReportCubit>().loadPurchaseReport(
+      storeId: storeId,
+      fromDate: date,
+      toDate: date,
+      purchaseType: 0,
+    );
     context.push(routePurchase);
   } catch (e) {}
 }

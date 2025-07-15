@@ -574,39 +574,19 @@ class ReportCubit extends Cubit<ReportState> {
       toDate: parsedDate(state.toDate ?? DateTime.now()),
       pageFirstLimit: offset,
       resultPerPage: limit,
-      purchaseType: state.selectedPurchaseType?.id ?? 0,
-      // (state.selectedPurchaseType is int)
-      //     ? state.selectedPurchaseType as int
-      //     : purchaseType ?? 0,
+      purchaseType: purchaseType ?? 0,
     );
-    // print('purchase:${res.data}');
-
-    if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<PurchaseResponse> fetchedList = rawList.map((element) {
-        if (element is PurchaseResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return PurchaseResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadPurchaseReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
-
-      final List<PurchaseResponse> newList = isLoadMore
-          ? <PurchaseResponse>[...?state.purchaseReport, ...fetchedList]
-          : fetchedList;
-
+    log("TYPE ID  -= -= -= $purchaseType");
+    if (res.data != null && (res.data?.isNotEmpty ?? false)) {
       emit(
         state.copyWith(
-          purchaseReport: newList,
+          purchaseReport: res.data,
           isPurchaseReport: ApiFetchStatus.success,
         ),
       );
+    } else {
+      emit(state.copyWith(isPurchaseReport: ApiFetchStatus.failed));
     }
-    emit(state.copyWith(isPurchaseReport: ApiFetchStatus.failed));
   }
 
   Future<void> changePucrhaeType(PurchaseType v) async {
@@ -1229,12 +1209,7 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> selectedProductName(ProductNameResponse product) async {
-    emit(
-      state.copyWith(
-        selectedProductName: product,
-    
-      ),
-    );
+    emit(state.copyWith(selectedProductName: product));
   }
 
   Future<void> clearCategories() async {

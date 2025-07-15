@@ -39,41 +39,41 @@ class _OfferFormState extends State<OfferForm> {
   late final TextEditingController toDateController;
   late final TextEditingController productPriceController;
   bool isLoading = false;
-  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
+  void _updateDiscountFromOfferPrice() {
+    final offerText = offerPriceController.text;
+    final productText = productPriceController.text;
 
-void _updateDiscountFromOfferPrice() {
-  final offerText = offerPriceController.text;
-  final productText = productPriceController.text;
+    final offerPrice = double.tryParse(offerText) ?? 0;
+    final productPrice = double.tryParse(productText) ?? 0;
 
-  final offerPrice = double.tryParse(offerText) ?? 0;
-  final productPrice = double.tryParse(productText) ?? 0;
-
-  if (offerPrice > 0 && productPrice > 0) {
-    if (offerPrice > productPrice) {
-      _scaffoldMessengerKey.currentState?.clearSnackBars(); 
-      _scaffoldMessengerKey.currentState?.showSnackBar(
-        SnackBar(
-          content: const Text('Offer price cannot be greater than product price.'),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-      discountController.text = '';
+    if (offerPrice > 0 && productPrice > 0) {
+      if (offerPrice > productPrice) {
+        _scaffoldMessengerKey.currentState?.clearSnackBars();
+        _scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(
+            content: const Text(
+              'Offer price cannot be greater than product price.',
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+        discountController.text = '';
+      } else {
+        final discount = ((productPrice - offerPrice) / productPrice) * 100;
+        discountController.text = discount.toStringAsFixed(0);
+      }
     } else {
-      final discount = ((productPrice - offerPrice) / productPrice) * 100;
-      discountController.text = discount.toStringAsFixed(0);
+      discountController.text = '';
     }
-  } else {
-    discountController.text = '';
   }
-}
-
 
   @override
-
   void initState() {
     super.initState();
 
@@ -97,6 +97,7 @@ void _updateDiscountFromOfferPrice() {
     );
 
     offerPriceController.addListener(_updateDiscountFromOfferPrice);
+    final reportCubit = context.read<ReportCubit>();
 
     if (widget.isEdit) {
       final cubit = context.read<ReportCubit>();
@@ -105,6 +106,15 @@ void _updateDiscountFromOfferPrice() {
       }
       if (widget.product?.offerToDate != null) {
         cubit.changeToDate(widget.product!.offerToDate!);
+      }
+      final allOffers = reportCubit.state.specialOffer;
+      final selected = allOffers?.firstWhere(
+        (element) => element.prodOfferTypeId == widget.product?.prodOfferTypeId,
+        orElse: () => SpecialOfferResponse(), // Provide a default instance
+      );
+
+      if (selected != null) {
+        reportCubit.loadSelectedOffer(selected);
       }
     }
   }
@@ -146,7 +156,7 @@ void _updateDiscountFromOfferPrice() {
                             : 'Add Product Offer',
                         style: FontPalette.hW700S14,
                       ),
-        
+
                       GestureDetector(
                         onTap: () async {
                           Navigator.pop(context);
@@ -161,7 +171,7 @@ void _updateDiscountFromOfferPrice() {
                     context.read<DashboardCubit>().selectedStore(p0);
                   },
                 ),
-        
+
                 widget.isEdit
                     ? TextFeildWidget(
                         controller: nameController,
@@ -171,7 +181,9 @@ void _updateDiscountFromOfferPrice() {
                         fillColor: kWhite,
                         inputBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
+                          borderSide: const BorderSide(
+                            color: Color(0XFFB7C6C2),
+                          ),
                         ),
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 14.h,
@@ -207,10 +219,12 @@ void _updateDiscountFromOfferPrice() {
                                 [],
                             fillColor: const Color(0XFFEFF1F1),
                             onChanged: (p0) {
-                              context.read<ReportCubit>().selectedProductName(p0);
+                              context.read<ReportCubit>().selectedProductName(
+                                p0,
+                              );
                               productPriceController.text =
                                   p0?.productPrice?.toString() ?? '';
-        
+
                               // productPriceController.text = p0?.productPrice?.toString() ?? '';
                             },
                             labelText: 'Product Name',
@@ -220,6 +234,9 @@ void _updateDiscountFromOfferPrice() {
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
+                      enabled: !widget.isEdit,
+                      hintText: 'Special offer',
+
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                       prefixIcon: Container(
                         child: SvgPicture.asset(
@@ -235,13 +252,13 @@ void _updateDiscountFromOfferPrice() {
                           state.specialOffer?.map((e) {
                             return DropdownMenuItem<SpecialOfferResponse>(
                               value: e,
-        
+
                               child: Text(e.offerTypeName ?? ''),
                             );
                           }).toList() ??
                           [],
                       fillColor: const Color(0XFFEFF1F1),
-        
+
                       onChanged: (p0) async {
                         context.read<ReportCubit>().loadSelectedOffer(p0);
                       },
@@ -249,10 +266,10 @@ void _updateDiscountFromOfferPrice() {
                     );
                   },
                 ),
-        
+
                 TextFeildWidget(
                   topLabelText: 'Product Price',
-        
+
                   enabled: false,
                   controller: productPriceController,
                   hight: 48.h,
@@ -280,7 +297,7 @@ void _updateDiscountFromOfferPrice() {
                     horizontal: 8.w,
                   ),
                 ),
-        
+
                 TextFeildWidget(
                   topLabelText: 'Discount',
                   controller: discountController,
@@ -315,7 +332,9 @@ void _updateDiscountFromOfferPrice() {
                           child: DatePickerContainer(
                             hintText: '',
                             changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeToDate(pickedDate);
+                              context.read<ReportCubit>().changeToDate(
+                                pickedDate,
+                              );
                             },
                           ),
                         ),
@@ -323,12 +342,41 @@ void _updateDiscountFromOfferPrice() {
                     );
                   },
                 ),
-        
+
                 CustomMaterialBtton(
                   onPressed: () async {
+                    final offerPrice =
+                        double.tryParse(offerPriceController.text) ?? 0;
+                    final productPrice =
+                        double.tryParse(productPriceController.text) ?? 0;
+
+                    if (offerPrice > productPrice) {
+                      _scaffoldMessengerKey.currentState?.showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Offer price cannot be greater than product price.',
+                          ),
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.only(
+                            top: 10,
+                            left: 20,
+                            right: 20,
+                          ),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                      return;
+                    }
+
                     final cubit = context.read<ReportCubit>();
-        
+
                     if (widget.isEdit) {
+                      final selectedType = context
+                          .read<ReportCubit>()
+                          .state
+                          .selectedType;
+
                       final updatedOffer = EditOfferResponse(
                         offerPrice:
                             double.tryParse(offerPriceController.text) ?? 0.0,
@@ -339,18 +387,20 @@ void _updateDiscountFromOfferPrice() {
                         branchId: widget.product?.branchId ?? 0,
                         couponId: widget.product?.couponId ?? 0,
                         createdBy: widget.product?.createdBy ?? 0,
-                        deliveryPartnerId: widget.product?.deliveryPartnerId ?? 0,
+                        deliveryPartnerId:
+                            widget.product?.deliveryPartnerId ?? 0,
                         maxOrderQty: widget.product?.maxOrderQty ?? 0,
                         offerTypeId: widget.product?.offerTypeId ?? 0,
-                        prodOfferTypeId: widget.product?.prodOfferTypeId ?? 0,
+                        prodOfferTypeId: selectedType?.prodOfferTypeId ?? 0,
                         updatedBy: widget.product?.updatedBy ?? 0,
                         resourceId: widget.product?.resourceId ?? 0,
                         prodVarCode: widget.product?.prodVarCode,
                         priceTypeId: widget.product?.priceTypeId ?? 0,
-                        // offerFromDate: cubit.state.fromDate,
-                        // offerToDate: cubit.state.toDate,
+                        offerFromDate: context
+                            .read<ReportCubit>()
+                            .state
+                            .fromDate,
                         offerToDate: context.read<ReportCubit>().state.toDate,
-                        offerFromDate: context.read<ReportCubit>().state.fromDate,
                       );
                       await cubit.loadEditOffer(
                         updatedOffer,
@@ -377,9 +427,9 @@ void _updateDiscountFromOfferPrice() {
                       await cubit.loadProductOffers(
                         storeId: selectedStore?.storeId ?? 0,
                       );
-        
+
                       context.pop();
-        
+
                       if (selectedProduct != null) {
                         final newOffer = CreateOfferResponse(
                           storeId: selectedStore?.storeId ?? 0,
@@ -390,7 +440,10 @@ void _updateDiscountFromOfferPrice() {
                           offerPricePercentage: int.tryParse(
                             discountController.text,
                           ),
-                          offerFromDate: context.read<ReportCubit>().state.fromDate,
+                          offerFromDate: context
+                              .read<ReportCubit>()
+                              .state
+                              .fromDate,
                           offerToDate: context.read<ReportCubit>().state.toDate,
                           offerTypeId: widget.product?.offerTypeId ?? 0,
                           createdBy: 1,
@@ -403,28 +456,30 @@ void _updateDiscountFromOfferPrice() {
                               selectedProduct.prodVarCode?.toString() ?? "0",
                           resourceId: widget.product?.resourceId ?? 0,
                           couponId: widget.product?.couponId ?? 0,
-        
+
                           isSingleProductOffer: 1,
                         );
                         await cubit.createProductOffer(offer: newOffer);
-        
+
                         bool dataLoaded = false;
                         int attempts = 0;
-        
+
                         while (!dataLoaded && attempts < 3) {
-                          await Future.delayed(const Duration(milliseconds: 500));
+                          await Future.delayed(
+                            const Duration(milliseconds: 500),
+                          );
                           await cubit.loadProductOffers(
                             storeId: selectedStore?.storeId ?? 0,
                           );
-        
+
                           final offers = cubit.state.productOffers ?? [];
                           if (offers.isNotEmpty) {
                             dataLoaded = true;
                           }
-        
+
                           attempts++;
                         }
-        
+
                         if (mounted) {
                           context.pop();
                         }

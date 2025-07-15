@@ -372,27 +372,30 @@ class ReportService implements ReportRepositories {
 
   @override
   Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
-    required int storeId,
-    required String fromDate,
-    required String toDate,
-    required int pageFirstLimit,
-    required int resultPerPage,
-    required int purchaseType,
-    required int supplierId,
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int? pageFirstLimit,
+    int? resultPerPage,
+    int? purchaseType,
+    int? supplierId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
       ApiEndpoints.purchaseReport(
-        storeId,
-        fromDate,
-        toDate,
-        supplierId,
-        purchaseType,
-        pageFirstLimit,
-        resultPerPage,
+        storeId: storeId ?? 0,
+        fromDate: fromDate ?? '',
+        toDate: toDate ?? '',
+        supplierId: supplierId ?? 0,
+        purchaseType: purchaseType ?? 0,
+        pageFirstLimit: pageFirstLimit ?? 0,
+        resultPerPage: resultPerPage ?? 0,
       ),
     );
-    // print('????purchaseDeals??? $res');
+
+    log(
+      "purchase report response:${purchaseType ?? 0}, ${ApiEndpoints.purchaseReport(storeId: storeId ?? 0, fromDate: fromDate ?? '', toDate: toDate ?? '', supplierId: supplierId ?? 0, purchaseType: purchaseType ?? 0, pageFirstLimit: pageFirstLimit ?? 0, resultPerPage: resultPerPage ?? 0)}",
+    );
     switch (res.statusCode) {
       case 200:
       case 201:
@@ -951,12 +954,8 @@ class ReportService implements ReportRepositories {
     );
     log(">>> RAW RESPONSE object//: $res");
     log(">>> STATUS CODE,,,: ${res.statusCode}");
-    log(">>> RESPONSE DATA???: ${res.data}");          
+    log(">>> RESPONSE DATA???: ${res.data}");
 
-
-
-
-    
     log(">>> DATA TYPE---: ${res.data.runtimeType}");
     switch (res.statusCode) {
       case 200:

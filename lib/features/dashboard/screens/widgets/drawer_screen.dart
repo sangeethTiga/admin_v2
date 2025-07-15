@@ -190,7 +190,7 @@ class _DrawerContent extends StatelessWidget {
         context.read<DashboardCubit>().loadProductsCategory(
           selectedStore?.storeId,
         );
-        productCubit.loadProductReport(storeId: selectedStore?.storeId ?? 0);
+        productCubit.loadProductReport(storeId:selectedStore?.storeId ?? 0);
 
         context.push(routeSellingProducts);
       },

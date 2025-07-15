@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
+import 'package:admin_v2/features/orders/domain/models/order/order_response.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/features/orders/screens/widgets/order_filter.dart';
@@ -118,7 +119,7 @@ class _OrderScreenState extends State<OrderScreen> {
               children: [
                 dividerWidget(height: 6.h),
                 10.verticalSpace,
-                _buildStatusFilterSection(),
+                _buildStatusFilterSection(0),
                 12.verticalSpace,
                 const Divider(),
                 MainPadding(
@@ -141,7 +142,7 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  Widget _buildStatusFilterSection() {
+  Widget _buildStatusFilterSection(int orderId) {
     return BlocBuilder<OrderCubit, OrderState>(
       builder: (context, state) {
         return BlocBuilder<DashboardCubit, DashboardState>(
@@ -264,9 +265,18 @@ class _OrderScreenState extends State<OrderScreen> {
             child: DatePickerContainer(
               value: apiFormat.format(state.fromDate ?? DateTime.now()),
               hintText: '',
-
-              changeDate: (DateTime pickedDate) =>
-                  _handleFromDateChange(context, pickedDate, state, common),
+              changeDate: (DateTime pickedDate) {
+                context.read<OrderCubit>().changeFromDate(pickedDate);
+                context.read<OrderCubit>().orders(
+                  req: OrderRequest(
+                    filterId: state.selectedIds,
+                    storeId: common.selectedStore?.storeId,
+                    fromDate: parsedDate(pickedDate),
+                    toDate: parsedDate(state.toDate ?? DateTime.now()),
+                    version: "v2",
+                  ),
+                );
+              },
             ),
           ),
           8.horizontalSpace,
@@ -274,8 +284,18 @@ class _OrderScreenState extends State<OrderScreen> {
             child: DatePickerContainer(
               value: apiFormat.format(state.toDate ?? DateTime.now()),
               hintText: '',
-              changeDate: (DateTime pickedDate) =>
-                  _handleToDateChange(context, pickedDate, state, common),
+              changeDate: (DateTime pickedDate) {
+                context.read<OrderCubit>().changeToDate(pickedDate);
+                context.read<OrderCubit>().orders(
+                  req: OrderRequest(
+                    filterId: state.selectedIds,
+                    storeId: common.selectedStore?.storeId,
+                    fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+                    toDate: parsedDate(pickedDate),
+                    version: "v2",
+                  ),
+                );
+              },
             ),
           ),
           8.horizontalSpace,
@@ -426,8 +446,9 @@ class _OrderScreenState extends State<OrderScreen> {
     DashboardState common,
     OrderState state,
   ) {
-    context.read<OrderCubit>().chnageStatus(statusItem);
+    context.read<OrderCubit>().changeStatus(statusItem);
     context.read<OrderCubit>().orders(
+      isEdit: false,
       req: OrderRequest(
         orderStatusId: [statusItem.orderStatusId ?? 0],
         storeId: common.selectedStore?.storeId,
@@ -447,8 +468,8 @@ class _OrderScreenState extends State<OrderScreen> {
     context.read<OrderCubit>().orders(
       req: OrderRequest(
         storeId: store?.storeId,
-        fromDate: parsedDate(DateTime.now()),
-        toDate: parsedDate(DateTime.now()),
+        fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+        toDate: parsedDate(state.toDate ?? DateTime.now()),
         version: "v2",
       ),
     );
@@ -465,48 +486,12 @@ class _OrderScreenState extends State<OrderScreen> {
       req: OrderRequest(
         filterId: state.selectedIds,
         storeId: common.selectedStore?.storeId,
-        fromDate: parsedDate(DateTime.now()),
-        toDate: parsedDate(DateTime.now()),
+        fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+        toDate: parsedDate(state.toDate ?? DateTime.now()),
         version: "v2",
       ),
     );
     log("Selected IDs count: ${state.selectedIds?.length}");
-  }
-
-  void _handleFromDateChange(
-    BuildContext context,
-    DateTime pickedDate,
-    OrderState state,
-    DashboardState common,
-  ) {
-    context.read<OrderCubit>().chnageFromDate(pickedDate);
-    _updateOrdersWithNewDate(context, state, common);
-  }
-
-  void _handleToDateChange(
-    BuildContext context,
-    DateTime pickedDate,
-    OrderState state,
-    DashboardState common,
-  ) {
-    context.read<OrderCubit>().chnageToDate(pickedDate);
-    _updateOrdersWithNewDate(context, state, common);
-  }
-
-  void _updateOrdersWithNewDate(
-    BuildContext context,
-    OrderState state,
-    DashboardState common,
-  ) {
-    context.read<OrderCubit>().orders(
-      req: OrderRequest(
-        filterId: state.selectedIds,
-        storeId: common.selectedStore?.storeId,
-        fromDate: parsedDate(DateTime.now()),
-        toDate: parsedDate(DateTime.now()),
-        version: "v2",
-      ),
-    );
   }
 }
 
@@ -582,7 +567,7 @@ class _FilterCheckbox extends StatelessWidget {
 }
 
 class _OrderCard extends StatelessWidget {
-  final dynamic orderData;
+  final OrderResponse? orderData;
 
   const _OrderCard({required this.orderData});
 
@@ -612,7 +597,11 @@ class _OrderCard extends StatelessWidget {
           10.verticalSpace,
           _buildDeliveryAgent(),
           10.verticalSpace,
-          _buildActionButtons(context),
+          _buildActionButtons(
+            context,
+            orderData?.prodOrderId ?? 0,
+            orderData?.orderStatusName ?? '',
+          ),
           10.verticalSpace,
         ],
       ),
@@ -676,13 +665,22 @@ class _OrderCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildActionButtons(
+    BuildContext context,
+    int orderId,
+    String orderName,
+  ) {
     return Row(
       children: [
         1.horizontalSpace,
         Expanded(
           child: InkWell(
-            onTap: () => _dialogBuilder(context),
+            onTap: () {
+              if (orderName == 'Delivered') {
+                return;
+              }
+              _dialogBuilder(context, orderId);
+            },
             child: Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
@@ -902,7 +900,7 @@ Widget _shimmerOrderCard() {
   );
 }
 
-Future<void> _dialogBuilder(BuildContext context) {
+Future<void> _dialogBuilder(BuildContext context, int? orderId) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -961,10 +959,25 @@ Future<void> _dialogBuilder(BuildContext context) {
                       textStyle: Theme.of(context).textTheme.labelLarge,
                     ),
                     child: const Text('Submit'),
-                    onPressed: () {
+                    onPressed: () async {
                       if (state.selectedStatusIndex != null) {
-                        context.read<OrderCubit>().applySelectedStatus(
+                        await context.read<OrderCubit>().applySelectedStatus(
                           storeId: dash.selectedStore?.storeId ?? 0,
+                          orderId: orderId,
+                        );
+
+                        Future.delayed(Duration(microseconds: 400));
+                        await context.read<OrderCubit>().orders(
+                          req: OrderRequest(
+                            storeId: dash.selectedStore?.storeId,
+                            orderOptionId: 0,
+                            cashierId: 0,
+                            fromDate: parsedDate(
+                              state.fromDate ?? DateTime.now(),
+                            ),
+                            toDate: parsedDate(state.toDate ?? DateTime.now()),
+                            version: "v2",
+                          ),
                         );
                       }
                       Navigator.of(context).pop();
