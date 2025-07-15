@@ -163,7 +163,7 @@ _$AmountByDelivertBoyImpl _$$AmountByDelivertBoyImplFromJson(
 ) => _$AmountByDelivertBoyImpl(
   userName: json['user_name'] as String?,
   ordercount: (json['ordercount'] as num?)?.toInt(),
-  totalamount: (json['totalamount'] as num?)?.toInt(),
+  totalamount: (json['totalamount'] as num?)?.toDouble(),
   userRoleId: (json['user_role_id'] as num?)?.toInt(),
   companyUsersId: (json['company_users_id'] as num?)?.toInt(),
   invoiceNumbers: json['invoice_numbers'] as List<dynamic>?,
@@ -190,7 +190,7 @@ _$AmountByDeviceImpl _$$AmountByDeviceImplFromJson(Map<String, dynamic> json) =>
     _$AmountByDeviceImpl(
       deviceName: json['device_name'] as String?,
       ordercount: (json['ordercount'] as num?)?.toInt(),
-      totalamount: (json['totalamount'] as num?)?.toInt(),
+      totalamount: (json['totalamount'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$AmountByDeviceImplToJson(
@@ -204,7 +204,7 @@ Map<String, dynamic> _$$AmountByDeviceImplToJson(
 _$BillTypeDetailImpl _$$BillTypeDetailImplFromJson(Map<String, dynamic> json) =>
     _$BillTypeDetailImpl(
       orderOptionName: json['order_option_name'] as String?,
-      totalamount: (json['totalamount'] as num?)?.toInt(),
+      totalamount: (json['totalamount'] as num?)?.toDouble(),
       ordercount: (json['ordercount'] as num?)?.toInt(),
     );
 
@@ -221,7 +221,7 @@ _$DeliveryPartnerImpl _$$DeliveryPartnerImplFromJson(
 ) => _$DeliveryPartnerImpl(
   name: json['name'] as String?,
   ordercount: (json['ordercount'] as num?)?.toInt(),
-  totalamount: (json['totalamount'] as num?)?.toInt(),
+  totalamount: (json['totalamount'] as num?)?.toDouble(),
   deliveryPartnerId: (json['delivery_partner_id'] as num?)?.toInt(),
 );
 

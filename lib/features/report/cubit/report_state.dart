@@ -88,7 +88,7 @@ class ReportState extends Equatable {
     this.toDate,
     this.selectedMethod,
     this.revenueReport,
-    this.currentPage = 1,
+    this.currentPage = 0,
     this.pageSize = 20,
     this.expenseReport,
     this.profitlossReport,

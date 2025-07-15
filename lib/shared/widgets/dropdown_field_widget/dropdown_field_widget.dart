@@ -127,7 +127,7 @@ class DropDownFieldWidget extends StatelessWidget {
                 enabledBorder: inputBorder,
                 focusedErrorBorder: inputBorder,
                 errorBorder: inputBorder,
-                labelStyle: FontPalette.hW500S12,
+                labelStyle: FontPalette.hW500S14,
                 fillColor: fillColor,
                 filled: true,
                 prefixIcon: prefixIcon,

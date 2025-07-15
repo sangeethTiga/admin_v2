@@ -431,7 +431,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '${data?[i].ordercount}',
                       title: '${data?[i].name}',
-                      value: '${data?[i].totalamount}',
+                      value: '${data?[i].totalamount??0.toStringAsFixed(2)}',
                     );
                   },
                 ),
@@ -484,7 +484,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '',
                       title: data?[i].accountHeadName ?? '',
-                      value: data?[i].amount,
+                      value: data?[i].amount??0.toStringAsFixed(2),
                     );
                   },
                 ),
@@ -527,7 +527,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '',
                       title: data?[i].accountHeadName ?? '',
-                      value: data?[i].amount,
+                      value: data?[i].amount??0.toStringAsFixed(2),
                     );
                   },
                 ),
@@ -570,7 +570,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '',
                       title: '${data?[i]['category_name']}',
-                      value: '${data?[i]['totalamount ']}',
+                      value: truncateTo2Decimals((data?[i]['totalamount'] )),
                     );
                   },
                 ),
@@ -613,7 +613,8 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '',
                       title: '${data?[i]['category_name']}',
-                      value: '${data?[i]['totalamount']}',
+                      value:truncateTo2Decimals((data?[i]['totalamount'] ))
+,
                     );
                   },
                 ),
@@ -656,7 +657,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '${data?[i].ordercount}',
                       title: '${data?[i].orderOptionName}',
-                      value: '${data?[i].discAmount}',
+                      value: '${data?[i].discAmount??0.toStringAsFixed(2)}',
                     );
                   },
                 ),
@@ -753,4 +754,10 @@ Container titleAndValue({
       ],
     ),
   );
+}
+
+String truncateTo2Decimals(double? value) {
+  if (value == null) return '0.00';
+  int truncated = (value * 100).truncate();
+  return (truncated / 100).toStringAsFixed(2);
 }
