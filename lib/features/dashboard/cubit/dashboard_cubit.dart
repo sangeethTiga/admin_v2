@@ -59,11 +59,17 @@ class DashboardCubit extends Cubit<DashboardState> {
       emit(state.copyWith(apiFetchStatus: ApiFetchStatus.loading));
       final res = await _commonRepostories.account();
       if (res.data != null) {
+        final allAccount = AccountDataResponse(
+          accountHeadId: 0,
+          accountHeadName: 'All',
+        );
+        final accountListWithAll = [allAccount, ...res.data!];
+
         emit(
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
-            accountList: res.data,
-            selectedAccount: res.data?.first,
+            accountList: accountListWithAll,
+            selectedAccount: accountListWithAll.first,
           ),
         );
       }

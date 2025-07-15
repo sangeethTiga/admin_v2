@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,14 +43,31 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
     _initFunction();
   }
 
+  @override
+  void didUpdateWidget(DatePickerContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value != oldWidget.value) {
+      _initFunction();
+    }
+  }
+
   void _initFunction() {
+    log("WHat happend${widget.value} - ${widget.clearDate}");
+
     if (widget.value == null) {
       if (widget.clearDate == false) {
         pickedDate = apiFormat.format(selectedDate);
+      } else {
+        pickedDate = null;
       }
     } else {
       pickedDate = widget.value;
-      selectedDate = DateTime.parse(pickedDate!);
+      try {
+        selectedDate = apiFormat.parse(widget.value!);
+      } catch (e) {
+        log("Error parsing date: $e");
+        selectedDate = DateTime.now();
+      }
     }
   }
 
