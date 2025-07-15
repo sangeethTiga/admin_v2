@@ -3,6 +3,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
+import 'package:admin_v2/features/report/domain/models/custSearch/custSearch_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_agent/delivery_agent_response.dart';
@@ -89,7 +90,7 @@ abstract class ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
-   // required String filterValue,
+    required String filterValue,
     required int filterId,
   });
 
@@ -232,5 +233,9 @@ abstract class ReportRepositories {
   Future<ResponseResult<List<ProductNameResponse>>> getProductName({
     required String query,
     required int storeId,
+  });
+   Future<ResponseResult<List<CustomerSearchResponse>>> custSearch({
+    int? storeId,
+    String? custSearch,
   });
 }

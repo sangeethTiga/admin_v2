@@ -240,11 +240,11 @@ class ApiEndpoints {
   static String searchOrder(
     int storeId,
     String search,
-
-    // int pageFirstResult,
-    // int resultPerPage,
   ) =>
       '/api/order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
+
+  static String customerSearch(int storeId,String custName)=> '/api/customerreport?store_id=$storeId&cust_name=$custName';
+
 
 
       

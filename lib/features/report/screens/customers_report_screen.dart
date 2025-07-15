@@ -83,9 +83,9 @@ class CustomersReportScreen extends StatelessWidget {
                             ?.storeId ??
                         0;
 
-                    context.read<ReportCubit>().loadSuppliersReport(
+                    context.read<ReportCubit>().custSearch(
                       storeId: storeId,
-                      query: value?.trim(),
+                      searchText: value,
                     );
                   },
 
@@ -101,10 +101,6 @@ class CustomersReportScreen extends StatelessWidget {
                     child: SvgPicture.asset('assets/icons/Search.svg'),
                   ),
                   hintText: 'Search customers',
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset('assets/icons/x-close.svg'),
-                  ),
                 ),
                 10.verticalSpace,
                 BlocBuilder<DashboardCubit, DashboardState>(
