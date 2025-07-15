@@ -86,7 +86,7 @@ class OrderService implements OrderRepositories {
   }
 
   @override
-  Future<ResponseResult<List<SearchResponse>>> searchOrder({
+  Future<ResponseResult<List<OrderResponse>>> searchOrder({
     int? storeId,
     String? search,
   }) async {
@@ -99,8 +99,8 @@ class OrderService implements OrderRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<SearchResponse>.from(
-            res.data.map((e) => SearchResponse.fromJson(e)),
+          data: List<OrderResponse>.from(
+            res.data.map((e) => OrderResponse.fromJson(e)),
           ).toList(),
         );
       default:

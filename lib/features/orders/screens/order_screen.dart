@@ -66,15 +66,17 @@ class _OrderScreenState extends State<OrderScreen> {
                         'Search,Order No/Bill No/Customer/Phone/Delivery Partner',
                   ),
                   onChanged: (v) {
-                    context.read<OrderCubit>().orders(
-                      req: OrderRequest(
+                   
+                    context.read<OrderCubit>().searchOrder(
+                   
                         storeId: context
                             .read<DashboardCubit>()
                             .state
                             .selectedStore
                             ?.storeId,
-                        orderNumber: v,
-                      ),
+                            searchText: v
+                        
+                      
                     );
                   },
                 )
