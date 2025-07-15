@@ -35,6 +35,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  10.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     buildWhen: (previous, current) =>
                         previous.fromDate != current.fromDate,
