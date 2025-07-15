@@ -7,6 +7,7 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
+import 'package:admin_v2/features/report/domain/models/custSearch/custSearch_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart'
     hide DeliveryPartner;
@@ -96,7 +97,6 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> changeFromDate(DateTime date) async {
-    print('change from date-=-$date');
     emit(state.copyWith(fromDate: date));
   }
 
@@ -127,6 +127,7 @@ class ReportCubit extends Cubit<ReportState> {
         ),
       );
     }
+    // final int offset = page * limit;
 
     final res = await _reportRepositories.loadRevenueReport(
       storeId: storeId ?? 0,
@@ -370,6 +371,7 @@ class ReportCubit extends Cubit<ReportState> {
         storeId: storeId ?? 0,
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
+        filterValue: '',
       );
 
       log('Response data: ${res.data}');
@@ -1240,5 +1242,25 @@ class ReportCubit extends Cubit<ReportState> {
 
   void initState() {
     emit(state.copyWith(fromDate: DateTime.now(), toDate: DateTime.now()));
+  }
+
+  Future<void> custSearch({String? searchText, int? storeId}) async {
+    try {
+      emit(state.copyWith(isCustomersReport: ApiFetchStatus.loading));
+      final result = await _reportRepositories.custSearch(
+        storeId: storeId,
+        custSearch: searchText,
+      );
+      if (result.data != null) {
+        print('serch-=-==-${result.data}');
+
+        emit(state.copyWith(custSearchList: result.data));
+        emit(state.copyWith(isCustomersReport: ApiFetchStatus.success));
+      }
+      emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
+    } catch (e, s) {
+      log('order search error-$e', stackTrace: s);
+      emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
+    }
   }
 }

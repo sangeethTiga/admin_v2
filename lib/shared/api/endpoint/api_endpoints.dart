@@ -237,12 +237,8 @@ class ApiEndpoints {
   static String getProductName(String query, int storeId) =>
       '/api/product?query=$query&store_id=$storeId&page_first_result=0&result_per_page=30';
 
-  static String searchOrder(
-    int storeId,
-    String search,
-
-    // int pageFirstResult,
-    // int resultPerPage,
-  ) =>
+  static String searchOrder(int storeId, String search) =>
       '/api/order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
+  static String customerSearch(int storeId, String custSearch) =>
+      'api/customerreport?store_id=$storeId&cust_name=$custSearch';
 }

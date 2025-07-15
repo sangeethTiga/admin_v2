@@ -125,7 +125,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 12.verticalSpace,
                 const Divider(),
                 MainPadding(
-                  child: Column(
+                  child: Column( 
                     children: [
                       5.verticalSpace,
                       _buildStoreDropdown(),
