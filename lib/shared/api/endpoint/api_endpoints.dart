@@ -51,7 +51,8 @@ class ApiEndpoints {
 
   static String status = '/api/orderstatus';
 
-  static String orderList = '/api/productorder/get';
+  static String orderList({int? orderId}) => '/api/productorder/get/$orderId';
+  static String newOrder = '/api/productorder/get';
 
   static String orderDetail(int orderId) => '/api/productorderitem/$orderId';
 
@@ -138,17 +139,17 @@ class ApiEndpoints {
     int resultPerPage,
   ) =>
       '/api/saleondeals?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';
-  static String purchaseReport(
-    int storeId,
-    String fromDate,
-    String toDate,
-    int pageFirstLimit,
-    int resultPerPage,
-    int purchaseType,
-    int supplierId,
-  ) =>
+  static String purchaseReport({
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int? pageFirstLimit,
+    int? resultPerPage,
+    int? purchaseType,
+    int? supplierId,
+  }) =>
       '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=0&result_per_page=50&purchase_type=$purchaseType&supplier_id=0';
-
+  //purchase_order?store_id=5&from_date=2025-07-14&to_date=2025-07-14&page_first_limit=0&result_per_page=50&purchase_type=1&supplier_id=0
   static String taxReport(String fromDate, String toDate, int storeId) =>
       '/api/taxreport?from_date=$fromDate&to_date=$toDate&store_id=$storeId';
 

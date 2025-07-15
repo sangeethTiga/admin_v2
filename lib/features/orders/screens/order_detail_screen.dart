@@ -217,14 +217,42 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Customer:  ${state.orderDetail?.billCustName}',
+                                    'Customer:  ${state.orderDetail?.shipCustName}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                      Text(
+                                    'Flat:  ${state.orderDetail?.shipFlatNo}',
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
                                   Text(
-                                    'Email: ${state.orderDetail?.billEmail}',
+                                    'Building:  ${state.orderDetail?.shipBuildingNo}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'City:  ${state.orderDetail?.shipCity}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Area:  ${state.orderDetail?.shipArea}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Email: ${state.orderDetail?.shipEmail}',
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
@@ -278,6 +306,34 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     ),
                                   ),
                                   Text(
+                                    'Flat:  ${state.orderDetail?.billFlatNo}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Building:  ${state.orderDetail?.billBuildingNo}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'City:  ${state.orderDetail?.billCity}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Area:  ${state.orderDetail?.billArea}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Text(
                                     'Email: ${state.orderDetail?.billEmail}',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -285,7 +341,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     ),
                                   ),
                                   Text(
-                                    'Mobile: ${state.orderDetail?.shipMobile}',
+                                    'Mobile: ${state.orderDetail?.billMobile}',
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,

@@ -7,7 +7,11 @@ import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class OrderRepositories {
   Future<ResponseResult<List<OrderStatusResponse>>> orderStatus();
-  Future<ResponseResult<List<OrderResponse>>> orders({OrderRequest req});
+  Future<ResponseResult<List<OrderResponse>>> orders({
+    OrderRequest req,
+    bool? isEdit,
+    int? orderId,
+  });
   Future<ResponseResult<OrderDetailResponse>> orderDetail(int orderId);
   Future<ResponseResult<List<SearchResponse>>> searchOrder({
     int? storeId,

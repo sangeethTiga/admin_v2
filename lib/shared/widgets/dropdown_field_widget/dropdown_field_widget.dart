@@ -115,6 +115,7 @@ class DropDownFieldWidget extends StatelessWidget {
               hint: hintText != null
                   ? Text(hintText!, style: FontPalette.hW500S14)
                   : null,
+              icon: suffixWidget != null ? const SizedBox.shrink() : null,
               decoration: InputDecoration(
                 floatingLabelBehavior: floatingLabelBehavior,
                 labelText: isHint ? null : labelText,

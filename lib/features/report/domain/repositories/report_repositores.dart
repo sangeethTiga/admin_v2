@@ -37,7 +37,7 @@ import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ReportRepositories {
   Future<ResponseResult<List<SalesReportResponse>>> loadSalesReport({
-      required int? selectedStoreId,
+    required int? selectedStoreId,
     required String? fromDate,
     required String? toDate,
     required String? selectedDeliveryAgentId,
@@ -54,7 +54,7 @@ abstract class ReportRepositories {
 
   Future<ResponseResult<List<ReveneReportResponse>>> loadRevenueReport({
     required int pageFirstResult,
-   // required int resultPerPage,
+    // required int resultPerPage,
     required int storeId,
     required String fromDate,
     required String toDate,
@@ -116,13 +116,13 @@ abstract class ReportRepositories {
   });
 
   Future<ResponseResult<List<PurchaseResponse>>> loadPurchaseReport({
-    required int storeId,
-    required String fromDate,
-    required String toDate,
-    required int pageFirstLimit,
-    required int resultPerPage,
-    required int purchaseType,
-    required int supplierId,
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int? pageFirstLimit,
+    int? resultPerPage,
+    int? purchaseType,
+    int? supplierId,
   });
 
   Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
@@ -173,15 +173,15 @@ abstract class ReportRepositories {
   //   required int categoryId
   // });
   Future<ResponseResult<List<ProductsResponse>>> loadProductReport({
-     int? pageFirstResult,
-     int? resultPerPage,
-     int? storeId,
-     String? fromDate,
-     String? toDate,
-     int? roleId,
-     int? userId,
-     int? categoryId,
-     String? searchText,
+    int? pageFirstResult,
+    int? resultPerPage,
+    int? storeId,
+    String? fromDate,
+    String? toDate,
+    int? roleId,
+    int? userId,
+    int? categoryId,
+    String? searchText,
   });
 
   Future<ResponseResult<List<SuppliersResponse>>> loadSuppliers({

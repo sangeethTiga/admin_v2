@@ -127,16 +127,10 @@ class PurchaseType {
   int? id;
   String? name;
   PurchaseType({this.id, this.name});
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is PurchaseType && id == other.id;
-
-  @override
-  int get hashCode => id.hashCode;
 }
 
 List<PurchaseType> purchaseTypes = [
-  PurchaseType(name: 'All', id: 0),
+  // PurchaseType(name: 'All', id: 0),
   PurchaseType(name: 'Cash', id: 1),
   PurchaseType(name: 'Credit', id: 2),
 ];
