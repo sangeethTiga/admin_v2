@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -48,8 +50,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     left: 12.w,
                     right: 12.w,
                   ),
-                  height: 260.h,
-                  width: 351.w,
+
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.r),
                     color: kWhite,
@@ -118,7 +119,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           state.orderDetail?.updatedDate ?? DateTime.now(),
                         ),
                       ),
-                      8.verticalSpace,
+                      12.verticalSpace,
                     ],
                   ),
                 ),
@@ -134,11 +135,16 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           color: Color(0XFF5E6566),
                         ),
                       ),
-                      Text(
-                        'View all',
-                        style: FontPalette.hW600S14.copyWith(
-                          color: kPrimaryColor,
-                          decoration: TextDecoration.underline,
+                      InkWell(
+                        onTap: () {
+                          _showMyDialog(context);
+                        },
+                        child: Text(
+                          'View all',
+                          style: FontPalette.hW600S14.copyWith(
+                            color: kPrimaryColor,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ],
@@ -152,13 +158,16 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     border: Border.all(color: kLightBorderColor),
                   ),
                   child: ListView.builder(
+                    padding: EdgeInsets.zero,
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: state.orderDetail?.productOrderItem?.length,
+                    itemCount: math.min(
+                      state.orderDetail?.productOrderItem?.length ?? 0,
+                      3,
+                    ),
                     itemBuilder: (context, i) {
                       final data = state.orderDetail?.productOrderItem?[i];
-                      // final isLastItem =
-                      //     i == state.orderDetail?.productOrderItem!.length - 1;
+
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -223,7 +232,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                      Text(
+                                  Text(
                                     'Flat:  ${state.orderDetail?.shipFlatNo}',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -602,5 +611,81 @@ class ShimmerWidget extends StatelessWidget {
       height: height,
       decoration: ShapeDecoration(color: Colors.grey[400]!, shape: shapeBorder),
     ),
+  );
+}
+
+Future<void> _showMyDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: kWhite,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [const Text('Items in Order'), dividerWidget()],
+        ),
+        content: BlocBuilder<OrderCubit, OrderState>(
+          builder: (context, state) {
+            final items = state.orderDetail?.productOrderItem ?? [];
+
+            if (items.isEmpty) {
+              return const Text('No items in order');
+            }
+
+            return SizedBox(
+              width: double.maxFinite,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, i) {
+                  final data = items[i];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              data.productName ?? 'Unknown Product',
+                              style: FontPalette.hW700S13,
+                            ),
+                          ),
+                          Text(
+                            'AED ${data.productPrice ?? 0}',
+                            style: FontPalette.hW700S14,
+                          ),
+                        ],
+                      ),
+                      6.verticalSpace,
+                      Text(
+                        'Unit price: AED ${data.orderItemPrice ?? 0}',
+                        style: FontPalette.hW500S13,
+                      ),
+                      4.verticalSpace,
+                      Text(
+                        'QTY: ${data.quantity ?? 0}',
+                        style: FontPalette.hW500S13,
+                      ),
+                      if (i < items.length - 1) Divider(color: kBorderColor),
+                    ],
+                  );
+                },
+              ),
+            );
+          },
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
   );
 }

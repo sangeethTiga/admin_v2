@@ -11,10 +11,18 @@ abstract class OrderRepositories {
     OrderRequest req,
     bool? isEdit,
     int? orderId,
+    int? orderStatusId,
+    int? storeId,
   });
   Future<ResponseResult<OrderDetailResponse>> orderDetail(int orderId);
   Future<ResponseResult<List<SearchResponse>>> searchOrder({
     int? storeId,
     String? search,
+  });
+
+  Future<ResponseResult<dynamic>> updateOrder({
+    int? orderId,
+    int? orderStatusId,
+    int? storeId,
   });
 }
