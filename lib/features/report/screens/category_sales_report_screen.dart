@@ -33,6 +33,7 @@ class CategorySalesReportScreen extends StatelessWidget {
                     );
                   },
                 ),
+                8.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(
@@ -109,7 +110,7 @@ class CategorySalesReportScreen extends StatelessWidget {
                             '#': index + 1,
                             "Category Name": e.categoryName,
                             "Order count": e.orderCount,
-                            "Total Amount": e.totalAmount,
+                            "Total Amount": e.totalAmount?.toStringAsFixed(2),
                           };
                         }).toList() ??
                         [],

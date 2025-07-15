@@ -136,17 +136,16 @@ class _EditProductState extends State<EditProduct> {
                 if (state.isAdded == ApiFetchStatus.success) {
                   context.read<ProductCubit>().product(
                     state.selectedStore?.storeId ?? 0,
-                    widget.product.mainCategoryId ??0,
+                    widget.product.mainCategoryId ?? 0,
                     "",
                     "",
-                    0
+                    0,
                   );
                 }
               },
               child: CustomMaterialBtton(
                 buttonText: 'Submit',
                 onPressed: () async {
-                
                   final updatedProduct = EditUpdateResponse(
                     productName: nameController.text,
                     productPrice: priceController.text,
@@ -155,17 +154,16 @@ class _EditProductState extends State<EditProduct> {
 
                     updatedDate: DateTime.now(),
                     storeId: widget.product.storeId ?? 0,
-                    
+
                     productId: widget.product.productId ?? 0,
                     productHidden: widget.product.productHidden ?? 0,
                     maintainStock: widget.product.maintainStock,
-                    mainCategoryId: widget.product.mainCategoryId ?? 0
+                    mainCategoryId: widget.product.mainCategoryId ?? 0,
                   );
                   await context.read<ProductCubit>().updateProduct(
                     updatedProduct,
                     widget.product.productId ?? 0,
-                    widget.product.mainCategoryId ?? 0
-                    
+                    widget.product.mainCategoryId ?? 0,
                   );
                   context.pop();
                 },
