@@ -41,7 +41,6 @@ class _OfferFormState extends State<OfferForm> {
   bool isLoading = false;
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  late final ReportCubit _reportCubit;
 
   void _updateDiscountFromOfferPrice() {
     final offerText = offerPriceController.text;
@@ -78,8 +77,6 @@ class _OfferFormState extends State<OfferForm> {
   void initState() {
     super.initState();
 
-    _reportCubit = context.read<ReportCubit>();
-
     nameController = TextEditingController(
       text: widget.product?.productName ?? '',
     );
@@ -100,22 +97,24 @@ class _OfferFormState extends State<OfferForm> {
     );
 
     offerPriceController.addListener(_updateDiscountFromOfferPrice);
+    final reportCubit = context.read<ReportCubit>();
 
     if (widget.isEdit) {
+      final cubit = context.read<ReportCubit>();
       if (widget.product?.offerFromDate != null) {
-        _reportCubit.changeFromDate(widget.product!.offerFromDate!);
+        cubit.changeFromDate(widget.product!.offerFromDate!);
       }
       if (widget.product?.offerToDate != null) {
-        _reportCubit.changeToDate(widget.product!.offerToDate!);
+        cubit.changeToDate(widget.product!.offerToDate!);
       }
-      final allOffers = _reportCubit.state.specialOffer;
+      final allOffers = reportCubit.state.specialOffer;
       final selected = allOffers?.firstWhere(
         (element) => element.prodOfferTypeId == widget.product?.prodOfferTypeId,
-        orElse: () => SpecialOfferResponse(),
+        orElse: () => SpecialOfferResponse(), // Provide a default instance
       );
 
       if (selected != null) {
-        _reportCubit.loadSelectedOffer(selected);
+        reportCubit.loadSelectedOffer(selected);
       }
     }
   }
@@ -123,21 +122,13 @@ class _OfferFormState extends State<OfferForm> {
   @override
   void dispose() {
     nameController.dispose();
-    offerPriceController.removeListener(_updateDiscountFromOfferPrice);
     offerPriceController.dispose();
     discountController.dispose();
     fromDateController.dispose();
     toDateController.dispose();
     productPriceController.dispose();
-
-    if (!widget.isEdit) {
-      _reportCubit.selectedProductName(ProductNameResponse());
-      _reportCubit.loadSelectedOffer(SpecialOfferResponse());
-      _reportCubit.changeFromDate(DateTime.now());
-      _reportCubit.changeToDate(DateTime.now());
-    }
-
     super.dispose();
+    offerPriceController.removeListener(_updateDiscountFromOfferPrice);
   }
 
   @override
