@@ -140,41 +140,84 @@ class PurchaseScreen extends StatelessWidget {
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      return NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isPurchaseReport !=
-                                  ApiFetchStatus.loading) {}
-                          return false;
+                      return BlocBuilder<ReportCubit, ReportState>(
+                        builder: (context, state) {
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: NotificationListener<ScrollNotification>(
+                                  onNotification:
+                                      (ScrollNotification scrollInfo) {
+                                        if (scrollInfo
+                                            is ScrollEndNotification) {
+                                          final maxScroll = scrollInfo
+                                              .metrics
+                                              .maxScrollExtent;
+                                          final currentScroll =
+                                              scrollInfo.metrics.pixels;
+                                          final threshold = maxScroll - 100;
+
+                                          if (currentScroll >= threshold) {
+                                            _loadMoreData(context);
+                                          }
+                                        }
+                                        return false;
+                                      },
+
+                                  child: CommonTableWidget(
+                                    isLoading:
+                                        state.isPurchaseReport ==
+                                        ApiFetchStatus.loading,
+                                    headers: [
+                                      "#",
+                                      "Purchase Date",
+                                      "Amount",
+                                      "Payment Method",
+                                      "Invoice",
+                                    ],
+
+                                    columnFlex: [1, 2, 2, 2, 2],
+                                    data:
+                                        state.purchaseReport?.map((e) {
+                                          int index =
+                                              state.purchaseReport?.indexOf(
+                                                e,
+                                              ) ??
+                                              0;
+                                          return {
+                                            '#': index + 1,
+                                            'Purchase Date':
+                                                e.purchaseDate ?? '',
+                                            'Amount': e.totalamount.toString(),
+                                            'Payment Method':
+                                                e.payMethodName ?? '',
+                                            'Invoice': e.invoiceNumber ?? '',
+                                          };
+                                        }).toList() ??
+                                        [],
+                                  ),
+                                ),
+                              ),
+                              if (state.isLoadingMore == true)
+                                Container(
+                                  padding: EdgeInsets.all(16.w),
+                                  child: CircularProgressIndicator(),
+                                ),
+                              if (state.hasMoreData == false &&
+                                  state.customersReport?.isNotEmpty == true)
+                                Container(
+                                  padding: EdgeInsets.all(16.w),
+                                  child: Text(
+                                    'No more data',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          );
                         },
-
-                        child: CommonTableWidget(
-                          isLoading:
-                              state.isPurchaseReport == ApiFetchStatus.loading,
-                          headers: [
-                            "#",
-                            "Purchase Date",
-                            "Amount",
-                            "Payment Method",
-                            "Invoice",
-                          ],
-
-                          columnFlex: [1, 2, 2, 2, 2],
-                          data:
-                              state.purchaseReport?.map((e) {
-                                int index =
-                                    state.purchaseReport?.indexOf(e) ?? 0;
-                                return {
-                                  '#': index + 1,
-                                  'Purchase Date': e.purchaseDate ?? '',
-                                  'Amount': e.totalamount.toString(),
-                                  'Payment Method': e.payMethodName ?? '',
-                                  'Invoice': e.invoiceNumber ?? '',
-                                };
-                              }).toList() ??
-                              [],
-                        ),
                       );
                     },
                   );
@@ -228,4 +271,15 @@ Widget commonStoreDropDown({Function(StoreResponse)? onChanged}) {
       );
     },
   );
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadPurchaseReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
+    );
+  }
 }

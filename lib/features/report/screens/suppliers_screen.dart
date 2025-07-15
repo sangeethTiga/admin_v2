@@ -122,3 +122,15 @@ class SuppliersReportScreen extends StatelessWidget {
     );
   }
 }
+
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadPurchaseReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
+    );
+  }
+}
