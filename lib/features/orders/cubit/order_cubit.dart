@@ -23,6 +23,8 @@ class OrderCubit extends Cubit<OrderState> {
     bool? fromSerach,
     bool? isEdit,
     int? orderId,
+    int? orderStatusId,
+    int? storeId,
   }) async {
     try {
       emit(state.copyWith(isLoading: ApiFetchStatus.loading));
@@ -31,6 +33,8 @@ class OrderCubit extends Cubit<OrderState> {
         req: req ?? OrderRequest(),
         isEdit: isEdit ?? false,
         orderId: orderId,
+        storeId: storeId,
+        orderStatusId: orderStatusId,
       );
 
       if (res.data != null) {
@@ -88,15 +92,15 @@ class OrderCubit extends Cubit<OrderState> {
     emit(state.copyWith(selectedIds: updatedSelectedIds));
   }
 
-  Future<void> chnageFromDate(DateTime date) async {
+  Future<void> changeFromDate(DateTime date) async {
     emit(state.copyWith(fromDate: date));
   }
 
-  Future<void> chnageToDate(DateTime date) async {
+  Future<void> changeToDate(DateTime date) async {
     emit(state.copyWith(toDate: date));
   }
 
-  Future<void> chnageStatus(OrderStatusResponse status) async {
+  Future<void> changeStatus(OrderStatusResponse status) async {
     emit(state.copyWith(selectedOrder: status));
   }
 
@@ -162,22 +166,40 @@ class OrderCubit extends Cubit<OrderState> {
     emit(state.copyWith(selectedStatusIndex: index));
   }
 
-  void applySelectedStatus({int? storeId, int? orderId}) {
+  Future<void> applySelectedStatus({int? storeId, int? orderId}) async {
     if (state.selectedStatusIndex != null && state.statusList != null) {
       final selectedStatus = state.statusList![state.selectedStatusIndex!];
 
-      orders(
+      await updateOrder(
         orderId: orderId,
-        isEdit: true,
-        req: OrderRequest(
-          orderStatusId: [selectedStatus.orderStatusId ?? 0],
-          version: "v2",
-          // fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-          // toDate: parsedDate(state.toDate ?? DateTime.now()),
-          storeId: storeId,
-        ),
+        orderStatusId: selectedStatus.orderStatusId ?? 0,
+        storeId: storeId,
       );
       emit(state.copyWith(selectedStatusIndex: null));
+    }
+  }
+
+  Future<void> updateOrder({
+    int? orderId,
+    int? orderStatusId,
+    int? storeId,
+  }) async {
+    try {
+      emit(state.copyWith(isLoading: ApiFetchStatus.loading));
+
+      final res = await _orderRepositories.updateOrder(
+        orderId: orderId,
+        storeId: storeId,
+        orderStatusId: orderStatusId,
+      );
+
+      if (res.data != null) {
+        emit(state.copyWith(isLoading: ApiFetchStatus.success));
+      }
+      emit(state.copyWith(isLoading: ApiFetchStatus.failed));
+    } catch (e, s) {
+      log("Error fetching orders: $e", stackTrace: s);
+      emit(state.copyWith(isLoading: ApiFetchStatus.failed));
     }
   }
 }

@@ -35,13 +35,22 @@ class OrderService implements OrderRepositories {
     OrderRequest? req,
     bool? isEdit,
     int? orderId,
+    int? orderStatusId,
+    int? storeId,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final Response res;
     if (isEdit == true) {
       res = await networkProvider.put(
         ApiEndpoints.orderList(orderId: orderId),
-        data: req?.toJson(),
+        data: {
+          "card_amount": 0,
+          "cash_amount": 0,
+          "companyUsers_id": 0,
+          "created_by": 1,
+          "order_status_code": orderStatusId,
+          "store_id": storeId,
+        },
       );
     } else {
       res = await networkProvider.post(
@@ -94,6 +103,33 @@ class OrderService implements OrderRepositories {
             res.data.map((e) => SearchResponse.fromJson(e)),
           ).toList(),
         );
+      default:
+        return ResponseResult(data: []);
+    }
+  }
+
+  @override
+  Future<ResponseResult<dynamic>> updateOrder({
+    int? orderId,
+    int? orderStatusId,
+    int? storeId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+    final res = await networkProvider.put(
+      ApiEndpoints.orderList(orderId: orderId),
+      data: {
+        "card_amount": 0,
+        "cash_amount": 0,
+        "companyUsers_id": 0,
+        "created_by": 1,
+        "order_status_code": orderStatusId.toString(),
+        "store_id": storeId,
+      },
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(data: res.data);
       default:
         return ResponseResult(data: []);
     }

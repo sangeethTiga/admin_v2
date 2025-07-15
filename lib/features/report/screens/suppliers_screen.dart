@@ -62,7 +62,7 @@ class SuppliersReportScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: SvgPicture.asset('assets/icons/Search.svg'),
                   ),
-                  hintText: 'Search product offers',
+                  hintText: 'Search Supplier',
                   suffixIcon: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: SvgPicture.asset('assets/icons/x-close.svg'),

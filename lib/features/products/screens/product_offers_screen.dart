@@ -18,14 +18,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
-
+ 
 class ProductOffersScreen extends StatelessWidget {
   const ProductOffersScreen({super.key});
-
+ 
   String formatDate(DateTime date) {
     return DateFormat('dd-MMM-yyyy').format(date);
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,7 @@ class ProductOffersScreen extends StatelessWidget {
                 context.read<ReportCubit>().loadSpecialOffer(storeId: storeId);
                 context.read<ReportCubit>().loadProductName(storeId: storeId);
               }
-
+ 
               // context.read<ReportCubit>().loadSpecialOffer(
               //   storeId: state.selectedType?.storeId,
               // );
@@ -63,12 +63,12 @@ class ProductOffersScreen extends StatelessWidget {
                   ),
                 ),
                 builder: (context) => const OfferForm(isEdit: false),
-
+ 
                 // builder: (context) =>
                 //     CreateOffer(offers: ProductOffersResponse()),
               );
             },
-
+ 
             child: Icon(Icons.add, color: kWhite, size: 25.h),
           );
         },
@@ -106,14 +106,14 @@ class ProductOffersScreen extends StatelessWidget {
                             }).toList() ??
                             [],
                         fillColor: const Color(0XFFEFF1F1),
-
+ 
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
                           context.read<ReportCubit>().loadProductOffers(
                             storeId: p0?.storeId,
                           );
                         },
-
+ 
                         labelText: '',
                       );
                     },
@@ -197,10 +197,10 @@ class ProductOffersScreen extends StatelessWidget {
                       if (state.apiFetchStatus == ApiFetchStatus.loading) {
                         return _shimmerProductOfferList();
                       }
-
+ 
                       final productOffers =
                           state.filteredProducts ?? state.productOffers ?? [];
-
+ 
                       if (productOffers.isEmpty) {
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 20.h),
@@ -210,7 +210,7 @@ class ProductOffersScreen extends StatelessWidget {
                           ),
                         );
                       }
-
+ 
                       return ListView.builder(
                         itemCount: productOffers.length,
                         physics: const NeverScrollableScrollPhysics(),
@@ -346,24 +346,24 @@ class ProductOffersScreen extends StatelessWidget {
     );
   }
 }
-
+ 
 class ShimmerWidget extends StatelessWidget {
   final double width;
   final double height;
   final ShapeBorder shapeBorder;
-
+ 
   const ShimmerWidget.rectangular({
     super.key,
     required this.width,
     required this.height,
   }) : shapeBorder = const RoundedRectangleBorder();
-
+ 
   const ShimmerWidget.circular({
     super.key,
     required this.width,
     required this.height,
   }) : shapeBorder = const CircleBorder();
-
+ 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
@@ -380,7 +380,7 @@ class ShimmerWidget extends StatelessWidget {
     );
   }
 }
-
+ 
 Widget _shimmerProductOfferList() {
   return ListView.builder(
     shrinkWrap: true,
@@ -400,7 +400,7 @@ Widget _shimmerProductOfferList() {
     },
   );
 }
-
+ 
 Widget rowWidget({String? name, String? status, Color? statusColor}) {
   return MainPadding(
     child: Row(
@@ -422,3 +422,5 @@ Widget rowWidget({String? name, String? status, Color? statusColor}) {
     ),
   );
 }
+ 
+ 
