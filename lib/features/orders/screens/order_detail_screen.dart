@@ -258,55 +258,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   rowWidgets(
                                     name: 'Mobile',
                                     status: state.orderDetail?.shipMobile,
-                                  Text(
-                                    'Customer:  ${state.orderDetail?.shipCustName}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Flat:  ${state.orderDetail?.shipFlatNo}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Building:  ${state.orderDetail?.shipBuildingNo}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    'City:  ${state.orderDetail?.shipCity}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Area:  ${state.orderDetail?.shipArea}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Email: ${state.orderDetail?.shipEmail}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Mobile: ${state.orderDetail?.shipMobile}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                                  )
+                        
                                 ],
                               ),
                             ),
@@ -699,5 +652,27 @@ Future<void> _showMyDialog(BuildContext context) async {
         ],
       );
     },
+  );
+}
+ 
+Widget rowWidgets({String? name, String? status, Color? statusColor}) {
+  return MainPadding(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(flex: 2, child: Text(name ?? '', style: FontPalette.hW600S13)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Text(':'),
+        ),
+        Expanded(
+          flex: 3,
+          child: Text(
+            status ?? '',
+            style: FontPalette.hW400S13.copyWith(color: statusColor ?? kBlack),
+          ),
+        ),
+      ],
+    ),
   );
 }
