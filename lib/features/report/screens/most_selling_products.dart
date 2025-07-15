@@ -1,6 +1,5 @@
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
-import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
@@ -55,15 +54,15 @@ class MostSellingProducts extends StatelessWidget {
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-                      prefixIcon: Container(
-                        margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      // prefixIcon: Container(
+                      //   margin: EdgeInsets.only(left: 12.w),
+                      //   child: SvgPicture.asset(
+                      //     'assets/icons/package-box-pin-location.svg',
+                      //     width: 20.w,
+                      //     height: 20.h,
+                      //     fit: BoxFit.contain,
+                      //   ),
+                      // ),
                       borderColor: kBlack,
                       inputBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
@@ -71,24 +70,8 @@ class MostSellingProducts extends StatelessWidget {
                       ),
                       fillColor: const Color(0XFFEFF1F1),
 
-                      // value: (() {
-                      //   final selectedId = state.selectedCategory?.categoryId;
-
-                      //   final valid = (state.sellingProductsReport ?? []).where(
-                      //     (e) => e.categoryId == selectedId,
-                      //   );
-
-                      //   return valid.length == 1 ? selectedId : null;
-                      // })(),
                       value: state.selectedCategory,
-                      // state.sellingProductsReport?.any(
-                      //       (e) =>
-                      //           e.categoryId ==
-                      //           state.selectedCategory?.categoryId,
-                      //     ) ==
-                      //     true
-                      // ? selectedId
-                      // : null,
+
                       items:
                           state.sellingProductsReport?.map((e) {
                             return DropdownMenuItem<MostSellingResponse>(
@@ -122,8 +105,16 @@ class MostSellingProducts extends StatelessWidget {
                             .selectedStore
                             ?.storeId ??
                         0;
-
-                  
+                    final categoryId = context
+                        .read<DashboardCubit>()
+                        .state
+                        .selectedCategory
+                        ?.categoryId;
+                    context.read<ReportCubit>().loadProductReport(
+                      storeId: storeId,
+                      categoryId: categoryId,
+                      searchText: value,
+                    );
                   },
 
                   borderColor: kBlack,
@@ -207,7 +198,7 @@ class MostSellingProducts extends StatelessWidget {
                 child: CommonTableWidget(
                   isLoading: state.isProductReport == ApiFetchStatus.loading,
                   headers: [
-                    // "#",
+                    "#",
                     "Product",
                     "Selling Price",
                     "Order Quantity",
@@ -215,12 +206,12 @@ class MostSellingProducts extends StatelessWidget {
                     "Total Sales",
                     "Profit",
                   ],
-                  columnFlex: [3, 3, 2, 3, 3, 2],
+                  columnFlex: [2, 3, 3, 3, 3, 3, 2],
                   data:
                       state.productsReport?.map((e) {
-                        // int index = state.productsReport?.indexOf(e) ?? 0;
+                        int index = state.productsReport?.indexOf(e) ?? 0;
                         return {
-                          // "#": index + 1,
+                          "#": index + 1,
                           "Product": e.productName ?? '',
 
                           "Selling Price": e.sellingPrice ?? '',

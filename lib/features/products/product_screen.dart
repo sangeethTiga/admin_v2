@@ -8,7 +8,7 @@ import 'package:admin_v2/features/products/widgets/edit_product.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/features/products/widgets/variant_stock_update.dart';
-import 'package:admin_v2/features/report/cubit/report_cubit.dart';
+
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';

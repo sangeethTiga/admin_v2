@@ -1078,6 +1078,7 @@ class ReportCubit extends Cubit<ReportState> {
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
+      final allCategory=
       emit(
         state.copyWith(
           isProductReport: ApiFetchStatus.loading,
