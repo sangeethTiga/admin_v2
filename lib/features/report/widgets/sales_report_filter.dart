@@ -81,11 +81,11 @@ class SalesReportFilter extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: DatePickerContainer(
-                                  firstDate: state.fromDate ?? DateTime.now(),
+                                  // firstDate: state.fromDate ?? DateTime.now(),
                                   labelText: 'Date',
                                   changeDate: (DateTime pickedDate) {
                                     context
-                                        .read<DashboardCubit>()
+                                        .read<ReportCubit>()
                                         .changeFromDate(pickedDate);
                                   },
                                 ),
@@ -95,7 +95,7 @@ class SalesReportFilter extends StatelessWidget {
                                 child: DatePickerContainer(
                                   labelText: 'Date',
                                   changeDate: (DateTime pickedDate) {
-                                    context.read<DashboardCubit>().changeToDate(
+                                    context.read<ReportCubit>().changeToDate(
                                       pickedDate,
                                     );
                                   },
@@ -305,6 +305,7 @@ class SalesReportFilter extends StatelessWidget {
                         Expanded(
                           child: CustomMaterialBtton(
                             onPressed: () async {
+                              final reportCubit=context.read<ReportCubit>().state;
                               
                               context.read<ReportCubit>().loadSalesReport(
                                 selectedStoreId: state.selectedStore?.storeId,
@@ -317,8 +318,8 @@ class SalesReportFilter extends StatelessWidget {
                                 selectedKIOSK: state.selectedKiosk?.kioskId.toString(),
                                 selectedDuration: state.selectMonth?.id??0,
                                 selectedGroupBy: state.selectedGroupBy?.id,
-                                fromDate: state.fromDate.toString(),
-                                toDate: state.toDate.toString(),
+                                fromDate: (reportCubit.fromDate).toString(),
+                                toDate: (reportCubit.toDate).toString(),
                               );
                               Navigator.pop(context);
                             },
