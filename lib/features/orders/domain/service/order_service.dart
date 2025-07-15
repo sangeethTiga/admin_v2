@@ -1,13 +1,12 @@
 import 'package:admin_v2/features/orders/domain/models/order/order_response.dart';
 import 'package:admin_v2/features/orders/domain/models/order_detail/order_detail_response.dart';
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
-import 'package:admin_v2/features/orders/domain/models/searchOrder/search_response.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/features/orders/domain/repositories/order_repositories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/utils/result.dart';
-import 'package:dio/src/response.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: OrderRepositories)
@@ -86,7 +85,7 @@ class OrderService implements OrderRepositories {
   }
 
   @override
-  Future<ResponseResult<List<SearchResponse>>> searchOrder({
+  Future<ResponseResult<List<OrderResponse>>> searchOrder({
     int? storeId,
     String? search,
   }) async {
@@ -99,8 +98,8 @@ class OrderService implements OrderRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<SearchResponse>.from(
-            res.data.map((e) => SearchResponse.fromJson(e)),
+          data: List<OrderResponse>.from(
+            res.data.map((e) => OrderResponse.fromJson(e)),
           ).toList(),
         );
       default:

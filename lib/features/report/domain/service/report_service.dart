@@ -208,7 +208,7 @@ class ReportService implements ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
-    required String filterValue,
+    //required String filterValue,
     required int filterId,
   }) async {
     final networkProvider = await NetworkProvider.create();

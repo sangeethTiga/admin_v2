@@ -96,6 +96,7 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> changeFromDate(DateTime date) async {
+    print('change from date-=-$date');
     emit(state.copyWith(fromDate: date));
   }
 
@@ -366,7 +367,6 @@ class ReportCubit extends Cubit<ReportState> {
 
       final res = await _reportRepositories.loadCustomersReport(
         filterId: 1,
-        filterValue: '',
         pageFirstResult: currentPage,
         resultPerPage: limit,
         storeId: storeId ?? 0,

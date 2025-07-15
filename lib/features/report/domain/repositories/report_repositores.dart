@@ -89,7 +89,7 @@ abstract class ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
-    required String filterValue,
+   // required String filterValue,
     required int filterId,
   });
 
