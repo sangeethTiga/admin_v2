@@ -337,63 +337,81 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
+  //=-=-=-=-=-=-=-= CUSTOMERS REPORT =-=-=-=-=-=-=-=-=
   Future<void> loadCustomersReport({
     int? storeId,
     String? fromDate,
     String? toDate,
-
     int? accountId,
-
-    int page = 0,
+    int page = 1,
     int limit = 20,
     bool isLoadMore = false,
   }) async {
-    if (!isLoadMore) {
-      emit(
-        state.copyWith(
-          isCustomersReport: ApiFetchStatus.loading,
-          customersReport: [],
-        ),
-      );
-    }
-    final int offset = page * limit;
-    emit(state.copyWith(isCustomersReport: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadCustomersReport(
-      filterId: 1,
-      filterValue: '',
-      pageFirstResult: offset,
-      resultPerPage: limit,
-      storeId: storeId ?? 0,
-      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-      toDate: parsedDate(state.toDate ?? DateTime.now()),
-    );
+    try {
+      if (isLoadMore) {
+        emit(state.copyWith(isLoadingMore: true));
+      } else {
+        emit(
+          state.copyWith(
+            isCustomersReport: ApiFetchStatus.loading,
+            customersReport: [],
+            currentPage: 0,
+            hasMoreData: false,
+            isLoadingMore: false,
+          ),
+        );
+      }
 
-    log('Response data: ${res.data}');
-    if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<CustomersResponse> fetchedList = rawList.map((element) {
-        if (element is CustomersResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return CustomersResponse.fromJson(element);
+      final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+
+      final res = await _reportRepositories.loadCustomersReport(
+        filterId: 1,
+        pageFirstResult: currentPage,
+        resultPerPage: limit,
+        storeId: storeId ?? 0,
+        fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+        toDate: parsedDate(state.toDate ?? DateTime.now()),
+        filterValue: '',
+      );
+
+      log('Response data: ${res.data}');
+
+      if (res.data != null && (res.data?.isNotEmpty ?? false)) {
+        List<CustomersResponse> updatedList;
+        if (isLoadMore) {
+          updatedList = [...(state.customersReport ?? []), ...res.data!];
         } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
+          updatedList = res.data!;
         }
-      }).toList();
-      final List<CustomersResponse> newList = isLoadMore
-          ? <CustomersResponse>[...?state.customersReport, ...fetchedList]
-          : fetchedList;
-
+        final hasMoreData = res.data!.length >= limit;
+        emit(
+          state.copyWith(
+            customersReport: updatedList,
+            isCustomersReport: ApiFetchStatus.success,
+            currentPage: currentPage,
+            hasMoreData: hasMoreData,
+            isLoadingMore: false,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            isCustomersReport: ApiFetchStatus.failed,
+            isLoadingMore: false,
+            hasMoreData: false,
+          ),
+        );
+      }
+    } catch (error) {
+      log('Error loading customers report: $error');
       emit(
         state.copyWith(
-          customersReport: newList,
-          isCustomersReport: ApiFetchStatus.success,
+          isCustomersReport: ApiFetchStatus.failed,
+          isLoadingMore: false,
+          hasMoreData: false,
         ),
       );
     }
-    emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
   }
 
   Future<void> loadCategorySalesReport({
@@ -1246,4 +1264,3 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 }
-  
