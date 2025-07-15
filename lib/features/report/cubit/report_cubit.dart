@@ -77,8 +77,8 @@ class ReportCubit extends Cubit<ReportState> {
       selectedGroupBy: selectedGroupBy ?? '',
       selectedDeliveryAgentId: selectedDeliveryAgentId ?? '',
       isDayClosed: isDayClosed,
-      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-      toDate: parsedDate(state.toDate ?? DateTime.now()),
+      fromDate: fromDate ?? '',
+      toDate: toDate ?? '',
     );
     if (res.data != null) {
       emit(
