@@ -118,8 +118,7 @@ class DashboardScreenState extends State<DashboardScreen>
                         width: 120.w,
                         child: DateDropdown(
                           selectedDate: state.selectDate,
-                          onDateChanged: (v){
-                          
+                          onDateChanged: (v) {
                             _onDateChanged(v);
                           },
                         ),
@@ -129,11 +128,9 @@ class DashboardScreenState extends State<DashboardScreen>
                   // 5.verticalSpace,
                   _buildDashboardGrid(state),
                   20.verticalSpace,
-                  if (state.revenueReport?.isNotEmpty ?? false)
-                     RevenueGraph(),
+                  if (state.revenueReport?.isNotEmpty ?? false) RevenueGraph(),
                   20.verticalSpace,
-                  if (state.ordersReport?.isNotEmpty ?? false)
-                     OrdersGraph(),
+                  if (state.ordersReport?.isNotEmpty ?? false) OrdersGraph(),
                 ],
               ),
             ),
@@ -145,7 +142,6 @@ class DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildDashboardGrid(DashboardState state) {
     return GridView.builder(
-      
       shrinkWrap: true,
       itemCount: accountList.length,
       physics: const NeverScrollableScrollPhysics(),
@@ -161,14 +157,13 @@ class DashboardScreenState extends State<DashboardScreen>
           selectedStore: state.selectedStore,
           selectedAccount: state.selectedAccount,
           onTap: () {
-          
             navigateToFeature(
               accountList[index].name ?? '',
               context,
               storeId: state.selectedStore?.storeId,
               accountId: state.selectedAccount?.accountHeadId,
-              
             );
+            context.read<DashboardCubit>().initState();
           },
         );
       },
@@ -191,8 +186,6 @@ class DashboardScreenState extends State<DashboardScreen>
   }
 
   void _onDateChanged(ListOfDemo? date) {
-
-
     if (date == null) return;
     context.read<CommonCubit>().selectedDate(date);
     context.read<DashboardCubit>().monthSelection(date);
@@ -244,5 +237,3 @@ class _DashboardGridItem extends StatelessWidget {
     );
   }
 }
-
-

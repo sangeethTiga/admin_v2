@@ -22,160 +22,214 @@ class CustomersReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Customers Report'),
-      body: Column(
-        children: [
-          dividerWidget(height: 6.h),
+      body: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              dividerWidget(height: 6.h),
 
-          MainPadding(
-            top: 0.h,
-            child: Column(
-              children: [
-                commonStoreDropDown(
-                  onChanged: (p0) {
-                    context.read<DashboardCubit>().selectedStore(p0);
-                  },
-                ),
+              MainPadding(
+                top: 0.h,
+                child: Column(
+                  children: [
+                    commonStoreDropDown(
+                      onChanged: (p0) {
+                        context.read<DashboardCubit>().selectedStore(p0);
+                      },
+                    ),
 
-                12.verticalSpace,
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: DatePickerContainer(
-                            value: apiFormat.format(
-                              state.fromDate ?? DateTime.now(),
+                    12.verticalSpace,
+                    BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, state) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: DatePickerContainer(
+                                value: apiFormat.format(
+                                  state.fromDate ?? DateTime.now(),
+                                ),
+                                hintText: '',
+                                changeDate: (DateTime pickedDate) {
+                                  context.read<ReportCubit>().changeFromDate(
+                                    pickedDate,
+                                  );
+                                },
+                              ),
                             ),
-                            hintText: '',
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeFromDate(
-                                pickedDate,
-                              );
-                            },
-                          ),
-                        ),
-                        12.horizontalSpace,
-                        Expanded(
-                          child: DatePickerContainer(
-                            hintText: '',
-                            value: apiFormat.format(
-                              state.toDate ?? DateTime.now(),
+                            12.horizontalSpace,
+                            Expanded(
+                              child: DatePickerContainer(
+                                hintText: '',
+                                value: apiFormat.format(
+                                  state.toDate ?? DateTime.now(),
+                                ),
+                                changeDate: (DateTime pickedDate) {
+                                  context.read<ReportCubit>().changeToDate(
+                                    pickedDate,
+                                  );
+                                },
+                              ),
                             ),
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeToDate(
-                                pickedDate,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                10.verticalSpace,
-                TextFeildWidget(
-                  onChanged: (value) {
-                    final storeId =
-                        context
-                            .read<DashboardCubit>()
-                            .state
-                            .selectedStore
-                            ?.storeId ??
-                        0;
-
-                    context.read<ReportCubit>().loadSuppliersReport(
-                      storeId: storeId,
-                      query: value?.trim(),
-                    );
-                  },
-
-                  borderColor: kBlack,
-                  hight: 48.h,
-                  fillColor: kWhite,
-                  inputBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                  ),
-                  prefix: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset('assets/icons/Search.svg'),
-                  ),
-                  hintText: 'Search customers',
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset('assets/icons/x-close.svg'),
-                  ),
-                ),
-                10.verticalSpace,
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                    return CustomMaterialBtton(
-                      onPressed: () {
-                        context.read<ReportCubit>().loadCustomersReport(
-                          storeId: state.selectedStore?.storeId,
+                          ],
                         );
                       },
-                      buttonText: 'View Report',
-                    );
-                  },
+                    ),
+                    10.verticalSpace,
+                    TextFeildWidget(
+                      onChanged: (value) {
+                        final storeId =
+                            context
+                                .read<DashboardCubit>()
+                                .state
+                                .selectedStore
+                                ?.storeId ??
+                            0;
+
+                        context.read<ReportCubit>().loadSuppliersReport(
+                          storeId: storeId,
+                          query: value?.trim(),
+                        );
+                      },
+
+                      borderColor: kBlack,
+                      hight: 48.h,
+                      fillColor: kWhite,
+                      inputBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                      ),
+                      prefix: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset('assets/icons/Search.svg'),
+                      ),
+                      hintText: 'Search customers',
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset('assets/icons/x-close.svg'),
+                      ),
+                    ),
+                    10.verticalSpace,
+                    BlocBuilder<DashboardCubit, DashboardState>(
+                      builder: (context, state) {
+                        return CustomMaterialBtton(
+                          onPressed: () {
+                            context.read<ReportCubit>().loadCustomersReport(
+                              storeId: state.selectedStore?.storeId,
+                            );
+                          },
+                          buttonText: 'View Report',
+                        );
+                      },
+                    ),
+                    10.verticalSpace,
+                  ],
                 ),
-                10.verticalSpace,
-              ],
-            ),
-          ),
-
-          Expanded(
-            child: MainPadding(
-              child: BlocBuilder<DashboardCubit, DashboardState>(
-                builder: (context, store) {
-                  return BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return CommonTableWidget(
-                        isLoading:
-                            state.isCustomersReport == ApiFetchStatus.loading,
-                        headers: [
-                          "#",
-                          "Customer",
-                          "E-Mail",
-                          "Mobile",
-                          // "Reg.Date",
-                          // "Order Count",
-                          "Purchase(AED)",
-                          "Balance",
-                          // "Action",
-                        ],
-
-                        columnFlex: [1, 3, 3, 4, 3, 2],
-                        data:
-                            state.customersReport?.map((e) {
-                              int index =
-                                  state.customersReport?.indexOf(e) ?? 0;
-                              return {
-                                '#': index + 1,
-                                'Customer': e.custName ?? '',
-                                'E-Mail': e.custEmail ?? '',
-                                'Mobile': e.custMobile ?? '',
-                                // 'Reg.Date': e.createdDate?.toString() ?? '',
-                                // 'Order Count': e.orderCount.toString(),
-                                'Purchase(AED)': e.totalPurchaseAmount
-                                    .toString(),
-                                'Balance': e.balanceAmt.toString(),
-                                // 'Action':
-                                //     'Action', // Placeholder for action button
-                              };
-                            }).toList() ??
-                            [],
-                      );
-
-                      //);
-                    },
-                  );
-                },
               ),
-            ),
-          ),
-        ],
+
+              Expanded(
+                child: MainPadding(
+                  child: BlocBuilder<DashboardCubit, DashboardState>(
+                    builder: (context, store) {
+                      return BlocBuilder<ReportCubit, ReportState>(
+                        builder: (context, state) {
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: CommonTableWidget(
+                                  isLoading:
+                                      state.isCustomersReport ==
+                                      ApiFetchStatus.loading,
+                                  headers: [
+                                    "#",
+                                    "Customer",
+                                    "E-Mail",
+                                    "Mobile",
+                                    "Purchase(AED)",
+                                    "Balance",
+                                  ],
+
+                                  columnFlex: [1, 3, 3, 4, 3, 2],
+                                  data:
+                                      state.customersReport?.map((e) {
+                                        int index =
+                                            state.customersReport?.indexOf(e) ??
+                                            0;
+                                        return {
+                                          '#': index + 1,
+                                          'Customer': e.custName ?? '',
+                                          'E-Mail': e.custEmail ?? '',
+                                          'Mobile': e.custMobile ?? '',
+                                          'Purchase(AED)': e.totalPurchaseAmount
+                                              .toString(),
+                                          'Balance': e.balanceAmt.toString(),
+                                        };
+                                      }).toList() ??
+                                      [],
+                                ),
+                              ),
+                              // Add pagination controls here
+                              _buildPaginationControls(context, state),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
+}
+
+Widget _buildPaginationControls(BuildContext context, ReportState state) {
+  return Container(
+    padding: EdgeInsets.all(16.w),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Page ${(state.currentPage ?? 0) + 1} • ${state.customersReport?.length ?? 0} customers',
+          style: TextStyle(fontSize: 14.sp),
+        ),
+
+        Row(
+          children: [
+            if (state.hasMoreData == true)
+              ElevatedButton(
+                onPressed: (state.isLoadingMore == true)
+                    ? null
+                    : () async {
+                        await context.read<ReportCubit>().loadCustomersReport(
+                          storeId: context
+                              .read<DashboardCubit>()
+                              .state
+                              .selectedStore
+                              ?.storeId,
+                          isLoadMore: true,
+                        );
+                      },
+                child: (state.isLoadingMore == true)
+                    ? SizedBox(
+                        width: 20.w,
+                        height: 20.h,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text('Load More'),
+              ),
+
+            if (state.hasMoreData == false &&
+                state.customersReport?.isNotEmpty == true)
+              Text(
+                'No more data',
+                style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              ),
+          ],
+        ),
+      ],
+    ),
+  );
 }
