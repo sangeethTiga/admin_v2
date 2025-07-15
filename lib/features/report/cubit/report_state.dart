@@ -17,6 +17,7 @@ class ReportState extends Equatable {
   final int page;
   final String status;
   final String option;
+  final String search;
   final List<CustomersResponse>? customersReport;
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
@@ -98,6 +99,7 @@ class ReportState extends Equatable {
     this.isDeliverychargeReport,
     this.offset = 0,
     this.page = 0,
+    this.search='',
     this.customersReport,
     this.isCustomersReport,
     this.isCategorySales,
@@ -165,7 +167,7 @@ class ReportState extends Equatable {
     this.totalItems,
     this.selectedOption,
     this.custSearchList,
-    this.isLoading
+    this.isLoading,
   });
 
   ReportState copyWith({
@@ -185,6 +187,7 @@ class ReportState extends Equatable {
     int? page,
     String? status,
     String? option,
+    String? search,
     List<CustomersResponse>? customersReport,
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
@@ -250,7 +253,7 @@ class ReportState extends Equatable {
     StoreResponse? selectedStore,
     OptionResponse? selectedOption,
     List<CustomerSearchResponse>? custSearchList,
-    ApiFetchStatus? isLoading
+    ApiFetchStatus? isLoading,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -260,6 +263,7 @@ class ReportState extends Equatable {
       selectedMethod: selectedMethod ?? this.selectedMethod,
       revenueReport: revenueReport ?? this.revenueReport,
       currentPage: currentPage ?? this.currentPage,
+      search: search?? this.search,
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
       profitlossReport: profitlossReport ?? this.profitlossReport,
@@ -331,7 +335,7 @@ class ReportState extends Equatable {
       filteredProduct: filteredProduct ?? this.filteredProduct,
       selectedOption: selectedOption ?? this.selectedOption,
       custSearchList: custSearchList ?? this.custSearchList,
-      isLoading: isLoading?? this.isLoading
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 
@@ -352,6 +356,7 @@ class ReportState extends Equatable {
     page,
     offset,
     status,
+    search,
     customersReport,
     isCustomersReport,
     isCategorySales,
@@ -412,7 +417,7 @@ class ReportState extends Equatable {
     daySummary,
     selectedOption,
     custSearchList,
-    isLoading
+    isLoading,
   ];
 }
 

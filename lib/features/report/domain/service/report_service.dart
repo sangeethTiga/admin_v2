@@ -6,7 +6,6 @@ import 'package:admin_v2/features/report/domain/models/categorysales/categorySal
 import 'package:admin_v2/features/report/domain/models/cheque/chequeStatus_response.dart';
 import 'package:admin_v2/features/report/domain/models/cheque/cheque_response.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
-import 'package:admin_v2/features/report/domain/models/custSearch/custSearch_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart';
 import 'package:admin_v2/features/report/domain/models/delivery_agent/delivery_agent_response.dart';
@@ -970,8 +969,9 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
-    @override
-  Future<ResponseResult<List<CustomerSearchResponse>>> custSearch({
+
+  @override
+  Future<ResponseResult<List<CustomersResponse>>> custSearch({
     int? storeId,
     String? custSearch,
   }) async {
@@ -984,8 +984,8 @@ class ReportService implements ReportRepositories {
       case 200:
       case 201:
         return ResponseResult(
-          data: List<CustomerSearchResponse>.from(
-            res.data.map((e) => CustomerSearchResponse.fromJson(e)),
+          data: List<CustomersResponse>.from(
+            res.data.map((e) => CustomersResponse.fromJson(e)),
           ).toList(),
         );
       default:
