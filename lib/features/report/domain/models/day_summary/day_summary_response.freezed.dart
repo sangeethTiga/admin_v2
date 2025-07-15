@@ -1871,7 +1871,7 @@ mixin _$AmountByDelivertBoy {
   @JsonKey(name: "ordercount")
   int? get ordercount => throw _privateConstructorUsedError;
   @JsonKey(name: "totalamount")
-  int? get totalamount => throw _privateConstructorUsedError;
+  double? get totalamount => throw _privateConstructorUsedError;
   @JsonKey(name: "user_role_id")
   int? get userRoleId => throw _privateConstructorUsedError;
   @JsonKey(name: "company_users_id")
@@ -1905,7 +1905,7 @@ abstract class $AmountByDelivertBoyCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "user_name") String? userName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "user_role_id") int? userRoleId,
     @JsonKey(name: "company_users_id") int? companyUsersId,
     @JsonKey(name: "invoice_numbers") List<dynamic>? invoiceNumbers,
@@ -1953,7 +1953,7 @@ class _$AmountByDelivertBoyCopyWithImpl<$Res, $Val extends AmountByDelivertBoy>
             totalamount: freezed == totalamount
                 ? _value.totalamount
                 : totalamount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             userRoleId: freezed == userRoleId
                 ? _value.userRoleId
                 : userRoleId // ignore: cast_nullable_to_non_nullable
@@ -1996,7 +1996,7 @@ abstract class _$$AmountByDelivertBoyImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "user_name") String? userName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "user_role_id") int? userRoleId,
     @JsonKey(name: "company_users_id") int? companyUsersId,
     @JsonKey(name: "invoice_numbers") List<dynamic>? invoiceNumbers,
@@ -2043,7 +2043,7 @@ class __$$AmountByDelivertBoyImplCopyWithImpl<$Res>
         totalamount: freezed == totalamount
             ? _value.totalamount
             : totalamount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         userRoleId: freezed == userRoleId
             ? _value.userRoleId
             : userRoleId // ignore: cast_nullable_to_non_nullable
@@ -2100,7 +2100,7 @@ class _$AmountByDelivertBoyImpl implements _AmountByDelivertBoy {
   final int? ordercount;
   @override
   @JsonKey(name: "totalamount")
-  final int? totalamount;
+  final double? totalamount;
   @override
   @JsonKey(name: "user_role_id")
   final int? userRoleId;
@@ -2202,7 +2202,7 @@ abstract class _AmountByDelivertBoy implements AmountByDelivertBoy {
   const factory _AmountByDelivertBoy({
     @JsonKey(name: "user_name") final String? userName,
     @JsonKey(name: "ordercount") final int? ordercount,
-    @JsonKey(name: "totalamount") final int? totalamount,
+    @JsonKey(name: "totalamount") final double? totalamount,
     @JsonKey(name: "user_role_id") final int? userRoleId,
     @JsonKey(name: "company_users_id") final int? companyUsersId,
     @JsonKey(name: "invoice_numbers") final List<dynamic>? invoiceNumbers,
@@ -2222,7 +2222,7 @@ abstract class _AmountByDelivertBoy implements AmountByDelivertBoy {
   int? get ordercount;
   @override
   @JsonKey(name: "totalamount")
-  int? get totalamount;
+  double? get totalamount;
   @override
   @JsonKey(name: "user_role_id")
   int? get userRoleId;
@@ -2261,7 +2261,7 @@ mixin _$AmountByDevice {
   @JsonKey(name: "ordercount")
   int? get ordercount => throw _privateConstructorUsedError;
   @JsonKey(name: "totalamount")
-  int? get totalamount => throw _privateConstructorUsedError;
+  double? get totalamount => throw _privateConstructorUsedError;
 
   /// Serializes this AmountByDevice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2283,7 +2283,7 @@ abstract class $AmountByDeviceCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "device_name") String? deviceName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
   });
 }
 
@@ -2319,7 +2319,7 @@ class _$AmountByDeviceCopyWithImpl<$Res, $Val extends AmountByDevice>
             totalamount: freezed == totalamount
                 ? _value.totalamount
                 : totalamount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -2338,7 +2338,7 @@ abstract class _$$AmountByDeviceImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "device_name") String? deviceName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
   });
 }
 
@@ -2373,7 +2373,7 @@ class __$$AmountByDeviceImplCopyWithImpl<$Res>
         totalamount: freezed == totalamount
             ? _value.totalamount
             : totalamount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -2399,7 +2399,7 @@ class _$AmountByDeviceImpl implements _AmountByDevice {
   final int? ordercount;
   @override
   @JsonKey(name: "totalamount")
-  final int? totalamount;
+  final double? totalamount;
 
   @override
   String toString() {
@@ -2445,7 +2445,7 @@ abstract class _AmountByDevice implements AmountByDevice {
   const factory _AmountByDevice({
     @JsonKey(name: "device_name") final String? deviceName,
     @JsonKey(name: "ordercount") final int? ordercount,
-    @JsonKey(name: "totalamount") final int? totalamount,
+    @JsonKey(name: "totalamount") final double? totalamount,
   }) = _$AmountByDeviceImpl;
 
   factory _AmountByDevice.fromJson(Map<String, dynamic> json) =
@@ -2459,7 +2459,7 @@ abstract class _AmountByDevice implements AmountByDevice {
   int? get ordercount;
   @override
   @JsonKey(name: "totalamount")
-  int? get totalamount;
+  double? get totalamount;
 
   /// Create a copy of AmountByDevice
   /// with the given fields replaced by the non-null parameter values.
@@ -2478,7 +2478,7 @@ mixin _$BillTypeDetail {
   @JsonKey(name: "order_option_name")
   String? get orderOptionName => throw _privateConstructorUsedError;
   @JsonKey(name: "totalamount")
-  int? get totalamount => throw _privateConstructorUsedError;
+  double? get totalamount => throw _privateConstructorUsedError;
   @JsonKey(name: "ordercount")
   int? get ordercount => throw _privateConstructorUsedError;
 
@@ -2501,7 +2501,7 @@ abstract class $BillTypeDetailCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "order_option_name") String? orderOptionName,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "ordercount") int? ordercount,
   });
 }
@@ -2534,7 +2534,7 @@ class _$BillTypeDetailCopyWithImpl<$Res, $Val extends BillTypeDetail>
             totalamount: freezed == totalamount
                 ? _value.totalamount
                 : totalamount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             ordercount: freezed == ordercount
                 ? _value.ordercount
                 : ordercount // ignore: cast_nullable_to_non_nullable
@@ -2556,7 +2556,7 @@ abstract class _$$BillTypeDetailImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: "order_option_name") String? orderOptionName,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "ordercount") int? ordercount,
   });
 }
@@ -2588,7 +2588,7 @@ class __$$BillTypeDetailImplCopyWithImpl<$Res>
         totalamount: freezed == totalamount
             ? _value.totalamount
             : totalamount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         ordercount: freezed == ordercount
             ? _value.ordercount
             : ordercount // ignore: cast_nullable_to_non_nullable
@@ -2615,7 +2615,7 @@ class _$BillTypeDetailImpl implements _BillTypeDetail {
   final String? orderOptionName;
   @override
   @JsonKey(name: "totalamount")
-  final int? totalamount;
+  final double? totalamount;
   @override
   @JsonKey(name: "ordercount")
   final int? ordercount;
@@ -2663,7 +2663,7 @@ class _$BillTypeDetailImpl implements _BillTypeDetail {
 abstract class _BillTypeDetail implements BillTypeDetail {
   const factory _BillTypeDetail({
     @JsonKey(name: "order_option_name") final String? orderOptionName,
-    @JsonKey(name: "totalamount") final int? totalamount,
+    @JsonKey(name: "totalamount") final double? totalamount,
     @JsonKey(name: "ordercount") final int? ordercount,
   }) = _$BillTypeDetailImpl;
 
@@ -2675,7 +2675,7 @@ abstract class _BillTypeDetail implements BillTypeDetail {
   String? get orderOptionName;
   @override
   @JsonKey(name: "totalamount")
-  int? get totalamount;
+  double? get totalamount;
   @override
   @JsonKey(name: "ordercount")
   int? get ordercount;
@@ -2699,7 +2699,7 @@ mixin _$DeliveryPartner {
   @JsonKey(name: "ordercount")
   int? get ordercount => throw _privateConstructorUsedError;
   @JsonKey(name: "totalamount")
-  int? get totalamount => throw _privateConstructorUsedError;
+  double? get totalamount => throw _privateConstructorUsedError;
   @JsonKey(name: "delivery_partner_id")
   int? get deliveryPartnerId => throw _privateConstructorUsedError;
 
@@ -2723,7 +2723,7 @@ abstract class $DeliveryPartnerCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "name") String? name,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
   });
 }
@@ -2761,7 +2761,7 @@ class _$DeliveryPartnerCopyWithImpl<$Res, $Val extends DeliveryPartner>
             totalamount: freezed == totalamount
                 ? _value.totalamount
                 : totalamount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             deliveryPartnerId: freezed == deliveryPartnerId
                 ? _value.deliveryPartnerId
                 : deliveryPartnerId // ignore: cast_nullable_to_non_nullable
@@ -2784,7 +2784,7 @@ abstract class _$$DeliveryPartnerImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "name") String? name,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
   });
 }
@@ -2821,7 +2821,7 @@ class __$$DeliveryPartnerImplCopyWithImpl<$Res>
         totalamount: freezed == totalamount
             ? _value.totalamount
             : totalamount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         deliveryPartnerId: freezed == deliveryPartnerId
             ? _value.deliveryPartnerId
             : deliveryPartnerId // ignore: cast_nullable_to_non_nullable
@@ -2852,7 +2852,7 @@ class _$DeliveryPartnerImpl implements _DeliveryPartner {
   final int? ordercount;
   @override
   @JsonKey(name: "totalamount")
-  final int? totalamount;
+  final double? totalamount;
   @override
   @JsonKey(name: "delivery_partner_id")
   final int? deliveryPartnerId;
@@ -2907,7 +2907,7 @@ abstract class _DeliveryPartner implements DeliveryPartner {
   const factory _DeliveryPartner({
     @JsonKey(name: "name") final String? name,
     @JsonKey(name: "ordercount") final int? ordercount,
-    @JsonKey(name: "totalamount") final int? totalamount,
+    @JsonKey(name: "totalamount") final double? totalamount,
     @JsonKey(name: "delivery_partner_id") final int? deliveryPartnerId,
   }) = _$DeliveryPartnerImpl;
 
@@ -2922,7 +2922,7 @@ abstract class _DeliveryPartner implements DeliveryPartner {
   int? get ordercount;
   @override
   @JsonKey(name: "totalamount")
-  int? get totalamount;
+  double? get totalamount;
   @override
   @JsonKey(name: "delivery_partner_id")
   int? get deliveryPartnerId;

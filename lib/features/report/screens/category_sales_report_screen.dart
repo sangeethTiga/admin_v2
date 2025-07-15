@@ -33,7 +33,7 @@ class CategorySalesReportScreen extends StatelessWidget {
                     );
                   },
                 ),
-                8.verticalSpace,
+                10.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(

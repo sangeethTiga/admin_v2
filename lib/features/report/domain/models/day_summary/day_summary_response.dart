@@ -85,7 +85,7 @@ class AmountByDelivertBoy with _$AmountByDelivertBoy {
   const factory AmountByDelivertBoy({
     @JsonKey(name: "user_name") String? userName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "user_role_id") int? userRoleId,
     @JsonKey(name: "company_users_id") int? companyUsersId,
     @JsonKey(name: "invoice_numbers") List<dynamic>? invoiceNumbers,
@@ -103,7 +103,7 @@ class AmountByDevice with _$AmountByDevice {
   const factory AmountByDevice({
     @JsonKey(name: "device_name") String? deviceName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
   }) = _AmountByDevice;
 
   factory AmountByDevice.fromJson(Map<String, dynamic> json) =>
@@ -114,7 +114,7 @@ class AmountByDevice with _$AmountByDevice {
 class BillTypeDetail with _$BillTypeDetail {
   const factory BillTypeDetail({
     @JsonKey(name: "order_option_name") String? orderOptionName,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "ordercount") int? ordercount,
   }) = _BillTypeDetail;
 
@@ -127,7 +127,7 @@ class DeliveryPartner with _$DeliveryPartner {
   const factory DeliveryPartner({
     @JsonKey(name: "name") String? name,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "totalamount") int? totalamount,
+    @JsonKey(name: "totalamount") double? totalamount,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
   }) = _DeliveryPartner;
 
