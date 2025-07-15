@@ -78,7 +78,7 @@ class _OfferFormState extends State<OfferForm> {
   void initState() {
     super.initState();
 
-    _reportCubit = context.read<ReportCubit>(); // ✅ Save early
+    _reportCubit = context.read<ReportCubit>();
 
     nameController = TextEditingController(
       text: widget.product?.productName ?? '',
@@ -121,7 +121,7 @@ class _OfferFormState extends State<OfferForm> {
   }
 
   @override
- void dispose() {
+  void dispose() {
     nameController.dispose();
     offerPriceController.removeListener(_updateDiscountFromOfferPrice);
     offerPriceController.dispose();
@@ -130,7 +130,6 @@ class _OfferFormState extends State<OfferForm> {
     toDateController.dispose();
     productPriceController.dispose();
 
-    
     if (!widget.isEdit) {
       _reportCubit.selectedProductName(ProductNameResponse());
       _reportCubit.loadSelectedOffer(SpecialOfferResponse());
@@ -140,8 +139,6 @@ class _OfferFormState extends State<OfferForm> {
 
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -357,6 +354,30 @@ class _OfferFormState extends State<OfferForm> {
 
                 CustomMaterialBtton(
                   onPressed: () async {
+                    final offerPrice =
+                        double.tryParse(offerPriceController.text) ?? 0;
+                    final productPrice =
+                        double.tryParse(productPriceController.text) ?? 0;
+
+                    if (offerPrice > productPrice) {
+                      _scaffoldMessengerKey.currentState?.showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Offer price cannot be greater than product price.',
+                          ),
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.only(
+                            top: 10,
+                            left: 20,
+                            right: 20,
+                          ),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                      return;
+                    }
+
                     final cubit = context.read<ReportCubit>();
 
                     if (widget.isEdit) {
