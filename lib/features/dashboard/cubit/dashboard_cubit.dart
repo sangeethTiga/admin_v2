@@ -336,4 +336,8 @@ class DashboardCubit extends Cubit<DashboardState> {
   Future<void> selectedOption(OptionResponse options) async {
     emit(state.copyWith(selectedOption: options));
   }
+
+  void initState() {
+    emit(state.copyWith(fromDate: DateTime.now(), toDate: DateTime.now()));
+  }
 }
