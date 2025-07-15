@@ -41,6 +41,7 @@ class _OfferFormState extends State<OfferForm> {
   bool isLoading = false;
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
+  late final ReportCubit _reportCubit;
 
   void _updateDiscountFromOfferPrice() {
     final offerText = offerPriceController.text;
@@ -77,6 +78,8 @@ class _OfferFormState extends State<OfferForm> {
   void initState() {
     super.initState();
 
+    _reportCubit = context.read<ReportCubit>(); // ✅ Save early
+
     nameController = TextEditingController(
       text: widget.product?.productName ?? '',
     );
@@ -99,27 +102,46 @@ class _OfferFormState extends State<OfferForm> {
     offerPriceController.addListener(_updateDiscountFromOfferPrice);
 
     if (widget.isEdit) {
-      final cubit = context.read<ReportCubit>();
       if (widget.product?.offerFromDate != null) {
-        cubit.changeFromDate(widget.product!.offerFromDate!);
+        _reportCubit.changeFromDate(widget.product!.offerFromDate!);
       }
       if (widget.product?.offerToDate != null) {
-        cubit.changeToDate(widget.product!.offerToDate!);
+        _reportCubit.changeToDate(widget.product!.offerToDate!);
+      }
+      final allOffers = _reportCubit.state.specialOffer;
+      final selected = allOffers?.firstWhere(
+        (element) => element.prodOfferTypeId == widget.product?.prodOfferTypeId,
+        orElse: () => SpecialOfferResponse(),
+      );
+
+      if (selected != null) {
+        _reportCubit.loadSelectedOffer(selected);
       }
     }
   }
 
   @override
-  void dispose() {
+ void dispose() {
     nameController.dispose();
+    offerPriceController.removeListener(_updateDiscountFromOfferPrice);
     offerPriceController.dispose();
     discountController.dispose();
     fromDateController.dispose();
     toDateController.dispose();
     productPriceController.dispose();
+
+    
+    if (!widget.isEdit) {
+      _reportCubit.selectedProductName(ProductNameResponse());
+      _reportCubit.loadSelectedOffer(SpecialOfferResponse());
+      _reportCubit.changeFromDate(DateTime.now());
+      _reportCubit.changeToDate(DateTime.now());
+    }
+
     super.dispose();
-    offerPriceController.removeListener(_updateDiscountFromOfferPrice);
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +246,9 @@ class _OfferFormState extends State<OfferForm> {
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
+                      enabled: !widget.isEdit,
+                      hintText: 'Special offer',
+
                       isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
                       prefixIcon: Container(
                         child: SvgPicture.asset(
@@ -335,6 +360,11 @@ class _OfferFormState extends State<OfferForm> {
                     final cubit = context.read<ReportCubit>();
 
                     if (widget.isEdit) {
+                      final selectedType = context
+                          .read<ReportCubit>()
+                          .state
+                          .selectedType;
+
                       final updatedOffer = EditOfferResponse(
                         offerPrice:
                             double.tryParse(offerPriceController.text) ?? 0.0,
@@ -348,34 +378,17 @@ class _OfferFormState extends State<OfferForm> {
                         deliveryPartnerId:
                             widget.product?.deliveryPartnerId ?? 0,
                         maxOrderQty: widget.product?.maxOrderQty ?? 0,
-                        offerTypeId:
-                            context
-                                .read<ReportCubit>()
-                                .state
-                                .selectedType
-                                ?.prodOfferTypeId ??
-                            0,
-                        prodOfferTypeId:
-                            context
-                                .read<ReportCubit>()
-                                .state
-                                .selectedType
-                                ?.prodOfferTypeId ??
-                            0,
-
-                        // offerTypeId: widget.product?.offerTypeId ?? 0,
-                        // prodOfferTypeId: widget.product?.prodOfferTypeId ?? 0,
+                        offerTypeId: widget.product?.offerTypeId ?? 0,
+                        prodOfferTypeId: selectedType?.prodOfferTypeId ?? 0,
                         updatedBy: widget.product?.updatedBy ?? 0,
                         resourceId: widget.product?.resourceId ?? 0,
                         prodVarCode: widget.product?.prodVarCode,
                         priceTypeId: widget.product?.priceTypeId ?? 0,
-                        // offerFromDate: cubit.state.fromDate,
-                        // offerToDate: cubit.state.toDate,
-                        offerToDate: context.read<ReportCubit>().state.toDate,
                         offerFromDate: context
                             .read<ReportCubit>()
                             .state
                             .fromDate,
+                        offerToDate: context.read<ReportCubit>().state.toDate,
                       );
                       await cubit.loadEditOffer(
                         updatedOffer,
