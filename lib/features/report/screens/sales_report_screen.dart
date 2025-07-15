@@ -58,39 +58,46 @@ class SalesReportScreen extends StatelessWidget {
                         ),
                       ],
                     );
-                   
                   },
-
                 ),
                 10.verticalSpace,
-                
+
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
-                    return Row(
-                      children: [
-                         Expanded(
-                                child: DatePickerContainer(
-                                   labelText: 'From Date',
-                                 
-                                  changeDate: (DateTime pickedDate) {
-                                    context
-                                        .read<ReportCubit>()
-                                        .changeFromDate(pickedDate);
-                                  },
+                    return BlocBuilder<DashboardCubit, DashboardState>(
+                      builder: (context, dash) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: DatePickerContainer(
+                                labelText: 'From Date',
+                                value: apiFormat.format(
+                                  dash.fromDate ?? DateTime.now(),
                                 ),
+                                changeDate: (DateTime pickedDate) {
+                                  context.read<DashboardCubit>().changeFromDate(
+                                    pickedDate,
+                                  );
+                                },
                               ),
-                              12.horizontalSpace,
-                              Expanded(
-                                child: DatePickerContainer(
-                                  labelText: 'To Date',
-                                  changeDate: (DateTime pickedDate) {
-                                    context.read<ReportCubit>().changeToDate(
-                                      pickedDate,
-                                    );
-                                  },
+                            ),
+                            12.horizontalSpace,
+                            Expanded(
+                              child: DatePickerContainer(
+                                value: apiFormat.format(
+                                  dash.toDate ?? DateTime.now(),
                                 ),
+                                labelText: 'To Date',
+                                changeDate: (DateTime pickedDate) {
+                                  context.read<DashboardCubit>().changeToDate(
+                                    pickedDate,
+                                  );
+                                },
                               ),
-                      ],
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
                 ),
@@ -101,8 +108,9 @@ class SalesReportScreen extends StatelessWidget {
                       children: [
                         CustomMaterialBtton(
                           onPressed: () {
-                            
-                           final reportCubit=context.read<ReportCubit>().state;
+                            final reportCubit = context
+                                .read<ReportCubit>()
+                                .state;
 
                             context.read<ReportCubit>().loadSalesReport(
                               selectedStoreId: state.selectedStore?.storeId,

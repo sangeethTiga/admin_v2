@@ -1,5 +1,6 @@
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
@@ -12,6 +13,7 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
+import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,7 +50,7 @@ class MostSellingProducts extends StatelessWidget {
                     );
                   },
                 ),
-
+                8.verticalSpace,
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
@@ -110,7 +112,36 @@ class MostSellingProducts extends StatelessWidget {
                     );
                   },
                 ),
+                4.verticalSpace,
+                TextFeildWidget(
+                  onChanged: (value) {
+                    final storeId =
+                        context
+                            .read<DashboardCubit>()
+                            .state
+                            .selectedStore
+                            ?.storeId ??
+                        0;
 
+                  
+                  },
+
+                  borderColor: kBlack,
+                  hight: 48.h,
+                  fillColor: kWhite,
+                  inputBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                  ),
+                  prefix: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SvgPicture.asset('assets/icons/Search.svg'),
+                  ),
+                  hintText: 'Search products',
+                ),
+                10.verticalSpace,
+
+                //8.verticalSpace,
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {
                     return Row(

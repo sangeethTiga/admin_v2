@@ -16,6 +16,26 @@ import 'package:shimmer/shimmer.dart';
 
 class ProfitLossScreen extends StatelessWidget {
   const ProfitLossScreen({super.key});
+  double calculateTotalExpense(ReportState state) {
+    final result = state.profitlossReport?[0].paymentData;
+    if (result == null) return 0.0;
+    return result.fold(0.0, (sum, item) => sum + (item.amount ?? 0.0));
+  }
+
+  double calculateTotalRevenue(ReportState state) {
+    final receipts = state.profitlossReport?[0].receiptsData;
+    if (receipts == null) return 0.0;
+    return receipts.fold<double>(
+      0.0,
+      (sum, item) => sum + (item.amount ?? 0.0),
+    );
+  }
+
+  double calculateProfitorLoss(ReportState state) {
+    final revenue = calculateTotalRevenue(state);
+    final expense = calculateTotalExpense(state);
+    return revenue - expense;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,16 +101,6 @@ class ProfitLossScreen extends StatelessWidget {
                   2.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      double calculateTotalRevenue(ReportState state) {
-                        final receipts =
-                            state.profitlossReport?[0].receiptsData;
-                        if (receipts == null) return 0.0;
-                        return receipts.fold<double>(
-                          0.0,
-                          (sum, item) => sum + (item.amount ?? 0.0),
-                        );
-                      }
-
                       return Container(
                         // height: 120.h,
                         width: double.infinity,
@@ -173,17 +183,8 @@ class ProfitLossScreen extends StatelessWidget {
 
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      double calculateTotalExpense(ReportState state) {
-                        final result = state.profitlossReport?[0].paymentData;
-                        if (result == null) return 0.0;
-                        return result.fold(
-                          0.0,
-                          (sum, item) => sum + (item.amount ?? 0.0),
-                        );
-                      }
-
                       return Container(
-                        // height: 120.h,
+                        // height: 120.h,===
                         width: double.infinity,
                         // padding: EdgeInsets.only(left: 12.w),
                         decoration: BoxDecoration(
@@ -261,7 +262,46 @@ class ProfitLossScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  6.verticalSpace,
+                  BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      return Container(
+                        width: double.infinity,
+                        height: 45.h,
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor1,
+                          borderRadius: BorderRadius.circular(
+                            12,
+                            // bottomLeft: Radius.circular(12.r),
+                            // bottomRight: Radius.circular(12.r),
+                          ),
+                        ),
+
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 12.w),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Net Profit/Loss',
+                                style: FontPalette.hW700S14,
+                              ),
+                              Spacer(),
+                              Padding(
+                                padding: EdgeInsets.only(right: 12.w),
+                                child: Text(
+                                  calculateProfitorLoss(
+                                    state,
+                                  ).toStringAsFixed(2),
+
+                                  style: FontPalette.hW700S14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  8.verticalSpace,
                 ],
               ),
             ),

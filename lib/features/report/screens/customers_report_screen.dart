@@ -2,15 +2,18 @@ import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
+import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
+import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CustomersReportScreen extends StatelessWidget {
   const CustomersReportScreen({super.key});
@@ -68,6 +71,40 @@ class CustomersReportScreen extends StatelessWidget {
                       ],
                     );
                   },
+                ),
+                10.verticalSpace,
+                TextFeildWidget(
+                  onChanged: (value) {
+                    final storeId =
+                        context
+                            .read<DashboardCubit>()
+                            .state
+                            .selectedStore
+                            ?.storeId ??
+                        0;
+
+                    context.read<ReportCubit>().loadSuppliersReport(
+                      storeId: storeId,
+                      query: value?.trim(),
+                    );
+                  },
+
+                  borderColor: kBlack,
+                  hight: 48.h,
+                  fillColor: kWhite,
+                  inputBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                  ),
+                  prefix: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SvgPicture.asset('assets/icons/Search.svg'),
+                  ),
+                  hintText: 'Search customers',
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SvgPicture.asset('assets/icons/x-close.svg'),
+                  ),
                 ),
                 10.verticalSpace,
                 BlocBuilder<DashboardCubit, DashboardState>(

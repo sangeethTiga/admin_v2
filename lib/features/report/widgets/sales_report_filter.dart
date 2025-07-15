@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/cashier/cashier_response.dart';
@@ -81,11 +83,13 @@ class SalesReportFilter extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: DatePickerContainer(
-                                  // firstDate: state.fromDate ?? DateTime.now(),
+                                  value: apiFormat.format(
+                                    state.fromDate ?? DateTime.now(),
+                                  ),
                                   labelText: 'Date',
                                   changeDate: (DateTime pickedDate) {
                                     context
-                                        .read<ReportCubit>()
+                                        .read<DashboardCubit>()
                                         .changeFromDate(pickedDate);
                                   },
                                 ),
@@ -93,9 +97,12 @@ class SalesReportFilter extends StatelessWidget {
                               12.horizontalSpace,
                               Expanded(
                                 child: DatePickerContainer(
+                                  value: apiFormat.format(
+                                    state.toDate ?? DateTime.now(),
+                                  ),
                                   labelText: 'Date',
                                   changeDate: (DateTime pickedDate) {
-                                    context.read<ReportCubit>().changeToDate(
+                                    context.read<DashboardCubit>().changeToDate(
                                       pickedDate,
                                     );
                                   },
@@ -305,21 +312,30 @@ class SalesReportFilter extends StatelessWidget {
                         Expanded(
                           child: CustomMaterialBtton(
                             onPressed: () async {
-                              final reportCubit=context.read<ReportCubit>().state;
-                              
+                              // final reportCubit = context
+                              //     .read<Dea>()
+                              //     .state;
+                              log("Report Date  =-- = -=${state.fromDate}");
                               context.read<ReportCubit>().loadSalesReport(
                                 selectedStoreId: state.selectedStore?.storeId,
                                 selectedPaymentMethodId: state
                                     .selectedPaymethod
-                                    ?.payMethodId.toString(),
-                                selectedWaiterId: state.selectedWaiter?.userId.toString(),
-                                selectedShiftId: state.selectedShift?.id.toString(),
-                                selectedCashierId: state.selectedCashier?.userId.toString(),
-                                selectedKIOSK: state.selectedKiosk?.kioskId.toString(),
-                                selectedDuration: state.selectMonth?.id??0,
+                                    ?.payMethodId
+                                    .toString(),
+                                selectedWaiterId: state.selectedWaiter?.userId
+                                    .toString(),
+                                selectedShiftId: state.selectedShift?.id
+                                    .toString(),
+                                selectedCashierId: state.selectedCashier?.userId
+                                    .toString(),
+                                selectedKIOSK: state.selectedKiosk?.kioskId
+                                    .toString(),
+                                selectedDuration: state.selectMonth?.id ?? 0,
                                 selectedGroupBy: state.selectedGroupBy?.id,
-                                fromDate: (reportCubit.fromDate).toString(),
-                                toDate: (reportCubit.toDate).toString(),
+                                fromDate: apiFormat.format(state.fromDate!),
+                                toDate: apiFormat.format(
+                                  state.toDate ?? DateTime.now(),
+                                ),
                               );
                               Navigator.pop(context);
                             },

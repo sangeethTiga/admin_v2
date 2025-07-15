@@ -213,7 +213,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         isShippingExpanded = !isShippingExpanded;
                       });
                     },
+
                     label: 'Shipping Address',
+
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                     expandedWidget: isShippingExpanded
                         ? Container(
                             padding: EdgeInsets.symmetric(horizontal: 8),
@@ -225,55 +231,35 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Customer:  ${state.orderDetail?.shipCustName}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'customer',
+                                    status: state.orderDetail?.shipCustName,
                                   ),
-                                  Text(
-                                    'Flat:  ${state.orderDetail?.shipFlatNo}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Flat',
+                                    status: state.orderDetail?.shipFlatNo,
                                   ),
-                                  Text(
-                                    'Building:  ${state.orderDetail?.shipBuildingNo}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Building',
+                                    status: state.orderDetail?.shipBuildingNo,
                                   ),
-                                  Text(
-                                    'City:  ${state.orderDetail?.shipCity}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'City',
+                                    status: state.orderDetail?.shipCity,
                                   ),
-                                  Text(
-                                    'Area:  ${state.orderDetail?.shipArea}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Area',
+                                    status: state.orderDetail?.shipArea,
                                   ),
-                                  Text(
-                                    'Email: ${state.orderDetail?.shipEmail}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Email',
+                                    status: state.orderDetail?.shipEmail,
                                   ),
-                                  Text(
-                                    'Mobile: ${state.orderDetail?.shipMobile}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
+                                  rowWidgets(
+                                    name: 'Mobile',
+                                    status: state.orderDetail?.shipMobile,
+                                  )
+                        
                                 ],
                               ),
                             ),
@@ -292,9 +278,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       });
                     },
                     label: 'Billing Address',
-                    labelStyle: const TextStyle(
+                    labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 24,
                     ),
 
                     expandedWidget: isBillingExpanded
@@ -307,54 +293,33 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Customer:  ${state.orderDetail?.billCustName}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'customer',
+                                    status: state.orderDetail?.billCustName,
                                   ),
-                                  Text(
-                                    'Flat:  ${state.orderDetail?.billFlatNo}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Flat',
+                                    status: state.orderDetail?.billFlatNo,
                                   ),
-                                  Text(
-                                    'Building:  ${state.orderDetail?.billBuildingNo}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Building',
+                                    status: state.orderDetail?.billBuildingNo,
                                   ),
-                                  Text(
-                                    'City:  ${state.orderDetail?.billCity}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'City',
+                                    status: state.orderDetail?.billCity,
                                   ),
-                                  Text(
-                                    'Area:  ${state.orderDetail?.billArea}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Area',
+                                    status: state.orderDetail?.billArea,
                                   ),
-                                  Text(
-                                    'Email: ${state.orderDetail?.billEmail}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Email',
+                                    status: state.orderDetail?.billEmail,
                                   ),
-                                  Text(
-                                    'Mobile: ${state.orderDetail?.billMobile}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  rowWidgets(
+                                    name: 'Mobile',
+                                    status: state.orderDetail?.billMobile,
                                   ),
                                 ],
                               ),
@@ -478,7 +443,7 @@ Widget addItemDetails({
   Widget? columnWidgets,
   required bool isExpand,
   Color? color,
-  TextStyle? labelStyle,
+  required TextStyle labelStyle,
 }) {
   return Container(
     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -515,8 +480,8 @@ Widget addItemDetails({
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             color: Color(0xff1A202C),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
                           ),
                         ),
                       ),
@@ -687,5 +652,27 @@ Future<void> _showMyDialog(BuildContext context) async {
         ],
       );
     },
+  );
+}
+ 
+Widget rowWidgets({String? name, String? status, Color? statusColor}) {
+  return MainPadding(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(flex: 2, child: Text(name ?? '', style: FontPalette.hW600S13)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Text(':'),
+        ),
+        Expanded(
+          flex: 3,
+          child: Text(
+            status ?? '',
+            style: FontPalette.hW400S13.copyWith(color: statusColor ?? kBlack),
+          ),
+        ),
+      ],
+    ),
   );
 }
