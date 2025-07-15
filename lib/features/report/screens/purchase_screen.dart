@@ -78,6 +78,7 @@ class PurchaseScreen extends StatelessWidget {
                     );
                   },
                 ),
+                8.verticalSpace,
 
                 BlocBuilder<ReportCubit, ReportState>(
                   builder: (context, state) {

@@ -355,12 +355,13 @@ class ReportCubit extends Cubit<ReportState> {
         ),
       );
     }
+    final int offset = page * limit;
     emit(state.copyWith(isCustomersReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadCustomersReport(
       filterId: 1,
-      filterValue: '',
-      pageFirstResult: state.currentPage,
-      resultPerPage: state.pageSize,
+      // filterValue: '',
+      pageFirstResult: offset,
+      resultPerPage: limit,
       storeId: storeId ?? 0,
       fromDate: parsedDate(state.fromDate ?? DateTime.now()),
       toDate: parsedDate(state.toDate ?? DateTime.now()),
@@ -1078,7 +1079,6 @@ class ReportCubit extends Cubit<ReportState> {
     bool isLoadMore = false,
   }) async {
     if (!isLoadMore) {
-      final allCategory=
       emit(
         state.copyWith(
           isProductReport: ApiFetchStatus.loading,

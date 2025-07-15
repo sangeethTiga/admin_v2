@@ -267,11 +267,16 @@ class DashboardCubit extends Cubit<DashboardState> {
         storeId: storeId ?? 0,
       );
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
+        final allCategory = [
+          MostSellingResponse(categoryId: null, categoryName: 'All Categories'),
+          ...res.data!,
+        ];
         emit(
           state.copyWith(
             apiFetchStatus: ApiFetchStatus.success,
-            sellingProductsReport: res.data,
+            sellingProductsReport: allCategory,
             selectedProducts: res.data?.first,
+            selectedCategory: allCategory.first,
           ),
         );
       } else {
