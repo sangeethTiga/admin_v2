@@ -242,13 +242,4 @@ class ApiEndpoints {
     String search,
   ) =>
       '/api/order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
-<<<<<<< HEAD
-
-  static String customerSearch(int storeId,String custName)=> '/api/customerreport?store_id=$storeId&cust_name=$custName';
-
-
-
-      
-=======
->>>>>>> 918a2954afc6df3fecfc5139ec77a60288562a4c
 }
