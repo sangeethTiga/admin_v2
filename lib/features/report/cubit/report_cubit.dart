@@ -96,6 +96,7 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> changeFromDate(DateTime date) async {
+    print('change from date-=-$date');
     emit(state.copyWith(fromDate: date));
   }
 

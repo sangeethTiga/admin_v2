@@ -244,5 +244,8 @@ class ApiEndpoints {
     // int pageFirstResult,
     // int resultPerPage,
   ) =>
-      'order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
+      '/api/order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
+
+
+      
 }
