@@ -45,7 +45,7 @@ class DaySummaryResponse with _$DaySummaryResponse {
     @JsonKey(name: "amount_by_device_count") int? amountByDeviceCount,
     @JsonKey(name: "amount_by_device_total") int? amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total") int? amountByCategoryTotal,
+    @JsonKey(name: "amount_by_category_total") double? amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     List<dynamic>? amountByMainCategory,
     @JsonKey(name: "amount_by_main_category_total")

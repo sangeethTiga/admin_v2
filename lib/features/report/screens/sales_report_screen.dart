@@ -108,14 +108,12 @@ class SalesReportScreen extends StatelessWidget {
                       children: [
                         CustomMaterialBtton(
                           onPressed: () {
-                            final reportCubit = context
-                                .read<ReportCubit>()
-                                .state;
+                           
 
                             context.read<ReportCubit>().loadSalesReport(
                               selectedStoreId: state.selectedStore?.storeId,
-                              fromDate: reportCubit.fromDate.toString(),
-                              toDate: reportCubit.toDate.toString(),
+                              fromDate: apiFormat.format(state.fromDate??DateTime.now()),
+                              toDate: apiFormat.format(state.toDate??DateTime.now()),
                               selectedDuration: 5,
                               selectedPaymentMethodId: '',
                               selectedCashierId: '',
