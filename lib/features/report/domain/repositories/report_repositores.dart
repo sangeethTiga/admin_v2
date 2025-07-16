@@ -54,7 +54,7 @@ abstract class ReportRepositories {
 
   Future<ResponseResult<List<ReveneReportResponse>>> loadRevenueReport({
     required int pageFirstResult,
-    // required int resultPerPage,
+     required int resultPerPage,
     required int storeId,
     required String fromDate,
     required String toDate,

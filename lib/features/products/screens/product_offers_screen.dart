@@ -77,6 +77,9 @@ class ProductOffersScreen extends StatelessWidget {
                 children: [
                   BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, state) {
+                      if (state.apiFetchStatus == ApiFetchStatus.loading) {
+                        return _shimmerFullPage();
+                      }
                       return DropDownFieldWidget(
                         isLoading:
                             state.apiFetchStatus == ApiFetchStatus.loading,
@@ -122,6 +125,7 @@ class ProductOffersScreen extends StatelessWidget {
                               value: apiFormat.format(
                                 state.fromDate ?? DateTime.now(),
                               ),
+                              //  firstDate: state.fromDate ?? DateTime.now(),
                               hintText: '',
                               changeDate: (DateTime pickedDate) {
                                 context.read<ReportCubit>().changeFromDate(
@@ -134,7 +138,7 @@ class ProductOffersScreen extends StatelessWidget {
                           Expanded(
                             child: DatePickerContainer(
                               value: apiFormat.format(
-                                state.toDate ?? DateTime.now(),
+                                state.fromDate ?? DateTime.now(),
                               ),
                               hintText: '',
                               changeDate: (DateTime pickedDate) {
@@ -377,23 +381,34 @@ class ShimmerWidget extends StatelessWidget {
   }
 }
 
-Widget _shimmerProductOfferList() {
-  return ListView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: 7,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ShimmerWidget.rectangular(width: 200.w, height: 25.h),
-            ShimmerWidget.rectangular(width: 60.w, height: 25.h),
-          ],
-        ),
-      );
-    },
+Widget _shimmerFullPage() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      ShimmerWidget.rectangular(width: double.infinity, height: 48.h),
+      12.verticalSpace,
+      Row(
+        children: [
+          Expanded(
+            child: ShimmerWidget.rectangular(
+              width: double.infinity,
+              height: 48.h,
+            ),
+          ),
+          12.horizontalSpace,
+          Expanded(
+            child: ShimmerWidget.rectangular(
+              width: double.infinity,
+              height: 48.h,
+            ),
+          ),
+        ],
+      ),
+      12.verticalSpace,
+      ShimmerWidget.rectangular(width: double.infinity, height: 48.h),
+      16.verticalSpace,
+      _shimmerProductOfferList(),
+    ],
   );
 }
 
@@ -416,5 +431,40 @@ Widget rowWidget({String? name, String? status, Color? statusColor}) {
         ),
       ],
     ),
+  );
+}
+
+Widget _shimmerProductOfferList() {
+  return ListView.builder(
+    shrinkWrap: true,
+    physics: const NeverScrollableScrollPhysics(),
+    itemCount: 6,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        child: Container(
+          padding: EdgeInsets.all(12.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShimmerWidget.rectangular(width: 180.w, height: 18.h),
+              12.verticalSpace,
+              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+              6.verticalSpace,
+              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+              6.verticalSpace,
+              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+              6.verticalSpace,
+              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+            ],
+          ),
+        ),
+      );
+    },
   );
 }

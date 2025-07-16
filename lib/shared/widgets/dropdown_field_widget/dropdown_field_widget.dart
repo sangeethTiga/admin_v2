@@ -164,7 +164,9 @@ class DropDownFieldWidget extends StatelessWidget {
                 }
                 throw Exception("Invalid dropdown item type");
               }).toList(),
-              onChanged: onChanged,
+
+              onChanged: (enabled ?? true) ? onChanged : null,
+              //onChanged: onChanged,
               validator: validator,
             ),
           ),

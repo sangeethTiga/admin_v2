@@ -58,15 +58,15 @@ class ParcelCharge extends StatelessWidget {
             vertical: 15.h,
           ),
           isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-          prefixIcon: Container(
-            margin: EdgeInsets.only(left: 12.w),
-            child: SvgPicture.asset(
-              'assets/icons/package-box-pin-location.svg',
-              width: 20.w,
-              height: 20.h,
-              fit: BoxFit.contain,
-            ),
-          ),
+          // prefixIcon: Container(
+          //   margin: EdgeInsets.only(left: 12.w),
+          //   child: SvgPicture.asset(
+          //     'assets/icons/package-box-pin-location.svg',
+          //     width: 20.w,
+          //     height: 20.h,
+          //     fit: BoxFit.contain,
+          //   ),
+          // ),
           borderColor: kBlack,
           fillColor: const Color(0XFFEFF1F1),
           value: state.selectedOption?.orderOptionId,

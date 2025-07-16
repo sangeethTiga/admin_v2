@@ -130,8 +130,8 @@ class PurchaseType {
 }
 
 List<PurchaseType> purchaseTypes = [
-  // PurchaseType(name: 'All', id: 0),
-  PurchaseType(name: 'Cash', id: 1),
+  PurchaseType(name: 'All', id: 0),
+  PurchaseType(name: 'Non-Credit', id: 1),
   PurchaseType(name: 'Credit', id: 2),
 ];
 

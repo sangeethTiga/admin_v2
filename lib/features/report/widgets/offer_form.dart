@@ -1,3 +1,4 @@
+import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
@@ -5,7 +6,6 @@ import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_resp
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
 import 'package:admin_v2/features/report/domain/models/specialOffer/special_offer_response.dart';
-import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -168,6 +168,7 @@ class _OfferFormState extends State<OfferForm> {
                           onTap: () async {
                             Navigator.pop(context);
                           },
+
                           child: SvgPicture.asset('assets/icons/x-close.svg'),
                         ),
                       ],
@@ -244,7 +245,7 @@ class _OfferFormState extends State<OfferForm> {
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return DropDownFieldWidget(
-                        enabled: !widget.isEdit,
+                     //   enabled: !widget.isEdit,
                         hintText: 'Special offer',
 
                         isLoading:
@@ -327,14 +328,13 @@ class _OfferFormState extends State<OfferForm> {
                         children: [
                           Expanded(
                             child: DatePickerContainer(
+                              hintText: '',
                               value: state.fromDate != null
                                   ? apiFormat.format(state.fromDate!)
                                   : null,
-                              firstDate: DateTime(2020),
-                              hintText: '',
-                              changeDate: (DateTime pickedDate) {
+                              changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeFromDate(
-                                  pickedDate,
+                                  pickDate,
                                 );
                               },
                             ),
@@ -342,14 +342,13 @@ class _OfferFormState extends State<OfferForm> {
                           12.horizontalSpace,
                           Expanded(
                             child: DatePickerContainer(
+                              hintText: '',
                               value: state.toDate != null
                                   ? apiFormat.format(state.toDate!)
                                   : null,
-                               firstDate: DateTime(2020),
-                              hintText: '',
-                              changeDate: (DateTime pickedDate) {
+                              changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeToDate(
-                                  pickedDate,
+                                  pickDate,
                                 );
                               },
                             ),
@@ -559,6 +558,48 @@ Widget _shimmerProductOfferList() {
             ShimmerWidget.rectangular(width: 200.w, height: 25.h),
             ShimmerWidget.rectangular(width: 60.w, height: 25.h),
           ],
+        ),
+      );
+    },
+  );
+}
+
+Widget commonStoreDropDown({Function(StoreResponse)? onChanged}) {
+  return BlocBuilder<DashboardCubit, DashboardState>(
+    builder: (context, state) {
+      return DropDownFieldWidget(
+        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 15.h),
+        isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+        prefixIcon: Container(
+          margin: EdgeInsets.only(left: 12.w),
+          child: SvgPicture.asset(
+            'assets/icons/package-box-pin-location.svg',
+            width: 20.w,
+            height: 20.h,
+            fit: BoxFit.contain,
+          ),
+        ),
+        borderColor: kBlack,
+        value: state.selectedStore,
+        items:
+            state.storeList?.map((e) {
+              return DropdownMenuItem<StoreResponse>(
+                value: e,
+                child: Text(e.storeName ?? ''),
+              );
+            }).toList() ??
+            [],
+        fillColor: const Color(0XFFEFF1F1),
+        enabled: false,
+        onChanged: (p0) {
+          onChanged?.call(p0);
+        },
+        labelText: '',
+        textStyle: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+          letterSpacing: 0.5,
         ),
       );
     },

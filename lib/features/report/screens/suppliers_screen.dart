@@ -63,10 +63,6 @@ class SuppliersReportScreen extends StatelessWidget {
                     child: SvgPicture.asset('assets/icons/Search.svg'),
                   ),
                   hintText: 'Search Supplier',
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset('assets/icons/x-close.svg'),
-                  ),
                 ),
                 10.verticalSpace,
                 8.verticalSpace,
@@ -122,7 +118,6 @@ class SuppliersReportScreen extends StatelessWidget {
     );
   }
 }
-
 
 void _loadMoreData(BuildContext context) {
   final reportState = context.read<ReportCubit>().state;

@@ -124,13 +124,11 @@ class CustomersReportScreen extends StatelessWidget {
                   ],
                 ),
               ),
-               Expanded(
+              Expanded(
                 child: MainPadding(
                   child: BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, store) {
-                      return 
-                      
-                      BlocBuilder<ReportCubit, ReportState>(
+                      return BlocBuilder<ReportCubit, ReportState>(
                         builder: (context, state) {
                           return Column(
                             children: [
@@ -138,97 +136,99 @@ class CustomersReportScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      child:
-                                          NotificationListener<
-                                            ScrollNotification
-                                          >(
-                                            onNotification:
-                                                (
-                                                  ScrollNotification scrollInfo,
-                                                ) {
-                                                  if (scrollInfo
-                                                      is ScrollEndNotification) {
-                                                    final maxScroll = scrollInfo
-                                                        .metrics
-                                                        .maxScrollExtent;
-                                                    final currentScroll =
-                                                        scrollInfo
-                                                            .metrics
-                                                            .pixels;
-                                                    final threshold =
-                                                        maxScroll - 100;
+                                      child: NotificationListener<ScrollNotification>(
+                                        onNotification:
+                                            (ScrollNotification scrollInfo) {
+                                              final maxScroll = scrollInfo
+                                                  .metrics
+                                                  .maxScrollExtent;
+                                              final currentScroll =
+                                                  scrollInfo.metrics.pixels;
+                                              final threshold = maxScroll - 100;
 
-                                                    if (currentScroll >=
-                                                        threshold) {
-                                                      _loadMoreData(context);
-                                                    }
-                                                  }
-                                                  return false;
-                                                },
-                                            child: CommonTableWidget(
-                                              isLoading:
-                                                  state.isCustomersReport ==
-                                                  ApiFetchStatus.loading,
-                                              headers: [
-                                                "#",
-                                                "Customer",
-                                                "E-Mail",
-                                                "Mobile",
-                                                "Purchase(AED)",
-                                                "Balance",
-                                              ],
+                                              final atBottom =
+                                                  currentScroll >= threshold;
 
-                                              columnFlex: [1, 3, 3, 4, 3, 2],
-                                              data:
-                                                  state.customersReport
-                                                      ?.asMap()
-                                                      .entries
-                                                      .map((entry) {
-                                                        int localIndex =
-                                                            entry.key;
-                                                        var e = entry.value;
-                                                        int globalIndex =
-                                                            localIndex + 1;
+                                              if (scrollInfo
+                                                      is ScrollEndNotification &&
+                                                  atBottom) {
+                                                _loadMoreData(context);
+                                                final reportState = context
+                                                    .read<ReportCubit>()
+                                                    .state;
+                                                if (reportState.hasMoreData ==
+                                                        false &&
+                                                    reportState
+                                                            .customersReport
+                                                            ?.isNotEmpty ==
+                                                        true) {
+                                                  ScaffoldMessenger.of(
+                                                    context,
+                                                  ).showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                        'No more data',
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              }
 
-                                                        return {
-                                                          '#': globalIndex,
-                                                          'Customer':
-                                                              e.custName ?? '',
-                                                          'E-Mail':
-                                                              e.custEmail ?? '',
-                                                          'Mobile':
-                                                              e.custMobile ??
-                                                              '',
-                                                          'Purchase(AED)': e
-                                                              .totalPurchaseAmount
-                                                              .toString(),
-                                                          'Balance': e
-                                                              .balanceAmt
-                                                              .toString(),
-                                                        };
-                                                      })
-                                                      .toList() ??
-                                                  [],
-                                            ),
-                                          ),
-                                    ),
-                                    if (state.isLoadingMore == true)
-                                      Container(
-                                        padding: EdgeInsets.all(16.w),
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    if (state.hasMoreData == false &&
-                                        state.customersReport?.isNotEmpty ==
-                                            true)
-                                      Container(
-                                        padding: EdgeInsets.all(16.w),
-                                        child: Text(
-                                          'No more data',
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: Colors.grey,
-                                          ),
+                                              return false;
+                                            },
+
+                                        // Show SnackBar (optional) or temp UI to indicate end
+                                        child: CommonTableWidget(
+                                          isLoading:
+                                              state.isCustomersReport ==
+                                              ApiFetchStatus.loading,
+                                          headers: [
+                                            "#",
+                                            "Customer",
+                                            "E-Mail",
+                                            "Mobile",
+                                            "Purchase(AED)",
+                                            "Balance",
+                                          ],
+
+                                          columnFlex: [1, 3, 3, 4, 3, 2],
+                                          data:
+                                              state.customersReport
+                                                  ?.asMap()
+                                                  .entries
+                                                  .map((entry) {
+                                                    int localIndex = entry.key;
+                                                    var e = entry.value;
+                                                    int globalIndex =
+                                                        localIndex + 1;
+
+                                                    return {
+                                                      '#': globalIndex,
+                                                      'Customer':
+                                                          e.custName ?? '',
+                                                      'E-Mail':
+                                                          e.custEmail ?? '',
+                                                      'Mobile':
+                                                          e.custMobile ?? '',
+                                                      'Purchase(AED)': e
+                                                          .totalPurchaseAmount
+                                                          .toString(),
+                                                      'Balance': e.balanceAmt
+                                                          .toString(),
+                                                    };
+                                                  })
+                                                  .toList() ??
+                                              [],
                                         ),
+                                      ),
+                                    ),
+
+                                    if (state.isLoadingMore == true)
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 16.h,
+                                        ),
+                                        child: CircularProgressIndicator(),
                                       ),
                                   ],
                                 ),
