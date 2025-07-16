@@ -249,13 +249,11 @@ class _OfferFormState extends State<OfferForm> {
 
                         isLoading:
                             state.apiFetchStatus == ApiFetchStatus.loading,
-                        prefixIcon: Container(
-                          child: SvgPicture.asset(
-                            'assets/icons/package-box-pin-location.svg',
-                            width: 20.w,
-                            height: 20.h,
-                            fit: BoxFit.contain,
-                          ),
+                        prefixIcon: SvgPicture.asset(
+                          'assets/icons/package-box-pin-location.svg',
+                          width: 20.w,
+                          height: 20.h,
+                          fit: BoxFit.contain,
                         ),
                         borderColor: kBlack,
                         value: state.selectedType,
@@ -329,7 +327,10 @@ class _OfferFormState extends State<OfferForm> {
                         children: [
                           Expanded(
                             child: DatePickerContainer(
-                              firstDate: state.fromDate ?? DateTime.now(),
+                              value: state.fromDate != null
+                                  ? apiFormat.format(state.fromDate!)
+                                  : null,
+                              firstDate: DateTime(2020),
                               hintText: '',
                               changeDate: (DateTime pickedDate) {
                                 context.read<ReportCubit>().changeFromDate(
@@ -341,6 +342,10 @@ class _OfferFormState extends State<OfferForm> {
                           12.horizontalSpace,
                           Expanded(
                             child: DatePickerContainer(
+                              value: state.toDate != null
+                                  ? apiFormat.format(state.toDate!)
+                                  : null,
+                               firstDate: DateTime(2020),
                               hintText: '',
                               changeDate: (DateTime pickedDate) {
                                 context.read<ReportCubit>().changeToDate(
