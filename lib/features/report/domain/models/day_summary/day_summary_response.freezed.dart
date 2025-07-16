@@ -87,7 +87,7 @@ mixin _$DaySummaryResponse {
   @JsonKey(name: "amount_by_category")
   List<dynamic>? get amountByCategory => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_category_total")
-  int? get amountByCategoryTotal => throw _privateConstructorUsedError;
+  double? get amountByCategoryTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_main_category")
   List<dynamic>? get amountByMainCategory => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_main_category_total")
@@ -194,7 +194,7 @@ abstract class $DaySummaryResponseCopyWith<$Res> {
     @JsonKey(name: "amount_by_device_count") int? amountByDeviceCount,
     @JsonKey(name: "amount_by_device_total") int? amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total") int? amountByCategoryTotal,
+    @JsonKey(name: "amount_by_category_total") double? amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     List<dynamic>? amountByMainCategory,
     @JsonKey(name: "amount_by_main_category_total")
@@ -421,7 +421,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             amountByCategoryTotal: freezed == amountByCategoryTotal
                 ? _value.amountByCategoryTotal
                 : amountByCategoryTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByMainCategory: freezed == amountByMainCategory
                 ? _value.amountByMainCategory
                 : amountByMainCategory // ignore: cast_nullable_to_non_nullable
@@ -591,7 +591,7 @@ abstract class _$$DaySummaryResponseImplCopyWith<$Res>
     @JsonKey(name: "amount_by_device_count") int? amountByDeviceCount,
     @JsonKey(name: "amount_by_device_total") int? amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total") int? amountByCategoryTotal,
+    @JsonKey(name: "amount_by_category_total") double? amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     List<dynamic>? amountByMainCategory,
     @JsonKey(name: "amount_by_main_category_total")
@@ -818,7 +818,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         amountByCategoryTotal: freezed == amountByCategoryTotal
             ? _value.amountByCategoryTotal
             : amountByCategoryTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByMainCategory: freezed == amountByMainCategory
             ? _value._amountByMainCategory
             : amountByMainCategory // ignore: cast_nullable_to_non_nullable
@@ -1188,7 +1188,7 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
 
   @override
   @JsonKey(name: "amount_by_category_total")
-  final int? amountByCategoryTotal;
+  final double? amountByCategoryTotal;
   final List<dynamic>? _amountByMainCategory;
   @override
   @JsonKey(name: "amount_by_main_category")
@@ -1647,7 +1647,8 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
     @JsonKey(name: "amount_by_device_count") final int? amountByDeviceCount,
     @JsonKey(name: "amount_by_device_total") final int? amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") final List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total") final int? amountByCategoryTotal,
+    @JsonKey(name: "amount_by_category_total")
+    final double? amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     final List<dynamic>? amountByMainCategory,
     @JsonKey(name: "amount_by_main_category_total")
@@ -1772,7 +1773,7 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   List<dynamic>? get amountByCategory;
   @override
   @JsonKey(name: "amount_by_category_total")
-  int? get amountByCategoryTotal;
+  double? get amountByCategoryTotal;
   @override
   @JsonKey(name: "amount_by_main_category")
   List<dynamic>? get amountByMainCategory;

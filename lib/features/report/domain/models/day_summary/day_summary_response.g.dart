@@ -59,7 +59,7 @@ _$DaySummaryResponseImpl _$$DaySummaryResponseImplFromJson(
   amountByDeviceCount: (json['amount_by_device_count'] as num?)?.toInt(),
   amountByDeviceTotal: (json['amount_by_device_total'] as num?)?.toInt(),
   amountByCategory: json['amount_by_category'] as List<dynamic>?,
-  amountByCategoryTotal: (json['amount_by_category_total'] as num?)?.toInt(),
+  amountByCategoryTotal: (json['amount_by_category_total'] as num?)?.toDouble(),
   amountByMainCategory: json['amount_by_main_category'] as List<dynamic>?,
   amountByMainCategoryTotal: (json['amount_by_main_category_total'] as num?)
       ?.toInt(),

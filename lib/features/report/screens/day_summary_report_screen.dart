@@ -570,7 +570,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '',
                       title: '${data?[i]['category_name']}',
-                      value: truncateTo2Decimals((data?[i]['totalamount'] )),
+                      value: '${data?[i]['totalamount'].toStringAsFixed(2)}',
                     );
                   },
                 ),
@@ -613,7 +613,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     return titleAndValue(
                       label: '',
                       title: '${data?[i]['category_name']}',
-                      value:truncateTo2Decimals((data?[i]['totalamount'] ))
+                      value: data?[i]['totalamount'].toStringAsFixed(2) 
 ,
                     );
                   },
@@ -756,8 +756,3 @@ Container titleAndValue({
   );
 }
 
-String truncateTo2Decimals(double? value) {
-  if (value == null) return '0.00';
-  int truncated = (value * 100).truncate();
-  return (truncated / 100).toStringAsFixed(2);
-}
