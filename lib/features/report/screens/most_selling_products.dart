@@ -191,41 +191,119 @@ class MostSellingProducts extends StatelessWidget {
               ],
             ),
           ),
+          
 
-          BlocBuilder<ReportCubit, ReportState>(
-            builder: (context, state) {
-              return Expanded(
-                child: CommonTableWidget(
-                  isLoading: state.isProductReport == ApiFetchStatus.loading,
-                  headers: [
-                    "#",
-                    "Product",
-                    "Selling Price",
-                    "Order Quantity",
-                    "Total Cost",
-                    "Total Sales",
-                    "Profit",
-                  ],
-                  columnFlex: [2, 3, 3, 3, 3, 3, 2],
-                  data:
-                      state.productsReport?.map((e) {
-                        int index = state.productsReport?.indexOf(e) ?? 0;
-                        return {
-                          "#": index + 1,
-                          "Product": e.productName ?? '',
+          Expanded(
+            child: MainPadding(
+              child: BlocBuilder<DashboardCubit, DashboardState>(
+                builder: (context, store) {
+                  return BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child:
+                                      NotificationListener<ScrollNotification>(
+                                        onNotification:
+                                            (ScrollNotification scrollInfo) {
+                                              if (scrollInfo
+                                                  is ScrollEndNotification) {
+                                                final maxScroll = scrollInfo
+                                                    .metrics
+                                                    .maxScrollExtent;
+                                                final currentScroll =
+                                                    scrollInfo.metrics.pixels;
+                                              final threshold =
+                                                    maxScroll - 100;
 
-                          "Selling Price": e.sellingPrice ?? '',
-                          "Order Quantity": e.totalorderqty ?? '',
-                          "Total Cost": e.totalCostPrice ?? '',
-                          "Total Sales": e.totalAmount ?? '',
-                          "Profit": e.profit ?? '',
-                        };
-                      }).toList() ??
-                      [],
-                ),
-              );
-            },
+                                                if (currentScroll >=
+                                                    threshold) {
+                                                  _loadMoreData(context);
+                                                }
+                                              }
+                                              return false;
+                                            },
+                                        child: CommonTableWidget(
+                                          isLoading:
+                                              state.isProductReport ==
+                                              ApiFetchStatus.loading,
+                                          headers: [
+                                            "#",
+                                            "Product",
+                                            "Selling Price",
+                                            "Order Quantity",
+                                            "Total Cost",
+                                            "Total Sales",
+                                            "Profit",
+                                          ],
+                                          columnFlex: [2, 3, 3, 2, 3, 3, 2],
+                                          data:
+                                              state.productsReport
+                                                  ?.asMap()
+                                                  .entries
+                                                  .map((entry) {
+                                                    int localIndex = entry.key;
+                                                    var e = entry.value;
+                                                    int globalIndex =
+                                                        localIndex + 1;
+
+                                                    return {
+                                                      "#": globalIndex,
+                                                      "Product":
+                                                          e.productName ?? '',
+
+                                                      "Selling Price":
+                                                          e.sellingPrice ?? '',
+                                                      "Order Quantity":
+                                                          e.totalorderqty ?? '',
+                                                      "Total Cost":
+                                                          e.totalCostPrice ??
+                                                          '',
+                                                      "Total Sales":
+                                                          e.totalAmount ?? '',
+                                                      "Profit": e.profit ?? '',
+                                                    };
+                                                  })
+                                                  .toList() ??
+                                              [],
+                                        ),
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (state.isLoadingMore == true)
+                            Container(
+                              padding: EdgeInsets.all(16.w),
+                              child: CircularProgressIndicator(),
+                            ),
+                          if (state.hasMoreData == false &&
+                              state.productsReport?.isNotEmpty == true)
+                            Container(
+                              padding: EdgeInsets.all(16.w),
+                              child: Text(
+                                'No more data',
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    },
+                  );
+                  
+                },
+              ),
+            ),
+
           ),
+          
+           
         ],
       ),
     );
@@ -267,5 +345,25 @@ class MostSellingProducts extends StatelessWidget {
     // final reportCubit = context.read<ReportCubit>();
     final dashboardCubit = context.read<DashboardCubit>();
     dashboardCubit.selectedStore(store ?? StoreResponse());
+  }
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.productsReport?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadProductReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
+      page: reportState.currentPage,
+      searchText: reportState.search,
+    );
   }
 }
