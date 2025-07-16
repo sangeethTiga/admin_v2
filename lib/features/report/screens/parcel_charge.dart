@@ -1,4 +1,3 @@
-import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
@@ -23,31 +22,29 @@ class ParcelCharge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Parcel Charge'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            dividerWidget(height: 6.h),
-            MainPadding(
-              child: Column(
-                children: [
-                  commonStoreDropDown(
-                    onChanged: (p0) {
-                      context.read<DashboardCubit>().selectedStore(p0);
-                    },
-                  ),
+      body: Column(
+        children: [
+          dividerWidget(height: 6.h),
+          MainPadding(
+            child: Column(
+              children: [
+                commonStoreDropDown(
+                  onChanged: (p0) {
+                    context.read<DashboardCubit>().selectedStore(p0);
+                  },
+                ),
 
-                  _buildOrderOptionDropDown(),
-                  8.verticalSpace,
+                _buildOrderOptionDropDown(),
+                8.verticalSpace,
 
-                  _handleDate(),
-                  8.verticalSpace,
-                  _viewResult(),
-                  _commonTable(),
-                ],
-              ),
+                _handleDate(),
+                8.verticalSpace,
+                _viewResult(),
+              ],
             ),
-          ],
-        ),
+          ),
+          Expanded(child: _commonTable()),
+        ],
       ),
     );
   }
@@ -158,26 +155,80 @@ class ParcelCharge extends StatelessWidget {
   Widget _commonTable() {
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
-        return SizedBox(
-          height: 490,
-          child: CommonTableWidget(
-            isLoading: state.isParcelCharge == ApiFetchStatus.loading,
-            headers: ["#", "ORDER", "ORDER DATE", "PARCEL CHARGE"],
-            columnFlex: [1, 2, 2, 2],
-            data:
-                state.parcelChargeList?.map((e) {
-                  int index = state.parcelChargeList?.indexOf(e) ?? 0;
-                  return {
-                    "#": index + 1,
-                    "ORDER": e.billNo ?? '',
-                    "ORDER DATE": e.orderDate ?? '',
-                    "PARCEL CHARGE": e.parcelCharge ?? '',
-                  };
-                }).toList() ??
-                [],
+        return MainPadding(
+          child: Column(
+            children: [
+              Expanded(
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (scrollInfo is ScrollEndNotification) {
+                      final maxScroll = scrollInfo.metrics.maxScrollExtent;
+                      final currentScroll = scrollInfo.metrics.pixels;
+                      final threshold = maxScroll - 100;
+
+                      if (currentScroll >= threshold) {
+                        _loadMoreData(context);
+                      }
+                    }
+                    return false;
+                  },
+
+                  child: CommonTableWidget(
+                    isLoading: state.isParcelCharge == ApiFetchStatus.loading,
+                    headers: ["#", "ORDER", "ORDER DATE", "PARCEL CHARGE"],
+                    columnFlex: [1, 2, 2, 2],
+                    data:
+                        state.parcelChargeList?.asMap().entries.map((entry) {
+                          int localIndex = entry.key;
+                          var e = entry.value;
+                          int globalIndex = localIndex + 1;
+                          return {
+                            "#": globalIndex,
+                            "ORDER": e.billNo ?? '',
+                            "ORDER DATE": e.orderDate ?? '',
+                            "PARCEL CHARGE": e.parcelCharge ?? '',
+                          };
+                        }).toList() ??
+                        [],
+                  ),
+                ),
+              ),
+              if (state.isLoadingMore == true)
+                Container(
+                  padding: EdgeInsets.all(16.w),
+                  child: CircularProgressIndicator(),
+                ),
+              if (state.hasMoreData == false &&
+                  state.parcelChargeList?.isNotEmpty == true)
+                Container(
+                  padding: EdgeInsets.all(16.w),
+                  child: Text(
+                    'No more data',
+                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                  ),
+                ),
+            ],
           ),
         );
       },
+    );
+  }
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.customersReport?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadParcelCharge(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
     );
   }
 }

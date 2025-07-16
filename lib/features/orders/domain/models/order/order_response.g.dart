@@ -27,7 +27,7 @@ _$OrderResponseImpl _$$OrderResponseImplFromJson(Map<String, dynamic> json) =>
       notificationStatusId: (json['notification_status_id'] as num?)?.toInt(),
       notificationStatusName: json['notification_status_name'] as String?,
       deliveryDate: json['delivery_date'] as String?,
-      netAmount: (json['net_amount'] as num?)?.toDouble(),
+      netAmount: parseInt(json['net_amount']),
       orderDiscAmount: (json['order_disc_amount'] as num?)?.toInt(),
       storeId: (json['store_id'] as num?)?.toInt(),
       dayCloseId: (json['day_close_id'] as num?)?.toInt(),

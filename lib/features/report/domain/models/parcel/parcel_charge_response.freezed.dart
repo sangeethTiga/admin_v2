@@ -25,14 +25,14 @@ mixin _$ParcelChargeResponse {
   int? get prodOrderId => throw _privateConstructorUsedError;
   @JsonKey(name: "bill_no")
   String? get billNo => throw _privateConstructorUsedError;
-  @JsonKey(name: "parcel_charge")
+  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
   double? get parcelCharge => throw _privateConstructorUsedError;
   @JsonKey(name: "order_date")
   String? get orderDate => throw _privateConstructorUsedError;
   @JsonKey(name: "raw_count")
   int? get rawCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "totalamount")
-  double? get totalamount => throw _privateConstructorUsedError;
+  @JsonKey(name: "totalamount", fromJson: parseInt)
+  int? get totalamount => throw _privateConstructorUsedError;
 
   /// Serializes this ParcelChargeResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,10 +54,10 @@ abstract class $ParcelChargeResponseCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "prod_order_id") int? prodOrderId,
     @JsonKey(name: "bill_no") String? billNo,
-    @JsonKey(name: "parcel_charge") double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble) double? parcelCharge,
     @JsonKey(name: "order_date") String? orderDate,
     @JsonKey(name: "raw_count") int? rawCount,
-    @JsonKey(name: "totalamount") double? totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseInt) int? totalamount,
   });
 }
 
@@ -111,7 +111,7 @@ class _$ParcelChargeResponseCopyWithImpl<
             totalamount: freezed == totalamount
                 ? _value.totalamount
                 : totalamount // ignore: cast_nullable_to_non_nullable
-                      as double?,
+                      as int?,
           )
           as $Val,
     );
@@ -130,10 +130,10 @@ abstract class _$$ParcelChargeResponseImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "prod_order_id") int? prodOrderId,
     @JsonKey(name: "bill_no") String? billNo,
-    @JsonKey(name: "parcel_charge") double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble) double? parcelCharge,
     @JsonKey(name: "order_date") String? orderDate,
     @JsonKey(name: "raw_count") int? rawCount,
-    @JsonKey(name: "totalamount") double? totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseInt) int? totalamount,
   });
 }
 
@@ -183,7 +183,7 @@ class __$$ParcelChargeResponseImplCopyWithImpl<$Res>
         totalamount: freezed == totalamount
             ? _value.totalamount
             : totalamount // ignore: cast_nullable_to_non_nullable
-                  as double?,
+                  as int?,
       ),
     );
   }
@@ -195,10 +195,10 @@ class _$ParcelChargeResponseImpl implements _ParcelChargeResponse {
   const _$ParcelChargeResponseImpl({
     @JsonKey(name: "prod_order_id") this.prodOrderId,
     @JsonKey(name: "bill_no") this.billNo,
-    @JsonKey(name: "parcel_charge") this.parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble) this.parcelCharge,
     @JsonKey(name: "order_date") this.orderDate,
     @JsonKey(name: "raw_count") this.rawCount,
-    @JsonKey(name: "totalamount") this.totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseInt) this.totalamount,
   });
 
   factory _$ParcelChargeResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -211,7 +211,7 @@ class _$ParcelChargeResponseImpl implements _ParcelChargeResponse {
   @JsonKey(name: "bill_no")
   final String? billNo;
   @override
-  @JsonKey(name: "parcel_charge")
+  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
   final double? parcelCharge;
   @override
   @JsonKey(name: "order_date")
@@ -220,8 +220,8 @@ class _$ParcelChargeResponseImpl implements _ParcelChargeResponse {
   @JsonKey(name: "raw_count")
   final int? rawCount;
   @override
-  @JsonKey(name: "totalamount")
-  final double? totalamount;
+  @JsonKey(name: "totalamount", fromJson: parseInt)
+  final int? totalamount;
 
   @override
   String toString() {
@@ -280,10 +280,11 @@ abstract class _ParcelChargeResponse implements ParcelChargeResponse {
   const factory _ParcelChargeResponse({
     @JsonKey(name: "prod_order_id") final int? prodOrderId,
     @JsonKey(name: "bill_no") final String? billNo,
-    @JsonKey(name: "parcel_charge") final double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble)
+    final double? parcelCharge,
     @JsonKey(name: "order_date") final String? orderDate,
     @JsonKey(name: "raw_count") final int? rawCount,
-    @JsonKey(name: "totalamount") final double? totalamount,
+    @JsonKey(name: "totalamount", fromJson: parseInt) final int? totalamount,
   }) = _$ParcelChargeResponseImpl;
 
   factory _ParcelChargeResponse.fromJson(Map<String, dynamic> json) =
@@ -296,7 +297,7 @@ abstract class _ParcelChargeResponse implements ParcelChargeResponse {
   @JsonKey(name: "bill_no")
   String? get billNo;
   @override
-  @JsonKey(name: "parcel_charge")
+  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
   double? get parcelCharge;
   @override
   @JsonKey(name: "order_date")
@@ -305,8 +306,8 @@ abstract class _ParcelChargeResponse implements ParcelChargeResponse {
   @JsonKey(name: "raw_count")
   int? get rawCount;
   @override
-  @JsonKey(name: "totalamount")
-  double? get totalamount;
+  @JsonKey(name: "totalamount", fromJson: parseInt)
+  int? get totalamount;
 
   /// Create a copy of ParcelChargeResponse
   /// with the given fields replaced by the non-null parameter values.

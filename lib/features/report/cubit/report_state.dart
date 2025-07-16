@@ -181,7 +181,7 @@ class ReportState extends Equatable {
     int? pageSize,
     List<ExpenseReportResponse>? expenseReport,
     List<ProfitlossResponse>? profitlossReport,
-    List<DeliveryChargeResponse>? deliverychargeResponse,
+    List<DeliveryChargeResponse>? deliverychargeReport,
     ApiFetchStatus? isDeliverychargeReport,
     int? offset,
     int? page,
@@ -267,7 +267,7 @@ class ReportState extends Equatable {
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
       profitlossReport: profitlossReport ?? this.profitlossReport,
-      deliverychargeReport: deliverychargeResponse ?? deliverychargeReport,
+      deliverychargeReport: deliverychargeReport ?? deliverychargeReport,
       isDeliverychargeReport:
           isDeliverychargeReport ?? this.isDeliverychargeReport,
       page: page ?? this.page,

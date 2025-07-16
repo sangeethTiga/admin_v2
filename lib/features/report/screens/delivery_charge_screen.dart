@@ -20,29 +20,27 @@ class DeliveryChargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Delivery Charge'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            dividerWidget(height: 6.h),
-            MainPadding(
-              child: Column(
-                children: [
-                  commonStoreDropDown(
-                    onChanged: (p0) {
-                      context.read<DashboardCubit>().selectedStore(p0);
-                    },
-                  ),
-                  8.verticalSpace,
-                  _handleDate(),
-                  8.verticalSpace,
-                  _viewResults(),
-                  8.verticalSpace,
-                  _buildCommonTable(),
-                ],
-              ),
+      body: Column(
+        children: [
+          dividerWidget(height: 6.h),
+          MainPadding(
+            child: Column(
+              children: [
+                commonStoreDropDown(
+                  onChanged: (p0) {
+                    context.read<DashboardCubit>().selectedStore(p0);
+                  },
+                ),
+                8.verticalSpace,
+                _handleDate(),
+                8.verticalSpace,
+                _viewResults(),
+                8.verticalSpace,
+              ],
             ),
-          ],
-        ),
+          ),
+          Expanded(child: _buildCommonTable()),
+        ],
       ),
     );
   }
@@ -96,32 +94,96 @@ class DeliveryChargeScreen extends StatelessWidget {
   Widget _buildCommonTable() {
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
-        return SizedBox(
-          height: 540,
-          child: CommonTableWidget(
-            isLoading: state.isDeliverychargeReport == ApiFetchStatus.loading,
-            headers: ["#", "BILL NO", "ORDER DATE", "COUNT", "SHIPPING CHARGE"],
-            columnFlex: [0, 3, 3, 2, 3],
-            data:
-                state.deliverychargeReport?.map((e) {
-                  int index = state.deliverychargeReport?.indexOf(e) ?? 0;
-                  return {
-                    "#": index + 1,
-                    "BILL NO": e.billNo ?? '',
-                    "ORDER DATE": formatDateString(e.orderDate ?? ''),
-                    "COUNT": e.rawCount ?? '',
-                    "SHIPPING CHARGE": e.shippingCharge != null
-                        ? double.tryParse(
-                                e.shippingCharge!,
-                              )?.toStringAsFixed(2) ??
-                              ''
-                        : '',
-                  };
-                }).toList() ??
-                [],
+        return MainPadding(
+          child: Column(
+            children: [
+              Expanded(
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (scrollInfo is ScrollEndNotification) {
+                      final maxScroll = scrollInfo.metrics.maxScrollExtent;
+                      final currentScroll = scrollInfo.metrics.pixels;
+                      final threshold = maxScroll - 100;
+
+                      if (currentScroll >= threshold) {
+                        _loadMoreData(context);
+                      }
+                    }
+                    return false;
+                  },
+                  child: CommonTableWidget(
+                    isLoading:
+                        state.isDeliverychargeReport == ApiFetchStatus.loading,
+                    headers: [
+                      "#",
+                      "BILL NO",
+                      "ORDER DATE",
+                      "COUNT",
+                      "SHIPPING CHARGE",
+                    ],
+                    columnFlex: [0, 3, 3, 2, 3],
+                    data:
+                        state.deliverychargeReport?.asMap().entries.map((
+                          entry,
+                        ) {
+                          int localIndex = entry.key;
+                          var e = entry.value;
+                          int globalIndex = localIndex + 1;
+                          return {
+                            "#": globalIndex,
+                            "BILL NO": e.billNo ?? '',
+                            "ORDER DATE": formatDateString(e.orderDate ?? ''),
+                            "COUNT": e.rawCount ?? '',
+                            "SHIPPING CHARGE": e.shippingCharge != null
+                                ? double.tryParse(
+                                        e.shippingCharge!,
+                                      )?.toStringAsFixed(2) ??
+                                      ''
+                                : '',
+                          };
+                        }).toList() ??
+                        [],
+                  ),
+                ),
+              ),
+              if (state.isLoadingMore == true)
+                Container(
+                  padding: EdgeInsets.all(16.w),
+                  child: CircularProgressIndicator(),
+                ),
+              if (state.hasMoreData == false &&
+                  state.deliverychargeReport?.isNotEmpty == true)
+                Container(
+                  padding: EdgeInsets.all(16.w),
+                  child: Text(
+                    'No more data',
+                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                  ),
+                ),
+            ],
           ),
         );
       },
+    );
+  }
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.deliverychargeReport?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadDeliveryChargeReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
+
+      pageSize: 20,
     );
   }
 }

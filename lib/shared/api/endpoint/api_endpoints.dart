@@ -66,7 +66,7 @@ class ApiEndpoints {
     int pageSize,
     int offset,
   ) =>
-      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=10&offset=0";
+      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$pageSize&offset=$offset";
 
   static String customersReport(
     int pageFirstResult,
@@ -100,7 +100,7 @@ class ApiEndpoints {
     int storeId,
     int orderOptionId,
   ) =>
-      '/api/parcel_charge/report?page_first_limit=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&order_option_id=$orderOptionId';
+      '/api/parcel_charge/report?page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&store_id=$storeId&from_date=$fromDate&to_date=$toDate&order_option_id=$orderOptionId';
   static String orderOption(int storeId, int appTypeId) =>
       '/api/order_options?store_id=$storeId&app_type_id=0';
 

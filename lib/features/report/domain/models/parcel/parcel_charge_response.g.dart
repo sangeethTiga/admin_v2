@@ -11,10 +11,10 @@ _$ParcelChargeResponseImpl _$$ParcelChargeResponseImplFromJson(
 ) => _$ParcelChargeResponseImpl(
   prodOrderId: (json['prod_order_id'] as num?)?.toInt(),
   billNo: json['bill_no'] as String?,
-  parcelCharge: (json['parcel_charge'] as num?)?.toDouble(),
+  parcelCharge: parseDouble(json['parcel_charge']),
   orderDate: json['order_date'] as String?,
   rawCount: (json['raw_count'] as num?)?.toInt(),
-  totalamount: (json['totalamount'] as num?)?.toDouble(),
+  totalamount: parseInt(json['totalamount']),
 );
 
 Map<String, dynamic> _$$ParcelChargeResponseImplToJson(
