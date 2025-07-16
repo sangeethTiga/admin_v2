@@ -245,7 +245,7 @@ class _OfferFormState extends State<OfferForm> {
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return DropDownFieldWidget(
-                        enabled: !widget.isEdit,
+                     //   enabled: !widget.isEdit,
                         hintText: 'Special offer',
 
                         isLoading:
