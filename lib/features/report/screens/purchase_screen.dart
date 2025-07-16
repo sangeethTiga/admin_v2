@@ -41,15 +41,16 @@ class PurchaseScreen extends StatelessWidget {
                   builder: (context, state) {
                     return DropDownFieldWidget(
                       isLoading: false,
-                      prefixIcon: Container(
-                        margin: EdgeInsets.only(left: 12.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      // prefixIcon: Container(
+                      //   margin: EdgeInsets.only(left: 12.w),
+                      //   child
+                      //   : SvgPicture.asset(
+                      //     'assets/icons/package-box-pin-location.svg',
+                      //     width: 20.w,
+                      //     height: 20.h,
+                      //     fit: BoxFit.contain,
+                      //   ),
+                      // ),
                       borderColor: kBlack,
                       labelText: 'Purchase type',
                       value:

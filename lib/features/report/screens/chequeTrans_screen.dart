@@ -12,7 +12,6 @@ import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ChequetransScreen extends StatelessWidget {
   const ChequetransScreen({super.key});
@@ -59,15 +58,15 @@ class ChequetransScreen extends StatelessWidget {
             vertical: 17.h,
           ),
           isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-          prefixIcon: Container(
-            margin: EdgeInsets.only(left: 12.w),
-            child: SvgPicture.asset(
-              'assets/icons/package-box-pin-location.svg',
-              width: 20.w,
-              height: 20.h,
-              fit: BoxFit.contain,
-            ),
-          ),
+          // prefixIcon: Container(
+          //   margin: EdgeInsets.only(left: 12.w),
+          //   child: SvgPicture.asset(
+          //     'assets/icons/package-box-pin-location.svg',
+          //     width: 20.w,
+          //     height: 20.h,
+          //     fit: BoxFit.contain,
+          //   ),
+          // ),
           borderColor: kBlack,
           fillColor: const Color(0XFFEFF1F1),
           value: state.selectedStatus?.chequeStatusId,

@@ -34,28 +34,28 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
   void initState() {
     super.initState();
 
-    _scrollController.addListener(_onScrollChanged);
+    //  _scrollController.addListener(_onScrollChanged);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScrollChanged);
+    //_scrollController.removeListener(_onScrollChanged);
 
     _scrollController.dispose();
     _debounceTimer?.cancel();
     super.dispose();
   }
 
-  void _onScrollChanged() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      _loadMoreProducts();
-    }
-  }
+  // void _onScrollChanged() {
+  //   if (_scrollController.position.pixels >=
+  //       _scrollController.position.maxScrollExtent - 200) {
+  //     _loadMoreProducts();
+  //   }
+  // }
 
-  void _loadMoreProducts() {
-    context.read<ReportCubit>().loadMoreProducts();
-  }
+  // void _loadMoreProducts() {
+  //   context.read<ReportCubit>().loadMoreProducts();
+  // }
 
   Future<void> _refreshReport() async {}
   @override
@@ -244,7 +244,8 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 20.w),
               child: ElevatedButton(
-                onPressed: _loadMoreProducts,
+                onPressed: () {},
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: kPrimaryColor,
@@ -307,5 +308,16 @@ class _RevenueReportScreenState extends State<RevenueReportScreen> {
 
     reportCubit.changeStore(store ?? StoreResponse());
     reportCubit.loadReveneueReport(storeId: store?.storeId ?? 0);
+  }
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadPurchaseReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
+    );
   }
 }

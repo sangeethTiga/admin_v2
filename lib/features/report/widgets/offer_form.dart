@@ -168,6 +168,7 @@ class _OfferFormState extends State<OfferForm> {
                           onTap: () async {
                             Navigator.pop(context);
                           },
+                          
                           child: SvgPicture.asset('assets/icons/x-close.svg'),
                         ),
                       ],
@@ -327,14 +328,11 @@ class _OfferFormState extends State<OfferForm> {
                         children: [
                           Expanded(
                             child: DatePickerContainer(
-                              value: state.fromDate != null
-                                  ? apiFormat.format(state.fromDate!)
-                                  : null,
-                              firstDate: DateTime(2020),
                               hintText: '',
-                              changeDate: (DateTime pickedDate) {
+                           value: state.fromDate != null ? apiFormat.format(state.fromDate!) : null,
+                              changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeFromDate(
-                                  pickedDate,
+                                  pickDate,
                                 );
                               },
                             ),
@@ -342,14 +340,11 @@ class _OfferFormState extends State<OfferForm> {
                           12.horizontalSpace,
                           Expanded(
                             child: DatePickerContainer(
-                              value: state.toDate != null
-                                  ? apiFormat.format(state.toDate!)
-                                  : null,
-                               firstDate: DateTime(2020),
                               hintText: '',
-                              changeDate: (DateTime pickedDate) {
+                         value: state.toDate != null ? apiFormat.format(state.toDate!) : null,
+                              changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeToDate(
-                                  pickedDate,
+                                  pickDate,
                                 );
                               },
                             ),

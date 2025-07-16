@@ -89,17 +89,17 @@ class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<List<ReveneReportResponse>>> loadRevenueReport({
     required int pageFirstResult,
-    // required int resultPerPage,
+     required int resultPerPage,
     required int storeId,
     required String fromDate,
     required String toDate,
   }) async {
     final networkProvider = await NetworkProvider.create();
-
+ 
     final res = await networkProvider.get(
       ApiEndpoints.revenueReport(
         pageFirstResult,
-        // resultPerPage,
+       resultPerPage,
         storeId,
         fromDate,
         toDate,
@@ -117,6 +117,7 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
+ 
 
   @override
   Future<ResponseResult<List<ExpenseReportResponse>>> loadExpenseReport({
