@@ -17,7 +17,7 @@ class ReportState extends Equatable {
   final int page;
   final String status;
   final String option;
-  final String search;
+  final String lastSearch;
   final List<CustomersResponse>? customersReport;
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
@@ -99,7 +99,7 @@ class ReportState extends Equatable {
     this.isDeliverychargeReport,
     this.offset = 0,
     this.page = 0,
-    this.search='',
+    this.lastSearch='',
     this.customersReport,
     this.isCustomersReport,
     this.isCategorySales,
@@ -187,7 +187,7 @@ class ReportState extends Equatable {
     int? page,
     String? status,
     String? option,
-    String? search,
+    String? lastSearch,
     List<CustomersResponse>? customersReport,
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
@@ -263,7 +263,7 @@ class ReportState extends Equatable {
       selectedMethod: selectedMethod ?? this.selectedMethod,
       revenueReport: revenueReport ?? this.revenueReport,
       currentPage: currentPage ?? this.currentPage,
-      search: search?? this.search,
+      lastSearch: lastSearch?? this.lastSearch,
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
       profitlossReport: profitlossReport ?? this.profitlossReport,
@@ -356,7 +356,7 @@ class ReportState extends Equatable {
     page,
     offset,
     status,
-    search,
+    lastSearch,
     customersReport,
     isCustomersReport,
     isCategorySales,

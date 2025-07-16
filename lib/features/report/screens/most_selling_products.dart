@@ -114,6 +114,7 @@ class MostSellingProducts extends StatelessWidget {
                       storeId: storeId,
                       categoryId: categoryId,
                       searchText: value,
+                      page: 0,
                     );
                   },
 
@@ -191,7 +192,6 @@ class MostSellingProducts extends StatelessWidget {
               ],
             ),
           ),
-          
 
           Expanded(
             child: MainPadding(
@@ -216,7 +216,7 @@ class MostSellingProducts extends StatelessWidget {
                                                     .maxScrollExtent;
                                                 final currentScroll =
                                                     scrollInfo.metrics.pixels;
-                                              final threshold =
+                                                final threshold =
                                                     maxScroll - 100;
 
                                                 if (currentScroll >=
@@ -296,14 +296,10 @@ class MostSellingProducts extends StatelessWidget {
                       );
                     },
                   );
-                  
                 },
               ),
             ),
-
           ),
-          
-           
         ],
       ),
     );
@@ -362,8 +358,8 @@ void _loadMoreData(BuildContext context) {
     context.read<ReportCubit>().loadProductReport(
       storeId: dashboardState.selectedStore?.storeId,
       isLoadMore: true,
-      page: reportState.currentPage,
-      searchText: reportState.search,
+      // page: reportState.currentPage,
+      // searchText: reportState.lastSearch,
     );
   }
 }
