@@ -76,6 +76,17 @@ class ProfitLossScreen extends StatelessWidget {
                                 context.read<ReportCubit>().changeFromDate(
                                   pickDate,
                                 );
+                                final storeId =
+                                    context
+                                        .read<DashboardCubit>()
+                                        .state
+                                        .selectedStore
+                                        ?.storeId ??
+                                    0;
+
+                                context.read<ReportCubit>().loadProfitAndLoss(
+                                  storeId: storeId,
+                                );
                               },
                             ),
                           ),
@@ -89,6 +100,17 @@ class ProfitLossScreen extends StatelessWidget {
                               changeDate: (DateTime pickDate) {
                                 context.read<ReportCubit>().changeToDate(
                                   pickDate,
+                                );
+                                final storeId =
+                                    context
+                                        .read<DashboardCubit>()
+                                        .state
+                                        .selectedStore
+                                        ?.storeId ??
+                                    0;
+
+                                context.read<ReportCubit>().loadProfitAndLoss(
+                                  storeId: storeId,
                                 );
                               },
                             ),

@@ -176,10 +176,7 @@ class ParcelCharge extends StatelessWidget {
                       }
 
                       if (reportState.hasMoreData == false &&
-                          reportState.parcelChargeList?.isNotEmpty == true &&
-                          !noMoreDataSnackbarShown) {
-                        noMoreDataSnackbarShown = true;
-
+                          reportState.parcelChargeList?.isNotEmpty == true) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

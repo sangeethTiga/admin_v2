@@ -33,7 +33,7 @@ mixin _$OrderDetailResponse {
   String? get deliveryAgentId => throw _privateConstructorUsedError;
   @JsonKey(name: "rounding")
   int? get rounding => throw _privateConstructorUsedError;
-  @JsonKey(name: "parcel_charge")
+  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
   double? get parcelCharge => throw _privateConstructorUsedError;
   @JsonKey(name: "table_details")
   List<dynamic>? get tableDetails => throw _privateConstructorUsedError;
@@ -341,7 +341,7 @@ abstract class $OrderDetailResponseCopyWith<$Res> {
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") String? deliveryAgentId,
     @JsonKey(name: "rounding") int? rounding,
-    @JsonKey(name: "parcel_charge") double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble) double? parcelCharge,
     @JsonKey(name: "table_details") List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") String? customerFeedbacks,
@@ -1281,7 +1281,7 @@ abstract class _$$OrderDetailResponseImplCopyWith<$Res>
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") String? deliveryAgentId,
     @JsonKey(name: "rounding") int? rounding,
-    @JsonKey(name: "parcel_charge") double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble) double? parcelCharge,
     @JsonKey(name: "table_details") List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") String? customerFeedbacks,
@@ -2212,7 +2212,7 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
     @JsonKey(name: "order_status_name") this.orderStatusName,
     @JsonKey(name: "delivery_agent_id") this.deliveryAgentId,
     @JsonKey(name: "rounding") this.rounding,
-    @JsonKey(name: "parcel_charge") this.parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble) this.parcelCharge,
     @JsonKey(name: "table_details") final List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") this.custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") this.customerFeedbacks,
@@ -2399,7 +2399,7 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   @JsonKey(name: "rounding")
   final int? rounding;
   @override
-  @JsonKey(name: "parcel_charge")
+  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
   final double? parcelCharge;
   final List<dynamic>? _tableDetails;
   @override
@@ -3356,7 +3356,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
     @JsonKey(name: "order_status_name") final String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") final String? deliveryAgentId,
     @JsonKey(name: "rounding") final int? rounding,
-    @JsonKey(name: "parcel_charge") final double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseDouble)
+    final double? parcelCharge,
     @JsonKey(name: "table_details") final List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") final int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") final String? customerFeedbacks,
@@ -3546,7 +3547,7 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   @JsonKey(name: "rounding")
   int? get rounding;
   @override
-  @JsonKey(name: "parcel_charge")
+  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
   double? get parcelCharge;
   @override
   @JsonKey(name: "table_details")
@@ -4399,7 +4400,7 @@ mixin _$ProductOrderItem {
   @JsonKey(name: "takeaway_addon_price")
   int? get takeawayAddonPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "parcel_charge")
-  int? get parcelCharge => throw _privateConstructorUsedError;
+  double? get parcelCharge => throw _privateConstructorUsedError;
 
   /// Serializes this ProductOrderItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -4519,7 +4520,7 @@ abstract class $ProductOrderItemCopyWith<$Res> {
     @JsonKey(name: "pre_order_charging_option_id")
     int? preOrderChargingOptionId,
     @JsonKey(name: "takeaway_addon_price") int? takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") int? parcelCharge,
+    @JsonKey(name: "parcel_charge") double? parcelCharge,
   });
 
   $ReturnableInfoCopyWith<$Res>? get returnableInfo;
@@ -5027,7 +5028,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             parcelCharge: freezed == parcelCharge
                 ? _value.parcelCharge
                 : parcelCharge // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -5158,7 +5159,7 @@ abstract class _$$ProductOrderItemImplCopyWith<$Res>
     @JsonKey(name: "pre_order_charging_option_id")
     int? preOrderChargingOptionId,
     @JsonKey(name: "takeaway_addon_price") int? takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") int? parcelCharge,
+    @JsonKey(name: "parcel_charge") double? parcelCharge,
   });
 
   @override
@@ -5666,7 +5667,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         parcelCharge: freezed == parcelCharge
             ? _value.parcelCharge
             : parcelCharge // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -6145,7 +6146,7 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   final int? takeawayAddonPrice;
   @override
   @JsonKey(name: "parcel_charge")
-  final int? parcelCharge;
+  final double? parcelCharge;
 
   @override
   String toString() {
@@ -6590,7 +6591,7 @@ abstract class _ProductOrderItem implements ProductOrderItem {
     @JsonKey(name: "pre_order_charging_option_id")
     final int? preOrderChargingOptionId,
     @JsonKey(name: "takeaway_addon_price") final int? takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") final int? parcelCharge,
+    @JsonKey(name: "parcel_charge") final double? parcelCharge,
   }) = _$ProductOrderItemImpl;
 
   factory _ProductOrderItem.fromJson(Map<String, dynamic> json) =
@@ -6886,7 +6887,7 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   int? get takeawayAddonPrice;
   @override
   @JsonKey(name: "parcel_charge")
-  int? get parcelCharge;
+  double? get parcelCharge;
 
   /// Create a copy of ProductOrderItem
   /// with the given fields replaced by the non-null parameter values.

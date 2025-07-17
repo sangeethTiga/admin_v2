@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -10,7 +9,7 @@ import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_
 import 'package:admin_v2/features/report/domain/models/custSearch/custSearch_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart'
-    hide DeliveryPartner;
+hide DeliveryPartner;
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
@@ -450,7 +449,7 @@ class ReportCubit extends Cubit<ReportState> {
       } else {
         emit(
           state.copyWith(
-            isDeliverychargeReport: ApiFetchStatus.success,
+            isDeliverychargeReport: ApiFetchStatus.failed,
             isLoadingMore: false,
             hasMoreData: false,
           ),

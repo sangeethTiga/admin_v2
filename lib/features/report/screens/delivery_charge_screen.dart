@@ -115,12 +115,22 @@ class DeliveryChargeScreen extends StatelessWidget {
                         _loadMoreData(context);
                       }
 
+                      // if (reportState.hasMoreData == false &&
+                      //     reportState.deliverychargeReport?.isNotEmpty ==
+                      //         true &&
+                      //     !noMoreDataSnackbarShown) {
+                      //   noMoreDataSnackbarShown = true;
+
+                      //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(
+                      //         content: Text('No more data'),
+                      //         duration: Duration(seconds: 1),
+
+                      //       ),
                       if (reportState.hasMoreData == false &&
                           reportState.deliverychargeReport?.isNotEmpty ==
-                              true &&
-                          !noMoreDataSnackbarShown) {
-                        noMoreDataSnackbarShown = true;
-
+                              true) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

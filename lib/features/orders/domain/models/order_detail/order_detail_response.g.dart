@@ -15,7 +15,7 @@ _$OrderDetailResponseImpl _$$OrderDetailResponseImplFromJson(
   orderStatusName: json['order_status_name'] as String?,
   deliveryAgentId: json['delivery_agent_id'] as String?,
   rounding: (json['rounding'] as num?)?.toInt(),
-  parcelCharge: (json['parcel_charge'] as num?)?.toDouble(),
+  parcelCharge: parseDouble(json['parcel_charge']),
   tableDetails: json['table_details'] as List<dynamic>?,
   custFeedbackExist: (json['cust_feedback_exist'] as num?)?.toInt(),
   customerFeedbacks: json['customer_feedbacks'] as String?,
@@ -443,7 +443,7 @@ _$ProductOrderItemImpl _$$ProductOrderItemImplFromJson(
   preOrderChargingOptionId: (json['pre_order_charging_option_id'] as num?)
       ?.toInt(),
   takeawayAddonPrice: (json['takeaway_addon_price'] as num?)?.toInt(),
-  parcelCharge: (json['parcel_charge'] as num?)?.toInt(),
+  parcelCharge: (json['parcel_charge'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$$ProductOrderItemImplToJson(

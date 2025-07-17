@@ -110,6 +110,7 @@ class CommonTableWidget extends StatelessWidget {
                           bottom: BorderSide(color: Colors.grey.shade300),
                         ),
                       ),
+
                       child: Row(
                         children: List.generate(headers.length, (colIndex) {
                           String key = headers[colIndex];

@@ -61,7 +61,7 @@ mixin _$OrderResponse {
   String? get deliveryDate => throw _privateConstructorUsedError;
   @JsonKey(name: "net_amount", fromJson: parseInt)
   int? get netAmount => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_disc_amount")
+  @JsonKey(name: "order_disc_amount", fromJson: parseInt)
   int? get orderDiscAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "store_id")
   int? get storeId => throw _privateConstructorUsedError;
@@ -136,7 +136,8 @@ abstract class $OrderResponseCopyWith<$Res> {
     @JsonKey(name: "notification_status_name") String? notificationStatusName,
     @JsonKey(name: "delivery_date") String? deliveryDate,
     @JsonKey(name: "net_amount", fromJson: parseInt) int? netAmount,
-    @JsonKey(name: "order_disc_amount") int? orderDiscAmount,
+    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
+    int? orderDiscAmount,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "day_close_id") int? dayCloseId,
     @JsonKey(name: "cust_id") int? custId,
@@ -405,7 +406,8 @@ abstract class _$$OrderResponseImplCopyWith<$Res>
     @JsonKey(name: "notification_status_name") String? notificationStatusName,
     @JsonKey(name: "delivery_date") String? deliveryDate,
     @JsonKey(name: "net_amount", fromJson: parseInt) int? netAmount,
-    @JsonKey(name: "order_disc_amount") int? orderDiscAmount,
+    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
+    int? orderDiscAmount,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "day_close_id") int? dayCloseId,
     @JsonKey(name: "cust_id") int? custId,
@@ -666,7 +668,8 @@ class _$OrderResponseImpl implements _OrderResponse {
     @JsonKey(name: "notification_status_name") this.notificationStatusName,
     @JsonKey(name: "delivery_date") this.deliveryDate,
     @JsonKey(name: "net_amount", fromJson: parseInt) this.netAmount,
-    @JsonKey(name: "order_disc_amount") this.orderDiscAmount,
+    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
+    this.orderDiscAmount,
     @JsonKey(name: "store_id") this.storeId,
     @JsonKey(name: "day_close_id") this.dayCloseId,
     @JsonKey(name: "cust_id") this.custId,
@@ -754,7 +757,7 @@ class _$OrderResponseImpl implements _OrderResponse {
   @JsonKey(name: "net_amount", fromJson: parseInt)
   final int? netAmount;
   @override
-  @JsonKey(name: "order_disc_amount")
+  @JsonKey(name: "order_disc_amount", fromJson: parseInt)
   final int? orderDiscAmount;
   @override
   @JsonKey(name: "store_id")
@@ -976,7 +979,8 @@ abstract class _OrderResponse implements OrderResponse {
     final String? notificationStatusName,
     @JsonKey(name: "delivery_date") final String? deliveryDate,
     @JsonKey(name: "net_amount", fromJson: parseInt) final int? netAmount,
-    @JsonKey(name: "order_disc_amount") final int? orderDiscAmount,
+    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
+    final int? orderDiscAmount,
     @JsonKey(name: "store_id") final int? storeId,
     @JsonKey(name: "day_close_id") final int? dayCloseId,
     @JsonKey(name: "cust_id") final int? custId,
@@ -1064,7 +1068,7 @@ abstract class _OrderResponse implements OrderResponse {
   @JsonKey(name: "net_amount", fromJson: parseInt)
   int? get netAmount;
   @override
-  @JsonKey(name: "order_disc_amount")
+  @JsonKey(name: "order_disc_amount", fromJson: parseInt)
   int? get orderDiscAmount;
   @override
   @JsonKey(name: "store_id")

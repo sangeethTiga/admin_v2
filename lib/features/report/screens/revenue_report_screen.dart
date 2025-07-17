@@ -88,7 +88,7 @@ Widget _handleDate() {
           Expanded(
             child: DatePickerContainer(
               value: apiFormat.format(state.fromDate ?? DateTime.now()),
-             labelText: 'From Date',
+              labelText: 'From Date',
               changeDate: (DateTime pickedDate) {
                 context.read<ReportCubit>().changeFromDate(pickedDate);
               },
@@ -97,7 +97,7 @@ Widget _handleDate() {
           12.horizontalSpace,
           Expanded(
             child: DatePickerContainer(
-             labelText: 'To Date',
+              labelText: 'To Date',
               value: apiFormat.format(state.toDate ?? DateTime.now()),
               changeDate: (DateTime pickedDate) {
                 context.read<ReportCubit>().changeToDate(pickedDate);
@@ -134,13 +134,30 @@ Widget _commonTable() {
             Expanded(
               child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo is ScrollEndNotification) {
-                    final maxScroll = scrollInfo.metrics.maxScrollExtent;
-                    final currentScroll = scrollInfo.metrics.pixels;
-                    final threshold = maxScroll - 100;
+                  final maxScroll = scrollInfo.metrics.maxScrollExtent;
+                  final currentScroll = scrollInfo.metrics.pixels;
+                  final threshold = maxScroll - 100;
 
-                    if (currentScroll >= threshold) {
+                  final atBottom = currentScroll >= threshold;
+
+                  if (scrollInfo is ScrollEndNotification && atBottom) {
+                    final reportState = context.read<ReportCubit>().state;
+
+                    if (reportState.hasMoreData == true &&
+                        reportState.isLoadingMore != true) {
                       _loadMoreData(context);
+                    }
+
+                    if (reportState.hasMoreData == false &&
+                        reportState.revenueReport?.isNotEmpty == true) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('No more data'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      });
                     }
                   }
                   return false;
@@ -170,15 +187,15 @@ Widget _commonTable() {
                 padding: EdgeInsets.all(16.w),
                 child: CircularProgressIndicator(),
               ),
-            if (state.hasMoreData == false &&
-                state.parcelChargeList?.isNotEmpty == true)
-              Container(
-                padding: EdgeInsets.all(16.w),
-                child: Text(
-                  'No more data',
-                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                ),
-              ),
+            // if (state.hasMoreData == false &&
+            //     state.parcelChargeList?.isNotEmpty == true)
+            //   Container(
+            //     padding: EdgeInsets.all(16.w),
+            //     child: Text(
+            //       'No more data',
+            //       style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+            //     ),
+            //   ),
           ],
         ),
       );
