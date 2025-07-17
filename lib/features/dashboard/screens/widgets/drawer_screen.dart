@@ -268,7 +268,7 @@ class _DrawerContent extends StatelessWidget {
           title: Text('Products'),
           onTap: (context) {
             final productCubit = context.read<ProductCubit>();
-            productCubit.product(storeId, 0, '', '', 0);
+            productCubit.product(storeId: storeId);
             productCubit.selectProduct(Product());
             productCubit.catgeory(storeId);
             productCubit.stockStatus();
