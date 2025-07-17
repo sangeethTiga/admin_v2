@@ -173,6 +173,7 @@ void navigateToFeature(
         _navigateToExpense(storeId ?? 0, accountId ?? 0, today, context);
       case 'Customers':
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadCustomersReport();
         context.push(routeCustomers);
       case 'Purchase':
         context.read<ReportCubit>().initState();
@@ -194,7 +195,7 @@ String _formatDate(DateTime date) {
 void _navigateToProducts(int storeId, BuildContext context) {
   try {
     final productCubit = context.read<ProductCubit>();
-    productCubit.product(storeId, 0, '', '', 0);
+    productCubit.product(storeId: storeId, page: 0, limit: 20);
     productCubit.selectProduct(Product(filterId: 0, name: 'All Products'));
     productCubit.catgeory(storeId);
     productCubit.stockStatus();

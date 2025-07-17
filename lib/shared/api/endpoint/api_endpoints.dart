@@ -66,7 +66,7 @@ class ApiEndpoints {
     int resultPerPage,
     int pageFirstResult,
   ) =>
-      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$resultPerPage&offset=$pageFirstResult";
+      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$pageFirstResult&offset=$resultPerPage";
 
   static String customersReport(
     int pageFirstResult,
@@ -85,8 +85,9 @@ class ApiEndpoints {
     String barCode,
     int filterId,
     int pageFirstResult,
+    int resultPage,
   ) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=10';
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=$resultPage';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';

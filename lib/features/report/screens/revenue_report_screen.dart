@@ -88,7 +88,7 @@ Widget _handleDate() {
           Expanded(
             child: DatePickerContainer(
               value: apiFormat.format(state.fromDate ?? DateTime.now()),
-             labelText: 'From Date',
+              labelText: 'From Date',
               changeDate: (DateTime pickedDate) {
                 context.read<ReportCubit>().changeFromDate(pickedDate);
               },
@@ -97,7 +97,7 @@ Widget _handleDate() {
           12.horizontalSpace,
           Expanded(
             child: DatePickerContainer(
-             labelText: 'To Date',
+              labelText: 'To Date',
               value: apiFormat.format(state.toDate ?? DateTime.now()),
               changeDate: (DateTime pickedDate) {
                 context.read<ReportCubit>().changeToDate(pickedDate);
@@ -134,13 +134,23 @@ Widget _commonTable() {
             Expanded(
               child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo is ScrollEndNotification) {
-                    final maxScroll = scrollInfo.metrics.maxScrollExtent;
-                    final currentScroll = scrollInfo.metrics.pixels;
-                    final threshold = maxScroll - 100;
+                  final maxScroll = scrollInfo.metrics.maxScrollExtent;
+                  final currentScroll = scrollInfo.metrics.pixels;
+                  final threshold = maxScroll - 100;
 
-                    if (currentScroll >= threshold) {
+                  final atBottom = currentScroll >= threshold;
+
+                  if (scrollInfo is ScrollEndNotification && atBottom) {
+                    final reportState = context.read<ReportCubit>().state;
+
+                    if (reportState.hasMoreData == true &&
+                        reportState.isLoadingMore != true) {
                       _loadMoreData(context);
+                    }
+
+                    if (reportState.hasMoreData == false &&
+                        reportState.revenueReport?.isNotEmpty == true) {
+                      _showNoMoreDataOverlay(context);
                     }
                   }
                   return false;
@@ -170,30 +180,21 @@ Widget _commonTable() {
                 padding: EdgeInsets.all(16.w),
                 child: CircularProgressIndicator(),
               ),
-            if (state.hasMoreData == false &&
-                state.parcelChargeList?.isNotEmpty == true)
-              Container(
-                padding: EdgeInsets.all(16.w),
-                child: Text(
-                  'No more data',
-                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                ),
-              ),
+            // if (state.hasMoreData == false &&
+            //     state.parcelChargeList?.isNotEmpty == true)
+            //   Container(
+            //     padding: EdgeInsets.all(16.w),
+            //     child: Text(
+            //       'No more data',
+            //       style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+            //     ),
+            //   ),
           ],
         ),
       );
     },
   );
 }
-
-// void _handleStoreChange(StoreResponse? store) {
-//   final reportCubit = context.read<ReportCubit>();
-//   final dashboardCubit = context.read<DashboardCubit>();
-//   dashboardCubit.selectedStore(store ?? StoreResponse());
-
-//   reportCubit.changeStore(store ?? StoreResponse());
-//   reportCubit.loadReveneueReport(storeId: store?.storeId ?? 0);
-// }
 
 void _loadMoreData(BuildContext context) {
   final reportState = context.read<ReportCubit>().state;
@@ -204,4 +205,31 @@ void _loadMoreData(BuildContext context) {
       isLoadMore: true,
     );
   }
+}
+
+OverlayEntry? _overlayEntry;
+
+void _showNoMoreDataOverlay(BuildContext context) {
+  if (_overlayEntry != null) return;
+
+  _overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      bottom: 18,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: const Text(
+          'No more data',
+          style: TextStyle(fontSize: 14, color: Colors.black),
+        ),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(_overlayEntry!);
+
+  Future.delayed(const Duration(seconds: 1), () {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  });
 }

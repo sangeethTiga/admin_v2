@@ -27,7 +27,7 @@ class OrderResponse with _$OrderResponse {
     @JsonKey(name: "notification_status_name") String? notificationStatusName,
     @JsonKey(name: "delivery_date") String? deliveryDate,
     @JsonKey(name: "net_amount", fromJson: parseInt) int? netAmount,
-    @JsonKey(name: "order_disc_amount") int? orderDiscAmount,
+    @JsonKey(name: "order_disc_amount",fromJson: parseInt) int? orderDiscAmount,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "day_close_id") int? dayCloseId,
     @JsonKey(name: "cust_id") int? custId,

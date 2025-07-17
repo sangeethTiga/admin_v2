@@ -106,6 +106,7 @@ class DaySummaryReportScreen extends StatelessWidget {
   }
 
   Widget _buildReportContent(ReportState state) {
+    final daySummary=state.daySummary;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -120,18 +121,33 @@ class DaySummaryReportScreen extends StatelessWidget {
 
         _buildSectionTitle('Receipt'),
         _buildReceipts(state),
+        if(daySummary?[0].paymentData?.isNotEmpty==true)...{
 
         _buildSectionTitle('Payment'),
         _buildPayments(state),
+        },
+        if(daySummary?[0].amountByDelivertBoy?.isNotEmpty==true)...{
 
+           _buildSectionTitle('Amount - By Delivery Boys'),
+        _buildAmountByDeliveryBoys(state),
+        },
+        if(daySummary?[0].cancelledOrders?.isNotEmpty==true)...{
+        _buildSectionTitle('List of Cancelled Orders'),
+        _buildListOfCancelledOrders(state),
+        },
+if(daySummary?[0].discBillTypeDetails?.isNotEmpty==true)...{
         _buildSectionTitle('Discount Bill Type'),
         _buildDiscountBillType(state),
-
+},
+if(daySummary?[0].amountByCategory?.isNotEmpty==true)...{
         _buildSectionTitle('AMOUNT - BY CATEGORY'),
         _buildAmountByCategory(state),
-
+},
+if(daySummary?[0].amountByMainCategory?.isNotEmpty==true)...{
         _buildSectionTitle('AMOUNT - BY MAIN CATEGORY'),
         _buildAmountByMainCategories(state),
+}
+        
       ],
     );
   }
@@ -304,28 +320,28 @@ class DaySummaryReportScreen extends StatelessWidget {
           shrinkWrap: true,
           itemCount: state.daySummary?.length,
           itemBuilder: (context, i) {
-            final bill = state.daySummary?[i];
+            final bill = state.daySummary?[i].modeOfPayments;
             return Column(
               children: [
                 titleAndValue(
                   label: '',
                   title: 'Card',
-                  value: bill?.modeOfPayments?.card,
+                  value: bill?.card,
                 ),
                 titleAndValue(
                   label: '',
                   title: 'Cash',
-                  value: bill?.modeOfPayments?.cash,
+                  value: bill?.cash,
                 ),
                 titleAndValue(
                   label: '',
                   title: 'Credit',
-                  value: bill?.modeOfPayments?.credit,
+                  value: bill?.credit,
                 ),
                 titleAndValue(
                   label: '',
                   title: 'Online',
-                  value: bill?.modeOfPayments?.online,
+                  value: bill?.online,
                 ),
               ],
             );
@@ -337,7 +353,7 @@ class DaySummaryReportScreen extends StatelessWidget {
             whilte: true,
             title: "Total",
             bold: true,
-            value: '${state.daySummary?.first.totalSales}',
+            value: '${state.daySummary?.first.totalSales!.toStringAsFixed(2)??0}',
             label: '',
           ),
         ),
@@ -387,7 +403,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     whilte: true,
                     title: "Total",
                     bold: true,
-                    value: '${state.daySummary?.first.billTypeGrandTotal}',
+                    value: '${state.daySummary?.first.billTypeGrandTotal!.toStringAsFixed(2)??0}',
                     label: '${state.daySummary?.first.billTypeTotalOrderCount}',
                   ),
                 ),
@@ -441,7 +457,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     whilte: true,
                     title: "Total",
                     bold: true,
-                    value: '${state.daySummary?.first.deliveryPartnersTotal}',
+                    value: '${state.daySummary?.first.deliveryPartnersTotal!.toStringAsFixed(2)??0}',
                     label: '',
                   ),
                 ),
@@ -618,6 +634,7 @@ class DaySummaryReportScreen extends StatelessWidget {
                     );
                   },
                 ),
+                 
               ],
             );
           },
@@ -681,6 +698,119 @@ class DaySummaryReportScreen extends StatelessWidget {
     );
   }
 }
+
+
+  Widget _buildAmountByDeliveryBoys(ReportState state) {
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Delivery Partners",
+            bold: true,
+            value: "Amount",
+            label: 'Count',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index].amountByDelivertBoy;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    return titleAndValue(
+                      label: '${data?[i].ordercount??0}',
+                      title: '${data?[i].userName}',
+                      value: data?[i].totalamount?.toStringAsFixed(2) 
+,
+                    );
+                  },
+                ),
+                Container(
+          color: Colors.grey,
+          child: titleAndValue(
+            whilte: true,
+            title: "Total",
+            bold: true,
+            value: '${state.daySummary?.first.amountByDeliveryBoyTotal!.toStringAsFixed(2)??0}',
+            label: '${state.daySummary?.first.amountByDeliveryBoyCount ??0}',
+          ),
+        ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+
+ Widget _buildListOfCancelledOrders(ReportState state) {
+    return Column(
+      children: [
+        Container(
+          color: Colors.black,
+          child: titleAndValue(
+            whilte: true,
+            title: "Bill No",
+            bold: true,
+            value: "Amount",
+            label: '',
+          ),
+        ),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: state.daySummary?.length,
+          itemBuilder: (context, index) {
+            final data = state.daySummary?[index].cancelledOrders;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: data?.length ?? 0,
+                  itemBuilder: (context, i) {
+                    return titleAndValue(
+                      label: '',
+                      title: '${data?[i]['bill_no']??0}',
+                      value: data?[i]['net_amount'].toStringAsFixed(2) 
+,
+                    );
+                  },
+                ),
+                Container(
+          color: Colors.grey,
+          child: titleAndValue(
+            whilte: true,
+            title: "Total",
+            bold: true,
+            value: '${state.daySummary?.first.cancelledOrdersTotal!.toStringAsFixed(2)??0}',
+            label: '',
+          ),
+        ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+
+
 
 // Enhanced titleAndValue widget
 Container titleAndValue({

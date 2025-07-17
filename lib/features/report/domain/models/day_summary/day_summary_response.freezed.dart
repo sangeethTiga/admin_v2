@@ -31,50 +31,50 @@ mixin _$DaySummaryResponse {
   List<BillTypeDetail>? get billTypeDetails =>
       throw _privateConstructorUsedError;
   @JsonKey(name: "bill_type_total_order_count")
-  int? get billTypeTotalOrderCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "bill_type_grand_total")
-  int? get billTypeGrandTotal => throw _privateConstructorUsedError;
+  double? get billTypeTotalOrderCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "bill_type_grand_total", fromJson: parseNumberAsDouble)
+  double? get billTypeGrandTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "disc_bill_type_details")
   List<DiscBillTypeDetail>? get discBillTypeDetails =>
       throw _privateConstructorUsedError;
   @JsonKey(name: "disc_bill_type_details_count")
-  int? get discBillTypeDetailsCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "disc_bill_type_details_total")
-  int? get discBillTypeDetailsTotal => throw _privateConstructorUsedError;
+  double? get discBillTypeDetailsCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "disc_bill_type_details_total", fromJson: parseNumberAsDouble)
+  double? get discBillTypeDetailsTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_cashier")
   List<dynamic>? get amountByCashier => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_cashier_total")
   int? get amountByCashierTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_cashier_count")
-  int? get amountByCashierCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_cashier_cash_total")
-  int? get amountByCashierCashTotal => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_cashier_card_total")
-  int? get amountByCashierCardTotal => throw _privateConstructorUsedError;
+  double? get amountByCashierCount => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount_by_cashier_cash_total", fromJson: parseNumberAsDouble)
+  double? get amountByCashierCashTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount_by_cashier_card_total", fromJson: parseNumberAsDouble)
+  double? get amountByCashierCardTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_kiosk")
   List<dynamic>? get amountByKiosk => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_kiosk_total")
-  int? get amountByKioskTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount_by_kiosk_total", fromJson: parseNumberAsDouble)
+  double? get amountByKioskTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_kiosk_count")
   int? get amountByKioskCount => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_delivertBoy")
   List<AmountByDelivertBoy>? get amountByDelivertBoy =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_deliveryBoy_total")
-  int? get amountByDeliveryBoyTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount_by_deliveryBoy_total", fromJson: parseNumberAsDouble)
+  double? get amountByDeliveryBoyTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_deliveryBoy_count")
   int? get amountByDeliveryBoyCount => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_waiter")
   List<dynamic>? get amountByWaiter => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_waiter_total")
-  int? get amountByWaiterTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount_by_waiter_total", fromJson: parseNumberAsDouble)
+  double? get amountByWaiterTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_waiter_count")
   int? get amountByWaiterCount => throw _privateConstructorUsedError;
   @JsonKey(name: "delivery_partners")
   List<DeliveryPartner>? get deliveryPartners =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: "delivery_partners_total")
-  int? get deliveryPartnersTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "delivery_partners_total", fromJson: parseNumberAsDouble)
+  double? get deliveryPartnersTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "delivery_partners_count")
   int? get deliveryPartnersCount => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_device")
@@ -82,24 +82,24 @@ mixin _$DaySummaryResponse {
       throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_device_count")
   int? get amountByDeviceCount => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_device_total")
-  int? get amountByDeviceTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount_by_device_total", fromJson: parseNumberAsDouble)
+  double? get amountByDeviceTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_category")
   List<dynamic>? get amountByCategory => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_category_total")
+  @JsonKey(name: "amount_by_category_total", fromJson: parseNumberAsDouble)
   double? get amountByCategoryTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "amount_by_main_category")
   List<dynamic>? get amountByMainCategory => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount_by_main_category_total")
-  int? get amountByMainCategoryTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount_by_main_category_total", fromJson: parseNumberAsDouble)
+  double? get amountByMainCategoryTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "cancelled_orders")
   List<dynamic>? get cancelledOrders => throw _privateConstructorUsedError;
-  @JsonKey(name: "cancelled_orders_total")
-  int? get cancelledOrdersTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "cancelled_orders_total", fromJson: parseNumberAsDouble)
+  double? get cancelledOrdersTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "cancelled_bills")
   List<dynamic>? get cancelledBills => throw _privateConstructorUsedError;
-  @JsonKey(name: "cancelled_bills_total")
-  int? get cancelledBillsTotal => throw _privateConstructorUsedError;
+  @JsonKey(name: "cancelled_bills_total", fromJson: parseNumberAsDouble)
+  double? get cancelledBillsTotal => throw _privateConstructorUsedError;
   @JsonKey(name: "cancelled_items")
   List<dynamic>? get cancelledItems => throw _privateConstructorUsedError;
   @JsonKey(name: "order_counts")
@@ -108,24 +108,24 @@ mixin _$DaySummaryResponse {
   int? get startingBill => throw _privateConstructorUsedError;
   @JsonKey(name: "ending_bill")
   int? get endingBill => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_bills")
-  int? get totalBills => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_sales")
-  int? get totalSales => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_bills", fromJson: parseNumberAsDouble)
+  double? get totalBills => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_sales", fromJson: parseNumberAsDouble)
+  double? get totalSales => throw _privateConstructorUsedError;
   @JsonKey(name: "receipts_data")
   List<Datum>? get receiptsData => throw _privateConstructorUsedError;
   @JsonKey(name: "payment_data")
   List<Datum>? get paymentData => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_receipts")
-  int? get totalReceipts => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_payment")
-  int? get totalPayment => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_tax_collected")
-  int? get totalTaxCollected => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_tax_paid")
-  int? get totalTaxPaid => throw _privateConstructorUsedError;
-  @JsonKey(name: "total_parcel_charge")
-  int? get totalParcelCharge => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_receipts", fromJson: parseNumberAsDouble)
+  double? get totalReceipts => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_payment", fromJson: parseNumberAsDouble)
+  double? get totalPayment => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+  double? get totalTaxCollected => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_tax_paid", fromJson: parseNumberAsDouble)
+  double? get totalTaxPaid => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_parcel_charge", fromJson: parseNumberAsDouble)
+  double? get totalParcelCharge => throw _privateConstructorUsedError;
   @JsonKey(name: "pax_details")
   List<PaxDetail>? get paxDetails => throw _privateConstructorUsedError;
   @JsonKey(name: "opening_balance")
@@ -162,60 +162,89 @@ abstract class $DaySummaryResponseCopyWith<$Res> {
     @JsonKey(name: "mode_of_payments") ModeOfPayments? modeOfPayments,
     @JsonKey(name: "is_day_close_enabled") int? isDayCloseEnabled,
     @JsonKey(name: "bill_type_details") List<BillTypeDetail>? billTypeDetails,
-    @JsonKey(name: "bill_type_total_order_count") int? billTypeTotalOrderCount,
-    @JsonKey(name: "bill_type_grand_total") int? billTypeGrandTotal,
+    @JsonKey(name: "bill_type_total_order_count")
+    double? billTypeTotalOrderCount,
+    @JsonKey(name: "bill_type_grand_total", fromJson: parseNumberAsDouble)
+    double? billTypeGrandTotal,
     @JsonKey(name: "disc_bill_type_details")
     List<DiscBillTypeDetail>? discBillTypeDetails,
     @JsonKey(name: "disc_bill_type_details_count")
-    int? discBillTypeDetailsCount,
-    @JsonKey(name: "disc_bill_type_details_total")
-    int? discBillTypeDetailsTotal,
+    double? discBillTypeDetailsCount,
+    @JsonKey(
+      name: "disc_bill_type_details_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? discBillTypeDetailsTotal,
     @JsonKey(name: "amount_by_cashier") List<dynamic>? amountByCashier,
     @JsonKey(name: "amount_by_cashier_total") int? amountByCashierTotal,
-    @JsonKey(name: "amount_by_cashier_count") int? amountByCashierCount,
-    @JsonKey(name: "amount_by_cashier_cash_total")
-    int? amountByCashierCashTotal,
-    @JsonKey(name: "amount_by_cashier_card_total")
-    int? amountByCashierCardTotal,
+    @JsonKey(name: "amount_by_cashier_count") double? amountByCashierCount,
+    @JsonKey(
+      name: "amount_by_cashier_cash_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? amountByCashierCashTotal,
+    @JsonKey(
+      name: "amount_by_cashier_card_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? amountByCashierCardTotal,
     @JsonKey(name: "amount_by_kiosk") List<dynamic>? amountByKiosk,
-    @JsonKey(name: "amount_by_kiosk_total") int? amountByKioskTotal,
+    @JsonKey(name: "amount_by_kiosk_total", fromJson: parseNumberAsDouble)
+    double? amountByKioskTotal,
     @JsonKey(name: "amount_by_kiosk_count") int? amountByKioskCount,
     @JsonKey(name: "amount_by_delivertBoy")
     List<AmountByDelivertBoy>? amountByDelivertBoy,
-    @JsonKey(name: "amount_by_deliveryBoy_total") int? amountByDeliveryBoyTotal,
+    @JsonKey(name: "amount_by_deliveryBoy_total", fromJson: parseNumberAsDouble)
+    double? amountByDeliveryBoyTotal,
     @JsonKey(name: "amount_by_deliveryBoy_count") int? amountByDeliveryBoyCount,
     @JsonKey(name: "amount_by_waiter") List<dynamic>? amountByWaiter,
-    @JsonKey(name: "amount_by_waiter_total") int? amountByWaiterTotal,
+    @JsonKey(name: "amount_by_waiter_total", fromJson: parseNumberAsDouble)
+    double? amountByWaiterTotal,
     @JsonKey(name: "amount_by_waiter_count") int? amountByWaiterCount,
     @JsonKey(name: "delivery_partners") List<DeliveryPartner>? deliveryPartners,
-    @JsonKey(name: "delivery_partners_total") int? deliveryPartnersTotal,
+    @JsonKey(name: "delivery_partners_total", fromJson: parseNumberAsDouble)
+    double? deliveryPartnersTotal,
     @JsonKey(name: "delivery_partners_count") int? deliveryPartnersCount,
     @JsonKey(name: "amount_by_device") List<AmountByDevice>? amountByDevice,
     @JsonKey(name: "amount_by_device_count") int? amountByDeviceCount,
-    @JsonKey(name: "amount_by_device_total") int? amountByDeviceTotal,
+    @JsonKey(name: "amount_by_device_total", fromJson: parseNumberAsDouble)
+    double? amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total") double? amountByCategoryTotal,
+    @JsonKey(name: "amount_by_category_total", fromJson: parseNumberAsDouble)
+    double? amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     List<dynamic>? amountByMainCategory,
-    @JsonKey(name: "amount_by_main_category_total")
-    int? amountByMainCategoryTotal,
+    @JsonKey(
+      name: "amount_by_main_category_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? amountByMainCategoryTotal,
     @JsonKey(name: "cancelled_orders") List<dynamic>? cancelledOrders,
-    @JsonKey(name: "cancelled_orders_total") int? cancelledOrdersTotal,
+    @JsonKey(name: "cancelled_orders_total", fromJson: parseNumberAsDouble)
+    double? cancelledOrdersTotal,
     @JsonKey(name: "cancelled_bills") List<dynamic>? cancelledBills,
-    @JsonKey(name: "cancelled_bills_total") int? cancelledBillsTotal,
+    @JsonKey(name: "cancelled_bills_total", fromJson: parseNumberAsDouble)
+    double? cancelledBillsTotal,
     @JsonKey(name: "cancelled_items") List<dynamic>? cancelledItems,
     @JsonKey(name: "order_counts") List<OrderCount>? orderCounts,
     @JsonKey(name: "starting_bill") int? startingBill,
     @JsonKey(name: "ending_bill") int? endingBill,
-    @JsonKey(name: "total_bills") int? totalBills,
-    @JsonKey(name: "total_sales") int? totalSales,
+    @JsonKey(name: "total_bills", fromJson: parseNumberAsDouble)
+    double? totalBills,
+    @JsonKey(name: "total_sales", fromJson: parseNumberAsDouble)
+    double? totalSales,
     @JsonKey(name: "receipts_data") List<Datum>? receiptsData,
     @JsonKey(name: "payment_data") List<Datum>? paymentData,
-    @JsonKey(name: "total_receipts") int? totalReceipts,
-    @JsonKey(name: "total_payment") int? totalPayment,
-    @JsonKey(name: "total_tax_collected") int? totalTaxCollected,
-    @JsonKey(name: "total_tax_paid") int? totalTaxPaid,
-    @JsonKey(name: "total_parcel_charge") int? totalParcelCharge,
+    @JsonKey(name: "total_receipts", fromJson: parseNumberAsDouble)
+    double? totalReceipts,
+    @JsonKey(name: "total_payment", fromJson: parseNumberAsDouble)
+    double? totalPayment,
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+    double? totalTaxCollected,
+    @JsonKey(name: "total_tax_paid", fromJson: parseNumberAsDouble)
+    double? totalTaxPaid,
+    @JsonKey(name: "total_parcel_charge", fromJson: parseNumberAsDouble)
+    double? totalParcelCharge,
     @JsonKey(name: "pax_details") List<PaxDetail>? paxDetails,
     @JsonKey(name: "opening_balance") int? openingBalance,
     @JsonKey(name: "closing_balance") int? closingBalance,
@@ -317,11 +346,11 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             billTypeTotalOrderCount: freezed == billTypeTotalOrderCount
                 ? _value.billTypeTotalOrderCount
                 : billTypeTotalOrderCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             billTypeGrandTotal: freezed == billTypeGrandTotal
                 ? _value.billTypeGrandTotal
                 : billTypeGrandTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             discBillTypeDetails: freezed == discBillTypeDetails
                 ? _value.discBillTypeDetails
                 : discBillTypeDetails // ignore: cast_nullable_to_non_nullable
@@ -329,11 +358,11 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             discBillTypeDetailsCount: freezed == discBillTypeDetailsCount
                 ? _value.discBillTypeDetailsCount
                 : discBillTypeDetailsCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             discBillTypeDetailsTotal: freezed == discBillTypeDetailsTotal
                 ? _value.discBillTypeDetailsTotal
                 : discBillTypeDetailsTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByCashier: freezed == amountByCashier
                 ? _value.amountByCashier
                 : amountByCashier // ignore: cast_nullable_to_non_nullable
@@ -345,15 +374,15 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             amountByCashierCount: freezed == amountByCashierCount
                 ? _value.amountByCashierCount
                 : amountByCashierCount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByCashierCashTotal: freezed == amountByCashierCashTotal
                 ? _value.amountByCashierCashTotal
                 : amountByCashierCashTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByCashierCardTotal: freezed == amountByCashierCardTotal
                 ? _value.amountByCashierCardTotal
                 : amountByCashierCardTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByKiosk: freezed == amountByKiosk
                 ? _value.amountByKiosk
                 : amountByKiosk // ignore: cast_nullable_to_non_nullable
@@ -361,7 +390,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             amountByKioskTotal: freezed == amountByKioskTotal
                 ? _value.amountByKioskTotal
                 : amountByKioskTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByKioskCount: freezed == amountByKioskCount
                 ? _value.amountByKioskCount
                 : amountByKioskCount // ignore: cast_nullable_to_non_nullable
@@ -373,7 +402,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             amountByDeliveryBoyTotal: freezed == amountByDeliveryBoyTotal
                 ? _value.amountByDeliveryBoyTotal
                 : amountByDeliveryBoyTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByDeliveryBoyCount: freezed == amountByDeliveryBoyCount
                 ? _value.amountByDeliveryBoyCount
                 : amountByDeliveryBoyCount // ignore: cast_nullable_to_non_nullable
@@ -385,7 +414,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             amountByWaiterTotal: freezed == amountByWaiterTotal
                 ? _value.amountByWaiterTotal
                 : amountByWaiterTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByWaiterCount: freezed == amountByWaiterCount
                 ? _value.amountByWaiterCount
                 : amountByWaiterCount // ignore: cast_nullable_to_non_nullable
@@ -397,7 +426,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             deliveryPartnersTotal: freezed == deliveryPartnersTotal
                 ? _value.deliveryPartnersTotal
                 : deliveryPartnersTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             deliveryPartnersCount: freezed == deliveryPartnersCount
                 ? _value.deliveryPartnersCount
                 : deliveryPartnersCount // ignore: cast_nullable_to_non_nullable
@@ -413,7 +442,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             amountByDeviceTotal: freezed == amountByDeviceTotal
                 ? _value.amountByDeviceTotal
                 : amountByDeviceTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             amountByCategory: freezed == amountByCategory
                 ? _value.amountByCategory
                 : amountByCategory // ignore: cast_nullable_to_non_nullable
@@ -429,7 +458,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             amountByMainCategoryTotal: freezed == amountByMainCategoryTotal
                 ? _value.amountByMainCategoryTotal
                 : amountByMainCategoryTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             cancelledOrders: freezed == cancelledOrders
                 ? _value.cancelledOrders
                 : cancelledOrders // ignore: cast_nullable_to_non_nullable
@@ -437,7 +466,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             cancelledOrdersTotal: freezed == cancelledOrdersTotal
                 ? _value.cancelledOrdersTotal
                 : cancelledOrdersTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             cancelledBills: freezed == cancelledBills
                 ? _value.cancelledBills
                 : cancelledBills // ignore: cast_nullable_to_non_nullable
@@ -445,7 +474,7 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             cancelledBillsTotal: freezed == cancelledBillsTotal
                 ? _value.cancelledBillsTotal
                 : cancelledBillsTotal // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             cancelledItems: freezed == cancelledItems
                 ? _value.cancelledItems
                 : cancelledItems // ignore: cast_nullable_to_non_nullable
@@ -465,11 +494,11 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             totalBills: freezed == totalBills
                 ? _value.totalBills
                 : totalBills // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             totalSales: freezed == totalSales
                 ? _value.totalSales
                 : totalSales // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             receiptsData: freezed == receiptsData
                 ? _value.receiptsData
                 : receiptsData // ignore: cast_nullable_to_non_nullable
@@ -481,23 +510,23 @@ class _$DaySummaryResponseCopyWithImpl<$Res, $Val extends DaySummaryResponse>
             totalReceipts: freezed == totalReceipts
                 ? _value.totalReceipts
                 : totalReceipts // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             totalPayment: freezed == totalPayment
                 ? _value.totalPayment
                 : totalPayment // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             totalTaxCollected: freezed == totalTaxCollected
                 ? _value.totalTaxCollected
                 : totalTaxCollected // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             totalTaxPaid: freezed == totalTaxPaid
                 ? _value.totalTaxPaid
                 : totalTaxPaid // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             totalParcelCharge: freezed == totalParcelCharge
                 ? _value.totalParcelCharge
                 : totalParcelCharge // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             paxDetails: freezed == paxDetails
                 ? _value.paxDetails
                 : paxDetails // ignore: cast_nullable_to_non_nullable
@@ -559,60 +588,89 @@ abstract class _$$DaySummaryResponseImplCopyWith<$Res>
     @JsonKey(name: "mode_of_payments") ModeOfPayments? modeOfPayments,
     @JsonKey(name: "is_day_close_enabled") int? isDayCloseEnabled,
     @JsonKey(name: "bill_type_details") List<BillTypeDetail>? billTypeDetails,
-    @JsonKey(name: "bill_type_total_order_count") int? billTypeTotalOrderCount,
-    @JsonKey(name: "bill_type_grand_total") int? billTypeGrandTotal,
+    @JsonKey(name: "bill_type_total_order_count")
+    double? billTypeTotalOrderCount,
+    @JsonKey(name: "bill_type_grand_total", fromJson: parseNumberAsDouble)
+    double? billTypeGrandTotal,
     @JsonKey(name: "disc_bill_type_details")
     List<DiscBillTypeDetail>? discBillTypeDetails,
     @JsonKey(name: "disc_bill_type_details_count")
-    int? discBillTypeDetailsCount,
-    @JsonKey(name: "disc_bill_type_details_total")
-    int? discBillTypeDetailsTotal,
+    double? discBillTypeDetailsCount,
+    @JsonKey(
+      name: "disc_bill_type_details_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? discBillTypeDetailsTotal,
     @JsonKey(name: "amount_by_cashier") List<dynamic>? amountByCashier,
     @JsonKey(name: "amount_by_cashier_total") int? amountByCashierTotal,
-    @JsonKey(name: "amount_by_cashier_count") int? amountByCashierCount,
-    @JsonKey(name: "amount_by_cashier_cash_total")
-    int? amountByCashierCashTotal,
-    @JsonKey(name: "amount_by_cashier_card_total")
-    int? amountByCashierCardTotal,
+    @JsonKey(name: "amount_by_cashier_count") double? amountByCashierCount,
+    @JsonKey(
+      name: "amount_by_cashier_cash_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? amountByCashierCashTotal,
+    @JsonKey(
+      name: "amount_by_cashier_card_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? amountByCashierCardTotal,
     @JsonKey(name: "amount_by_kiosk") List<dynamic>? amountByKiosk,
-    @JsonKey(name: "amount_by_kiosk_total") int? amountByKioskTotal,
+    @JsonKey(name: "amount_by_kiosk_total", fromJson: parseNumberAsDouble)
+    double? amountByKioskTotal,
     @JsonKey(name: "amount_by_kiosk_count") int? amountByKioskCount,
     @JsonKey(name: "amount_by_delivertBoy")
     List<AmountByDelivertBoy>? amountByDelivertBoy,
-    @JsonKey(name: "amount_by_deliveryBoy_total") int? amountByDeliveryBoyTotal,
+    @JsonKey(name: "amount_by_deliveryBoy_total", fromJson: parseNumberAsDouble)
+    double? amountByDeliveryBoyTotal,
     @JsonKey(name: "amount_by_deliveryBoy_count") int? amountByDeliveryBoyCount,
     @JsonKey(name: "amount_by_waiter") List<dynamic>? amountByWaiter,
-    @JsonKey(name: "amount_by_waiter_total") int? amountByWaiterTotal,
+    @JsonKey(name: "amount_by_waiter_total", fromJson: parseNumberAsDouble)
+    double? amountByWaiterTotal,
     @JsonKey(name: "amount_by_waiter_count") int? amountByWaiterCount,
     @JsonKey(name: "delivery_partners") List<DeliveryPartner>? deliveryPartners,
-    @JsonKey(name: "delivery_partners_total") int? deliveryPartnersTotal,
+    @JsonKey(name: "delivery_partners_total", fromJson: parseNumberAsDouble)
+    double? deliveryPartnersTotal,
     @JsonKey(name: "delivery_partners_count") int? deliveryPartnersCount,
     @JsonKey(name: "amount_by_device") List<AmountByDevice>? amountByDevice,
     @JsonKey(name: "amount_by_device_count") int? amountByDeviceCount,
-    @JsonKey(name: "amount_by_device_total") int? amountByDeviceTotal,
+    @JsonKey(name: "amount_by_device_total", fromJson: parseNumberAsDouble)
+    double? amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total") double? amountByCategoryTotal,
+    @JsonKey(name: "amount_by_category_total", fromJson: parseNumberAsDouble)
+    double? amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     List<dynamic>? amountByMainCategory,
-    @JsonKey(name: "amount_by_main_category_total")
-    int? amountByMainCategoryTotal,
+    @JsonKey(
+      name: "amount_by_main_category_total",
+      fromJson: parseNumberAsDouble,
+    )
+    double? amountByMainCategoryTotal,
     @JsonKey(name: "cancelled_orders") List<dynamic>? cancelledOrders,
-    @JsonKey(name: "cancelled_orders_total") int? cancelledOrdersTotal,
+    @JsonKey(name: "cancelled_orders_total", fromJson: parseNumberAsDouble)
+    double? cancelledOrdersTotal,
     @JsonKey(name: "cancelled_bills") List<dynamic>? cancelledBills,
-    @JsonKey(name: "cancelled_bills_total") int? cancelledBillsTotal,
+    @JsonKey(name: "cancelled_bills_total", fromJson: parseNumberAsDouble)
+    double? cancelledBillsTotal,
     @JsonKey(name: "cancelled_items") List<dynamic>? cancelledItems,
     @JsonKey(name: "order_counts") List<OrderCount>? orderCounts,
     @JsonKey(name: "starting_bill") int? startingBill,
     @JsonKey(name: "ending_bill") int? endingBill,
-    @JsonKey(name: "total_bills") int? totalBills,
-    @JsonKey(name: "total_sales") int? totalSales,
+    @JsonKey(name: "total_bills", fromJson: parseNumberAsDouble)
+    double? totalBills,
+    @JsonKey(name: "total_sales", fromJson: parseNumberAsDouble)
+    double? totalSales,
     @JsonKey(name: "receipts_data") List<Datum>? receiptsData,
     @JsonKey(name: "payment_data") List<Datum>? paymentData,
-    @JsonKey(name: "total_receipts") int? totalReceipts,
-    @JsonKey(name: "total_payment") int? totalPayment,
-    @JsonKey(name: "total_tax_collected") int? totalTaxCollected,
-    @JsonKey(name: "total_tax_paid") int? totalTaxPaid,
-    @JsonKey(name: "total_parcel_charge") int? totalParcelCharge,
+    @JsonKey(name: "total_receipts", fromJson: parseNumberAsDouble)
+    double? totalReceipts,
+    @JsonKey(name: "total_payment", fromJson: parseNumberAsDouble)
+    double? totalPayment,
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+    double? totalTaxCollected,
+    @JsonKey(name: "total_tax_paid", fromJson: parseNumberAsDouble)
+    double? totalTaxPaid,
+    @JsonKey(name: "total_parcel_charge", fromJson: parseNumberAsDouble)
+    double? totalParcelCharge,
     @JsonKey(name: "pax_details") List<PaxDetail>? paxDetails,
     @JsonKey(name: "opening_balance") int? openingBalance,
     @JsonKey(name: "closing_balance") int? closingBalance,
@@ -714,11 +772,11 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         billTypeTotalOrderCount: freezed == billTypeTotalOrderCount
             ? _value.billTypeTotalOrderCount
             : billTypeTotalOrderCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         billTypeGrandTotal: freezed == billTypeGrandTotal
             ? _value.billTypeGrandTotal
             : billTypeGrandTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         discBillTypeDetails: freezed == discBillTypeDetails
             ? _value._discBillTypeDetails
             : discBillTypeDetails // ignore: cast_nullable_to_non_nullable
@@ -726,11 +784,11 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         discBillTypeDetailsCount: freezed == discBillTypeDetailsCount
             ? _value.discBillTypeDetailsCount
             : discBillTypeDetailsCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         discBillTypeDetailsTotal: freezed == discBillTypeDetailsTotal
             ? _value.discBillTypeDetailsTotal
             : discBillTypeDetailsTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByCashier: freezed == amountByCashier
             ? _value._amountByCashier
             : amountByCashier // ignore: cast_nullable_to_non_nullable
@@ -742,15 +800,15 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         amountByCashierCount: freezed == amountByCashierCount
             ? _value.amountByCashierCount
             : amountByCashierCount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByCashierCashTotal: freezed == amountByCashierCashTotal
             ? _value.amountByCashierCashTotal
             : amountByCashierCashTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByCashierCardTotal: freezed == amountByCashierCardTotal
             ? _value.amountByCashierCardTotal
             : amountByCashierCardTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByKiosk: freezed == amountByKiosk
             ? _value._amountByKiosk
             : amountByKiosk // ignore: cast_nullable_to_non_nullable
@@ -758,7 +816,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         amountByKioskTotal: freezed == amountByKioskTotal
             ? _value.amountByKioskTotal
             : amountByKioskTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByKioskCount: freezed == amountByKioskCount
             ? _value.amountByKioskCount
             : amountByKioskCount // ignore: cast_nullable_to_non_nullable
@@ -770,7 +828,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         amountByDeliveryBoyTotal: freezed == amountByDeliveryBoyTotal
             ? _value.amountByDeliveryBoyTotal
             : amountByDeliveryBoyTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByDeliveryBoyCount: freezed == amountByDeliveryBoyCount
             ? _value.amountByDeliveryBoyCount
             : amountByDeliveryBoyCount // ignore: cast_nullable_to_non_nullable
@@ -782,7 +840,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         amountByWaiterTotal: freezed == amountByWaiterTotal
             ? _value.amountByWaiterTotal
             : amountByWaiterTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByWaiterCount: freezed == amountByWaiterCount
             ? _value.amountByWaiterCount
             : amountByWaiterCount // ignore: cast_nullable_to_non_nullable
@@ -794,7 +852,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         deliveryPartnersTotal: freezed == deliveryPartnersTotal
             ? _value.deliveryPartnersTotal
             : deliveryPartnersTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         deliveryPartnersCount: freezed == deliveryPartnersCount
             ? _value.deliveryPartnersCount
             : deliveryPartnersCount // ignore: cast_nullable_to_non_nullable
@@ -810,7 +868,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         amountByDeviceTotal: freezed == amountByDeviceTotal
             ? _value.amountByDeviceTotal
             : amountByDeviceTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         amountByCategory: freezed == amountByCategory
             ? _value._amountByCategory
             : amountByCategory // ignore: cast_nullable_to_non_nullable
@@ -826,7 +884,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         amountByMainCategoryTotal: freezed == amountByMainCategoryTotal
             ? _value.amountByMainCategoryTotal
             : amountByMainCategoryTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         cancelledOrders: freezed == cancelledOrders
             ? _value._cancelledOrders
             : cancelledOrders // ignore: cast_nullable_to_non_nullable
@@ -834,7 +892,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         cancelledOrdersTotal: freezed == cancelledOrdersTotal
             ? _value.cancelledOrdersTotal
             : cancelledOrdersTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         cancelledBills: freezed == cancelledBills
             ? _value._cancelledBills
             : cancelledBills // ignore: cast_nullable_to_non_nullable
@@ -842,7 +900,7 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         cancelledBillsTotal: freezed == cancelledBillsTotal
             ? _value.cancelledBillsTotal
             : cancelledBillsTotal // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         cancelledItems: freezed == cancelledItems
             ? _value._cancelledItems
             : cancelledItems // ignore: cast_nullable_to_non_nullable
@@ -862,11 +920,11 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         totalBills: freezed == totalBills
             ? _value.totalBills
             : totalBills // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         totalSales: freezed == totalSales
             ? _value.totalSales
             : totalSales // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         receiptsData: freezed == receiptsData
             ? _value._receiptsData
             : receiptsData // ignore: cast_nullable_to_non_nullable
@@ -878,23 +936,23 @@ class __$$DaySummaryResponseImplCopyWithImpl<$Res>
         totalReceipts: freezed == totalReceipts
             ? _value.totalReceipts
             : totalReceipts // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         totalPayment: freezed == totalPayment
             ? _value.totalPayment
             : totalPayment // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         totalTaxCollected: freezed == totalTaxCollected
             ? _value.totalTaxCollected
             : totalTaxCollected // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         totalTaxPaid: freezed == totalTaxPaid
             ? _value.totalTaxPaid
             : totalTaxPaid // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         totalParcelCharge: freezed == totalParcelCharge
             ? _value.totalParcelCharge
             : totalParcelCharge // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         paxDetails: freezed == paxDetails
             ? _value._paxDetails
             : paxDetails // ignore: cast_nullable_to_non_nullable
@@ -937,61 +995,89 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
     @JsonKey(name: "bill_type_details")
     final List<BillTypeDetail>? billTypeDetails,
     @JsonKey(name: "bill_type_total_order_count") this.billTypeTotalOrderCount,
-    @JsonKey(name: "bill_type_grand_total") this.billTypeGrandTotal,
+    @JsonKey(name: "bill_type_grand_total", fromJson: parseNumberAsDouble)
+    this.billTypeGrandTotal,
     @JsonKey(name: "disc_bill_type_details")
     final List<DiscBillTypeDetail>? discBillTypeDetails,
     @JsonKey(name: "disc_bill_type_details_count")
     this.discBillTypeDetailsCount,
-    @JsonKey(name: "disc_bill_type_details_total")
+    @JsonKey(
+      name: "disc_bill_type_details_total",
+      fromJson: parseNumberAsDouble,
+    )
     this.discBillTypeDetailsTotal,
     @JsonKey(name: "amount_by_cashier") final List<dynamic>? amountByCashier,
     @JsonKey(name: "amount_by_cashier_total") this.amountByCashierTotal,
     @JsonKey(name: "amount_by_cashier_count") this.amountByCashierCount,
-    @JsonKey(name: "amount_by_cashier_cash_total")
+    @JsonKey(
+      name: "amount_by_cashier_cash_total",
+      fromJson: parseNumberAsDouble,
+    )
     this.amountByCashierCashTotal,
-    @JsonKey(name: "amount_by_cashier_card_total")
+    @JsonKey(
+      name: "amount_by_cashier_card_total",
+      fromJson: parseNumberAsDouble,
+    )
     this.amountByCashierCardTotal,
     @JsonKey(name: "amount_by_kiosk") final List<dynamic>? amountByKiosk,
-    @JsonKey(name: "amount_by_kiosk_total") this.amountByKioskTotal,
+    @JsonKey(name: "amount_by_kiosk_total", fromJson: parseNumberAsDouble)
+    this.amountByKioskTotal,
     @JsonKey(name: "amount_by_kiosk_count") this.amountByKioskCount,
     @JsonKey(name: "amount_by_delivertBoy")
     final List<AmountByDelivertBoy>? amountByDelivertBoy,
-    @JsonKey(name: "amount_by_deliveryBoy_total") this.amountByDeliveryBoyTotal,
+    @JsonKey(name: "amount_by_deliveryBoy_total", fromJson: parseNumberAsDouble)
+    this.amountByDeliveryBoyTotal,
     @JsonKey(name: "amount_by_deliveryBoy_count") this.amountByDeliveryBoyCount,
     @JsonKey(name: "amount_by_waiter") final List<dynamic>? amountByWaiter,
-    @JsonKey(name: "amount_by_waiter_total") this.amountByWaiterTotal,
+    @JsonKey(name: "amount_by_waiter_total", fromJson: parseNumberAsDouble)
+    this.amountByWaiterTotal,
     @JsonKey(name: "amount_by_waiter_count") this.amountByWaiterCount,
     @JsonKey(name: "delivery_partners")
     final List<DeliveryPartner>? deliveryPartners,
-    @JsonKey(name: "delivery_partners_total") this.deliveryPartnersTotal,
+    @JsonKey(name: "delivery_partners_total", fromJson: parseNumberAsDouble)
+    this.deliveryPartnersTotal,
     @JsonKey(name: "delivery_partners_count") this.deliveryPartnersCount,
     @JsonKey(name: "amount_by_device")
     final List<AmountByDevice>? amountByDevice,
     @JsonKey(name: "amount_by_device_count") this.amountByDeviceCount,
-    @JsonKey(name: "amount_by_device_total") this.amountByDeviceTotal,
+    @JsonKey(name: "amount_by_device_total", fromJson: parseNumberAsDouble)
+    this.amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") final List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total") this.amountByCategoryTotal,
+    @JsonKey(name: "amount_by_category_total", fromJson: parseNumberAsDouble)
+    this.amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     final List<dynamic>? amountByMainCategory,
-    @JsonKey(name: "amount_by_main_category_total")
+    @JsonKey(
+      name: "amount_by_main_category_total",
+      fromJson: parseNumberAsDouble,
+    )
     this.amountByMainCategoryTotal,
     @JsonKey(name: "cancelled_orders") final List<dynamic>? cancelledOrders,
-    @JsonKey(name: "cancelled_orders_total") this.cancelledOrdersTotal,
+    @JsonKey(name: "cancelled_orders_total", fromJson: parseNumberAsDouble)
+    this.cancelledOrdersTotal,
     @JsonKey(name: "cancelled_bills") final List<dynamic>? cancelledBills,
-    @JsonKey(name: "cancelled_bills_total") this.cancelledBillsTotal,
+    @JsonKey(name: "cancelled_bills_total", fromJson: parseNumberAsDouble)
+    this.cancelledBillsTotal,
     @JsonKey(name: "cancelled_items") final List<dynamic>? cancelledItems,
     @JsonKey(name: "order_counts") final List<OrderCount>? orderCounts,
     @JsonKey(name: "starting_bill") this.startingBill,
     @JsonKey(name: "ending_bill") this.endingBill,
-    @JsonKey(name: "total_bills") this.totalBills,
-    @JsonKey(name: "total_sales") this.totalSales,
+    @JsonKey(name: "total_bills", fromJson: parseNumberAsDouble)
+    this.totalBills,
+    @JsonKey(name: "total_sales", fromJson: parseNumberAsDouble)
+    this.totalSales,
     @JsonKey(name: "receipts_data") final List<Datum>? receiptsData,
     @JsonKey(name: "payment_data") final List<Datum>? paymentData,
-    @JsonKey(name: "total_receipts") this.totalReceipts,
-    @JsonKey(name: "total_payment") this.totalPayment,
-    @JsonKey(name: "total_tax_collected") this.totalTaxCollected,
-    @JsonKey(name: "total_tax_paid") this.totalTaxPaid,
-    @JsonKey(name: "total_parcel_charge") this.totalParcelCharge,
+    @JsonKey(name: "total_receipts", fromJson: parseNumberAsDouble)
+    this.totalReceipts,
+    @JsonKey(name: "total_payment", fromJson: parseNumberAsDouble)
+    this.totalPayment,
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+    this.totalTaxCollected,
+    @JsonKey(name: "total_tax_paid", fromJson: parseNumberAsDouble)
+    this.totalTaxPaid,
+    @JsonKey(name: "total_parcel_charge", fromJson: parseNumberAsDouble)
+    this.totalParcelCharge,
     @JsonKey(name: "pax_details") final List<PaxDetail>? paxDetails,
     @JsonKey(name: "opening_balance") this.openingBalance,
     @JsonKey(name: "closing_balance") this.closingBalance,
@@ -1042,10 +1128,10 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
 
   @override
   @JsonKey(name: "bill_type_total_order_count")
-  final int? billTypeTotalOrderCount;
+  final double? billTypeTotalOrderCount;
   @override
-  @JsonKey(name: "bill_type_grand_total")
-  final int? billTypeGrandTotal;
+  @JsonKey(name: "bill_type_grand_total", fromJson: parseNumberAsDouble)
+  final double? billTypeGrandTotal;
   final List<DiscBillTypeDetail>? _discBillTypeDetails;
   @override
   @JsonKey(name: "disc_bill_type_details")
@@ -1060,10 +1146,10 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
 
   @override
   @JsonKey(name: "disc_bill_type_details_count")
-  final int? discBillTypeDetailsCount;
+  final double? discBillTypeDetailsCount;
   @override
-  @JsonKey(name: "disc_bill_type_details_total")
-  final int? discBillTypeDetailsTotal;
+  @JsonKey(name: "disc_bill_type_details_total", fromJson: parseNumberAsDouble)
+  final double? discBillTypeDetailsTotal;
   final List<dynamic>? _amountByCashier;
   @override
   @JsonKey(name: "amount_by_cashier")
@@ -1080,13 +1166,13 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   final int? amountByCashierTotal;
   @override
   @JsonKey(name: "amount_by_cashier_count")
-  final int? amountByCashierCount;
+  final double? amountByCashierCount;
   @override
-  @JsonKey(name: "amount_by_cashier_cash_total")
-  final int? amountByCashierCashTotal;
+  @JsonKey(name: "amount_by_cashier_cash_total", fromJson: parseNumberAsDouble)
+  final double? amountByCashierCashTotal;
   @override
-  @JsonKey(name: "amount_by_cashier_card_total")
-  final int? amountByCashierCardTotal;
+  @JsonKey(name: "amount_by_cashier_card_total", fromJson: parseNumberAsDouble)
+  final double? amountByCashierCardTotal;
   final List<dynamic>? _amountByKiosk;
   @override
   @JsonKey(name: "amount_by_kiosk")
@@ -1099,8 +1185,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "amount_by_kiosk_total")
-  final int? amountByKioskTotal;
+  @JsonKey(name: "amount_by_kiosk_total", fromJson: parseNumberAsDouble)
+  final double? amountByKioskTotal;
   @override
   @JsonKey(name: "amount_by_kiosk_count")
   final int? amountByKioskCount;
@@ -1117,8 +1203,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "amount_by_deliveryBoy_total")
-  final int? amountByDeliveryBoyTotal;
+  @JsonKey(name: "amount_by_deliveryBoy_total", fromJson: parseNumberAsDouble)
+  final double? amountByDeliveryBoyTotal;
   @override
   @JsonKey(name: "amount_by_deliveryBoy_count")
   final int? amountByDeliveryBoyCount;
@@ -1134,8 +1220,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "amount_by_waiter_total")
-  final int? amountByWaiterTotal;
+  @JsonKey(name: "amount_by_waiter_total", fromJson: parseNumberAsDouble)
+  final double? amountByWaiterTotal;
   @override
   @JsonKey(name: "amount_by_waiter_count")
   final int? amountByWaiterCount;
@@ -1152,8 +1238,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "delivery_partners_total")
-  final int? deliveryPartnersTotal;
+  @JsonKey(name: "delivery_partners_total", fromJson: parseNumberAsDouble)
+  final double? deliveryPartnersTotal;
   @override
   @JsonKey(name: "delivery_partners_count")
   final int? deliveryPartnersCount;
@@ -1172,8 +1258,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   @JsonKey(name: "amount_by_device_count")
   final int? amountByDeviceCount;
   @override
-  @JsonKey(name: "amount_by_device_total")
-  final int? amountByDeviceTotal;
+  @JsonKey(name: "amount_by_device_total", fromJson: parseNumberAsDouble)
+  final double? amountByDeviceTotal;
   final List<dynamic>? _amountByCategory;
   @override
   @JsonKey(name: "amount_by_category")
@@ -1187,7 +1273,7 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "amount_by_category_total")
+  @JsonKey(name: "amount_by_category_total", fromJson: parseNumberAsDouble)
   final double? amountByCategoryTotal;
   final List<dynamic>? _amountByMainCategory;
   @override
@@ -1202,8 +1288,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "amount_by_main_category_total")
-  final int? amountByMainCategoryTotal;
+  @JsonKey(name: "amount_by_main_category_total", fromJson: parseNumberAsDouble)
+  final double? amountByMainCategoryTotal;
   final List<dynamic>? _cancelledOrders;
   @override
   @JsonKey(name: "cancelled_orders")
@@ -1216,8 +1302,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "cancelled_orders_total")
-  final int? cancelledOrdersTotal;
+  @JsonKey(name: "cancelled_orders_total", fromJson: parseNumberAsDouble)
+  final double? cancelledOrdersTotal;
   final List<dynamic>? _cancelledBills;
   @override
   @JsonKey(name: "cancelled_bills")
@@ -1230,8 +1316,8 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "cancelled_bills_total")
-  final int? cancelledBillsTotal;
+  @JsonKey(name: "cancelled_bills_total", fromJson: parseNumberAsDouble)
+  final double? cancelledBillsTotal;
   final List<dynamic>? _cancelledItems;
   @override
   @JsonKey(name: "cancelled_items")
@@ -1261,11 +1347,11 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   @JsonKey(name: "ending_bill")
   final int? endingBill;
   @override
-  @JsonKey(name: "total_bills")
-  final int? totalBills;
+  @JsonKey(name: "total_bills", fromJson: parseNumberAsDouble)
+  final double? totalBills;
   @override
-  @JsonKey(name: "total_sales")
-  final int? totalSales;
+  @JsonKey(name: "total_sales", fromJson: parseNumberAsDouble)
+  final double? totalSales;
   final List<Datum>? _receiptsData;
   @override
   @JsonKey(name: "receipts_data")
@@ -1289,20 +1375,20 @@ class _$DaySummaryResponseImpl implements _DaySummaryResponse {
   }
 
   @override
-  @JsonKey(name: "total_receipts")
-  final int? totalReceipts;
+  @JsonKey(name: "total_receipts", fromJson: parseNumberAsDouble)
+  final double? totalReceipts;
   @override
-  @JsonKey(name: "total_payment")
-  final int? totalPayment;
+  @JsonKey(name: "total_payment", fromJson: parseNumberAsDouble)
+  final double? totalPayment;
   @override
-  @JsonKey(name: "total_tax_collected")
-  final int? totalTaxCollected;
+  @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+  final double? totalTaxCollected;
   @override
-  @JsonKey(name: "total_tax_paid")
-  final int? totalTaxPaid;
+  @JsonKey(name: "total_tax_paid", fromJson: parseNumberAsDouble)
+  final double? totalTaxPaid;
   @override
-  @JsonKey(name: "total_parcel_charge")
-  final int? totalParcelCharge;
+  @JsonKey(name: "total_parcel_charge", fromJson: parseNumberAsDouble)
+  final double? totalParcelCharge;
   final List<PaxDetail>? _paxDetails;
   @override
   @JsonKey(name: "pax_details")
@@ -1611,65 +1697,92 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
     @JsonKey(name: "bill_type_details")
     final List<BillTypeDetail>? billTypeDetails,
     @JsonKey(name: "bill_type_total_order_count")
-    final int? billTypeTotalOrderCount,
-    @JsonKey(name: "bill_type_grand_total") final int? billTypeGrandTotal,
+    final double? billTypeTotalOrderCount,
+    @JsonKey(name: "bill_type_grand_total", fromJson: parseNumberAsDouble)
+    final double? billTypeGrandTotal,
     @JsonKey(name: "disc_bill_type_details")
     final List<DiscBillTypeDetail>? discBillTypeDetails,
     @JsonKey(name: "disc_bill_type_details_count")
-    final int? discBillTypeDetailsCount,
-    @JsonKey(name: "disc_bill_type_details_total")
-    final int? discBillTypeDetailsTotal,
+    final double? discBillTypeDetailsCount,
+    @JsonKey(
+      name: "disc_bill_type_details_total",
+      fromJson: parseNumberAsDouble,
+    )
+    final double? discBillTypeDetailsTotal,
     @JsonKey(name: "amount_by_cashier") final List<dynamic>? amountByCashier,
     @JsonKey(name: "amount_by_cashier_total") final int? amountByCashierTotal,
-    @JsonKey(name: "amount_by_cashier_count") final int? amountByCashierCount,
-    @JsonKey(name: "amount_by_cashier_cash_total")
-    final int? amountByCashierCashTotal,
-    @JsonKey(name: "amount_by_cashier_card_total")
-    final int? amountByCashierCardTotal,
+    @JsonKey(name: "amount_by_cashier_count")
+    final double? amountByCashierCount,
+    @JsonKey(
+      name: "amount_by_cashier_cash_total",
+      fromJson: parseNumberAsDouble,
+    )
+    final double? amountByCashierCashTotal,
+    @JsonKey(
+      name: "amount_by_cashier_card_total",
+      fromJson: parseNumberAsDouble,
+    )
+    final double? amountByCashierCardTotal,
     @JsonKey(name: "amount_by_kiosk") final List<dynamic>? amountByKiosk,
-    @JsonKey(name: "amount_by_kiosk_total") final int? amountByKioskTotal,
+    @JsonKey(name: "amount_by_kiosk_total", fromJson: parseNumberAsDouble)
+    final double? amountByKioskTotal,
     @JsonKey(name: "amount_by_kiosk_count") final int? amountByKioskCount,
     @JsonKey(name: "amount_by_delivertBoy")
     final List<AmountByDelivertBoy>? amountByDelivertBoy,
-    @JsonKey(name: "amount_by_deliveryBoy_total")
-    final int? amountByDeliveryBoyTotal,
+    @JsonKey(name: "amount_by_deliveryBoy_total", fromJson: parseNumberAsDouble)
+    final double? amountByDeliveryBoyTotal,
     @JsonKey(name: "amount_by_deliveryBoy_count")
     final int? amountByDeliveryBoyCount,
     @JsonKey(name: "amount_by_waiter") final List<dynamic>? amountByWaiter,
-    @JsonKey(name: "amount_by_waiter_total") final int? amountByWaiterTotal,
+    @JsonKey(name: "amount_by_waiter_total", fromJson: parseNumberAsDouble)
+    final double? amountByWaiterTotal,
     @JsonKey(name: "amount_by_waiter_count") final int? amountByWaiterCount,
     @JsonKey(name: "delivery_partners")
     final List<DeliveryPartner>? deliveryPartners,
-    @JsonKey(name: "delivery_partners_total") final int? deliveryPartnersTotal,
+    @JsonKey(name: "delivery_partners_total", fromJson: parseNumberAsDouble)
+    final double? deliveryPartnersTotal,
     @JsonKey(name: "delivery_partners_count") final int? deliveryPartnersCount,
     @JsonKey(name: "amount_by_device")
     final List<AmountByDevice>? amountByDevice,
     @JsonKey(name: "amount_by_device_count") final int? amountByDeviceCount,
-    @JsonKey(name: "amount_by_device_total") final int? amountByDeviceTotal,
+    @JsonKey(name: "amount_by_device_total", fromJson: parseNumberAsDouble)
+    final double? amountByDeviceTotal,
     @JsonKey(name: "amount_by_category") final List<dynamic>? amountByCategory,
-    @JsonKey(name: "amount_by_category_total")
+    @JsonKey(name: "amount_by_category_total", fromJson: parseNumberAsDouble)
     final double? amountByCategoryTotal,
     @JsonKey(name: "amount_by_main_category")
     final List<dynamic>? amountByMainCategory,
-    @JsonKey(name: "amount_by_main_category_total")
-    final int? amountByMainCategoryTotal,
+    @JsonKey(
+      name: "amount_by_main_category_total",
+      fromJson: parseNumberAsDouble,
+    )
+    final double? amountByMainCategoryTotal,
     @JsonKey(name: "cancelled_orders") final List<dynamic>? cancelledOrders,
-    @JsonKey(name: "cancelled_orders_total") final int? cancelledOrdersTotal,
+    @JsonKey(name: "cancelled_orders_total", fromJson: parseNumberAsDouble)
+    final double? cancelledOrdersTotal,
     @JsonKey(name: "cancelled_bills") final List<dynamic>? cancelledBills,
-    @JsonKey(name: "cancelled_bills_total") final int? cancelledBillsTotal,
+    @JsonKey(name: "cancelled_bills_total", fromJson: parseNumberAsDouble)
+    final double? cancelledBillsTotal,
     @JsonKey(name: "cancelled_items") final List<dynamic>? cancelledItems,
     @JsonKey(name: "order_counts") final List<OrderCount>? orderCounts,
     @JsonKey(name: "starting_bill") final int? startingBill,
     @JsonKey(name: "ending_bill") final int? endingBill,
-    @JsonKey(name: "total_bills") final int? totalBills,
-    @JsonKey(name: "total_sales") final int? totalSales,
+    @JsonKey(name: "total_bills", fromJson: parseNumberAsDouble)
+    final double? totalBills,
+    @JsonKey(name: "total_sales", fromJson: parseNumberAsDouble)
+    final double? totalSales,
     @JsonKey(name: "receipts_data") final List<Datum>? receiptsData,
     @JsonKey(name: "payment_data") final List<Datum>? paymentData,
-    @JsonKey(name: "total_receipts") final int? totalReceipts,
-    @JsonKey(name: "total_payment") final int? totalPayment,
-    @JsonKey(name: "total_tax_collected") final int? totalTaxCollected,
-    @JsonKey(name: "total_tax_paid") final int? totalTaxPaid,
-    @JsonKey(name: "total_parcel_charge") final int? totalParcelCharge,
+    @JsonKey(name: "total_receipts", fromJson: parseNumberAsDouble)
+    final double? totalReceipts,
+    @JsonKey(name: "total_payment", fromJson: parseNumberAsDouble)
+    final double? totalPayment,
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+    final double? totalTaxCollected,
+    @JsonKey(name: "total_tax_paid", fromJson: parseNumberAsDouble)
+    final double? totalTaxPaid,
+    @JsonKey(name: "total_parcel_charge", fromJson: parseNumberAsDouble)
+    final double? totalParcelCharge,
     @JsonKey(name: "pax_details") final List<PaxDetail>? paxDetails,
     @JsonKey(name: "opening_balance") final int? openingBalance,
     @JsonKey(name: "closing_balance") final int? closingBalance,
@@ -1695,19 +1808,19 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   List<BillTypeDetail>? get billTypeDetails;
   @override
   @JsonKey(name: "bill_type_total_order_count")
-  int? get billTypeTotalOrderCount;
+  double? get billTypeTotalOrderCount;
   @override
-  @JsonKey(name: "bill_type_grand_total")
-  int? get billTypeGrandTotal;
+  @JsonKey(name: "bill_type_grand_total", fromJson: parseNumberAsDouble)
+  double? get billTypeGrandTotal;
   @override
   @JsonKey(name: "disc_bill_type_details")
   List<DiscBillTypeDetail>? get discBillTypeDetails;
   @override
   @JsonKey(name: "disc_bill_type_details_count")
-  int? get discBillTypeDetailsCount;
+  double? get discBillTypeDetailsCount;
   @override
-  @JsonKey(name: "disc_bill_type_details_total")
-  int? get discBillTypeDetailsTotal;
+  @JsonKey(name: "disc_bill_type_details_total", fromJson: parseNumberAsDouble)
+  double? get discBillTypeDetailsTotal;
   @override
   @JsonKey(name: "amount_by_cashier")
   List<dynamic>? get amountByCashier;
@@ -1716,19 +1829,19 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   int? get amountByCashierTotal;
   @override
   @JsonKey(name: "amount_by_cashier_count")
-  int? get amountByCashierCount;
+  double? get amountByCashierCount;
   @override
-  @JsonKey(name: "amount_by_cashier_cash_total")
-  int? get amountByCashierCashTotal;
+  @JsonKey(name: "amount_by_cashier_cash_total", fromJson: parseNumberAsDouble)
+  double? get amountByCashierCashTotal;
   @override
-  @JsonKey(name: "amount_by_cashier_card_total")
-  int? get amountByCashierCardTotal;
+  @JsonKey(name: "amount_by_cashier_card_total", fromJson: parseNumberAsDouble)
+  double? get amountByCashierCardTotal;
   @override
   @JsonKey(name: "amount_by_kiosk")
   List<dynamic>? get amountByKiosk;
   @override
-  @JsonKey(name: "amount_by_kiosk_total")
-  int? get amountByKioskTotal;
+  @JsonKey(name: "amount_by_kiosk_total", fromJson: parseNumberAsDouble)
+  double? get amountByKioskTotal;
   @override
   @JsonKey(name: "amount_by_kiosk_count")
   int? get amountByKioskCount;
@@ -1736,8 +1849,8 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   @JsonKey(name: "amount_by_delivertBoy")
   List<AmountByDelivertBoy>? get amountByDelivertBoy;
   @override
-  @JsonKey(name: "amount_by_deliveryBoy_total")
-  int? get amountByDeliveryBoyTotal;
+  @JsonKey(name: "amount_by_deliveryBoy_total", fromJson: parseNumberAsDouble)
+  double? get amountByDeliveryBoyTotal;
   @override
   @JsonKey(name: "amount_by_deliveryBoy_count")
   int? get amountByDeliveryBoyCount;
@@ -1745,8 +1858,8 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   @JsonKey(name: "amount_by_waiter")
   List<dynamic>? get amountByWaiter;
   @override
-  @JsonKey(name: "amount_by_waiter_total")
-  int? get amountByWaiterTotal;
+  @JsonKey(name: "amount_by_waiter_total", fromJson: parseNumberAsDouble)
+  double? get amountByWaiterTotal;
   @override
   @JsonKey(name: "amount_by_waiter_count")
   int? get amountByWaiterCount;
@@ -1754,8 +1867,8 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   @JsonKey(name: "delivery_partners")
   List<DeliveryPartner>? get deliveryPartners;
   @override
-  @JsonKey(name: "delivery_partners_total")
-  int? get deliveryPartnersTotal;
+  @JsonKey(name: "delivery_partners_total", fromJson: parseNumberAsDouble)
+  double? get deliveryPartnersTotal;
   @override
   @JsonKey(name: "delivery_partners_count")
   int? get deliveryPartnersCount;
@@ -1766,32 +1879,32 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   @JsonKey(name: "amount_by_device_count")
   int? get amountByDeviceCount;
   @override
-  @JsonKey(name: "amount_by_device_total")
-  int? get amountByDeviceTotal;
+  @JsonKey(name: "amount_by_device_total", fromJson: parseNumberAsDouble)
+  double? get amountByDeviceTotal;
   @override
   @JsonKey(name: "amount_by_category")
   List<dynamic>? get amountByCategory;
   @override
-  @JsonKey(name: "amount_by_category_total")
+  @JsonKey(name: "amount_by_category_total", fromJson: parseNumberAsDouble)
   double? get amountByCategoryTotal;
   @override
   @JsonKey(name: "amount_by_main_category")
   List<dynamic>? get amountByMainCategory;
   @override
-  @JsonKey(name: "amount_by_main_category_total")
-  int? get amountByMainCategoryTotal;
+  @JsonKey(name: "amount_by_main_category_total", fromJson: parseNumberAsDouble)
+  double? get amountByMainCategoryTotal;
   @override
   @JsonKey(name: "cancelled_orders")
   List<dynamic>? get cancelledOrders;
   @override
-  @JsonKey(name: "cancelled_orders_total")
-  int? get cancelledOrdersTotal;
+  @JsonKey(name: "cancelled_orders_total", fromJson: parseNumberAsDouble)
+  double? get cancelledOrdersTotal;
   @override
   @JsonKey(name: "cancelled_bills")
   List<dynamic>? get cancelledBills;
   @override
-  @JsonKey(name: "cancelled_bills_total")
-  int? get cancelledBillsTotal;
+  @JsonKey(name: "cancelled_bills_total", fromJson: parseNumberAsDouble)
+  double? get cancelledBillsTotal;
   @override
   @JsonKey(name: "cancelled_items")
   List<dynamic>? get cancelledItems;
@@ -1805,11 +1918,11 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   @JsonKey(name: "ending_bill")
   int? get endingBill;
   @override
-  @JsonKey(name: "total_bills")
-  int? get totalBills;
+  @JsonKey(name: "total_bills", fromJson: parseNumberAsDouble)
+  double? get totalBills;
   @override
-  @JsonKey(name: "total_sales")
-  int? get totalSales;
+  @JsonKey(name: "total_sales", fromJson: parseNumberAsDouble)
+  double? get totalSales;
   @override
   @JsonKey(name: "receipts_data")
   List<Datum>? get receiptsData;
@@ -1817,20 +1930,20 @@ abstract class _DaySummaryResponse implements DaySummaryResponse {
   @JsonKey(name: "payment_data")
   List<Datum>? get paymentData;
   @override
-  @JsonKey(name: "total_receipts")
-  int? get totalReceipts;
+  @JsonKey(name: "total_receipts", fromJson: parseNumberAsDouble)
+  double? get totalReceipts;
   @override
-  @JsonKey(name: "total_payment")
-  int? get totalPayment;
+  @JsonKey(name: "total_payment", fromJson: parseNumberAsDouble)
+  double? get totalPayment;
   @override
-  @JsonKey(name: "total_tax_collected")
-  int? get totalTaxCollected;
+  @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+  double? get totalTaxCollected;
   @override
-  @JsonKey(name: "total_tax_paid")
-  int? get totalTaxPaid;
+  @JsonKey(name: "total_tax_paid", fromJson: parseNumberAsDouble)
+  double? get totalTaxPaid;
   @override
-  @JsonKey(name: "total_parcel_charge")
-  int? get totalParcelCharge;
+  @JsonKey(name: "total_parcel_charge", fromJson: parseNumberAsDouble)
+  double? get totalParcelCharge;
   @override
   @JsonKey(name: "pax_details")
   List<PaxDetail>? get paxDetails;
@@ -1879,10 +1992,10 @@ mixin _$AmountByDelivertBoy {
   int? get companyUsersId => throw _privateConstructorUsedError;
   @JsonKey(name: "invoice_numbers")
   List<dynamic>? get invoiceNumbers => throw _privateConstructorUsedError;
-  @JsonKey(name: "cash_amount")
-  int? get cashAmount => throw _privateConstructorUsedError;
-  @JsonKey(name: "card_amount")
-  int? get cardAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: "cash_amount", fromJson: parseNumberAsDouble)
+  double? get cashAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: "card_amount", fromJson: parseNumberAsDouble)
+  double? get cardAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "shifts")
   List<dynamic>? get shifts => throw _privateConstructorUsedError;
 
@@ -1910,8 +2023,10 @@ abstract class $AmountByDelivertBoyCopyWith<$Res> {
     @JsonKey(name: "user_role_id") int? userRoleId,
     @JsonKey(name: "company_users_id") int? companyUsersId,
     @JsonKey(name: "invoice_numbers") List<dynamic>? invoiceNumbers,
-    @JsonKey(name: "cash_amount") int? cashAmount,
-    @JsonKey(name: "card_amount") int? cardAmount,
+    @JsonKey(name: "cash_amount", fromJson: parseNumberAsDouble)
+    double? cashAmount,
+    @JsonKey(name: "card_amount", fromJson: parseNumberAsDouble)
+    double? cardAmount,
     @JsonKey(name: "shifts") List<dynamic>? shifts,
   });
 }
@@ -1970,11 +2085,11 @@ class _$AmountByDelivertBoyCopyWithImpl<$Res, $Val extends AmountByDelivertBoy>
             cashAmount: freezed == cashAmount
                 ? _value.cashAmount
                 : cashAmount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             cardAmount: freezed == cardAmount
                 ? _value.cardAmount
                 : cardAmount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             shifts: freezed == shifts
                 ? _value.shifts
                 : shifts // ignore: cast_nullable_to_non_nullable
@@ -2001,8 +2116,10 @@ abstract class _$$AmountByDelivertBoyImplCopyWith<$Res>
     @JsonKey(name: "user_role_id") int? userRoleId,
     @JsonKey(name: "company_users_id") int? companyUsersId,
     @JsonKey(name: "invoice_numbers") List<dynamic>? invoiceNumbers,
-    @JsonKey(name: "cash_amount") int? cashAmount,
-    @JsonKey(name: "card_amount") int? cardAmount,
+    @JsonKey(name: "cash_amount", fromJson: parseNumberAsDouble)
+    double? cashAmount,
+    @JsonKey(name: "card_amount", fromJson: parseNumberAsDouble)
+    double? cardAmount,
     @JsonKey(name: "shifts") List<dynamic>? shifts,
   });
 }
@@ -2060,11 +2177,11 @@ class __$$AmountByDelivertBoyImplCopyWithImpl<$Res>
         cashAmount: freezed == cashAmount
             ? _value.cashAmount
             : cashAmount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         cardAmount: freezed == cardAmount
             ? _value.cardAmount
             : cardAmount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         shifts: freezed == shifts
             ? _value._shifts
             : shifts // ignore: cast_nullable_to_non_nullable
@@ -2084,8 +2201,10 @@ class _$AmountByDelivertBoyImpl implements _AmountByDelivertBoy {
     @JsonKey(name: "user_role_id") this.userRoleId,
     @JsonKey(name: "company_users_id") this.companyUsersId,
     @JsonKey(name: "invoice_numbers") final List<dynamic>? invoiceNumbers,
-    @JsonKey(name: "cash_amount") this.cashAmount,
-    @JsonKey(name: "card_amount") this.cardAmount,
+    @JsonKey(name: "cash_amount", fromJson: parseNumberAsDouble)
+    this.cashAmount,
+    @JsonKey(name: "card_amount", fromJson: parseNumberAsDouble)
+    this.cardAmount,
     @JsonKey(name: "shifts") final List<dynamic>? shifts,
   }) : _invoiceNumbers = invoiceNumbers,
        _shifts = shifts;
@@ -2120,11 +2239,11 @@ class _$AmountByDelivertBoyImpl implements _AmountByDelivertBoy {
   }
 
   @override
-  @JsonKey(name: "cash_amount")
-  final int? cashAmount;
+  @JsonKey(name: "cash_amount", fromJson: parseNumberAsDouble)
+  final double? cashAmount;
   @override
-  @JsonKey(name: "card_amount")
-  final int? cardAmount;
+  @JsonKey(name: "card_amount", fromJson: parseNumberAsDouble)
+  final double? cardAmount;
   final List<dynamic>? _shifts;
   @override
   @JsonKey(name: "shifts")
@@ -2207,8 +2326,10 @@ abstract class _AmountByDelivertBoy implements AmountByDelivertBoy {
     @JsonKey(name: "user_role_id") final int? userRoleId,
     @JsonKey(name: "company_users_id") final int? companyUsersId,
     @JsonKey(name: "invoice_numbers") final List<dynamic>? invoiceNumbers,
-    @JsonKey(name: "cash_amount") final int? cashAmount,
-    @JsonKey(name: "card_amount") final int? cardAmount,
+    @JsonKey(name: "cash_amount", fromJson: parseNumberAsDouble)
+    final double? cashAmount,
+    @JsonKey(name: "card_amount", fromJson: parseNumberAsDouble)
+    final double? cardAmount,
     @JsonKey(name: "shifts") final List<dynamic>? shifts,
   }) = _$AmountByDelivertBoyImpl;
 
@@ -2234,11 +2355,11 @@ abstract class _AmountByDelivertBoy implements AmountByDelivertBoy {
   @JsonKey(name: "invoice_numbers")
   List<dynamic>? get invoiceNumbers;
   @override
-  @JsonKey(name: "cash_amount")
-  int? get cashAmount;
+  @JsonKey(name: "cash_amount", fromJson: parseNumberAsDouble)
+  double? get cashAmount;
   @override
-  @JsonKey(name: "card_amount")
-  int? get cardAmount;
+  @JsonKey(name: "card_amount", fromJson: parseNumberAsDouble)
+  double? get cardAmount;
   @override
   @JsonKey(name: "shifts")
   List<dynamic>? get shifts;
@@ -2946,8 +3067,8 @@ mixin _$DiscBillTypeDetail {
   String? get orderOptionName => throw _privateConstructorUsedError;
   @JsonKey(name: "ordercount")
   int? get ordercount => throw _privateConstructorUsedError;
-  @JsonKey(name: "disc_amount")
-  int? get discAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: "disc_amount", fromJson: parseNumberAsDouble)
+  double? get discAmount => throw _privateConstructorUsedError;
 
   /// Serializes this DiscBillTypeDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2969,7 +3090,8 @@ abstract class $DiscBillTypeDetailCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "order_option_name") String? orderOptionName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "disc_amount") int? discAmount,
+    @JsonKey(name: "disc_amount", fromJson: parseNumberAsDouble)
+    double? discAmount,
   });
 }
 
@@ -3005,7 +3127,7 @@ class _$DiscBillTypeDetailCopyWithImpl<$Res, $Val extends DiscBillTypeDetail>
             discAmount: freezed == discAmount
                 ? _value.discAmount
                 : discAmount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -3024,7 +3146,8 @@ abstract class _$$DiscBillTypeDetailImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "order_option_name") String? orderOptionName,
     @JsonKey(name: "ordercount") int? ordercount,
-    @JsonKey(name: "disc_amount") int? discAmount,
+    @JsonKey(name: "disc_amount", fromJson: parseNumberAsDouble)
+    double? discAmount,
   });
 }
 
@@ -3059,7 +3182,7 @@ class __$$DiscBillTypeDetailImplCopyWithImpl<$Res>
         discAmount: freezed == discAmount
             ? _value.discAmount
             : discAmount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -3071,7 +3194,8 @@ class _$DiscBillTypeDetailImpl implements _DiscBillTypeDetail {
   const _$DiscBillTypeDetailImpl({
     @JsonKey(name: "order_option_name") this.orderOptionName,
     @JsonKey(name: "ordercount") this.ordercount,
-    @JsonKey(name: "disc_amount") this.discAmount,
+    @JsonKey(name: "disc_amount", fromJson: parseNumberAsDouble)
+    this.discAmount,
   });
 
   factory _$DiscBillTypeDetailImpl.fromJson(Map<String, dynamic> json) =>
@@ -3084,8 +3208,8 @@ class _$DiscBillTypeDetailImpl implements _DiscBillTypeDetail {
   @JsonKey(name: "ordercount")
   final int? ordercount;
   @override
-  @JsonKey(name: "disc_amount")
-  final int? discAmount;
+  @JsonKey(name: "disc_amount", fromJson: parseNumberAsDouble)
+  final double? discAmount;
 
   @override
   String toString() {
@@ -3131,7 +3255,8 @@ abstract class _DiscBillTypeDetail implements DiscBillTypeDetail {
   const factory _DiscBillTypeDetail({
     @JsonKey(name: "order_option_name") final String? orderOptionName,
     @JsonKey(name: "ordercount") final int? ordercount,
-    @JsonKey(name: "disc_amount") final int? discAmount,
+    @JsonKey(name: "disc_amount", fromJson: parseNumberAsDouble)
+    final double? discAmount,
   }) = _$DiscBillTypeDetailImpl;
 
   factory _DiscBillTypeDetail.fromJson(Map<String, dynamic> json) =
@@ -3144,8 +3269,8 @@ abstract class _DiscBillTypeDetail implements DiscBillTypeDetail {
   @JsonKey(name: "ordercount")
   int? get ordercount;
   @override
-  @JsonKey(name: "disc_amount")
-  int? get discAmount;
+  @JsonKey(name: "disc_amount", fromJson: parseNumberAsDouble)
+  double? get discAmount;
 
   /// Create a copy of DiscBillTypeDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -3161,14 +3286,14 @@ ModeOfPayments _$ModeOfPaymentsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ModeOfPayments {
-  @JsonKey(name: "Cash")
-  int? get cash => throw _privateConstructorUsedError;
-  @JsonKey(name: "Card")
-  int? get card => throw _privateConstructorUsedError;
-  @JsonKey(name: "Online")
-  int? get online => throw _privateConstructorUsedError;
-  @JsonKey(name: "Credit")
-  int? get credit => throw _privateConstructorUsedError;
+  @JsonKey(name: "Cash", fromJson: parseNumberAsDouble)
+  double? get cash => throw _privateConstructorUsedError;
+  @JsonKey(name: "Card", fromJson: parseNumberAsDouble)
+  double? get card => throw _privateConstructorUsedError;
+  @JsonKey(name: "Online", fromJson: parseNumberAsDouble)
+  double? get online => throw _privateConstructorUsedError;
+  @JsonKey(name: "Credit", fromJson: parseNumberAsDouble)
+  double? get credit => throw _privateConstructorUsedError;
 
   /// Serializes this ModeOfPayments to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3188,10 +3313,10 @@ abstract class $ModeOfPaymentsCopyWith<$Res> {
   ) = _$ModeOfPaymentsCopyWithImpl<$Res, ModeOfPayments>;
   @useResult
   $Res call({
-    @JsonKey(name: "Cash") int? cash,
-    @JsonKey(name: "Card") int? card,
-    @JsonKey(name: "Online") int? online,
-    @JsonKey(name: "Credit") int? credit,
+    @JsonKey(name: "Cash", fromJson: parseNumberAsDouble) double? cash,
+    @JsonKey(name: "Card", fromJson: parseNumberAsDouble) double? card,
+    @JsonKey(name: "Online", fromJson: parseNumberAsDouble) double? online,
+    @JsonKey(name: "Credit", fromJson: parseNumberAsDouble) double? credit,
   });
 }
 
@@ -3220,19 +3345,19 @@ class _$ModeOfPaymentsCopyWithImpl<$Res, $Val extends ModeOfPayments>
             cash: freezed == cash
                 ? _value.cash
                 : cash // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             card: freezed == card
                 ? _value.card
                 : card // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             online: freezed == online
                 ? _value.online
                 : online // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             credit: freezed == credit
                 ? _value.credit
                 : credit // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -3249,10 +3374,10 @@ abstract class _$$ModeOfPaymentsImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(name: "Cash") int? cash,
-    @JsonKey(name: "Card") int? card,
-    @JsonKey(name: "Online") int? online,
-    @JsonKey(name: "Credit") int? credit,
+    @JsonKey(name: "Cash", fromJson: parseNumberAsDouble) double? cash,
+    @JsonKey(name: "Card", fromJson: parseNumberAsDouble) double? card,
+    @JsonKey(name: "Online", fromJson: parseNumberAsDouble) double? online,
+    @JsonKey(name: "Credit", fromJson: parseNumberAsDouble) double? credit,
   });
 }
 
@@ -3280,19 +3405,19 @@ class __$$ModeOfPaymentsImplCopyWithImpl<$Res>
         cash: freezed == cash
             ? _value.cash
             : cash // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         card: freezed == card
             ? _value.card
             : card // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         online: freezed == online
             ? _value.online
             : online // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         credit: freezed == credit
             ? _value.credit
             : credit // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -3302,27 +3427,27 @@ class __$$ModeOfPaymentsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ModeOfPaymentsImpl implements _ModeOfPayments {
   const _$ModeOfPaymentsImpl({
-    @JsonKey(name: "Cash") this.cash,
-    @JsonKey(name: "Card") this.card,
-    @JsonKey(name: "Online") this.online,
-    @JsonKey(name: "Credit") this.credit,
+    @JsonKey(name: "Cash", fromJson: parseNumberAsDouble) this.cash,
+    @JsonKey(name: "Card", fromJson: parseNumberAsDouble) this.card,
+    @JsonKey(name: "Online", fromJson: parseNumberAsDouble) this.online,
+    @JsonKey(name: "Credit", fromJson: parseNumberAsDouble) this.credit,
   });
 
   factory _$ModeOfPaymentsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ModeOfPaymentsImplFromJson(json);
 
   @override
-  @JsonKey(name: "Cash")
-  final int? cash;
+  @JsonKey(name: "Cash", fromJson: parseNumberAsDouble)
+  final double? cash;
   @override
-  @JsonKey(name: "Card")
-  final int? card;
+  @JsonKey(name: "Card", fromJson: parseNumberAsDouble)
+  final double? card;
   @override
-  @JsonKey(name: "Online")
-  final int? online;
+  @JsonKey(name: "Online", fromJson: parseNumberAsDouble)
+  final double? online;
   @override
-  @JsonKey(name: "Credit")
-  final int? credit;
+  @JsonKey(name: "Credit", fromJson: parseNumberAsDouble)
+  final double? credit;
 
   @override
   String toString() {
@@ -3363,27 +3488,29 @@ class _$ModeOfPaymentsImpl implements _ModeOfPayments {
 
 abstract class _ModeOfPayments implements ModeOfPayments {
   const factory _ModeOfPayments({
-    @JsonKey(name: "Cash") final int? cash,
-    @JsonKey(name: "Card") final int? card,
-    @JsonKey(name: "Online") final int? online,
-    @JsonKey(name: "Credit") final int? credit,
+    @JsonKey(name: "Cash", fromJson: parseNumberAsDouble) final double? cash,
+    @JsonKey(name: "Card", fromJson: parseNumberAsDouble) final double? card,
+    @JsonKey(name: "Online", fromJson: parseNumberAsDouble)
+    final double? online,
+    @JsonKey(name: "Credit", fromJson: parseNumberAsDouble)
+    final double? credit,
   }) = _$ModeOfPaymentsImpl;
 
   factory _ModeOfPayments.fromJson(Map<String, dynamic> json) =
       _$ModeOfPaymentsImpl.fromJson;
 
   @override
-  @JsonKey(name: "Cash")
-  int? get cash;
+  @JsonKey(name: "Cash", fromJson: parseNumberAsDouble)
+  double? get cash;
   @override
-  @JsonKey(name: "Card")
-  int? get card;
+  @JsonKey(name: "Card", fromJson: parseNumberAsDouble)
+  double? get card;
   @override
-  @JsonKey(name: "Online")
-  int? get online;
+  @JsonKey(name: "Online", fromJson: parseNumberAsDouble)
+  double? get online;
   @override
-  @JsonKey(name: "Credit")
-  int? get credit;
+  @JsonKey(name: "Credit", fromJson: parseNumberAsDouble)
+  double? get credit;
 
   /// Create a copy of ModeOfPayments
   /// with the given fields replaced by the non-null parameter values.
@@ -3828,8 +3955,8 @@ Datum _$DatumFromJson(Map<String, dynamic> json) {
 mixin _$Datum {
   @JsonKey(name: "account_head_name")
   String? get accountHeadName => throw _privateConstructorUsedError;
-  @JsonKey(name: "amount")
-  int? get amount => throw _privateConstructorUsedError;
+  @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
+  double? get amount => throw _privateConstructorUsedError;
 
   /// Serializes this Datum to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3847,7 +3974,7 @@ abstract class $DatumCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "account_head_name") String? accountHeadName,
-    @JsonKey(name: "amount") int? amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble) double? amount,
   });
 }
 
@@ -3875,7 +4002,7 @@ class _$DatumCopyWithImpl<$Res, $Val extends Datum>
             amount: freezed == amount
                 ? _value.amount
                 : amount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -3892,7 +4019,7 @@ abstract class _$$DatumImplCopyWith<$Res> implements $DatumCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "account_head_name") String? accountHeadName,
-    @JsonKey(name: "amount") int? amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble) double? amount,
   });
 }
 
@@ -3919,7 +4046,7 @@ class __$$DatumImplCopyWithImpl<$Res>
         amount: freezed == amount
             ? _value.amount
             : amount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -3930,7 +4057,7 @@ class __$$DatumImplCopyWithImpl<$Res>
 class _$DatumImpl implements _Datum {
   const _$DatumImpl({
     @JsonKey(name: "account_head_name") this.accountHeadName,
-    @JsonKey(name: "amount") this.amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble) this.amount,
   });
 
   factory _$DatumImpl.fromJson(Map<String, dynamic> json) =>
@@ -3940,8 +4067,8 @@ class _$DatumImpl implements _Datum {
   @JsonKey(name: "account_head_name")
   final String? accountHeadName;
   @override
-  @JsonKey(name: "amount")
-  final int? amount;
+  @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
+  final double? amount;
 
   @override
   String toString() {
@@ -3979,7 +4106,8 @@ class _$DatumImpl implements _Datum {
 abstract class _Datum implements Datum {
   const factory _Datum({
     @JsonKey(name: "account_head_name") final String? accountHeadName,
-    @JsonKey(name: "amount") final int? amount,
+    @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
+    final double? amount,
   }) = _$DatumImpl;
 
   factory _Datum.fromJson(Map<String, dynamic> json) = _$DatumImpl.fromJson;
@@ -3988,8 +4116,8 @@ abstract class _Datum implements Datum {
   @JsonKey(name: "account_head_name")
   String? get accountHeadName;
   @override
-  @JsonKey(name: "amount")
-  int? get amount;
+  @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
+  double? get amount;
 
   /// Create a copy of Datum
   /// with the given fields replaced by the non-null parameter values.

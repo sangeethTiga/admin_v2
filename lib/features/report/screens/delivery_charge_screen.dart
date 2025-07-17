@@ -83,6 +83,7 @@ class DeliveryChargeScreen extends StatelessWidget {
           onPressed: () {
             context.read<ReportCubit>().loadDeliveryChargeReport(
               storeId: state.selectedStore?.storeId,
+              isLoadMore: true,
             );
           },
           buttonText: 'View Results',
@@ -92,7 +93,6 @@ class DeliveryChargeScreen extends StatelessWidget {
   }
 
   Widget _buildCommonTable() {
-    bool noMoreDataSnackbarShown = false;
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
         return MainPadding(
@@ -115,21 +115,38 @@ class DeliveryChargeScreen extends StatelessWidget {
                         _loadMoreData(context);
                       }
 
+                      // if (reportState.hasMoreData == false &&
+                      //     reportState.deliverychargeReport?.isNotEmpty ==
+                      //         true &&
+                      //     !noMoreDataSnackbarShown) {
+                      //   noMoreDataSnackbarShown = true;
+
+                      //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(
+                      //         content: Text('No more data'),
+                      //         duration: Duration(seconds: 1),
+
+                      //       ),
                       if (reportState.hasMoreData == false &&
                           reportState.deliverychargeReport?.isNotEmpty ==
-                              true &&
-                          !noMoreDataSnackbarShown) {
-                        noMoreDataSnackbarShown = true;
-
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('No more data'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                        });
+                              true) {
+                        _showNoMoreDataOverlay(context);
                       }
+
+                      // if (reportState.hasMoreData == false &&
+                      //     reportState.deliverychargeReport?.isNotEmpty ==
+                      //         true) {
+
+                      // WidgetsBinding.instance.addPostFrameCallback((_) {
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     const SnackBar(
+                      //       content: Text('No more data'),
+                      //       duration: Duration(seconds: 1),
+                      //     ),
+                      //   );
+                      // });
+                      // }
                     }
 
                     return false;
@@ -213,4 +230,31 @@ void _loadMoreData(BuildContext context) {
       isLoadMore: true,
     );
   }
+}
+
+OverlayEntry? _overlayEntry;
+
+void _showNoMoreDataOverlay(BuildContext context) {
+  if (_overlayEntry != null) return;
+
+  _overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      bottom: 16,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: Text(
+          'No more data',
+          style: TextStyle(fontSize: 14, color: Colors.black),
+        ),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(_overlayEntry!);
+
+  Future.delayed(const Duration(seconds: 2), () {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  });
 }

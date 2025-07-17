@@ -21,7 +21,8 @@ class ProductService implements ProductRepositories {
     String? search,
     String? barCode,
     int? filterId,
-    int? page,
+    int? pageFirstResult,
+    int? resultPerPage,
   }) async {
     final networkProvider = await NetworkProvider.create();
 
@@ -32,7 +33,8 @@ class ProductService implements ProductRepositories {
         search ?? '',
         barCode ?? '',
         filterId ?? 0,
-        page ?? 0,
+        pageFirstResult ?? 0,
+        resultPerPage ?? 0,
       ),
     );
     switch (res.statusCode) {

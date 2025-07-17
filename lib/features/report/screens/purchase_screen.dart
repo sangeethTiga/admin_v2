@@ -190,17 +190,49 @@ class PurchaseScreen extends StatelessWidget {
                                 child: NotificationListener<ScrollNotification>(
                                   onNotification:
                                       (ScrollNotification scrollInfo) {
-                                        if (scrollInfo
-                                            is ScrollEndNotification) {
-                                          final maxScroll = scrollInfo
-                                              .metrics
-                                              .maxScrollExtent;
-                                          final currentScroll =
-                                              scrollInfo.metrics.pixels;
-                                          final threshold = maxScroll - 100;
+                                        final maxScroll =
+                                            scrollInfo.metrics.maxScrollExtent;
+                                        final currentScroll =
+                                            scrollInfo.metrics.pixels;
+                                        final threshold = maxScroll - 100;
 
-                                          if (currentScroll >= threshold) {
+                                        final atBottom =
+                                            currentScroll >= threshold;
+
+                                        if (scrollInfo
+                                                is ScrollEndNotification &&
+                                            atBottom) {
+                                          final reportState = context
+                                              .read<ReportCubit>()
+                                              .state;
+
+                                          if (reportState.hasMoreData == true &&
+                                              reportState.isLoadingMore !=
+                                                  true) {
                                             _loadMoreData(context);
+                                          }
+
+                                          if (reportState.hasMoreData ==
+                                                  false &&
+                                              reportState
+                                                      .purchaseReport
+                                                      ?.isNotEmpty ==
+                                                  true) {
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) {
+                                                  ScaffoldMessenger.of(
+                                                    context,
+                                                  ).showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                        'No more data',
+                                                      ),
+                                                      duration: Duration(
+                                                        seconds: 1,
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
                                           }
                                         }
                                         return false;
@@ -247,18 +279,18 @@ class PurchaseScreen extends StatelessWidget {
                                   padding: EdgeInsets.all(16.w),
                                   child: CircularProgressIndicator(),
                                 ),
-                              if (state.hasMoreData == false &&
-                                  state.customersReport?.isNotEmpty == true)
-                                Container(
-                                  padding: EdgeInsets.all(16.w),
-                                  child: Text(
-                                    'No more data',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
+                              // if (state.hasMoreData == false &&
+                              //     state.customersReport?.isNotEmpty == true)
+                              //   Container(
+                              //     padding: EdgeInsets.all(16.w),
+                              //     child: Text(
+                              //       'No more data',
+                              //       style: TextStyle(
+                              //         fontSize: 12.sp,
+                              //         color: Colors.grey,
+                              //       ),
+                              //     ),
+                              //   ),
                             ],
                           );
                         },

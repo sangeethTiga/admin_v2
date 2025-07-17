@@ -112,6 +112,7 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
+    
     this.status = '',
     this.isTaxReport,
     this.taxReport,
@@ -273,7 +274,7 @@ class ReportState extends Equatable {
       profitlossReport: profitlossReport ?? this.profitlossReport,
       deliverychargeReport: deliverychargeReport ?? deliverychargeReport,
       isDeliverychargeReport:
-          isDeliverychargeReport ?? this.isDeliverychargeReport,
+      isDeliverychargeReport ?? this.isDeliverychargeReport,
       page: page ?? this.page,
       offset: offset ?? this.offset,
       customersReport: customersReport ?? this.customersReport,
