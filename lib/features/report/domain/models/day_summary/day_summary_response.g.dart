@@ -19,73 +19,78 @@ _$DaySummaryResponseImpl _$$DaySummaryResponseImplFromJson(
       ?.map((e) => BillTypeDetail.fromJson(e as Map<String, dynamic>))
       .toList(),
   billTypeTotalOrderCount: (json['bill_type_total_order_count'] as num?)
-      ?.toInt(),
-  billTypeGrandTotal: (json['bill_type_grand_total'] as num?)?.toInt(),
+      ?.toDouble(),
+  billTypeGrandTotal: parseNumberAsDouble(json['bill_type_grand_total']),
   discBillTypeDetails: (json['disc_bill_type_details'] as List<dynamic>?)
       ?.map((e) => DiscBillTypeDetail.fromJson(e as Map<String, dynamic>))
       .toList(),
   discBillTypeDetailsCount: (json['disc_bill_type_details_count'] as num?)
-      ?.toInt(),
-  discBillTypeDetailsTotal: (json['disc_bill_type_details_total'] as num?)
-      ?.toInt(),
+      ?.toDouble(),
+  discBillTypeDetailsTotal: parseNumberAsDouble(
+    json['disc_bill_type_details_total'],
+  ),
   amountByCashier: json['amount_by_cashier'] as List<dynamic>?,
   amountByCashierTotal: (json['amount_by_cashier_total'] as num?)?.toInt(),
-  amountByCashierCount: (json['amount_by_cashier_count'] as num?)?.toInt(),
-  amountByCashierCashTotal: (json['amount_by_cashier_cash_total'] as num?)
-      ?.toInt(),
-  amountByCashierCardTotal: (json['amount_by_cashier_card_total'] as num?)
-      ?.toInt(),
+  amountByCashierCount: (json['amount_by_cashier_count'] as num?)?.toDouble(),
+  amountByCashierCashTotal: parseNumberAsDouble(
+    json['amount_by_cashier_cash_total'],
+  ),
+  amountByCashierCardTotal: parseNumberAsDouble(
+    json['amount_by_cashier_card_total'],
+  ),
   amountByKiosk: json['amount_by_kiosk'] as List<dynamic>?,
-  amountByKioskTotal: (json['amount_by_kiosk_total'] as num?)?.toInt(),
+  amountByKioskTotal: parseNumberAsDouble(json['amount_by_kiosk_total']),
   amountByKioskCount: (json['amount_by_kiosk_count'] as num?)?.toInt(),
   amountByDelivertBoy: (json['amount_by_delivertBoy'] as List<dynamic>?)
       ?.map((e) => AmountByDelivertBoy.fromJson(e as Map<String, dynamic>))
       .toList(),
-  amountByDeliveryBoyTotal: (json['amount_by_deliveryBoy_total'] as num?)
-      ?.toInt(),
+  amountByDeliveryBoyTotal: parseNumberAsDouble(
+    json['amount_by_deliveryBoy_total'],
+  ),
   amountByDeliveryBoyCount: (json['amount_by_deliveryBoy_count'] as num?)
       ?.toInt(),
   amountByWaiter: json['amount_by_waiter'] as List<dynamic>?,
-  amountByWaiterTotal: (json['amount_by_waiter_total'] as num?)?.toInt(),
+  amountByWaiterTotal: parseNumberAsDouble(json['amount_by_waiter_total']),
   amountByWaiterCount: (json['amount_by_waiter_count'] as num?)?.toInt(),
   deliveryPartners: (json['delivery_partners'] as List<dynamic>?)
       ?.map((e) => DeliveryPartner.fromJson(e as Map<String, dynamic>))
       .toList(),
-  deliveryPartnersTotal: (json['delivery_partners_total'] as num?)?.toInt(),
+  deliveryPartnersTotal: parseNumberAsDouble(json['delivery_partners_total']),
   deliveryPartnersCount: (json['delivery_partners_count'] as num?)?.toInt(),
   amountByDevice: (json['amount_by_device'] as List<dynamic>?)
       ?.map((e) => AmountByDevice.fromJson(e as Map<String, dynamic>))
       .toList(),
   amountByDeviceCount: (json['amount_by_device_count'] as num?)?.toInt(),
-  amountByDeviceTotal: (json['amount_by_device_total'] as num?)?.toInt(),
+  amountByDeviceTotal: parseNumberAsDouble(json['amount_by_device_total']),
   amountByCategory: json['amount_by_category'] as List<dynamic>?,
-  amountByCategoryTotal: (json['amount_by_category_total'] as num?)?.toDouble(),
+  amountByCategoryTotal: parseNumberAsDouble(json['amount_by_category_total']),
   amountByMainCategory: json['amount_by_main_category'] as List<dynamic>?,
-  amountByMainCategoryTotal: (json['amount_by_main_category_total'] as num?)
-      ?.toInt(),
+  amountByMainCategoryTotal: parseNumberAsDouble(
+    json['amount_by_main_category_total'],
+  ),
   cancelledOrders: json['cancelled_orders'] as List<dynamic>?,
-  cancelledOrdersTotal: (json['cancelled_orders_total'] as num?)?.toInt(),
+  cancelledOrdersTotal: parseNumberAsDouble(json['cancelled_orders_total']),
   cancelledBills: json['cancelled_bills'] as List<dynamic>?,
-  cancelledBillsTotal: (json['cancelled_bills_total'] as num?)?.toInt(),
+  cancelledBillsTotal: parseNumberAsDouble(json['cancelled_bills_total']),
   cancelledItems: json['cancelled_items'] as List<dynamic>?,
   orderCounts: (json['order_counts'] as List<dynamic>?)
       ?.map((e) => OrderCount.fromJson(e as Map<String, dynamic>))
       .toList(),
   startingBill: (json['starting_bill'] as num?)?.toInt(),
   endingBill: (json['ending_bill'] as num?)?.toInt(),
-  totalBills: (json['total_bills'] as num?)?.toInt(),
-  totalSales: (json['total_sales'] as num?)?.toInt(),
+  totalBills: parseNumberAsDouble(json['total_bills']),
+  totalSales: parseNumberAsDouble(json['total_sales']),
   receiptsData: (json['receipts_data'] as List<dynamic>?)
       ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
       .toList(),
   paymentData: (json['payment_data'] as List<dynamic>?)
       ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
       .toList(),
-  totalReceipts: (json['total_receipts'] as num?)?.toInt(),
-  totalPayment: (json['total_payment'] as num?)?.toInt(),
-  totalTaxCollected: (json['total_tax_collected'] as num?)?.toInt(),
-  totalTaxPaid: (json['total_tax_paid'] as num?)?.toInt(),
-  totalParcelCharge: (json['total_parcel_charge'] as num?)?.toInt(),
+  totalReceipts: parseNumberAsDouble(json['total_receipts']),
+  totalPayment: parseNumberAsDouble(json['total_payment']),
+  totalTaxCollected: parseNumberAsDouble(json['total_tax_collected']),
+  totalTaxPaid: parseNumberAsDouble(json['total_tax_paid']),
+  totalParcelCharge: parseNumberAsDouble(json['total_parcel_charge']),
   paxDetails: (json['pax_details'] as List<dynamic>?)
       ?.map((e) => PaxDetail.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -167,8 +172,8 @@ _$AmountByDelivertBoyImpl _$$AmountByDelivertBoyImplFromJson(
   userRoleId: (json['user_role_id'] as num?)?.toInt(),
   companyUsersId: (json['company_users_id'] as num?)?.toInt(),
   invoiceNumbers: json['invoice_numbers'] as List<dynamic>?,
-  cashAmount: (json['cash_amount'] as num?)?.toInt(),
-  cardAmount: (json['card_amount'] as num?)?.toInt(),
+  cashAmount: parseNumberAsDouble(json['cash_amount']),
+  cardAmount: parseNumberAsDouble(json['card_amount']),
   shifts: json['shifts'] as List<dynamic>?,
 );
 
@@ -239,7 +244,7 @@ _$DiscBillTypeDetailImpl _$$DiscBillTypeDetailImplFromJson(
 ) => _$DiscBillTypeDetailImpl(
   orderOptionName: json['order_option_name'] as String?,
   ordercount: (json['ordercount'] as num?)?.toInt(),
-  discAmount: (json['disc_amount'] as num?)?.toInt(),
+  discAmount: parseNumberAsDouble(json['disc_amount']),
 );
 
 Map<String, dynamic> _$$DiscBillTypeDetailImplToJson(
@@ -252,10 +257,10 @@ Map<String, dynamic> _$$DiscBillTypeDetailImplToJson(
 
 _$ModeOfPaymentsImpl _$$ModeOfPaymentsImplFromJson(Map<String, dynamic> json) =>
     _$ModeOfPaymentsImpl(
-      cash: (json['Cash'] as num?)?.toInt(),
-      card: (json['Card'] as num?)?.toInt(),
-      online: (json['Online'] as num?)?.toInt(),
-      credit: (json['Credit'] as num?)?.toInt(),
+      cash: parseNumberAsDouble(json['Cash']),
+      card: parseNumberAsDouble(json['Card']),
+      online: parseNumberAsDouble(json['Online']),
+      credit: parseNumberAsDouble(json['Credit']),
     );
 
 Map<String, dynamic> _$$ModeOfPaymentsImplToJson(
@@ -297,7 +302,7 @@ Map<String, dynamic> _$$PaxDetailImplToJson(_$PaxDetailImpl instance) =>
 
 _$DatumImpl _$$DatumImplFromJson(Map<String, dynamic> json) => _$DatumImpl(
   accountHeadName: json['account_head_name'] as String?,
-  amount: (json['amount'] as num?)?.toInt(),
+  amount: parseNumberAsDouble(json['amount']),
 );
 
 Map<String, dynamic> _$$DatumImplToJson(_$DatumImpl instance) =>
