@@ -87,7 +87,7 @@ class ApiEndpoints {
     int pageFirstResult,
     int resultPage,
   ) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=$resultPage';
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&query=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=$resultPage';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';

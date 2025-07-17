@@ -4,6 +4,7 @@ import 'package:admin_v2/features/common/domain/models/store/store_response.dart
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
+import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/widgets/edit_product.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
@@ -39,7 +40,8 @@ class _ProductScreenState extends State<ProductScreen> {
   Timer? _debounceTimer;
   final ValueNotifier<bool> showEndMessage = ValueNotifier<bool>(false);
   bool _scrollListenerSetup = false;
-
+  List<ProductResponse> _allProducts = []; // Store all products
+  List<ProductResponse> _filteredProducts = [];
   @override
   void initState() {
     super.initState();
@@ -76,10 +78,30 @@ class _ProductScreenState extends State<ProductScreen> {
   void _setupSearchListener() {
     _searchController.addListener(() {
       _debounceTimer?.cancel();
-      _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-        _performSearch(_searchController.text);
+      _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+        _performClientSideSearch(_searchController.text);
       });
     });
+  }
+
+  void _performClientSideSearch(String searchTerm) {
+    final productState = context.read<ProductCubit>().state;
+    _allProducts = productState.productList ?? [];
+
+    if (searchTerm.trim().isEmpty) {
+      _filteredProducts = _allProducts;
+    } else {
+      _filteredProducts = _allProducts.where((product) {
+        final productName = product.productName?.toLowerCase() ?? '';
+        final productCode = product.productCode?.toLowerCase() ?? '';
+        final searchLower = searchTerm.toLowerCase();
+
+        return productName.contains(searchLower) ||
+            productCode.contains(searchLower);
+      }).toList();
+    }
+
+    setState(() {});
   }
 
   void _loadInitialData() {
@@ -91,19 +113,6 @@ class _ProductScreenState extends State<ProductScreen> {
         isLoadMore: false,
       );
     }
-  }
-
-  void _performSearch(String searchTerm) {
-    final dashboardState = context.read<DashboardCubit>().state;
-    final productState = context.read<ProductCubit>().state;
-
-    context.read<ProductCubit>().product(
-      storeId: dashboardState.selectedStore?.storeId,
-      catId: productState.selectCategory?.details?.categoryId,
-      search: searchTerm.trim(),
-      filterId: productState.selectProduct?.filterId,
-      isLoadMore: false,
-    );
   }
 
   void _loadMoreData() {
@@ -338,7 +347,7 @@ class _ProductScreenState extends State<ProductScreen> {
             IconButton(
               onPressed: () {
                 _searchController.clear();
-                _performSearch('');
+                _performClientSideSearch('');
               },
               icon: Icon(Icons.clear, color: Colors.grey[600]),
             ),
@@ -352,8 +361,11 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Widget _buildProductsHeader(ProductState state) {
-    final products = state.productList ?? [];
     final isSearchActive = _searchController.text.isNotEmpty;
+
+    final products = isSearchActive
+        ? _filteredProducts
+        : (state.productList ?? []);
 
     if (products.isEmpty && state.isProduct != ApiFetchStatus.loading) {
       return const SizedBox.shrink();
@@ -407,13 +419,11 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Widget _buildProductsList(ProductState state, BuildContext context) {
     final isLoading = state.isProduct == ApiFetchStatus.loading;
-    final products = state.scannedProduct != null
-        ? [state.scannedProduct!]
-        : (state.productList ?? []);
-
-    if (isLoading && products.isEmpty) {
-      return _buildShimmerList();
-    }
+    final products = _searchController.text.isNotEmpty
+        ? _filteredProducts
+        : (state.scannedProduct != null
+              ? [state.scannedProduct!]
+              : (state.productList ?? []));
 
     if (isLoading && products.isEmpty) {
       return _buildShimmerList();
@@ -432,7 +442,8 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
           ),
         ),
-        PaginationFooter(state: state, showEndMessage: showEndMessage),
+        if (_searchController.text.isEmpty)
+          PaginationFooter(state: state, showEndMessage: showEndMessage),
       ],
     );
   }
@@ -794,7 +805,7 @@ class _ShimmerProductCard extends StatelessWidget {
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
       child: Container(
-        margin: EdgeInsets.only(bottom: 12.h),
+        margin: EdgeInsets.only(bottom: 12.h, left: 10.w),
         height: 150.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),

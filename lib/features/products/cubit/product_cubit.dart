@@ -20,7 +20,6 @@ part 'product_state.dart';
 @injectable
 class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
-  static const int _itemsPerPage = 10;
 
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
@@ -31,7 +30,6 @@ class ProductCubit extends Cubit<ProductState> {
     String? barCode,
     int? filterId,
     bool isLoadMore = false,
-    int? page = 0,
     int limit = 20,
   }) async {
     try {
@@ -49,12 +47,8 @@ class ProductCubit extends Cubit<ProductState> {
         );
       }
 
-      // ✅ FIX 1: Correct page calculation
-      // For pagination, we need page numbers (1, 2, 3...), not offset values
       final currentPage = isLoadMore ? (state.currentPage ?? 0) + 1 : 1;
 
-      // ✅ FIX 2: Calculate correct pageFirstResult if your API expects offset
-      // If your API expects offset (starting position), calculate it from page
       final pageFirstResult = (currentPage - 1) * limit;
 
       log(
@@ -67,7 +61,7 @@ class ProductCubit extends Cubit<ProductState> {
         search: search,
         barCode: barCode,
         filterId: filterId,
-        pageFirstResult: pageFirstResult, // Use offset, not page number
+        pageFirstResult: pageFirstResult,
         resultPerPage: limit,
       );
 
@@ -75,7 +69,6 @@ class ProductCubit extends Cubit<ProductState> {
         List<ProductResponse> updatedList;
 
         if (isLoadMore) {
-          // ✅ FIX 3: Avoid duplicates when loading more
           final existingIds = (state.productList ?? [])
               .map((p) => p.productId)
               .toSet();
