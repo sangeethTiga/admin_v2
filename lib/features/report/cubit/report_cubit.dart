@@ -450,7 +450,7 @@ class ReportCubit extends Cubit<ReportState> {
       } else {
         emit(
           state.copyWith(
-            isDeliverychargeReport: ApiFetchStatus.success,
+            isDeliverychargeReport: ApiFetchStatus.failed,
             isLoadingMore: false,
             hasMoreData: false,
           ),

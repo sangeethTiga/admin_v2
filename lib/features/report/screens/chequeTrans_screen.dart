@@ -110,18 +110,18 @@ class ChequetransScreen extends StatelessWidget {
                 context.read<ReportCubit>().loadChequeTrans(
                   storeId: commonState.selectedStore?.storeId,
                   status: selectedStatusId?.toString(),
-                  fromChequeIssueDate: apiFormat.format(
-                    reportState.fromDate ?? DateTime.now(),
-                  ),
-                  fromChequeDate: apiFormat.format(
-                    reportState.fromDate ?? DateTime.now(),
-                  ),
-                  toChequeDate: apiFormat.format(
-                    reportState.toDate ?? DateTime.now(),
-                  ),
-                  toChequeIssueDate: apiFormat.format(
-                    reportState.toDate ?? DateTime.now(),
-                  ),
+                  // fromChequeIssueDate: apiFormat.format(
+                  //   reportState.fromDate ?? DateTime.now(),
+                  // ),
+                  // fromChequeDate: apiFormat.format(
+                  //   reportState.fromDate ?? DateTime.now(),
+                  // ),
+                  // toChequeDate: apiFormat.format(
+                  //   reportState.toDate ?? DateTime.now(),
+                  // ),
+                  // toChequeIssueDate: apiFormat.format(
+                  //   reportState.toDate ?? DateTime.now(),
+                  // ),
                 );
               },
               buttonText: 'View Report',
