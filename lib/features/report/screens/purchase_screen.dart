@@ -12,6 +12,7 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
+import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -116,21 +117,61 @@ class PurchaseScreen extends StatelessWidget {
                     );
                   },
                 ),
+                8.verticalSpace,
+                TextFeildWidget(
+                  onChanged: (value) {
+                    final storeId =
+                        context
+                            .read<DashboardCubit>()
+                            .state
+                            .selectedStore
+                            ?.storeId ??
+                        0;
+                    context.read<ReportCubit>().loadProductReport(
+                      storeId: storeId,
+
+                      searchText: value,
+                      page: 0,
+                    );
+                  },
+                  borderColor: kBlack,
+                  hight: 48.h,
+                  fillColor: kWhite,
+                  inputBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                  ),
+                  prefix: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SvgPicture.asset('assets/icons/Search.svg'),
+                  ),
+                  hintText: 'Search Supplier',
+                ),
+
                 12.verticalSpace,
-                BlocBuilder<DashboardCubit, DashboardState>(
+                         BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
-                    return CustomMaterialBtton(
-                      onPressed: () {
-                        context.read<ReportCubit>().loadPurchaseReport(
-                          storeId: state.selectedStore?.storeId,
-                          purchaseType: state.selectedPurchaseType?.id,
+                    return BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, reportState) {
+                        return CustomMaterialBtton(
+                          isLoading:
+                              state.isMostSelling == ApiFetchStatus.loading,
+                          onPressed: () {
+                     
+                            context.read<ReportCubit>().loadPurchaseReport(
+                              page: 0,
+                              storeId: state.selectedStore?.storeId,
+                              query: reportState.lastSearch,
+                            
+                            );
+                          },
+                          buttonText: 'View Report',
                         );
-                        // context.read<ReportCubit>().changePucrhaeType();
                       },
-                      buttonText: 'View Report',
                     );
                   },
                 ),
+
               ],
             ),
           ),
@@ -172,12 +213,13 @@ class PurchaseScreen extends StatelessWidget {
                                     headers: [
                                       "#",
                                       "Purchase Date",
+                                      "Supplier",
                                       "Amount",
                                       "Payment Method",
                                       "Invoice",
                                     ],
 
-                                    columnFlex: [1, 2, 2, 2, 2],
+                                    columnFlex: [1, 2, 2, 2, 2, 2],
                                     data:
                                         state.purchaseReport?.map((e) {
                                           int index =
@@ -189,6 +231,7 @@ class PurchaseScreen extends StatelessWidget {
                                             '#': index + 1,
                                             'Purchase Date':
                                                 e.purchaseDate ?? '',
+                                            'Supplier': e.supplierName ?? '',
                                             'Amount': e.totalamount.toString(),
                                             'Payment Method':
                                                 e.payMethodName ?? '',
@@ -258,7 +301,6 @@ Widget commonStoreDropDown({Function(StoreResponse)? onChanged}) {
             }).toList() ??
             [],
         fillColor: const Color(0XFFEFF1F1),
-    
 
         onChanged: (p0) {
           onChanged?.call(p0);
@@ -282,6 +324,10 @@ void _loadMoreData(BuildContext context) {
     context.read<ReportCubit>().loadPurchaseReport(
       storeId: dashboardState.selectedStore?.storeId,
       isLoadMore: true,
+     page: reportState.currentPage,
+     query: reportState.lastSearch,
+
+
     );
   }
 }

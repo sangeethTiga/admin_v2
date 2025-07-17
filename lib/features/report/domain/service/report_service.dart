@@ -89,17 +89,17 @@ class ReportService implements ReportRepositories {
   @override
   Future<ResponseResult<List<ReveneReportResponse>>> loadRevenueReport({
     required int pageFirstResult,
-     required int resultPerPage,
+    required int resultPerPage,
     required int storeId,
     required String fromDate,
     required String toDate,
   }) async {
     final networkProvider = await NetworkProvider.create();
- 
+
     final res = await networkProvider.get(
       ApiEndpoints.revenueReport(
         pageFirstResult,
-       resultPerPage,
+        resultPerPage,
         storeId,
         fromDate,
         toDate,
@@ -117,7 +117,6 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
- 
 
   @override
   Future<ResponseResult<List<ExpenseReportResponse>>> loadExpenseReport({
@@ -186,7 +185,13 @@ class ReportService implements ReportRepositories {
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
-      ApiEndpoints.deliveryCharge(storeId, fromDate, toDate, resultPerPage, pageFirstResult),
+      ApiEndpoints.deliveryCharge(
+        storeId,
+        fromDate,
+        toDate,
+        resultPerPage,
+        pageFirstResult,
+      ),
     );
     log('result-=-=-=-=-=$res');
     switch (res.statusCode) {
@@ -380,6 +385,7 @@ class ReportService implements ReportRepositories {
     int? resultPerPage,
     int? purchaseType,
     int? supplierId,
+    String? query,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
@@ -391,11 +397,12 @@ class ReportService implements ReportRepositories {
         purchaseType: purchaseType ?? 0,
         pageFirstLimit: pageFirstLimit ?? 0,
         resultPerPage: resultPerPage ?? 0,
+        query: query ?? '',
       ),
     );
 
     log(
-      "purchase report response:${purchaseType ?? 0}, ${ApiEndpoints.purchaseReport(storeId: storeId ?? 0, fromDate: fromDate ?? '', toDate: toDate ?? '', supplierId: supplierId ?? 0, purchaseType: purchaseType ?? 0, pageFirstLimit: pageFirstLimit ?? 0, resultPerPage: resultPerPage ?? 0)}",
+      "purchase report response:${purchaseType ?? 0}, ${ApiEndpoints.purchaseReport(storeId: storeId ?? 0, fromDate: fromDate ?? '', toDate: toDate ?? '', supplierId: supplierId ?? 0, purchaseType: purchaseType ?? 0, pageFirstLimit: pageFirstLimit ?? 0, resultPerPage: resultPerPage ?? 0, query: query ?? '')}",
     );
     switch (res.statusCode) {
       case 200:

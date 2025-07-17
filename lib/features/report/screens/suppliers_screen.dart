@@ -20,7 +20,7 @@ class SuppliersReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Supplier'),
+      appBar: AppbarWidget(title: 'Supplier Report'),
 
       body: Column(
         children: [
