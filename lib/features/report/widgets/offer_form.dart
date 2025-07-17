@@ -31,6 +31,8 @@ class OfferForm extends StatefulWidget {
 }
 
 class _OfferFormState extends State<OfferForm> {
+  ProductNameResponse? selectedProduct;
+
   late final TextEditingController nameController;
   late final TextEditingController offerController;
   late final TextEditingController offerPriceController;
@@ -38,9 +40,11 @@ class _OfferFormState extends State<OfferForm> {
   late final TextEditingController fromDateController;
   late final TextEditingController toDateController;
   late final TextEditingController productPriceController;
+
   bool isLoading = false;
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
+  TextEditingController productSearchController = TextEditingController();
 
   void _updateDiscountFromOfferPrice() {
     final offerText = offerPriceController.text;
@@ -71,6 +75,97 @@ class _OfferFormState extends State<OfferForm> {
     } else {
       discountController.text = '';
     }
+  }
+
+  void _showProductSearchDialog() {
+    final reportCubit = context.read<ReportCubit>();
+    final storeId =
+        context.read<DashboardCubit>().state.selectedStore?.storeId ?? 0;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Search Product'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: productSearchController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter product name',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          reportCubit.loadProductName(
+                            query: productSearchController.text,
+                            storeId: storeId,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 200,
+                    child: BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, state) {
+                        if (state.isProductName == ApiFetchStatus.loading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        final productList =
+                            state.getproductName?.cast<ProductNameResponse>() ??
+                            [];
+
+                        if (productList.isEmpty) {
+                          return const Center(
+                            child: Text('No products found.'),
+                          );
+                        }
+
+                        return ListView.builder(
+                          itemCount: productList.length,
+                          itemBuilder: (context, index) {
+                            final product = productList[index];
+                            return ListTile(
+                              title: Text(product.productName ?? 'Unknown'),
+                              onTap: () {
+                                setState(() {
+                                  selectedProduct = product;
+                                  nameController.text =
+                                      product.productName ?? '';
+                                });
+                                context.read<ReportCubit>().selectedProductName(
+                                  product,
+                                );
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -174,78 +269,84 @@ class _OfferFormState extends State<OfferForm> {
                       ],
                     ),
                   ),
+
                   commonStoreDropDown(
                     onChanged: (p0) {
                       context.read<DashboardCubit>().selectedStore(p0);
                     },
                   ),
 
-                  widget.isEdit
-                      ? TextFeildWidget(
-                          controller: nameController,
-                          topLabelText: 'Product Name',
-                          hight: 48.h,
-                          enabled: false, // 🔒 Disable editing in edit mode
-                          fillColor: kWhite,
-                          inputBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: const BorderSide(
-                              color: Color(0XFFB7C6C2),
-                            ),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 14.h,
-                            horizontal: 8.w,
-                          ),
-                        )
-                      : BlocBuilder<ReportCubit, ReportState>(
-                          builder: (context, state) {
-                            return DropDownFieldWidget(
-                              isLoading:
-                                  state.apiFetchStatus ==
-                                  ApiFetchStatus.loading,
-                              prefixIcon: Container(
-                                margin: EdgeInsets.only(left: 12.w),
-                                child: SvgPicture.asset(
-                                  'assets/icons/package-box-pin-location.svg',
-                                  width: 20.w,
-                                  height: 20.h,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              borderColor: kBlack,
-                              value: state.selectedProductName,
-                              items:
-                                  state.getproductName?.map((e) {
-                                    return DropdownMenuItem<
-                                      ProductNameResponse
-                                    >(
-                                      value: e,
-                                      child: Text(
-                                        e.productName ?? '',
-                                        style: TextStyle(fontSize: 25),
-                                      ),
-                                    );
-                                  }).toList() ??
-                                  [],
-                              fillColor: const Color(0XFFEFF1F1),
-                              onChanged: (p0) {
-                                context.read<ReportCubit>().selectedProductName(
-                                  p0,
-                                );
-                                productPriceController.text =
-                                    p0?.productPrice?.toString() ?? '';
+                  ElevatedButton(
+                    onPressed: _showProductSearchDialog,
+                    child: const Text('Search Product Name'),
+                  ),
 
-                                // productPriceController.text = p0?.productPrice?.toString() ?? '';
-                              },
-                              labelText: 'Product Name',
-                            );
-                          },
-                        ),
+                  // widget.isEdit
+                  //     ? TextFeildWidget(
+                  //         controller: nameController,
+                  //         topLabelText: 'Product Name',
+                  //         hight: 48.h,
+                  //         enabled: false, // 🔒 Disable editing in edit mode
+                  //         fillColor: kWhite,
+                  //         inputBorder: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(8.r),
+                  //           borderSide: const BorderSide(
+                  //             color: Color(0XFFB7C6C2),
+                  //           ),
+                  //         ),
+                  //         contentPadding: EdgeInsets.symmetric(
+                  //           vertical: 14.h,
+                  //           horizontal: 8.w,
+                  //         ),
+                  //       )
+                  //     : BlocBuilder<ReportCubit, ReportState>(
+                  //         builder: (context, state) {
+                  //           return DropDownFieldWidget(
+                  //             isLoading:
+                  //                 state.apiFetchStatus ==
+                  //                 ApiFetchStatus.loading,
+                  //             prefixIcon: Container(
+                  //               margin: EdgeInsets.only(left: 12.w),
+                  //               child: SvgPicture.asset(
+                  //                 'assets/icons/package-box-pin-location.svg',
+                  //                 width: 20.w,
+                  //                 height: 20.h,
+                  //                 fit: BoxFit.contain,
+                  //               ),
+                  //             ),
+                  //             borderColor: kBlack,
+                  //             value: state.selectedProductName,
+                  //             items:
+                  //                 state.getproductName?.map((e) {
+                  //                   return DropdownMenuItem<
+                  //                     ProductNameResponse
+                  //                   >(
+                  //                     value: e,
+                  //                     child: Text(
+                  //                       e.productName ?? '',
+                  //                       style: TextStyle(fontSize: 25),
+                  //                     ),
+                  //                   );
+                  //                 }).toList() ??
+                  //                 [],
+                  //             fillColor: const Color(0XFFEFF1F1),
+                  //             onChanged: (p0) {
+                  //               context.read<ReportCubit>().selectedProductName(
+                  //                 p0,
+                  //               );
+                  //               productPriceController.text =
+                  //                   p0?.productPrice?.toString() ?? '';
+
+                  //               // productPriceController.text = p0?.productPrice?.toString() ?? '';
+                  //             },
+                  //             labelText: 'Product Name',
+                  //           );
+                  //         },
+                  //       ),
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
                       return DropDownFieldWidget(
-                     //   enabled: !widget.isEdit,
+                        //   enabled: !widget.isEdit,
                         hintText: 'Special offer',
 
                         isLoading:
@@ -443,7 +544,9 @@ class _OfferFormState extends State<OfferForm> {
                           storeId: selectedStore?.storeId ?? 0,
                         );
 
-                        context.pop();
+                        if (mounted) {
+                          context.pop();
+                        }
 
                         if (selectedProduct != null) {
                           final newOffer = CreateOfferResponse(
