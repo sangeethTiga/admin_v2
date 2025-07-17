@@ -47,13 +47,7 @@ class ProductCubit extends Cubit<ProductState> {
         );
       }
 
-      final currentPage = isLoadMore ? (state.currentPage ?? 0) + 1 : 1;
-
-      final pageFirstResult = (currentPage - 1) * limit;
-
-      log(
-        "Loading products - Page: $currentPage, Offset: $pageFirstResult, Limit: $limit, IsLoadMore: $isLoadMore",
-      );
+      final currentPage = isLoadMore ? (state.currentPage ?? 0) + limit : 20;
 
       final res = await _productRepositories.products(
         storeId: storeId,
@@ -61,8 +55,8 @@ class ProductCubit extends Cubit<ProductState> {
         search: search,
         barCode: barCode,
         filterId: filterId,
-        pageFirstResult: pageFirstResult,
-        resultPerPage: limit,
+        pageFirstResult: 0,
+        resultPerPage: currentPage,
       );
 
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {

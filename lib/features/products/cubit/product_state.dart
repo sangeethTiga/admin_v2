@@ -64,7 +64,7 @@ class ProductState extends Equatable {
     this.selectedProducts,
     this.isLoadingMore = false,
     this.hasMoreData = true,
-    this.currentPage = 1,
+    this.currentPage = 20,
     this.totalItems = 0,
     this.lastSearchQuery = '',
     this.lastBarCode = '',
