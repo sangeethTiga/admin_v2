@@ -317,13 +317,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                           animationType: AnimationType.fromTop,
                           displayCloseButton: false,
                         ).show(context);
-                        context.read<ProductCubit>().product(
-                          storeId,
-                          0,
-                          '',
-                          '',
-                          0,
-                        );
+                        context.read<ProductCubit>().product(storeId: storeId);
 
                         Navigator.pop(context);
                       }

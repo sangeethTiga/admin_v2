@@ -163,7 +163,7 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Sale on Deals'),
       route: routeSaleDeals,
       onTap: (context) {
-         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadSalesDealsReport(
           storeId: selectedStore?.storeId,
         );
@@ -184,13 +184,13 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {
-         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().initState();
         final productCubit = context.read<ReportCubit>();
 
         context.read<DashboardCubit>().loadProductsCategory(
           selectedStore?.storeId,
         );
-        productCubit.loadProductReport(storeId:selectedStore?.storeId ?? 0);
+        productCubit.loadProductReport(storeId: selectedStore?.storeId ?? 0);
 
         context.push(routeSellingProducts);
       },
@@ -210,7 +210,7 @@ class _DrawerContent extends StatelessWidget {
           title: Text('Product offers'),
           route: routeProductOffers,
           onTap: (context) {
-             context.read<ReportCubit>().initState();
+            context.read<ReportCubit>().initState();
             context.read<ReportCubit>().loadProductOffers(
               storeId: selectedStore?.storeId,
             );
@@ -250,7 +250,7 @@ class _DrawerContent extends StatelessWidget {
           title: Text('Products'),
           onTap: (context) {
             final productCubit = context.read<ProductCubit>();
-            productCubit.product(storeId, 0, '', '', 0);
+            productCubit.product(storeId: storeId);
             productCubit.selectProduct(Product());
             productCubit.catgeory(storeId);
             productCubit.stockStatus();

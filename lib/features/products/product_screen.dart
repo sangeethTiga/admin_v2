@@ -8,7 +8,6 @@ import 'package:admin_v2/features/products/widgets/edit_product.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
 import 'package:admin_v2/features/products/widgets/variant_stock_update.dart';
-
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -26,96 +25,40 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+class ProductScreen extends StatelessWidget {
+  ProductScreen({super.key});
 
-  @override
-  State<ProductScreen> createState() => _ProductScreenState();
-}
-
-class _ProductScreenState extends State<ProductScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  Timer? _debounceTimer;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(_onSearchChanged);
-    _scrollController.addListener(_onScrollChanged);
-    
-  }
-
-  @override
-  void dispose() {
-    _searchController.removeListener(_onSearchChanged);
-    _scrollController.removeListener(_onScrollChanged);
-    _searchController.dispose();
-    _scrollController.dispose();
-    _debounceTimer?.cancel();
-    super.dispose();
-  }
-
-  void _onSearchChanged() {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
-      _performSearch(_searchController.text);
-    });
-  }
-
-  void _onScrollChanged() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      _loadMoreProducts();
-    }
-  }
-
-  void _performSearch(String query) {
-    context.read<ProductCubit>().searchProducts(query);
-  }
-
-  void _loadMoreProducts() {
-    context.read<ProductCubit>().loadMoreProducts();
-  }
-
-  Future<void> _refreshProducts() async {
-    // await context.read<ProductCubit>().refreshProducts();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppbarWidget(title: 'Products'),
-      body: RefreshIndicator(
-        onRefresh: _refreshProducts,
-        color: kPrimaryColor,
-        child: BlocBuilder<ProductCubit, ProductState>(
-          builder: (context, state) {
-            return SingleChildScrollView(
-              controller: _scrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  dividerWidget(height: 6.h),
-                  MainPadding(
-                    top: 0.h,
-                    child: Column(
-                      children: [
-                        _buildStoreDropdown(),
-                        _buildCategoryAndProductDropdowns(state),
-                        _buildSearchField(),
-                        12.verticalSpace,
-                        _buildProductsHeader(state),
-                        _buildProductsList(state),
-                        _buildPaginationFooter(state),
-                      ],
-                    ),
+      body: BlocBuilder<ProductCubit, ProductState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                dividerWidget(height: 6.h),
+                MainPadding(
+                  top: 0.h,
+                  child: Column(
+                    children: [
+                      _buildStoreDropdown(),
+                      _buildCategoryAndProductDropdowns(state),
+                      _buildSearchField(context),
+                      12.verticalSpace,
+                      _buildProductsHeader(state),
+                      _buildProductsList(state, context),
+                      _buildPaginationFooter(state),
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -145,7 +88,7 @@ class _ProductScreenState extends State<ProductScreen> {
               }).toList() ??
               [],
           fillColor: const Color(0XFFEFF1F1),
-          onChanged: (store) => _handleStoreChange(store),
+          onChanged: (store) => _handleStoreChange(store, context),
           labelText: '',
           textStyle: TextStyle(
             color: Colors.black,
@@ -198,7 +141,7 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           isDense: true,
           onChanged: (product) {
-            _handleProductTypeChange(product, state, common);
+            _handleProductTypeChange(product, state, common, context);
           },
 
           suffixWidget: SizedBox(
@@ -255,7 +198,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
           ),
           onChanged: (categoryId) =>
-              _handleCategoryChange(categoryId, state, common),
+              _handleCategoryChange(categoryId, state, common, context),
           inputBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
             borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
@@ -265,7 +208,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  Widget _buildSearchField() {
+  Widget _buildSearchField(BuildContext context) {
     return TextFeildWidget(
       controller: _searchController,
       prefix: Padding(
@@ -288,12 +231,14 @@ class _ProductScreenState extends State<ProductScreen> {
             IconButton(
               onPressed: () {
                 _searchController.clear();
-                _performSearch('');
+                // _performSearch('');
               },
               icon: Icon(Icons.clear, color: Colors.grey[600]),
             ),
           IconButton(
-            onPressed: _handleQRScan,
+            onPressed: () {
+              _handleQRScan(context);
+            },
             icon: SvgPicture.asset('assets/icons/Scaner.svg'),
           ),
         ],
@@ -355,7 +300,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  Widget _buildProductsList(ProductState state) {
+  Widget _buildProductsList(ProductState state, BuildContext context) {
     final isLoading = state.isProduct == ApiFetchStatus.loading;
     final products = state.scannedProduct != null
         ? [state.scannedProduct!]
@@ -369,13 +314,35 @@ class _ProductScreenState extends State<ProductScreen> {
       return _buildEmptyState();
     }
 
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: products.length,
-      itemBuilder: (context, index) => _ProductCard(
-        key: ValueKey(products[index].productId),
-        product: products[index],
+    return NotificationListener(
+      onNotification: (ScrollNotification scrollInfo) {
+        final maxScroll = scrollInfo.metrics.maxScrollExtent;
+        final currentScroll = scrollInfo.metrics.pixels;
+        final threshold = maxScroll - 100;
+
+        final atBottom = currentScroll >= threshold;
+
+        if (scrollInfo is ScrollEndNotification && atBottom) {
+          _loadMoreData(context);
+          final reportState = context.read<ProductCubit>().state;
+          if (reportState.hasMoreData == false &&
+              reportState.productList?.isNotEmpty == true) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('No more data')));
+          }
+        }
+
+        return false;
+      },
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: products.length,
+        itemBuilder: (context, index) => _ProductCard(
+          key: ValueKey(products[index].productId),
+          product: products[index],
+        ),
       ),
     );
   }
@@ -416,33 +383,37 @@ class _ProductScreenState extends State<ProductScreen> {
                 ],
               ),
             ),
-
-          if (!isLoadingMore && hasMoreData)
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 20.w),
-              child: ElevatedButton(
-                onPressed: _loadMoreProducts,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: kPrimaryColor,
-                  side: BorderSide(color: kPrimaryColor),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.expand_more, size: 20.w),
-                    8.horizontalSpace,
-                    Text('Load More Products', style: FontPalette.hW600S14),
-                  ],
-                ),
-              ),
+          if (state.isLoadingMore == true)
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.h),
+              child: CircularProgressIndicator(),
             ),
 
+          // if (!isLoadingMore && hasMoreData)
+          //   Container(
+          //     width: double.infinity,
+          //     margin: EdgeInsets.symmetric(horizontal: 20.w),
+          //     child: ElevatedButton(
+          //       onPressed: _loadMoreProducts,
+          //       style: ElevatedButton.styleFrom(
+          //         backgroundColor: Colors.white,
+          //         foregroundColor: kPrimaryColor,
+          //         side: BorderSide(color: kPrimaryColor),
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(8.r),
+          //         ),
+          //         padding: EdgeInsets.symmetric(vertical: 12.h),
+          //       ),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Icon(Icons.expand_more, size: 20.w),
+          //           8.horizontalSpace,
+          //           Text('Load More Products', style: FontPalette.hW600S14),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
           if (!hasMoreData && products.isNotEmpty && !isLoadingMore)
             Container(
               padding: EdgeInsets.all(16.h),
@@ -517,7 +488,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ElevatedButton(
               onPressed: () {
                 _searchController.clear();
-                _performSearch('');
+                // _performSearch('');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: kPrimaryColor,
@@ -536,7 +507,7 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  void _handleStoreChange(StoreResponse? store) {
+  void _handleStoreChange(StoreResponse? store, BuildContext context) {
     final productCubit = context.read<ProductCubit>();
     final dashboardCubit = context.read<DashboardCubit>();
     dashboardCubit.selectedStore(store ?? StoreResponse());
@@ -544,7 +515,7 @@ class _ProductScreenState extends State<ProductScreen> {
     productCubit.clearCategory();
     productCubit.clearAllProducts();
     productCubit.changeStore(store ?? StoreResponse());
-    productCubit.product(store?.storeId ?? 0, 0, '', '', 0);
+    productCubit.product(storeId: store?.storeId);
     _searchController.clear();
   }
 
@@ -552,17 +523,18 @@ class _ProductScreenState extends State<ProductScreen> {
     Product? product,
     ProductState state,
     DashboardState common,
+    BuildContext context,
   ) {
     final productCubit = context.read<ProductCubit>();
     productCubit.changeProductType(product ?? Product());
 
     productCubit.selectProduct(product);
     productCubit.product(
-      common.selectedStore?.storeId ?? 0,
-      state.selectedProduct?.mainCategoryId ?? 0,
-      _searchController.text,
-      '',
-      state.selectProduct?.filterId ?? 0,
+      storeId: common.selectedStore?.storeId ?? 0,
+      catId: state.selectedProduct?.mainCategoryId ?? 0,
+      search: _searchController.text,
+      barCode: '',
+      filterId: state.selectProduct?.filterId ?? 0,
     );
     productCubit.clearCategory();
   }
@@ -571,6 +543,7 @@ class _ProductScreenState extends State<ProductScreen> {
     int? categoryId,
     ProductState state,
     DashboardState common,
+    BuildContext context,
   ) {
     final selectedCategory = state.categoryList?.firstWhere(
       (e) => e.details?.categoryId == categoryId,
@@ -579,15 +552,15 @@ class _ProductScreenState extends State<ProductScreen> {
     final productCubit = context.read<ProductCubit>();
     productCubit.changeCategory(selectedCategory!);
     productCubit.product(
-      common.selectedStore?.storeId ?? 0,
-      selectedCategory.details?.categoryId ?? 0,
-      _searchController.text,
-      '',
-      state.selectProduct?.filterId ?? 0,
+      storeId: common.selectedStore?.storeId ?? 0,
+      catId: selectedCategory.details?.categoryId ?? 0,
+      search: _searchController.text,
+      barCode: '',
+      filterId: state.selectProduct?.filterId ?? 0,
     );
   }
 
-  Future<void> _handleQRScan() async {
+  Future<void> _handleQRScan(BuildContext context) async {
     final scannedCode = await showDialog<String>(
       context: context,
       builder: (_) => const ScannerDialog(),
@@ -597,7 +570,7 @@ class _ProductScreenState extends State<ProductScreen> {
       _searchController.text = scannedCode;
       final storeId =
           context.read<DashboardCubit>().state.selectedStore?.storeId ?? 0;
-      context.read<ProductCubit>().product(storeId, 0, '', scannedCode, 0);
+      context.read<ProductCubit>().product(storeId: storeId);
     }
   }
 }
@@ -861,6 +834,24 @@ class ShimmerWidget extends StatelessWidget {
           shape: shapeBorder,
         ),
       ),
+    );
+  }
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ProductCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.productList?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ProductCubit>().product(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
     );
   }
 }
