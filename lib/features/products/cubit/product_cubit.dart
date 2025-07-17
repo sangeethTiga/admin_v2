@@ -156,46 +156,46 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> loadMoreProducts() async {
-    if (state.isLoadingMore ?? false || !(state.hasMoreData ?? false)) return;
+  // Future<void> loadMoreProducts() async {
+  //   if (state.isLoadingMore ?? false || !(state.hasMoreData ?? false)) return;
 
-    try {
-      emit(state.copyWith(isLoadingMore: true));
-      final nextPage = (state.currentPage ?? 0) + 1;
-      final pageFirstResult = nextPage * _itemsPerPage;
-      final res = await _productRepositories.products(
-        storeId: state.lastStoreId,
-        catId: state.lastCatId,
-        search: state.lastSearchQuery,
-        barCode: state.lastBarCode,
-        filterId: state.lastFilterId,
-        resultPerPage: pageFirstResult,
-      );
+  //   try {
+  //     emit(state.copyWith(isLoadingMore: true));
+  //     final nextPage = (state.currentPage ?? 0) + 1;
+  //     final pageFirstResult = nextPage * _itemsPerPage;
+  //     final res = await _productRepositories.products(
+  //       storeId: state.lastStoreId,
+  //       catId: state.lastCatId,
+  //       search: state.lastSearchQuery,
+  //       barCode: state.lastBarCode,
+  //       filterId: state.lastFilterId,
+  //       resultPerPage: pageFirstResult,
+  //     );
 
-      if (res.data != null && res.data!.isNotEmpty) {
-        final newProducts = List<ProductResponse>.from(res.data!);
-        final allProducts = List<ProductResponse>.from(state.productList ?? []);
-        allProducts.addAll(newProducts);
-        allProducts.sort((a, b) => a.productName!.compareTo(b.productName!));
-        final hasMore = newProducts.length >= _itemsPerPage;
-        emit(
-          state.copyWith(
-            isLoadingMore: false,
-            productList: allProducts,
-            filteredProducts: allProducts,
-            currentPage: nextPage,
-            hasMoreData: hasMore,
-            totalItems: allProducts.length,
-          ),
-        );
-      } else {
-        emit(state.copyWith(isLoadingMore: false, hasMoreData: false));
-      }
-    } catch (e, s) {
-      log("Error loading more products: $e", stackTrace: s);
-      emit(state.copyWith(isLoadingMore: false));
-    }
-  }
+  //     if (res.data != null && res.data!.isNotEmpty) {
+  //       final newProducts = List<ProductResponse>.from(res.data!);
+  //       final allProducts = List<ProductResponse>.from(state.productList ?? []);
+  //       allProducts.addAll(newProducts);
+  //       allProducts.sort((a, b) => a.productName!.compareTo(b.productName!));
+  //       final hasMore = newProducts.length >= _itemsPerPage;
+  //       emit(
+  //         state.copyWith(
+  //           isLoadingMore: false,
+  //           productList: allProducts,
+  //           filteredProducts: allProducts,
+  //           currentPage: nextPage,
+  //           hasMoreData: hasMore,
+  //           totalItems: allProducts.length,
+  //         ),
+  //       );
+  //     } else {
+  //       emit(state.copyWith(isLoadingMore: false, hasMoreData: false));
+  //     }
+  //   } catch (e, s) {
+  //     log("Error loading more products: $e", stackTrace: s);
+  //     emit(state.copyWith(isLoadingMore: false));
+  //   }
+  // }
 
   void searchProducts(String query) {
     final allProducts = state.productList ?? [];
