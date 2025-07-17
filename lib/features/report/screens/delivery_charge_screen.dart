@@ -20,29 +20,27 @@ class DeliveryChargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Delivery Charge'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            dividerWidget(height: 6.h),
-            MainPadding(
-              child: Column(
-                children: [
-                  commonStoreDropDown(
-                    onChanged: (p0) {
-                      context.read<DashboardCubit>().selectedStore(p0);
-                    },
-                  ),
-                  8.verticalSpace,
-                  _handleDate(),
-                  8.verticalSpace,
-                  _viewResults(),
-                  8.verticalSpace,
-                  _buildCommonTable(),
-                ],
-              ),
+      body: Column(
+        children: [
+          dividerWidget(height: 6.h),
+          MainPadding(
+            child: Column(
+              children: [
+                commonStoreDropDown(
+                  onChanged: (p0) {
+                    context.read<DashboardCubit>().selectedStore(p0);
+                  },
+                ),
+                8.verticalSpace,
+                _handleDate(),
+                8.verticalSpace,
+                _viewResults(),
+                8.verticalSpace,
+              ],
             ),
-          ],
-        ),
+          ),
+          Expanded(child: _buildCommonTable()),
+        ],
       ),
     );
   }
@@ -54,7 +52,7 @@ class DeliveryChargeScreen extends StatelessWidget {
           children: [
             Expanded(
               child: DatePickerContainer(
-                hintText: '',
+                labelText: 'From Date',
                 value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeFromDate(pickDate);
@@ -64,7 +62,7 @@ class DeliveryChargeScreen extends StatelessWidget {
             12.horizontalSpace,
             Expanded(
               child: DatePickerContainer(
-                hintText: '',
+                labelText: 'To Date',
 
                 value: apiFormat.format(state.toDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
@@ -94,34 +92,135 @@ class DeliveryChargeScreen extends StatelessWidget {
   }
 
   Widget _buildCommonTable() {
+    bool noMoreDataSnackbarShown = false;
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
-        return SizedBox(
-          height: 540,
-          child: CommonTableWidget(
-            isLoading: state.isDeliverychargeReport == ApiFetchStatus.loading,
-            headers: ["#", "BILL NO", "ORDER DATE", "COUNT", "SHIPPING CHARGE"],
-            columnFlex: [0, 3, 3, 2, 3],
-            data:
-                state.deliverychargeReport?.map((e) {
-                  int index = state.deliverychargeReport?.indexOf(e) ?? 0;
-                  return {
-                    "#": index + 1,
-                    "BILL NO": e.billNo ?? '',
-                    "ORDER DATE": formatDateString(e.orderDate ?? ''),
-                    "COUNT": e.rawCount ?? '',
-                    "SHIPPING CHARGE": e.shippingCharge != null
-                        ? double.tryParse(
-                                e.shippingCharge!,
-                              )?.toStringAsFixed(2) ??
-                              ''
-                        : '',
-                  };
-                }).toList() ??
-                [],
+        return MainPadding(
+          child: Column(
+            children: [
+              Expanded(
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    final maxScroll = scrollInfo.metrics.maxScrollExtent;
+                    final currentScroll = scrollInfo.metrics.pixels;
+                    final threshold = maxScroll - 100;
+
+                    final atBottom = currentScroll >= threshold;
+
+                    if (scrollInfo is ScrollEndNotification && atBottom) {
+                      final reportState = context.read<ReportCubit>().state;
+
+                      if (reportState.hasMoreData == true &&
+                          reportState.isLoadingMore != true) {
+                        _loadMoreData(context);
+                      }
+
+                      // if (reportState.hasMoreData == false &&
+                      //     reportState.deliverychargeReport?.isNotEmpty ==
+                      //         true &&
+                      //     !noMoreDataSnackbarShown) {
+                      //   noMoreDataSnackbarShown = true;
+
+                      //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                      //     ScaffoldMessenger.of(context).showSnackBar(
+                      //       const SnackBar(
+                      //         content: Text('No more data'),
+                      //         duration: Duration(seconds: 1),
+
+                      //       ),
+                      if (reportState.hasMoreData == false &&
+                          reportState.deliverychargeReport?.isNotEmpty ==
+                              true) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('No more data'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        });
+                      }
+                    }
+
+                    return false;
+                  },
+                  child: CommonTableWidget(
+                    isLoading:
+                        state.isDeliverychargeReport == ApiFetchStatus.loading,
+                    headers: [
+                      "#",
+                      "BILL NO",
+                      "ORDER DATE",
+                      "COUNT",
+                      "SHIPPING CHARGE",
+                    ],
+                    columnFlex: [0, 3, 3, 2, 3],
+                    data:
+                        state.deliverychargeReport?.asMap().entries.map((
+                          entry,
+                        ) {
+                          int localIndex = entry.key;
+                          var e = entry.value;
+                          int globalIndex =
+                              ((state.currentPage - 1) * 20) + entry.key + 1;
+                          return {
+                            "#": globalIndex,
+                            "BILL NO": e.billNo ?? '',
+                            "ORDER DATE": formatDateString(e.orderDate ?? ''),
+                            "COUNT": e.rawCount ?? '',
+                            "SHIPPING CHARGE": e.shippingCharge != null
+                                ? double.tryParse(
+                                        e.shippingCharge!,
+                                      )?.toStringAsFixed(2) ??
+                                      ''
+                                : '',
+                          };
+                        }).toList() ??
+                        [],
+                  ),
+                ),
+              ),
+              if (state.isLoadingMore == true)
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                  child: CircularProgressIndicator(),
+                ),
+              // if (state.isLoadingMore == true)
+              //   Container(
+              //     padding: EdgeInsets.all(16.w),
+              //     child: CircularProgressIndicator(),
+              //   ),
+              // if (state.hasMoreData == false &&
+              //     state.deliverychargeReport?.isNotEmpty == true)
+              //   Container(
+              //     padding: EdgeInsets.all(16.w),
+              //     child: Text(
+              //       'No more data',
+              //       style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              //     ),
+              //   ),
+            ],
           ),
         );
       },
+    );
+  }
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.deliverychargeReport?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadDeliveryChargeReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
     );
   }
 }

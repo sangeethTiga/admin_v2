@@ -35,6 +35,8 @@ mixin _$ExpenseReportResponse {
   double? get amount => throw _privateConstructorUsedError;
   @JsonKey(name: "account_name")
   String? get accountName => throw _privateConstructorUsedError;
+  @JsonKey(name: "account_head_name")
+  String? get accountHeadName => throw _privateConstructorUsedError;
   @JsonKey(name: "raw_count")
   int? get rawCount => throw _privateConstructorUsedError;
   @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
@@ -64,6 +66,7 @@ abstract class $ExpenseReportResponseCopyWith<$Res> {
     @JsonKey(name: "invoice_number") dynamic invoiceNumber,
     @JsonKey(name: "amount", fromJson: parseNumberAsDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
+    @JsonKey(name: "account_head_name") String? accountHeadName,
     @JsonKey(name: "raw_count") int? rawCount,
     @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
     double? totalamount,
@@ -94,6 +97,7 @@ class _$ExpenseReportResponseCopyWithImpl<
     Object? invoiceNumber = freezed,
     Object? amount = freezed,
     Object? accountName = freezed,
+    Object? accountHeadName = freezed,
     Object? rawCount = freezed,
     Object? totalamount = freezed,
   }) {
@@ -122,6 +126,10 @@ class _$ExpenseReportResponseCopyWithImpl<
             accountName: freezed == accountName
                 ? _value.accountName
                 : accountName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            accountHeadName: freezed == accountHeadName
+                ? _value.accountHeadName
+                : accountHeadName // ignore: cast_nullable_to_non_nullable
                       as String?,
             rawCount: freezed == rawCount
                 ? _value.rawCount
@@ -153,6 +161,7 @@ abstract class _$$ExpenseReportResponseImplCopyWith<$Res>
     @JsonKey(name: "invoice_number") dynamic invoiceNumber,
     @JsonKey(name: "amount", fromJson: parseNumberAsDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
+    @JsonKey(name: "account_head_name") String? accountHeadName,
     @JsonKey(name: "raw_count") int? rawCount,
     @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
     double? totalamount,
@@ -180,6 +189,7 @@ class __$$ExpenseReportResponseImplCopyWithImpl<$Res>
     Object? invoiceNumber = freezed,
     Object? amount = freezed,
     Object? accountName = freezed,
+    Object? accountHeadName = freezed,
     Object? rawCount = freezed,
     Object? totalamount = freezed,
   }) {
@@ -209,6 +219,10 @@ class __$$ExpenseReportResponseImplCopyWithImpl<$Res>
             ? _value.accountName
             : accountName // ignore: cast_nullable_to_non_nullable
                   as String?,
+        accountHeadName: freezed == accountHeadName
+            ? _value.accountHeadName
+            : accountHeadName // ignore: cast_nullable_to_non_nullable
+                  as String?,
         rawCount: freezed == rawCount
             ? _value.rawCount
             : rawCount // ignore: cast_nullable_to_non_nullable
@@ -232,6 +246,7 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
     @JsonKey(name: "invoice_number") this.invoiceNumber,
     @JsonKey(name: "amount", fromJson: parseNumberAsDouble) this.amount,
     @JsonKey(name: "account_name") this.accountName,
+    @JsonKey(name: "account_head_name") this.accountHeadName,
     @JsonKey(name: "raw_count") this.rawCount,
     @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
     this.totalamount,
@@ -259,6 +274,9 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
   @JsonKey(name: "account_name")
   final String? accountName;
   @override
+  @JsonKey(name: "account_head_name")
+  final String? accountHeadName;
+  @override
   @JsonKey(name: "raw_count")
   final int? rawCount;
   @override
@@ -267,7 +285,7 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
 
   @override
   String toString() {
-    return 'ExpenseReportResponse(payMethodName: $payMethodName, acTransactionDate: $acTransactionDate, description: $description, invoiceNumber: $invoiceNumber, amount: $amount, accountName: $accountName, rawCount: $rawCount, totalamount: $totalamount)';
+    return 'ExpenseReportResponse(payMethodName: $payMethodName, acTransactionDate: $acTransactionDate, description: $description, invoiceNumber: $invoiceNumber, amount: $amount, accountName: $accountName, accountHeadName: $accountHeadName, rawCount: $rawCount, totalamount: $totalamount)';
   }
 
   @override
@@ -288,6 +306,8 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.accountName, accountName) ||
                 other.accountName == accountName) &&
+            (identical(other.accountHeadName, accountHeadName) ||
+                other.accountHeadName == accountHeadName) &&
             (identical(other.rawCount, rawCount) ||
                 other.rawCount == rawCount) &&
             (identical(other.totalamount, totalamount) ||
@@ -304,6 +324,7 @@ class _$ExpenseReportResponseImpl implements _ExpenseReportResponse {
     const DeepCollectionEquality().hash(invoiceNumber),
     amount,
     accountName,
+    accountHeadName,
     rawCount,
     totalamount,
   );
@@ -335,6 +356,7 @@ abstract class _ExpenseReportResponse implements ExpenseReportResponse {
     @JsonKey(name: "amount", fromJson: parseNumberAsDouble)
     final double? amount,
     @JsonKey(name: "account_name") final String? accountName,
+    @JsonKey(name: "account_head_name") final String? accountHeadName,
     @JsonKey(name: "raw_count") final int? rawCount,
     @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
     final double? totalamount,
@@ -361,6 +383,9 @@ abstract class _ExpenseReportResponse implements ExpenseReportResponse {
   @override
   @JsonKey(name: "account_name")
   String? get accountName;
+  @override
+  @JsonKey(name: "account_head_name")
+  String? get accountHeadName;
   @override
   @JsonKey(name: "raw_count")
   int? get rawCount;

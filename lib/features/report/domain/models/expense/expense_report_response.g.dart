@@ -15,6 +15,7 @@ _$ExpenseReportResponseImpl _$$ExpenseReportResponseImplFromJson(
   invoiceNumber: json['invoice_number'],
   amount: parseNumberAsDouble(json['amount']),
   accountName: json['account_name'] as String?,
+  accountHeadName: json['account_head_name'] as String?,
   rawCount: (json['raw_count'] as num?)?.toInt(),
   totalamount: parseNumberAsDouble(json['totalamount']),
 );
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$ExpenseReportResponseImplToJson(
   'invoice_number': instance.invoiceNumber,
   'amount': instance.amount,
   'account_name': instance.accountName,
+  'account_head_name': instance.accountHeadName,
   'raw_count': instance.rawCount,
   'totalamount': instance.totalamount,
 };

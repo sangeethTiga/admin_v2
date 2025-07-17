@@ -12,7 +12,6 @@ import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
@@ -25,41 +24,42 @@ class ProductCubit extends Cubit<ProductState> {
 
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
-  Future<void> product(
-    int storeId,
-    int catId,
-    String search,
-    String barCode,
-    int filterId,
-  ) async {
+  Future<void> product({
+    int? storeId,
+    int? catId,
+    String? search,
+    String? barCode,
+    int? filterId,
+    bool isLoadMore = false,
+    int? page = 0,
+    int limit = 20,
+  }) async {
     try {
-      final isNewSearch = _isNewSearch(
-        storeId,
-        catId,
-        search,
-        barCode,
-        filterId,
-      );
-
-      if (isNewSearch) {
+      if (isLoadMore) {
+        emit(state.copyWith(isLoadingMore: true));
+      } else {
         emit(
           state.copyWith(
             isProduct: ApiFetchStatus.loading,
-            currentPage: 0,
-            hasMoreData: true,
             productList: [],
-            filteredProducts: [],
-            scannedProduct: null,
-            lastSearchQuery: search,
-            lastBarCode: barCode,
-            lastStoreId: storeId,
-            lastCatId: catId,
-            lastFilterId: filterId,
+            currentPage: 0,
+            hasMoreData: false,
+            isLoadingMore: false,
           ),
         );
-      } else {
-        emit(state.copyWith(isProduct: ApiFetchStatus.loading));
       }
+
+      // ✅ FIX 1: Correct page calculation
+      // For pagination, we need page numbers (1, 2, 3...), not offset values
+      final currentPage = isLoadMore ? (state.currentPage ?? 0) + 1 : 1;
+
+      // ✅ FIX 2: Calculate correct pageFirstResult if your API expects offset
+      // If your API expects offset (starting position), calculate it from page
+      final pageFirstResult = (currentPage - 1) * limit;
+
+      log(
+        "Loading products - Page: $currentPage, Offset: $pageFirstResult, Limit: $limit, IsLoadMore: $isLoadMore",
+      );
 
       final res = await _productRepositories.products(
         storeId: storeId,
@@ -67,36 +67,92 @@ class ProductCubit extends Cubit<ProductState> {
         search: search,
         barCode: barCode,
         filterId: filterId,
-        page: 0,
+        pageFirstResult: pageFirstResult, // Use offset, not page number
+        resultPerPage: limit,
       );
 
-      if (res.data != null) {
-        final newProducts = List<ProductResponse>.from(res.data!);
+      if (res.data != null && (res.data?.isNotEmpty ?? false)) {
+        List<ProductResponse> updatedList;
 
-        newProducts.sort((a, b) => a.productName!.compareTo(b.productName!));
-        final scanned = barCode.isNotEmpty
-            ? newProducts.firstWhereOrNull(
-                (p) => (p.barCode?.trim() ?? '') == barCode.trim(),
-              )
-            : null;
-        final hasMore = newProducts.length >= _itemsPerPage;
+        if (isLoadMore) {
+          // ✅ FIX 3: Avoid duplicates when loading more
+          final existingIds = (state.productList ?? [])
+              .map((p) => p.productId)
+              .toSet();
+
+          final newProducts = res.data!
+              .where((product) => !existingIds.contains(product.productId))
+              .toList();
+
+          updatedList = [...(state.productList ?? []), ...newProducts];
+
+          log(
+            "Load More: Added ${newProducts.length} new products, Total: ${updatedList.length}",
+          );
+        } else {
+          updatedList = res.data!;
+          log("Fresh Load: Loaded ${updatedList.length} products");
+        }
+
+        final hasMoreData = res.data!.length >= limit;
+
+        ProductResponse? scannedProduct;
+        if (barCode != null && barCode.isNotEmpty) {
+          try {
+            scannedProduct = updatedList.firstWhere(
+              (p) =>
+                  (p.barCode?.trim().toLowerCase() ?? '') ==
+                  barCode.trim().toLowerCase(),
+            );
+            log("Scanned product found: ${scannedProduct.productName}");
+          } catch (e) {
+            log("Scanned product not found for barcode: $barCode");
+          }
+        }
+
         emit(
           state.copyWith(
+            productList: updatedList,
             isProduct: ApiFetchStatus.success,
-            productList: newProducts,
-            filteredProducts: newProducts,
-            scannedProduct: scanned,
-            currentPage: 0,
-            hasMoreData: hasMore,
-            totalItems: newProducts.length,
+            currentPage: currentPage,
+            hasMoreData: hasMoreData,
+            isLoadingMore: false,
+            scannedProduct: scannedProduct,
+            totalItems: updatedList.length,
           ),
         );
+
+        log(
+          "Products loaded successfully - Page: $currentPage, Total: ${updatedList.length}, HasMore: $hasMoreData",
+        );
       } else {
-        emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+        if (isLoadMore) {
+          emit(state.copyWith(isLoadingMore: false, hasMoreData: false));
+          log("Load More: No more data available");
+        } else {
+          emit(
+            state.copyWith(
+              isProduct: ApiFetchStatus.success,
+              productList: [],
+              isLoadingMore: false,
+              hasMoreData: false,
+              currentPage: 1,
+              totalItems: 0,
+            ),
+          );
+          log("Fresh Load: No products found");
+        }
       }
     } catch (e, s) {
       log("Error loading products: $e", stackTrace: s);
-      emit(state.copyWith(isProduct: ApiFetchStatus.failed));
+
+      emit(
+        state.copyWith(
+          isProduct: isLoadMore ? state.isProduct : ApiFetchStatus.failed,
+          isLoadingMore: false,
+          hasMoreData: false,
+        ),
+      );
     }
   }
 
@@ -113,7 +169,7 @@ class ProductCubit extends Cubit<ProductState> {
         search: state.lastSearchQuery,
         barCode: state.lastBarCode,
         filterId: state.lastFilterId,
-        page: pageFirstResult,
+        resultPerPage: pageFirstResult,
       );
 
       if (res.data != null && res.data!.isNotEmpty) {
@@ -290,7 +346,7 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> clearCategory() async {                      
+  Future<void> clearCategory() async {
     emit(state.copyWith(selectCategory: CategoryResponse()));
   }
 

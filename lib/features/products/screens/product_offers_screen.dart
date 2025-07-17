@@ -122,7 +122,10 @@ class ProductOffersScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: DatePickerContainer(
-                              firstDate: state.fromDate ?? DateTime.now(),
+                              value: apiFormat.format(
+                                state.fromDate ?? DateTime.now(),
+                              ),
+                              //  firstDate: state.fromDate ?? DateTime.now(),
                               hintText: '',
                               changeDate: (DateTime pickedDate) {
                                 context.read<ReportCubit>().changeFromDate(
@@ -134,6 +137,9 @@ class ProductOffersScreen extends StatelessWidget {
                           12.horizontalSpace,
                           Expanded(
                             child: DatePickerContainer(
+                              value: apiFormat.format(
+                                state.fromDate ?? DateTime.now(),
+                              ),
                               hintText: '',
                               changeDate: (DateTime pickedDate) {
                                 context.read<ReportCubit>().changeToDate(

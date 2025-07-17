@@ -103,6 +103,7 @@ class ReportService implements ReportRepositories {
         storeId,
         fromDate,
         toDate,
+        
       ),
     );
     switch (res.statusCode) {
@@ -181,12 +182,12 @@ class ReportService implements ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
-    required int pageSize,
-    required int offset,
+    required int resultPerPage,
+    required int pageFirstResult,
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
-      ApiEndpoints.deliveryCharge(storeId, fromDate, toDate, pageSize, offset),
+      ApiEndpoints.deliveryCharge(storeId, fromDate, toDate, resultPerPage, pageFirstResult),
     );
     log('result-=-=-=-=-=$res');
     switch (res.statusCode) {

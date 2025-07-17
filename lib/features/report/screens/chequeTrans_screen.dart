@@ -5,6 +5,7 @@ import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/buttons/custom_material_button.dart';
+import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
@@ -109,6 +110,18 @@ class ChequetransScreen extends StatelessWidget {
                 context.read<ReportCubit>().loadChequeTrans(
                   storeId: commonState.selectedStore?.storeId,
                   status: selectedStatusId?.toString(),
+                  // fromChequeIssueDate: apiFormat.format(
+                  //   reportState.fromDate ?? DateTime.now(),
+                  // ),
+                  // fromChequeDate: apiFormat.format(
+                  //   reportState.fromDate ?? DateTime.now(),
+                  // ),
+                  // toChequeDate: apiFormat.format(
+                  //   reportState.toDate ?? DateTime.now(),
+                  // ),
+                  // toChequeIssueDate: apiFormat.format(
+                  //   reportState.toDate ?? DateTime.now(),
+                  // ),
                 );
               },
               buttonText: 'View Report',
@@ -120,87 +133,40 @@ class ChequetransScreen extends StatelessWidget {
   }
 
   Widget _buildCommonTable() {
-    return Expanded(
-      child: MainPadding(
-        child: BlocBuilder<DashboardCubit, DashboardState>(
-          builder: (context, store) {
-            return BlocBuilder<ReportCubit, ReportState>(
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: NotificationListener<ScrollNotification>(
-                              onNotification: (ScrollNotification scrollInfo) {
-                                if (scrollInfo is ScrollEndNotification) {
-                                  final maxScroll =
-                                      scrollInfo.metrics.maxScrollExtent;
-                                  final currentScroll =
-                                      scrollInfo.metrics.pixels;
-                                  final threshold = maxScroll - 100;
+    return BlocBuilder<ReportCubit, ReportState>(
+      builder: (context, state) {
+        return SizedBox(
+          height: 490,
+          child: CommonTableWidget(
+            isLoading: state.isChequeReport == ApiFetchStatus.loading,
+            headers: [
+              // "#",
+              "CHEQUE NUMBER",
+              "BANK NAME",
+              "CHEQUE ISSUE DATE",
+              //"CHEQUE DATE",
+              "STATUS",
+              "AMOUNT",
+            ],
+            columnFlex: [4, 3, 5, 4, 4],
+            data:
+                state.chequeTransReport?.map((e) {
+                  int index = state.chequeTransReport?.indexOf(e) ?? 0;
 
-                                  if (currentScroll >= threshold) {
-                                    _loadMoreData(context);
-                                  }
-                                }
-                                return false;
-                              },
-                              child: BlocBuilder<ReportCubit, ReportState>(
-                                builder: (context, state) {
-                                  return CommonTableWidget(
-                                    isLoading:
-                                        state.isChequeReport ==
-                                        ApiFetchStatus.loading,
-                                    headers: [
-                                      // "#",
-                                      "CHEQUE NUMBER",
-                                      "BANK NAME",
-                                      "CHEQUE ISSUE DATE",
-                                      //"CHEQUE DATE",
-                                      "STATUS",
-                                      "AMOUNT",
-                                    ],
-                                    columnFlex: [4, 3, 5, 4, 4],
-                                    data:
-                                        state.chequeTransReport
-                                            ?.asMap()
-                                            .entries
-                                            .map((entry) {
-                                              int localIndex = entry.key;
-                                              var e = entry.value;
-                                              int globalIndex = localIndex + 1;
-
-                                              return {
-                                                // "#": index + 1,
-                                                "CHEQUE NUMBER":
-                                                    e.chequeNumber ?? '',
-                                                "BANK NAME": e.bankName ?? '',
-                                                "CHEQUE ISSUE DATE":
-                                                    e.chequeIssueDate ?? '',
-                                                // "CHEQUE DATE": e.chequeDate ?? '',
-                                                "STATUS": e.statusName ?? '',
-                                                "AMOUNT": e.amount ?? '',
-                                              };
-                                            })
-                                            .toList() ??
-                                        [],
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-        ),
-      ),
+                  return {
+                    // "#": index + 1,
+                    "CHEQUE NUMBER": e.chequeNumber ?? '',
+                    "BANK NAME": e.bankName ?? '',
+                    "CHEQUE ISSUE DATE": e.chequeIssueDate ?? '',
+                    // "CHEQUE DATE": e.chequeDate ?? '',
+                    "STATUS": e.statusName ?? '',
+                    "AMOUNT": e.amount ?? '',
+                  };
+                }).toList() ??
+                [],
+          ),
+        );
+      },
     );
   }
 }

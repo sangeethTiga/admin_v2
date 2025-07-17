@@ -46,7 +46,7 @@ class ApiEndpoints {
     String toDate,
     int account,
   ) =>
-      "/api/expenseReport?page_first_limit=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=$account";
+      "/api/expenseReport?page_first_limit=$pageFirstResult&result_per_page=$resultPerPage&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=$account";
   static String account = '/api/account-heads?trans_type_id=2';
 
   static String status = '/api/orderstatus';
@@ -63,10 +63,10 @@ class ApiEndpoints {
     int storeId,
     String fromDate,
     String toDate,
-    int pageSize,
-    int offset,
+    int resultPerPage,
+    int pageFirstResult,
   ) =>
-      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=10&offset=0";
+      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$pageFirstResult&offset=$resultPerPage";
 
   static String customersReport(
     int pageFirstResult,
@@ -85,8 +85,9 @@ class ApiEndpoints {
     String barCode,
     int filterId,
     int pageFirstResult,
+    int resultPage,
   ) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=10';
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=$resultPage';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
@@ -100,7 +101,7 @@ class ApiEndpoints {
     int storeId,
     int orderOptionId,
   ) =>
-      '/api/parcel_charge/report?page_first_limit=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&order_option_id=$orderOptionId';
+      '/api/parcel_charge/report?page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&store_id=$storeId&from_date=$fromDate&to_date=$toDate&order_option_id=$orderOptionId';
   static String orderOption(int storeId, int appTypeId) =>
       '/api/order_options?store_id=$storeId&app_type_id=0';
 

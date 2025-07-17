@@ -135,11 +135,8 @@ class _EditProductState extends State<EditProduct> {
               listener: (context, state) {
                 if (state.isAdded == ApiFetchStatus.success) {
                   context.read<ProductCubit>().product(
-                    state.selectedStore?.storeId ?? 0,
-                    widget.product.mainCategoryId ?? 0,
-                    "",
-                    "",
-                    0,
+                    storeId: state.selectedStore?.storeId ?? 0,
+                    catId: widget.product.mainCategoryId ?? 0,
                   );
                 }
               },

@@ -52,7 +52,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i630.DashboardRepositories>(
       () => _i999.DashboardService(),
     );
-   gh.lazySingleton<_i11.ReportRepositories>(() => _i388.ReportService());
+    gh.lazySingleton<_i11.ReportRepositories>(() => _i388.ReportService());
     gh.lazySingleton<_i23.OrderRepositories>(() => _i895.OrderService());
     gh.lazySingleton<_i350.CommonRepostories>(() => _i837.CommonService());
     gh.factory<_i36.ProductCubit>(

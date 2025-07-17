@@ -49,7 +49,7 @@ class MostSellingProducts extends StatelessWidget {
                     );
                   },
                 ),
-                8.verticalSpace,
+                4.verticalSpace,
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return DropDownFieldWidget(
@@ -98,6 +98,7 @@ class MostSellingProducts extends StatelessWidget {
                 4.verticalSpace,
                 TextFeildWidget(
                   onChanged: (value) {
+                    print('-=-==-=-$value');
                     final storeId =
                         context
                             .read<DashboardCubit>()
@@ -116,6 +117,11 @@ class MostSellingProducts extends StatelessWidget {
                       searchText: value,
                       page: 0,
                     );
+                    // context.read<ReportCubit>().searchMostsellingProduct(
+                    //   value ?? '',
+                    //   storeId,
+                    //   categoryId ?? 0,
+                    // );
                   },
 
                   borderColor: kBlack,
@@ -140,7 +146,7 @@ class MostSellingProducts extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            hintText: '',
+                            labelText: 'From Date',
                             value: apiFormat.format(
                               state.fromDate ?? DateTime.now(),
                             ),
@@ -154,7 +160,7 @@ class MostSellingProducts extends StatelessWidget {
                         12.horizontalSpace,
                         Expanded(
                           child: DatePickerContainer(
-                            hintText: '',
+                           labelText: 'To Date',
                             value: apiFormat.format(
                               state.toDate ?? DateTime.now(),
                             ),
@@ -172,20 +178,27 @@ class MostSellingProducts extends StatelessWidget {
                 12.verticalSpace,
                 BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
-                    return CustomMaterialBtton(
-                      isLoading: state.isMostSelling == ApiFetchStatus.loading,
-                      onPressed: () {
-                        final categoryId = context
-                            .read<DashboardCubit>()
-                            .state
-                            .selectedCategory
-                            ?.categoryId;
-                        context.read<ReportCubit>().loadProductReport(
-                          storeId: state.selectedStore?.storeId,
-                          categoryId: categoryId,
+                    return BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, reportState) {
+                        return CustomMaterialBtton(
+                          isLoading:
+                              state.isMostSelling == ApiFetchStatus.loading,
+                          onPressed: () {
+                            final categoryId = context
+                                .read<DashboardCubit>()
+                                .state
+                                .selectedCategory
+                                ?.categoryId;
+                            context.read<ReportCubit>().loadProductReport(
+                              page: 0,
+                              storeId: state.selectedStore?.storeId,
+                              searchText: reportState.lastSearch,
+                              categoryId: categoryId,
+                            );
+                          },
+                          buttonText: 'View Report',
                         );
                       },
-                      buttonText: 'View Report',
                     );
                   },
                 ),
@@ -272,26 +285,26 @@ class MostSellingProducts extends StatelessWidget {
                                         ),
                                       ),
                                 ),
+                                if (state.isLoadingMore == true)
+                                  Container(
+                                    padding: EdgeInsets.all(16.w),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                if (state.hasMoreData == false &&
+                                    state.productsReport?.isNotEmpty == true)
+                                  Container(
+                                    padding: EdgeInsets.all(16.w),
+                                    child: Text(
+                                      'No more data',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
                               ],
                             ),
                           ),
-                          if (state.isLoadingMore == true)
-                            Container(
-                              padding: EdgeInsets.all(16.w),
-                              child: CircularProgressIndicator(),
-                            ),
-                          if (state.hasMoreData == false &&
-                              state.productsReport?.isNotEmpty == true)
-                            Container(
-                              padding: EdgeInsets.all(16.w),
-                              child: Text(
-                                'No more data',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
                         ],
                       );
                     },
@@ -358,8 +371,8 @@ void _loadMoreData(BuildContext context) {
     context.read<ReportCubit>().loadProductReport(
       storeId: dashboardState.selectedStore?.storeId,
       isLoadMore: true,
-      // page: reportState.currentPage,
-      // searchText: reportState.lastSearch,
+      page: reportState.currentPage,
+      searchText: reportState.lastSearch,
     );
   }
 }

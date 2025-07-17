@@ -13,7 +13,7 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") String? deliveryAgentId,
     @JsonKey(name: "rounding") int? rounding,
-    @JsonKey(name: "parcel_charge") double? parcelCharge,
+    @JsonKey(name: "parcel_charge",fromJson: parseDouble) double? parcelCharge,
     @JsonKey(name: "table_details") List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") String? customerFeedbacks,
@@ -295,7 +295,7 @@ class ProductOrderItem with _$ProductOrderItem {
     @JsonKey(name: "pre_order_charging_option_id")
     int? preOrderChargingOptionId,
     @JsonKey(name: "takeaway_addon_price") int? takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") int? parcelCharge,
+    @JsonKey(name: "parcel_charge") double? parcelCharge,
   }) = _ProductOrderItem;
 
   factory ProductOrderItem.fromJson(Map<String, dynamic> json) =>
