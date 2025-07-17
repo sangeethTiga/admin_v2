@@ -177,14 +177,7 @@ class ParcelCharge extends StatelessWidget {
 
                       if (reportState.hasMoreData == false &&
                           reportState.parcelChargeList?.isNotEmpty == true) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('No more data'),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                        });
+                        _showNoMoreDataOverlay(context);
                       }
                     }
                     return false;
@@ -248,4 +241,31 @@ void _loadMoreData(BuildContext context) {
       isLoadMore: true,
     );
   }
+}
+
+OverlayEntry? _overlayEntry;
+
+void _showNoMoreDataOverlay(BuildContext context) {
+  if (_overlayEntry != null) return;
+
+  _overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      bottom: 18,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: const Text(
+          'No more data',
+          style: TextStyle(fontSize: 14, color: Colors.black),
+        ),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(_overlayEntry!);
+
+  Future.delayed(const Duration(milliseconds: 12), () {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  });
 }

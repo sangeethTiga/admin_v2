@@ -163,16 +163,7 @@ class ExpenseReportScreen extends StatelessWidget {
                                                         .expenseReport
                                                         ?.isNotEmpty ==
                                                     true) {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                const SnackBar(
-                                                  content: Text('No more data'),
-                                                  duration: Duration(
-                                                    seconds: 2,
-                                                  ),
-                                                ),
-                                              );
+                                              _showNoMoreDataOverlay(context);
                                             }
                                           }
 
@@ -271,4 +262,31 @@ void _loadMoreData(BuildContext context) {
       isLoadMore: true,
     );
   }
+}
+
+OverlayEntry? _overlayEntry;
+
+void _showNoMoreDataOverlay(BuildContext context) {
+  if (_overlayEntry != null) return;
+
+  _overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      bottom: 18,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: const Text(
+          'No more data',
+          style: TextStyle(fontSize: 14, color: Colors.black),
+        ),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(_overlayEntry!);
+
+  Future.delayed(const Duration(seconds: 1), () {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  });
 }

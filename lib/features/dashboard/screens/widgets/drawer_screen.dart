@@ -111,6 +111,9 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Delivery Charge'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadDeliveryChargeReport(
+          storeId: selectedStore?.storeId,
+        );
         context.push(routeDeliveryCharge);
       },
       // route: routeDeliveryCharge,
@@ -121,6 +124,9 @@ class _DrawerContent extends StatelessWidget {
       route: routeParcel,
       onTap: (context) {
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadParcelCharge(
+          storeId: selectedStore?.storeId,
+        );
         context.read<DashboardCubit>().orderOption(selectedStore?.storeId, 0);
         context.push(routeParcel);
       },
@@ -130,6 +136,9 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Tax Report'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadTaxReport(
+          storeId: selectedStore?.storeId,
+        );
         context.push(routeTax);
       },
       // route: routeTax,
@@ -139,6 +148,9 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Category Sales'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadCategorySalesReport(
+          storeId: selectedStore?.storeId,
+        );
         context.push(routeCategorySales);
       },
       //  route: routeCategorySales,
@@ -151,7 +163,12 @@ class _DrawerContent extends StatelessWidget {
     _buildDrawerItem(
       icon: Icons.people,
       title: Text('Supplier'),
-      route: routeSupplier,
+      onTap: (context) {
+        context.read<ReportCubit>().loadSuppliersReport(
+          storeId: selectedStore?.storeId,
+        );
+        context.push(routeSupplier);
+      },
     ),
     // _buildDrawerItem(
     //   icon: Icons.account_circle_outlined,
@@ -175,6 +192,7 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Cheque Transaction'),
       route: routeCheque,
       onTap: (context) {
+        context.read<ReportCubit>().loadChequeTrans();
         context.read<ReportCubit>().loadStatus();
         context.push(routeCheque);
       },

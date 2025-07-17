@@ -47,7 +47,7 @@ class CustomersReportScreen extends StatelessWidget {
                                 value: apiFormat.format(
                                   state.fromDate ?? DateTime.now(),
                                 ),
-                               labelText:'From Date',
+                                labelText: 'From Date',
                                 changeDate: (DateTime pickedDate) {
                                   context.read<ReportCubit>().changeFromDate(
                                     pickedDate,
@@ -162,14 +162,8 @@ class CustomersReportScreen extends StatelessWidget {
                                                             .customersReport
                                                             ?.isNotEmpty ==
                                                         true) {
-                                                  ScaffoldMessenger.of(
+                                                  _showNoMoreDataOverlay(
                                                     context,
-                                                  ).showSnackBar(
-                                                    const SnackBar(
-                                                      content: Text(
-                                                        'No more data',
-                                                      ),
-                                                    ),
                                                   );
                                                 }
                                               }
@@ -265,4 +259,31 @@ void _loadMoreData(BuildContext context) {
       isLoadMore: true,
     );
   }
+}
+
+OverlayEntry? _overlayEntry;
+
+void _showNoMoreDataOverlay(BuildContext context) {
+  if (_overlayEntry != null) return;
+
+  _overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      bottom: 18,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: const Text(
+          'No more data',
+          style: TextStyle(fontSize: 14, color: Colors.black),
+        ),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(_overlayEntry!);
+
+  Future.delayed(const Duration(seconds: 2), () {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  });
 }
