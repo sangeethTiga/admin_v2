@@ -74,11 +74,11 @@ abstract class ReportRepositories {
     required String toDate,
   });
   Future<ResponseResult<List<DeliveryChargeResponse>>> loadDeliveryCharge({
-    // required int pageFirstResult,
-    // required int resultPerPage,
+    required int pageFirstResult,
+    required int resultPerPage,
     required int storeId,
-    required int pageSize,
-    required int offset,
+    // required int pageSize,
+    // required int offset,
     required String fromDate,
     required String toDate,
   });

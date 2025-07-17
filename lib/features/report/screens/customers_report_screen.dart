@@ -47,7 +47,7 @@ class CustomersReportScreen extends StatelessWidget {
                                 value: apiFormat.format(
                                   state.fromDate ?? DateTime.now(),
                                 ),
-                                hintText: '',
+                               labelText:'From Date',
                                 changeDate: (DateTime pickedDate) {
                                   context.read<ReportCubit>().changeFromDate(
                                     pickedDate,
@@ -58,7 +58,7 @@ class CustomersReportScreen extends StatelessWidget {
                             12.horizontalSpace,
                             Expanded(
                               child: DatePickerContainer(
-                                hintText: '',
+                                labelText: 'To Date',
                                 value: apiFormat.format(
                                   state.toDate ?? DateTime.now(),
                                 ),

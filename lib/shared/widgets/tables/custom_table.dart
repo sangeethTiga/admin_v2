@@ -9,6 +9,7 @@ class CommonTableWidget extends StatelessWidget {
   final List<int> columnFlex;
   final List<Map<String, dynamic>> data;
   final bool isLoading;
+  final bool isLoadingMore;
   final Color headerColor;
   final Color rowColor1;
   final Color rowColor2;
@@ -19,6 +20,7 @@ class CommonTableWidget extends StatelessWidget {
     required this.columnFlex,
     required this.data,
     this.isLoading = false,
+    this.isLoadingMore = false,
     this.headerColor = kBorderColor,
     this.rowColor1 = kWhite,
     this.rowColor2 = const Color(0xFFF1F1F1),

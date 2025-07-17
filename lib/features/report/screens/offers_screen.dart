@@ -1,19 +1,18 @@
-import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
+
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
-import 'package:admin_v2/shared/constants/colors.dart';
+
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
-import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
+
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ProductOffer extends StatelessWidget {
   const ProductOffer({super.key});

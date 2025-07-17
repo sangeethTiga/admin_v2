@@ -46,7 +46,7 @@ class ApiEndpoints {
     String toDate,
     int account,
   ) =>
-      "/api/expenseReport?page_first_limit=0&result_per_page=50&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=$account";
+      "/api/expenseReport?page_first_limit=$pageFirstResult&result_per_page=$resultPerPage&store_id=$storeId&from_date=$fromDate&to_date=$toDate&account_head_id=$account";
   static String account = '/api/account-heads?trans_type_id=2';
 
   static String status = '/api/orderstatus';
@@ -63,10 +63,10 @@ class ApiEndpoints {
     int storeId,
     String fromDate,
     String toDate,
-    int pageSize,
-    int offset,
+    int resultPerPage,
+    int pageFirstResult,
   ) =>
-      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$pageSize&offset=$offset";
+      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$resultPerPage&offset=$pageFirstResult";
 
   static String customersReport(
     int pageFirstResult,

@@ -17,6 +17,7 @@ class ExpenseReportResponse with _$ExpenseReportResponse {
     @JsonKey(name: "invoice_number") dynamic invoiceNumber,
     @JsonKey(name: "amount", fromJson: parseNumberAsDouble) double? amount,
     @JsonKey(name: "account_name") String? accountName,
+    @JsonKey(name: "account_head_name") String? accountHeadName,
     @JsonKey(name: "raw_count") int? rawCount,
     @JsonKey(name: "totalamount", fromJson: parseNumberAsDouble)
     double? totalamount,

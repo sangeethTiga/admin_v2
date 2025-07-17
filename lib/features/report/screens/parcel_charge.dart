@@ -13,7 +13,6 @@ import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ParcelCharge extends StatelessWidget {
   const ParcelCharge({super.key});
@@ -106,7 +105,7 @@ class ParcelCharge extends StatelessWidget {
           children: [
             Expanded(
               child: DatePickerContainer(
-                hintText: '',
+                labelText: 'From Date',
                 value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeFromDate(pickDate);
@@ -116,7 +115,7 @@ class ParcelCharge extends StatelessWidget {
             12.horizontalSpace,
             Expanded(
               child: DatePickerContainer(
-                hintText: '',
+                labelText: 'To Date',
                 value: apiFormat.format(state.toDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeToDate(pickDate);
@@ -153,6 +152,7 @@ class ParcelCharge extends StatelessWidget {
   }
 
   Widget _commonTable() {
+    bool noMoreDataSnackbarShown = false;
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
         return MainPadding(
@@ -161,13 +161,33 @@ class ParcelCharge extends StatelessWidget {
               Expanded(
                 child: NotificationListener<ScrollNotification>(
                   onNotification: (ScrollNotification scrollInfo) {
-                    if (scrollInfo is ScrollEndNotification) {
-                      final maxScroll = scrollInfo.metrics.maxScrollExtent;
-                      final currentScroll = scrollInfo.metrics.pixels;
-                      final threshold = maxScroll - 100;
+                    final maxScroll = scrollInfo.metrics.maxScrollExtent;
+                    final currentScroll = scrollInfo.metrics.pixels;
+                    final threshold = maxScroll - 100;
 
-                      if (currentScroll >= threshold) {
+                    final atBottom = currentScroll >= threshold;
+
+                    if (scrollInfo is ScrollEndNotification && atBottom) {
+                      final reportState = context.read<ReportCubit>().state;
+
+                      if (reportState.hasMoreData == true &&
+                          reportState.isLoadingMore != true) {
                         _loadMoreData(context);
+                      }
+
+                      if (reportState.hasMoreData == false &&
+                          reportState.parcelChargeList?.isNotEmpty == true &&
+                          !noMoreDataSnackbarShown) {
+                        noMoreDataSnackbarShown = true;
+
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('No more data'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        });
                       }
                     }
                     return false;
@@ -198,15 +218,15 @@ class ParcelCharge extends StatelessWidget {
                   padding: EdgeInsets.all(16.w),
                   child: CircularProgressIndicator(),
                 ),
-              if (state.hasMoreData == false &&
-                  state.parcelChargeList?.isNotEmpty == true)
-                Container(
-                  padding: EdgeInsets.all(16.w),
-                  child: Text(
-                    'No more data',
-                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-                  ),
-                ),
+              // if (state.hasMoreData == false &&
+              //     state.parcelChargeList?.isNotEmpty == true)
+              //   Container(
+              //     padding: EdgeInsets.all(16.w),
+              //     child: Text(
+              //       'No more data',
+              //       style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              //     ),
+              //   ),
             ],
           ),
         );

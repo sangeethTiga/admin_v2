@@ -82,7 +82,7 @@ class ExpenseReportScreen extends StatelessWidget {
                             value: apiFormat.format(
                               state.fromDate ?? DateTime.now(),
                             ),
-                            hintText: '',
+                            labelText: 'From Date',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeFromDate(
                                 pickedDate,
@@ -96,7 +96,7 @@ class ExpenseReportScreen extends StatelessWidget {
                             value: apiFormat.format(
                               state.fromDate ?? DateTime.now(),
                             ),
-                            hintText: '',
+                            labelText: 'To Date',
                             changeDate: (DateTime pickedDate) {
                               context.read<ReportCubit>().changeToDate(
                                 pickedDate,
@@ -131,32 +131,106 @@ class ExpenseReportScreen extends StatelessWidget {
                 builder: (context, store) {
                   return BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      return CommonTableWidget(
-                        isLoading: state.isSaleReport == ApiFetchStatus.loading,
-                        headers: [
-                          "#",
-                          "INV. NO",
-                          "TRS DATE",
-                          "DESC",
-                          "ACC. NAME",
-                          "AMOUNT",
-                        ],
-                        columnFlex: [1, 3, 5, 5, 4, 3],
-                        data:
-                            state.expenseReport?.map((e) {
-                              int index = state.expenseReport?.indexOf(e) ?? 0;
-                              return {
-                                '#': index + 1,
-                                'INV. NO': e.invoiceNumber ?? '',
-                                'TRS DATE': formatDateString(
-                                  e.acTransactionDate ?? '',
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: NotificationListener<ScrollNotification>(
+                                    onNotification:
+                                        (ScrollNotification scrollInfo) {
+                                          final maxScroll = scrollInfo
+                                              .metrics
+                                              .maxScrollExtent;
+                                          final currentScroll =
+                                              scrollInfo.metrics.pixels;
+                                          final threshold = maxScroll - 100;
+
+                                          final atBottom =
+                                              currentScroll >= threshold;
+
+                                          if (scrollInfo
+                                                  is ScrollEndNotification &&
+                                              atBottom) {
+                                            _loadMoreData(context);
+                                            final reportState = context
+                                                .read<ReportCubit>()
+                                                .state;
+                                            if (reportState.hasMoreData ==
+                                                    false &&
+                                                reportState
+                                                        .expenseReport
+                                                        ?.isNotEmpty ==
+                                                    true) {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                const SnackBar(
+                                                  content: Text('No more data'),
+                                                  duration: Duration(
+                                                    seconds: 2,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          }
+
+                                          return false;
+                                        },
+
+                                    child: CommonTableWidget(
+                                      isLoading:
+                                          state.isSaleReport ==
+                                          ApiFetchStatus.loading,
+                                      headers: [
+                                        "#",
+                                        "INV. NO",
+                                        "TRS DATE",
+                                        "DESC",
+                                        "ACC. NAME",
+                                        "AMOUNT",
+                                      ],
+                                      columnFlex: [1, 3, 5, 5, 4, 3],
+                                      data:
+                                          state.expenseReport
+                                              ?.asMap()
+                                              .entries
+                                              .map((entry) {
+                                                int localIndex = entry.key;
+                                                var e = entry.value;
+                                                int globalIndex =
+                                                    localIndex + 1;
+
+                                                return {
+                                                  '#': globalIndex,
+                                                  'INV. NO':
+                                                      e.invoiceNumber ?? '',
+                                                  'TRS DATE': formatDateString(
+                                                    e.acTransactionDate ?? '',
+                                                  ),
+                                                  'DESC': e.description ?? '',
+                                                  "ACC. NAME":
+                                                      e.accountHeadName ?? '',
+                                                  'AMOUNT': e.amount ?? '',
+                                                };
+                                              })
+                                              .toList() ??
+                                          [],
+                                    ),
+                                  ),
                                 ),
-                                'DESC': e.description ?? '',
-                                "ACC. NAME": e.accountName ?? '',
-                                'AMOUNT': e.amount ?? '',
-                              };
-                            }).toList() ??
-                            [],
+                                if (state.isLoadingMore == true)
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 16.h,
+                                    ),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
                       );
                     },
                   );
@@ -178,4 +252,23 @@ String formatDateString(String? dateString) {
     return parts[0];
   }
   return dateString;
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.customersReport?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadExpenseReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      accountId: dashboardState.selectedAccount?.accountHeadId ?? 0,
+      isLoadMore: true,
+    );
+  }
 }

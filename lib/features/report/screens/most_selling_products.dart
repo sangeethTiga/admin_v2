@@ -146,7 +146,7 @@ class MostSellingProducts extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DatePickerContainer(
-                            hintText: '',
+                            labelText: 'From Date',
                             value: apiFormat.format(
                               state.fromDate ?? DateTime.now(),
                             ),
@@ -160,7 +160,7 @@ class MostSellingProducts extends StatelessWidget {
                         12.horizontalSpace,
                         Expanded(
                           child: DatePickerContainer(
-                            hintText: '',
+                           labelText: 'To Date',
                             value: apiFormat.format(
                               state.toDate ?? DateTime.now(),
                             ),

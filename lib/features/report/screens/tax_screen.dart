@@ -196,7 +196,7 @@ class TaxScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: DatePickerContainer(
-                  hintText: '',
+                labelText: 'From Date',
                   value: apiFormat.format(state.fromDate ?? DateTime.now()),
                   changeDate: (DateTime pickDate) {
                     context.read<ReportCubit>().changeFromDate(pickDate);
@@ -206,7 +206,7 @@ class TaxScreen extends StatelessWidget {
               12.horizontalSpace,
               Expanded(
                 child: DatePickerContainer(
-                  hintText: '',
+                  labelText: 'To Date',
                   value: apiFormat.format(state.toDate ?? DateTime.now()),
                   changeDate: (DateTime pickDate) {
                     context.read<ReportCubit>().changeToDate(pickDate);
