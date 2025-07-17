@@ -37,7 +37,8 @@ class ChequetransScreen extends StatelessWidget {
                     ),
                     _buildStatusOption(),
                     12.verticalSpace,
-
+                    _handleDate(),
+                    8.verticalSpace,
                     _buildViewReport(),
                     _buildCommonTable(),
                   ],
@@ -96,6 +97,36 @@ class ChequetransScreen extends StatelessWidget {
     );
   }
 
+  Widget _handleDate() {
+    return BlocBuilder<ReportCubit, ReportState>(
+      builder: (context, state) {
+        return Row(
+          children: [
+            Expanded(
+              child: DatePickerContainer(
+                labelText: 'From Date',
+                value: apiFormat.format(state.fromDate ?? DateTime.now()),
+                changeDate: (DateTime pickDate) {
+                  context.read<ReportCubit>().changeFromDate(pickDate);
+                },
+              ),
+            ),
+            12.horizontalSpace,
+            Expanded(
+              child: DatePickerContainer(
+                labelText: 'To Date',
+                value: apiFormat.format(state.toDate ?? DateTime.now()),
+                changeDate: (DateTime pickDate) {
+                  context.read<ReportCubit>().changeToDate(pickDate);
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildViewReport() {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, commonState) {
@@ -110,18 +141,6 @@ class ChequetransScreen extends StatelessWidget {
                 context.read<ReportCubit>().loadChequeTrans(
                   storeId: commonState.selectedStore?.storeId,
                   status: selectedStatusId?.toString(),
-                  // fromChequeIssueDate: apiFormat.format(
-                  //   reportState.fromDate ?? DateTime.now(),
-                  // ),
-                  // fromChequeDate: apiFormat.format(
-                  //   reportState.fromDate ?? DateTime.now(),
-                  // ),
-                  // toChequeDate: apiFormat.format(
-                  //   reportState.toDate ?? DateTime.now(),
-                  // ),
-                  // toChequeIssueDate: apiFormat.format(
-                  //   reportState.toDate ?? DateTime.now(),
-                  // ),
                 );
               },
               buttonText: 'View Report',

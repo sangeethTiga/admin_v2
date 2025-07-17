@@ -50,142 +50,95 @@ class TaxScreen extends StatelessWidget {
       builder: (context, state) {
         final taxResponse = state.taxReport;
 
-        if (taxResponse != null) {
-          return Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Total tax collected',
-                  style: FontPalette.hW600S13,
-                  textAlign: TextAlign.center,
-                ),
-                3.verticalSpace,
-                Text(
-                  ' ${(taxResponse.totalTaxCollected ?? 0).toStringAsFixed(2)}',
-                  textAlign: TextAlign.center,
-                  style: FontPalette.hW800S40,
-                ),
-                28.verticalSpace,
-                Text(
-                  'Total tax paid',
-                  style: FontPalette.hW600S13,
-                  textAlign: TextAlign.center,
-                ),
-                3.verticalSpace,
-                Text(
-                  '${taxResponse.totalTaxPaid?.toStringAsFixed(2) ?? 0.00}',
-                  textAlign: TextAlign.center,
-                  style: FontPalette.hW800S40,
-                ),
-                28.verticalSpace,
-                Text(
-                  'Net payable',
-                  style: FontPalette.hW600S13,
-                  textAlign: TextAlign.center,
-                ),
-                3.verticalSpace,
-                Text(
-                  ' ${taxResponse.netPayable?.toStringAsFixed(2) ?? 0.00}',
-                  textAlign: TextAlign.center,
-                  style: FontPalette.hW800S40,
-                ),
-              ],
-            ),
-          );
-        }
-        return BlocBuilder<ReportCubit, ReportState>(
-          builder: (context, state) {
-            return Column(
-              children: [
-                Text(
-                  'Total tax collected',
-                  style: FontPalette.hW600S13,
-                  textAlign: TextAlign.center,
-                ),
-
-                3.verticalSpace,
-                Text(
-                  ' ${(taxResponse?.totalTaxCollected ?? 0.00).toStringAsFixed(2)}',
-                  textAlign: TextAlign.center,
-                  style: FontPalette.hW800S40,
-                ),
-                28.verticalSpace,
-                Text(
-                  'Total tax paid',
-                  style: FontPalette.hW600S13,
-                  textAlign: TextAlign.center,
-                ),
-                3.verticalSpace,
-                Text(
-                  (taxResponse?.totalTaxPaid ?? 0.00).toStringAsFixed(2),
-                  textAlign: TextAlign.center,
-                  style: FontPalette.hW800S40,
-                ),
-                28.verticalSpace,
-                Text(
-                  'Net payable',
-                  style: FontPalette.hW600S13,
-                  textAlign: TextAlign.center,
-                ),
-                3.verticalSpace,
-                Text(
-                  (taxResponse?.netPayable ?? 0.00).toStringAsFixed(2),
-                  textAlign: TextAlign.center,
-                  style: FontPalette.hW800S40,
-                ),
-              ],
-            );
-          },
+        // if (taxResponse != null) {
+        //   return
+        return Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Total tax collected',
+                style: FontPalette.hW600S13,
+                textAlign: TextAlign.center,
+              ),
+              3.verticalSpace,
+              Text(
+                ' ${(taxResponse?.totalTaxCollected ?? 0.00).toStringAsFixed(2)}',
+                textAlign: TextAlign.center,
+                style: FontPalette.hW800S40,
+              ),
+              28.verticalSpace,
+              Text(
+                'Total tax paid',
+                style: FontPalette.hW600S13,
+                textAlign: TextAlign.center,
+              ),
+              3.verticalSpace,
+              Text(
+                '${(taxResponse?.totalTaxPaid ?? 0.00).toStringAsFixed(2)}',
+                textAlign: TextAlign.center,
+                style: FontPalette.hW800S40,
+              ),
+              28.verticalSpace,
+              Text(
+                'Net payable',
+                style: FontPalette.hW600S13,
+                textAlign: TextAlign.center,
+              ),
+              3.verticalSpace,
+              Text(
+                ' ${(taxResponse?.netPayable ?? 0.00).toStringAsFixed(2)}',
+                textAlign: TextAlign.center,
+                style: FontPalette.hW800S40,
+              ),
+            ],
+          ),
         );
       },
+
+      // return BlocBuilder<ReportCubit, ReportState>(
+      //   builder: (context, state) {
+      //     return Column(
+      //       children: [
+      //         Text(
+      //           'Total tax collected',
+      //           style: FontPalette.hW600S13,
+      //           textAlign: TextAlign.center,
+      //         ),
+
+      //         3.verticalSpace,
+      //         Text(
+      //           ' ${(taxResponse?.totalTaxCollected ?? 0.00).toStringAsFixed(2)}',
+      //           textAlign: TextAlign.center,
+      //           style: FontPalette.hW800S40,
+      //         ),
+      //         28.verticalSpace,
+      //         Text(
+      //           'Total tax paid',
+      //           style: FontPalette.hW600S13,
+      //           textAlign: TextAlign.center,
+      //         ),
+      //         3.verticalSpace,
+      //         Text(
+      //           (taxResponse?.totalTaxPaid ?? 0.00).toStringAsFixed(2),
+      //           textAlign: TextAlign.center,
+      //           style: FontPalette.hW800S40,
+      //         ),
+      //         28.verticalSpace,
+      //         Text(
+      //           'Net payable',
+      //           style: FontPalette.hW600S13,
+      //           textAlign: TextAlign.center,
+      //         ),
+      //         3.verticalSpace,
+      //         Text(
+      //           (taxResponse?.netPayable ?? 0.00).toStringAsFixed(2),
+      //           textAlign: TextAlign.center,
+      //           style: FontPalette.hW800S40,
+      //         ),
     );
   }
-
-  // Widget _buildStoreDropdown() {
-  //   return BlocBuilder<DashboardCubit, DashboardState>(
-  //     builder: (context, state) {
-  //       return Padding(
-  //         padding: const EdgeInsets.symmetric(horizontal: 12.0),
-  //         child: DropDownFieldWidget(
-  //           isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-  //           prefixIcon: Container(
-  //             margin: EdgeInsets.only(left: 12.w),
-  //             child: SvgPicture.asset(
-  //               'assets/icons/package-box-pin-location.svg',
-  //               width: 20.w,
-  //               height: 20.h,
-  //               fit: BoxFit.contain,
-  //             ),
-  //           ),
-  //           borderColor: kBlack,
-  //           value: state.selectedStore,
-  //           items:
-  //               state.storeList?.map((e) {
-  //                 return DropdownMenuItem<StoreResponse>(
-  //                   value: e,
-  //                   child: Text(e.storeName ?? ''),
-  //                 );
-  //               }).toList() ??
-  //               [],
-  //           fillColor: const Color(0XFFEFF1F1),
-
-  //           onChanged: (p0) {
-  //             context.read<DashboardCubit>().selectedStore(p0);
-  //           },
-  //           labelText: '',
-  //           textStyle: TextStyle(
-  //             color: Colors.black,
-  //             fontWeight: FontWeight.w500,
-  //             fontSize: 16,
-  //             letterSpacing: 0.5,
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   Widget _handleDate() {
     return BlocBuilder<ReportCubit, ReportState>(
@@ -196,7 +149,7 @@ class TaxScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: DatePickerContainer(
-                labelText: 'From Date',
+                  labelText: 'From Date',
                   value: apiFormat.format(state.fromDate ?? DateTime.now()),
                   changeDate: (DateTime pickDate) {
                     context.read<ReportCubit>().changeFromDate(pickDate);

@@ -258,8 +258,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   rowWidgets(
                                     name: 'Mobile',
                                     status: state.orderDetail?.shipMobile,
-                                  )
-                        
+                                  ),
                                 ],
                               ),
                             ),
@@ -376,14 +375,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       8.verticalSpace,
                       _rowWidget(
                         name: 'Total before tax',
-                        status:
-                            'AED ${(state.orderDetail?.taxAmount ?? 0).toStringAsFixed(2)}',
+                        status: 'AED ${(state.orderDetail?.taxAmount ?? 0)}',
                       ),
                       8.verticalSpace,
                       _rowWidget(
                         name: 'Tax Incl',
-                        status:
-                            "AED ${(state.orderDetail?.taxAmount ?? 0).toStringAsFixed(2)}",
+                        status: "AED ${(state.orderDetail?.taxAmount ?? 0)}",
                       ),
                       8.verticalSpace,
 
@@ -654,7 +651,7 @@ Future<void> _showMyDialog(BuildContext context) async {
     },
   );
 }
- 
+
 Widget rowWidgets({String? name, String? status, Color? statusColor}) {
   return MainPadding(
     child: Row(

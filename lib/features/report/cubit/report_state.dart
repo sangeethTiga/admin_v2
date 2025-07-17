@@ -18,6 +18,7 @@ class ReportState extends Equatable {
   final String status;
   final String option;
   final String lastSearch;
+  final bool showNoMoreData;
   final List<CustomersResponse>? customersReport;
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
@@ -99,7 +100,7 @@ class ReportState extends Equatable {
     this.isDeliverychargeReport,
     this.offset = 0,
     this.page = 0,
-    this.lastSearch='',
+    this.lastSearch = '',
     this.customersReport,
     this.isCustomersReport,
     this.isCategorySales,
@@ -110,6 +111,7 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
+    this.showNoMoreData=false,
     this.status = '',
     this.isTaxReport,
     this.taxReport,
@@ -188,6 +190,7 @@ class ReportState extends Equatable {
     String? status,
     String? option,
     String? lastSearch,
+    bool? showNoMoreData,
     List<CustomersResponse>? customersReport,
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
@@ -263,7 +266,7 @@ class ReportState extends Equatable {
       selectedMethod: selectedMethod ?? this.selectedMethod,
       revenueReport: revenueReport ?? this.revenueReport,
       currentPage: currentPage ?? this.currentPage,
-      lastSearch: lastSearch?? this.lastSearch,
+      lastSearch: lastSearch ?? this.lastSearch,
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
       profitlossReport: profitlossReport ?? this.profitlossReport,
@@ -271,6 +274,7 @@ class ReportState extends Equatable {
       isDeliverychargeReport:
           isDeliverychargeReport ?? this.isDeliverychargeReport,
       page: page ?? this.page,
+      showNoMoreData: showNoMoreData?? this.showNoMoreData,
       offset: offset ?? this.offset,
       customersReport: customersReport ?? this.customersReport,
       isCustomersReport: isCustomersReport ?? this.isCustomersReport,
