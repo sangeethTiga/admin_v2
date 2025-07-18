@@ -177,7 +177,7 @@ void navigateToFeature(
         _navigateToExpense(storeId ?? 0, accountId ?? 0, today, context);
       case 'Customers':
         context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadCustomersReport();
+        context.read<ReportCubit>().loadCustomersReport(storeId: storeId);
         context.push(routeCustomers);
       case 'Purchase':
         context.read<ReportCubit>().initState();

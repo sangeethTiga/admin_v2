@@ -311,7 +311,6 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      //final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
       final pageToUse = isLoadMore ? state.currentPage + 1 : 1;
       final offset = (pageToUse - 1) * limit;
 
@@ -389,7 +388,7 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+      final currentPage = isLoadMore ? (state.currentPage) + limit : 0;
 
       final res = await _reportRepositories.loadCustomersReport(
         filterId: 1,
