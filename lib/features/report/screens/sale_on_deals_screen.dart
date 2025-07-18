@@ -9,6 +9,7 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -90,69 +91,111 @@ class SaleOnDealsScreen extends StatelessWidget {
             ),
           ),
 
-          Expanded(
-            child: MainPadding(
-              child: BlocBuilder<DashboardCubit, DashboardState>(
-                builder: (context, store) {
-                  return BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return NotificationListener<ScrollNotification>(
-                        onNotification: (ScrollNotification scrollInfo) {
-                          if (scrollInfo.metrics.pixels >=
-                                  scrollInfo.metrics.maxScrollExtent - 50 &&
-                              state.isSalesDealsReport !=
-                                  ApiFetchStatus.loading) {
-                            context.read<ReportCubit>().loadSalesDealsReport(
-                              storeId: store.selectedStore?.storeId,
-                            );
-                          }
-                          return false;
-                        },
+          Expanded(child: _commonTable()),
+        ],
+      ),
+    );
+  }
 
-                        child: CommonTableWidget(
-                          isLoading:
-                              state.isSalesDealsReport ==
-                              ApiFetchStatus.loading,
-                          headers: [
-                            // "#",
-                            "Order No",
-                            "Order Date",
-                            "Product",
-                            "Offer Price",
-                            "Total",
-                          ],
+  Widget _commonTable() {
+    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
+    return BlocBuilder<ReportCubit, ReportState>(
+      builder: (context, state) {
+        final ScrollController scrollController = ScrollController();
 
-                          columnFlex: [3, 4, 4, 3, 2, 3, 3],
-                          data:
-                              state.salesDealsReport?.map((e) {
-                                int index =
-                                    state.salesDealsReport?.indexOf(e) ?? 0;
+        return MainPadding(
+          child: Column(
+            children: [
+              Expanded(
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    final maxScroll = scrollInfo.metrics.maxScrollExtent;
+                    final currentScroll = scrollInfo.metrics.pixels;
+                    final threshold = maxScroll - 100;
 
-                                return {
-                                  // '#': index + 1,
-                                  'Order No': e.prodOrderId ?? '',
+                    final atBottom = currentScroll >= threshold;
 
-                                  'Order Date': e.orderDate?.toString().padLeft(
-                                    2,
-                                    '0',
-                                  ),
+                    if (scrollInfo is ScrollEndNotification && atBottom) {
+                      final reportState = context.read<ReportCubit>().state;
 
-                                  'Product': e.productName ?? '',
-                                  'Offer Price': e.offerPrice ?? '',
-                                  'Total': e.orderItemTotal ?? '',
-                                };
-                              }).toList() ??
-                              [],
-                        ),
-                      );
-                    },
+                      if (reportState.hasMoreData == true &&
+                          reportState.isLoadingMore != true) {
+                        _loadMoreData(context);
+                      }
+
+                      if (reportState.hasMoreData == false &&
+                          reportState.salesDealsReport?.isNotEmpty == true) {
+                        showNoMoreData.value = true;
+                      }
+                    }
+                    if (scrollController.hasClients &&
+                        scrollController.position.userScrollDirection ==
+                            ScrollDirection.forward) {
+                      showNoMoreData.value = false;
+                    }
+
+                    return false;
+                  },
+
+                  child: CommonTableWidget(
+                    controller: scrollController,
+                    isLoading:
+                        state.isSalesDealsReport == ApiFetchStatus.loading,
+                    headers: [
+                      // "#",
+                      "Order No",
+                      "Order Date",
+                      "Product",
+                      "Offer Price",
+                      "Total",
+                    ],
+                    columnFlex: [3, 4, 4, 3, 2],
+
+                    data:
+                        state.salesDealsReport?.map((e) {
+                          //    int index =
+                          // state.salesDealsReport?.indexOf(e) ?? 0;
+
+                          return {
+                            // '#': index + 1,
+                            'Order No': e.prodOrderId ?? '',
+
+                            'Order Date': e.orderDate?.toString().padLeft(
+                              2,
+                              '0',
+                            ),
+
+                            'Product': e.productName ?? '',
+                            'Offer Price': e.offerPrice ?? '',
+                            'Total': e.orderItemTotal ?? '',
+                          };
+                        }).toList() ??
+                        [],
+                  ),
+                ),
+              ),
+              if (state.isLoadingMore == true)
+                Container(
+                  padding: EdgeInsets.all(16.w),
+                  child: CircularProgressIndicator(),
+                ),
+              ValueListenableBuilder<bool>(
+                valueListenable: showNoMoreData,
+                builder: (context, value, _) {
+                  if (!value) return SizedBox.shrink();
+                  return Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Text(
+                      'No more data',
+                      style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                    ),
                   );
                 },
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -214,5 +257,23 @@ class DateTimeabc {
     } catch (e) {
       return 'Error parsing date: $e';
     }
+  }
+}
+
+void _loadMoreData(BuildContext context) {
+  final reportState = context.read<ReportCubit>().state;
+  final dashboardState = context.read<DashboardCubit>().state;
+
+  print('_loadMoreData called');
+  print('hasMoreData: ${reportState.hasMoreData}');
+  print('isLoadingMore: ${reportState.isLoadingMore}');
+  print('currentPage: ${reportState.currentPage}');
+  print('total records: ${reportState.customersReport?.length}');
+
+  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
+    context.read<ReportCubit>().loadSalesDealsReport(
+      storeId: dashboardState.selectedStore?.storeId,
+      isLoadMore: true,
+    );
   }
 }

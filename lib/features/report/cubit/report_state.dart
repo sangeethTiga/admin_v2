@@ -211,6 +211,8 @@ class ReportState extends Equatable {
     ApiFetchStatus? isOfferTypeList,
     List<OffersResponse>? offerReport,
     List<SaleOnDeals>? salesDealsReport,
+    ApiFetchStatus? isSalesDealsReport,
+    
     List<ChequeTrans>? chequeTransReport,
     ApiFetchStatus? isChequeReport,
     List<ChequeStatusResponse>? chequeStatus,
