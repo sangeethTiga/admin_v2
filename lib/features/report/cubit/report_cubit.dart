@@ -847,54 +847,101 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> loadSalesDealsReport({
+    int page = 1,
+    int limit = 20,
     String? fromDate,
     String? toDate,
     int? storeId,
     bool isLoadMore = false,
   }) async {
-    if (!isLoadMore) {
-      emit(
-        state.copyWith(isOffersReport: ApiFetchStatus.loading, offerReport: []),
+    try {
+      if (isLoadMore) {
+        emit(state.copyWith(isLoadingMore: true));
+      } else {
+        emit(
+          state.copyWith(
+            isSalesDealsReport: ApiFetchStatus.loading,
+            salesDealsReport: [],
+            currentPage: 0,
+            hasMoreData: false,
+            isLoadingMore: false,
+          ),
+        );
+      }
+
+      final int offset = page * limit;
+      final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+
+      final res = await _reportRepositories.loadSaleOnDealsReport(
+        storeId: storeId ?? 0,
+        fromDate: parsedDate(state.fromDate ?? DateTime.now()),
+        toDate: parsedDate(state.toDate ?? DateTime.now()),
+        pageFirstLimit: currentPage,
+        resultPerPage: limit,
       );
-    }
-    emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadSaleOnDealsReport(
-      storeId: storeId ?? 0,
-      fromDate: parsedDate(state.fromDate ?? DateTime.now()),
-      toDate: parsedDate(state.toDate ?? DateTime.now()),
 
-      pageFirstResult: 0,
-      resultPerPage: 50,
-      pageSize: 10,
-      offset: 10,
-    );
+      log('Response data: ${res.data}');
+      if (res.data != null && (res.data?.isNotEmpty ?? false)) {
+        List<SaleOnDeals> updatedList;
 
-    log('Response data: ${res.data}');
-    if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<SaleOnDeals> fetchedList = rawList.map((element) {
-        if (element is SaleOnDeals) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return SaleOnDeals.fromJson(element);
+        if (isLoadMore) {
+          updatedList = [...(state.salesDealsReport ?? []), ...res.data!];
         } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
+          updatedList = res.data!;
         }
-      }).toList();
-      final List<SaleOnDeals> newList = isLoadMore
-          ? <SaleOnDeals>[...?state.salesDealsReport, ...fetchedList]
-          : fetchedList;
 
+        final hasMoreData = res.data!.length >= limit;
+        emit(
+          state.copyWith(
+            salesDealsReport: updatedList,
+            isSalesDealsReport: ApiFetchStatus.success,
+            currentPage: currentPage,
+            hasMoreData: hasMoreData,
+            isLoadingMore: false,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            isSalesDealsReport: ApiFetchStatus.failed,
+            isLoadingMore: false,
+            hasMoreData: false,
+          ),
+        );
+      }
+    } catch (error) {
+      log('Error loading customers report: $error');
       emit(
         state.copyWith(
-          salesDealsReport: newList,
-          isOffersReport: ApiFetchStatus.success,
+          isSalesDealsReport: ApiFetchStatus.failed,
+          isLoadingMore: false,
+          hasMoreData: false,
         ),
       );
     }
-    emit(state.copyWith(isOffersReport: ApiFetchStatus.failed));
+
+    // final List<dynamic> rawList = res.data!;
+    // final List<SaleOnDeals> fetchedList = rawList.map((element) {
+    //   if (element is SaleOnDeals) {
+    //     return element;
+    //   } else if (element is Map<String, dynamic>) {
+    //     return SaleOnDeals.fromJson(element);
+    //   } else {
+    //     throw Exception(
+    //       'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
+    //     );
+    //   }
+    // }).toList();
+    // final List<SaleOnDeals> newList = isLoadMore
+    //     ? <SaleOnDeals>[...?state.salesDealsReport, ...fetchedList]
+    //     : fetchedList;
+
+    // emit(
+    //   state.copyWith(
+    //     salesDealsReport: newList,
+    //     isOffersReport: ApiFetchStatus.success,
+    //   ),
+    // );
   }
 
   Future<void> loadChequeTrans({
