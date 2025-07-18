@@ -33,7 +33,7 @@ mixin _$OrderDetailResponse {
   String? get deliveryAgentId => throw _privateConstructorUsedError;
   @JsonKey(name: "rounding")
   int? get rounding => throw _privateConstructorUsedError;
-  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
+  @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
   double? get parcelCharge => throw _privateConstructorUsedError;
   @JsonKey(name: "table_details")
   List<dynamic>? get tableDetails => throw _privateConstructorUsedError;
@@ -151,8 +151,8 @@ mixin _$OrderDetailResponse {
   int? get taxSettings => throw _privateConstructorUsedError;
   @JsonKey(name: "tax_name")
   String? get taxName => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_tax_percentage")
-  String? get orderTaxPercentage => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+  double? get orderTaxPercentage => throw _privateConstructorUsedError;
   @JsonKey(name: "order_disc_amount")
   String? get orderDiscAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "tax_amount")
@@ -314,8 +314,8 @@ mixin _$OrderDetailResponse {
   int? get rewardPointsEnabled => throw _privateConstructorUsedError;
   @JsonKey(name: "weighing_scale_enabled")
   int? get weighingScaleEnabled => throw _privateConstructorUsedError;
-  @JsonKey(name: "parcel_charge_enabled")
-  int? get parcelChargeEnabled => throw _privateConstructorUsedError;
+  @JsonKey(name: "parcel_charge_enabled", fromJson: parseNumberAsDouble)
+  double? get parcelChargeEnabled => throw _privateConstructorUsedError;
 
   /// Serializes this OrderDetailResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -341,7 +341,8 @@ abstract class $OrderDetailResponseCopyWith<$Res> {
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") String? deliveryAgentId,
     @JsonKey(name: "rounding") int? rounding,
-    @JsonKey(name: "parcel_charge", fromJson: parseDouble) double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+    double? parcelCharge,
     @JsonKey(name: "table_details") List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") String? customerFeedbacks,
@@ -402,7 +403,8 @@ abstract class $OrderDetailResponseCopyWith<$Res> {
     @JsonKey(name: "ArabicNameSettings") int? arabicNameSettings,
     @JsonKey(name: "taxSettings") int? taxSettings,
     @JsonKey(name: "tax_name") String? taxName,
-    @JsonKey(name: "order_tax_percentage") String? orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    double? orderTaxPercentage,
     @JsonKey(name: "order_disc_amount") String? orderDiscAmount,
     @JsonKey(name: "tax_amount") String? taxAmount,
     @JsonKey(name: "shipping_charge") String? shippingCharge,
@@ -486,7 +488,8 @@ abstract class $OrderDetailResponseCopyWith<$Res> {
     @JsonKey(name: "wallet_enabled") int? walletEnabled,
     @JsonKey(name: "reward_points_enabled") int? rewardPointsEnabled,
     @JsonKey(name: "weighing_scale_enabled") int? weighingScaleEnabled,
-    @JsonKey(name: "parcel_charge_enabled") int? parcelChargeEnabled,
+    @JsonKey(name: "parcel_charge_enabled", fromJson: parseNumberAsDouble)
+    double? parcelChargeEnabled,
   });
 }
 
@@ -918,7 +921,7 @@ class _$OrderDetailResponseCopyWithImpl<$Res, $Val extends OrderDetailResponse>
             orderTaxPercentage: freezed == orderTaxPercentage
                 ? _value.orderTaxPercentage
                 : orderTaxPercentage // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as double?,
             orderDiscAmount: freezed == orderDiscAmount
                 ? _value.orderDiscAmount
                 : orderDiscAmount // ignore: cast_nullable_to_non_nullable
@@ -1243,7 +1246,7 @@ class _$OrderDetailResponseCopyWithImpl<$Res, $Val extends OrderDetailResponse>
             parcelChargeEnabled: freezed == parcelChargeEnabled
                 ? _value.parcelChargeEnabled
                 : parcelChargeEnabled // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
           )
           as $Val,
     );
@@ -1266,7 +1269,8 @@ abstract class _$$OrderDetailResponseImplCopyWith<$Res>
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") String? deliveryAgentId,
     @JsonKey(name: "rounding") int? rounding,
-    @JsonKey(name: "parcel_charge", fromJson: parseDouble) double? parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+    double? parcelCharge,
     @JsonKey(name: "table_details") List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") String? customerFeedbacks,
@@ -1327,7 +1331,8 @@ abstract class _$$OrderDetailResponseImplCopyWith<$Res>
     @JsonKey(name: "ArabicNameSettings") int? arabicNameSettings,
     @JsonKey(name: "taxSettings") int? taxSettings,
     @JsonKey(name: "tax_name") String? taxName,
-    @JsonKey(name: "order_tax_percentage") String? orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    double? orderTaxPercentage,
     @JsonKey(name: "order_disc_amount") String? orderDiscAmount,
     @JsonKey(name: "tax_amount") String? taxAmount,
     @JsonKey(name: "shipping_charge") String? shippingCharge,
@@ -1411,7 +1416,8 @@ abstract class _$$OrderDetailResponseImplCopyWith<$Res>
     @JsonKey(name: "wallet_enabled") int? walletEnabled,
     @JsonKey(name: "reward_points_enabled") int? rewardPointsEnabled,
     @JsonKey(name: "weighing_scale_enabled") int? weighingScaleEnabled,
-    @JsonKey(name: "parcel_charge_enabled") int? parcelChargeEnabled,
+    @JsonKey(name: "parcel_charge_enabled", fromJson: parseNumberAsDouble)
+    double? parcelChargeEnabled,
   });
 }
 
@@ -1842,7 +1848,7 @@ class __$$OrderDetailResponseImplCopyWithImpl<$Res>
         orderTaxPercentage: freezed == orderTaxPercentage
             ? _value.orderTaxPercentage
             : orderTaxPercentage // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as double?,
         orderDiscAmount: freezed == orderDiscAmount
             ? _value.orderDiscAmount
             : orderDiscAmount // ignore: cast_nullable_to_non_nullable
@@ -2166,7 +2172,7 @@ class __$$OrderDetailResponseImplCopyWithImpl<$Res>
         parcelChargeEnabled: freezed == parcelChargeEnabled
             ? _value.parcelChargeEnabled
             : parcelChargeEnabled // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
       ),
     );
   }
@@ -2182,7 +2188,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
     @JsonKey(name: "order_status_name") this.orderStatusName,
     @JsonKey(name: "delivery_agent_id") this.deliveryAgentId,
     @JsonKey(name: "rounding") this.rounding,
-    @JsonKey(name: "parcel_charge", fromJson: parseDouble) this.parcelCharge,
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+    this.parcelCharge,
     @JsonKey(name: "table_details") final List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") this.custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") this.customerFeedbacks,
@@ -2243,7 +2250,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
     @JsonKey(name: "ArabicNameSettings") this.arabicNameSettings,
     @JsonKey(name: "taxSettings") this.taxSettings,
     @JsonKey(name: "tax_name") this.taxName,
-    @JsonKey(name: "order_tax_percentage") this.orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    this.orderTaxPercentage,
     @JsonKey(name: "order_disc_amount") this.orderDiscAmount,
     @JsonKey(name: "tax_amount") this.taxAmount,
     @JsonKey(name: "shipping_charge") this.shippingCharge,
@@ -2327,7 +2335,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
     @JsonKey(name: "wallet_enabled") this.walletEnabled,
     @JsonKey(name: "reward_points_enabled") this.rewardPointsEnabled,
     @JsonKey(name: "weighing_scale_enabled") this.weighingScaleEnabled,
-    @JsonKey(name: "parcel_charge_enabled") this.parcelChargeEnabled,
+    @JsonKey(name: "parcel_charge_enabled", fromJson: parseNumberAsDouble)
+    this.parcelChargeEnabled,
   }) : _tableDetails = tableDetails,
        _orderSurges = orderSurges,
        _orderStatuses = orderStatuses,
@@ -2356,7 +2365,7 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   @JsonKey(name: "rounding")
   final int? rounding;
   @override
-  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
+  @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
   final double? parcelCharge;
   final List<dynamic>? _tableDetails;
   @override
@@ -2541,8 +2550,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   @JsonKey(name: "tax_name")
   final String? taxName;
   @override
-  @JsonKey(name: "order_tax_percentage")
-  final String? orderTaxPercentage;
+  @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+  final double? orderTaxPercentage;
   @override
   @JsonKey(name: "order_disc_amount")
   final String? orderDiscAmount;
@@ -2817,8 +2826,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   @JsonKey(name: "weighing_scale_enabled")
   final int? weighingScaleEnabled;
   @override
-  @JsonKey(name: "parcel_charge_enabled")
-  final int? parcelChargeEnabled;
+  @JsonKey(name: "parcel_charge_enabled", fromJson: parseNumberAsDouble)
+  final double? parcelChargeEnabled;
 
   @override
   String toString() {
@@ -3313,7 +3322,7 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
     @JsonKey(name: "order_status_name") final String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") final String? deliveryAgentId,
     @JsonKey(name: "rounding") final int? rounding,
-    @JsonKey(name: "parcel_charge", fromJson: parseDouble)
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
     final double? parcelCharge,
     @JsonKey(name: "table_details") final List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") final int? custFeedbackExist,
@@ -3379,7 +3388,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
     @JsonKey(name: "ArabicNameSettings") final int? arabicNameSettings,
     @JsonKey(name: "taxSettings") final int? taxSettings,
     @JsonKey(name: "tax_name") final String? taxName,
-    @JsonKey(name: "order_tax_percentage") final String? orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    final double? orderTaxPercentage,
     @JsonKey(name: "order_disc_amount") final String? orderDiscAmount,
     @JsonKey(name: "tax_amount") final String? taxAmount,
     @JsonKey(name: "shipping_charge") final String? shippingCharge,
@@ -3466,7 +3476,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
     @JsonKey(name: "wallet_enabled") final int? walletEnabled,
     @JsonKey(name: "reward_points_enabled") final int? rewardPointsEnabled,
     @JsonKey(name: "weighing_scale_enabled") final int? weighingScaleEnabled,
-    @JsonKey(name: "parcel_charge_enabled") final int? parcelChargeEnabled,
+    @JsonKey(name: "parcel_charge_enabled", fromJson: parseNumberAsDouble)
+    final double? parcelChargeEnabled,
   }) = _$OrderDetailResponseImpl;
 
   factory _OrderDetailResponse.fromJson(Map<String, dynamic> json) =
@@ -3491,7 +3502,7 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   @JsonKey(name: "rounding")
   int? get rounding;
   @override
-  @JsonKey(name: "parcel_charge", fromJson: parseDouble)
+  @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
   double? get parcelCharge;
   @override
   @JsonKey(name: "table_details")
@@ -3668,8 +3679,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   @JsonKey(name: "tax_name")
   String? get taxName;
   @override
-  @JsonKey(name: "order_tax_percentage")
-  String? get orderTaxPercentage;
+  @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+  double? get orderTaxPercentage;
   @override
   @JsonKey(name: "order_disc_amount")
   String? get orderDiscAmount;
@@ -3911,8 +3922,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   @JsonKey(name: "weighing_scale_enabled")
   int? get weighingScaleEnabled;
   @override
-  @JsonKey(name: "parcel_charge_enabled")
-  int? get parcelChargeEnabled;
+  @JsonKey(name: "parcel_charge_enabled", fromJson: parseNumberAsDouble)
+  double? get parcelChargeEnabled;
 
   /// Create a copy of OrderDetailResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -4185,10 +4196,10 @@ mixin _$ProductOrderItem {
   int? get taxId => throw _privateConstructorUsedError;
   @JsonKey(name: "itemsubstitute")
   List<dynamic>? get itemsubstitute => throw _privateConstructorUsedError;
-  @JsonKey(name: "offer_price")
-  String? get offerPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: "product_price")
-  String? get productPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
+  double? get offerPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
+  double? get productPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_item_purchase_price")
   String? get orderItemPurchasePrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_item_price")
@@ -4217,8 +4228,8 @@ mixin _$ProductOrderItem {
   String? get categoryName => throw _privateConstructorUsedError;
   @JsonKey(name: "is_free")
   int? get isFree => throw _privateConstructorUsedError;
-  @JsonKey(name: "service_price")
-  String? get servicePrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "service_price", fromJson: parseNumberAsDouble)
+  double? get servicePrice => throw _privateConstructorUsedError;
   @JsonKey(name: "order_status_id")
   int? get orderStatusId => throw _privateConstructorUsedError;
   @JsonKey(name: "order_status_name")
@@ -4230,32 +4241,32 @@ mixin _$ProductOrderItem {
   int? get orderItemQty => throw _privateConstructorUsedError;
   @JsonKey(name: "coupon_id")
   int? get couponId => throw _privateConstructorUsedError;
-  @JsonKey(name: "shipping_charge")
-  int? get shippingCharge => throw _privateConstructorUsedError;
+  @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+  double? get shippingCharge => throw _privateConstructorUsedError;
   @JsonKey(name: "is_taxable")
   int? get isTaxable => throw _privateConstructorUsedError;
   @JsonKey(name: "is_tax_inclusive")
   int? get isTaxInclusive => throw _privateConstructorUsedError;
   @JsonKey(name: "tax_amt")
   dynamic get taxAmt => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_tax_percentage")
-  dynamic get orderTaxPercentage => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+  double? get orderTaxPercentage => throw _privateConstructorUsedError;
   @JsonKey(name: "min_order_qty")
   int? get minOrderQty => throw _privateConstructorUsedError;
   @JsonKey(name: "product_qty")
   int? get productQty => throw _privateConstructorUsedError;
   @JsonKey(name: "product_tax_amt")
   String? get productTaxAmt => throw _privateConstructorUsedError;
-  @JsonKey(name: "product_tax_percentage")
-  int? get productTaxPercentage => throw _privateConstructorUsedError;
+  @JsonKey(name: "product_tax_percentage", fromJson: parseNumberAsDouble)
+  double? get productTaxPercentage => throw _privateConstructorUsedError;
   @JsonKey(name: "product_featured")
   int? get productFeatured => throw _privateConstructorUsedError;
   @JsonKey(name: "product_short_description")
   String? get productShortDescription => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_ship_charge")
-  int? get prodShipCharge => throw _privateConstructorUsedError;
-  @JsonKey(name: "items_per_pack")
-  int? get itemsPerPack => throw _privateConstructorUsedError;
+  @JsonKey(name: "prod_ship_charge", fromJson: parseNumberAsDouble)
+  double? get prodShipCharge => throw _privateConstructorUsedError;
+  @JsonKey(name: "items_per_pack", fromJson: parseNumberAsDouble)
+  double? get itemsPerPack => throw _privateConstructorUsedError;
   @JsonKey(name: "volume")
   int? get volume => throw _privateConstructorUsedError;
   @JsonKey(name: "product_sku")
@@ -4288,8 +4299,8 @@ mixin _$ProductOrderItem {
   String? get prodSeoDesc => throw _privateConstructorUsedError;
   @JsonKey(name: "maintain_stock")
   int? get maintainStock => throw _privateConstructorUsedError;
-  @JsonKey(name: "ignore_discount")
-  int? get ignoreDiscount => throw _privateConstructorUsedError;
+  @JsonKey(name: "ignore_discount", fromJson: parseNumberAsDouble)
+  double? get ignoreDiscount => throw _privateConstructorUsedError;
   @JsonKey(name: "is_variant")
   int? get isVariant => throw _privateConstructorUsedError;
   @JsonKey(name: "is_cancelled")
@@ -4329,22 +4340,22 @@ mixin _$ProductOrderItem {
   int? get prodVarCode => throw _privateConstructorUsedError;
   @JsonKey(name: "is_out_of_stock")
   int? get isOutOfStock => throw _privateConstructorUsedError;
-  @JsonKey(name: "change_price")
-  int? get changePrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "change_price", fromJson: parseNumberAsDouble)
+  double? get changePrice => throw _privateConstructorUsedError;
   @JsonKey(name: "returnable_info")
   ReturnableInfo? get returnableInfo => throw _privateConstructorUsedError;
   @JsonKey(name: "is_pre_order")
   int? get isPreOrder => throw _privateConstructorUsedError;
-  @JsonKey(name: "pre_order_fee")
-  int? get preOrderFee => throw _privateConstructorUsedError;
+  @JsonKey(name: "pre_order_fee", fromJson: parseNumberAsDouble)
+  double? get preOrderFee => throw _privateConstructorUsedError;
   @JsonKey(name: "release_time")
   int? get releaseTime => throw _privateConstructorUsedError;
   @JsonKey(name: "pre_order_charging_option_id")
   int? get preOrderChargingOptionId => throw _privateConstructorUsedError;
-  @JsonKey(name: "takeaway_addon_price")
-  String? get takeawayAddonPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: "parcel_charge")
-  String? get parcelCharge => throw _privateConstructorUsedError;
+  @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
+  double? get takeawayAddonPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+  double? get parcelCharge => throw _privateConstructorUsedError;
 
   /// Serializes this ProductOrderItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -4383,8 +4394,10 @@ abstract class $ProductOrderItemCopyWith<$Res> {
     @JsonKey(name: "unit_arabic_name") String? unitArabicName,
     @JsonKey(name: "tax_id") int? taxId,
     @JsonKey(name: "itemsubstitute") List<dynamic>? itemsubstitute,
-    @JsonKey(name: "offer_price") String? offerPrice,
-    @JsonKey(name: "product_price") String? productPrice,
+    @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
+    double? offerPrice,
+    @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
+    double? productPrice,
     @JsonKey(name: "order_item_purchase_price") String? orderItemPurchasePrice,
     @JsonKey(name: "order_item_price") double? orderItemPrice,
     @JsonKey(name: "order_item_offer_price") int? orderItemOfferPrice,
@@ -4399,26 +4412,32 @@ abstract class $ProductOrderItemCopyWith<$Res> {
     @JsonKey(name: "main_category_id") int? mainCategoryId,
     @JsonKey(name: "category_name") String? categoryName,
     @JsonKey(name: "is_free") int? isFree,
-    @JsonKey(name: "service_price") String? servicePrice,
+    @JsonKey(name: "service_price", fromJson: parseNumberAsDouble)
+    double? servicePrice,
     @JsonKey(name: "order_status_id") int? orderStatusId,
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "order_item_status_history")
     List<dynamic>? orderItemStatusHistory,
     @JsonKey(name: "order_item_qty") int? orderItemQty,
     @JsonKey(name: "coupon_id") int? couponId,
-    @JsonKey(name: "shipping_charge") int? shippingCharge,
+    @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+    double? shippingCharge,
     @JsonKey(name: "is_taxable") int? isTaxable,
     @JsonKey(name: "is_tax_inclusive") int? isTaxInclusive,
     @JsonKey(name: "tax_amt") dynamic taxAmt,
-    @JsonKey(name: "order_tax_percentage") dynamic orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    double? orderTaxPercentage,
     @JsonKey(name: "min_order_qty") int? minOrderQty,
     @JsonKey(name: "product_qty") int? productQty,
     @JsonKey(name: "product_tax_amt") String? productTaxAmt,
-    @JsonKey(name: "product_tax_percentage") int? productTaxPercentage,
+    @JsonKey(name: "product_tax_percentage", fromJson: parseNumberAsDouble)
+    double? productTaxPercentage,
     @JsonKey(name: "product_featured") int? productFeatured,
     @JsonKey(name: "product_short_description") String? productShortDescription,
-    @JsonKey(name: "prod_ship_charge") int? prodShipCharge,
-    @JsonKey(name: "items_per_pack") int? itemsPerPack,
+    @JsonKey(name: "prod_ship_charge", fromJson: parseNumberAsDouble)
+    double? prodShipCharge,
+    @JsonKey(name: "items_per_pack", fromJson: parseNumberAsDouble)
+    double? itemsPerPack,
     @JsonKey(name: "volume") int? volume,
     @JsonKey(name: "product_sku") String? productSku,
     @JsonKey(name: "prod_purchase_limit") int? prodPurchaseLimit,
@@ -4435,7 +4454,8 @@ abstract class $ProductOrderItemCopyWith<$Res> {
     @JsonKey(name: "product_seo_url") String? productSeoUrl,
     @JsonKey(name: "prod_seo_desc") String? prodSeoDesc,
     @JsonKey(name: "maintain_stock") int? maintainStock,
-    @JsonKey(name: "ignore_discount") int? ignoreDiscount,
+    @JsonKey(name: "ignore_discount", fromJson: parseNumberAsDouble)
+    double? ignoreDiscount,
     @JsonKey(name: "is_variant") int? isVariant,
     @JsonKey(name: "is_cancelled") int? isCancelled,
     @JsonKey(name: "cancelled_reason_date") String? cancelledReasonDate,
@@ -4456,15 +4476,19 @@ abstract class $ProductOrderItemCopyWith<$Res> {
     @JsonKey(name: "prod_var_id") int? prodVarId,
     @JsonKey(name: "prod_var_code", fromJson: parseInt) int? prodVarCode,
     @JsonKey(name: "is_out_of_stock") int? isOutOfStock,
-    @JsonKey(name: "change_price") int? changePrice,
+    @JsonKey(name: "change_price", fromJson: parseNumberAsDouble)
+    double? changePrice,
     @JsonKey(name: "returnable_info") ReturnableInfo? returnableInfo,
     @JsonKey(name: "is_pre_order") int? isPreOrder,
-    @JsonKey(name: "pre_order_fee") int? preOrderFee,
+    @JsonKey(name: "pre_order_fee", fromJson: parseNumberAsDouble)
+    double? preOrderFee,
     @JsonKey(name: "release_time") int? releaseTime,
     @JsonKey(name: "pre_order_charging_option_id")
     int? preOrderChargingOptionId,
-    @JsonKey(name: "takeaway_addon_price") String? takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") String? parcelCharge,
+    @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
+    double? takeawayAddonPrice,
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+    double? parcelCharge,
   });
 
   $ReturnableInfoCopyWith<$Res>? get returnableInfo;
@@ -4660,11 +4684,11 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             offerPrice: freezed == offerPrice
                 ? _value.offerPrice
                 : offerPrice // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as double?,
             productPrice: freezed == productPrice
                 ? _value.productPrice
                 : productPrice // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as double?,
             orderItemPurchasePrice: freezed == orderItemPurchasePrice
                 ? _value.orderItemPurchasePrice
                 : orderItemPurchasePrice // ignore: cast_nullable_to_non_nullable
@@ -4724,7 +4748,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             servicePrice: freezed == servicePrice
                 ? _value.servicePrice
                 : servicePrice // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as double?,
             orderStatusId: freezed == orderStatusId
                 ? _value.orderStatusId
                 : orderStatusId // ignore: cast_nullable_to_non_nullable
@@ -4748,7 +4772,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             shippingCharge: freezed == shippingCharge
                 ? _value.shippingCharge
                 : shippingCharge // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             isTaxable: freezed == isTaxable
                 ? _value.isTaxable
                 : isTaxable // ignore: cast_nullable_to_non_nullable
@@ -4764,7 +4788,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             orderTaxPercentage: freezed == orderTaxPercentage
                 ? _value.orderTaxPercentage
                 : orderTaxPercentage // ignore: cast_nullable_to_non_nullable
-                      as dynamic,
+                      as double?,
             minOrderQty: freezed == minOrderQty
                 ? _value.minOrderQty
                 : minOrderQty // ignore: cast_nullable_to_non_nullable
@@ -4780,7 +4804,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             productTaxPercentage: freezed == productTaxPercentage
                 ? _value.productTaxPercentage
                 : productTaxPercentage // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             productFeatured: freezed == productFeatured
                 ? _value.productFeatured
                 : productFeatured // ignore: cast_nullable_to_non_nullable
@@ -4792,11 +4816,11 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             prodShipCharge: freezed == prodShipCharge
                 ? _value.prodShipCharge
                 : prodShipCharge // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             itemsPerPack: freezed == itemsPerPack
                 ? _value.itemsPerPack
                 : itemsPerPack // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             volume: freezed == volume
                 ? _value.volume
                 : volume // ignore: cast_nullable_to_non_nullable
@@ -4864,7 +4888,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             ignoreDiscount: freezed == ignoreDiscount
                 ? _value.ignoreDiscount
                 : ignoreDiscount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             isVariant: freezed == isVariant
                 ? _value.isVariant
                 : isVariant // ignore: cast_nullable_to_non_nullable
@@ -4944,7 +4968,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             changePrice: freezed == changePrice
                 ? _value.changePrice
                 : changePrice // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             returnableInfo: freezed == returnableInfo
                 ? _value.returnableInfo
                 : returnableInfo // ignore: cast_nullable_to_non_nullable
@@ -4956,7 +4980,7 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             preOrderFee: freezed == preOrderFee
                 ? _value.preOrderFee
                 : preOrderFee // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             releaseTime: freezed == releaseTime
                 ? _value.releaseTime
                 : releaseTime // ignore: cast_nullable_to_non_nullable
@@ -4968,11 +4992,11 @@ class _$ProductOrderItemCopyWithImpl<$Res, $Val extends ProductOrderItem>
             takeawayAddonPrice: freezed == takeawayAddonPrice
                 ? _value.takeawayAddonPrice
                 : takeawayAddonPrice // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as double?,
             parcelCharge: freezed == parcelCharge
                 ? _value.parcelCharge
                 : parcelCharge // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as double?,
           )
           as $Val,
     );
@@ -5022,8 +5046,10 @@ abstract class _$$ProductOrderItemImplCopyWith<$Res>
     @JsonKey(name: "unit_arabic_name") String? unitArabicName,
     @JsonKey(name: "tax_id") int? taxId,
     @JsonKey(name: "itemsubstitute") List<dynamic>? itemsubstitute,
-    @JsonKey(name: "offer_price") String? offerPrice,
-    @JsonKey(name: "product_price") String? productPrice,
+    @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
+    double? offerPrice,
+    @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
+    double? productPrice,
     @JsonKey(name: "order_item_purchase_price") String? orderItemPurchasePrice,
     @JsonKey(name: "order_item_price") double? orderItemPrice,
     @JsonKey(name: "order_item_offer_price") int? orderItemOfferPrice,
@@ -5038,26 +5064,32 @@ abstract class _$$ProductOrderItemImplCopyWith<$Res>
     @JsonKey(name: "main_category_id") int? mainCategoryId,
     @JsonKey(name: "category_name") String? categoryName,
     @JsonKey(name: "is_free") int? isFree,
-    @JsonKey(name: "service_price") String? servicePrice,
+    @JsonKey(name: "service_price", fromJson: parseNumberAsDouble)
+    double? servicePrice,
     @JsonKey(name: "order_status_id") int? orderStatusId,
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "order_item_status_history")
     List<dynamic>? orderItemStatusHistory,
     @JsonKey(name: "order_item_qty") int? orderItemQty,
     @JsonKey(name: "coupon_id") int? couponId,
-    @JsonKey(name: "shipping_charge") int? shippingCharge,
+    @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+    double? shippingCharge,
     @JsonKey(name: "is_taxable") int? isTaxable,
     @JsonKey(name: "is_tax_inclusive") int? isTaxInclusive,
     @JsonKey(name: "tax_amt") dynamic taxAmt,
-    @JsonKey(name: "order_tax_percentage") dynamic orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    double? orderTaxPercentage,
     @JsonKey(name: "min_order_qty") int? minOrderQty,
     @JsonKey(name: "product_qty") int? productQty,
     @JsonKey(name: "product_tax_amt") String? productTaxAmt,
-    @JsonKey(name: "product_tax_percentage") int? productTaxPercentage,
+    @JsonKey(name: "product_tax_percentage", fromJson: parseNumberAsDouble)
+    double? productTaxPercentage,
     @JsonKey(name: "product_featured") int? productFeatured,
     @JsonKey(name: "product_short_description") String? productShortDescription,
-    @JsonKey(name: "prod_ship_charge") int? prodShipCharge,
-    @JsonKey(name: "items_per_pack") int? itemsPerPack,
+    @JsonKey(name: "prod_ship_charge", fromJson: parseNumberAsDouble)
+    double? prodShipCharge,
+    @JsonKey(name: "items_per_pack", fromJson: parseNumberAsDouble)
+    double? itemsPerPack,
     @JsonKey(name: "volume") int? volume,
     @JsonKey(name: "product_sku") String? productSku,
     @JsonKey(name: "prod_purchase_limit") int? prodPurchaseLimit,
@@ -5074,7 +5106,8 @@ abstract class _$$ProductOrderItemImplCopyWith<$Res>
     @JsonKey(name: "product_seo_url") String? productSeoUrl,
     @JsonKey(name: "prod_seo_desc") String? prodSeoDesc,
     @JsonKey(name: "maintain_stock") int? maintainStock,
-    @JsonKey(name: "ignore_discount") int? ignoreDiscount,
+    @JsonKey(name: "ignore_discount", fromJson: parseNumberAsDouble)
+    double? ignoreDiscount,
     @JsonKey(name: "is_variant") int? isVariant,
     @JsonKey(name: "is_cancelled") int? isCancelled,
     @JsonKey(name: "cancelled_reason_date") String? cancelledReasonDate,
@@ -5095,15 +5128,19 @@ abstract class _$$ProductOrderItemImplCopyWith<$Res>
     @JsonKey(name: "prod_var_id") int? prodVarId,
     @JsonKey(name: "prod_var_code", fromJson: parseInt) int? prodVarCode,
     @JsonKey(name: "is_out_of_stock") int? isOutOfStock,
-    @JsonKey(name: "change_price") int? changePrice,
+    @JsonKey(name: "change_price", fromJson: parseNumberAsDouble)
+    double? changePrice,
     @JsonKey(name: "returnable_info") ReturnableInfo? returnableInfo,
     @JsonKey(name: "is_pre_order") int? isPreOrder,
-    @JsonKey(name: "pre_order_fee") int? preOrderFee,
+    @JsonKey(name: "pre_order_fee", fromJson: parseNumberAsDouble)
+    double? preOrderFee,
     @JsonKey(name: "release_time") int? releaseTime,
     @JsonKey(name: "pre_order_charging_option_id")
     int? preOrderChargingOptionId,
-    @JsonKey(name: "takeaway_addon_price") String? takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") String? parcelCharge,
+    @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
+    double? takeawayAddonPrice,
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+    double? parcelCharge,
   });
 
   @override
@@ -5299,11 +5336,11 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         offerPrice: freezed == offerPrice
             ? _value.offerPrice
             : offerPrice // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as double?,
         productPrice: freezed == productPrice
             ? _value.productPrice
             : productPrice // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as double?,
         orderItemPurchasePrice: freezed == orderItemPurchasePrice
             ? _value.orderItemPurchasePrice
             : orderItemPurchasePrice // ignore: cast_nullable_to_non_nullable
@@ -5363,7 +5400,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         servicePrice: freezed == servicePrice
             ? _value.servicePrice
             : servicePrice // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as double?,
         orderStatusId: freezed == orderStatusId
             ? _value.orderStatusId
             : orderStatusId // ignore: cast_nullable_to_non_nullable
@@ -5387,7 +5424,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         shippingCharge: freezed == shippingCharge
             ? _value.shippingCharge
             : shippingCharge // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         isTaxable: freezed == isTaxable
             ? _value.isTaxable
             : isTaxable // ignore: cast_nullable_to_non_nullable
@@ -5403,7 +5440,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         orderTaxPercentage: freezed == orderTaxPercentage
             ? _value.orderTaxPercentage
             : orderTaxPercentage // ignore: cast_nullable_to_non_nullable
-                  as dynamic,
+                  as double?,
         minOrderQty: freezed == minOrderQty
             ? _value.minOrderQty
             : minOrderQty // ignore: cast_nullable_to_non_nullable
@@ -5419,7 +5456,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         productTaxPercentage: freezed == productTaxPercentage
             ? _value.productTaxPercentage
             : productTaxPercentage // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         productFeatured: freezed == productFeatured
             ? _value.productFeatured
             : productFeatured // ignore: cast_nullable_to_non_nullable
@@ -5431,11 +5468,11 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         prodShipCharge: freezed == prodShipCharge
             ? _value.prodShipCharge
             : prodShipCharge // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         itemsPerPack: freezed == itemsPerPack
             ? _value.itemsPerPack
             : itemsPerPack // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         volume: freezed == volume
             ? _value.volume
             : volume // ignore: cast_nullable_to_non_nullable
@@ -5503,7 +5540,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         ignoreDiscount: freezed == ignoreDiscount
             ? _value.ignoreDiscount
             : ignoreDiscount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         isVariant: freezed == isVariant
             ? _value.isVariant
             : isVariant // ignore: cast_nullable_to_non_nullable
@@ -5583,7 +5620,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         changePrice: freezed == changePrice
             ? _value.changePrice
             : changePrice // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         returnableInfo: freezed == returnableInfo
             ? _value.returnableInfo
             : returnableInfo // ignore: cast_nullable_to_non_nullable
@@ -5595,7 +5632,7 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         preOrderFee: freezed == preOrderFee
             ? _value.preOrderFee
             : preOrderFee // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         releaseTime: freezed == releaseTime
             ? _value.releaseTime
             : releaseTime // ignore: cast_nullable_to_non_nullable
@@ -5607,11 +5644,11 @@ class __$$ProductOrderItemImplCopyWithImpl<$Res>
         takeawayAddonPrice: freezed == takeawayAddonPrice
             ? _value.takeawayAddonPrice
             : takeawayAddonPrice // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as double?,
         parcelCharge: freezed == parcelCharge
             ? _value.parcelCharge
             : parcelCharge // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as double?,
       ),
     );
   }
@@ -5640,8 +5677,10 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
     @JsonKey(name: "unit_arabic_name") this.unitArabicName,
     @JsonKey(name: "tax_id") this.taxId,
     @JsonKey(name: "itemsubstitute") final List<dynamic>? itemsubstitute,
-    @JsonKey(name: "offer_price") this.offerPrice,
-    @JsonKey(name: "product_price") this.productPrice,
+    @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
+    this.offerPrice,
+    @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
+    this.productPrice,
     @JsonKey(name: "order_item_purchase_price") this.orderItemPurchasePrice,
     @JsonKey(name: "order_item_price") this.orderItemPrice,
     @JsonKey(name: "order_item_offer_price") this.orderItemOfferPrice,
@@ -5656,26 +5695,32 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
     @JsonKey(name: "main_category_id") this.mainCategoryId,
     @JsonKey(name: "category_name") this.categoryName,
     @JsonKey(name: "is_free") this.isFree,
-    @JsonKey(name: "service_price") this.servicePrice,
+    @JsonKey(name: "service_price", fromJson: parseNumberAsDouble)
+    this.servicePrice,
     @JsonKey(name: "order_status_id") this.orderStatusId,
     @JsonKey(name: "order_status_name") this.orderStatusName,
     @JsonKey(name: "order_item_status_history")
     final List<dynamic>? orderItemStatusHistory,
     @JsonKey(name: "order_item_qty") this.orderItemQty,
     @JsonKey(name: "coupon_id") this.couponId,
-    @JsonKey(name: "shipping_charge") this.shippingCharge,
+    @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+    this.shippingCharge,
     @JsonKey(name: "is_taxable") this.isTaxable,
     @JsonKey(name: "is_tax_inclusive") this.isTaxInclusive,
     @JsonKey(name: "tax_amt") this.taxAmt,
-    @JsonKey(name: "order_tax_percentage") this.orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    this.orderTaxPercentage,
     @JsonKey(name: "min_order_qty") this.minOrderQty,
     @JsonKey(name: "product_qty") this.productQty,
     @JsonKey(name: "product_tax_amt") this.productTaxAmt,
-    @JsonKey(name: "product_tax_percentage") this.productTaxPercentage,
+    @JsonKey(name: "product_tax_percentage", fromJson: parseNumberAsDouble)
+    this.productTaxPercentage,
     @JsonKey(name: "product_featured") this.productFeatured,
     @JsonKey(name: "product_short_description") this.productShortDescription,
-    @JsonKey(name: "prod_ship_charge") this.prodShipCharge,
-    @JsonKey(name: "items_per_pack") this.itemsPerPack,
+    @JsonKey(name: "prod_ship_charge", fromJson: parseNumberAsDouble)
+    this.prodShipCharge,
+    @JsonKey(name: "items_per_pack", fromJson: parseNumberAsDouble)
+    this.itemsPerPack,
     @JsonKey(name: "volume") this.volume,
     @JsonKey(name: "product_sku") this.productSku,
     @JsonKey(name: "prod_purchase_limit") this.prodPurchaseLimit,
@@ -5692,7 +5737,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
     @JsonKey(name: "product_seo_url") this.productSeoUrl,
     @JsonKey(name: "prod_seo_desc") this.prodSeoDesc,
     @JsonKey(name: "maintain_stock") this.maintainStock,
-    @JsonKey(name: "ignore_discount") this.ignoreDiscount,
+    @JsonKey(name: "ignore_discount", fromJson: parseNumberAsDouble)
+    this.ignoreDiscount,
     @JsonKey(name: "is_variant") this.isVariant,
     @JsonKey(name: "is_cancelled") this.isCancelled,
     @JsonKey(name: "cancelled_reason_date") this.cancelledReasonDate,
@@ -5713,15 +5759,19 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
     @JsonKey(name: "prod_var_id") this.prodVarId,
     @JsonKey(name: "prod_var_code", fromJson: parseInt) this.prodVarCode,
     @JsonKey(name: "is_out_of_stock") this.isOutOfStock,
-    @JsonKey(name: "change_price") this.changePrice,
+    @JsonKey(name: "change_price", fromJson: parseNumberAsDouble)
+    this.changePrice,
     @JsonKey(name: "returnable_info") this.returnableInfo,
     @JsonKey(name: "is_pre_order") this.isPreOrder,
-    @JsonKey(name: "pre_order_fee") this.preOrderFee,
+    @JsonKey(name: "pre_order_fee", fromJson: parseNumberAsDouble)
+    this.preOrderFee,
     @JsonKey(name: "release_time") this.releaseTime,
     @JsonKey(name: "pre_order_charging_option_id")
     this.preOrderChargingOptionId,
-    @JsonKey(name: "takeaway_addon_price") this.takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") this.parcelCharge,
+    @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
+    this.takeawayAddonPrice,
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+    this.parcelCharge,
   }) : _itemsubstitute = itemsubstitute,
        _orderItemStatusHistory = orderItemStatusHistory,
        _images = images,
@@ -5797,11 +5847,11 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   }
 
   @override
-  @JsonKey(name: "offer_price")
-  final String? offerPrice;
+  @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
+  final double? offerPrice;
   @override
-  @JsonKey(name: "product_price")
-  final String? productPrice;
+  @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
+  final double? productPrice;
   @override
   @JsonKey(name: "order_item_purchase_price")
   final String? orderItemPurchasePrice;
@@ -5845,8 +5895,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "is_free")
   final int? isFree;
   @override
-  @JsonKey(name: "service_price")
-  final String? servicePrice;
+  @JsonKey(name: "service_price", fromJson: parseNumberAsDouble)
+  final double? servicePrice;
   @override
   @JsonKey(name: "order_status_id")
   final int? orderStatusId;
@@ -5872,8 +5922,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "coupon_id")
   final int? couponId;
   @override
-  @JsonKey(name: "shipping_charge")
-  final int? shippingCharge;
+  @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+  final double? shippingCharge;
   @override
   @JsonKey(name: "is_taxable")
   final int? isTaxable;
@@ -5884,8 +5934,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "tax_amt")
   final dynamic taxAmt;
   @override
-  @JsonKey(name: "order_tax_percentage")
-  final dynamic orderTaxPercentage;
+  @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+  final double? orderTaxPercentage;
   @override
   @JsonKey(name: "min_order_qty")
   final int? minOrderQty;
@@ -5896,8 +5946,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "product_tax_amt")
   final String? productTaxAmt;
   @override
-  @JsonKey(name: "product_tax_percentage")
-  final int? productTaxPercentage;
+  @JsonKey(name: "product_tax_percentage", fromJson: parseNumberAsDouble)
+  final double? productTaxPercentage;
   @override
   @JsonKey(name: "product_featured")
   final int? productFeatured;
@@ -5905,11 +5955,11 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "product_short_description")
   final String? productShortDescription;
   @override
-  @JsonKey(name: "prod_ship_charge")
-  final int? prodShipCharge;
+  @JsonKey(name: "prod_ship_charge", fromJson: parseNumberAsDouble)
+  final double? prodShipCharge;
   @override
-  @JsonKey(name: "items_per_pack")
-  final int? itemsPerPack;
+  @JsonKey(name: "items_per_pack", fromJson: parseNumberAsDouble)
+  final double? itemsPerPack;
   @override
   @JsonKey(name: "volume")
   final int? volume;
@@ -5959,8 +6009,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "maintain_stock")
   final int? maintainStock;
   @override
-  @JsonKey(name: "ignore_discount")
-  final int? ignoreDiscount;
+  @JsonKey(name: "ignore_discount", fromJson: parseNumberAsDouble)
+  final double? ignoreDiscount;
   @override
   @JsonKey(name: "is_variant")
   final int? isVariant;
@@ -6068,8 +6118,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "is_out_of_stock")
   final int? isOutOfStock;
   @override
-  @JsonKey(name: "change_price")
-  final int? changePrice;
+  @JsonKey(name: "change_price", fromJson: parseNumberAsDouble)
+  final double? changePrice;
   @override
   @JsonKey(name: "returnable_info")
   final ReturnableInfo? returnableInfo;
@@ -6077,8 +6127,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "is_pre_order")
   final int? isPreOrder;
   @override
-  @JsonKey(name: "pre_order_fee")
-  final int? preOrderFee;
+  @JsonKey(name: "pre_order_fee", fromJson: parseNumberAsDouble)
+  final double? preOrderFee;
   @override
   @JsonKey(name: "release_time")
   final int? releaseTime;
@@ -6086,11 +6136,11 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "pre_order_charging_option_id")
   final int? preOrderChargingOptionId;
   @override
-  @JsonKey(name: "takeaway_addon_price")
-  final String? takeawayAddonPrice;
+  @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
+  final double? takeawayAddonPrice;
   @override
-  @JsonKey(name: "parcel_charge")
-  final String? parcelCharge;
+  @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+  final double? parcelCharge;
 
   @override
   String toString() {
@@ -6194,10 +6244,8 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
             (identical(other.isTaxInclusive, isTaxInclusive) ||
                 other.isTaxInclusive == isTaxInclusive) &&
             const DeepCollectionEquality().equals(other.taxAmt, taxAmt) &&
-            const DeepCollectionEquality().equals(
-              other.orderTaxPercentage,
-              orderTaxPercentage,
-            ) &&
+            (identical(other.orderTaxPercentage, orderTaxPercentage) ||
+                other.orderTaxPercentage == orderTaxPercentage) &&
             (identical(other.minOrderQty, minOrderQty) ||
                 other.minOrderQty == minOrderQty) &&
             (identical(other.productQty, productQty) ||
@@ -6358,7 +6406,7 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
     isTaxable,
     isTaxInclusive,
     const DeepCollectionEquality().hash(taxAmt),
-    const DeepCollectionEquality().hash(orderTaxPercentage),
+    orderTaxPercentage,
     minOrderQty,
     productQty,
     productTaxAmt,
@@ -6452,8 +6500,10 @@ abstract class _ProductOrderItem implements ProductOrderItem {
     @JsonKey(name: "unit_arabic_name") final String? unitArabicName,
     @JsonKey(name: "tax_id") final int? taxId,
     @JsonKey(name: "itemsubstitute") final List<dynamic>? itemsubstitute,
-    @JsonKey(name: "offer_price") final String? offerPrice,
-    @JsonKey(name: "product_price") final String? productPrice,
+    @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
+    final double? offerPrice,
+    @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
+    final double? productPrice,
     @JsonKey(name: "order_item_purchase_price")
     final String? orderItemPurchasePrice,
     @JsonKey(name: "order_item_price") final double? orderItemPrice,
@@ -6469,27 +6519,33 @@ abstract class _ProductOrderItem implements ProductOrderItem {
     @JsonKey(name: "main_category_id") final int? mainCategoryId,
     @JsonKey(name: "category_name") final String? categoryName,
     @JsonKey(name: "is_free") final int? isFree,
-    @JsonKey(name: "service_price") final String? servicePrice,
+    @JsonKey(name: "service_price", fromJson: parseNumberAsDouble)
+    final double? servicePrice,
     @JsonKey(name: "order_status_id") final int? orderStatusId,
     @JsonKey(name: "order_status_name") final String? orderStatusName,
     @JsonKey(name: "order_item_status_history")
     final List<dynamic>? orderItemStatusHistory,
     @JsonKey(name: "order_item_qty") final int? orderItemQty,
     @JsonKey(name: "coupon_id") final int? couponId,
-    @JsonKey(name: "shipping_charge") final int? shippingCharge,
+    @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+    final double? shippingCharge,
     @JsonKey(name: "is_taxable") final int? isTaxable,
     @JsonKey(name: "is_tax_inclusive") final int? isTaxInclusive,
     @JsonKey(name: "tax_amt") final dynamic taxAmt,
-    @JsonKey(name: "order_tax_percentage") final dynamic orderTaxPercentage,
+    @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+    final double? orderTaxPercentage,
     @JsonKey(name: "min_order_qty") final int? minOrderQty,
     @JsonKey(name: "product_qty") final int? productQty,
     @JsonKey(name: "product_tax_amt") final String? productTaxAmt,
-    @JsonKey(name: "product_tax_percentage") final int? productTaxPercentage,
+    @JsonKey(name: "product_tax_percentage", fromJson: parseNumberAsDouble)
+    final double? productTaxPercentage,
     @JsonKey(name: "product_featured") final int? productFeatured,
     @JsonKey(name: "product_short_description")
     final String? productShortDescription,
-    @JsonKey(name: "prod_ship_charge") final int? prodShipCharge,
-    @JsonKey(name: "items_per_pack") final int? itemsPerPack,
+    @JsonKey(name: "prod_ship_charge", fromJson: parseNumberAsDouble)
+    final double? prodShipCharge,
+    @JsonKey(name: "items_per_pack", fromJson: parseNumberAsDouble)
+    final double? itemsPerPack,
     @JsonKey(name: "volume") final int? volume,
     @JsonKey(name: "product_sku") final String? productSku,
     @JsonKey(name: "prod_purchase_limit") final int? prodPurchaseLimit,
@@ -6506,7 +6562,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
     @JsonKey(name: "product_seo_url") final String? productSeoUrl,
     @JsonKey(name: "prod_seo_desc") final String? prodSeoDesc,
     @JsonKey(name: "maintain_stock") final int? maintainStock,
-    @JsonKey(name: "ignore_discount") final int? ignoreDiscount,
+    @JsonKey(name: "ignore_discount", fromJson: parseNumberAsDouble)
+    final double? ignoreDiscount,
     @JsonKey(name: "is_variant") final int? isVariant,
     @JsonKey(name: "is_cancelled") final int? isCancelled,
     @JsonKey(name: "cancelled_reason_date") final String? cancelledReasonDate,
@@ -6527,15 +6584,19 @@ abstract class _ProductOrderItem implements ProductOrderItem {
     @JsonKey(name: "prod_var_id") final int? prodVarId,
     @JsonKey(name: "prod_var_code", fromJson: parseInt) final int? prodVarCode,
     @JsonKey(name: "is_out_of_stock") final int? isOutOfStock,
-    @JsonKey(name: "change_price") final int? changePrice,
+    @JsonKey(name: "change_price", fromJson: parseNumberAsDouble)
+    final double? changePrice,
     @JsonKey(name: "returnable_info") final ReturnableInfo? returnableInfo,
     @JsonKey(name: "is_pre_order") final int? isPreOrder,
-    @JsonKey(name: "pre_order_fee") final int? preOrderFee,
+    @JsonKey(name: "pre_order_fee", fromJson: parseNumberAsDouble)
+    final double? preOrderFee,
     @JsonKey(name: "release_time") final int? releaseTime,
     @JsonKey(name: "pre_order_charging_option_id")
     final int? preOrderChargingOptionId,
-    @JsonKey(name: "takeaway_addon_price") final String? takeawayAddonPrice,
-    @JsonKey(name: "parcel_charge") final String? parcelCharge,
+    @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
+    final double? takeawayAddonPrice,
+    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+    final double? parcelCharge,
   }) = _$ProductOrderItemImpl;
 
   factory _ProductOrderItem.fromJson(Map<String, dynamic> json) =
@@ -6596,11 +6657,11 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "itemsubstitute")
   List<dynamic>? get itemsubstitute;
   @override
-  @JsonKey(name: "offer_price")
-  String? get offerPrice;
+  @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
+  double? get offerPrice;
   @override
-  @JsonKey(name: "product_price")
-  String? get productPrice;
+  @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
+  double? get productPrice;
   @override
   @JsonKey(name: "order_item_purchase_price")
   String? get orderItemPurchasePrice;
@@ -6644,8 +6705,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "is_free")
   int? get isFree;
   @override
-  @JsonKey(name: "service_price")
-  String? get servicePrice;
+  @JsonKey(name: "service_price", fromJson: parseNumberAsDouble)
+  double? get servicePrice;
   @override
   @JsonKey(name: "order_status_id")
   int? get orderStatusId;
@@ -6662,8 +6723,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "coupon_id")
   int? get couponId;
   @override
-  @JsonKey(name: "shipping_charge")
-  int? get shippingCharge;
+  @JsonKey(name: "shipping_charge", fromJson: parseNumberAsDouble)
+  double? get shippingCharge;
   @override
   @JsonKey(name: "is_taxable")
   int? get isTaxable;
@@ -6674,8 +6735,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "tax_amt")
   dynamic get taxAmt;
   @override
-  @JsonKey(name: "order_tax_percentage")
-  dynamic get orderTaxPercentage;
+  @JsonKey(name: "order_tax_percentage", fromJson: parseNumberAsDouble)
+  double? get orderTaxPercentage;
   @override
   @JsonKey(name: "min_order_qty")
   int? get minOrderQty;
@@ -6686,8 +6747,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "product_tax_amt")
   String? get productTaxAmt;
   @override
-  @JsonKey(name: "product_tax_percentage")
-  int? get productTaxPercentage;
+  @JsonKey(name: "product_tax_percentage", fromJson: parseNumberAsDouble)
+  double? get productTaxPercentage;
   @override
   @JsonKey(name: "product_featured")
   int? get productFeatured;
@@ -6695,11 +6756,11 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "product_short_description")
   String? get productShortDescription;
   @override
-  @JsonKey(name: "prod_ship_charge")
-  int? get prodShipCharge;
+  @JsonKey(name: "prod_ship_charge", fromJson: parseNumberAsDouble)
+  double? get prodShipCharge;
   @override
-  @JsonKey(name: "items_per_pack")
-  int? get itemsPerPack;
+  @JsonKey(name: "items_per_pack", fromJson: parseNumberAsDouble)
+  double? get itemsPerPack;
   @override
   @JsonKey(name: "volume")
   int? get volume;
@@ -6749,8 +6810,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "maintain_stock")
   int? get maintainStock;
   @override
-  @JsonKey(name: "ignore_discount")
-  int? get ignoreDiscount;
+  @JsonKey(name: "ignore_discount", fromJson: parseNumberAsDouble)
+  double? get ignoreDiscount;
   @override
   @JsonKey(name: "is_variant")
   int? get isVariant;
@@ -6809,8 +6870,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "is_out_of_stock")
   int? get isOutOfStock;
   @override
-  @JsonKey(name: "change_price")
-  int? get changePrice;
+  @JsonKey(name: "change_price", fromJson: parseNumberAsDouble)
+  double? get changePrice;
   @override
   @JsonKey(name: "returnable_info")
   ReturnableInfo? get returnableInfo;
@@ -6818,8 +6879,8 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "is_pre_order")
   int? get isPreOrder;
   @override
-  @JsonKey(name: "pre_order_fee")
-  int? get preOrderFee;
+  @JsonKey(name: "pre_order_fee", fromJson: parseNumberAsDouble)
+  double? get preOrderFee;
   @override
   @JsonKey(name: "release_time")
   int? get releaseTime;
@@ -6827,11 +6888,11 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "pre_order_charging_option_id")
   int? get preOrderChargingOptionId;
   @override
-  @JsonKey(name: "takeaway_addon_price")
-  String? get takeawayAddonPrice;
+  @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
+  double? get takeawayAddonPrice;
   @override
-  @JsonKey(name: "parcel_charge")
-  String? get parcelCharge;
+  @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
+  double? get parcelCharge;
 
   /// Create a copy of ProductOrderItem
   /// with the given fields replaced by the non-null parameter values.

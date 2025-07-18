@@ -89,83 +89,86 @@ class _OfferFormState extends State<OfferForm> {
           builder: (context, setState) {
             return AlertDialog(
               title: const Text('Search Product'),
-              content: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      onChanged: (value) {
-                        reportCubit.loadProductName(
-                          query: value,
-                          storeId: storeId,
-                        );
-                      },
-                      controller: productSearchController,
-                      decoration: InputDecoration(
-                        hintText: 'Enter product name',
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () {
-                            reportCubit.loadProductName(
-                              query: productSearchController.text,
-                              storeId: storeId,
+              content: SizedBox(
+                width: 400,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        onChanged: (value) {
+                          reportCubit.loadProductName(
+                            query: value,
+                            storeId: storeId,
+                          );
+                        },
+                        controller: productSearchController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter product name',
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: () {
+                              reportCubit.loadProductName(
+                                query: productSearchController.text,
+                                storeId: storeId,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxHeight: 250),
+                
+                        child: BlocBuilder<ReportCubit, ReportState>(
+                          builder: (context, state) {
+                            if (state.isProductName == ApiFetchStatus.loading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                
+                            final productList =
+                                state.getproductName
+                                    ?.cast<ProductNameResponse>() ??
+                                [];
+                
+                            if (productList.isEmpty) {
+                              return const Center(
+                                child: Text('No products found.'),
+                              );
+                            }
+                
+                            return ListView.builder(
+                              itemCount: productList.length,
+                              itemBuilder: (context, index) {
+                                final product = productList[index];
+                                return ListTile(
+                                  title: Text(product.productName ?? 'Unknown'),
+                                  onTap: () {
+                                    if (!mounted) return;
+                                    setState(() {
+                                      selectedProduct = product;
+                                      nameController.text =
+                                          product.productName ?? '';
+                                      productPriceController.text =
+                                          product.productPrice?.toString() ??
+                                          ''; // <--- Add this line
+                                    });
+                
+                                    context
+                                        .read<ReportCubit>()
+                                        .selectedProductName(product);
+                                    Navigator.of(context).pop();
+                                  },
+                                );
+                              },
                             );
                           },
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 250),
-
-                      child: BlocBuilder<ReportCubit, ReportState>(
-                        builder: (context, state) {
-                          if (state.isProductName == ApiFetchStatus.loading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-
-                          final productList =
-                              state.getproductName
-                                  ?.cast<ProductNameResponse>() ??
-                              [];
-
-                          if (productList.isEmpty) {
-                            return const Center(
-                              child: Text('No products found.'),
-                            );
-                          }
-
-                          return ListView.builder(
-                            itemCount: productList.length,
-                            itemBuilder: (context, index) {
-                              final product = productList[index];
-                              return ListTile(
-                                title: Text(product.productName ?? 'Unknown'),
-                                onTap: () {
-                                  if (!mounted) return;
-                                  setState(() {
-                                    selectedProduct = product;
-                                    nameController.text =
-                                        product.productName ?? '';
-                                    productPriceController.text =
-                                        product.productPrice?.toString() ??
-                                        ''; // <--- Add this line
-                                  });
-
-                                  context
-                                      .read<ReportCubit>()
-                                      .selectedProductName(product);
-                                  Navigator.of(context).pop();
-                                },
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               actions: [
