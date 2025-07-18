@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -89,7 +90,9 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
             context: context,
             initialDate:
                 widget.initialDate ?? widget.firstDate ?? DateTime.now(),
-            firstDate: widget.firstDate ?? DateTime(2015),
+            //  firstDate: widget.firstDate ?? DateTime(2015),
+            firstDate: widget.firstDate ?? DateTime.now(),
+
             lastDate: DateTime(2101),
           );
 
