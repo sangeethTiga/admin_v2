@@ -195,12 +195,12 @@ class ExpenseReportScreen extends StatelessWidget {
                                       headers: [
                                         "#",
                                         "INV. NO",
-                                        "TRS DATE",
-                                        "DESC",
-                                        "ACC. NAME",
+                                        "TRANS DATE",
+                                        "DESCRIPTION",
+                                        "ACCOUNT HEAD NAME",
                                         "AMOUNT",
                                       ],
-                                      columnFlex: [1, 3, 5, 5, 4, 3],
+                                      columnFlex: [2, 3, 6, 6, 6, 4],
                                       data:
                                           state.expenseReport
                                               ?.asMap()
@@ -215,11 +215,14 @@ class ExpenseReportScreen extends StatelessWidget {
                                                   '#': globalIndex,
                                                   'INV. NO':
                                                       e.invoiceNumber ?? '',
-                                                  'TRS DATE': formatDateString(
-                                                    e.acTransactionDate ?? '',
-                                                  ),
-                                                  'DESC': e.description ?? '',
-                                                  "ACC. NAME":
+                                                  'TRANS DATE':
+                                                      formatDateString(
+                                                        e.acTransactionDate ??
+                                                            '',
+                                                      ),
+                                                  'DESCRIPTION':
+                                                      e.description ?? '',
+                                                  "ACCOUNT HEAD NAME":
                                                       e.accountHeadName ?? '',
                                                   'AMOUNT': e.amount ?? '',
                                                 };

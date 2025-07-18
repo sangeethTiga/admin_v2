@@ -103,7 +103,6 @@ class ReportService implements ReportRepositories {
         storeId,
         fromDate,
         toDate,
-        
       ),
     );
     switch (res.statusCode) {

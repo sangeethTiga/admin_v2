@@ -116,8 +116,14 @@ Widget _viewReport() {
     builder: (context, state) {
       return CustomMaterialBtton(
         onPressed: () {
+          final storeId = context
+              .read<DashboardCubit>()
+              .state
+              .selectedStore
+              ?.storeId;
           context.read<ReportCubit>().loadReveneueReport(
-            storeId: state.selectedStore?.storeId,
+            storeId: storeId,
+            isLoadMore: true,
           );
         },
         buttonText: 'View Report',
@@ -168,7 +174,12 @@ Widget _commonTable() {
                 child: CommonTableWidget(
                   controller: scrollController,
                   isLoading: state.isSaleReport == ApiFetchStatus.loading,
-                  headers: ["#", "ORDER NUMBER", "DATE", "AMOUNT"],
+                  headers: [
+                    "#",
+                    "INVOICE NUMBER",
+                    "TRANSACTION DATE",
+                    "AMOUNT",
+                  ],
                   columnFlex: [1, 3, 2, 2, 2],
                   data:
                       state.revenueReport?.asMap().entries.map((entry) {
@@ -177,9 +188,11 @@ Widget _commonTable() {
                         int globalIndex = localIndex + 1;
                         return {
                           '#': globalIndex,
-                          'ORDER NUMBER': e.invoiceNumber ?? '',
-                          'DATE': formatDateString(e.acTransactionDate ?? ''),
-                          'AMOUNT': e.amount ?? '',
+                          'INVOICE NUMBER': e.invoiceNumber ?? '',
+                          'TRANSACTION DATE': formatDateString(
+                            e.acTransactionDate ?? '',
+                          ),
+                          'AMOUNT': e.amount?.toStringAsFixed(2) ?? '',
                         };
                       }).toList() ??
                       [],

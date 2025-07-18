@@ -14,6 +14,7 @@ import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,6 +24,8 @@ class PurchaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
+    final ScrollController scrollController = ScrollController();
     return Scaffold(
       appBar: AppbarWidget(title: 'Purchase Report'),
       body: Column(
@@ -215,27 +218,21 @@ class PurchaseScreen extends StatelessWidget {
                                                       .purchaseReport
                                                       ?.isNotEmpty ==
                                                   true) {
-                                            WidgetsBinding.instance
-                                                .addPostFrameCallback((_) {
-                                                  ScaffoldMessenger.of(
-                                                    context,
-                                                  ).showSnackBar(
-                                                    const SnackBar(
-                                                      content: Text(
-                                                        'No more data',
-                                                      ),
-                                                      duration: Duration(
-                                                        seconds: 1,
-                                                      ),
-                                                    ),
-                                                  );
-                                                });
+                                            showNoMoreData.value = true;
                                           }
                                         }
+                                        if (scrollController.hasClients &&
+                                            scrollController
+                                                    .position
+                                                    .userScrollDirection ==
+                                                ScrollDirection.forward) {
+                                          showNoMoreData.value = false;
+                                        }
+
                                         return false;
                                       },
-
                                   child: CommonTableWidget(
+                                    controller: scrollController,
                                     isLoading:
                                         state.isPurchaseReport ==
                                         ApiFetchStatus.loading,
@@ -276,18 +273,22 @@ class PurchaseScreen extends StatelessWidget {
                                   padding: EdgeInsets.all(16.w),
                                   child: CircularProgressIndicator(),
                                 ),
-                              // if (state.hasMoreData == false &&
-                              //     state.customersReport?.isNotEmpty == true)
-                              //   Container(
-                              //     padding: EdgeInsets.all(16.w),
-                              //     child: Text(
-                              //       'No more data',
-                              //       style: TextStyle(
-                              //         fontSize: 12.sp,
-                              //         color: Colors.grey,
-                              //       ),
-                              //     ),
-                              //   ),
+                              ValueListenableBuilder<bool>(
+                                valueListenable: showNoMoreData,
+                                builder: (context, value, _) {
+                                  if (!value) return SizedBox.shrink();
+                                  return Padding(
+                                    padding: EdgeInsets.all(16.w),
+                                    child: Text(
+                                      'No more data',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ],
                           );
                         },

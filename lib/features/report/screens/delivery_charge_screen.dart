@@ -214,29 +214,4 @@ void _loadMoreData(BuildContext context) {
   }
 }
 
-OverlayEntry? _overlayEntry;
 
-void _showNoMoreDataOverlay(BuildContext context) {
-  if (_overlayEntry != null) return;
-
-  _overlayEntry = OverlayEntry(
-    builder: (context) => Positioned(
-      bottom: 16,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: Text(
-          'No more data',
-          style: TextStyle(fontSize: 14, color: Colors.black),
-        ),
-      ),
-    ),
-  );
-
-  Overlay.of(context).insert(_overlayEntry!);
-
-  Future.delayed(const Duration(seconds: 2), () {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  });
-}
