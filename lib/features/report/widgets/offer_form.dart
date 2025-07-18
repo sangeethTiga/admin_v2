@@ -40,6 +40,10 @@ class _OfferFormState extends State<OfferForm> {
   late final TextEditingController fromDateController;
   late final TextEditingController toDateController;
   late final TextEditingController productPriceController;
+  late final TextEditingController fromTimeController;
+late final TextEditingController toTimeController;
+TimeOfDay? selectedFromTime;
+TimeOfDay? selectedToTime;
 
   bool isLoading = false;
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
@@ -148,9 +152,7 @@ class _OfferFormState extends State<OfferForm> {
                                   title: Text(product.productName ?? 'Unknown'),
                                   onTap: () {
                                     if (!mounted) return;
-                                    onProductSelected(
-                                      product,
-                                    ); 
+                                    onProductSelected(product);
                                     Navigator.of(context).pop();
                                   },
                                 );
@@ -181,7 +183,7 @@ class _OfferFormState extends State<OfferForm> {
   @override
   void initState() {
     super.initState();
-
+     
     nameController = TextEditingController(
       text: widget.product?.productName ?? '',
     );
@@ -440,7 +442,8 @@ class _OfferFormState extends State<OfferForm> {
                                 value: state.fromDate != null
                                     ? apiFormat.format(state.fromDate!)
                                     : null,
-                                 //   firstDate: widget.firstDate ?? DateTime.now(),
+                                firstDate: DateTime.now(),
+                                //   firstDate: widget.firstDate ?? DateTime.now(),
                                 changeDate: (DateTime pickDate) {
                                   context.read<ReportCubit>().changeFromDate(
                                     pickDate,
@@ -448,6 +451,10 @@ class _OfferFormState extends State<OfferForm> {
                                 },
                               ),
                             ),
+                            
+
+
+
                             12.horizontalSpace,
                             Expanded(
                               child: DatePickerContainer(
@@ -455,6 +462,7 @@ class _OfferFormState extends State<OfferForm> {
                                 value: state.toDate != null
                                     ? apiFormat.format(state.toDate!)
                                     : null,
+                                firstDate: DateTime.now(),
                                 changeDate: (DateTime pickDate) {
                                   context.read<ReportCubit>().changeToDate(
                                     pickDate,
