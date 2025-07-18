@@ -245,322 +245,282 @@ class _OfferFormState extends State<OfferForm> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-      key: _scaffoldMessengerKey,
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: MainPadding(
-            child: BlocListener<ReportCubit, ReportState>(
-              listener: (context, state) {
-                if (state.isCreated == ApiFetchStatus.success) {
-                  context.read<ReportCubit>().loadProductOffers();
-                  context.pop(context);
-                }
-              },
-              child: Column(
-                spacing: 8.h,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  MainPadding(
-                    top: 23.5.h,
-                    left: 12.w,
-                    right: 12.w,
+    return SizedBox(
+      height: 700.h,
+      child: ScaffoldMessenger(
+        key: _scaffoldMessengerKey,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: MainPadding(
+              child: BlocListener<ReportCubit, ReportState>(
+                listener: (context, state) {
+                  if (state.isCreated == ApiFetchStatus.success) {
+                    context.read<ReportCubit>().loadProductOffers();
+                    context.pop(context);
+                  }
+                },
+                child: Column(
+                  spacing: 8.h,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    MainPadding(
+                      top: 23.5.h,
+                      left: 12.w,
+                      right: 12.w,
 
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.isEdit
-                              ? 'Update Product Offer'
-                              : 'Add Product Offer',
-                          style: FontPalette.hW700S14,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.isEdit
+                                ? 'Update Product Offer'
+                                : 'Add Product Offer',
+                            style: FontPalette.hW700S14,
+                          ),
 
-                        GestureDetector(
-                          onTap: () async {
-                            Navigator.pop(context);
-                          },
+                          GestureDetector(
+                            onTap: () async {
+                              Navigator.pop(context);
+                            },
 
-                          child: SvgPicture.asset('assets/icons/x-close.svg'),
-                        ),
-                      ],
+                            child: SvgPicture.asset('assets/icons/x-close.svg'),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  commonStoreDropDown(
-                    onChanged: (p0) {
-                      context.read<DashboardCubit>().selectedStore(p0);
-                    },
-                  ),
-                  if (widget.isEdit)
+                    commonStoreDropDown(
+                      onChanged: (p0) {
+                        context.read<DashboardCubit>().selectedStore(p0);
+                      },
+                    ),
+                    if (widget.isEdit)
+                      TextFeildWidget(
+                        topLabelText: 'Product Name',
+                        controller: nameController,
+                        enabled: false,
+                        hight: 48.h,
+                        fillColor: kWhite,
+                        inputBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(
+                            color: Color(0XFFB7C6C2),
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.h,
+                          horizontal: 8.w,
+                        ),
+                      )
+                    else
+                      Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              _showProductSearchDialog(
+                                onProductSelected: (product) {
+                                  setState(() {
+                                    selectedProduct = product;
+                                    nameController.text =
+                                        product.productName ?? '';
+                                    productPriceController.text =
+                                        product.productPrice?.toString() ?? '';
+                                  });
+                                  context
+                                      .read<ReportCubit>()
+                                      .selectedProductName(product);
+                                },
+                              );
+                            },
+
+                            child: const Text('Search Product Name'),
+                          ),
+                          const SizedBox(width: 12),
+                          if (selectedProduct != null)
+                            Expanded(
+                              child: Text(
+                                selectedProduct!.productName ?? '',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                        ],
+                      ),
+
+                    BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, state) {
+                        return DropDownFieldWidget(
+                          //   enabled: !widget.isEdit,
+                          hintText: 'Special offer',
+
+                          isLoading:
+                              state.apiFetchStatus == ApiFetchStatus.loading,
+                          prefixIcon: SvgPicture.asset(
+                            'assets/icons/package-box-pin-location.svg',
+                            width: 20.w,
+                            height: 20.h,
+                            fit: BoxFit.contain,
+                          ),
+                          borderColor: kBlack,
+                          value: state.selectedType,
+                          items:
+                              state.specialOffer?.map((e) {
+                                return DropdownMenuItem<SpecialOfferResponse>(
+                                  value: e,
+
+                                  child: Text(e.offerTypeName ?? ''),
+                                );
+                              }).toList() ??
+                              [],
+                          fillColor: const Color(0XFFEFF1F1),
+
+                          onChanged: (p0) async {
+                            context.read<ReportCubit>().loadSelectedOffer(p0);
+                          },
+                          labelText: '',
+                        );
+                      },
+                    ),
+
                     TextFeildWidget(
-                      topLabelText: 'Product Name',
-                      controller: nameController,
+                      topLabelText: 'Product Price',
+
                       enabled: false,
+                      controller: productPriceController,
                       hight: 48.h,
                       fillColor: kWhite,
                       inputBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
+                        borderSide: BorderSide(color: Color(0XFFB7C6C2)),
                       ),
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 14.h,
                         horizontal: 8.w,
                       ),
-                    )
-                  else
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            _showProductSearchDialog(
-                              onProductSelected: (product) {
-                                setState(() {
-                                  selectedProduct = product;
-                                  nameController.text =
-                                      product.productName ?? '';
-                                  productPriceController.text =
-                                      product.productPrice?.toString() ?? '';
-                                });
-                                context.read<ReportCubit>().selectedProductName(
-                                  product,
-                                );
-                              },
-                            );
-                          },
+                    ),
+                    TextFeildWidget(
+                      topLabelText: 'Offer Price',
+                      controller: offerPriceController,
+                      hight: 48.h,
+                      fillColor: kWhite,
+                      inputBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 14.h,
+                        horizontal: 8.w,
+                      ),
+                    ),
 
-                          child: const Text('Search Product Name'),
-                        ),
-                        const SizedBox(width: 12),
-                        if (selectedProduct != null)
-                          Expanded(
-                            child: Text(
-                              selectedProduct!.productName ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
+                    TextFeildWidget(
+                      topLabelText: 'Discount',
+                      controller: discountController,
+                      hight: 48.h,
+                      fillColor: kWhite,
+                      inputBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 14.h,
+                        horizontal: 8.w,
+                      ),
+                    ),
+                    BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, state) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: DatePickerContainer(
+                                hintText: '',
+                                value: state.fromDate != null
+                                    ? apiFormat.format(state.fromDate!)
+                                    : null,
+                                 //   firstDate: widget.firstDate ?? DateTime.now(),
+                                changeDate: (DateTime pickDate) {
+                                  context.read<ReportCubit>().changeFromDate(
+                                    pickDate,
+                                  );
+                                },
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                             ),
-                          ),
-                      ],
-                    ),
-
-                  BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return DropDownFieldWidget(
-                        //   enabled: !widget.isEdit,
-                        hintText: 'Special offer',
-
-                        isLoading:
-                            state.apiFetchStatus == ApiFetchStatus.loading,
-                        prefixIcon: SvgPicture.asset(
-                          'assets/icons/package-box-pin-location.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                        borderColor: kBlack,
-                        value: state.selectedType,
-                        items:
-                            state.specialOffer?.map((e) {
-                              return DropdownMenuItem<SpecialOfferResponse>(
-                                value: e,
-
-                                child: Text(e.offerTypeName ?? ''),
-                              );
-                            }).toList() ??
-                            [],
-                        fillColor: const Color(0XFFEFF1F1),
-
-                        onChanged: (p0) async {
-                          context.read<ReportCubit>().loadSelectedOffer(p0);
-                        },
-                        labelText: '',
-                      );
-                    },
-                  ),
-
-                  TextFeildWidget(
-                    topLabelText: 'Product Price',
-
-                    enabled: false,
-                    controller: productPriceController,
-                    hight: 48.h,
-                    fillColor: kWhite,
-                    inputBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 14.h,
-                      horizontal: 8.w,
-                    ),
-                  ),
-                  TextFeildWidget(
-                    topLabelText: 'Offer Price',
-                    controller: offerPriceController,
-                    hight: 48.h,
-                    fillColor: kWhite,
-                    inputBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 14.h,
-                      horizontal: 8.w,
-                    ),
-                  ),
-
-                  TextFeildWidget(
-                    topLabelText: 'Discount',
-                    controller: discountController,
-                    hight: 48.h,
-                    fillColor: kWhite,
-                    inputBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 14.h,
-                      horizontal: 8.w,
-                    ),
-                  ),
-                  BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: DatePickerContainer(
-                              hintText: '',
-                              value: state.fromDate != null
-                                  ? apiFormat.format(state.fromDate!)
-                                  : null,
-                              changeDate: (DateTime pickDate) {
-                                context.read<ReportCubit>().changeFromDate(
-                                  pickDate,
-                                );
-                              },
+                            12.horizontalSpace,
+                            Expanded(
+                              child: DatePickerContainer(
+                                hintText: '',
+                                value: state.toDate != null
+                                    ? apiFormat.format(state.toDate!)
+                                    : null,
+                                changeDate: (DateTime pickDate) {
+                                  context.read<ReportCubit>().changeToDate(
+                                    pickDate,
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                          12.horizontalSpace,
-                          Expanded(
-                            child: DatePickerContainer(
-                              hintText: '',
-                              value: state.toDate != null
-                                  ? apiFormat.format(state.toDate!)
-                                  : null,
-                              changeDate: (DateTime pickDate) {
-                                context.read<ReportCubit>().changeToDate(
-                                  pickDate,
-                                );
-                              },
+                          ],
+                        );
+                      },
+                    ),
+
+                    CustomMaterialBtton(
+                      onPressed: () async {
+                        final offerPrice =
+                            double.tryParse(offerPriceController.text) ?? 0;
+                        final productPrice =
+                            double.tryParse(productPriceController.text) ?? 0;
+
+                        if (offerPrice > productPrice) {
+                          _scaffoldMessengerKey.currentState?.showSnackBar(
+                            SnackBar(
+                              content: const Text(
+                                'Offer price cannot be greater than product price.',
+                              ),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              margin: const EdgeInsets.only(
+                                top: 10,
+                                left: 20,
+                                right: 20,
+                              ),
+                              duration: const Duration(seconds: 2),
                             ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-
-                  CustomMaterialBtton(
-                    onPressed: () async {
-                      final offerPrice =
-                          double.tryParse(offerPriceController.text) ?? 0;
-                      final productPrice =
-                          double.tryParse(productPriceController.text) ?? 0;
-
-                      if (offerPrice > productPrice) {
-                        _scaffoldMessengerKey.currentState?.showSnackBar(
-                          SnackBar(
-                            content: const Text(
-                              'Offer price cannot be greater than product price.',
-                            ),
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                            margin: const EdgeInsets.only(
-                              top: 10,
-                              left: 20,
-                              right: 20,
-                            ),
-                            duration: const Duration(seconds: 2),
-                          ),
-                        );
-                        return;
-                      }
-
-                      final cubit = context.read<ReportCubit>();
-
-                      if (widget.isEdit) {
-                        final selectedType = context
-                            .read<ReportCubit>()
-                            .state
-                            .selectedType;
-
-                        final updatedOffer = EditOfferResponse(
-                          offerPrice:
-                              double.tryParse(offerPriceController.text) ?? 0.0,
-                          offerPricePercentage:
-                              int.tryParse(discountController.text) ?? 0,
-                          storeId: widget.product?.storeId ?? 0,
-                          productId: widget.product?.productId ?? 0,
-                          branchId: widget.product?.branchId ?? 0,
-                          couponId: widget.product?.couponId ?? 0,
-                          createdBy: widget.product?.createdBy ?? 0,
-                          deliveryPartnerId:
-                              widget.product?.deliveryPartnerId ?? 0,
-                          maxOrderQty: widget.product?.maxOrderQty ?? 0,
-                          offerTypeId: widget.product?.offerTypeId ?? 0,
-                          prodOfferTypeId: selectedType?.prodOfferTypeId ?? 0,
-                          updatedBy: widget.product?.updatedBy ?? 0,
-                          resourceId: widget.product?.resourceId ?? 0,
-                          prodVarCode: widget.product?.prodVarCode,
-                          priceTypeId: widget.product?.priceTypeId ?? 0,
-                          offerFromDate: context
-                              .read<ReportCubit>()
-                              .state
-                              .fromDate,
-                          offerToDate: context.read<ReportCubit>().state.toDate,
-                        );
-                        await cubit.loadEditOffer(
-                          updatedOffer,
-                          widget.product!.prodOfferId!,
-                          widget.product!.storeId!,
-                        );
-                        await cubit.loadProductOffers(
-                          storeId: widget.product!.storeId!,
-                        );
-                        Navigator.pop(context, updatedOffer);
-                      } else {
-                        final selectedStore = context
-                            .read<DashboardCubit>()
-                            .state
-                            .selectedStore;
-                        final selectedProduct = context
-                            .read<ReportCubit>()
-                            .state
-                            .selectedProductName;
-                        final selectedType = context
-                            .read<ReportCubit>()
-                            .state
-                            .selectedType;
-                        await cubit.loadProductOffers(
-                          storeId: selectedStore?.storeId ?? 0,
-                        );
-
-                        if (mounted) {
-                          context.pop();
+                          );
+                          return;
                         }
 
-                        if (selectedProduct != null) {
-                          final newOffer = CreateOfferResponse(
-                            storeId: selectedStore?.storeId ?? 0,
-                            productId: selectedProduct.productId,
+                        final cubit = context.read<ReportCubit>();
+
+                        if (widget.isEdit) {
+                          final selectedType = context
+                              .read<ReportCubit>()
+                              .state
+                              .selectedType;
+
+                          final updatedOffer = EditOfferResponse(
+                            offerPrice:
+                                double.tryParse(offerPriceController.text) ??
+                                0.0,
+                            offerPricePercentage:
+                                int.tryParse(discountController.text) ?? 0,
+                            storeId: widget.product?.storeId ?? 0,
+                            productId: widget.product?.productId ?? 0,
                             branchId: widget.product?.branchId ?? 0,
-                            offerPrice: int.tryParse(offerPriceController.text),
-                            // createdAt: widget.product?.createdAt,
-                            offerPricePercentage: int.tryParse(
-                              discountController.text,
-                            ),
+                            couponId: widget.product?.couponId ?? 0,
+                            createdBy: widget.product?.createdBy ?? 0,
+                            deliveryPartnerId:
+                                widget.product?.deliveryPartnerId ?? 0,
+                            maxOrderQty: widget.product?.maxOrderQty ?? 0,
+                            offerTypeId: widget.product?.offerTypeId ?? 0,
+                            prodOfferTypeId: selectedType?.prodOfferTypeId ?? 0,
+                            updatedBy: widget.product?.updatedBy ?? 0,
+                            resourceId: widget.product?.resourceId ?? 0,
+                            prodVarCode: widget.product?.prodVarCode,
+                            priceTypeId: widget.product?.priceTypeId ?? 0,
                             offerFromDate: context
                                 .read<ReportCubit>()
                                 .state
@@ -569,50 +529,104 @@ class _OfferFormState extends State<OfferForm> {
                                 .read<ReportCubit>()
                                 .state
                                 .toDate,
-                            offerTypeId: widget.product?.offerTypeId ?? 0,
-                            createdBy: 1,
-                            updatedBy: 1,
-                            deliveryPartnerId: 0,
-                            maxOrderQty: 0,
-                            priceTypeId: 1,
-                            prodOfferTypeId: selectedType?.prodOfferTypeId ?? 0,
-                            prodVarCode:
-                                selectedProduct.prodVarCode?.toString() ?? "0",
-                            resourceId: widget.product?.resourceId ?? 0,
-                            couponId: widget.product?.couponId ?? 0,
-
-                            isSingleProductOffer: 1,
                           );
-                          await cubit.createProductOffer(offer: newOffer);
-
-                          bool dataLoaded = false;
-                          int attempts = 0;
-
-                          while (!dataLoaded && attempts < 3) {
-                            await Future.delayed(
-                              const Duration(milliseconds: 500),
-                            );
-                            await cubit.loadProductOffers(
-                              storeId: selectedStore?.storeId ?? 0,
-                            );
-
-                            final offers = cubit.state.productOffers ?? [];
-                            if (offers.isNotEmpty) {
-                              dataLoaded = true;
-                            }
-
-                            attempts++;
-                          }
+                          await cubit.loadEditOffer(
+                            updatedOffer,
+                            widget.product!.prodOfferId!,
+                            widget.product!.storeId!,
+                          );
+                          await cubit.loadProductOffers(
+                            storeId: widget.product!.storeId!,
+                          );
+                          Navigator.pop(context, updatedOffer);
+                        } else {
+                          final selectedStore = context
+                              .read<DashboardCubit>()
+                              .state
+                              .selectedStore;
+                          final selectedProduct = context
+                              .read<ReportCubit>()
+                              .state
+                              .selectedProductName;
+                          final selectedType = context
+                              .read<ReportCubit>()
+                              .state
+                              .selectedType;
+                          await cubit.loadProductOffers(
+                            storeId: selectedStore?.storeId ?? 0,
+                          );
 
                           if (mounted) {
                             context.pop();
                           }
+
+                          if (selectedProduct != null) {
+                            final newOffer = CreateOfferResponse(
+                              storeId: selectedStore?.storeId ?? 0,
+                              productId: selectedProduct.productId,
+                              branchId: widget.product?.branchId ?? 0,
+                              offerPrice: int.tryParse(
+                                offerPriceController.text,
+                              ),
+                              // createdAt: widget.product?.createdAt,
+                              offerPricePercentage: int.tryParse(
+                                discountController.text,
+                              ),
+                              offerFromDate: context
+                                  .read<ReportCubit>()
+                                  .state
+                                  .fromDate,
+                              offerToDate: context
+                                  .read<ReportCubit>()
+                                  .state
+                                  .toDate,
+                              offerTypeId: widget.product?.offerTypeId ?? 0,
+                              createdBy: 1,
+                              updatedBy: 1,
+                              deliveryPartnerId: 0,
+                              maxOrderQty: 0,
+                              priceTypeId: 1,
+                              prodOfferTypeId:
+                                  selectedType?.prodOfferTypeId ?? 0,
+                              prodVarCode:
+                                  selectedProduct.prodVarCode?.toString() ??
+                                  "0",
+                              resourceId: widget.product?.resourceId ?? 0,
+                              couponId: widget.product?.couponId ?? 0,
+
+                              isSingleProductOffer: 1,
+                            );
+                            await cubit.createProductOffer(offer: newOffer);
+
+                            bool dataLoaded = false;
+                            int attempts = 0;
+
+                            while (!dataLoaded && attempts < 3) {
+                              await Future.delayed(
+                                const Duration(milliseconds: 500),
+                              );
+                              await cubit.loadProductOffers(
+                                storeId: selectedStore?.storeId ?? 0,
+                              );
+
+                              final offers = cubit.state.productOffers ?? [];
+                              if (offers.isNotEmpty) {
+                                dataLoaded = true;
+                              }
+
+                              attempts++;
+                            }
+
+                            if (mounted) {
+                              context.pop();
+                            }
+                          }
                         }
-                      }
-                    },
-                  ),
-                  10.verticalSpace,
-                ],
+                      },
+                    ),
+                    10.verticalSpace,
+                  ],
+                ),
               ),
             ),
           ),
