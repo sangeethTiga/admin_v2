@@ -40,14 +40,14 @@ class ProductCubit extends Cubit<ProductState> {
           state.copyWith(
             isProduct: ApiFetchStatus.loading,
             productList: [],
-            currentPage: 1,
+            currentPage: 0,
             hasMoreData: false,
             isLoadingMore: false,
           ),
         );
       }
 
-      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 1;
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
 
       final res = await _productRepositories.products(
         storeId: storeId,
