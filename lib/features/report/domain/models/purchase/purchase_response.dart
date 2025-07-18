@@ -18,7 +18,7 @@ class PurchaseResponse with _$PurchaseResponse {
         @JsonKey(name: "store_id")
         int? storeId,
         @JsonKey(name: "purchase_date")
-        DateTime? purchaseDate,
+        String? purchaseDate,
         @JsonKey(name: "supplier_id")
         int? supplierId,
         @JsonKey(name: "supplier_name")
