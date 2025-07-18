@@ -223,7 +223,7 @@ class ParcelCharge extends StatelessWidget {
                 builder: (context, value, _) {
                   if (!value) return SizedBox.shrink();
                   return Padding(
-                    padding: EdgeInsets.all(16.w),
+                    padding: EdgeInsets.all(14.w),
                     child: Text(
                       'No more data',
                       style: TextStyle(fontSize: 12.sp, color: Colors.grey),
@@ -265,5 +265,3 @@ void _loadMoreData(BuildContext context) {
     );
   }
 }
-
-
