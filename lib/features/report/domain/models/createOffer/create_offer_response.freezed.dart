@@ -67,6 +67,10 @@ mixin _$CreateOfferResponse {
   int? get deliveryPartnerId => throw _privateConstructorUsedError;
   @JsonKey(name: "is_single_product_offers")
   int? get isSingleProductOffer => throw _privateConstructorUsedError;
+  @JsonKey(name: "offer_from_time")
+  String? get offerFromTime => throw _privateConstructorUsedError;
+  @JsonKey(name: "offer_to_time")
+  String? get offerToTime => throw _privateConstructorUsedError;
 
   /// Serializes this CreateOfferResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -109,6 +113,8 @@ abstract class $CreateOfferResponseCopyWith<$Res> {
     @JsonKey(name: "updated_at") DateTime? updatedAt,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
     @JsonKey(name: "is_single_product_offers") int? isSingleProductOffer,
+    @JsonKey(name: "offer_from_time") String? offerFromTime,
+    @JsonKey(name: "offer_to_time") String? offerToTime,
   });
 }
 
@@ -150,6 +156,8 @@ class _$CreateOfferResponseCopyWithImpl<$Res, $Val extends CreateOfferResponse>
     Object? updatedAt = freezed,
     Object? deliveryPartnerId = freezed,
     Object? isSingleProductOffer = freezed,
+    Object? offerFromTime = freezed,
+    Object? offerToTime = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -245,6 +253,14 @@ class _$CreateOfferResponseCopyWithImpl<$Res, $Val extends CreateOfferResponse>
                 ? _value.isSingleProductOffer
                 : isSingleProductOffer // ignore: cast_nullable_to_non_nullable
                       as int?,
+            offerFromTime: freezed == offerFromTime
+                ? _value.offerFromTime
+                : offerFromTime // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            offerToTime: freezed == offerToTime
+                ? _value.offerToTime
+                : offerToTime // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -284,6 +300,8 @@ abstract class _$$CreateOfferResponseImplCopyWith<$Res>
     @JsonKey(name: "updated_at") DateTime? updatedAt,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
     @JsonKey(name: "is_single_product_offers") int? isSingleProductOffer,
+    @JsonKey(name: "offer_from_time") String? offerFromTime,
+    @JsonKey(name: "offer_to_time") String? offerToTime,
   });
 }
 
@@ -324,6 +342,8 @@ class __$$CreateOfferResponseImplCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? deliveryPartnerId = freezed,
     Object? isSingleProductOffer = freezed,
+    Object? offerFromTime = freezed,
+    Object? offerToTime = freezed,
   }) {
     return _then(
       _$CreateOfferResponseImpl(
@@ -419,6 +439,14 @@ class __$$CreateOfferResponseImplCopyWithImpl<$Res>
             ? _value.isSingleProductOffer
             : isSingleProductOffer // ignore: cast_nullable_to_non_nullable
                   as int?,
+        offerFromTime: freezed == offerFromTime
+            ? _value.offerFromTime
+            : offerFromTime // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        offerToTime: freezed == offerToTime
+            ? _value.offerToTime
+            : offerToTime // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -451,6 +479,8 @@ class _$CreateOfferResponseImpl implements _CreateOfferResponse {
     @JsonKey(name: "updated_at") this.updatedAt,
     @JsonKey(name: "delivery_partner_id") this.deliveryPartnerId,
     @JsonKey(name: "is_single_product_offers") this.isSingleProductOffer,
+    @JsonKey(name: "offer_from_time") this.offerFromTime,
+    @JsonKey(name: "offer_to_time") this.offerToTime,
   });
 
   factory _$CreateOfferResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -525,10 +555,16 @@ class _$CreateOfferResponseImpl implements _CreateOfferResponse {
   @override
   @JsonKey(name: "is_single_product_offers")
   final int? isSingleProductOffer;
+  @override
+  @JsonKey(name: "offer_from_time")
+  final String? offerFromTime;
+  @override
+  @JsonKey(name: "offer_to_time")
+  final String? offerToTime;
 
   @override
   String toString() {
-    return 'CreateOfferResponse(prodOfferId: $prodOfferId, productId: $productId, couponId: $couponId, storeId: $storeId, branchId: $branchId, prodVarCode: $prodVarCode, resourceId: $resourceId, prodOfferTypeId: $prodOfferTypeId, priceTypeId: $priceTypeId, maxOrderQty: $maxOrderQty, offerPrice: $offerPrice, offerPricePercentage: $offerPricePercentage, offerFromDate: $offerFromDate, offerToDate: $offerToDate, offerTypeId: $offerTypeId, isVerified: $isVerified, createdBy: $createdBy, updatedBy: $updatedBy, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, deliveryPartnerId: $deliveryPartnerId, isSingleProductOffer: $isSingleProductOffer)';
+    return 'CreateOfferResponse(prodOfferId: $prodOfferId, productId: $productId, couponId: $couponId, storeId: $storeId, branchId: $branchId, prodVarCode: $prodVarCode, resourceId: $resourceId, prodOfferTypeId: $prodOfferTypeId, priceTypeId: $priceTypeId, maxOrderQty: $maxOrderQty, offerPrice: $offerPrice, offerPricePercentage: $offerPricePercentage, offerFromDate: $offerFromDate, offerToDate: $offerToDate, offerTypeId: $offerTypeId, isVerified: $isVerified, createdBy: $createdBy, updatedBy: $updatedBy, isActive: $isActive, createdAt: $createdAt, updatedAt: $updatedAt, deliveryPartnerId: $deliveryPartnerId, isSingleProductOffer: $isSingleProductOffer, offerFromTime: $offerFromTime, offerToTime: $offerToTime)';
   }
 
   @override
@@ -578,7 +614,11 @@ class _$CreateOfferResponseImpl implements _CreateOfferResponse {
             (identical(other.deliveryPartnerId, deliveryPartnerId) ||
                 other.deliveryPartnerId == deliveryPartnerId) &&
             (identical(other.isSingleProductOffer, isSingleProductOffer) ||
-                other.isSingleProductOffer == isSingleProductOffer));
+                other.isSingleProductOffer == isSingleProductOffer) &&
+            (identical(other.offerFromTime, offerFromTime) ||
+                other.offerFromTime == offerFromTime) &&
+            (identical(other.offerToTime, offerToTime) ||
+                other.offerToTime == offerToTime));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -608,6 +648,8 @@ class _$CreateOfferResponseImpl implements _CreateOfferResponse {
     updatedAt,
     deliveryPartnerId,
     isSingleProductOffer,
+    offerFromTime,
+    offerToTime,
   ]);
 
   /// Create a copy of CreateOfferResponse
@@ -652,6 +694,8 @@ abstract class _CreateOfferResponse implements CreateOfferResponse {
     @JsonKey(name: "updated_at") final DateTime? updatedAt,
     @JsonKey(name: "delivery_partner_id") final int? deliveryPartnerId,
     @JsonKey(name: "is_single_product_offers") final int? isSingleProductOffer,
+    @JsonKey(name: "offer_from_time") final String? offerFromTime,
+    @JsonKey(name: "offer_to_time") final String? offerToTime,
   }) = _$CreateOfferResponseImpl;
 
   factory _CreateOfferResponse.fromJson(Map<String, dynamic> json) =
@@ -726,6 +770,12 @@ abstract class _CreateOfferResponse implements CreateOfferResponse {
   @override
   @JsonKey(name: "is_single_product_offers")
   int? get isSingleProductOffer;
+  @override
+  @JsonKey(name: "offer_from_time")
+  String? get offerFromTime;
+  @override
+  @JsonKey(name: "offer_to_time")
+  String? get offerToTime;
 
   /// Create a copy of CreateOfferResponse
   /// with the given fields replaced by the non-null parameter values.
