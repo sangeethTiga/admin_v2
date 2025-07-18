@@ -21,7 +21,7 @@ class ScannerDialog extends StatelessWidget {
               onDetect: (capture) {
                 final barCode = capture.barcodes.firstOrNull;
                 final code = barCode?.rawValue;
-              
+
                 if (code != null && code.isNotEmpty) {
                   Navigator.of(context).pop(code);
                 }
@@ -36,7 +36,7 @@ class ScannerDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('cancel'),
+          child: Text('cancel', style: TextStyle(fontSize: 18)),
         ),
       ],
     );

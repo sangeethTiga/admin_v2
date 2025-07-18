@@ -99,7 +99,7 @@ class _DrawerContent extends StatelessWidget {
       leading: const Icon(Icons.add_chart_sharp),
       title: const Text(
         'Reports',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       children: _reportsItems,
     );
@@ -192,6 +192,7 @@ class _DrawerContent extends StatelessWidget {
       title: Text('Cheque Transaction'),
       route: routeCheque,
       onTap: (context) {
+        context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadChequeTrans();
         context.read<ReportCubit>().loadStatus();
         context.push(routeCheque);
@@ -219,7 +220,7 @@ class _DrawerContent extends StatelessWidget {
     return ExpansionTile(
       title: const Text(
         'Offers',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       leading: const Icon(Icons.paid_sharp),
       children: [
@@ -259,7 +260,7 @@ class _DrawerContent extends StatelessWidget {
     return ExpansionTile(
       title: const Text(
         'Inventory',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       leading: const Icon(Icons.inventory),
       children: [
@@ -283,7 +284,10 @@ class _DrawerContent extends StatelessWidget {
   Widget _buildTopStoresSection() {
     return _buildDrawerItem(
       icon: Icons.home_work_outlined,
-      title: Text('Top Stores', style: TextStyle(fontWeight: FontWeight.bold)),
+      title: Text(
+        'Top Stores',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
       route: routeTopStores,
       onTap: (context) {
         context.read<ReportCubit>().loadTopStores();
