@@ -86,7 +86,7 @@ class DeliveryChargeScreen extends StatelessWidget {
             showNoMoreData.value = false;
             context.read<ReportCubit>().loadDeliveryChargeReport(
               storeId: state.selectedStore?.storeId,
-              isLoadMore: true,
+              // isLoadMore: true,
             );
           },
           buttonText: 'View Results',

@@ -200,7 +200,7 @@ class CustomersReportScreen extends StatelessWidget {
                                             "Balance",
                                           ],
 
-                                          columnFlex: [1, 3, 3, 4, 3, 2],
+                                          columnFlex: [1, 3, 3, 4, 5, 3],
                                           data:
                                               state.customersReport
                                                   ?.asMap()

@@ -28,7 +28,11 @@ class RevenueReportScreen extends StatelessWidget {
           MainPadding(
             child: Column(
               children: [
-                commonStoreDropDown(),
+                commonStoreDropDown(
+                  onChanged: (p0) {
+                    context.read<DashboardCubit>().selectedStore(p0);
+                  },
+                ),
                 10.verticalSpace,
                 _handleDate(),
                 12.verticalSpace,
@@ -43,7 +47,6 @@ class RevenueReportScreen extends StatelessWidget {
     );
   }
 }
-
 
 Widget _handleDate() {
   return BlocBuilder<ReportCubit, ReportState>(
@@ -76,10 +79,9 @@ Widget _handleDate() {
 }
 
 Widget _viewReport() {
-   final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
+  final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
   return BlocBuilder<DashboardCubit, DashboardState>(
     builder: (context, state) {
-     
       return CustomMaterialBtton(
         onPressed: () {
           showNoMoreData.value = false;
@@ -90,7 +92,7 @@ Widget _viewReport() {
               ?.storeId;
           context.read<ReportCubit>().loadReveneueReport(
             storeId: storeId,
-            isLoadMore: true,
+            //isLoadMore: true,
           );
         },
         buttonText: 'View Report',
