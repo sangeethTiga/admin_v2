@@ -123,6 +123,7 @@ abstract class ReportRepositories {
     int? resultPerPage,
     int? purchaseType,
     int? supplierId,
+    String? query,
   });
 
   Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({

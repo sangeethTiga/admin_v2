@@ -26,7 +26,7 @@ mixin _$PurchaseResponse {
   @JsonKey(name: "store_id")
   int? get storeId => throw _privateConstructorUsedError;
   @JsonKey(name: "purchase_date")
-  DateTime? get purchaseDate => throw _privateConstructorUsedError;
+  String? get purchaseDate => throw _privateConstructorUsedError;
   @JsonKey(name: "supplier_id")
   int? get supplierId => throw _privateConstructorUsedError;
   @JsonKey(name: "supplier_name")
@@ -82,7 +82,7 @@ abstract class $PurchaseResponseCopyWith<$Res> {
   $Res call({
     @JsonKey(name: "purchase_id") int? purchaseId,
     @JsonKey(name: "store_id") int? storeId,
-    @JsonKey(name: "purchase_date") DateTime? purchaseDate,
+    @JsonKey(name: "purchase_date") String? purchaseDate,
     @JsonKey(name: "supplier_id") int? supplierId,
     @JsonKey(name: "supplier_name") String? supplierName,
     @JsonKey(name: "invoice_number") String? invoiceNumber,
@@ -152,7 +152,7 @@ class _$PurchaseResponseCopyWithImpl<$Res, $Val extends PurchaseResponse>
             purchaseDate: freezed == purchaseDate
                 ? _value.purchaseDate
                 : purchaseDate // ignore: cast_nullable_to_non_nullable
-                      as DateTime?,
+                      as String?,
             supplierId: freezed == supplierId
                 ? _value.supplierId
                 : supplierId // ignore: cast_nullable_to_non_nullable
@@ -239,7 +239,7 @@ abstract class _$$PurchaseResponseImplCopyWith<$Res>
   $Res call({
     @JsonKey(name: "purchase_id") int? purchaseId,
     @JsonKey(name: "store_id") int? storeId,
-    @JsonKey(name: "purchase_date") DateTime? purchaseDate,
+    @JsonKey(name: "purchase_date") String? purchaseDate,
     @JsonKey(name: "supplier_id") int? supplierId,
     @JsonKey(name: "supplier_name") String? supplierName,
     @JsonKey(name: "invoice_number") String? invoiceNumber,
@@ -308,7 +308,7 @@ class __$$PurchaseResponseImplCopyWithImpl<$Res>
         purchaseDate: freezed == purchaseDate
             ? _value.purchaseDate
             : purchaseDate // ignore: cast_nullable_to_non_nullable
-                  as DateTime?,
+                  as String?,
         supplierId: freezed == supplierId
             ? _value.supplierId
             : supplierId // ignore: cast_nullable_to_non_nullable
@@ -419,7 +419,7 @@ class _$PurchaseResponseImpl implements _PurchaseResponse {
   final int? storeId;
   @override
   @JsonKey(name: "purchase_date")
-  final DateTime? purchaseDate;
+  final String? purchaseDate;
   @override
   @JsonKey(name: "supplier_id")
   final int? supplierId;
@@ -580,7 +580,7 @@ abstract class _PurchaseResponse implements PurchaseResponse {
   const factory _PurchaseResponse({
     @JsonKey(name: "purchase_id") final int? purchaseId,
     @JsonKey(name: "store_id") final int? storeId,
-    @JsonKey(name: "purchase_date") final DateTime? purchaseDate,
+    @JsonKey(name: "purchase_date") final String? purchaseDate,
     @JsonKey(name: "supplier_id") final int? supplierId,
     @JsonKey(name: "supplier_name") final String? supplierName,
     @JsonKey(name: "invoice_number") final String? invoiceNumber,
@@ -611,7 +611,7 @@ abstract class _PurchaseResponse implements PurchaseResponse {
   int? get storeId;
   @override
   @JsonKey(name: "purchase_date")
-  DateTime? get purchaseDate;
+  String? get purchaseDate;
   @override
   @JsonKey(name: "supplier_id")
   int? get supplierId;

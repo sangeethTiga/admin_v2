@@ -20,7 +20,6 @@ part 'product_state.dart';
 @injectable
 class ProductCubit extends Cubit<ProductState> {
   final ProductRepositories _productRepositories;
-  static const int _itemsPerPage = 10;
 
   ProductCubit(this._productRepositories) : super(InitialProductState());
 
@@ -31,7 +30,6 @@ class ProductCubit extends Cubit<ProductState> {
     String? barCode,
     int? filterId,
     bool isLoadMore = false,
-    int? page = 0,
     int limit = 20,
   }) async {
     try {
@@ -49,17 +47,7 @@ class ProductCubit extends Cubit<ProductState> {
         );
       }
 
-      // ✅ FIX 1: Correct page calculation
-      // For pagination, we need page numbers (1, 2, 3...), not offset values
-      final currentPage = isLoadMore ? (state.currentPage ?? 0) + 1 : 1;
-
-      // ✅ FIX 2: Calculate correct pageFirstResult if your API expects offset
-      // If your API expects offset (starting position), calculate it from page
-      final pageFirstResult = (currentPage - 1) * limit;
-
-      log(
-        "Loading products - Page: $currentPage, Offset: $pageFirstResult, Limit: $limit, IsLoadMore: $isLoadMore",
-      );
+      final currentPage = isLoadMore ? (state.currentPage ?? 0) + limit : 20;
 
       final res = await _productRepositories.products(
         storeId: storeId,
@@ -67,15 +55,14 @@ class ProductCubit extends Cubit<ProductState> {
         search: search,
         barCode: barCode,
         filterId: filterId,
-        pageFirstResult: pageFirstResult, // Use offset, not page number
-        resultPerPage: limit,
+        pageFirstResult: 0,
+        resultPerPage: currentPage,
       );
 
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         List<ProductResponse> updatedList;
 
         if (isLoadMore) {
-          // ✅ FIX 3: Avoid duplicates when loading more
           final existingIds = (state.productList ?? [])
               .map((p) => p.productId)
               .toSet();
@@ -156,46 +143,46 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> loadMoreProducts() async {
-    if (state.isLoadingMore ?? false || !(state.hasMoreData ?? false)) return;
+  // Future<void> loadMoreProducts() async {
+  //   if (state.isLoadingMore ?? false || !(state.hasMoreData ?? false)) return;
 
-    try {
-      emit(state.copyWith(isLoadingMore: true));
-      final nextPage = (state.currentPage ?? 0) + 1;
-      final pageFirstResult = nextPage * _itemsPerPage;
-      final res = await _productRepositories.products(
-        storeId: state.lastStoreId,
-        catId: state.lastCatId,
-        search: state.lastSearchQuery,
-        barCode: state.lastBarCode,
-        filterId: state.lastFilterId,
-        resultPerPage: pageFirstResult,
-      );
+  //   try {
+  //     emit(state.copyWith(isLoadingMore: true));
+  //     final nextPage = (state.currentPage ?? 0) + 1;
+  //     final pageFirstResult = nextPage * _itemsPerPage;
+  //     final res = await _productRepositories.products(
+  //       storeId: state.lastStoreId,
+  //       catId: state.lastCatId,
+  //       search: state.lastSearchQuery,
+  //       barCode: state.lastBarCode,
+  //       filterId: state.lastFilterId,
+  //       resultPerPage: pageFirstResult,
+  //     );
 
-      if (res.data != null && res.data!.isNotEmpty) {
-        final newProducts = List<ProductResponse>.from(res.data!);
-        final allProducts = List<ProductResponse>.from(state.productList ?? []);
-        allProducts.addAll(newProducts);
-        allProducts.sort((a, b) => a.productName!.compareTo(b.productName!));
-        final hasMore = newProducts.length >= _itemsPerPage;
-        emit(
-          state.copyWith(
-            isLoadingMore: false,
-            productList: allProducts,
-            filteredProducts: allProducts,
-            currentPage: nextPage,
-            hasMoreData: hasMore,
-            totalItems: allProducts.length,
-          ),
-        );
-      } else {
-        emit(state.copyWith(isLoadingMore: false, hasMoreData: false));
-      }
-    } catch (e, s) {
-      log("Error loading more products: $e", stackTrace: s);
-      emit(state.copyWith(isLoadingMore: false));
-    }
-  }
+  //     if (res.data != null && res.data!.isNotEmpty) {
+  //       final newProducts = List<ProductResponse>.from(res.data!);
+  //       final allProducts = List<ProductResponse>.from(state.productList ?? []);
+  //       allProducts.addAll(newProducts);
+  //       allProducts.sort((a, b) => a.productName!.compareTo(b.productName!));
+  //       final hasMore = newProducts.length >= _itemsPerPage;
+  //       emit(
+  //         state.copyWith(
+  //           isLoadingMore: false,
+  //           productList: allProducts,
+  //           filteredProducts: allProducts,
+  //           currentPage: nextPage,
+  //           hasMoreData: hasMore,
+  //           totalItems: allProducts.length,
+  //         ),
+  //       );
+  //     } else {
+  //       emit(state.copyWith(isLoadingMore: false, hasMoreData: false));
+  //     }
+  //   } catch (e, s) {
+  //     log("Error loading more products: $e", stackTrace: s);
+  //     emit(state.copyWith(isLoadingMore: false));
+  //   }
+  // }
 
   void searchProducts(String query) {
     final allProducts = state.productList ?? [];

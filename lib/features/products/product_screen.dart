@@ -4,6 +4,7 @@ import 'package:admin_v2/features/common/domain/models/store/store_response.dart
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
+import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
 import 'package:admin_v2/features/products/widgets/edit_product.dart';
 import 'package:admin_v2/features/products/widgets/scanner_dialog.dart';
 import 'package:admin_v2/features/products/widgets/stock_update_card.dart';
@@ -20,15 +21,139 @@ import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
-class ProductScreen extends StatelessWidget {
-  ProductScreen({super.key});
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({super.key});
 
+  @override
+  State<ProductScreen> createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  Timer? _debounceTimer;
+  final ValueNotifier<bool> showEndMessage = ValueNotifier<bool>(false);
+  bool _scrollListenerSetup = false;
+  final List<ProductResponse> _filteredProducts = [];
+  @override
+  void initState() {
+    super.initState();
+    _setupScrollListener();
+    _setupSearchListener();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialData();
+    });
+  }
+
+  void _setupScrollListener() {
+    if (_scrollListenerSetup) return;
+
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (showEndMessage.value) {
+          showEndMessage.value = false;
+        }
+      }
+
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
+        _loadMoreData();
+      }
+    });
+
+    _scrollListenerSetup = true;
+  }
+
+  void _setupSearchListener() {
+    _searchController.addListener(() {
+      _debounceTimer?.cancel();
+      _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+        _performServerSideSearch(_searchController.text);
+      });
+    });
+  }
+
+  void _performServerSideSearch(String searchTerm) {
+    final dashboardState = context.read<DashboardCubit>().state;
+    final productState = context.read<ProductCubit>().state;
+
+    context.read<ProductCubit>().clearAllProducts();
+
+    context.read<ProductCubit>().product(
+      storeId: dashboardState.selectedStore?.storeId,
+      catId: productState.selectCategory?.details?.categoryId,
+      search: searchTerm.trim(),
+      filterId: productState.selectProduct?.filterId,
+      isLoadMore: false,
+      limit: searchTerm.trim().isNotEmpty ? 1000 : 20,
+    );
+  }
+
+  void _loadInitialData() {
+    final dashboardState = context.read<DashboardCubit>().state;
+    if (dashboardState.selectedStore?.storeId != null) {
+      context.read<ProductCubit>().product(
+        storeId: dashboardState.selectedStore?.storeId,
+        search: '',
+        isLoadMore: false,
+      );
+    }
+  }
+
+  void _loadMoreData() {
+    final productState = context.read<ProductCubit>().state;
+    final dashboardState = context.read<DashboardCubit>().state;
+
+    if (productState.hasMoreData == true &&
+        productState.isLoadingMore != true &&
+        productState.isProduct != ApiFetchStatus.loading &&
+        dashboardState.selectedStore?.storeId != null) {
+      context.read<ProductCubit>().product(
+        storeId: dashboardState.selectedStore?.storeId,
+        catId: productState.selectCategory?.details?.categoryId,
+        search: _searchController.text.trim(),
+        filterId: productState.selectProduct?.filterId,
+        isLoadMore: true,
+      );
+    } else {
+      if (productState.hasMoreData == false &&
+          productState.isLoadingMore != true &&
+          (productState.productList?.isNotEmpty ?? false)) {
+        _showEndMessage();
+      }
+    }
+  }
+
+  void _showEndMessage() {
+    if (!showEndMessage.value) {
+      showEndMessage.value = true;
+
+      Timer(Duration(seconds: 3), () {
+        if (mounted) {
+          showEndMessage.value = false;
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _searchController.dispose();
+    _debounceTimer?.cancel();
+    showEndMessage.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,27 +161,23 @@ class ProductScreen extends StatelessWidget {
       appBar: const AppbarWidget(title: 'Products'),
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
-          return SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                dividerWidget(height: 6.h),
-                MainPadding(
-                  top: 0.h,
-                  child: Column(
-                    children: [
-                      _buildStoreDropdown(),
-                      _buildCategoryAndProductDropdowns(state),
-                      _buildSearchField(context),
-                      12.verticalSpace,
-                      _buildProductsHeader(state),
-                      _buildProductsList(state, context),
-                      _buildPaginationFooter(state),
-                    ],
-                  ),
+          return Column(
+            children: [
+              dividerWidget(height: 6.h),
+              MainPadding(
+                top: 0.h,
+                child: Column(
+                  children: [
+                    _buildStoreDropdown(),
+                    _buildCategoryAndProductDropdowns(state),
+                    _buildSearchField(context),
+                    12.verticalSpace,
+                    _buildProductsHeader(state),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              Expanded(child: _buildProductsList(state, context)),
+            ],
           );
         },
       ),
@@ -90,7 +211,7 @@ class ProductScreen extends StatelessWidget {
           fillColor: const Color(0XFFEFF1F1),
           onChanged: (store) => _handleStoreChange(store, context),
           labelText: '',
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w500,
             fontSize: 16,
@@ -119,14 +240,6 @@ class ProductScreen extends StatelessWidget {
           borderColor: kBlack,
           hintText: 'All Products',
           value: state.selectProduct,
-
-          // state.prodList?.any(
-          //       (e) => e.filterId == state.selectProduct?.filterId,
-          //     ) ==
-          //     true
-          // ? state.selectProduct
-          // : null,
-          //contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
           items: products.map((Product value) {
             return DropdownMenuItem<Product>(
               value: value,
@@ -134,7 +247,6 @@ class ProductScreen extends StatelessWidget {
             );
           }).toList(),
           fillColor: Colors.white,
-
           inputBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
             borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
@@ -143,7 +255,6 @@ class ProductScreen extends StatelessWidget {
           onChanged: (product) {
             _handleProductTypeChange(product, state, common, context);
           },
-
           suffixWidget: SizedBox(
             height: 12.h,
             width: 12.w,
@@ -231,14 +342,12 @@ class ProductScreen extends StatelessWidget {
             IconButton(
               onPressed: () {
                 _searchController.clear();
-                // _performSearch('');
+                _performServerSideSearch('');
               },
               icon: Icon(Icons.clear, color: Colors.grey[600]),
             ),
           IconButton(
-            onPressed: () {
-              _handleQRScan(context);
-            },
+            onPressed: () => _handleQRScan(context),
             icon: SvgPicture.asset('assets/icons/Scaner.svg'),
           ),
         ],
@@ -247,7 +356,7 @@ class ProductScreen extends StatelessWidget {
   }
 
   Widget _buildProductsHeader(ProductState state) {
-    final products = state.filteredProducts ?? [];
+    final products = state.productList ?? [];
     final isSearchActive = _searchController.text.isNotEmpty;
 
     if (products.isEmpty && state.isProduct != ApiFetchStatus.loading) {
@@ -304,59 +413,51 @@ class ProductScreen extends StatelessWidget {
     final isLoading = state.isProduct == ApiFetchStatus.loading;
     final products = state.scannedProduct != null
         ? [state.scannedProduct!]
-        : state.filteredProducts ?? [];
+        : (state.productList ?? []);
 
     if (isLoading && products.isEmpty) {
       return _buildShimmerList();
     }
 
-    if (products.isEmpty && !isLoading) {
-      return _buildEmptyState();
-    }
-
-    return NotificationListener(
-      onNotification: (ScrollNotification scrollInfo) {
-        final maxScroll = scrollInfo.metrics.maxScrollExtent;
-        final currentScroll = scrollInfo.metrics.pixels;
-        final threshold = maxScroll - 100;
-
-        final atBottom = currentScroll >= threshold;
-
-        if (scrollInfo is ScrollEndNotification && atBottom) {
-          _loadMoreData(context);
-          final reportState = context.read<ProductCubit>().state;
-          if (reportState.hasMoreData == false &&
-              reportState.productList?.isNotEmpty == true) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(const SnackBar(content: Text('No more data')));
-          }
-        }
-
-        return false;
-      },
-      child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: products.length,
-        itemBuilder: (context, index) => _ProductCard(
-          key: ValueKey(products[index].productId),
-          product: products[index],
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            controller: _scrollController,
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            itemCount: products.length,
+            itemBuilder: (context, index) => _ProductCard(
+              key: ValueKey(products[index].productId),
+              product: products[index],
+            ),
+          ),
         ),
-      ),
+        if (_searchController.text.isEmpty)
+          PaginationFooter(state: state, showEndMessage: showEndMessage),
+      ],
     );
   }
 
   Widget _buildPaginationFooter(ProductState state) {
     final isLoadingMore = state.isLoadingMore == true;
     final hasMoreData = state.hasMoreData == true;
-    final products = state.filteredProducts ?? [];
+    final products = state.productList ?? [];
     final currentPage = state.currentPage ?? 0;
 
     if (products.isEmpty) {
       return const SizedBox.shrink();
     }
+    if (!hasMoreData && products.isNotEmpty && !isLoadingMore) {
+      if (!showEndMessage.value) {
+        showEndMessage.value = true;
 
+        Timer(Duration(seconds: 3), () {
+          if (mounted) {
+            showEndMessage.value = false;
+          }
+        });
+      }
+    }
     return Container(
       margin: EdgeInsets.only(top: 16.h, bottom: 20.h),
       child: Column(
@@ -383,67 +484,44 @@ class ProductScreen extends StatelessWidget {
                 ],
               ),
             ),
-          if (state.isLoadingMore == true)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.h),
-              child: CircularProgressIndicator(),
-            ),
 
-          // if (!isLoadingMore && hasMoreData)
-          //   Container(
-          //     width: double.infinity,
-          //     margin: EdgeInsets.symmetric(horizontal: 20.w),
-          //     child: ElevatedButton(
-          //       onPressed: _loadMoreProducts,
-          //       style: ElevatedButton.styleFrom(
-          //         backgroundColor: Colors.white,
-          //         foregroundColor: kPrimaryColor,
-          //         side: BorderSide(color: kPrimaryColor),
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(8.r),
-          //         ),
-          //         padding: EdgeInsets.symmetric(vertical: 12.h),
-          //       ),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           Icon(Icons.expand_more, size: 20.w),
-          //           8.horizontalSpace,
-          //           Text('Load More Products', style: FontPalette.hW600S14),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          if (!hasMoreData && products.isNotEmpty && !isLoadingMore)
-            Container(
-              padding: EdgeInsets.all(16.h),
-              child: Column(
-                children: [
-                  Container(
-                    width: 40.w,
-                    height: 2.h,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(1.r),
-                    ),
-                  ),
-                  8.verticalSpace,
-                  Text(
-                    'No more products to load',
-                    style: FontPalette.hW500S12.copyWith(
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  if (currentPage > 0)
-                    Text(
-                      'Showing ${products.length} products',
-                      style: FontPalette.hW400S10.copyWith(
-                        color: Colors.grey[500],
+          ValueListenableBuilder<bool>(
+            valueListenable: showEndMessage,
+            builder: (context, show, child) {
+              if (!show || hasMoreData || isLoadingMore || products.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return Container(
+                padding: EdgeInsets.all(16.h),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 40.w,
+                      height: 2.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(1.r),
                       ),
                     ),
-                ],
-              ),
-            ),
+                    8.verticalSpace,
+                    Text(
+                      'No more products to load',
+                      style: FontPalette.hW500S12.copyWith(
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    if (currentPage > 0)
+                      Text(
+                        'Showing ${products.length} products',
+                        style: FontPalette.hW400S10.copyWith(
+                          color: Colors.grey[500],
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -458,58 +536,10 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState() {
-    final isSearchActive = _searchController.text.isNotEmpty;
-
-    return Container(
-      padding: EdgeInsets.all(40.h),
-      child: Column(
-        children: [
-          Icon(
-            isSearchActive ? Icons.search_off : Icons.inventory_2_outlined,
-            size: 64.w,
-            color: Colors.grey[400],
-          ),
-          16.verticalSpace,
-          Text(
-            isSearchActive ? 'No products found' : 'No products available',
-            style: FontPalette.hW500S16.copyWith(color: Colors.grey[700]),
-          ),
-          8.verticalSpace,
-          Text(
-            isSearchActive
-                ? 'Try adjusting your search or filters'
-                : 'Products will appear here when available',
-            style: FontPalette.hW400S14.copyWith(color: Colors.grey[500]),
-            textAlign: TextAlign.center,
-          ),
-          if (isSearchActive) ...[
-            16.verticalSpace,
-            ElevatedButton(
-              onPressed: () {
-                _searchController.clear();
-                // _performSearch('');
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kPrimaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              child: Text(
-                'Clear Search',
-                style: FontPalette.hW600S14.copyWith(color: Colors.white),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
   void _handleStoreChange(StoreResponse? store, BuildContext context) {
     final productCubit = context.read<ProductCubit>();
     final dashboardCubit = context.read<DashboardCubit>();
+
     dashboardCubit.selectedStore(store ?? StoreResponse());
     productCubit.catgeory(store?.storeId ?? 0);
     productCubit.clearCategory();
@@ -527,7 +557,6 @@ class ProductScreen extends StatelessWidget {
   ) {
     final productCubit = context.read<ProductCubit>();
     productCubit.changeProductType(product ?? Product());
-
     productCubit.selectProduct(product);
     productCubit.product(
       storeId: common.selectedStore?.storeId ?? 0,
@@ -570,7 +599,10 @@ class ProductScreen extends StatelessWidget {
       _searchController.text = scannedCode;
       final storeId =
           context.read<DashboardCubit>().state.selectedStore?.storeId ?? 0;
-      context.read<ProductCubit>().product(storeId: storeId);
+      context.read<ProductCubit>().product(
+        storeId: storeId,
+        barCode: scannedCode,
+      );
     }
   }
 }
@@ -594,7 +626,7 @@ class _ProductCard extends StatelessWidget {
           Container(
             height: 140.h,
             width: 90.w,
-            color: Color(0xffF9FCFB),
+            color: const Color(0xffF9FCFB),
             child: Center(child: _buildProductImage()),
           ),
           10.horizontalSpace,
@@ -763,7 +795,7 @@ class _ShimmerProductCard extends StatelessWidget {
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
       child: Container(
-        margin: EdgeInsets.only(bottom: 12.h),
+        margin: EdgeInsets.only(bottom: 12.h, left: 10.w),
         height: 150.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
@@ -810,48 +842,113 @@ class _ShimmerProductCard extends StatelessWidget {
   }
 }
 
-class ShimmerWidget extends StatelessWidget {
-  final double width;
-  final double height;
-  final ShapeBorder shapeBorder;
+class PaginationFooter extends StatelessWidget {
+  final ProductState state;
+  final ValueNotifier<bool> showEndMessage;
 
-  const ShimmerWidget.rectangular({
+  const PaginationFooter({
     super.key,
-    required this.width,
-    required this.height,
-  }) : shapeBorder = const RoundedRectangleBorder();
+    required this.state,
+    required this.showEndMessage,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: ShapeDecoration(
-          color: Colors.grey[400]!,
-          shape: shapeBorder,
-        ),
+    final isLoadingMore = state.isLoadingMore == true;
+    final hasMoreData = state.hasMoreData == true;
+    final products = state.productList ?? [];
+    final currentPage = state.currentPage ?? 0;
+
+    if (products.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      margin: EdgeInsets.only(top: 16.h, bottom: 20.h),
+      child: Column(
+        children: [
+          if (isLoadingMore)
+            Container(
+              padding: EdgeInsets.all(16.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 20.w,
+                    height: 20.h,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                    ),
+                  ),
+                  12.horizontalSpace,
+                  Text(
+                    'Loading more products...',
+                    style: FontPalette.hW500S14.copyWith(color: kPrimaryColor),
+                  ),
+                ],
+              ),
+            ),
+
+          if (!hasMoreData && products.isNotEmpty && !isLoadingMore)
+            EndMessageWidget(
+              showEndMessage: showEndMessage,
+              currentPage: currentPage,
+              productsLength: products.length,
+            ),
+        ],
       ),
     );
   }
 }
 
-void _loadMoreData(BuildContext context) {
-  final reportState = context.read<ProductCubit>().state;
-  final dashboardState = context.read<DashboardCubit>().state;
+class EndMessageWidget extends StatelessWidget {
+  final ValueNotifier<bool> showEndMessage;
+  final int currentPage;
+  final int productsLength;
 
-  print('_loadMoreData called');
-  print('hasMoreData: ${reportState.hasMoreData}');
-  print('isLoadingMore: ${reportState.isLoadingMore}');
-  print('currentPage: ${reportState.currentPage}');
-  print('total records: ${reportState.productList?.length}');
+  const EndMessageWidget({
+    super.key,
+    required this.showEndMessage,
+    required this.currentPage,
+    required this.productsLength,
+  });
 
-  if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
-    context.read<ProductCubit>().product(
-      storeId: dashboardState.selectedStore?.storeId,
-      isLoadMore: true,
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: showEndMessage,
+      builder: (context, show, child) {
+        if (!show) {
+          return const SizedBox.shrink();
+        }
+
+        return Container(
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            children: [
+              Container(
+                width: 40.w,
+                height: 2.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(1.r),
+                ),
+              ),
+              8.verticalSpace,
+              Text(
+                'No more products to load',
+                style: FontPalette.hW500S12.copyWith(color: Colors.grey[600]),
+              ),
+              if (currentPage > 0)
+                Text(
+                  'Showing $productsLength products',
+                  style: FontPalette.hW400S10.copyWith(color: Colors.grey[500]),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

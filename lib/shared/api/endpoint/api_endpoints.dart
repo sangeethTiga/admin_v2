@@ -87,7 +87,7 @@ class ApiEndpoints {
     int pageFirstResult,
     int resultPage,
   ) =>
-      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&keyword=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=$resultPage';
+      '/api/product?query=&store_id=$storeId&category_id=$catId&filters=$filterId&product_qty=0&query=$search&bar_code=$barCode&page_first_result=$pageFirstResult&result_per_page=$resultPage';
 
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
@@ -148,9 +148,10 @@ class ApiEndpoints {
     int? resultPerPage,
     int? purchaseType,
     int? supplierId,
+    String? query,
   }) =>
-      '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=0&result_per_page=50&purchase_type=$purchaseType&supplier_id=0';
-  //purchase_order?store_id=5&from_date=2025-07-14&to_date=2025-07-14&page_first_limit=0&result_per_page=50&purchase_type=1&supplier_id=0
+      '/api/purchase_order?store_id=$storeId&from_date=$fromDate&to_date=$toDate&page_first_limit=$pageFirstLimit&result_per_page=$resultPerPage&purchase_type=$purchaseType&supplier_id=$supplierId&query=$query';
+
   static String taxReport(String fromDate, String toDate, int storeId) =>
       '/api/taxreport?from_date=$fromDate&to_date=$toDate&store_id=$storeId';
 

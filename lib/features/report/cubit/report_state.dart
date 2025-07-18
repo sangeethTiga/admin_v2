@@ -18,7 +18,7 @@ class ReportState extends Equatable {
   final String status;
   final String option;
   final String lastSearch;
-  final bool showNoMoreData;
+  final String query;
   final List<CustomersResponse>? customersReport;
   final ApiFetchStatus? isCustomersReport;
   final ApiFetchStatus? isCategorySales;
@@ -101,6 +101,7 @@ class ReportState extends Equatable {
     this.offset = 0,
     this.page = 0,
     this.lastSearch = '',
+    this.query = '',
     this.customersReport,
     this.isCustomersReport,
     this.isCategorySales,
@@ -111,7 +112,7 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
-    this.showNoMoreData=false,
+    
     this.status = '',
     this.isTaxReport,
     this.taxReport,
@@ -190,7 +191,7 @@ class ReportState extends Equatable {
     String? status,
     String? option,
     String? lastSearch,
-    bool? showNoMoreData,
+    String? query,
     List<CustomersResponse>? customersReport,
     ApiFetchStatus? isCustomersReport,
     ApiFetchStatus? isCategorySales,
@@ -267,14 +268,14 @@ class ReportState extends Equatable {
       revenueReport: revenueReport ?? this.revenueReport,
       currentPage: currentPage ?? this.currentPage,
       lastSearch: lastSearch ?? this.lastSearch,
+      query: query ?? this.query,
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
       profitlossReport: profitlossReport ?? this.profitlossReport,
       deliverychargeReport: deliverychargeReport ?? deliverychargeReport,
       isDeliverychargeReport:
-          isDeliverychargeReport ?? this.isDeliverychargeReport,
+      isDeliverychargeReport ?? this.isDeliverychargeReport,
       page: page ?? this.page,
-      showNoMoreData: showNoMoreData?? this.showNoMoreData,
       offset: offset ?? this.offset,
       customersReport: customersReport ?? this.customersReport,
       isCustomersReport: isCustomersReport ?? this.isCustomersReport,
@@ -361,6 +362,7 @@ class ReportState extends Equatable {
     offset,
     status,
     lastSearch,
+    query,
     customersReport,
     isCustomersReport,
     isCategorySales,
