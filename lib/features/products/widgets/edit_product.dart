@@ -50,7 +50,7 @@ class _EditProductState extends State<EditProduct> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 700.h,
+      height: 500.h,
       child: Column(
         children: [
           MainPadding(
@@ -136,7 +136,7 @@ class _EditProductState extends State<EditProduct> {
                 if (state.isAdded == ApiFetchStatus.success) {
                   context.read<ProductCubit>().product(
                     storeId: state.selectedStore?.storeId ?? 0,
-                    catId: widget.product.mainCategoryId ?? 0,
+                    // catId: widget.product.mainCategoryId ?? 0,
                   );
                 }
               },

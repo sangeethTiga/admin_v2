@@ -563,7 +563,7 @@ class _ProductScreenState extends State<ProductScreen> {
       catId: state.selectedProduct?.mainCategoryId ?? 0,
       search: _searchController.text,
       barCode: '',
-      filterId: state.selectProduct?.filterId ?? 0,
+      filterId: product?.filterId ?? 0,
     );
     productCubit.clearCategory();
   }

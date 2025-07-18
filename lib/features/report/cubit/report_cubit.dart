@@ -112,7 +112,7 @@ class ReportCubit extends Cubit<ReportState> {
     int? storeId,
     String? fromDate,
     String? toDate,
-    int page = 1,
+    int page = 0,
     int limit = 20,
     bool isLoadMore = false,
   }) async {
@@ -141,7 +141,7 @@ class ReportCubit extends Cubit<ReportState> {
       //   );
       // }
       // final int offset = page * limit;
-      final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+      final currentPage = isLoadMore ? (state.currentPage) + limit : 0;
 
       final res = await _reportRepositories.loadRevenueReport(
         pageFirstResult: currentPage,
@@ -149,7 +149,6 @@ class ReportCubit extends Cubit<ReportState> {
         storeId: storeId ?? 0,
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
-        
       );
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         List<ReveneReportResponse> updatedList;
@@ -194,10 +193,10 @@ class ReportCubit extends Cubit<ReportState> {
 
     String? fromDate,
     String? toDate,
-    int page = 1,
+    int page = 0,
     int limit = 20,
     bool isLoadMore = false,
-     int? accountId,
+    int? accountId,
   }) async {
     try {
       if (isLoadMore) {
@@ -214,7 +213,7 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+      final currentPage = isLoadMore ? (state.currentPage) + limit : 0;
 
       final res = await _reportRepositories.loadExpenseReport(
         storeId: storeId ?? 0,
@@ -222,7 +221,7 @@ class ReportCubit extends Cubit<ReportState> {
         toDate: parsedDate(state.toDate ?? DateTime.now()),
         pageFirstResult: currentPage,
         resultPerPage: limit,
-        accountId: accountId?? 0,
+        accountId: accountId ?? 0,
       );
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         List<ExpenseReportResponse> updatedList;
@@ -364,27 +363,6 @@ class ReportCubit extends Cubit<ReportState> {
         ),
       );
     }
-    // if (res.data != null) {
-    //   if (res.data != null) {
-    //     final List<DeliveryChargeResponse> fetchedList = res.data!;
-
-    //     final List<DeliveryChargeResponse> newList = isLoadMore
-    //         ? <DeliveryChargeResponse>[
-    //             ...?state.deliverychargeReport,
-    //             ...fetchedList,
-    //           ]
-    //         : fetchedList;
-    //     log('neww-=-=-=-=-$newList');
-    //     emit(
-    //       state.copyWith(
-    //         deliverychargeResponse: newList,
-    //         isDeliverychargeReport: ApiFetchStatus.success,
-    //       ),
-    //     );
-    //   } else {
-    //     emit(state.copyWith(isDeliverychargeReport: ApiFetchStatus.failed));
-    //   }
-    // }
   }
 
   Future<void> loadCustomersReport({
