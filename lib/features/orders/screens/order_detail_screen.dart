@@ -370,36 +370,41 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       10.verticalSpace,
                       _rowWidget(
                         name: 'Grand total',
-                        status: "AED ${state.orderDetail?.grandTotal ?? 0}",
+                        status:
+                            "AED ${formatAmount(state.orderDetail?.grandTotal ?? '')}",
                       ),
                       8.verticalSpace,
                       _rowWidget(
                         name: 'Total before tax',
-                        status: 'AED ${(state.orderDetail?.taxAmount ?? 0)}',
+                        status:
+                            'AED ${formatAmount(state.orderDetail?.taxAmount ?? '')}',
                       ),
                       8.verticalSpace,
                       _rowWidget(
                         name: 'Tax Incl',
-                        status: "AED ${(state.orderDetail?.taxAmount ?? 0)}",
+                        status:
+                            "AED ${formatAmount(state.orderDetail?.taxAmount ?? '')}",
                       ),
                       8.verticalSpace,
 
                       _rowWidget(
                         name: 'Parcel Charge',
-                        status: "AED ${state.orderDetail?.parcelCharge ?? 0}",
+                        status:
+                            "AED ${truncateTo2Decimals(state.orderDetail?.parcelCharge ?? 0.0)}",
                       ),
                       8.verticalSpace,
 
                       _rowWidget(
                         name: 'Discount',
                         status:
-                            "AED ${state.orderDetail?.spotDiscountAmt ?? 0}",
+                            "AED ${formatAmount(state.orderDetail?.spotDiscountAmt ?? '')}",
                       ),
                       8.verticalSpace,
 
                       _rowWidget(
                         name: 'Shipping Charge',
-                        status: "AED ${state.orderDetail?.shippingCharge ?? 0}",
+                        status:
+                            "AED ${formatAmount("${state.orderDetail?.shippingCharge}")}",
                       ),
                       Divider(color: kBorderColor),
                       MainPadding(
@@ -409,7 +414,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           children: [
                             Text('Amount payable', style: FontPalette.hW700S14),
                             Text(
-                              'AED ${state.orderDetail?.grandTotal ?? 0}',
+                              'AED ${formatAmount(state.orderDetail?.grandTotal ?? '')}',
                               style: FontPalette.hW700S14,
                             ),
                           ],
@@ -672,4 +677,18 @@ Widget rowWidgets({String? name, String? status, Color? statusColor}) {
       ],
     ),
   );
+}
+
+String formatAmount(String raw) {
+  if (raw.isEmpty) return '0.00';
+
+  String normalized = raw.replaceFirst(',', '.');
+
+  double? value = double.tryParse(normalized);
+
+  if (value == null || value == 0) {
+    return '0.00';
+  } else {
+    return value.toStringAsFixed(2);
+  }
 }
