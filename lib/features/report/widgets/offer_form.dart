@@ -150,7 +150,7 @@ class _OfferFormState extends State<OfferForm> {
                                     if (!mounted) return;
                                     onProductSelected(
                                       product,
-                                    ); // 🔁 Pass data to parent
+                                    ); 
                                     Navigator.of(context).pop();
                                   },
                                 );
