@@ -82,6 +82,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                           storeId: state.selectedStore?.storeId,
                         );
                       },
+
                       buttonText: 'View Report',
                     );
                   },

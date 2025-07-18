@@ -158,7 +158,7 @@ void navigateToFeature(
         _navigateToProducts(storeId ?? 0, context);
       case 'Profit/loss':
         context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadProfitAndLoss();
+        context.read<ReportCubit>().loadProfitAndLoss(storeId: storeId);
         _navigateToProfitLoss(storeId ?? 0, today, context);
       case 'Orders':
         context.read<ReportCubit>().initState();

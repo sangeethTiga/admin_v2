@@ -77,7 +77,9 @@ class _OfferFormState extends State<OfferForm> {
     }
   }
 
-  void _showProductSearchDialog() {
+  void _showProductSearchDialog({
+    required Function(ProductNameResponse) onProductSelected,
+  }) {
     final reportCubit = context.read<ReportCubit>();
     final storeId =
         context.read<DashboardCubit>().state.selectedStore?.storeId ?? 0;
@@ -119,7 +121,6 @@ class _OfferFormState extends State<OfferForm> {
                       const SizedBox(height: 12),
                       ConstrainedBox(
                         constraints: const BoxConstraints(maxHeight: 250),
-                
                         child: BlocBuilder<ReportCubit, ReportState>(
                           builder: (context, state) {
                             if (state.isProductName == ApiFetchStatus.loading) {
@@ -127,18 +128,18 @@ class _OfferFormState extends State<OfferForm> {
                                 child: CircularProgressIndicator(),
                               );
                             }
-                
+
                             final productList =
                                 state.getproductName
                                     ?.cast<ProductNameResponse>() ??
                                 [];
-                
+
                             if (productList.isEmpty) {
                               return const Center(
                                 child: Text('No products found.'),
                               );
                             }
-                
+
                             return ListView.builder(
                               itemCount: productList.length,
                               itemBuilder: (context, index) {
@@ -147,18 +148,9 @@ class _OfferFormState extends State<OfferForm> {
                                   title: Text(product.productName ?? 'Unknown'),
                                   onTap: () {
                                     if (!mounted) return;
-                                    setState(() {
-                                      selectedProduct = product;
-                                      nameController.text =
-                                          product.productName ?? '';
-                                      productPriceController.text =
-                                          product.productPrice?.toString() ??
-                                          ''; // <--- Add this line
-                                    });
-                
-                                    context
-                                        .read<ReportCubit>()
-                                        .selectedProductName(product);
+                                    onProductSelected(
+                                      product,
+                                    ); // 🔁 Pass data to parent
                                     Navigator.of(context).pop();
                                   },
                                 );
@@ -320,7 +312,23 @@ class _OfferFormState extends State<OfferForm> {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: _showProductSearchDialog,
+                          onPressed: () {
+                            _showProductSearchDialog(
+                              onProductSelected: (product) {
+                                setState(() {
+                                  selectedProduct = product;
+                                  nameController.text =
+                                      product.productName ?? '';
+                                  productPriceController.text =
+                                      product.productPrice?.toString() ?? '';
+                                });
+                                context.read<ReportCubit>().selectedProductName(
+                                  product,
+                                );
+                              },
+                            );
+                          },
+
                           child: const Text('Search Product Name'),
                         ),
                         const SizedBox(width: 12),

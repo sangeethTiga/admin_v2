@@ -150,7 +150,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                         state.deliverychargeReport?.asMap().entries.map((
                           entry,
                         ) {
-                          int localIndex = entry.key;
+                          // int localIndex = entry.key;
                           var e = entry.value;
                           int globalIndex =
                               ((state.currentPage - 1) * 20) + entry.key + 1;
