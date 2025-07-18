@@ -40,14 +40,14 @@ class ProductCubit extends Cubit<ProductState> {
           state.copyWith(
             isProduct: ApiFetchStatus.loading,
             productList: [],
-            currentPage: 0,
+            currentPage: 1,
             hasMoreData: false,
             isLoadingMore: false,
           ),
         );
       }
 
-      final currentPage = isLoadMore ? (state.currentPage ?? 0) + limit : 20;
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 1;
 
       final res = await _productRepositories.products(
         storeId: storeId,
@@ -55,31 +55,39 @@ class ProductCubit extends Cubit<ProductState> {
         search: search,
         barCode: barCode,
         filterId: filterId,
-        pageFirstResult: 0,
-        resultPerPage: currentPage,
+        pageFirstResult: currentPage,
+        resultPerPage: limit,
       );
 
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         List<ProductResponse> updatedList;
-
         if (isLoadMore) {
-          final existingIds = (state.productList ?? [])
-              .map((p) => p.productId)
-              .toSet();
-
-          final newProducts = res.data!
-              .where((product) => !existingIds.contains(product.productId))
-              .toList();
-
-          updatedList = [...(state.productList ?? []), ...newProducts];
+          updatedList = [...(state.productList ?? []), ...res.data!];
 
           log(
-            "Load More: Added ${newProducts.length} new products, Total: ${updatedList.length}",
+            "Load More: Added ${res.data!.length} products, Total: ${updatedList.length}",
           );
         } else {
           updatedList = res.data!;
           log("Fresh Load: Loaded ${updatedList.length} products");
         }
+        // if (isLoadMore) {
+        //   final existingIds = (state.productList ?? [])
+        //       .map((p) => p.productId)
+        //       .toSet();
+        //   final newProducts = res.data!
+        //       .where((product) => !existingIds.contains(product.productId))
+        //       .toList();
+
+        //   updatedList = [...(state.productList ?? []), ...newProducts];
+
+        //   log(
+        //     "Load More: Added ${newProducts.length} new products, Total: ${updatedList.length}",
+        //   );
+        // } else {
+        //   updatedList = res.data!;
+        //   log("Fresh Load: Loaded ${updatedList.length} products");
+        // }
 
         final hasMoreData = res.data!.length >= limit;
 
@@ -123,7 +131,7 @@ class ProductCubit extends Cubit<ProductState> {
               productList: [],
               isLoadingMore: false,
               hasMoreData: false,
-              currentPage: 1,
+              currentPage: 0,
               totalItems: 0,
             ),
           );
