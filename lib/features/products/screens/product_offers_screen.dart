@@ -366,6 +366,7 @@ class ShimmerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Building ShimmerWidget'); 
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
@@ -373,7 +374,7 @@ class ShimmerWidget extends StatelessWidget {
         width: width,
         height: height,
         decoration: ShapeDecoration(
-          color: Colors.grey[400]!,
+          color: Colors.grey[400]!, 
           shape: shapeBorder,
         ),
       ),
@@ -439,32 +440,74 @@ Widget _shimmerProductOfferList() {
     shrinkWrap: true,
     physics: const NeverScrollableScrollPhysics(),
     itemCount: 6,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.h),
-        child: Container(
-          padding: EdgeInsets.all(12.h),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ShimmerWidget.rectangular(width: 180.w, height: 18.h),
-              12.verticalSpace,
-              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
-              6.verticalSpace,
-              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
-              6.verticalSpace,
-              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
-              6.verticalSpace,
-              ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
-            ],
-          ),
-        ),
-      );
-    },
+    itemBuilder: (context, index) => const _ShimmerProductCard(),
+    //  {
+    //   return Padding(
+    //     padding: EdgeInsets.symmetric(vertical: 8.h),
+    //     child: Container(
+    //       padding: EdgeInsets.all(12.h),
+    //       decoration: BoxDecoration(
+    //         color: Colors.white,
+    //         borderRadius: BorderRadius.circular(12.r),
+    //         border: Border.all(color: Colors.grey.shade300),
+    //       ),
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           ShimmerWidget.rectangular(width: 180.w, height: 18.h),
+    //           12.verticalSpace,
+    //           ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+    //           6.verticalSpace,
+    //           ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+    //           6.verticalSpace,
+    //           ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+    //           6.verticalSpace,
+    //           ShimmerWidget.rectangular(width: double.infinity, height: 14.h),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+    // },
   );
+}
+
+class _ShimmerProductCard extends StatelessWidget {
+  const _ShimmerProductCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 12.h, left: 10.w, right: 10.w),
+      padding: EdgeInsets.all(12.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0XFFF4F5F5)),
+        color: Colors.transparent, // ← important!
+      ),
+      child: Row(
+        children: [
+          ShimmerWidget.rectangular(width: 55.w, height: 55.h),
+          12.horizontalSpace,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ShimmerWidget.rectangular(width: double.infinity, height: 16.h),
+                6.verticalSpace,
+                ShimmerWidget.rectangular(width: 150.w, height: 12.h),
+                4.verticalSpace,
+                ShimmerWidget.rectangular(width: 100.w, height: 12.h),
+                4.verticalSpace,
+                ShimmerWidget.rectangular(width: 108.w, height: 12.h),
+                4.verticalSpace,
+                ShimmerWidget.rectangular(width: 108.w, height: 12.h),
+                4.verticalSpace,
+                ShimmerWidget.rectangular(width: 108.w, height: 12.h),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

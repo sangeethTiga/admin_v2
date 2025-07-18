@@ -103,14 +103,17 @@ class DashboardScreenState extends State<DashboardScreen>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        flex: 3,
-                        child: StoreDropdown(
-                          selectedStore: state.selectedStore,
-                          storeList: state.storeList,
-                          isLoading:
-                              state.apiFetchStatus == ApiFetchStatus.loading,
-                          onStoreChanged: _onStoreChanged,
+                      SizedBox(
+                        width: 170.w,
+                        child: Expanded(
+                          //flex: 3,
+                          child: StoreDropdown(
+                            selectedStore: state.selectedStore,
+                            storeList: state.storeList,
+                            isLoading:
+                                state.apiFetchStatus == ApiFetchStatus.loading,
+                            onStoreChanged: _onStoreChanged,
+                          ),
                         ),
                       ),
                       36.horizontalSpace,
@@ -125,7 +128,7 @@ class DashboardScreenState extends State<DashboardScreen>
                       ),
                     ],
                   ),
-                  // 5.verticalSpace,
+                  5.verticalSpace,
                   _buildDashboardGrid(state),
                   20.verticalSpace,
                   if (state.revenueReport?.isNotEmpty ?? false) RevenueGraph(),
