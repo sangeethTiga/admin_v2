@@ -10,6 +10,7 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -93,8 +94,10 @@ class DeliveryChargeScreen extends StatelessWidget {
   }
 
   Widget _buildCommonTable() {
+    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
+        final ScrollController scrollController = ScrollController();
         return MainPadding(
           child: Column(
             children: [
@@ -115,43 +118,22 @@ class DeliveryChargeScreen extends StatelessWidget {
                         _loadMoreData(context);
                       }
 
-                      // if (reportState.hasMoreData == false &&
-                      //     reportState.deliverychargeReport?.isNotEmpty ==
-                      //         true &&
-                      //     !noMoreDataSnackbarShown) {
-                      //   noMoreDataSnackbarShown = true;
-
-                      //   WidgetsBinding.instance.addPostFrameCallback((_) {
-                      //     ScaffoldMessenger.of(context).showSnackBar(
-                      //       const SnackBar(
-                      //         content: Text('No more data'),
-                      //         duration: Duration(seconds: 1),
-
-                      //       ),
                       if (reportState.hasMoreData == false &&
                           reportState.deliverychargeReport?.isNotEmpty ==
                               true) {
-                        _showNoMoreDataOverlay(context);
+                        showNoMoreData.value = true;
                       }
-
-                      // if (reportState.hasMoreData == false &&
-                      //     reportState.deliverychargeReport?.isNotEmpty ==
-                      //         true) {
-
-                      // WidgetsBinding.instance.addPostFrameCallback((_) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text('No more data'),
-                      //       duration: Duration(seconds: 1),
-                      //     ),
-                      //   );
-                      // });
-                      // }
+                    }
+                    if (scrollController.hasClients &&
+                        scrollController.position.userScrollDirection ==
+                            ScrollDirection.forward) {
+                      showNoMoreData.value = false;
                     }
 
                     return false;
                   },
                   child: CommonTableWidget(
+                    controller: scrollController,
                     isLoading:
                         state.isDeliverychargeReport == ApiFetchStatus.loading,
                     headers: [
@@ -188,24 +170,24 @@ class DeliveryChargeScreen extends StatelessWidget {
                 ),
               ),
               if (state.isLoadingMore == true)
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                Container(
+                  padding: EdgeInsets.all(16.w),
                   child: CircularProgressIndicator(),
                 ),
-              // if (state.isLoadingMore == true)
-              //   Container(
-              //     padding: EdgeInsets.all(16.w),
-              //     child: CircularProgressIndicator(),
-              //   ),
-              // if (state.hasMoreData == false &&
-              //     state.deliverychargeReport?.isNotEmpty == true)
-              //   Container(
-              //     padding: EdgeInsets.all(16.w),
-              //     child: Text(
-              //       'No more data',
-              //       style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-              //     ),
-              //   ),
+              ValueListenableBuilder<bool>(
+                valueListenable: showNoMoreData,
+                builder: (context, value, _) {
+                  if (!value) return SizedBox.shrink();
+                  return Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Text(
+                      'No more data',
+                      style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                    ),
+                  );
+                },
+              ),
+           
             ],
           ),
         );

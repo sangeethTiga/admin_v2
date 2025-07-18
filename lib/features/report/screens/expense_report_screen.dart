@@ -11,6 +11,7 @@ import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_wid
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,6 +20,8 @@ class ExpenseReportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
+    final ScrollController scrollController = ScrollController();
     return Scaffold(
       appBar: AppbarWidget(title: 'Expense Report'),
       body: Column(
@@ -153,24 +156,39 @@ class ExpenseReportScreen extends StatelessWidget {
                                           if (scrollInfo
                                                   is ScrollEndNotification &&
                                               atBottom) {
-                                            _loadMoreData(context);
                                             final reportState = context
                                                 .read<ReportCubit>()
                                                 .state;
+
+                                            if (reportState.hasMoreData ==
+                                                    true &&
+                                                reportState.isLoadingMore !=
+                                                    true) {
+                                              _loadMoreData(context);
+                                            }
+
                                             if (reportState.hasMoreData ==
                                                     false &&
                                                 reportState
                                                         .expenseReport
                                                         ?.isNotEmpty ==
                                                     true) {
-                                              _showNoMoreDataOverlay(context);
+                                              showNoMoreData.value = true;
                                             }
+                                          }
+                                          if (scrollController.hasClients &&
+                                              scrollController
+                                                      .position
+                                                      .userScrollDirection ==
+                                                  ScrollDirection.forward) {
+                                            showNoMoreData.value = false;
                                           }
 
                                           return false;
                                         },
 
                                     child: CommonTableWidget(
+                                      controller: scrollController,
                                       isLoading:
                                           state.isSaleReport ==
                                           ApiFetchStatus.loading,
@@ -212,12 +230,26 @@ class ExpenseReportScreen extends StatelessWidget {
                                   ),
                                 ),
                                 if (state.isLoadingMore == true)
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 16.h,
-                                    ),
+                                  Container(
+                                    padding: EdgeInsets.all(16.w),
                                     child: CircularProgressIndicator(),
                                   ),
+                                ValueListenableBuilder<bool>(
+                                  valueListenable: showNoMoreData,
+                                  builder: (context, value, _) {
+                                    if (!value) return SizedBox.shrink();
+                                    return Padding(
+                                      padding: EdgeInsets.all(16.w),
+                                      child: Text(
+                                        'No more data',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           ),
@@ -262,31 +294,4 @@ void _loadMoreData(BuildContext context) {
       isLoadMore: true,
     );
   }
-}
-
-OverlayEntry? _overlayEntry;
-
-void _showNoMoreDataOverlay(BuildContext context) {
-  if (_overlayEntry != null) return;
-
-  _overlayEntry = OverlayEntry(
-    builder: (context) => Positioned(
-      bottom: 18,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: const Text(
-          'No more data',
-          style: TextStyle(fontSize: 14, color: Colors.black),
-        ),
-      ),
-    ),
-  );
-
-  Overlay.of(context).insert(_overlayEntry!);
-
-  Future.delayed(const Duration(seconds: 1), () {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  });
 }

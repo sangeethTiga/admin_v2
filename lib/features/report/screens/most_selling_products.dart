@@ -14,6 +14,7 @@ import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,6 +24,8 @@ class MostSellingProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
+    final ScrollController scrollController = ScrollController();
     return Scaffold(
       appBar: AppbarWidget(title: 'Most Selling Products'),
       body: Column(
@@ -160,7 +163,7 @@ class MostSellingProducts extends StatelessWidget {
                         12.horizontalSpace,
                         Expanded(
                           child: DatePickerContainer(
-                           labelText: 'To Date',
+                            labelText: 'To Date',
                             value: apiFormat.format(
                               state.toDate ?? DateTime.now(),
                             ),
@@ -218,90 +221,119 @@ class MostSellingProducts extends StatelessWidget {
                             child: Column(
                               children: [
                                 Expanded(
-                                  child:
-                                      NotificationListener<ScrollNotification>(
-                                        onNotification:
-                                            (ScrollNotification scrollInfo) {
-                                              if (scrollInfo
-                                                  is ScrollEndNotification) {
-                                                final maxScroll = scrollInfo
-                                                    .metrics
-                                                    .maxScrollExtent;
-                                                final currentScroll =
-                                                    scrollInfo.metrics.pixels;
-                                                final threshold =
-                                                    maxScroll - 100;
+                                  child: NotificationListener<ScrollNotification>(
+                                    onNotification:
+                                        (ScrollNotification scrollInfo) {
+                                          final maxScroll = scrollInfo
+                                              .metrics
+                                              .maxScrollExtent;
+                                          final currentScroll =
+                                              scrollInfo.metrics.pixels;
+                                          final threshold = maxScroll - 100;
 
-                                                if (currentScroll >=
-                                                    threshold) {
-                                                  _loadMoreData(context);
-                                                }
-                                              }
-                                              return false;
-                                            },
-                                        child: CommonTableWidget(
-                                          isLoading:
-                                              state.isProductReport ==
-                                              ApiFetchStatus.loading,
-                                          headers: [
-                                            "#",
-                                            "Product",
-                                            "Selling Price",
-                                            "Order Quantity",
-                                            "Total Cost",
-                                            "Total Sales",
-                                            "Profit",
-                                          ],
-                                          columnFlex: [2, 3, 3, 2, 3, 3, 2],
-                                          data:
-                                              state.productsReport
-                                                  ?.asMap()
-                                                  .entries
-                                                  .map((entry) {
-                                                    int localIndex = entry.key;
-                                                    var e = entry.value;
-                                                    int globalIndex =
-                                                        localIndex + 1;
+                                          final atBottom =
+                                              currentScroll >= threshold;
 
-                                                    return {
-                                                      "#": globalIndex,
-                                                      "Product":
-                                                          e.productName ?? '',
+                                          if (scrollInfo
+                                                  is ScrollEndNotification &&
+                                              atBottom) {
+                                            final reportState = context
+                                                .read<ReportCubit>()
+                                                .state;
 
-                                                      "Selling Price":
-                                                          e.sellingPrice ?? '',
-                                                      "Order Quantity":
-                                                          e.totalorderqty ?? '',
-                                                      "Total Cost":
-                                                          e.totalCostPrice ??
-                                                          '',
-                                                      "Total Sales":
-                                                          e.totalAmount ?? '',
-                                                      "Profit": e.profit ?? '',
-                                                    };
-                                                  })
-                                                  .toList() ??
-                                              [],
-                                        ),
-                                      ),
+                                            if (reportState.hasMoreData ==
+                                                    true &&
+                                                reportState.isLoadingMore !=
+                                                    true) {
+                                              _loadMoreData(context);
+                                            }
+
+                                            if (reportState.hasMoreData ==
+                                                    false &&
+                                                reportState
+                                                        .parcelChargeList
+                                                        ?.isNotEmpty ==
+                                                    true) {
+                                              showNoMoreData.value = true;
+                                            }
+                                          }
+                                          if (scrollController.hasClients &&
+                                              scrollController
+                                                      .position
+                                                      .userScrollDirection ==
+                                                  ScrollDirection.forward) {
+                                            showNoMoreData.value = false;
+                                          }
+
+                                          return false;
+                                        },
+                                    child: CommonTableWidget(
+                                      controller: scrollController,
+                                      isLoading:
+                                          state.isProductReport ==
+                                          ApiFetchStatus.loading,
+                                      headers: [
+                                        "#",
+                                        "Product",
+                                        "Selling Price",
+                                        "Order Quantity",
+                                        "Total Cost",
+                                        "Total Sales",
+                                        "Profit",
+                                      ],
+                                      columnFlex: [2, 3, 3, 2, 3, 3, 2],
+                                      data:
+                                          state.productsReport
+                                              ?.asMap()
+                                              .entries
+                                              .map((entry) {
+                                                int localIndex = entry.key;
+                                                var e = entry.value;
+                                                int globalIndex =
+                                                    localIndex + 1;
+
+                                                return {
+                                                  "#": globalIndex,
+                                                  "Product":
+                                                      e.productName ?? '',
+
+                                                  "Selling Price":
+                                                      e.sellingPrice ?? '',
+                                                  "Order Quantity":
+                                                      e.totalorderqty ?? '',
+                                                  "Total Cost":
+                                                      e.totalCostPrice ?? '',
+                                                  "Total Sales":
+                                                      e.totalAmount ?? '',
+                                                  "Profit": e.profit ?? '',
+                                                };
+                                              })
+                                              .toList() ??
+                                          [],
+                                    ),
+                                  ),
                                 ),
                                 if (state.isLoadingMore == true)
                                   Container(
                                     padding: EdgeInsets.all(16.w),
                                     child: CircularProgressIndicator(),
                                   ),
-                                if (state.hasMoreData == false &&
-                                    state.productsReport?.isNotEmpty == true)
-                                  Container(
-                                    padding: EdgeInsets.all(16.w),
-                                    child: Text(
-                                      'No more data',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.grey,
+                                ValueListenableBuilder<bool>(
+                                  valueListenable: showNoMoreData,
+                                  builder: (context, value, _) {
+                                    if (!value) return SizedBox.shrink();
+                                    return Padding(
+                                      padding: EdgeInsets.all(16.w),
+                                      child: Text(
+                                        'No more data',
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.grey,
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                    );
+                                  },
+                                ),
                               ],
                             ),
                           ),

@@ -10,6 +10,7 @@ import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -126,8 +127,10 @@ Widget _viewReport() {
 }
 
 Widget _commonTable() {
+  final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
   return BlocBuilder<ReportCubit, ReportState>(
     builder: (context, state) {
+      final ScrollController scrollController = ScrollController();
       return MainPadding(
         child: Column(
           children: [
@@ -150,12 +153,20 @@ Widget _commonTable() {
 
                     if (reportState.hasMoreData == false &&
                         reportState.revenueReport?.isNotEmpty == true) {
-                      _showNoMoreDataOverlay(context);
+                      showNoMoreData.value = true;
                     }
                   }
+                  if (scrollController.hasClients &&
+                      scrollController.position.userScrollDirection ==
+                          ScrollDirection.forward) {
+                    showNoMoreData.value = false;
+                  }
+
                   return false;
                 },
+
                 child: CommonTableWidget(
+                  controller: scrollController,
                   isLoading: state.isSaleReport == ApiFetchStatus.loading,
                   headers: ["#", "ORDER NUMBER", "DATE", "AMOUNT"],
                   columnFlex: [1, 3, 2, 2, 2],
@@ -180,6 +191,19 @@ Widget _commonTable() {
                 padding: EdgeInsets.all(16.w),
                 child: CircularProgressIndicator(),
               ),
+            ValueListenableBuilder<bool>(
+              valueListenable: showNoMoreData,
+              builder: (context, value, _) {
+                if (!value) return SizedBox.shrink();
+                return Padding(
+                  padding: EdgeInsets.all(16.w),
+                  child: Text(
+                    'No more data',
+                    style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                  ),
+                );
+              },
+            ),
             // if (state.hasMoreData == false &&
             //     state.parcelChargeList?.isNotEmpty == true)
             //   Container(
@@ -205,31 +229,4 @@ void _loadMoreData(BuildContext context) {
       isLoadMore: true,
     );
   }
-}
-
-OverlayEntry? _overlayEntry;
-
-void _showNoMoreDataOverlay(BuildContext context) {
-  if (_overlayEntry != null) return;
-
-  _overlayEntry = OverlayEntry(
-    builder: (context) => Positioned(
-      bottom: 18,
-      left: 0,
-      right: 0,
-      child: Center(
-        child: const Text(
-          'No more data',
-          style: TextStyle(fontSize: 14, color: Colors.black),
-        ),
-      ),
-    ),
-  );
-
-  Overlay.of(context).insert(_overlayEntry!);
-
-  Future.delayed(const Duration(seconds: 1), () {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  });
 }
