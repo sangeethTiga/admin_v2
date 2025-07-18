@@ -116,6 +116,7 @@ class ExpenseReportScreen extends StatelessWidget {
                   builder: (context, state) {
                     return CustomMaterialBtton(
                       onPressed: () {
+                        showNoMoreData.value = false;
                         context.read<ReportCubit>().loadExpenseReport(
                           storeId: state.selectedStore?.storeId,
                           accountId: state.selectedAccount?.accountHeadId ?? 0,

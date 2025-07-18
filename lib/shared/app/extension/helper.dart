@@ -169,10 +169,11 @@ void navigateToFeature(
         _navigateToSales(storeId ?? 0, context);
       case 'Revenue':
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadReveneueReport();
         _navigateToRevenue(storeId ?? 0, today, context);
       case 'Expense':
-        context.read<ReportCubit>().loadExpenseReport(storeId: storeId);
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadExpenseReport(storeId: storeId);
 
         _navigateToExpense(storeId ?? 0, accountId ?? 0, today, context);
       case 'Customers':

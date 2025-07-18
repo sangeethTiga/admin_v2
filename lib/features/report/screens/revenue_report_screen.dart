@@ -43,43 +43,7 @@ class RevenueReportScreen extends StatelessWidget {
     );
   }
 }
-// Widget _buildStoreDropdown() {
-//   return BlocBuilder<DashboardCubit, DashboardState>(
-//     builder: (context, state) {
-//       return DropDownFieldWidget(
-//         isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
-//         prefixIcon: Container(
-//           margin: EdgeInsets.only(left: 12.w),
-//           child: SvgPicture.asset(
-//             'assets/icons/package-box-pin-location.svg',
-//             width: 20.w,
-//             height: 20.h,
-//             fit: BoxFit.contain,
-//           ),
-//         ),
-//         borderColor: kBlack,
-//         value: state.selectedStore,
-//         items:
-//             state.storeList?.map((e) {
-//               return DropdownMenuItem<StoreResponse>(
-//                 value: e,
-//                 child: Text(e.storeName ?? ''),
-//               );
-//             }).toList() ??
-//             [],
-//         fillColor: const Color(0XFFEFF1F1),
-//         onChanged: (store) => _handleStoreChange(store),
-//         labelText: '',
-//         textStyle: TextStyle(
-//           color: Colors.black,
-//           fontWeight: FontWeight.w500,
-//           fontSize: 16,
-//           letterSpacing: 0.5,
-//         ),
-//       );
-//     },
-//   );
-// }
+
 
 Widget _handleDate() {
   return BlocBuilder<ReportCubit, ReportState>(
@@ -112,10 +76,13 @@ Widget _handleDate() {
 }
 
 Widget _viewReport() {
+   final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
   return BlocBuilder<DashboardCubit, DashboardState>(
     builder: (context, state) {
+     
       return CustomMaterialBtton(
         onPressed: () {
+          showNoMoreData.value = false;
           final storeId = context
               .read<DashboardCubit>()
               .state

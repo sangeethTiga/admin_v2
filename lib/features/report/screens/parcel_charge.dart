@@ -130,12 +130,14 @@ class ParcelCharge extends StatelessWidget {
   }
 
   Widget _viewResult() {
+    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, commonState) {
         return BlocBuilder<ReportCubit, ReportState>(
           builder: (context, reportState) {
             return CustomMaterialBtton(
               onPressed: () {
+                 showNoMoreData.value = false;
                 final selectedOptionId =
                     commonState.selectedOption?.orderOptionId;
                 context.read<ReportCubit>().loadParcelCharge(

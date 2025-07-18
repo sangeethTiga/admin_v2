@@ -187,6 +187,7 @@ class MostSellingProducts extends StatelessWidget {
                           isLoading:
                               state.isMostSelling == ApiFetchStatus.loading,
                           onPressed: () {
+                            showNoMoreData.value = false;
                             final categoryId = context
                                 .read<DashboardCubit>()
                                 .state
@@ -281,7 +282,7 @@ class MostSellingProducts extends StatelessWidget {
                                         "Total Sales",
                                         "Profit",
                                       ],
-                                      columnFlex: [2, 3, 3, 2, 3, 3, 2],
+                                      columnFlex: [1, 3, 3, 2, 3, 3, 2],
                                       data:
                                           state.productsReport
                                               ?.asMap()

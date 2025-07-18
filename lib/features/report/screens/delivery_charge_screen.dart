@@ -78,10 +78,12 @@ class DeliveryChargeScreen extends StatelessWidget {
   }
 
   Widget _viewResults() {
+    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
         return CustomMaterialBtton(
           onPressed: () {
+            showNoMoreData.value = false;
             context.read<ReportCubit>().loadDeliveryChargeReport(
               storeId: state.selectedStore?.storeId,
               isLoadMore: true,
@@ -187,7 +189,6 @@ class DeliveryChargeScreen extends StatelessWidget {
                   );
                 },
               ),
-           
             ],
           ),
         );
@@ -213,5 +214,3 @@ void _loadMoreData(BuildContext context) {
     );
   }
 }
-
-
