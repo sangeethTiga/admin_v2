@@ -158,7 +158,7 @@ void navigateToFeature(
         _navigateToProducts(storeId ?? 0, context);
       case 'Profit/loss':
         context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadProfitAndLoss();
+        context.read<ReportCubit>().loadProfitAndLoss(storeId: storeId);
         _navigateToProfitLoss(storeId ?? 0, today, context);
       case 'Orders':
         context.read<ReportCubit>().initState();
@@ -169,15 +169,16 @@ void navigateToFeature(
         _navigateToSales(storeId ?? 0, context);
       case 'Revenue':
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadReveneueReport();
         _navigateToRevenue(storeId ?? 0, today, context);
       case 'Expense':
-        context.read<ReportCubit>().loadExpenseReport(storeId: storeId);
         context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadExpenseReport(storeId: storeId);
 
         _navigateToExpense(storeId ?? 0, accountId ?? 0, today, context);
       case 'Customers':
         context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadCustomersReport();
+        context.read<ReportCubit>().loadCustomersReport(storeId: storeId);
         context.push(routeCustomers);
       case 'Purchase':
         context.read<ReportCubit>().initState();

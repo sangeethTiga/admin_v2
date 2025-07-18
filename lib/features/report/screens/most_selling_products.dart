@@ -24,6 +24,7 @@ class MostSellingProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
     final ScrollController scrollController = ScrollController();
     return Scaffold(
@@ -100,6 +101,7 @@ class MostSellingProducts extends StatelessWidget {
                 ),
                 4.verticalSpace,
                 TextFeildWidget(
+                  //controller: searchController,
                   onChanged: (value) {
                     print('-=-==-=-$value');
                     final storeId =
@@ -120,6 +122,7 @@ class MostSellingProducts extends StatelessWidget {
                       searchText: value,
                       page: 0,
                     );
+
                     // context.read<ReportCubit>().searchMostsellingProduct(
                     //   value ?? '',
                     //   storeId,
@@ -187,6 +190,7 @@ class MostSellingProducts extends StatelessWidget {
                           isLoading:
                               state.isMostSelling == ApiFetchStatus.loading,
                           onPressed: () {
+                            showNoMoreData.value = false;
                             final categoryId = context
                                 .read<DashboardCubit>()
                                 .state
@@ -281,7 +285,7 @@ class MostSellingProducts extends StatelessWidget {
                                         "Total Sales",
                                         "Profit",
                                       ],
-                                      columnFlex: [2, 3, 3, 2, 3, 3, 2],
+                                      columnFlex: [1, 3, 3, 2, 3, 3, 2],
                                       data:
                                           state.productsReport
                                               ?.asMap()

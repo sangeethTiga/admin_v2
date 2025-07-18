@@ -103,17 +103,14 @@ class DashboardScreenState extends State<DashboardScreen>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 170.w,
-                        child: Expanded(
-                          //flex: 3,
-                          child: StoreDropdown(
-                            selectedStore: state.selectedStore,
-                            storeList: state.storeList,
-                            isLoading:
-                                state.apiFetchStatus == ApiFetchStatus.loading,
-                            onStoreChanged: _onStoreChanged,
-                          ),
+                      Expanded(
+                        //flex: 3,
+                        child: StoreDropdown(
+                          selectedStore: state.selectedStore,
+                          storeList: state.storeList,
+                          isLoading:
+                              state.apiFetchStatus == ApiFetchStatus.loading,
+                          onStoreChanged: _onStoreChanged,
                         ),
                       ),
                       36.horizontalSpace,
