@@ -444,10 +444,10 @@ class ReportService implements ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
-    required int pageFirstResult,
+    required int pageFirstLimit,
     required int resultPerPage,
-    required int pageSize,
-    required int offset,
+  
+  
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(
@@ -455,7 +455,7 @@ class ReportService implements ReportRepositories {
         storeId,
         fromDate,
         toDate,
-        pageFirstResult,
+        pageFirstLimit,
         resultPerPage,
       ),
     );

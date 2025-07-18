@@ -139,7 +139,7 @@ class ApiEndpoints {
     int pageFirstResult,
     int resultPerPage,
   ) =>
-      '/api/saleondeals?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=0&result_per_page=50';
+      '/api/saleondeals?from_date=$fromDate&to_date=$toDate&store_id=$storeId&searchText=&page_first_result=$pageFirstResult&result_per_page=$resultPerPage';
   static String purchaseReport({
     int? storeId,
     String? fromDate,

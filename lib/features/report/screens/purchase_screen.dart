@@ -127,11 +127,11 @@ class PurchaseScreen extends StatelessWidget {
                             .selectedStore
                             ?.storeId ??
                         0;
-                    context.read<ReportCubit>().loadProductReport(
+                    context.read<ReportCubit>().loadPurchaseReport(
                       storeId: storeId,
-
-                      searchText: value,
-                      page: 0,
+                      query: value,
+                      page: 1,
+                      isLoadMore: false,
                     );
                   },
                   borderColor: kBlack,
@@ -149,7 +149,7 @@ class PurchaseScreen extends StatelessWidget {
                 ),
 
                 12.verticalSpace,
-                         BlocBuilder<DashboardCubit, DashboardState>(
+                BlocBuilder<DashboardCubit, DashboardState>(
                   builder: (context, state) {
                     return BlocBuilder<ReportCubit, ReportState>(
                       builder: (context, reportState) {
@@ -157,12 +157,10 @@ class PurchaseScreen extends StatelessWidget {
                           isLoading:
                               state.isMostSelling == ApiFetchStatus.loading,
                           onPressed: () {
-                     
                             context.read<ReportCubit>().loadPurchaseReport(
                               page: 0,
                               storeId: state.selectedStore?.storeId,
                               query: reportState.lastSearch,
-                            
                             );
                           },
                           buttonText: 'View Report',
@@ -171,7 +169,6 @@ class PurchaseScreen extends StatelessWidget {
                     );
                   },
                 ),
-
               ],
             ),
           ),
@@ -356,10 +353,8 @@ void _loadMoreData(BuildContext context) {
     context.read<ReportCubit>().loadPurchaseReport(
       storeId: dashboardState.selectedStore?.storeId,
       isLoadMore: true,
-     page: reportState.currentPage,
-     query: reportState.lastSearch,
-
-
+      page: reportState.currentPage,
+      query: reportState.lastSearch,
     );
   }
 }

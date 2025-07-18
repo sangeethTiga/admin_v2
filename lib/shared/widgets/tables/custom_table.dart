@@ -13,6 +13,7 @@ class CommonTableWidget extends StatelessWidget {
   final Color headerColor;
   final Color rowColor1;
   final Color rowColor2;
+  final ScrollController? controller;
 
   const CommonTableWidget({
     super.key,
@@ -24,6 +25,7 @@ class CommonTableWidget extends StatelessWidget {
     this.headerColor = kBorderColor,
     this.rowColor1 = kWhite,
     this.rowColor2 = const Color(0xFFF1F1F1),
+    this.controller
   });
 
   @override
@@ -100,6 +102,7 @@ class CommonTableWidget extends StatelessWidget {
                   ),
                 )
               : ListView.builder(
+                controller: controller,
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Container(

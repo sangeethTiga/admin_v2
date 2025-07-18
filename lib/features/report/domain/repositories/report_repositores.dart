@@ -130,10 +130,11 @@ abstract class ReportRepositories {
     required int storeId,
     required String fromDate,
     required String toDate,
-    required int pageFirstResult,
+    required int pageFirstLimit,
     required int resultPerPage,
-    required int pageSize,
-    required int offset,
+
+
+
   });
 
   Future<ResponseResult<TaxResponse>> loadTaxReport({

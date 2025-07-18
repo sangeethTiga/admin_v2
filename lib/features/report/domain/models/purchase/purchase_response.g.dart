@@ -11,9 +11,7 @@ _$PurchaseResponseImpl _$$PurchaseResponseImplFromJson(
 ) => _$PurchaseResponseImpl(
   purchaseId: (json['purchase_id'] as num?)?.toInt(),
   storeId: (json['store_id'] as num?)?.toInt(),
-  purchaseDate: json['purchase_date'] == null
-      ? null
-      : DateTime.parse(json['purchase_date'] as String),
+  purchaseDate: json['purchase_date'] as String?,
   supplierId: (json['supplier_id'] as num?)?.toInt(),
   supplierName: json['supplier_name'] as String?,
   invoiceNumber: json['invoice_number'] as String?,
@@ -38,7 +36,7 @@ Map<String, dynamic> _$$PurchaseResponseImplToJson(
 ) => <String, dynamic>{
   'purchase_id': instance.purchaseId,
   'store_id': instance.storeId,
-  'purchase_date': instance.purchaseDate?.toIso8601String(),
+  'purchase_date': instance.purchaseDate,
   'supplier_id': instance.supplierId,
   'supplier_name': instance.supplierName,
   'invoice_number': instance.invoiceNumber,
