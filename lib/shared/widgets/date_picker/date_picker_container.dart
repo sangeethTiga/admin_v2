@@ -90,8 +90,8 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
             context: context,
             initialDate:
                 widget.initialDate ?? widget.firstDate ?? DateTime.now(),
-            //  firstDate: widget.firstDate ?? DateTime(2015),
-            firstDate: widget.firstDate ?? DateTime.now(),
+              firstDate: widget.firstDate ?? DateTime(2015),
+           // firstDate: widget.firstDate ?? DateTime.now(),
 
             lastDate: DateTime(2101),
           );
