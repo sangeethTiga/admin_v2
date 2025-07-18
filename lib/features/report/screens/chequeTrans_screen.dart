@@ -133,7 +133,7 @@ class ChequetransScreen extends StatelessWidget {
         return BlocBuilder<ReportCubit, ReportState>(
           builder: (context, reportState) {
             return CustomMaterialBtton(
-              isLoading: reportState.isChequeReport == ApiFetchStatus.loading,
+              //isLoading: reportState.isChequeReport == ApiFetchStatus.loading,
               onPressed: () {
                 final selectedStatusId =
                     reportState.selectedStatus?.chequeStatusId;

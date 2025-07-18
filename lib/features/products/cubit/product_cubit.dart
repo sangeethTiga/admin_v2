@@ -54,21 +54,23 @@ class ProductCubit extends Cubit<ProductState> {
         catId: catId,
         search: search,
         barCode: barCode,
-        filterId: filterId,
+        filterId: state.selectProduct?.filterId,
         pageFirstResult: currentPage,
         resultPerPage: limit,
       );
 
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
+        final sortList = List<ProductResponse>.from(res.data!);
+        sortList.sort((a, b) => a.productName!.compareTo(b.productName!));
         List<ProductResponse> updatedList;
         if (isLoadMore) {
-          updatedList = [...(state.productList ?? []), ...res.data!];
+          updatedList = [...(state.productList ?? []), ...sortList];
 
           log(
             "Load More: Added ${res.data!.length} products, Total: ${updatedList.length}",
           );
         } else {
-          updatedList = res.data!;
+          updatedList = sortList;
           log("Fresh Load: Loaded ${updatedList.length} products");
         }
         // if (isLoadMore) {
@@ -112,6 +114,7 @@ class ProductCubit extends Cubit<ProductState> {
             currentPage: currentPage,
             hasMoreData: hasMoreData,
             isLoadingMore: false,
+            filteredProducts: sortList,
             scannedProduct: scannedProduct,
             totalItems: updatedList.length,
           ),
