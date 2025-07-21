@@ -39,7 +39,6 @@ import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 part 'report_state.dart';
 
 @injectable

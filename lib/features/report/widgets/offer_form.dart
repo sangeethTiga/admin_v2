@@ -41,9 +41,9 @@ class _OfferFormState extends State<OfferForm> {
   late final TextEditingController toDateController;
   late final TextEditingController productPriceController;
   late final TextEditingController fromTimeController;
-late final TextEditingController toTimeController;
-TimeOfDay? selectedFromTime;
-TimeOfDay? selectedToTime;
+  late final TextEditingController toTimeController;
+  TimeOfDay? selectedFromTime;
+  TimeOfDay? selectedToTime;
 
   bool isLoading = false;
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
@@ -183,7 +183,7 @@ TimeOfDay? selectedToTime;
   @override
   void initState() {
     super.initState();
-     
+
     nameController = TextEditingController(
       text: widget.product?.productName ?? '',
     );
@@ -343,7 +343,8 @@ TimeOfDay? selectedToTime;
                               child: Text(
                                 selectedProduct!.productName ?? '',
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -451,9 +452,6 @@ TimeOfDay? selectedToTime;
                                 },
                               ),
                             ),
-                            
-
-
 
                             12.horizontalSpace,
                             Expanded(
@@ -624,6 +622,7 @@ TimeOfDay? selectedToTime;
 
                               attempts++;
                             }
+
 
                             if (mounted) {
                               context.pop();
