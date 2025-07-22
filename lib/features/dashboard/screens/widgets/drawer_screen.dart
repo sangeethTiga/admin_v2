@@ -193,7 +193,7 @@ class _DrawerContent extends StatelessWidget {
       route: routeCheque,
       onTap: (context) {
         context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadChequeTrans();
+        context.read<ReportCubit>().loadChequeTrans(storeId: selectedStore?.storeId);
         context.read<ReportCubit>().loadStatus();
         context.push(routeCheque);
       },
