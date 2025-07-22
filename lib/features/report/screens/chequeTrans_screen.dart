@@ -20,7 +20,7 @@ class ChequetransScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'ChequeTransaction'),
+      appBar: AppbarWidget(title: 'Cheque Transaction'),
       body: Column(
         children: [
           dividerWidget(height: 6.h),

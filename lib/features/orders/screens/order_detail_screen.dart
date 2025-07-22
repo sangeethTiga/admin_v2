@@ -232,7 +232,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   rowWidgets(
-                                    name: 'customer',
+                                    name: 'Customer',
                                     status: state.orderDetail?.shipCustName,
                                   ),
                                   rowWidgets(
@@ -293,7 +293,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   rowWidgets(
-                                    name: 'customer',
+                                    name: 'Customer',
                                     status: state.orderDetail?.billCustName,
                                   ),
                                   rowWidgets(
@@ -377,7 +377,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       _rowWidget(
                         name: 'Total before tax',
                         status:
-                            'AED ${formatAmount(state.orderDetail?.taxAmount ?? '')}',
+                            'AED ${formatAmount(state.orderDetail?.taxableAmount ?? '')}',
                       ),
                       8.verticalSpace,
                       _rowWidget(
@@ -390,7 +390,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       _rowWidget(
                         name: 'Parcel Charge',
                         status:
-                            "AED ${truncateTo2Decimals(state.orderDetail?.parcelCharge ?? 0.0)}",
+                            "AED ${formatAmount(state.orderDetail?.parcelCharge ?? '')}",
                       ),
                       8.verticalSpace,
 
@@ -414,7 +414,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           children: [
                             Text('Amount payable', style: FontPalette.hW700S14),
                             Text(
-                              'AED ${formatAmount(state.orderDetail?.grandTotal ?? '')}',
+                              'AED ${formatAmount(state.orderDetail?.netAmount ?? '')}',
                               style: FontPalette.hW700S14,
                             ),
                           ],
@@ -608,6 +608,7 @@ Future<void> _showMyDialog(BuildContext context) async {
                 itemCount: items.length,
                 itemBuilder: (context, i) {
                   final data = items[i];
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

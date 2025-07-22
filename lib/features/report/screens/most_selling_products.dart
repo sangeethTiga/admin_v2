@@ -24,7 +24,6 @@ class MostSellingProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
     final ScrollController scrollController = ScrollController();
     return Scaffold(
@@ -285,7 +284,7 @@ class MostSellingProducts extends StatelessWidget {
                                         "Total Sales",
                                         "Profit",
                                       ],
-                                      columnFlex: [1, 3, 3, 2, 3, 3, 2],
+                                      columnFlex: [1, 3, 2, 2, 2, 2, 2],
                                       data:
                                           state.productsReport
                                               ?.asMap()

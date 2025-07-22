@@ -13,8 +13,8 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") String? deliveryAgentId,
     @JsonKey(name: "rounding") int? rounding,
-    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
-    double? parcelCharge,
+    @JsonKey(name: "parcel_charge")
+    String? parcelCharge,
     @JsonKey(name: "table_details") List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") String? customerFeedbacks,
@@ -33,6 +33,7 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "pickup_date") String? pickupDate,
     @JsonKey(name: "pickup_time") String? pickupTime,
     @JsonKey(name: "order_option_date") String? orderOptionDate,
+    @JsonKey(name: "expected_delivery_date") String? expectedDeliveryDate,
     @JsonKey(name: "order_option") String? orderOption,
     @JsonKey(name: "payment_method_id") int? paymentMethodId,
     @JsonKey(name: "pay_method_name") String? payMethodName,
@@ -203,7 +204,7 @@ class ProductOrderItem with _$ProductOrderItem {
     @JsonKey(name: "tax_id") int? taxId,
     @JsonKey(name: "itemsubstitute") List<dynamic>? itemsubstitute,
     @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
-    double? offerPrice,
+    double? offerPrice, 
     @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
     double? productPrice,
     @JsonKey(name: "order_item_purchase_price") String? orderItemPurchasePrice,

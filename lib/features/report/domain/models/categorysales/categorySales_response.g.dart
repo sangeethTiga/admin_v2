@@ -10,7 +10,7 @@ _$CategorySalesResponseImpl _$$CategorySalesResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$CategorySalesResponseImpl(
   categoryName: json['category_name'] as String?,
-  totalAmount: (json['total_amount'] as num?)?.toDouble(),
+  totalAmount: json['total_amount'] as String?,
   orderCount: json['order_count'] as String?,
 );
 

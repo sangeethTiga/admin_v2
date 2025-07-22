@@ -37,7 +37,7 @@ List<Dates> groupBy = [
 ];
 List<ListOfDemo> custDate = [
   ListOfDemo(name: 'Today', id: 1),
-  ListOfDemo(name: 'Weak', id: 2),
+  ListOfDemo(name: 'Week', id: 2),
   ListOfDemo(name: 'Month', id: 3),
   ListOfDemo(name: 'Year', id: 4),
   // ListOfDemo(name: 'Thursday', id: 3),

@@ -66,17 +66,13 @@ class _OrderScreenState extends State<OrderScreen> {
                         'Search,Order No/Bill No/Customer/Phone/Delivery Partner',
                   ),
                   onChanged: (v) {
-                   
                     context.read<OrderCubit>().searchOrder(
-                   
-                        storeId: context
-                            .read<DashboardCubit>()
-                            .state
-                            .selectedStore
-                            ?.storeId,
-                            searchText: v
-                        
-                      
+                      storeId: context
+                          .read<DashboardCubit>()
+                          .state
+                          .selectedStore
+                          ?.storeId,
+                      searchText: v,
                     );
                   },
                 )
@@ -125,7 +121,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 12.verticalSpace,
                 const Divider(),
                 MainPadding(
-                  child: Column( 
+                  child: Column(
                     children: [
                       5.verticalSpace,
                       _buildStoreDropdown(),
@@ -654,11 +650,13 @@ class _OrderCard extends StatelessWidget {
   }
 
   Widget _buildTotalAmount() {
+    final rawAmount = orderData?.netAmount?.toString() ?? '0';
+    final doubleAmount = double.tryParse(rawAmount) ?? 0.0;
+    final formattedAmount = doubleAmount.toStringAsFixed(2);
     return _containerWidget(
       name: 'Total :',
-      status: ' AED ${orderData?.netAmount ?? 0}',
-  
-     //status: ' AED ${orderData?.netAmount ?? 0}',
+      status: 'AED $formattedAmount',
+      //status: ' AED ${orderData?.netAmount ?? 0}',
     );
   }
 

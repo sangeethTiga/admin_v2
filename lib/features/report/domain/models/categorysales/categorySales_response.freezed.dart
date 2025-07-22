@@ -26,7 +26,7 @@ mixin _$CategorySalesResponse {
   @JsonKey(name: "category_name")
   String? get categoryName => throw _privateConstructorUsedError;
   @JsonKey(name: "total_amount")
-  double? get totalAmount => throw _privateConstructorUsedError;
+  String? get totalAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "order_count")
   String? get orderCount => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $CategorySalesResponseCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "category_name") String? categoryName,
-    @JsonKey(name: "total_amount") double? totalAmount,
+    @JsonKey(name: "total_amount") String? totalAmount,
     @JsonKey(name: "order_count") String? orderCount,
   });
 }
@@ -85,7 +85,7 @@ class _$CategorySalesResponseCopyWithImpl<
             totalAmount: freezed == totalAmount
                 ? _value.totalAmount
                 : totalAmount // ignore: cast_nullable_to_non_nullable
-                      as double?,
+                      as String?,
             orderCount: freezed == orderCount
                 ? _value.orderCount
                 : orderCount // ignore: cast_nullable_to_non_nullable
@@ -107,7 +107,7 @@ abstract class _$$CategorySalesResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: "category_name") String? categoryName,
-    @JsonKey(name: "total_amount") double? totalAmount,
+    @JsonKey(name: "total_amount") String? totalAmount,
     @JsonKey(name: "order_count") String? orderCount,
   });
 }
@@ -140,7 +140,7 @@ class __$$CategorySalesResponseImplCopyWithImpl<$Res>
         totalAmount: freezed == totalAmount
             ? _value.totalAmount
             : totalAmount // ignore: cast_nullable_to_non_nullable
-                  as double?,
+                  as String?,
         orderCount: freezed == orderCount
             ? _value.orderCount
             : orderCount // ignore: cast_nullable_to_non_nullable
@@ -167,7 +167,7 @@ class _$CategorySalesResponseImpl implements _CategorySalesResponse {
   final String? categoryName;
   @override
   @JsonKey(name: "total_amount")
-  final double? totalAmount;
+  final String? totalAmount;
   @override
   @JsonKey(name: "order_count")
   final String? orderCount;
@@ -216,7 +216,7 @@ class _$CategorySalesResponseImpl implements _CategorySalesResponse {
 abstract class _CategorySalesResponse implements CategorySalesResponse {
   const factory _CategorySalesResponse({
     @JsonKey(name: "category_name") final String? categoryName,
-    @JsonKey(name: "total_amount") final double? totalAmount,
+    @JsonKey(name: "total_amount") final String? totalAmount,
     @JsonKey(name: "order_count") final String? orderCount,
   }) = _$CategorySalesResponseImpl;
 
@@ -228,7 +228,7 @@ abstract class _CategorySalesResponse implements CategorySalesResponse {
   String? get categoryName;
   @override
   @JsonKey(name: "total_amount")
-  double? get totalAmount;
+  String? get totalAmount;
   @override
   @JsonKey(name: "order_count")
   String? get orderCount;

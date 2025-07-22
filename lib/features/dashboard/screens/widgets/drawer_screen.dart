@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
+import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
@@ -13,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 Widget buildDrawer() {
   return Drawer(
@@ -32,8 +38,13 @@ Widget buildDrawer() {
 class _DrawerContent extends StatelessWidget {
   final Future<dynamic> userDataFuture;
   final StoreResponse? selectedStore;
+  final AccountDataResponse? selectedAccount;
 
-  const _DrawerContent({required this.userDataFuture, this.selectedStore});
+  const _DrawerContent({
+    required this.userDataFuture,
+    this.selectedStore,
+    this.selectedAccount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +55,7 @@ class _DrawerContent extends StatelessWidget {
       children: [
         _buildDrawerHeader(),
         _buildReportsSection(),
+        _buildOrders(),
         _buildOffersSection(),
         _buildTopStoresSection(),
         _buildInventory(storeId),
@@ -107,6 +119,29 @@ class _DrawerContent extends StatelessWidget {
 
   List<Widget> get _reportsItems => [
     _buildDrawerItem(
+      icon: Icons.show_chart_outlined,
+      title: Text('Day Summary'),
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadDaySummary(
+          storeId: selectedStore?.storeId,
+        );
+        context.push(routeDaySummary);
+      },
+    ),
+    _buildDrawerItem(
+      icon: Icons.library_books,
+      title: Text('Sales'),
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadSalesReport(
+          selectedStoreId: selectedStore?.storeId,
+        );
+        context.push(routeSale);
+      },
+      // route: routeDeliveryCharge,
+    ),
+    _buildDrawerItem(
       icon: Icons.delivery_dining_sharp,
       title: Text('Delivery Charge'),
       onTap: (context) {
@@ -132,6 +167,53 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
+      icon: Icons.assessment_outlined,
+      title: Text('Revenue Report'),
+      route: routeRevenue,
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadReveneueReport(
+          storeId: selectedStore?.storeId,
+        );
+
+        context.push(routeRevenue);
+      },
+    ),
+    _buildDrawerItem(
+      icon: Icons.attach_money_rounded,
+      title: Text('Expense Report'),
+      route: routeExpense,
+      onTap: (context) {
+        final accountId = selectedAccount?.accountHeadId;
+        final storeId = selectedStore?.storeId;
+        final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        context.read<ReportCubit>().initState();
+        _navigateToExpense(storeId ?? 0, accountId ?? 0, date, context);
+        // final state = context.read<DashboardCubit>().state;
+        // final selectedId = selectedAccount?.accountHeadId;
+
+        // AccountDataResponse? account;
+        // try {
+        //   account = state.accountList?.firstWhere(
+        //     (e) => e.accountHeadId == selectedId,
+        //   );
+        // } catch (_) {
+        //   account = null;
+        // }
+
+        // if (account != null &&
+        //     account.accountHeadId != state.selectedAccount?.accountHeadId) {
+        //   context.read<DashboardCubit>().selectedAccount(account);
+        // }
+        // context.read<ReportCubit>().loadExpenseReport(
+        //   storeId: selectedStore?.storeId,
+        // );
+
+        // context.push(routeExpense);
+      },
+    ),
+
+    _buildDrawerItem(
       icon: Icons.bar_chart_sharp,
       title: Text('Tax Report'),
       onTap: (context) {
@@ -140,6 +222,43 @@ class _DrawerContent extends StatelessWidget {
           storeId: selectedStore?.storeId,
         );
         context.push(routeTax);
+      },
+      // route: routeTax,
+    ),
+    _buildDrawerItem(
+      icon: Icons.people,
+      title: Text('Customers'),
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadCustomersReport(
+          storeId: selectedStore?.storeId,
+        );
+        context.push(routeCustomers);
+      },
+      // route: routeTax,
+    ),
+    _buildDrawerItem(
+      icon: Icons.currency_exchange_outlined,
+      title: Text('Profit/Loss'),
+      route: routeProfitloss,
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadProfitAndLoss(
+          storeId: selectedStore?.storeId,
+        );
+
+        context.push(routeProfitloss);
+      },
+    ),
+    _buildDrawerItem(
+      icon: Icons.shopping_bag_outlined,
+      title: Text('Purchase'),
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadPurchaseReport(
+          storeId: selectedStore?.storeId,
+        );
+        context.push(routePurchase);
       },
       // route: routeTax,
     ),
@@ -160,16 +279,16 @@ class _DrawerContent extends StatelessWidget {
     //   title: 'Mess Report',
     //   route: routeMess,
     // ),
-    _buildDrawerItem(
-      icon: Icons.people,
-      title: Text('Supplier'),
-      onTap: (context) {
-        context.read<ReportCubit>().loadSuppliersReport(
-          storeId: selectedStore?.storeId,
-        );
-        context.push(routeSupplier);
-      },
-    ),
+    // _buildDrawerItem(
+    //   icon: Icons.people,
+    //   title: Text('Supplier'),
+    //   onTap: (context) {
+    //     context.read<ReportCubit>().loadSuppliersReport(
+    //       storeId: selectedStore?.storeId,
+    //     );
+    //     context.push(routeSupplier);
+    //   },
+    // ),
     // _buildDrawerItem(
     //   icon: Icons.account_circle_outlined,
     //   title: 'User Shift',
@@ -187,17 +306,19 @@ class _DrawerContent extends StatelessWidget {
         context.push(routeSaleDeals);
       },
     ),
-    _buildDrawerItem(
-      icon: Icons.money_rounded,
-      title: Text('Cheque Transaction'),
-      route: routeCheque,
-      onTap: (context) {
-        context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadChequeTrans(storeId: selectedStore?.storeId);
-        context.read<ReportCubit>().loadStatus();
-        context.push(routeCheque);
-      },
-    ),
+    // _buildDrawerItem(
+    //   icon: Icons.money_rounded,
+    //   title: Text('Cheque Transaction'),
+    //   route: routeCheque,
+    //   onTap: (context) {
+    //     context.read<ReportCubit>().initState();
+    //     context.read<ReportCubit>().loadChequeTrans(
+    //       storeId: selectedStore?.storeId,
+    //     );
+    //     context.read<ReportCubit>().loadStatus();
+    //     context.push(routeCheque);
+    //   },
+    // ),
     _buildDrawerItem(
       icon: Icons.sell_sharp,
       title: Text('Most Selling Products'),
@@ -241,17 +362,17 @@ class _DrawerContent extends StatelessWidget {
             // context.push(routeProductOffers);
           },
         ),
-        _buildDrawerItem(
-          icon: Icons.discount_outlined,
-          title: Text('Offer'),
-          route: routeOffers,
-          onTap: (context) {
-            context.read<ReportCubit>().loadOffers(
-              storeId: selectedStore?.storeId,
-            );
-            context.push(routeOffers);
-          },
-        ),
+        // _buildDrawerItem(
+        //   icon: Icons.discount_outlined,
+        //   title: Text('Offer'),
+        //   route: routeOffers,
+        //   onTap: (context) {
+        //     context.read<ReportCubit>().loadOffers(
+        //       storeId: selectedStore?.storeId,
+        //     );
+        //     context.push(routeOffers);
+        //   },
+        // ),
       ],
     );
   }
@@ -292,6 +413,23 @@ class _DrawerContent extends StatelessWidget {
       onTap: (context) {
         context.read<ReportCubit>().loadTopStores();
         context.push(routeTopStores);
+      },
+    );
+  }
+
+  Widget _buildOrders() {
+    return _buildDrawerItem(
+      icon: Icons.shopping_bag_outlined,
+      title: Text(
+        'Orders',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+      route: routeOrders,
+      onTap: (context) {
+        final storeId = selectedStore?.storeId;
+        final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        _navigateToOrders(storeId ?? 0, date, context);
+        context.push(routeOrders);
       },
     );
   }
@@ -349,6 +487,41 @@ class _DrawerContent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _navigateToExpense(
+    int storeId,
+    int accountId,
+    String date,
+    BuildContext context,
+  ) {
+    try {
+      final reportCubit = context.read<ReportCubit>();
+      final dashboardCubit = context.read<DashboardCubit>();
+
+      reportCubit.loadExpenseReport(
+        accountId: accountId,
+        storeId: storeId,
+        fromDate: date,
+        toDate: date,
+      );
+      dashboardCubit.account();
+      context.push(routeExpense);
+    } catch (e) {}
+  }
+
+  void _navigateToOrders(int storeId, String date, BuildContext context) {
+    try {
+      final orderCubit = context.read<OrderCubit>();
+      orderCubit.orderStatus();
+      orderCubit.orders(
+        isEdit: false,
+        req: OrderRequest(storeId: storeId, fromDate: date, toDate: date),
+      );
+      context.push(routeOrders);
+    } catch (e) {
+      log('Failed to load orders');
+    }
   }
 
   void _showLogoutConfirmation(BuildContext context) {
