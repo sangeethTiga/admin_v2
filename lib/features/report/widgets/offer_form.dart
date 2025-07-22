@@ -14,6 +14,7 @@ import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:admin_v2/shared/widgets/dropdown_field_widget/dropdown_field_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/text_fields/text_field_widget.dart';
+import 'package:admin_v2/shared/widgets/time_picker/time_picker_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,7 +95,7 @@ class _OfferFormState extends State<OfferForm> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Search Product'),
+              // title:  Text('Select Product'),
               content: SizedBox(
                 width: 400,
                 child: SingleChildScrollView(
@@ -202,8 +203,10 @@ class _OfferFormState extends State<OfferForm> {
     productPriceController = TextEditingController(
       text: widget.product?.productPrice?.toString() ?? '',
     );
-
     offerPriceController.addListener(_updateDiscountFromOfferPrice);
+    fromTimeController = TextEditingController();
+    toTimeController = TextEditingController();
+
     if (widget.isEdit && widget.product != null) {
       selectedProduct = ProductNameResponse(
         productId: widget.product!.productId,
@@ -211,16 +214,32 @@ class _OfferFormState extends State<OfferForm> {
         productPrice: widget.product!.productPrice,
       );
     }
-    final reportCubit = context.read<ReportCubit>();
+  }
 
-    if (widget.isEdit) {
-      final cubit = context.read<ReportCubit>();
-      if (widget.product?.offerFromDate != null) {
-        cubit.changeFromDate(widget.product!.offerFromDate!);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (widget.isEdit && widget.product != null) {
+      final fromDateTime = widget.product!.offerFromDate;
+      final toDateTime = widget.product!.offerToDate;
+
+      if (fromDateTime != null) {
+        selectedFromTime = TimeOfDay.fromDateTime(fromDateTime);
+        fromTimeController.text = selectedFromTime!.format(
+          context,
+        ); 
       }
-      if (widget.product?.offerToDate != null) {
-        cubit.changeToDate(widget.product!.offerToDate!);
+
+      if (toDateTime != null) {
+        selectedToTime = TimeOfDay.fromDateTime(toDateTime);
+        toTimeController.text = selectedToTime!.format(context);
       }
+
+      final reportCubit = context.read<ReportCubit>();
+      reportCubit.changeFromDate(fromDateTime!);
+      reportCubit.changeToDate(toDateTime!);
+
       final allOffers = reportCubit.state.specialOffer;
       final selected = allOffers?.firstWhere(
         (element) => element.prodOfferTypeId == widget.product?.prodOfferTypeId,
@@ -296,6 +315,7 @@ class _OfferFormState extends State<OfferForm> {
                         context.read<DashboardCubit>().selectedStore(p0);
                       },
                     ),
+                    10.verticalSpace,
                     if (widget.isEdit)
                       TextFeildWidget(
                         topLabelText: 'Product Name',
@@ -352,7 +372,7 @@ class _OfferFormState extends State<OfferForm> {
                             ),
                         ],
                       ),
-
+                    10.verticalSpace,
                     BlocBuilder<ReportCubit, ReportState>(
                       builder: (context, state) {
                         return DropDownFieldWidget(
@@ -387,6 +407,7 @@ class _OfferFormState extends State<OfferForm> {
                         );
                       },
                     ),
+                    10.verticalSpace,
 
                     TextFeildWidget(
                       topLabelText: 'Product Price',
@@ -404,6 +425,7 @@ class _OfferFormState extends State<OfferForm> {
                         horizontal: 8.w,
                       ),
                     ),
+                    10.verticalSpace,
                     TextFeildWidget(
                       topLabelText: 'Offer Price',
                       controller: offerPriceController,
@@ -418,7 +440,7 @@ class _OfferFormState extends State<OfferForm> {
                         horizontal: 8.w,
                       ),
                     ),
-
+                    10.verticalSpace,
                     TextFeildWidget(
                       topLabelText: 'Discount',
                       controller: discountController,
@@ -433,6 +455,7 @@ class _OfferFormState extends State<OfferForm> {
                         horizontal: 8.w,
                       ),
                     ),
+                    10.verticalSpace,
                     BlocBuilder<ReportCubit, ReportState>(
                       builder: (context, state) {
                         return Row(
@@ -472,7 +495,37 @@ class _OfferFormState extends State<OfferForm> {
                         );
                       },
                     ),
-
+                    10.verticalSpace,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TimePickerContainer(
+                            //  labelText: 'From Time',
+                            value: fromTimeController.text,
+                            onTimePicked: (pickedTime) {
+                              setState(() {
+                                selectedFromTime = TimeOfDay.now();
+                                fromTimeController.text = pickedTime;
+                              });
+                            },
+                          ),
+                        ),
+                        12.horizontalSpace,
+                        Expanded(
+                          child: TimePickerContainer(
+                            //  labelText: 'To Time',
+                            value: toTimeController.text,
+                            onTimePicked: (pickedTime) {
+                              setState(() {
+                                selectedToTime = TimeOfDay.now();
+                                toTimeController.text = pickedTime;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    10.verticalSpace,
                     CustomMaterialBtton(
                       onPressed: () async {
                         final offerPrice =
@@ -520,6 +573,7 @@ class _OfferFormState extends State<OfferForm> {
                             createdBy: widget.product?.createdBy ?? 0,
                             deliveryPartnerId:
                                 widget.product?.deliveryPartnerId ?? 0,
+
                             maxOrderQty: widget.product?.maxOrderQty ?? 0,
                             offerTypeId: widget.product?.offerTypeId ?? 0,
                             prodOfferTypeId: selectedType?.prodOfferTypeId ?? 0,
@@ -622,7 +676,6 @@ class _OfferFormState extends State<OfferForm> {
 
                               attempts++;
                             }
-
 
                             if (mounted) {
                               context.pop();

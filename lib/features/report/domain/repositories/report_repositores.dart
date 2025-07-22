@@ -17,22 +17,19 @@ import 'package:admin_v2/features/report/domain/models/parcel/parcel_charge_resp
 import 'package:admin_v2/features/report/domain/models/paymentMethod/payment_method_response.dart';
 import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/productname/product_name_response.dart';
-//import 'package:admin_v2/features/report/domain/models/product_offers/product_offers_response.dart';
 import 'package:admin_v2/features/report/domain/models/profit/profitloss_response.dart';
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart'
-    show SaleOnDeals;
+show SaleOnDeals;
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/specialOffer/special_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
-//import 'package:admin_v2/features/report/domain/models/suppliers/suppliers_response.dart';
 import 'package:admin_v2/features/report/domain/models/tax/tax_response.dart';
 import 'package:admin_v2/features/report/domain/models/topStores/topStores_response.dart';
 import 'package:admin_v2/features/report/domain/models/usershift/usershift_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/waiters_response/waiters_response.dart';
-//import 'package:admin_v2/features/report/screens/most_selling_products.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ReportRepositories {
