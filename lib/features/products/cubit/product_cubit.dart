@@ -30,7 +30,7 @@ class ProductCubit extends Cubit<ProductState> {
     String? barCode,
     int? filterId,
     bool isLoadMore = false,
-    bool isPreservelist=false,
+    bool isPreservelist = false,
     int limit = 20,
   }) async {
     try {
@@ -300,29 +300,56 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(totalStock: 0));
   }
 
-  Future<void> updateProduct(
-    EditUpdateResponse updateProduct,
-    int productId,
-    int mainCategoryId,
-  ) async {
+  // Future<void> updateProduct(
+  //   EditUpdateResponse updateProduct,
+  //   int productId,
+  //   int mainCategoryId,
+  // ) async {
+  //   emit(state.copyWith(isAdded: ApiFetchStatus.loading));
+
+  //   final res = await _productRepositories.updateProduct(
+  //     updateProduct,
+  //     productId,
+  //     mainCategoryId,
+  //   );
+  //   if (res.data != null) {
+  //     emit(
+  //       state.copyWith(
+  //         isAdded: ApiFetchStatus.success,
+  //         updateData: updateProduct,
+  //       ),
+  //     );
+  //     return;
+  //   }
+  //   emit(state.copyWith(isAdded: ApiFetchStatus.failed));
+  // }
+Future<void> updateProduct(
+  EditUpdateResponse updatedProduct,
+  int productId,
+  int mainCategoryId,
+) async {
+  try {
     emit(state.copyWith(isAdded: ApiFetchStatus.loading));
 
     final res = await _productRepositories.updateProduct(
-      updateProduct,
+      updatedProduct,
       productId,
       mainCategoryId,
     );
+
     if (res.data != null) {
-      emit(
-        state.copyWith(
-          isAdded: ApiFetchStatus.success,
-          updateData: updateProduct,
-        ),
-      );
-      return;
+      emit(state.copyWith(
+        isAdded: ApiFetchStatus.success,
+        updateData: res.data, // Store updated product
+      ));
+    } else {
+      emit(state.copyWith(isAdded: ApiFetchStatus.failed));
     }
+  } catch (e, s) {
+    log("Error updating product: $e", stackTrace: s);
     emit(state.copyWith(isAdded: ApiFetchStatus.failed));
   }
+}
 
   Future<void> dateSelection(DateTime selectedDate) async {
     emit(state.copyWith(selectedDate: selectedDate));

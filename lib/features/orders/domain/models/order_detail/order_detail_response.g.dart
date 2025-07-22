@@ -359,12 +359,12 @@ _$ProductOrderItemImpl _$$ProductOrderItemImplFromJson(
   offerPrice: parseNumberAsDouble(json['offer_price']),
   productPrice: parseNumberAsDouble(json['product_price']),
   orderItemPurchasePrice: json['order_item_purchase_price'] as String?,
-  orderItemPrice: (json['order_item_price'] as num?)?.toDouble(),
-  orderItemOfferPrice: (json['order_item_offer_price'] as num?)?.toInt(),
-  orderItemDisc: (json['order_item_disc'] as num?)?.toInt(),
-  orderItemNetAmt: (json['order_item_net_amt'] as num?)?.toInt(),
+  orderItemPrice: json['order_item_price'] as String?,
+  orderItemOfferPrice: json['order_item_offer_price'] as String?,
+  orderItemDisc: json['order_item_disc'] as String?,
+  orderItemNetAmt: json['order_item_net_amt'] as String?,
   orderItemNote: json['order_item_note'] as String?,
-  orderItemTotal: (json['order_item_total'] as num?)?.toInt(),
+  orderItemTotal: json['order_item_total'] as String?,
   delMethodId: (json['del_method_id'] as num?)?.toInt(),
   delMethodCharge: json['del_method_charge'] as String?,
   printed: (json['printed'] as num?)?.toInt(),
@@ -442,7 +442,7 @@ _$ProductOrderItemImpl _$$ProductOrderItemImplFromJson(
   releaseTime: (json['release_time'] as num?)?.toInt(),
   preOrderChargingOptionId: (json['pre_order_charging_option_id'] as num?)
       ?.toInt(),
-  takeawayAddonPrice: parseNumberAsDouble(json['takeaway_addon_price']),
+  takeawayAddonPrice: json['takeaway_addon_price'] as String?,
   parcelCharge: parseNumberAsDouble(json['parcel_charge']),
 );
 

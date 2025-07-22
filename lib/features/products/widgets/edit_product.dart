@@ -136,7 +136,7 @@ class _EditProductState extends State<EditProduct> {
                 if (state.isAdded == ApiFetchStatus.success) {
                   context.read<ProductCubit>().product(
                     storeId: state.selectedStore?.storeId ?? 0,
-
+                    isPreservelist: true,
                     // catId: widget.product.mainCategoryId ?? 0,
                   );
                 }

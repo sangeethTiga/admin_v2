@@ -36,7 +36,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                 _handleDate(),
                 8.verticalSpace,
                 _viewResults(),
-                8.verticalSpace,
+                //8.verticalSpace,
               ],
             ),
           ),
@@ -90,10 +90,10 @@ class DeliveryChargeScreen extends StatelessWidget {
                 context.read<ReportCubit>().loadDeliveryChargeReport(
                   storeId: state.selectedStore?.storeId,
                   accountId: selectedAccount,
-                  // isLoadMore: true,
+                  //isLoadMore: true,
                 );
               },
-              buttonText: 'View Results',
+              buttonText: 'View Report',
             );
           },
         );
@@ -158,10 +158,9 @@ class DeliveryChargeScreen extends StatelessWidget {
                         ) {
                           int localIndex = entry.key;
                           var e = entry.value;
-                          // int globalIndex = localIndex + 1;
+
                           int globalIndex =
                               (state.currentPage ?? 0) + localIndex + 1;
-                          // ((state.currentPage - 1) * 20) + entry.key + 1;
 
                           return {
                             "#": globalIndex,

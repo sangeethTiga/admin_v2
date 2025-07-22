@@ -657,6 +657,8 @@ class _OrderCard extends StatelessWidget {
     return _containerWidget(
       name: 'Total :',
       status: ' AED ${orderData?.netAmount ?? 0}',
+  
+     //status: ' AED ${orderData?.netAmount ?? 0}',
     );
   }
 

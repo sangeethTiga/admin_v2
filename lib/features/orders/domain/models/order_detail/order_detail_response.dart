@@ -207,12 +207,12 @@ class ProductOrderItem with _$ProductOrderItem {
     @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
     double? productPrice,
     @JsonKey(name: "order_item_purchase_price") String? orderItemPurchasePrice,
-    @JsonKey(name: "order_item_price") double? orderItemPrice,
-    @JsonKey(name: "order_item_offer_price") int? orderItemOfferPrice,
-    @JsonKey(name: "order_item_disc") int? orderItemDisc,
-    @JsonKey(name: "order_item_net_amt") int? orderItemNetAmt,
+    @JsonKey(name: "order_item_price") String? orderItemPrice,
+    @JsonKey(name: "order_item_offer_price") String? orderItemOfferPrice,
+    @JsonKey(name: "order_item_disc") String? orderItemDisc,
+    @JsonKey(name: "order_item_net_amt") String? orderItemNetAmt,
     @JsonKey(name: "order_item_note") String? orderItemNote,
-    @JsonKey(name: "order_item_total") int? orderItemTotal,
+    @JsonKey(name: "order_item_total") String? orderItemTotal,
     @JsonKey(name: "del_method_id") int? delMethodId,
     @JsonKey(name: "del_method_charge") String? delMethodCharge,
     @JsonKey(name: "printed") int? printed,
@@ -293,8 +293,8 @@ class ProductOrderItem with _$ProductOrderItem {
     @JsonKey(name: "release_time") int? releaseTime,
     @JsonKey(name: "pre_order_charging_option_id")
     int? preOrderChargingOptionId,
-    @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
-    double? takeawayAddonPrice,
+    @JsonKey(name: "takeaway_addon_price")
+    String? takeawayAddonPrice,
     @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
     double? parcelCharge,
   }) = _ProductOrderItem;
