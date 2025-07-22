@@ -100,7 +100,7 @@ class SignInScreen extends StatelessWidget {
                     CustomMaterialBtton(
                       isLoading: ApiFetchStatus.loading == state.isLoading,
                       onPressed: () {
-                        context.read<AuthCubit>().authSigIn(
+                        context.read<AuthCubit>().authSigIn(  
                           email: emailController.text,
                           password: passwordController.text,
                         );

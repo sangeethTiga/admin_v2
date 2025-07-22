@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_response.freezed.dart';
 part 'auth_response.g.dart';
 
-@freezed
+@freezed 
 class AuthResponse with _$AuthResponse {
   const factory AuthResponse({
     @JsonKey(name: "status") String? status,
@@ -13,6 +13,8 @@ class AuthResponse with _$AuthResponse {
     @JsonKey(name: "api_url") String? apiUrl,
     @JsonKey(name: "token") String? token,
     @JsonKey(name: "user") User? user,
+
+
   }) = _AuthResponse;
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) =>

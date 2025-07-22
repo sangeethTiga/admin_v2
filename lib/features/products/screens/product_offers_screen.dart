@@ -19,7 +19,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
-
 class ProductOffersScreen extends StatelessWidget {
   const ProductOffersScreen({super.key});
 
@@ -186,11 +185,9 @@ class ProductOffersScreen extends StatelessWidget {
                   16.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-
-                      if (state.isProductOffers == ApiFetchStatus.loading){
-                          return productOfferShimmer();
+                      if (state.isProductOffers == ApiFetchStatus.loading) {
+                        return productOfferShimmer();
                       }
-                 
 
                       final productOffers =
                           state.filteredProducts ?? state.productOffers ?? [];
@@ -347,8 +344,6 @@ class ProductOffersScreen extends StatelessWidget {
   }
 }
 
-
-
 Widget rowWidget({String? name, String? status, Color? statusColor}) {
   return MainPadding(
     child: Row(
@@ -370,7 +365,6 @@ Widget rowWidget({String? name, String? status, Color? statusColor}) {
     ),
   );
 }
-
 
 Widget productOfferShimmer() {
   return ListView.builder(
