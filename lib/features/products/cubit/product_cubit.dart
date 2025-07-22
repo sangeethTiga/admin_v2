@@ -30,6 +30,7 @@ class ProductCubit extends Cubit<ProductState> {
     String? barCode,
     int? filterId,
     bool isLoadMore = false,
+    bool isPreservelist=false,
     int limit = 20,
   }) async {
     try {

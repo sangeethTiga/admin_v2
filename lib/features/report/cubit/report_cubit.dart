@@ -112,7 +112,7 @@ class ReportCubit extends Cubit<ReportState> {
     int? storeId,
     String? fromDate,
     String? toDate,
-    int page = 0,
+    // int page = 0,
     int limit = 20,
     bool isLoadMore = false,
   }) async {
@@ -141,7 +141,7 @@ class ReportCubit extends Cubit<ReportState> {
       //   );
       // }
       // final int offset = page * limit;
-      final currentPage = isLoadMore ? (state.currentPage) + limit : 0;
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
 
       final res = await _reportRepositories.loadRevenueReport(
         pageFirstResult: currentPage,
@@ -193,7 +193,7 @@ class ReportCubit extends Cubit<ReportState> {
 
     String? fromDate,
     String? toDate,
-    int page = 0,
+    // int page = 0,
     int limit = 20,
     bool isLoadMore = false,
     int? accountId,
@@ -213,7 +213,7 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      final currentPage = isLoadMore ? (state.currentPage) + limit : 0;
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
 
       final res = await _reportRepositories.loadExpenseReport(
         storeId: storeId ?? 0,
@@ -290,7 +290,7 @@ class ReportCubit extends Cubit<ReportState> {
     int? storeId,
     String? fromDate,
     String? toDate,
-    int page = 0,
+    //  int page = 0,
     int limit = 20,
 
     bool isLoadMore = false,
@@ -311,14 +311,15 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      final pageToUse = isLoadMore ? state.currentPage + 1 : 1;
-      final offset = (pageToUse - 1) * limit;
-
+      // final pageToUse = isLoadMore ? state.currentPage + 1 : 1;
+      // final offset = (pageToUse - 1) * limit;
+      //  final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
       final res = await _reportRepositories.loadDeliveryCharge(
         storeId: storeId ?? 0,
 
         resultPerPage: limit,
-        pageFirstResult: offset,
+        pageFirstResult: currentPage,
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
       );
@@ -338,7 +339,7 @@ class ReportCubit extends Cubit<ReportState> {
           state.copyWith(
             deliverychargeReport: updatedList,
             isDeliverychargeReport: ApiFetchStatus.success,
-            currentPage: pageToUse,
+            currentPage: currentPage,
             hasMoreData: hasMoreData,
             isLoadingMore: false,
           ),
@@ -369,7 +370,7 @@ class ReportCubit extends Cubit<ReportState> {
     String? fromDate,
     String? toDate,
     int? accountId,
-    int page = 0,
+    // int page = 0,
     int limit = 20,
     bool isLoadMore = false,
   }) async {
@@ -388,8 +389,8 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      final currentPage = isLoadMore ? (state.currentPage) + limit : 0;
-
+      //final currentPage = isLoadMore ? (state.currentPage) + limit : 0;
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
       final res = await _reportRepositories.loadCustomersReport(
         filterId: 1,
         pageFirstResult: currentPage,
@@ -492,7 +493,7 @@ class ReportCubit extends Cubit<ReportState> {
   }
 
   Future<void> loadParcelCharge({
-    int page = 1,
+    // int page = 1,
     int limit = 20,
     String? fromDate,
 
@@ -524,8 +525,9 @@ class ReportCubit extends Cubit<ReportState> {
       //     ),
       //   );
       // }
-      final int offset = page * limit;
-      final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
+      // final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
       // emit(state.copyWith(isParcelCharge: ApiFetchStatus.loading));
       final res = await _reportRepositories.loadParcelReport(
         pageFirstLimit: currentPage,
@@ -575,22 +577,6 @@ class ReportCubit extends Cubit<ReportState> {
         ),
       );
     }
-    // if (res.data != null) {
-    //   final List<ParcelChargeResponse> fetchedList = res.data!;
-
-    //   final List<ParcelChargeResponse> newList = isLoadMore
-    //       ? <ParcelChargeResponse>[...?state.parcelChargeList, ...fetchedList]
-    //       : fetchedList;
-
-    //   emit(
-    //     state.copyWith(
-    //       parcelChargeList: newList,
-    //       isParcelCharge: ApiFetchStatus.success,
-    //     ),
-    //   );
-    // } else {
-    //   emit(state.copyWith(isParcelCharge: ApiFetchStatus.failed));
-    // }
   }
 
   Future<void> loadUserShiftReport({
