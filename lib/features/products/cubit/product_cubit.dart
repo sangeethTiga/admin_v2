@@ -323,33 +323,35 @@ class ProductCubit extends Cubit<ProductState> {
   //   }
   //   emit(state.copyWith(isAdded: ApiFetchStatus.failed));
   // }
-Future<void> updateProduct(
-  EditUpdateResponse updatedProduct,
-  int productId,
-  int mainCategoryId,
-) async {
-  try {
-    emit(state.copyWith(isAdded: ApiFetchStatus.loading));
+  Future<void> updateProduct(
+    EditUpdateResponse updatedProduct,
+    int productId,
+    int mainCategoryId,
+  ) async {
+    try {
+      emit(state.copyWith(isAdded: ApiFetchStatus.loading));
 
-    final res = await _productRepositories.updateProduct(
-      updatedProduct,
-      productId,
-      mainCategoryId,
-    );
+      final res = await _productRepositories.updateProduct(
+        updatedProduct,
+        productId,
+        mainCategoryId,
+      );
 
-    if (res.data != null) {
-      emit(state.copyWith(
-        isAdded: ApiFetchStatus.success,
-        updateData: res.data, // Store updated product
-      ));
-    } else {
+      if (res.data != null) {
+        emit(
+          state.copyWith(
+            isAdded: ApiFetchStatus.success,
+            updateData: res.data, // Store updated product
+          ),
+        );
+      } else {
+        emit(state.copyWith(isAdded: ApiFetchStatus.failed));
+      }
+    } catch (e, s) {
+      log("Error updating product: $e", stackTrace: s);
       emit(state.copyWith(isAdded: ApiFetchStatus.failed));
     }
-  } catch (e, s) {
-    log("Error updating product: $e", stackTrace: s);
-    emit(state.copyWith(isAdded: ApiFetchStatus.failed));
   }
-}
 
   Future<void> dateSelection(DateTime selectedDate) async {
     emit(state.copyWith(selectedDate: selectedDate));

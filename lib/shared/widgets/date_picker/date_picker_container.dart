@@ -1,4 +1,5 @@
 import 'package:admin_v2/shared/constants/colors.dart';
+import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -312,3 +313,148 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
 }
 
 final apiFormat = DateFormat('yyyy-MM-dd');
+  Widget timePickerBuilder(BuildContext context, Widget? child) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: ColorScheme.light(
+          primary: kPrimaryColor,
+          onPrimary: Colors.white,
+          onSurface: Colors.black,
+        ),
+        textTheme: Theme.of(context).textTheme.copyWith(
+          headlineMedium: TextStyle(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w600,
+            color: kPrimaryColor,
+          ),
+          bodyLarge: TextStyle(fontSize: 12.sp, color: Colors.black),
+          labelLarge: TextStyle(
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w500,
+            color: kPrimaryColor,
+          ),
+        ),
+        primaryTextTheme: TextTheme(
+          headlineMedium: TextStyle(
+            fontSize: 12.sp,
+            color: kPrimaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: kPrimaryColor,
+            textStyle: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600),
+            minimumSize: Size(80.w, 48.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+          ),
+        ),
+        timePickerTheme: TimePickerThemeData(
+          hourMinuteShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+            side: BorderSide(color: kPrimaryColor, width: 1),
+          ),
+
+          hourMinuteColor: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? Colors.grey.shade200
+                : Colors.grey.shade200,
+          ),
+          hourMinuteTextColor: kPrimaryColor,
+          hourMinuteTextStyle: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryColor,
+          ),
+
+          dayPeriodTextColor: kPrimaryColor,
+          dayPeriodTextStyle: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+          ),
+          dayPeriodColor: WidgetStateColor.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return kPrimaryColor.withOpacity(0.2);
+            }
+            return Colors.grey.shade100;
+          }),
+          dayPeriodShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            side: BorderSide(color: kPrimaryColor.withOpacity(0.3)),
+          ),
+          dayPeriodBorderSide: BorderSide(color: kPrimaryColor, width: 1),
+
+          dialHandColor: kPrimaryColor,
+          dialBackgroundColor: kPrimaryColor.withOpacity(0.1),
+          dialTextColor: kPrimaryColor,
+          dialTextStyle: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+          ),
+
+          backgroundColor: Colors.white,
+          elevation: 12,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+
+          padding: EdgeInsets.all(24.w),
+
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: kPrimaryColor, width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: kPrimaryColor, width: 3),
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+              vertical: 16.h,
+            ),
+            labelStyle: TextStyle(fontSize: 14.sp, color: kPrimaryColor),
+          ),
+
+          helpTextStyle: TextStyle(
+            fontSize: 14.sp,
+            color: Colors.grey.shade600,
+          ),
+
+          cancelButtonStyle: TextButton.styleFrom(
+            foregroundColor: Colors.grey.shade700,
+            textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+            minimumSize: Size(100.w, 48.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+          ),
+          confirmButtonStyle: TextButton.styleFrom(
+            foregroundColor: kPrimaryColor,
+            textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+            minimumSize: Size(100.w, 48.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+          ),
+        ),
+      ),
+      child: child!,
+    );
+  }
+
+  Widget datePick(String title, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          border: Border.all(color: kDarkBorder),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Text(
+          title,
+          style: FontPalette.hW500S14,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+

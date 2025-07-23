@@ -92,90 +92,67 @@ class _OfferFormState extends State<OfferForm> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              // title:  Text('Select Product'),
-              content: SizedBox(
-                width: 400,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        onChanged: (value) {
-                          reportCubit.loadProductName(
-                            query: value,
-                            storeId: storeId,
-                          );
-                        },
-                        controller: productSearchController,
-                        decoration: InputDecoration(
-                          hintText: 'Enter product name',
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.search),
-                            onPressed: () {
-                              reportCubit.loadProductName(
-                                query: productSearchController.text,
-                                storeId: storeId,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxHeight: 250),
-                        child: BlocBuilder<ReportCubit, ReportState>(
-                          builder: (context, state) {
-                            if (state.isProductName == ApiFetchStatus.loading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-
-                            final productList =
-                                state.getproductName
-                                    ?.cast<ProductNameResponse>() ??
-                                [];
-
-                            if (productList.isEmpty) {
-                              return const Center(
-                                child: Text('No products found.'),
-                              );
-                            }
-
-                            return ListView.builder(
-                              itemCount: productList.length,
-                              itemBuilder: (context, index) {
-                                final product = productList[index];
-                                return ListTile(
-                                  title: Text(product.productName ?? 'Unknown'),
-                                  onTap: () {
-                                    if (!mounted) return;
-                                    onProductSelected(product);
-                                    Navigator.of(context).pop();
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+        return SizedBox(
+          width: 400,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  onChanged: (value) {
+                    reportCubit.loadProductName(query: value, storeId: storeId);
+                  },
+                  controller: productSearchController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter product name',
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        reportCubit.loadProductName(
+                          query: productSearchController.text,
+                          storeId: storeId,
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel'),
+                const SizedBox(height: 12),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 250),
+                  child: BlocBuilder<ReportCubit, ReportState>(
+                    builder: (context, state) {
+                      if (state.isProductName == ApiFetchStatus.loading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      final productList =
+                          state.getProductName?.cast<ProductNameResponse>() ??
+                          [];
+
+                      if (productList.isEmpty) {
+                        return const Center(child: Text('No products found.'));
+                      }
+
+                      return ListView.builder(
+                        itemCount: productList.length,
+                        itemBuilder: (context, index) {
+                          final product = productList[index];
+                          return ListTile(
+                            title: Text(product.productName ?? 'Unknown'),
+                            onTap: () {
+                              if (!mounted) return;
+                              onProductSelected(product);
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
-            );
-          },
+            ),
+          ),
         );
       },
     );
@@ -226,9 +203,7 @@ class _OfferFormState extends State<OfferForm> {
 
       if (fromDateTime != null) {
         selectedFromTime = TimeOfDay.fromDateTime(fromDateTime);
-        fromTimeController.text = selectedFromTime!.format(
-          context,
-        ); 
+        fromTimeController.text = selectedFromTime!.format(context);
       }
 
       if (toDateTime != null) {
