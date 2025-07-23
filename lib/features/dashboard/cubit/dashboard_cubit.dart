@@ -169,8 +169,14 @@ class DashboardCubit extends Cubit<DashboardState> {
       final res = await _reportRepositories.getDeliveryAgent(
         deliveryPartnerId: state.selectedDeliveryPartner ?? 0,
         storeId: state.selectedStore?.storeId ?? 0,
+      
       );
-      emit(state.copyWith(deliveryAgents: res.data));
+       final allDeliveryAgent = [
+          DeliveryAgentResponse(companyUsersId: 0, userName: 'All '),
+          ...res.data!,
+        ];
+      
+      emit(state.copyWith(deliveryAgents: allDeliveryAgent,selectedDeliveryAgent: allDeliveryAgent.first));
     } catch (e, s) {
       log('$e', stackTrace: s);
     }
@@ -183,8 +189,9 @@ class DashboardCubit extends Cubit<DashboardState> {
   Future<void> getPaymethod() async {
     try {
       final res = await _reportRepositories.getPaymethod();
+      final allPaymethodList=[PaymentMethodResponse(payMethodId: 0,payMethodName: 'All'),...res.data!];
 
-      emit(state.copyWith(paymethodList: res.data));
+      emit(state.copyWith(paymethodList: allPaymethodList,selectedPaymethod: allPaymethodList.first));
     } catch (e, s) {
       log('$e', stackTrace: s);
     }
