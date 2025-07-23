@@ -95,7 +95,7 @@ class _OfferFormState extends State<OfferForm> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              // title:  Text('Select Product'),
+              title: Text('Select Product'),
               content: SizedBox(
                 width: 400,
                 child: SingleChildScrollView(
@@ -226,9 +226,7 @@ class _OfferFormState extends State<OfferForm> {
 
       if (fromDateTime != null) {
         selectedFromTime = TimeOfDay.fromDateTime(fromDateTime);
-        fromTimeController.text = selectedFromTime!.format(
-          context,
-        ); 
+        fromTimeController.text = selectedFromTime!.format(context);
       }
 
       if (toDateTime != null) {
@@ -381,12 +379,7 @@ class _OfferFormState extends State<OfferForm> {
 
                           isLoading:
                               state.apiFetchStatus == ApiFetchStatus.loading,
-                          prefixIcon: SvgPicture.asset(
-                            'assets/icons/package-box-pin-location.svg',
-                            width: 20.w,
-                            height: 20.h,
-                            fit: BoxFit.contain,
-                          ),
+
                           borderColor: kBlack,
                           value: state.selectedType,
                           items:
@@ -628,7 +621,7 @@ class _OfferFormState extends State<OfferForm> {
                               offerPrice: int.tryParse(
                                 offerPriceController.text,
                               ),
-                              // createdAt: widget.product?.createdAt,
+                               createdAt: widget.product?.createdAt,
                               offerPricePercentage: int.tryParse(
                                 discountController.text,
                               ),
@@ -647,10 +640,9 @@ class _OfferFormState extends State<OfferForm> {
                               maxOrderQty: 0,
                               priceTypeId: 1,
                               prodOfferTypeId:
-                                  selectedType?.prodOfferTypeId ?? 0,
-                              prodVarCode:
-                                  selectedProduct.prodVarCode?.toString() ??
-                                  "0",
+                              selectedType?.prodOfferTypeId ?? 0,
+                              prodVarCode: selectedProduct?.prodVarCode.toString(),
+
                               resourceId: widget.product?.resourceId ?? 0,
                               couponId: widget.product?.couponId ?? 0,
 

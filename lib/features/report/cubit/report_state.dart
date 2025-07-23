@@ -112,7 +112,7 @@ class ReportState extends Equatable {
     this.isPurchaseReport,
     this.isParcelCharge,
     this.parcelChargeList,
-    
+
     this.status = '',
     this.isTaxReport,
     this.taxReport,
@@ -212,7 +212,7 @@ class ReportState extends Equatable {
     List<OffersResponse>? offerReport,
     List<SaleOnDeals>? salesDealsReport,
     ApiFetchStatus? isSalesDealsReport,
-    
+
     List<ChequeTrans>? chequeTransReport,
     ApiFetchStatus? isChequeReport,
     List<ChequeStatusResponse>? chequeStatus,
@@ -274,9 +274,9 @@ class ReportState extends Equatable {
       pageSize: pageSize ?? this.pageSize,
       expenseReport: expenseReport ?? this.expenseReport,
       profitlossReport: profitlossReport ?? this.profitlossReport,
-      deliverychargeReport: deliverychargeReport ?? deliverychargeReport,
+      deliverychargeReport: deliverychargeReport ?? this.deliverychargeReport,
       isDeliverychargeReport:
-      isDeliverychargeReport ?? this.isDeliverychargeReport,
+          isDeliverychargeReport ?? this.isDeliverychargeReport,
       page: page ?? this.page,
       offset: offset ?? this.offset,
       customersReport: customersReport ?? this.customersReport,

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -10,7 +9,7 @@ import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_
 import 'package:admin_v2/features/report/domain/models/custSearch/custSearch_response.dart';
 import 'package:admin_v2/features/report/domain/models/customers/customers_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/day_summary/day_summary_response.dart'
-    hide DeliveryPartner;
+hide DeliveryPartner;
 import 'package:admin_v2/features/report/domain/models/delivery_charge/delivery_charge_response.dart';
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/expense/expense_report_response.dart';
@@ -39,6 +38,7 @@ import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+
 part 'report_state.dart';
 
 @injectable
@@ -129,17 +129,7 @@ class ReportCubit extends Cubit<ReportState> {
           ),
         );
       }
-      // if (!isLoadMore) {
-      //   emit(
-      //     state.copyWith(
-      //       isSaleReport: ApiFetchStatus.loading,
-      //       revenueReport: [],
-      //       currentPage: 0,
-      //       hasMoreData: true,
-      //     ),
-      //   );
-      // }
-      // final int offset = page * limit;
+
       final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
 
       final res = await _reportRepositories.loadRevenueReport(
@@ -289,11 +279,8 @@ class ReportCubit extends Cubit<ReportState> {
     int? storeId,
     String? fromDate,
     String? toDate,
-    //  int page = 0,
     int limit = 20,
-
     bool isLoadMore = false,
-    int? accountId,
   }) async {
     try {
       if (isLoadMore) {
@@ -301,7 +288,7 @@ class ReportCubit extends Cubit<ReportState> {
       } else {
         emit(
           state.copyWith(
-            isDeliverychargeReport: ApiFetchStatus.loading,
+            isSaleReport: ApiFetchStatus.loading,
             deliverychargeReport: [],
             currentPage: 0,
             hasMoreData: false,
@@ -310,21 +297,15 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      // final pageToUse = isLoadMore ? state.currentPage + 1 : 1;
-      // final offset = (pageToUse - 1) * limit;
-      //  final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
       final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
-      final res = await _reportRepositories.loadDeliveryCharge(
-        storeId: storeId ?? 0,
 
-        resultPerPage: limit,
+      final res = await _reportRepositories.loadDeliveryCharge(
         pageFirstResult: currentPage,
+        resultPerPage: limit,
+        storeId: storeId ?? 0,
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
       );
-
-      log('Response data: ${res.data}');
-
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         List<DeliveryChargeResponse> updatedList;
         if (isLoadMore) {
@@ -333,11 +314,10 @@ class ReportCubit extends Cubit<ReportState> {
           updatedList = res.data!;
         }
         final hasMoreData = res.data!.length >= limit;
-
         emit(
           state.copyWith(
             deliverychargeReport: updatedList,
-            isDeliverychargeReport: ApiFetchStatus.success,
+            isSaleReport: ApiFetchStatus.success,
             currentPage: currentPage,
             hasMoreData: hasMoreData,
             isLoadingMore: false,
@@ -346,7 +326,7 @@ class ReportCubit extends Cubit<ReportState> {
       } else {
         emit(
           state.copyWith(
-            isDeliverychargeReport: ApiFetchStatus.failed,
+            isSaleReport: ApiFetchStatus.failed,
             isLoadingMore: false,
             hasMoreData: false,
           ),
@@ -356,7 +336,7 @@ class ReportCubit extends Cubit<ReportState> {
       log('Error loading customers report: $error');
       emit(
         state.copyWith(
-          isDeliverychargeReport: ApiFetchStatus.failed,
+          isSaleReport: ApiFetchStatus.failed,
           isLoadingMore: false,
           hasMoreData: false,
         ),
