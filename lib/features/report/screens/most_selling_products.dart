@@ -254,7 +254,7 @@ class MostSellingProducts extends StatelessWidget {
                                             if (reportState.hasMoreData ==
                                                     false &&
                                                 reportState
-                                                        .parcelChargeList
+                                                        .productsReport
                                                         ?.isNotEmpty ==
                                                     true) {
                                               showNoMoreData.value = true;

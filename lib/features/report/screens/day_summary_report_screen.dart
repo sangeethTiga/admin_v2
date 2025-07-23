@@ -409,7 +409,7 @@ class DaySummaryReportScreen extends StatelessWidget {
             title: "Delivery Partners",
             bold: true,
             value: "Amount",
-            label: 'count',
+            label: 'Count',
           ),
         ),
         ListView.builder(
