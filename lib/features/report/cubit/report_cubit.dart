@@ -1088,6 +1088,18 @@ class ReportCubit extends Cubit<ReportState> {
           isLoadingMore: false,
         ),
       );
+    } else {
+      emit(
+        state.copyWith(
+          productOffers: [],
+          isProductOffers: ApiFetchStatus.failed,
+          filteredProducts: [],
+          apiFetchStatus: ApiFetchStatus.failed,
+          currentPage: currentPage,
+          hasMoreData: false,
+          isLoadingMore: false,
+        ),
+      );
     }
     emit(
       state.copyWith(
