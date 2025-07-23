@@ -53,6 +53,7 @@ class ParcelCharge extends StatelessWidget {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
         return DropDownFieldWidget(
+          // hintText: 'Order Option',
           contentPadding: EdgeInsets.symmetric(
             horizontal: 12.w,
             vertical: 15.h,
@@ -96,7 +97,6 @@ class ParcelCharge extends StatelessWidget {
             //   0,
             // );
           },
-          labelText: 'Order Option',
         );
       },
     );
@@ -110,7 +110,7 @@ class ParcelCharge extends StatelessWidget {
             Expanded(
               child: DatePickerContainer(
                 labelText: 'From Date',
-                firstDate: DateTime.now(),
+                // firstDate: DateTime.now(),
                 value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeFromDate(pickDate);
