@@ -21,32 +21,34 @@ class ChequetransScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'ChequeTransaction'),
-      body: Column(
-        children: [
-          dividerWidget(height: 6.h),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            dividerWidget(height: 6.h),
 
-          BlocBuilder<ReportCubit, ReportState>(
-            builder: (context, state) {
-              return MainPadding(
-                child: Column(
-                  children: [
-                    commonStoreDropDown(
-                      onChanged: (p0) {
-                        context.read<DashboardCubit>().selectedStore(p0);
-                      },
-                    ),
-                    _buildStatusOption(),
-                    12.verticalSpace,
-                    _handleDate(),
-                    8.verticalSpace,
-                    _buildViewReport(),
-                    _buildCommonTable(),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
+            BlocBuilder<ReportCubit, ReportState>(
+              builder: (context, state) {
+                return MainPadding(
+                  child: Column(
+                    children: [
+                      commonStoreDropDown(
+                        onChanged: (p0) {
+                          context.read<DashboardCubit>().selectedStore(p0);
+                        },
+                      ),
+                      _buildStatusOption(),
+                      12.verticalSpace,
+                      _handleDate(),
+                      8.verticalSpace,
+                      _buildViewReport(),
+                      _buildCommonTable(),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
