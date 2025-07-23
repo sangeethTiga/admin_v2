@@ -223,6 +223,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                 return SearchableDropdownWidget<
                                   ProductNameResponse
                                 >(
+                                  isEdit: widget.data?['is_edit_search'],
                                   value: state.selectedProductName,
                                   items: state.getProductName ?? [],
                                   topLabelText: 'Product Name',

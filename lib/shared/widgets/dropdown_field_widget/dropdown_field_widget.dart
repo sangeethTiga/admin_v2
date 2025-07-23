@@ -231,6 +231,7 @@ class SearchableDropdownWidget<T> extends StatefulWidget {
   final Color? fillColor;
   final Color? borderColor;
   final bool isLoading;
+  final bool? isEdit;
 
   const SearchableDropdownWidget({
     super.key,
@@ -243,6 +244,7 @@ class SearchableDropdownWidget<T> extends StatefulWidget {
     this.fillColor,
     this.borderColor,
     this.isLoading = false,
+    this.isEdit = false,
   });
 
   @override
@@ -341,6 +343,7 @@ class _SearchableDropdownWidgetState<T>
             color: widget.fillColor ?? Colors.white,
           ),
           child: TextFormField(
+            readOnly: widget.isEdit ?? false,
             controller: _searchController,
             focusNode: _focusNode,
             decoration: InputDecoration(
@@ -397,8 +400,9 @@ class _SearchableDropdownWidgetState<T>
           ),
         ),
 
-        if (_isExpanded) ...[
+        if (_isExpanded && (widget.isEdit == false)) ...[
           4.verticalSpace,
+
           Container(
             constraints: BoxConstraints(maxHeight: 200.h),
             decoration: BoxDecoration(
