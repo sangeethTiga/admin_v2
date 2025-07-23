@@ -18,31 +18,18 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     try {
       emit(AuthState(isLoading: ApiFetchStatus.loading));
-
       final res = await _authRepositories.signIn(
         email: email,
         password: password,
       );
-
-      if (res.data != null && res.data?.status == "success") {
+      if (res.data != null) {
         emit(
           AuthState(isLoading: ApiFetchStatus.success, authResponse: res.data),
         );
-      } else {
-        emit(
-          AuthState(
-            isLoading: ApiFetchStatus.failed,
-            errorMessage: res.data?.errorMessage ?? "Login failed",
-          ),
-        );
       }
+      emit(AuthState(isLoading: ApiFetchStatus.failed));
     } catch (e) {
-      emit(
-        AuthState(
-          isLoading: ApiFetchStatus.failed,
-          errorMessage: "Something went wrong. Please try again.",
-        ),
-      );
+      emit(AuthState(isLoading: ApiFetchStatus.idle));
     }
   }
 
