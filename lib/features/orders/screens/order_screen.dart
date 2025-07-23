@@ -124,7 +124,11 @@ class _OrderScreenState extends State<OrderScreen> {
                   child: Column(
                     children: [
                       5.verticalSpace,
-                      _buildStoreDropdown(),
+                      _commonStoreDropDown(
+                        onChanged: (p0) {
+                          context.read<DashboardCubit>().selectedStore(p0);
+                        },
+                      ),
                       4.verticalSpace,
                       _buildFilterContainer(state),
                       12.verticalSpace,
@@ -177,10 +181,14 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  Widget _buildStoreDropdown() {
+  Widget _commonStoreDropDown({Function(StoreResponse)? onChanged}) {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
         return DropDownFieldWidget(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 12.w,
+            vertical: 15.h,
+          ),
           isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
           prefixIcon: Container(
             margin: EdgeInsets.only(left: 12.w),
@@ -202,8 +210,17 @@ class _OrderScreenState extends State<OrderScreen> {
               }).toList() ??
               [],
           fillColor: const Color(0XFFEFF1F1),
-          onChanged: (p0) => _handleStoreChange(context, p0, state),
+
+          onChanged: (p0) {
+            onChanged?.call(p0);
+          },
           labelText: '',
+          textStyle: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          ),
         );
       },
     );
