@@ -128,7 +128,8 @@ class DashboardScreenState extends State<DashboardScreen>
                   10.verticalSpace,
                   _buildDashboardGrid(state),
                   20.verticalSpace,
-                  if (state.revenueReport?.isNotEmpty ?? false) RevenueGraph(),
+                  if (state.revenueReport?.isNotEmpty ?? false)
+                    SizedBox(width: double.infinity, child: RevenueGraph()),
                   20.verticalSpace,
                   if (state.ordersReport?.isNotEmpty ?? false) OrdersGraph(),
                 ],
