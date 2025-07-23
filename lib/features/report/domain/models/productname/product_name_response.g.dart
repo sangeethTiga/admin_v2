@@ -15,7 +15,7 @@ _$ProductNameResponseImpl _$$ProductNameResponseImplFromJson(
   productPrice: (json['product_price'] as num?)?.toDouble(),
   oldProductPrice: json['old_product_price'] as String?,
   prodVarId: (json['prod_var_id'] as num?)?.toInt(),
-  prodVarCode: parseInt(json['prod_var_code']),
+  prodVarCode: json['prod_var_code'],
   productDesc: json['product_desc'] as String?,
   productArabicDesc: json['product_arabic_desc'] as String?,
   productArabicName: json['product_arabic_name'] as String?,

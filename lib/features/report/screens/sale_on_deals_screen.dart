@@ -143,22 +143,22 @@ class SaleOnDealsScreen extends StatelessWidget {
                     isLoading:
                         state.isSalesDealsReport == ApiFetchStatus.loading,
                     headers: [
-                      // "#",
+                       "#",
                       "Order No",
                       "Order Date",
                       "Product",
                       "Offer Price",
                       "Total",
                     ],
-                    columnFlex: [3, 4, 4, 3, 2],
+                    columnFlex: [2,3, 4, 4, 3, 2],
 
                     data:
                         state.salesDealsReport?.map((e) {
-                          //    int index =
-                          // state.salesDealsReport?.indexOf(e) ?? 0;
+                              int index =
+                           state.salesDealsReport?.indexOf(e) ?? 0;
 
                           return {
-                            // '#': index + 1,
+                             '#': index + 1,
                             'Order No': e.prodOrderId ?? '',
 
                             'Order Date': e.orderDate?.toString().padLeft(

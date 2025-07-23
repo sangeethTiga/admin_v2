@@ -33,8 +33,8 @@ mixin _$ProductNameResponse {
   String? get oldProductPrice => throw _privateConstructorUsedError;
   @JsonKey(name: "prod_var_id")
   int? get prodVarId => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_var_code", fromJson: parseInt)
-  int? get prodVarCode => throw _privateConstructorUsedError;
+  @JsonKey(name: "prod_var_code")
+  dynamic get prodVarCode => throw _privateConstructorUsedError;
   @JsonKey(name: "product_desc")
   String? get productDesc => throw _privateConstructorUsedError;
   @JsonKey(name: "product_arabic_desc")
@@ -140,7 +140,7 @@ abstract class $ProductNameResponseCopyWith<$Res> {
     @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "old_product_price") String? oldProductPrice,
     @JsonKey(name: "prod_var_id") int? prodVarId,
-    @JsonKey(name: "prod_var_code", fromJson: parseInt) int? prodVarCode,
+    @JsonKey(name: "prod_var_code") dynamic prodVarCode,
     @JsonKey(name: "product_desc") String? productDesc,
     @JsonKey(name: "product_arabic_desc") String? productArabicDesc,
     @JsonKey(name: "product_arabic_name") String? productArabicName,
@@ -276,7 +276,7 @@ class _$ProductNameResponseCopyWithImpl<$Res, $Val extends ProductNameResponse>
             prodVarCode: freezed == prodVarCode
                 ? _value.prodVarCode
                 : prodVarCode // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as dynamic,
             productDesc: freezed == productDesc
                 ? _value.productDesc
                 : productDesc // ignore: cast_nullable_to_non_nullable
@@ -459,7 +459,7 @@ abstract class _$$ProductNameResponseImplCopyWith<$Res>
     @JsonKey(name: "product_price") double? productPrice,
     @JsonKey(name: "old_product_price") String? oldProductPrice,
     @JsonKey(name: "prod_var_id") int? prodVarId,
-    @JsonKey(name: "prod_var_code", fromJson: parseInt) int? prodVarCode,
+    @JsonKey(name: "prod_var_code") dynamic prodVarCode,
     @JsonKey(name: "product_desc") String? productDesc,
     @JsonKey(name: "product_arabic_desc") String? productArabicDesc,
     @JsonKey(name: "product_arabic_name") String? productArabicName,
@@ -594,7 +594,7 @@ class __$$ProductNameResponseImplCopyWithImpl<$Res>
         prodVarCode: freezed == prodVarCode
             ? _value.prodVarCode
             : prodVarCode // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as dynamic,
         productDesc: freezed == productDesc
             ? _value.productDesc
             : productDesc // ignore: cast_nullable_to_non_nullable
@@ -770,7 +770,7 @@ class _$ProductNameResponseImpl implements _ProductNameResponse {
     @JsonKey(name: "product_price") this.productPrice,
     @JsonKey(name: "old_product_price") this.oldProductPrice,
     @JsonKey(name: "prod_var_id") this.prodVarId,
-    @JsonKey(name: "prod_var_code", fromJson: parseInt) this.prodVarCode,
+    @JsonKey(name: "prod_var_code") this.prodVarCode,
     @JsonKey(name: "product_desc") this.productDesc,
     @JsonKey(name: "product_arabic_desc") this.productArabicDesc,
     @JsonKey(name: "product_arabic_name") this.productArabicName,
@@ -836,8 +836,8 @@ class _$ProductNameResponseImpl implements _ProductNameResponse {
   @JsonKey(name: "prod_var_id")
   final int? prodVarId;
   @override
-  @JsonKey(name: "prod_var_code", fromJson: parseInt)
-  final int? prodVarCode;
+  @JsonKey(name: "prod_var_code")
+  final dynamic prodVarCode;
   @override
   @JsonKey(name: "product_desc")
   final String? productDesc;
@@ -997,8 +997,10 @@ class _$ProductNameResponseImpl implements _ProductNameResponse {
                 other.oldProductPrice == oldProductPrice) &&
             (identical(other.prodVarId, prodVarId) ||
                 other.prodVarId == prodVarId) &&
-            (identical(other.prodVarCode, prodVarCode) ||
-                other.prodVarCode == prodVarCode) &&
+            const DeepCollectionEquality().equals(
+              other.prodVarCode,
+              prodVarCode,
+            ) &&
             (identical(other.productDesc, productDesc) ||
                 other.productDesc == productDesc) &&
             (identical(other.productArabicDesc, productArabicDesc) ||
@@ -1094,7 +1096,7 @@ class _$ProductNameResponseImpl implements _ProductNameResponse {
     productPrice,
     oldProductPrice,
     prodVarId,
-    prodVarCode,
+    const DeepCollectionEquality().hash(prodVarCode),
     productDesc,
     productArabicDesc,
     productArabicName,
@@ -1162,7 +1164,7 @@ abstract class _ProductNameResponse implements ProductNameResponse {
     @JsonKey(name: "product_price") final double? productPrice,
     @JsonKey(name: "old_product_price") final String? oldProductPrice,
     @JsonKey(name: "prod_var_id") final int? prodVarId,
-    @JsonKey(name: "prod_var_code", fromJson: parseInt) final int? prodVarCode,
+    @JsonKey(name: "prod_var_code") final dynamic prodVarCode,
     @JsonKey(name: "product_desc") final String? productDesc,
     @JsonKey(name: "product_arabic_desc") final String? productArabicDesc,
     @JsonKey(name: "product_arabic_name") final String? productArabicName,
@@ -1228,8 +1230,8 @@ abstract class _ProductNameResponse implements ProductNameResponse {
   @JsonKey(name: "prod_var_id")
   int? get prodVarId;
   @override
-  @JsonKey(name: "prod_var_code", fromJson: parseInt)
-  int? get prodVarCode;
+  @JsonKey(name: "prod_var_code")
+  dynamic get prodVarCode;
   @override
   @JsonKey(name: "product_desc")
   String? get productDesc;
