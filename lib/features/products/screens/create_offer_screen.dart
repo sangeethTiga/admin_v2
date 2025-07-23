@@ -418,7 +418,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             },
                             buttonText: isEdit ? 'Update Offer' : 'Save Offer',
                             isLoading:
-                                state.isCreated == ApiFetchStatus.loading,
+                                state.isCreated == ApiFetchStatus.loading ||
+                                state.isOfferEdit == ApiFetchStatus.loading,
                           ),
                         ),
                       ],
