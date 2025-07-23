@@ -104,7 +104,6 @@ class DashboardScreenState extends State<DashboardScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        //flex: 3,
                         child: StoreDropdown(
                           selectedStore: state.selectedStore,
                           storeList: state.storeList,
@@ -113,9 +112,9 @@ class DashboardScreenState extends State<DashboardScreen>
                           onStoreChanged: _onStoreChanged,
                         ),
                       ),
-                      36.horizontalSpace,
+                      90.horizontalSpace,
                       SizedBox(
-                        width: 120.w,
+                        width:100.w,
                         child: DateDropdown(
                           selectedDate: state.selectDate,
                           onDateChanged: (v) {
@@ -129,7 +128,7 @@ class DashboardScreenState extends State<DashboardScreen>
                   _buildDashboardGrid(state),
                   20.verticalSpace,
                   if (state.revenueReport?.isNotEmpty ?? false)
-                    SizedBox(width: double.infinity, child: RevenueGraph()),
+                    RevenueGraph(),
                   20.verticalSpace,
                   if (state.ordersReport?.isNotEmpty ?? false) OrdersGraph(),
                 ],

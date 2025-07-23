@@ -48,7 +48,10 @@ class ProductOffersScreen extends StatelessWidget {
                 context.read<ReportCubit>().loadProductName(storeId: storeId);
               }
 
-              context.push(routeCreate, extra: {'storeId': storeId});
+              context.push(
+                routeCreate,
+                extra: {'storeId': storeId, 'is_edit_search': false},
+              );
             },
 
             child: Icon(Icons.add, color: kWhite, size: 25.h),
@@ -209,6 +212,7 @@ class ProductOffersScreen extends StatelessWidget {
                                                   ?.storeId,
                                               'is_edit': true,
                                               "offer_data": offer,
+                                              'is_edit_search': true,
                                             },
                                           );
                                         },
