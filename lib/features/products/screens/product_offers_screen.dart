@@ -185,8 +185,9 @@ class ProductOffersScreen extends StatelessWidget {
                   16.verticalSpace,
                   BlocBuilder<ReportCubit, ReportState>(
                     builder: (context, state) {
-                      // Show shimmer while loading
-                      if (state.apiFetchStatus == ApiFetchStatus.loading) {}
+                      if (state.isProductOffers == ApiFetchStatus.loading) {
+                        return productOfferShimmer();
+                      }
 
                       final productOffers =
                           state.filteredProducts ?? state.productOffers ?? [];
@@ -343,41 +344,6 @@ class ProductOffersScreen extends StatelessWidget {
   }
 }
 
-class ShimmerWidget extends StatelessWidget {
-  final double width;
-  final double height;
-  final ShapeBorder shapeBorder;
-
-  const ShimmerWidget.rectangular({
-    super.key,
-    required this.width,
-    required this.height,
-  }) : shapeBorder = const RoundedRectangleBorder();
-
-  const ShimmerWidget.circular({
-    super.key,
-    required this.width,
-    required this.height,
-  }) : shapeBorder = const CircleBorder();
-
-  @override
-  Widget build(BuildContext context) {
-    debugPrint('Building ShimmerWidget');
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: ShapeDecoration(
-          color: Colors.grey[400]!,
-          shape: shapeBorder,
-        ),
-      ),
-    );
-  }
-}
-
 Widget rowWidget({String? name, String? status, Color? statusColor}) {
   return MainPadding(
     child: Row(
@@ -400,14 +366,38 @@ Widget rowWidget({String? name, String? status, Color? statusColor}) {
   );
 }
 
-Widget rowShimmerPlaceholder() {
-  return MainPadding(
-    child: Row(
-      children: const [
-        ShimmerWidget.rectangular(width: 100, height: 12),
-        Spacer(),
-        ShimmerWidget.rectangular(width: 80, height: 12),
-      ],
-    ),
+Widget productOfferShimmer() {
+  return ListView.builder(
+    itemCount: 5,
+    physics: const NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    itemBuilder: (context, index) {
+      return Container(
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.all(12.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: kLightBorderColor),
+        ),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(6, (_) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: 8.h),
+                child: Container(
+                  height: 14.h,
+                  width: double.infinity,
+                  color: Colors.white,
+                ),
+              );
+            }),
+          ),
+        ),
+      );
+    },
   );
 }

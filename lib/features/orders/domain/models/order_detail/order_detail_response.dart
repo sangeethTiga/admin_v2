@@ -13,8 +13,8 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "order_status_name") String? orderStatusName,
     @JsonKey(name: "delivery_agent_id") String? deliveryAgentId,
     @JsonKey(name: "rounding") int? rounding,
-    @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
-    double? parcelCharge,
+    @JsonKey(name: "parcel_charge")
+    String? parcelCharge,
     @JsonKey(name: "table_details") List<dynamic>? tableDetails,
     @JsonKey(name: "cust_feedback_exist") int? custFeedbackExist,
     @JsonKey(name: "customer_feedbacks") String? customerFeedbacks,
@@ -33,6 +33,7 @@ class OrderDetailResponse with _$OrderDetailResponse {
     @JsonKey(name: "pickup_date") String? pickupDate,
     @JsonKey(name: "pickup_time") String? pickupTime,
     @JsonKey(name: "order_option_date") String? orderOptionDate,
+    @JsonKey(name: "expected_delivery_date") String? expectedDeliveryDate,
     @JsonKey(name: "order_option") String? orderOption,
     @JsonKey(name: "payment_method_id") int? paymentMethodId,
     @JsonKey(name: "pay_method_name") String? payMethodName,
@@ -203,16 +204,16 @@ class ProductOrderItem with _$ProductOrderItem {
     @JsonKey(name: "tax_id") int? taxId,
     @JsonKey(name: "itemsubstitute") List<dynamic>? itemsubstitute,
     @JsonKey(name: "offer_price", fromJson: parseNumberAsDouble)
-    double? offerPrice,
+    double? offerPrice, 
     @JsonKey(name: "product_price", fromJson: parseNumberAsDouble)
     double? productPrice,
     @JsonKey(name: "order_item_purchase_price") String? orderItemPurchasePrice,
-    @JsonKey(name: "order_item_price") double? orderItemPrice,
-    @JsonKey(name: "order_item_offer_price") int? orderItemOfferPrice,
-    @JsonKey(name: "order_item_disc") int? orderItemDisc,
-    @JsonKey(name: "order_item_net_amt") int? orderItemNetAmt,
+    @JsonKey(name: "order_item_price") String? orderItemPrice,
+    @JsonKey(name: "order_item_offer_price") String? orderItemOfferPrice,
+    @JsonKey(name: "order_item_disc") String? orderItemDisc,
+    @JsonKey(name: "order_item_net_amt") String? orderItemNetAmt,
     @JsonKey(name: "order_item_note") String? orderItemNote,
-    @JsonKey(name: "order_item_total") int? orderItemTotal,
+    @JsonKey(name: "order_item_total") String? orderItemTotal,
     @JsonKey(name: "del_method_id") int? delMethodId,
     @JsonKey(name: "del_method_charge") String? delMethodCharge,
     @JsonKey(name: "printed") int? printed,
@@ -293,8 +294,8 @@ class ProductOrderItem with _$ProductOrderItem {
     @JsonKey(name: "release_time") int? releaseTime,
     @JsonKey(name: "pre_order_charging_option_id")
     int? preOrderChargingOptionId,
-    @JsonKey(name: "takeaway_addon_price", fromJson: parseNumberAsDouble)
-    double? takeawayAddonPrice,
+    @JsonKey(name: "takeaway_addon_price")
+    String? takeawayAddonPrice,
     @JsonKey(name: "parcel_charge", fromJson: parseNumberAsDouble)
     double? parcelCharge,
   }) = _ProductOrderItem;

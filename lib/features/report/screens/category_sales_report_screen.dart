@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+import 'package:admin_v2/features/orders/screens/order_detail_screen.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/screens/purchase_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -110,7 +111,7 @@ class CategorySalesReportScreen extends StatelessWidget {
                             '#': index + 1,
                             "Category Name": e.categoryName,
                             "Order count": e.orderCount,
-                            "Total Amount": e.totalAmount?.toStringAsFixed(2),
+                            "Total Amount": formatAmount(e.totalAmount ?? ''),
                           };
                         }).toList() ??
                         [],

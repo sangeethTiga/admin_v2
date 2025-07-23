@@ -36,7 +36,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                 _handleDate(),
                 8.verticalSpace,
                 _viewResults(),
-                8.verticalSpace,
+                //8.verticalSpace,
               ],
             ),
           ),
@@ -81,15 +81,21 @@ class DeliveryChargeScreen extends StatelessWidget {
     final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
-        return CustomMaterialBtton(
-          onPressed: () {
-            showNoMoreData.value = false;
-            context.read<ReportCubit>().loadDeliveryChargeReport(
-              storeId: state.selectedStore?.storeId,
-              // isLoadMore: true,
+        return BlocBuilder<ReportCubit, ReportState>(
+          builder: (context, reportState) {
+            return CustomMaterialBtton(
+              onPressed: () {
+                showNoMoreData.value = false;
+                final selectedAccount = state.selectedAccount?.accountHeadId;
+                context.read<ReportCubit>().loadDeliveryChargeReport(
+                  storeId: state.selectedStore?.storeId,
+                  accountId: selectedAccount,
+                  //isLoadMore: true,
+                );
+              },
+              buttonText: 'View Report',
             );
           },
-          buttonText: 'View Results',
         );
       },
     );
@@ -150,10 +156,12 @@ class DeliveryChargeScreen extends StatelessWidget {
                         state.deliverychargeReport?.asMap().entries.map((
                           entry,
                         ) {
-                          // int localIndex = entry.key;
+                          int localIndex = entry.key;
                           var e = entry.value;
+
                           int globalIndex =
-                              ((state.currentPage - 1) * 20) + entry.key + 1;
+                              (state.currentPage ?? 0) + localIndex + 1;
+
                           return {
                             "#": globalIndex,
                             "BILL NO": e.billNo ?? '',

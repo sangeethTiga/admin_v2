@@ -155,6 +155,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
                   final statusItem = state.statusList?[i];
+
                   if (statusItem == null) return const SizedBox.shrink();
 
                   final isSelected =
@@ -380,7 +381,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
                 child: Container(
                   width: 39.w,
-                  height: 54.h,
+                  height: 58.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.r),
                     border: Border.all(color: kPrimaryColor),
@@ -650,9 +651,13 @@ class _OrderCard extends StatelessWidget {
   }
 
   Widget _buildTotalAmount() {
+    final rawAmount = orderData?.netAmount?.toString() ?? '0';
+    final doubleAmount = double.tryParse(rawAmount) ?? 0.0;
+    final formattedAmount = doubleAmount.toStringAsFixed(2);
     return _containerWidget(
       name: 'Total :',
-      status: ' AED ${orderData?.orderGroupTotal ?? 0}',
+      status: 'AED $formattedAmount',
+      //status: ' AED ${orderData?.netAmount ?? 0}',
     );
   }
 

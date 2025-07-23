@@ -23,6 +23,7 @@ class ProductState extends Equatable {
   final List<Product>? prodList;
 
   final Product? selectProduct;
+  final ProductResponse? updatedProduct;
   final List<MostSellingResponse>? sellingProductsReport;
   final ApiFetchStatus? isMostSelling;
   final MostSellingResponse? selectedProducts;
@@ -58,6 +59,7 @@ class ProductState extends Equatable {
     this.quantity,
     this.prodList,
     this.selectProduct,
+    this.updatedProduct,
 
     this.isMostSelling,
     this.sellingProductsReport,
@@ -95,6 +97,7 @@ class ProductState extends Equatable {
     String? price,
     List<Product>? prodList,
     Product? selectProduct,
+    ProductResponse? updatedProduct,
 
     List<MostSellingResponse>? sellingProductsReport,
     ApiFetchStatus? isMostSelling,
@@ -134,7 +137,7 @@ class ProductState extends Equatable {
     selectProduct: isMakeItNull == true
         ? Product()
         : selectProduct ?? this.selectProduct,
-
+    updatedProduct: updatedProduct ?? this.updatedProduct,
     sellingProductsReport: sellingProductsReport ?? this.sellingProductsReport,
     isMostSelling: isMostSelling ?? this.isMostSelling,
     selectedProducts: selectedProducts ?? this.selectedProducts,
@@ -172,7 +175,7 @@ class ProductState extends Equatable {
     quantity,
     prodList,
     selectProduct,
-
+    updatedProduct,
     sellingProductsReport,
     isMostSelling,
     selectedProducts,

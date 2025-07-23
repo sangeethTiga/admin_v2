@@ -66,7 +66,7 @@ class ApiEndpoints {
     int resultPerPage,
     int pageFirstResult,
   ) =>
-      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$pageFirstResult&offset=$resultPerPage";
+      "/api/delivery-charge/report?store_id=$storeId&from_date=$fromDate&to_date=$toDate&pagesize=$resultPerPage&offset=$pageFirstResult";
 
   static String customersReport(
     int pageFirstResult,

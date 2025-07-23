@@ -59,10 +59,10 @@ mixin _$OrderResponse {
   String? get notificationStatusName => throw _privateConstructorUsedError;
   @JsonKey(name: "delivery_date")
   String? get deliveryDate => throw _privateConstructorUsedError;
-  @JsonKey(name: "net_amount", fromJson: parseInt)
-  int? get netAmount => throw _privateConstructorUsedError;
-  @JsonKey(name: "order_disc_amount", fromJson: parseInt)
-  int? get orderDiscAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: "net_amount")
+  String? get netAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: "order_disc_amount")
+  String? get orderDiscAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "store_id")
   int? get storeId => throw _privateConstructorUsedError;
   @JsonKey(name: "day_close_id")
@@ -135,9 +135,8 @@ abstract class $OrderResponseCopyWith<$Res> {
     @JsonKey(name: "notification_status_id") int? notificationStatusId,
     @JsonKey(name: "notification_status_name") String? notificationStatusName,
     @JsonKey(name: "delivery_date") String? deliveryDate,
-    @JsonKey(name: "net_amount", fromJson: parseInt) int? netAmount,
-    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
-    int? orderDiscAmount,
+    @JsonKey(name: "net_amount") String? netAmount,
+    @JsonKey(name: "order_disc_amount") String? orderDiscAmount,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "day_close_id") int? dayCloseId,
     @JsonKey(name: "cust_id") int? custId,
@@ -297,11 +296,11 @@ class _$OrderResponseCopyWithImpl<$Res, $Val extends OrderResponse>
             netAmount: freezed == netAmount
                 ? _value.netAmount
                 : netAmount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as String?,
             orderDiscAmount: freezed == orderDiscAmount
                 ? _value.orderDiscAmount
                 : orderDiscAmount // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as String?,
             storeId: freezed == storeId
                 ? _value.storeId
                 : storeId // ignore: cast_nullable_to_non_nullable
@@ -405,9 +404,8 @@ abstract class _$$OrderResponseImplCopyWith<$Res>
     @JsonKey(name: "notification_status_id") int? notificationStatusId,
     @JsonKey(name: "notification_status_name") String? notificationStatusName,
     @JsonKey(name: "delivery_date") String? deliveryDate,
-    @JsonKey(name: "net_amount", fromJson: parseInt) int? netAmount,
-    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
-    int? orderDiscAmount,
+    @JsonKey(name: "net_amount") String? netAmount,
+    @JsonKey(name: "order_disc_amount") String? orderDiscAmount,
     @JsonKey(name: "store_id") int? storeId,
     @JsonKey(name: "day_close_id") int? dayCloseId,
     @JsonKey(name: "cust_id") int? custId,
@@ -566,11 +564,11 @@ class __$$OrderResponseImplCopyWithImpl<$Res>
         netAmount: freezed == netAmount
             ? _value.netAmount
             : netAmount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as String?,
         orderDiscAmount: freezed == orderDiscAmount
             ? _value.orderDiscAmount
             : orderDiscAmount // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as String?,
         storeId: freezed == storeId
             ? _value.storeId
             : storeId // ignore: cast_nullable_to_non_nullable
@@ -667,9 +665,8 @@ class _$OrderResponseImpl implements _OrderResponse {
     @JsonKey(name: "notification_status_id") this.notificationStatusId,
     @JsonKey(name: "notification_status_name") this.notificationStatusName,
     @JsonKey(name: "delivery_date") this.deliveryDate,
-    @JsonKey(name: "net_amount", fromJson: parseInt) this.netAmount,
-    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
-    this.orderDiscAmount,
+    @JsonKey(name: "net_amount") this.netAmount,
+    @JsonKey(name: "order_disc_amount") this.orderDiscAmount,
     @JsonKey(name: "store_id") this.storeId,
     @JsonKey(name: "day_close_id") this.dayCloseId,
     @JsonKey(name: "cust_id") this.custId,
@@ -754,11 +751,11 @@ class _$OrderResponseImpl implements _OrderResponse {
   @JsonKey(name: "delivery_date")
   final String? deliveryDate;
   @override
-  @JsonKey(name: "net_amount", fromJson: parseInt)
-  final int? netAmount;
+  @JsonKey(name: "net_amount")
+  final String? netAmount;
   @override
-  @JsonKey(name: "order_disc_amount", fromJson: parseInt)
-  final int? orderDiscAmount;
+  @JsonKey(name: "order_disc_amount")
+  final String? orderDiscAmount;
   @override
   @JsonKey(name: "store_id")
   final int? storeId;
@@ -978,9 +975,8 @@ abstract class _OrderResponse implements OrderResponse {
     @JsonKey(name: "notification_status_name")
     final String? notificationStatusName,
     @JsonKey(name: "delivery_date") final String? deliveryDate,
-    @JsonKey(name: "net_amount", fromJson: parseInt) final int? netAmount,
-    @JsonKey(name: "order_disc_amount", fromJson: parseInt)
-    final int? orderDiscAmount,
+    @JsonKey(name: "net_amount") final String? netAmount,
+    @JsonKey(name: "order_disc_amount") final String? orderDiscAmount,
     @JsonKey(name: "store_id") final int? storeId,
     @JsonKey(name: "day_close_id") final int? dayCloseId,
     @JsonKey(name: "cust_id") final int? custId,
@@ -1065,11 +1061,11 @@ abstract class _OrderResponse implements OrderResponse {
   @JsonKey(name: "delivery_date")
   String? get deliveryDate;
   @override
-  @JsonKey(name: "net_amount", fromJson: parseInt)
-  int? get netAmount;
+  @JsonKey(name: "net_amount")
+  String? get netAmount;
   @override
-  @JsonKey(name: "order_disc_amount", fromJson: parseInt)
-  int? get orderDiscAmount;
+  @JsonKey(name: "order_disc_amount")
+  String? get orderDiscAmount;
   @override
   @JsonKey(name: "store_id")
   int? get storeId;

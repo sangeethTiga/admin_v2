@@ -108,12 +108,14 @@ class SalesReportScreen extends StatelessWidget {
                       children: [
                         CustomMaterialBtton(
                           onPressed: () {
-                           
-
                             context.read<ReportCubit>().loadSalesReport(
                               selectedStoreId: state.selectedStore?.storeId,
-                              fromDate: apiFormat.format(state.fromDate??DateTime.now()),
-                              toDate: apiFormat.format(state.toDate??DateTime.now()),
+                              fromDate: apiFormat.format(
+                                state.fromDate ?? DateTime.now(),
+                              ),
+                              toDate: apiFormat.format(
+                                state.toDate ?? DateTime.now(),
+                              ),
                               selectedDuration: 5,
                               selectedPaymentMethodId: '',
                               selectedCashierId: '',
@@ -148,7 +150,7 @@ class SalesReportScreen extends StatelessWidget {
                       "TOTAL SALES",
                       "TAX PAYABLE",
                     ],
-                    columnFlex: [1, 3, 4, 3, 3],
+                    columnFlex: [0, 2, 4, 3, 3],
                     data:
                         state.salesReport?.map((e) {
                           int index = state.salesReport?.indexOf(e) ?? 0;

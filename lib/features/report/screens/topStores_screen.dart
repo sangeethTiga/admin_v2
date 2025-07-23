@@ -1,10 +1,12 @@
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
+import 'package:admin_v2/shared/widgets/divider/divider_widget.dart';
 import 'package:admin_v2/shared/widgets/padding/main_padding.dart';
 import 'package:admin_v2/shared/widgets/tables/custom_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TopStores extends StatelessWidget {
   const TopStores({super.key});
@@ -13,7 +15,15 @@ class TopStores extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppbarWidget(title: 'Top Performing Stores'),
-      body: MainPadding(child: _topStoresList()),
+
+      body: MainPadding(
+        child: Column(
+          children: [
+            dividerWidget(height: 6.h,),
+            Expanded(child: _topStoresList()),
+          ],
+        ),
+      ),
     );
   }
 
