@@ -192,27 +192,49 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         top: 8.h,
                         child: Column(
                           children: [
+                            // BlocBuilder<ReportCubit, ReportState>(
+                            //   builder: (context, state) {
+                            //     return DropDownFieldWidget(
+                            //       value: state.selectedProductName,
+                            //       topLabelText: 'Product Name',
+                            //       hintText: 'Select Product',
+                            //       items:
+                            //           state.getProductName?.map((e) {
+                            //             return DropdownMenuItem<
+                            //               ProductNameResponse
+                            //             >(
+                            //               value: e,
+                            //               child: Text(e.productName ?? ''),
+                            //             );
+                            //           }).toList() ??
+                            //           [],
+                            //       borderColor: kBlack,
+                            //       fillColor: const Color(0XFFEFF1F1),
+                            //       onChanged: (p0) {
+                            //         context.read<ReportCubit>().changeProducts(
+                            //           p0,
+                            //         );
+                            //       },
+                            //     );
+                            //   },
+                            // ),
                             BlocBuilder<ReportCubit, ReportState>(
                               builder: (context, state) {
-                                return DropDownFieldWidget(
+                                return SearchableDropdownWidget<
+                                  ProductNameResponse
+                                >(
+                                  isEdit: widget.data?['is_edit_search'],
                                   value: state.selectedProductName,
+                                  items: state.getProductName ?? [],
                                   topLabelText: 'Product Name',
-                                  hintText: 'Select Product',
-                                  items:
-                                      state.getProductName?.map((e) {
-                                        return DropdownMenuItem<
-                                          ProductNameResponse
-                                        >(
-                                          value: e,
-                                          child: Text(e.productName ?? ''),
-                                        );
-                                      }).toList() ??
-                                      [],
-                                  borderColor: kBlack,
+                                  hintText: 'Search and select product...',
+                                  displayText: (product) =>
+                                      product.productName ?? '',
                                   fillColor: const Color(0XFFEFF1F1),
-                                  onChanged: (p0) {
+                                  borderColor: kBlack,
+                                  onChanged: (selectedProduct) {
                                     context.read<ReportCubit>().changeProducts(
-                                      p0,
+                                      selectedProduct ?? ProductNameResponse(),
                                     );
                                   },
                                 );
@@ -228,7 +250,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   decoration: BoxDecoration(
                                     color: const Color(0XFFEFF1F1),
                                     borderRadius: BorderRadius.circular(8.r),
-                                    border: Border.all(color: kBlack),
+                                    border: Border.all(color: kDarkGrey),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
@@ -397,7 +419,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             },
                             buttonText: isEdit ? 'Update Offer' : 'Save Offer',
                             isLoading:
-                                state.isCreated == ApiFetchStatus.loading,
+                                state.isCreated == ApiFetchStatus.loading ||
+                                state.isOfferEdit == ApiFetchStatus.loading,
                           ),
                         ),
                       ],
@@ -472,6 +495,12 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     }
 
     if (isEdit) {
+      final fromDate =
+          context.read<ReportCubit>().state.selectedOfferDate ?? DateTime.now();
+      final toDate =
+          context.read<ReportCubit>().state.selectedOfferToDate ??
+          DateTime.now();
+
       final editOfferData = EditOfferResponse(
         offerPrice: double.tryParse(offerPrice.text) ?? 0.0,
         offerPricePercentage: int.tryParse(offerPercentage.text) ?? 0,
@@ -489,8 +518,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         resourceId: state.selectedType?.resourceId ?? 0,
         prodVarCode: state.selectedProductName?.prodVarCode.toString(),
         priceTypeId: 1,
-        offerFromDate: context.read<ReportCubit>().state.fromDate,
-        offerToDate: context.read<ReportCubit>().state.toDate,
+        offerFromDate: DateTime(fromDate.year, fromDate.month, fromDate.day),
+        offerToDate: DateTime(toDate.year, toDate.month, toDate.day),
       );
 
       context.read<ReportCubit>().loadEditOffer(

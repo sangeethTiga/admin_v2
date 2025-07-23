@@ -49,7 +49,6 @@ class _ProductScreenState extends State<ProductScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialData();
-      
     });
   }
 
@@ -772,6 +771,8 @@ class _ProductCard extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
+                  right: MediaQuery.of(context).viewInsets.right,
+                  left: 0,
                 ),
                 child: SingleChildScrollView(
                   controller: scrollController,
