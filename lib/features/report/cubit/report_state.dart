@@ -72,7 +72,7 @@ class ReportState extends Equatable {
   final ApiFetchStatus? isCreated;
   final CreateOfferResponse? createData;
   final MostSellingResponse? selectCategory;
-  final List<ProductNameResponse>? getproductName;
+  final List<ProductNameResponse>? getProductName;
   final ApiFetchStatus? isProductName;
   final ProductNameResponse? selectedProductName;
   final ProductNameResponse? selectedProductPrice;
@@ -84,6 +84,11 @@ class ReportState extends Equatable {
   final OptionResponse? selectedOption;
   final List<CustomerSearchResponse>? custSearchList;
   final ApiFetchStatus? isLoading;
+  final DateTime? selectedOfferDate;
+  final TimeOfDay? selectedOfferTime;
+  final DateTime? selectedOfferToDate;
+  final TimeOfDay? selectedOfferToTime;
+  final ApiFetchStatus? isOfferEdit;
 
   const ReportState({
     this.salesReport,
@@ -149,6 +154,7 @@ class ReportState extends Equatable {
     this.selectCategory,
     this.selectedProductName,
     this.filteredProduct,
+    this.isOfferEdit = ApiFetchStatus.idle,
 
     //this.purchaseType,
     this.selectedPurchaseType,
@@ -160,7 +166,7 @@ class ReportState extends Equatable {
     this.isCreated,
     this.createData,
     this.option = '',
-    this.getproductName,
+    this.getProductName,
     this.isProductName,
     this.selectedProductPrice,
     this.hasMoreData,
@@ -171,6 +177,10 @@ class ReportState extends Equatable {
     this.selectedOption,
     this.custSearchList,
     this.isLoading,
+    this.selectedOfferDate,
+    this.selectedOfferTime,
+    this.selectedOfferToDate,
+    this.selectedOfferToTime,
   });
 
   ReportState copyWith({
@@ -260,6 +270,12 @@ class ReportState extends Equatable {
     OptionResponse? selectedOption,
     List<CustomerSearchResponse>? custSearchList,
     ApiFetchStatus? isLoading,
+
+    DateTime? selectedOfferDate,
+    TimeOfDay? selectedOfferTime,
+    DateTime? selectedOfferToDate,
+    TimeOfDay? selectedOfferToTime,
+    ApiFetchStatus? isOfferEdit,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -331,7 +347,7 @@ class ReportState extends Equatable {
       isCreated: isCreated ?? this.isCreated,
       createData: createData ?? this.createData,
       selectCategory: selectCategory ?? this.selectCategory,
-      getproductName: getProductName ?? getproductName,
+      getProductName: getProductName ?? this.getProductName,
       isProductName: isProductName ?? this.isProductName,
       selectedProductName: selectedProductName ?? this.selectedProductName,
       selectedProductPrice: selectedProductPrice ?? this.selectedProductPrice,
@@ -343,6 +359,11 @@ class ReportState extends Equatable {
       selectedOption: selectedOption ?? this.selectedOption,
       custSearchList: custSearchList ?? this.custSearchList,
       isLoading: isLoading ?? this.isLoading,
+      selectedOfferDate: selectedOfferDate ?? this.selectedOfferDate,
+      selectedOfferTime: selectedOfferTime ?? this.selectedOfferTime,
+      selectedOfferToDate: selectedOfferToDate ?? this.selectedOfferToDate,
+      selectedOfferToTime: selectedOfferToTime ?? this.selectedOfferToTime,
+      isOfferEdit: isOfferEdit ?? this.isOfferEdit,
     );
   }
 
@@ -414,7 +435,7 @@ class ReportState extends Equatable {
     isCreated,
     createData,
     selectCategory,
-    getproductName,
+    getProductName,
     isProductName,
     selectedProductName,
     selectedProductPrice,
@@ -426,6 +447,11 @@ class ReportState extends Equatable {
     selectedOption,
     custSearchList,
     isLoading,
+    selectedOfferDate,
+    selectedOfferTime,
+    selectedOfferToTime,
+    selectedOfferToDate,
+    isOfferEdit,
   ];
 }
 

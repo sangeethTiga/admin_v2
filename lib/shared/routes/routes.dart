@@ -12,6 +12,8 @@ const String routeRevenue = '/revenue';
 const String routeExpense = '/expense';
 const String routeDaySummary = '/day-summary';
 const String routePurchase = '/purchase';
+const String routeCreate = '/offer_create';
+
 const String routeCustomers = '/customers';
 const String routeParcel = '/parcel';
 const String routeCategorySales = '/category-sales';

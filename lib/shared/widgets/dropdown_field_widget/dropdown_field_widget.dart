@@ -101,13 +101,14 @@ class DropDownFieldWidget extends StatelessWidget {
       children: [
         5.verticalSpace,
         if (topLabelText != null)
-          Text(topLabelText!, style: FontPalette.hW700S14),
+          Text(topLabelText!, style: FontPalette.hW600S14),
         5.verticalSpace,
         ShimmerWidget(
           isLoading: isLoading,
           child: SizedBox(
             height: 55.h,
             child: DropdownButtonFormField(
+              
               key: dropdownKey,
               dropdownColor: dropdownColor,
               iconDisabledColor: kRedColor,
@@ -127,7 +128,7 @@ class DropDownFieldWidget extends StatelessWidget {
                 enabledBorder: inputBorder,
                 focusedErrorBorder: inputBorder,
                 errorBorder: inputBorder,
-                labelStyle: FontPalette.hW500S14,
+                labelStyle: FontPalette.hW500S16,
                 fillColor: fillColor,
                 filled: true,
                 prefixIcon: prefixIcon,

@@ -49,6 +49,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialData();
+      
     });
   }
 

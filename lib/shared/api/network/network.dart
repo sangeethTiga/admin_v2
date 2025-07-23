@@ -46,6 +46,7 @@ class NetworkProvider {
 
           if (!options.headers.containsKey('auth')) {
             final token = await AuthUtils.instance.readAccessToken;
+            log("Token =- =-= -= -=$token");
             if (token?.isNotEmpty ?? false) {
               options.headers['Authorization'] = 'Bearer $token';
             }

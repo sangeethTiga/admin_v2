@@ -1,10 +1,9 @@
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
-import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
-import 'package:admin_v2/features/report/widgets/offer_form.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
+import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
@@ -16,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -37,6 +37,7 @@ class ProductOffersScreen extends StatelessWidget {
             ),
             backgroundColor: kPrimaryColor,
             onPressed: () async {
+              context.read<ReportCubit>().clearOffersEdit();
               final storeId = context
                   .read<DashboardCubit>()
                   .state
@@ -47,20 +48,7 @@ class ProductOffersScreen extends StatelessWidget {
                 context.read<ReportCubit>().loadProductName(storeId: storeId);
               }
 
-              await showModalBottomSheet<bool>(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(12.r),
-                  ),
-                ),
-                builder: (context) => const OfferForm(isEdit: false),
-
-                // builder: (context) =>
-                //     CreateOffer(offers: ProductOffersResponse()),
-              );
+              context.push(routeCreate, extra: {'storeId': storeId});
             },
 
             child: Icon(Icons.add, color: kWhite, size: 25.h),
@@ -102,6 +90,12 @@ class ProductOffersScreen extends StatelessWidget {
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
                           context.read<ReportCubit>().loadProductOffers(
+                            storeId: p0?.storeId,
+                          );
+                          context.read<ReportCubit>().loadProductName(
+                            storeId: p0?.storeId,
+                          );
+                          context.read<ReportCubit>().loadSpecialOffer(
                             storeId: p0?.storeId,
                           );
                         },
@@ -231,29 +225,72 @@ class ProductOffersScreen extends StatelessWidget {
                                       const Spacer(),
                                       GestureDetector(
                                         onTap: () async {
-                                          context
-                                              .read<ReportCubit>()
-                                              .loadSpecialOffer(
-                                                storeId:
-                                                    state.selectedType?.storeId,
-                                              );
-                                          await showModalBottomSheet<
-                                            EditOfferResponse
-                                          >(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.vertical(
-                                                    top: Radius.circular(12.r),
-                                                  ),
-                                            ),
-                                            isScrollControlled: true,
-                                            backgroundColor: kWhite,
-                                            context: context,
-                                            builder: (context) => OfferForm(
-                                              isEdit: true,
-                                              product: offer,
-                                            ),
+                                          // context
+                                          //     .read<ReportCubit>()
+                                          //     .loadSpecialOffer(
+                                          //       storeId:
+                                          //           state.selectedType?.storeId,
+                                          //     );
+                                          // context
+                                          //     .read<ReportCubit>()
+                                          //     .loadProductName(
+                                          //       storeId:
+                                          //           state.selectedType?.storeId,
+                                          //     );
+
+                                          // context
+                                          //     .read<ReportCubit>()
+                                          //     .loadProductName(
+                                          //       storeId: context
+                                          //           .read<DashboardCubit>()
+                                          //           .state
+                                          //           .selectedStore
+                                          //           ?.storeId,
+                                          //     );
+                                          // context
+                                          //     .read<ReportCubit>()
+                                          //     .loadSpecialOffer(
+                                          //       storeId: context
+                                          //           .read<DashboardCubit>()
+                                          //           .state
+                                          //           .selectedStore
+                                          //           ?.storeId,
+                                          //     );
+                                          context.push(
+                                            routeCreate,
+                                            extra: {
+                                              'storeId': context
+                                                  .read<DashboardCubit>()
+                                                  .state
+                                                  .selectedStore
+                                                  ?.storeId,
+                                              'is_edit': true,
+                                              "offer_data": offer,
+                                            },
                                           );
+
+                                          // showCustomBottomSheet(
+                                          //   context,
+                                          //   CreateOfferScreen(),
+                                          // );
+                                          // );
+                                          // await showModalBottomSheet<
+                                          //   EditOfferResponse
+                                          // >(
+                                          //   shape: RoundedRectangleBorder(
+                                          //     borderRadius:
+                                          //         BorderRadius.vertical(
+                                          //           top: Radius.circular(12.r),
+                                          //         ),
+                                          //   ),
+                                          //   isScrollControlled: true,
+                                          //   backgroundColor: kWhite,
+                                          //   context: context,
+                                          //   builder: (context) => OfferForm(
+                                          //     isEdit: true,
+                                          //     product: offer,
+                                          //   ),
+                                          // );
                                         },
                                         child: Row(
                                           children: [

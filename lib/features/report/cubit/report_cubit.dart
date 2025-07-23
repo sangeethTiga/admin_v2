@@ -37,6 +37,7 @@ import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:admin_v2/shared/widgets/date_picker/date_picker_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 part 'report_state.dart';
@@ -1104,22 +1105,6 @@ class ReportCubit extends Cubit<ReportState> {
 
     log('/////SPECIAL OFFER////: ${res.data}');
     if (res.data != null) {
-      final List<dynamic> rawList = res.data!;
-      final List<SpecialOfferResponse> fetchedList = rawList.map((element) {
-        if (element is SpecialOfferResponse) {
-          return element;
-        } else if (element is Map<String, dynamic>) {
-          return SpecialOfferResponse.fromJson(element);
-        } else {
-          throw Exception(
-            'Unexpected element type in loadCustomersReport: ${element.runtimeType}',
-          );
-        }
-      }).toList();
-      // final List<ProductOffersResponse> newList = isLoadMore
-      //     ? <ProductOffersResponse>[...?state.productOffers, ...fetchedList]
-      //     : fetchedList;
-
       emit(
         state.copyWith(
           specialOffer: res.data,
@@ -1151,7 +1136,7 @@ class ReportCubit extends Cubit<ReportState> {
     int prodOfferId,
     int storeId,
   ) async {
-    emit(state.copyWith(isAdded: ApiFetchStatus.loading));
+    emit(state.copyWith(isOfferEdit: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadEditOffer(
       editOffer,
       prodOfferId,
@@ -1161,12 +1146,15 @@ class ReportCubit extends Cubit<ReportState> {
 
     if (res.data != null) {
       emit(
-        state.copyWith(isAdded: ApiFetchStatus.success, editData: editOffer),
+        state.copyWith(
+          isOfferEdit: ApiFetchStatus.success,
+          editData: editOffer,
+        ),
       );
 
       return;
     } else {
-      emit(state.copyWith(isAdded: ApiFetchStatus.failed));
+      emit(state.copyWith(isOfferEdit: ApiFetchStatus.failed));
     }
   }
 
@@ -1231,7 +1219,7 @@ class ReportCubit extends Cubit<ReportState> {
 
   Future<void> loadProductReport({
     int page = 1,
-    int limit = 20,
+    int limit = 30,
     int? storeId,
     String? fromDate,
     String? toDate,
@@ -1318,6 +1306,13 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
+  Future<void> changeProducts(ProductNameResponse v) async {
+    emit(state.copyWith(selectedProductName: v));
+  }
+
+  Future<void> changeOffeType(SpecialOfferResponse v) async {
+    emit(state.copyWith(selectedType: v));
+  }
   // Future<void> loadProductReport({
   //   int page = 1,
   //   int limit = 20,
@@ -1602,5 +1597,33 @@ class ReportCubit extends Cubit<ReportState> {
       log('order search error-$e', stackTrace: s);
       emit(state.copyWith(isCustomersReport: ApiFetchStatus.failed));
     }
+  }
+
+  void updateOfferDate(DateTime date) {
+    emit(state.copyWith(selectedOfferDate: date));
+  }
+
+  void updateOfferTime(TimeOfDay time) {
+    emit(state.copyWith(selectedOfferTime: time));
+  }
+
+  void updateOfferToDate(DateTime date) {
+    emit(state.copyWith(selectedOfferToDate: date));
+  }
+
+  void updateOfferToTime(TimeOfDay time) {
+    emit(state.copyWith(selectedOfferToTime: time));
+  }
+
+  Future<void> clearOffersEdit() async {
+    emit(
+      state.copyWith(
+        selectedOfferToTime: null,
+        selectedOfferToDate: null,
+        selectedOfferTime: null,
+        selectedProductName: null,
+        selectedType: null,
+      ),
+    );
   }
 }
