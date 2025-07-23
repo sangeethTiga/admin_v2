@@ -333,12 +333,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                   id: item.payMethodId ?? 0,
                                   name: item.payMethodName ?? '',
                                   isSelected: false,
-
                                 ),
                               )
                               .toList() ??
                           [],
-
                     ),
                     FilterCategory(
                       title: 'Waiters',
@@ -377,8 +375,6 @@ class _OrderScreenState extends State<OrderScreen> {
                         context.read<OrderCubit>().applyFiltersToData(
                           filters,
                           state.selectedStore?.storeId ?? 0,
-                          
-
                         );
                       },
                     ),
@@ -386,7 +382,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
                 child: Container(
                   width: 39.w,
-                  height: 58.h,
+                  height: 56.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.r),
                     border: Border.all(color: kPrimaryColor),
@@ -459,9 +455,8 @@ class _OrderScreenState extends State<OrderScreen> {
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
         version: "v2",
-        // payMethodId: 
-        
 
+        // payMethodId:
       ),
     );
   }
@@ -789,12 +784,12 @@ Widget _rowWidget({
             Expanded(
               flex: 3,
               child: InkWell(
-                onTap: ()async{
-                  if(name2 !=null && name2.isNotEmpty){
-                    final Uri telUri=Uri(scheme: 'tel',path: name2);
-                    if(await canLaunchUrl(telUri)){
+                onTap: () async {
+                  if (name2 != null && name2.isNotEmpty) {
+                    final Uri telUri = Uri(scheme: 'tel', path: name2);
+                    if (await canLaunchUrl(telUri)) {
                       await launchUrl(telUri);
-                    }else{
+                    } else {
                       debugPrint('Could not launch $telUri');
                     }
                   }

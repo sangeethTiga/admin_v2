@@ -119,7 +119,7 @@ class _DrawerContent extends StatelessWidget {
 
   List<Widget> get _reportsItems => [
     _buildDrawerItem(
-      icon: Icons.show_chart_outlined,
+      icon: Icons.library_books_outlined,
       title: Text('Day Summary'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
@@ -130,7 +130,7 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
-      icon: Icons.library_books,
+      icon: Icons.show_chart_outlined,
       title: Text('Sales'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
@@ -251,7 +251,7 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
-      icon: Icons.shopping_bag_outlined,
+      icon: Icons.shopping_cart,
       title: Text('Purchase'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
@@ -263,7 +263,7 @@ class _DrawerContent extends StatelessWidget {
       // route: routeTax,
     ),
     _buildDrawerItem(
-      icon: Icons.shopping_cart,
+      icon: Icons.category,
       title: Text('Category Sales'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
@@ -320,7 +320,7 @@ class _DrawerContent extends StatelessWidget {
     //   },
     // ),
     _buildDrawerItem(
-      icon: Icons.sell_sharp,
+      icon: Icons.add_box_sharp,
       title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {
@@ -346,7 +346,7 @@ class _DrawerContent extends StatelessWidget {
       leading: const Icon(Icons.paid_sharp),
       children: [
         _buildDrawerItem(
-          icon: Icons.shopify_outlined,
+          icon: Icons.discount,
           title: Text('Product Offers'),
           route: routeProductOffers,
           onTap: (context) {
