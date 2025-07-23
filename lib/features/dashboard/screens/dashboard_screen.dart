@@ -86,7 +86,6 @@ class DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildBody() {
     return MainPadding(
-      
       child: BlocBuilder<DashboardCubit, DashboardState>(
         buildWhen: (previous, current) =>
             previous.selectedStore != current.selectedStore ||
@@ -112,9 +111,9 @@ class DashboardScreenState extends State<DashboardScreen>
                           onStoreChanged: _onStoreChanged,
                         ),
                       ),
-                      90.horizontalSpace,
+                      77.horizontalSpace,
                       SizedBox(
-                        width:100.w,
+                        width: 105.w,
                         child: DateDropdown(
                           selectedDate: state.selectDate,
                           onDateChanged: (v) {
@@ -127,8 +126,7 @@ class DashboardScreenState extends State<DashboardScreen>
                   10.verticalSpace,
                   _buildDashboardGrid(state),
                   20.verticalSpace,
-                  if (state.revenueReport?.isNotEmpty ?? false)
-                    RevenueGraph(),
+                  if (state.revenueReport?.isNotEmpty ?? false) RevenueGraph(),
                   20.verticalSpace,
                   if (state.ordersReport?.isNotEmpty ?? false) OrdersGraph(),
                 ],

@@ -34,6 +34,7 @@ class SignInScreen extends StatelessWidget {
             );
 
             Future.delayed(const Duration(milliseconds: 200));
+           Future.delayed(const Duration(milliseconds: 200));
             context.read<DashboardCubit>().store();
             context.read<DashboardCubit>().loadOrderGraph();
             context.read<DashboardCubit>().loadRevenueGraph();
