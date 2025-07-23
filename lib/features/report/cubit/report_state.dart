@@ -276,6 +276,7 @@ class ReportState extends Equatable {
     DateTime? selectedOfferToDate,
     TimeOfDay? selectedOfferToTime,
     ApiFetchStatus? isOfferEdit,
+    bool? isMakeItNull = false,
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -349,7 +350,9 @@ class ReportState extends Equatable {
       selectCategory: selectCategory ?? this.selectCategory,
       getProductName: getProductName ?? this.getProductName,
       isProductName: isProductName ?? this.isProductName,
-      selectedProductName: selectedProductName ?? this.selectedProductName,
+      selectedProductName: isMakeItNull == true
+          ? null
+          : selectedProductName ?? this.selectedProductName,
       selectedProductPrice: selectedProductPrice ?? this.selectedProductPrice,
       hasMoreData: hasMoreData ?? this.hasMoreData,
       totalItems: totalItems ?? this.totalItems,
