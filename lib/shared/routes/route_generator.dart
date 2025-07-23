@@ -5,6 +5,7 @@ import 'package:admin_v2/features/dashboard/screens/revenue_graph.dart';
 import 'package:admin_v2/features/orders/screens/order_detail_screen.dart';
 import 'package:admin_v2/features/orders/screens/order_screen.dart';
 import 'package:admin_v2/features/products/product_screen.dart';
+import 'package:admin_v2/features/products/screens/create_offer_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/category_sales_report_screen.dart';
@@ -97,6 +98,13 @@ class RouteGenerator {
           builder: (context, state) => UserShiftReportScreen(),
         ),
 
+        GoRoute(
+          path: routeCreate,
+          builder: (context, state) {
+            final data = state.extra as Map<String, dynamic>;
+            return CreateOfferScreen(data: data);
+          },
+        ),
         GoRoute(
           path: routePurchase,
           builder: (context, state) => PurchaseScreen(),

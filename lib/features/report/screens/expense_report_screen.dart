@@ -195,13 +195,13 @@ class ExpenseReportScreen extends StatelessWidget {
                                           ApiFetchStatus.loading,
                                       headers: [
                                         "#",
-                                        "INV. NO",
-                                        "TRANS DATE",
+                                        "INV.NO",
+                                        "TRANSACTION DATE",
                                         "DESCRIPTION",
-                                        "ACCOUNT HEAD NAME",
+                                        "ACCOUNT HEAD",
                                         "AMOUNT",
                                       ],
-                                      columnFlex: [2, 3, 6, 6, 6, 4],
+                                      columnFlex: [0, 10, 14, 13, 11, 9],
                                       data:
                                           state.expenseReport
                                               ?.asMap()
@@ -214,16 +214,16 @@ class ExpenseReportScreen extends StatelessWidget {
 
                                                 return {
                                                   '#': globalIndex,
-                                                  'INV. NO':
+                                                  'INV.NO':
                                                       e.invoiceNumber ?? '',
-                                                  'TRANS DATE':
+                                                  'TRANSACTION DATE':
                                                       formatDateString(
                                                         e.acTransactionDate ??
                                                             '',
                                                       ),
                                                   'DESCRIPTION':
                                                       e.description ?? '',
-                                                  "ACCOUNT HEAD NAME":
+                                                  "ACCOUNT HEAD":
                                                       e.accountHeadName ?? '',
                                                   'AMOUNT': e.amount ?? '',
                                                 };

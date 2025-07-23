@@ -79,7 +79,10 @@ class ParcelCharge extends StatelessWidget {
                 );
               }).toList() ??
               [],
-
+          inputBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: const BorderSide(color: Color(0XFFB7C6C2)),
+          ),
           onChanged: (selectedOption) {
             final select = state.optionList?.firstWhere(
               (e) => e.orderOptionId == selectedOption,
@@ -107,6 +110,7 @@ class ParcelCharge extends StatelessWidget {
             Expanded(
               child: DatePickerContainer(
                 labelText: 'From Date',
+                firstDate: DateTime.now(),
                 value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeFromDate(pickDate);

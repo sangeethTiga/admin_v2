@@ -20,7 +20,6 @@ import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 part 'dashboard_state.dart';
 
 @injectable

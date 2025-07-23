@@ -14,7 +14,7 @@ class OrdersGraph extends StatelessWidget {
       child: BlocBuilder<DashboardCubit, DashboardState>(
         builder: (context, state) {
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(4.0),
             child: Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(

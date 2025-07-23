@@ -14,8 +14,9 @@ class RevenueGraph extends StatelessWidget {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(4.0),
           child: Container(
+            width: double.infinity,
             padding: EdgeInsets.all(18.0),
             decoration: BoxDecoration(
               color: Colors.white,

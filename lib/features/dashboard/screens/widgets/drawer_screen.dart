@@ -354,6 +354,10 @@ class _DrawerContent extends StatelessWidget {
             context.read<ReportCubit>().loadProductOffers(
               storeId: selectedStore?.storeId,
             );
+            context.read<ReportCubit>().loadProductName(
+              storeId: selectedStore?.storeId,
+            );
+
             context.push(routeProductOffers);
 
             // context.read<ReportCubit>().loadProductOffers(
@@ -543,14 +547,14 @@ class _DrawerContent extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel'),
+              child: const Text('Cancel',style: TextStyle(fontSize: 21),),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(dialogContext).pop(); // Close the dialog
                 Helper().logout(context); // Proceed to logout
               },
-              child: const Text('Logout', style: TextStyle(color: kRedColor)),
+              child: const Text('Logout', style: TextStyle(color: kRedColor,fontSize: 21)),
             ),
           ],
         );

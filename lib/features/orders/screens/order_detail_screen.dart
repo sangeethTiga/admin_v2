@@ -617,6 +617,8 @@ Future<void> _showMyDialog(BuildContext context) async {
                             child: Text(
                               data.productName ?? 'Unknown Product',
                               style: FontPalette.hW700S13,
+                              maxLines: 2,
+                              // overflow: TextOverflow.visible,
                             ),
                           ),
                           Text(
