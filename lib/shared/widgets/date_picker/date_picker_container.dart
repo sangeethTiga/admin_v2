@@ -185,6 +185,7 @@ import 'package:intl/intl.dart';
   final DateTime? initialDate;
   final DateTime? firstDate;
   final String? labelText;
+ final DateTime? lastDate;
 
   const DatePickerContainer({
     super.key,
@@ -197,6 +198,7 @@ import 'package:intl/intl.dart';
     this.initialDate,
     this.firstDate,
     this.labelText,
+     this.lastDate,
   });
 
   @override

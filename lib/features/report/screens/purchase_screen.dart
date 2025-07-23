@@ -243,7 +243,7 @@ class PurchaseScreen extends StatelessWidget {
                                       "Invoice",
                                     ],
 
-                                    columnFlex: [1, 2, 2, 2, 2, 2],
+                                    columnFlex: [1, 3, 2, 2, 2, 2],
                                     data:
                                         state.purchaseReport?.map((e) {
                                           int index =

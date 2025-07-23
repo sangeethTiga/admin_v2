@@ -110,7 +110,8 @@ class ParcelCharge extends StatelessWidget {
             Expanded(
               child: DatePickerContainer(
                 labelText: 'From Date',
-                // firstDate: DateTime.now(),
+            
+ 
                 value: apiFormat.format(state.fromDate ?? DateTime.now()),
                 changeDate: (DateTime pickDate) {
                   context.read<ReportCubit>().changeFromDate(pickDate);

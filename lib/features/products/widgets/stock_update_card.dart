@@ -219,7 +219,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                     },
                   ),
                 ),
-                10.verticalSpace,
+                12.verticalSpace,
 
                 widget.fromVariant
                     ? SizedBox()
