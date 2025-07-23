@@ -108,7 +108,6 @@ class DropDownFieldWidget extends StatelessWidget {
           child: SizedBox(
             height: 55.h,
             child: DropdownButtonFormField(
-              
               key: dropdownKey,
               dropdownColor: dropdownColor,
               iconDisabledColor: kRedColor,
@@ -219,5 +218,250 @@ class ShimmerWidget extends StatelessWidget {
       );
     }
     return child ?? const SizedBox();
+  }
+}
+
+class SearchableDropdownWidget<T> extends StatefulWidget {
+  final T? value;
+  final List<T> items;
+  final String? topLabelText;
+  final String? hintText;
+  final String Function(T) displayText;
+  final Function(T?) onChanged;
+  final Color? fillColor;
+  final Color? borderColor;
+  final bool isLoading;
+
+  const SearchableDropdownWidget({
+    super.key,
+    this.value,
+    required this.items,
+    this.topLabelText,
+    this.hintText,
+    required this.displayText,
+    required this.onChanged,
+    this.fillColor,
+    this.borderColor,
+    this.isLoading = false,
+  });
+
+  @override
+  State<SearchableDropdownWidget<T>> createState() =>
+      _SearchableDropdownWidgetState<T>();
+}
+
+class _SearchableDropdownWidgetState<T>
+    extends State<SearchableDropdownWidget<T>> {
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  bool _isExpanded = false;
+  List<T> _filteredItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredItems = widget.items;
+
+    if (widget.value != null) {
+      _searchController.text = widget.displayText(widget.value as T);
+    }
+  }
+
+  @override
+  void didUpdateWidget(SearchableDropdownWidget<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.items != widget.items) {
+      _filteredItems = widget.items;
+    }
+
+    if (oldWidget.value != widget.value) {
+      if (widget.value != null) {
+        _searchController.text = widget.displayText(widget.value as T);
+      } else {
+        _searchController.clear();
+      }
+    }
+  }
+
+  void _filterItems(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredItems = widget.items;
+      } else {
+        _filteredItems = widget.items.where((item) {
+          return widget
+              .displayText(item)
+              .toLowerCase()
+              .contains(query.toLowerCase());
+        }).toList();
+      }
+    });
+  }
+
+  void _selectItem(T item) {
+    setState(() {
+      _searchController.text = widget.displayText(item);
+      _isExpanded = false;
+    });
+    _focusNode.unfocus();
+    widget.onChanged(item);
+  }
+
+  void _clearSelection() {
+    setState(() {
+      _searchController.clear();
+      _filteredItems = widget.items;
+      _isExpanded = false;
+    });
+    widget.onChanged(null);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.topLabelText != null) ...[
+          5.verticalSpace,
+          Text(widget.topLabelText!, style: FontPalette.hW600S14),
+          5.verticalSpace,
+        ],
+
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            color: widget.fillColor ?? Colors.white,
+          ),
+          child: TextFormField(
+            controller: _searchController,
+            focusNode: _focusNode,
+            decoration: InputDecoration(
+              hintText: widget.hintText ?? 'Search and select...',
+              hintStyle: FontPalette.hW500S14.copyWith(color: Colors.grey),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 12.w,
+                vertical: 14.h,
+              ),
+              suffixIcon: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (_searchController.text.isNotEmpty)
+                    IconButton(
+                      icon: Icon(Icons.clear, size: 18.sp, color: Colors.grey),
+                      onPressed: _clearSelection,
+                    ),
+                  IconButton(
+                    icon: Icon(
+                      _isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      size: 20.sp,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isExpanded = !_isExpanded;
+                      });
+                      if (_isExpanded) {
+                        _focusNode.requestFocus();
+                      } else {
+                        _focusNode.unfocus();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+            onChanged: (value) {
+              _filterItems(value);
+              if (!_isExpanded) {
+                setState(() {
+                  _isExpanded = true;
+                });
+              }
+            },
+            onTap: () {
+              setState(() {
+                _isExpanded = true;
+              });
+            },
+          ),
+        ),
+
+        if (_isExpanded) ...[
+          4.verticalSpace,
+          Container(
+            constraints: BoxConstraints(maxHeight: 200.h),
+            decoration: BoxDecoration(
+              border: Border.all(color: widget.borderColor ?? kBlack),
+              borderRadius: BorderRadius.circular(8.r),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: widget.isLoading
+                ? Center(child: CircularProgressIndicator())
+                : _filteredItems.isEmpty
+                ? Padding(
+                    padding: EdgeInsets.all(16.w),
+                    child: Text(
+                      'No items found',
+                      style: FontPalette.hW500S14.copyWith(color: Colors.grey),
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _filteredItems.length,
+                    itemBuilder: (context, index) {
+                      final item = _filteredItems[index];
+                      final isSelected = widget.value == item;
+
+                      return InkWell(
+                        onTap: () => _selectItem(item),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 12.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? kPrimaryColor.withOpacity(0.1)
+                                : Colors.transparent,
+                            border: index < _filteredItems.length - 1
+                                ? Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey.shade200,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          child: Text(
+                            widget.displayText(item),
+                            style: FontPalette.hW500S14.copyWith(
+                              color: isSelected ? kPrimaryColor : Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ],
+    );
   }
 }
