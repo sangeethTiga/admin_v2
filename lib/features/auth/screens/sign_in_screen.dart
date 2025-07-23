@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -34,18 +33,14 @@ class SignInScreen extends StatelessWidget {
               state.authResponse?.user?.token ?? '',
             );
 
+            Future.delayed(const Duration(milliseconds: 200));
             context.read<DashboardCubit>().store();
             context.read<DashboardCubit>().loadOrderGraph();
             context.read<DashboardCubit>().loadRevenueGraph();
 
             context.push(routeMain);
-          } else if (state.isLoading == ApiFetchStatus.failed) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage ?? "Invalid credentials"),
-                backgroundColor: Colors.red,
-              ),
-            );
+            //chilliesdg@gmail.com
+            //admin@resto.com
           }
         },
         builder: (context, state) {
