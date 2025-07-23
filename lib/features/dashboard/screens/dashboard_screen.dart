@@ -86,7 +86,7 @@ class DashboardScreenState extends State<DashboardScreen>
 
   Widget _buildBody() {
     return MainPadding(
-      top: 10.h,
+      
       child: BlocBuilder<DashboardCubit, DashboardState>(
         buildWhen: (previous, current) =>
             previous.selectedStore != current.selectedStore ||
