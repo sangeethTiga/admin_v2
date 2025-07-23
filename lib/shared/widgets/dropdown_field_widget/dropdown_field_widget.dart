@@ -231,6 +231,8 @@ class SearchableDropdownWidget<T> extends StatefulWidget {
   final Color? fillColor;
   final Color? borderColor;
   final bool isLoading;
+  final bool isEnable;
+  final bool readOnly;
 
   const SearchableDropdownWidget({
     super.key,
@@ -243,6 +245,8 @@ class SearchableDropdownWidget<T> extends StatefulWidget {
     this.fillColor,
     this.borderColor,
     this.isLoading = false,
+    this.isEnable = false,
+    this.readOnly=false
   });
 
   @override

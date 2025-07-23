@@ -144,7 +144,7 @@ class _StockUpdateCardState extends State<StockUpdateCard> {
                           child: SvgPicture.asset(
                             'assets/icons/down -arrow.svg',
                             width: 9.33.w,
-                            height: 12.h,
+                            height: 10.h,
                             fit: BoxFit.contain,
                             color: Colors.black,
                           ),

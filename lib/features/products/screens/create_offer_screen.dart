@@ -227,6 +227,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   items: state.getProductName ?? [],
                                   topLabelText: 'Product Name',
                                   hintText: 'Search and select product...',
+                                  isEnable: false,
                                   displayText: (product) =>
                                       product.productName ?? '',
                                   fillColor: const Color(0XFFEFF1F1),

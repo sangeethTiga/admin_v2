@@ -149,6 +149,7 @@ void navigateToFeature(
   BuildContext context, {
   int? storeId,
   int? accountId,
+  int? orderId,
 }) {
   try {
     final today = _formatDate(DateTime.now());
@@ -162,6 +163,7 @@ void navigateToFeature(
         _navigateToProfitLoss(storeId ?? 0, today, context);
       case 'Orders':
         context.read<ReportCubit>().initState();
+       // context.read<OrderCubit>().orders(orderId: orderId, storeId: storeId);
         _navigateToOrders(storeId ?? 0, today, context);
       case 'Sales':
         context.read<ReportCubit>().initState();

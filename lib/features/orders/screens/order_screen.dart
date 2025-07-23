@@ -7,6 +7,7 @@ import 'package:admin_v2/features/orders/domain/models/order/order_response.dart
 import 'package:admin_v2/features/orders/domain/models/order_request/order_request.dart';
 import 'package:admin_v2/features/orders/domain/models/status/order_status_response.dart';
 import 'package:admin_v2/features/orders/screens/widgets/order_filter.dart';
+import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -125,9 +126,10 @@ class _OrderScreenState extends State<OrderScreen> {
                   child: Column(
                     children: [
                       5.verticalSpace,
-                      _commonStoreDropDown(
+                      commonStoreDropDown(
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
+                          //context.read<OrderCubit>().orders();
                         },
                       ),
                       4.verticalSpace,

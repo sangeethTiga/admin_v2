@@ -126,12 +126,11 @@ class OrderCubit extends Cubit<OrderState> {
   void applyFiltersToData(Map<String, List<int>> filters, int? storeId) {
     print('Applying filters to data...');
     print('Received filters: $filters');
-   
 
     int? selectedPaymentType = filters['Payment Type']?.isNotEmpty == true
         ? filters['Payment Type']!.first
         : null;
- print('```````Payment Type filters: $selectedPaymentType}');
+    print('```````Payment Type filters: $selectedPaymentType}');
     int? selectedWaiter = filters['Waiters']?.isNotEmpty == true
         ? filters['Waiters']!.first
         : null;
@@ -159,7 +158,6 @@ class OrderCubit extends Cubit<OrderState> {
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
         storeId: storeId,
-        
       ),
     );
   }
@@ -205,27 +203,23 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
-  Future<void>searchOrder({String? searchText,int ? storeId})async{
-    try{
-
-        emit(state.copyWith(isLoading: ApiFetchStatus.loading));
-       final result=await _orderRepositories.searchOrder(search: searchText,storeId:storeId ); 
-       if(result.data!=null){
+  Future<void> searchOrder({String? searchText, int? storeId}) async {
+    try {
+      emit(state.copyWith(isLoading: ApiFetchStatus.loading));
+      final result = await _orderRepositories.searchOrder(
+        search: searchText,
+        storeId: storeId,
+      );
+      if (result.data != null) {
         print('serch-=-==-${result.data}');
-        
-        emit(state.copyWith(orderList:result.data ));
-                emit(state.copyWith(isLoading: ApiFetchStatus.success));
 
-       }
+        emit(state.copyWith(orderList: result.data));
+        emit(state.copyWith(isLoading: ApiFetchStatus.success));
+      }
       emit(state.copyWith(isLoading: ApiFetchStatus.failed));
-
-
-    }catch(e,s){
-      log('order search error-$e',stackTrace: s);
-            emit(state.copyWith(isLoading: ApiFetchStatus.failed));
-
+    } catch (e, s) {
+      log('order search error-$e', stackTrace: s);
+      emit(state.copyWith(isLoading: ApiFetchStatus.failed));
     }
-    
-
   }
 }
