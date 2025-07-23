@@ -20,33 +20,35 @@ class ChequetransScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(title: 'Cheque Transaction'),
-      body: Column(
-        children: [
-          dividerWidget(height: 6.h),
+      appBar: AppbarWidget(title: 'ChequeTransaction'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            dividerWidget(height: 6.h),
 
-          BlocBuilder<ReportCubit, ReportState>(
-            builder: (context, state) {
-              return MainPadding(
-                child: Column(
-                  children: [
-                    commonStoreDropDown(
-                      onChanged: (p0) {
-                        context.read<DashboardCubit>().selectedStore(p0);
-                      },
-                    ),
-                    _buildStatusOption(),
-                    12.verticalSpace,
-                    _handleDate(),
-                    8.verticalSpace,
-                    _buildViewReport(),
-                    _buildCommonTable(),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
+            BlocBuilder<ReportCubit, ReportState>(
+              builder: (context, state) {
+                return MainPadding(
+                  child: Column(
+                    children: [
+                      commonStoreDropDown(
+                        onChanged: (p0) {
+                          context.read<DashboardCubit>().selectedStore(p0);
+                        },
+                      ),
+                      _buildStatusOption(),
+                      12.verticalSpace,
+                      _handleDate(),
+                      8.verticalSpace,
+                      _buildViewReport(),
+                      _buildCommonTable(),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -170,7 +172,7 @@ class ChequetransScreen extends StatelessWidget {
             columnFlex: [4, 3, 5, 4, 4],
             data:
                 state.chequeTransReport?.map((e) {
-                  int index = state.chequeTransReport?.indexOf(e) ?? 0;
+                  // int index = state.chequeTransReport?.indexOf(e) ?? 0;
 
                   return {
                     // "#": index + 1,

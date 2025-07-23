@@ -157,8 +157,6 @@ class PurchaseScreen extends StatelessWidget {
                     return BlocBuilder<ReportCubit, ReportState>(
                       builder: (context, reportState) {
                         return CustomMaterialBtton(
-                          isLoading:
-                              state.isMostSelling == ApiFetchStatus.loading,
                           onPressed: () {
                             context.read<ReportCubit>().loadPurchaseReport(
                               page: 0,
@@ -268,27 +266,27 @@ class PurchaseScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              if (state.isLoadingMore == true)
-                                Container(
-                                  padding: EdgeInsets.all(16.w),
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ValueListenableBuilder<bool>(
-                                valueListenable: showNoMoreData,
-                                builder: (context, value, _) {
-                                  if (!value) return SizedBox.shrink();
-                                  return Padding(
-                                    padding: EdgeInsets.all(16.w),
-                                    child: Text(
-                                      'No more data',
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                              // if (state.isLoadingMore == true)
+                              //   Container(
+                              //     padding: EdgeInsets.all(16.w),
+                              //     child: CircularProgressIndicator(),
+                              //   ),
+                              // ValueListenableBuilder<bool>(
+                              //   valueListenable: showNoMoreData,
+                              //   builder: (context, value, _) {
+                              //     if (!value) return SizedBox.shrink();
+                              //     return Padding(
+                              //       padding: EdgeInsets.all(16.w),
+                              //       child: Text(
+                              //         'No more data',
+                              //         style: TextStyle(
+                              //           fontSize: 12.sp,
+                              //           color: Colors.grey,
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              // ),
                             ],
                           );
                         },

@@ -312,31 +312,20 @@ class SalesReportFilter extends StatelessWidget {
                         Expanded(
                           child: CustomMaterialBtton(
                             onPressed: () async {
-                              // final reportCubit = context
-                              //     .read<Dea>()
-                              //     .state;
-                              log("Report Date  =-- = -=${state.fromDate}");
-                              context.read<ReportCubit>().loadSalesReport(
-                                selectedStoreId: state.selectedStore?.storeId,
-                                selectedPaymentMethodId: state
-                                    .selectedPaymethod
-                                    ?.payMethodId
-                                    .toString(),
-                                selectedWaiterId: state.selectedWaiter?.userId
-                                    .toString(),
-                                selectedShiftId: state.selectedShift?.id
-                                    .toString(),
-                                selectedCashierId: state.selectedCashier?.userId
-                                    .toString(),
-                                selectedKIOSK: state.selectedKiosk?.kioskId
-                                    .toString(),
-                                selectedDuration: state.selectMonth?.id ?? 0,
-                                selectedGroupBy: state.selectedGroupBy?.id,
-                                fromDate: apiFormat.format(state.fromDate!),
-                                toDate: apiFormat.format(
-                                  state.toDate ?? DateTime.now(),
-                                ),
-                              );
+                       context.read<ReportCubit>().loadSalesReport(
+  selectedStoreId: state.selectedStore?.storeId ?? 0, 
+  selectedPaymentMethodId: state.selectedPaymethod?.payMethodId?.toString() ?? "",
+  selectedWaiterId: state.selectedWaiter?.userId?.toString() ?? "",
+  selectedShiftId: state.selectedShift?.id?.toString() ?? "",
+  selectedCashierId: state.selectedCashier?.userId?.toString() ?? "",
+  selectedKIOSK: state.selectedKiosk?.kioskId?.toString() ?? "",
+  selectedDuration: state.selectMonth?.id ?? 0, 
+  selectedGroupBy: state.selectedGroupBy?.id ?? '', 
+  selectedDeliveryAgentId: state.selectedDeliveryAgent?.companyUsersId.toString()??'',
+  fromDate: apiFormat.format(state.fromDate!),
+  toDate: apiFormat.format(state.toDate ?? DateTime.now()),
+);
+
                               Navigator.pop(context);
                             },
                           ),
