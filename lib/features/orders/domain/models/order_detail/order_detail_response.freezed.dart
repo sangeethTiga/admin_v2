@@ -275,13 +275,13 @@ mixin _$OrderDetailResponse {
   String? get pickupLocationAddress => throw _privateConstructorUsedError;
   @JsonKey(name: "area_id")
   int? get areaId => throw _privateConstructorUsedError;
-  @JsonKey(name: "zip")
-  String? get zip => throw _privateConstructorUsedError;
+  @JsonKey(name: "zip", fromJson: parseInt)
+  int? get zip => throw _privateConstructorUsedError;
   @JsonKey(name: "country_id")
   int? get countryId => throw _privateConstructorUsedError;
   @JsonKey(name: "state_id")
   int? get stateId => throw _privateConstructorUsedError;
-  @JsonKey(name: "phone_no")
+  @JsonKey(name: "phone_no", fromJson: parseInt)
   int? get phoneNo => throw _privateConstructorUsedError;
   @JsonKey(name: "email_id")
   String? get emailId => throw _privateConstructorUsedError;
@@ -468,10 +468,10 @@ abstract class $OrderDetailResponseCopyWith<$Res> {
     @JsonKey(name: "pickup_location_name") String? pickupLocationName,
     @JsonKey(name: "pickup_location_address") String? pickupLocationAddress,
     @JsonKey(name: "area_id") int? areaId,
-    @JsonKey(name: "zip") String? zip,
+    @JsonKey(name: "zip", fromJson: parseInt) int? zip,
     @JsonKey(name: "country_id") int? countryId,
     @JsonKey(name: "state_id") int? stateId,
-    @JsonKey(name: "phone_no") int? phoneNo,
+    @JsonKey(name: "phone_no", fromJson: parseInt) int? phoneNo,
     @JsonKey(name: "email_id") String? emailId,
     @JsonKey(name: "pickup_country_name") String? pickupCountryName,
     @JsonKey(name: "pickup_state_name") String? pickupStateName,
@@ -1172,7 +1172,7 @@ class _$OrderDetailResponseCopyWithImpl<$Res, $Val extends OrderDetailResponse>
             zip: freezed == zip
                 ? _value.zip
                 : zip // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as int?,
             countryId: freezed == countryId
                 ? _value.countryId
                 : countryId // ignore: cast_nullable_to_non_nullable
@@ -1401,10 +1401,10 @@ abstract class _$$OrderDetailResponseImplCopyWith<$Res>
     @JsonKey(name: "pickup_location_name") String? pickupLocationName,
     @JsonKey(name: "pickup_location_address") String? pickupLocationAddress,
     @JsonKey(name: "area_id") int? areaId,
-    @JsonKey(name: "zip") String? zip,
+    @JsonKey(name: "zip", fromJson: parseInt) int? zip,
     @JsonKey(name: "country_id") int? countryId,
     @JsonKey(name: "state_id") int? stateId,
-    @JsonKey(name: "phone_no") int? phoneNo,
+    @JsonKey(name: "phone_no", fromJson: parseInt) int? phoneNo,
     @JsonKey(name: "email_id") String? emailId,
     @JsonKey(name: "pickup_country_name") String? pickupCountryName,
     @JsonKey(name: "pickup_state_name") String? pickupStateName,
@@ -2104,7 +2104,7 @@ class __$$OrderDetailResponseImplCopyWithImpl<$Res>
         zip: freezed == zip
             ? _value.zip
             : zip // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as int?,
         countryId: freezed == countryId
             ? _value.countryId
             : countryId // ignore: cast_nullable_to_non_nullable
@@ -2325,10 +2325,10 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
     @JsonKey(name: "pickup_location_name") this.pickupLocationName,
     @JsonKey(name: "pickup_location_address") this.pickupLocationAddress,
     @JsonKey(name: "area_id") this.areaId,
-    @JsonKey(name: "zip") this.zip,
+    @JsonKey(name: "zip", fromJson: parseInt) this.zip,
     @JsonKey(name: "country_id") this.countryId,
     @JsonKey(name: "state_id") this.stateId,
-    @JsonKey(name: "phone_no") this.phoneNo,
+    @JsonKey(name: "phone_no", fromJson: parseInt) this.phoneNo,
     @JsonKey(name: "email_id") this.emailId,
     @JsonKey(name: "pickup_country_name") this.pickupCountryName,
     @JsonKey(name: "pickup_state_name") this.pickupStateName,
@@ -2756,8 +2756,8 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   @JsonKey(name: "area_id")
   final int? areaId;
   @override
-  @JsonKey(name: "zip")
-  final String? zip;
+  @JsonKey(name: "zip", fromJson: parseInt)
+  final int? zip;
   @override
   @JsonKey(name: "country_id")
   final int? countryId;
@@ -2765,7 +2765,7 @@ class _$OrderDetailResponseImpl implements _OrderDetailResponse {
   @JsonKey(name: "state_id")
   final int? stateId;
   @override
-  @JsonKey(name: "phone_no")
+  @JsonKey(name: "phone_no", fromJson: parseInt)
   final int? phoneNo;
   @override
   @JsonKey(name: "email_id")
@@ -3471,10 +3471,10 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
     @JsonKey(name: "pickup_location_address")
     final String? pickupLocationAddress,
     @JsonKey(name: "area_id") final int? areaId,
-    @JsonKey(name: "zip") final String? zip,
+    @JsonKey(name: "zip", fromJson: parseInt) final int? zip,
     @JsonKey(name: "country_id") final int? countryId,
     @JsonKey(name: "state_id") final int? stateId,
-    @JsonKey(name: "phone_no") final int? phoneNo,
+    @JsonKey(name: "phone_no", fromJson: parseInt) final int? phoneNo,
     @JsonKey(name: "email_id") final String? emailId,
     @JsonKey(name: "pickup_country_name") final String? pickupCountryName,
     @JsonKey(name: "pickup_state_name") final String? pickupStateName,
@@ -3883,8 +3883,8 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   @JsonKey(name: "area_id")
   int? get areaId;
   @override
-  @JsonKey(name: "zip")
-  String? get zip;
+  @JsonKey(name: "zip", fromJson: parseInt)
+  int? get zip;
   @override
   @JsonKey(name: "country_id")
   int? get countryId;
@@ -3892,7 +3892,7 @@ abstract class _OrderDetailResponse implements OrderDetailResponse {
   @JsonKey(name: "state_id")
   int? get stateId;
   @override
-  @JsonKey(name: "phone_no")
+  @JsonKey(name: "phone_no", fromJson: parseInt)
   int? get phoneNo;
   @override
   @JsonKey(name: "email_id")

@@ -93,7 +93,7 @@ class ChequetransScreen extends StatelessWidget {
               context.read<ReportCubit>().selectedStatus(select);
             }
           },
-          labelText: 'status',
+          labelText: 'Status',
         );
       },
     );
@@ -161,7 +161,7 @@ class ChequetransScreen extends StatelessWidget {
           child: CommonTableWidget(
             isLoading: state.isChequeReport == ApiFetchStatus.loading,
             headers: [
-              // "#",
+              "#",
               "CHEQUE NUMBER",
               "BANK NAME",
               "CHEQUE ISSUE DATE",
@@ -172,10 +172,10 @@ class ChequetransScreen extends StatelessWidget {
             columnFlex: [4, 3, 5, 4, 4],
             data:
                 state.chequeTransReport?.map((e) {
-                  // int index = state.chequeTransReport?.indexOf(e) ?? 0;
+                  int index = state.chequeTransReport?.indexOf(e) ?? 0;
 
                   return {
-                    // "#": index + 1,
+                    "#": index + 1,
                     "CHEQUE NUMBER": e.chequeNumber ?? '',
                     "BANK NAME": e.bankName ?? '',
                     "CHEQUE ISSUE DATE": e.chequeIssueDate ?? '',

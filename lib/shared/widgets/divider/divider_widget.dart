@@ -6,5 +6,6 @@ Widget dividerWidget({double ?height,Color?color}) {
   return Divider(
     color:color?? kPrimaryColor1,
     thickness:height?? 1.h,
+    
   );
 }
