@@ -126,11 +126,12 @@ class OrderCubit extends Cubit<OrderState> {
   void applyFiltersToData(Map<String, List<int>> filters, int? storeId) {
     print('Applying filters to data...');
     print('Received filters: $filters');
+   
 
     int? selectedPaymentType = filters['Payment Type']?.isNotEmpty == true
         ? filters['Payment Type']!.first
         : null;
-
+ print('```````Payment Type filters: $selectedPaymentType}');
     int? selectedWaiter = filters['Waiters']?.isNotEmpty == true
         ? filters['Waiters']!.first
         : null;
@@ -158,6 +159,7 @@ class OrderCubit extends Cubit<OrderState> {
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
         storeId: storeId,
+        
       ),
     );
   }

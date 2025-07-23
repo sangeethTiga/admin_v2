@@ -26,8 +26,8 @@ class ProductNameResponse with _$ProductNameResponse {
         String? oldProductPrice,
         @JsonKey(name: "prod_var_id")
         int? prodVarId,
-        @JsonKey(name: "prod_var_code",fromJson: parseInt) 
-        int? prodVarCode,
+        @JsonKey(name: "prod_var_code")
+        dynamic prodVarCode,
         @JsonKey(name: "product_desc")
         String? productDesc,
         @JsonKey(name: "product_arabic_desc")

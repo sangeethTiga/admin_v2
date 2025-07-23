@@ -65,10 +65,7 @@ class ProductOffersScreen extends StatelessWidget {
                 children: [
                   BlocBuilder<DashboardCubit, DashboardState>(
                     builder: (context, state) {
-                      if (state.apiFetchStatus == ApiFetchStatus.loading) {}
                       return DropDownFieldWidget(
-                        isLoading:
-                            state.apiFetchStatus == ApiFetchStatus.loading,
                         prefixIcon: Container(
                           margin: EdgeInsets.only(left: 12.w),
                           child: SvgPicture.asset(
