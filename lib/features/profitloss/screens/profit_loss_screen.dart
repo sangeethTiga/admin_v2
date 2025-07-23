@@ -303,7 +303,9 @@ class ProfitLossScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                'Net Profit/Loss',
+                                calculateProfitorLoss(state) >= 0
+                                    ? 'Profit '
+                                    : 'Loss ',
                                 style: FontPalette.hW700S14,
                               ),
                               Spacer(),
@@ -314,7 +316,11 @@ class ProfitLossScreen extends StatelessWidget {
                                     state,
                                   ).toStringAsFixed(2),
 
-                                  style: FontPalette.hW700S14,
+                                  style: FontPalette.hW700S14.copyWith(
+                                    color: calculateProfitorLoss(state) >= 0
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ),
                                 ),
                               ),
                             ],

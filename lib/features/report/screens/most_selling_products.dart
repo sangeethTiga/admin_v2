@@ -94,7 +94,7 @@ class MostSellingProducts extends StatelessWidget {
                         );
                       },
 
-                      labelText: 'select category',
+                      hintText: 'Select Category',
                     );
                   },
                 ),

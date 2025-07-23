@@ -347,13 +347,17 @@ class _DrawerContent extends StatelessWidget {
       children: [
         _buildDrawerItem(
           icon: Icons.shopify_outlined,
-          title: Text('Product offers'),
+          title: Text('Product Offers'),
           route: routeProductOffers,
           onTap: (context) {
             context.read<ReportCubit>().initState();
             context.read<ReportCubit>().loadProductOffers(
               storeId: selectedStore?.storeId,
             );
+            context.read<ReportCubit>().loadProductName(
+              storeId: selectedStore?.storeId,
+            );
+
             context.push(routeProductOffers);
 
             // context.read<ReportCubit>().loadProductOffers(

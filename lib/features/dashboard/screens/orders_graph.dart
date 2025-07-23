@@ -14,7 +14,7 @@ class OrdersGraph extends StatelessWidget {
       child: BlocBuilder<DashboardCubit, DashboardState>(
         builder: (context, state) {
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(4.0),
             child: Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
@@ -31,10 +31,10 @@ class OrdersGraph extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Orders', style: FontPalette.hW500S16),
+                  Text('Orders', style: FontPalette.hW700S16),
                   SizedBox(height: 12),
                   SizedBox(
-                    height: 400,
+                    height: 280,
                     width: double.infinity,
                     child: SfCartesianChart(
                       primaryXAxis: CategoryAxis(

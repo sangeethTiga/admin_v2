@@ -49,6 +49,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadInitialData();
+      
     });
   }
 
@@ -170,6 +171,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   children: [
                     _buildStoreDropdown(),
                     _buildCategoryAndProductDropdowns(state),
+                    6.verticalSpace,
                     _buildSearchField(context),
                     12.verticalSpace,
                     _buildProductsHeader(state),
@@ -759,7 +761,28 @@ class _ProductCard extends StatelessWidget {
           topRight: Radius.circular(12.r),
         ),
       ),
-      builder: (context) => EditProduct(product: product),
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.75,
+          minChildSize: 0.4,
+          maxChildSize: 0.95,
+          builder: (_, scrollController) {
+            return SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: EditProduct(product: product),
+                ),
+              ),
+            );
+          },
+        );
+      },
+      //builder: (context) => EditProduct(product: product),
     );
   }
 

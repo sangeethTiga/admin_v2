@@ -3,6 +3,7 @@ import 'package:admin_v2/features/dashboard/domain/models/revenueGraph/revenue_g
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class RevenueGraph extends StatelessWidget {
@@ -13,12 +14,13 @@ class RevenueGraph extends StatelessWidget {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(4.0),
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            width: double.infinity,
+            padding: EdgeInsets.all(18.0),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(14.0),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black12,
@@ -34,7 +36,8 @@ class RevenueGraph extends StatelessWidget {
                 Text('Revenue & Expense', style: FontPalette.hW700S16),
                 SizedBox(height: 12),
                 SizedBox(
-                  height: 400,
+                  height: 280,
+
                   width: double.infinity,
                   child: SfCartesianChart(
                     // title: ChartTitle(text: 'Revenue & Expense'),
@@ -47,13 +50,13 @@ class RevenueGraph extends StatelessWidget {
                     primaryXAxis: CategoryAxis(
                       labelPlacement: LabelPlacement.betweenTicks,
                       edgeLabelPlacement: EdgeLabelPlacement.shift,
-                      interval: 1,
+                      interval: 2,
                       labelIntersectAction: AxisLabelIntersectAction.rotate45,
                       majorGridLines: MajorGridLines(width: 0),
                     ),
                     primaryYAxis: NumericAxis(
                       majorGridLines: MajorGridLines(width: 0),
-                      // interval: 20,
+                      //interval: 20,
                     ),
 
                     tooltipBehavior: TooltipBehavior(enable: true),
@@ -65,6 +68,7 @@ class RevenueGraph extends StatelessWidget {
                             rev.monthname?.substring(0, 3) ?? '',
                         yValueMapper: (rev, _) => rev.income?.toDouble() ?? 0,
                         color: Colors.cyan,
+                        width: 0.9.w,
                       ),
                       ColumnSeries<RevenueResponse, String>(
                         name: 'Expense',
@@ -73,6 +77,7 @@ class RevenueGraph extends StatelessWidget {
                             rev.monthname?.substring(0, 3) ?? '',
                         yValueMapper: (rev, _) => rev.expense?.toDouble() ?? 0,
                         color: Colors.pinkAccent,
+                        width: 0.9.w,
                       ),
                     ],
                   ),

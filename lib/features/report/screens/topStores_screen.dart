@@ -19,7 +19,7 @@ class TopStores extends StatelessWidget {
       body: MainPadding(
         child: Column(
           children: [
-            dividerWidget(height: 6.h,),
+            dividerWidget(height: 6.h),
             Expanded(child: _topStoresList()),
           ],
         ),

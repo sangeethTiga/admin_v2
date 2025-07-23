@@ -25,6 +25,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -349,10 +350,12 @@ class _OrderScreenState extends State<OrderScreen> {
                                   id: item.payMethodId ?? 0,
                                   name: item.payMethodName ?? '',
                                   isSelected: false,
+
                                 ),
                               )
                               .toList() ??
                           [],
+
                     ),
                     FilterCategory(
                       title: 'Waiters',
@@ -391,6 +394,8 @@ class _OrderScreenState extends State<OrderScreen> {
                         context.read<OrderCubit>().applyFiltersToData(
                           filters,
                           state.selectedStore?.storeId ?? 0,
+                          
+
                         );
                       },
                     ),
@@ -471,6 +476,9 @@ class _OrderScreenState extends State<OrderScreen> {
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
         version: "v2",
+        // payMethodId: 
+        
+
       ),
     );
   }
@@ -797,22 +805,34 @@ Widget _rowWidget({
             ),
             Expanded(
               flex: 3,
-              child: Row(
-                children: [
-                  if (isPrimary)
-                    SvgPicture.asset(
-                      'assets/icons/Call.svg',
-                      height: 14.h,
-                      width: 12.w,
+              child: InkWell(
+                onTap: ()async{
+                  if(name2 !=null && name2.isNotEmpty){
+                    final Uri telUri=Uri(scheme: 'tel',path: name2);
+                    if(await canLaunchUrl(telUri)){
+                      await launchUrl(telUri);
+                    }else{
+                      debugPrint('Could not launch $telUri');
+                    }
+                  }
+                },
+                child: Row(
+                  children: [
+                    if (isPrimary)
+                      SvgPicture.asset(
+                        'assets/icons/Call.svg',
+                        height: 14.h,
+                        width: 12.w,
+                      ),
+                    4.horizontalSpace,
+                    Text(
+                      name2 ?? '',
+                      style: FontPalette.hW500S13.copyWith(
+                        color: isPrimary ? kPrimaryColor : kBlack,
+                      ),
                     ),
-                  4.horizontalSpace,
-                  Text(
-                    name2 ?? '',
-                    style: FontPalette.hW500S13.copyWith(
-                      color: isPrimary ? kPrimaryColor : kBlack,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
