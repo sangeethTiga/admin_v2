@@ -220,6 +220,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             // ),
                             BlocBuilder<ReportCubit, ReportState>(
                               builder: (context, state) {
+                                // if (widget.data?['is_edit_search'] == true) {
+                                //   return ReadOnlySearchableDropdown<
+                                //     ProductNameResponse
+                                //   >(
+                                //     value: state.selectedProductName,
+                                //     topLabelText: 'Product Name',
+                                //     hintText: 'No product selected',
+                                //     displayText: (product) =>
+                                //         product.productName ?? '',
+                                //     fillColor: const Color(0XFFEFF1F1),
+                                //     borderColor: kBlack,
+                                //   );
+                                // }
+
                                 return SearchableDropdownWidget<
                                   ProductNameResponse
                                 >(

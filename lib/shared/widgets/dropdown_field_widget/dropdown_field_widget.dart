@@ -346,6 +346,11 @@ class _SearchableDropdownWidgetState<T>
             readOnly: widget.isEdit ?? false,
             controller: _searchController,
             focusNode: _focusNode,
+
+            // ONLY ADD THIS LINE - no other changes to preserve design
+            contextMenuBuilder: (context, editableTextState) =>
+                const SizedBox.shrink(),
+
             decoration: InputDecoration(
               hintText: widget.hintText ?? 'Search and select...',
               hintStyle: FontPalette.hW500S14.copyWith(color: Colors.grey),

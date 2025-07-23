@@ -201,38 +201,7 @@ class ProductOffersScreen extends StatelessWidget {
                                       ),
                                       const Spacer(),
                                       GestureDetector(
-                                        onTap: () async {
-                                          // context
-                                          //     .read<ReportCubit>()
-                                          //     .loadSpecialOffer(
-                                          //       storeId:
-                                          //           state.selectedType?.storeId,
-                                          //     );
-                                          // context
-                                          //     .read<ReportCubit>()
-                                          //     .loadProductName(
-                                          //       storeId:
-                                          //           state.selectedType?.storeId,
-                                          //     );
-
-                                          // context
-                                          //     .read<ReportCubit>()
-                                          //     .loadProductName(
-                                          //       storeId: context
-                                          //           .read<DashboardCubit>()
-                                          //           .state
-                                          //           .selectedStore
-                                          //           ?.storeId,
-                                          //     );
-                                          // context
-                                          //     .read<ReportCubit>()
-                                          //     .loadSpecialOffer(
-                                          //       storeId: context
-                                          //           .read<DashboardCubit>()
-                                          //           .state
-                                          //           .selectedStore
-                                          //           ?.storeId,
-                                          //     );
+                                        onTap: () {
                                           context.push(
                                             routeCreate,
                                             extra: {
@@ -246,29 +215,6 @@ class ProductOffersScreen extends StatelessWidget {
                                               'is_edit_search': true,
                                             },
                                           );
-
-                                          // showCustomBottomSheet(
-                                          //   context,
-                                          //   CreateOfferScreen(),
-                                          // );
-                                          // );
-                                          // await showModalBottomSheet<
-                                          //   EditOfferResponse
-                                          // >(
-                                          //   shape: RoundedRectangleBorder(
-                                          //     borderRadius:
-                                          //         BorderRadius.vertical(
-                                          //           top: Radius.circular(12.r),
-                                          //         ),
-                                          //   ),
-                                          //   isScrollControlled: true,
-                                          //   backgroundColor: kWhite,
-                                          //   context: context,
-                                          //   builder: (context) => OfferForm(
-                                          //     isEdit: true,
-                                          //     product: offer,
-                                          //   ),
-                                          // );
                                         },
                                         child: Row(
                                           children: [
