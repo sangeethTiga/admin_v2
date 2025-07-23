@@ -36,7 +36,6 @@ class DeliveryChargeScreen extends StatelessWidget {
                 _handleDate(),
                 8.verticalSpace,
                 _viewResults(),
-                //8.verticalSpace,
               ],
             ),
           ),
@@ -86,11 +85,8 @@ class DeliveryChargeScreen extends StatelessWidget {
             return CustomMaterialBtton(
               onPressed: () {
                 showNoMoreData.value = false;
-                final selectedAccount = state.selectedAccount?.accountHeadId;
                 context.read<ReportCubit>().loadDeliveryChargeReport(
                   storeId: state.selectedStore?.storeId,
-                  accountId: selectedAccount,
-                  //isLoadMore: true,
                 );
               },
               buttonText: 'View Report',

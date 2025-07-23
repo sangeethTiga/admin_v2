@@ -125,7 +125,7 @@ class DashboardScreenState extends State<DashboardScreen>
                       ),
                     ],
                   ),
-                  5.verticalSpace,
+                  10.verticalSpace,
                   _buildDashboardGrid(state),
                   20.verticalSpace,
                   if (state.revenueReport?.isNotEmpty ?? false) RevenueGraph(),

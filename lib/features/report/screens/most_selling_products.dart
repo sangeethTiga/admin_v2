@@ -254,7 +254,7 @@ class MostSellingProducts extends StatelessWidget {
                                             if (reportState.hasMoreData ==
                                                     false &&
                                                 reportState
-                                                        .parcelChargeList
+                                                        .productsReport
                                                         ?.isNotEmpty ==
                                                     true) {
                                               showNoMoreData.value = true;
@@ -284,7 +284,7 @@ class MostSellingProducts extends StatelessWidget {
                                         "Total Sales",
                                         "Profit",
                                       ],
-                                      columnFlex: [1, 3, 2, 2, 2, 2, 2],
+                                      columnFlex: [1, 4, 2, 3, 2, 2, 2],
                                       data:
                                           state.productsReport
                                               ?.asMap()
