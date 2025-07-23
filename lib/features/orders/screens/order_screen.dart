@@ -155,6 +155,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
                   final statusItem = state.statusList?[i];
+
                   if (statusItem == null) return const SizedBox.shrink();
 
                   final isSelected =
@@ -380,7 +381,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 },
                 child: Container(
                   width: 39.w,
-                  height: 54.h,
+                  height: 58.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.r),
                     border: Border.all(color: kPrimaryColor),
