@@ -163,7 +163,7 @@ void navigateToFeature(
         _navigateToProfitLoss(storeId ?? 0, today, context);
       case 'Orders':
         context.read<ReportCubit>().initState();
-       // context.read<OrderCubit>().orders(orderId: orderId, storeId: storeId);
+        context.read<OrderCubit>().orders(orderId: orderId, storeId: storeId);
         _navigateToOrders(storeId ?? 0, today, context);
       case 'Sales':
         context.read<ReportCubit>().initState();
@@ -232,7 +232,7 @@ void _navigateToOrders(int storeId, String date, BuildContext context) {
     final orderCubit = context.read<OrderCubit>();
     orderCubit.orderStatus();
     orderCubit.orders(
-      isEdit: false,
+       isEdit: false,
       req: OrderRequest(storeId: storeId, fromDate: date, toDate: date),
     );
     context.push(routeOrders);

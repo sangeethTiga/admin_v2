@@ -130,6 +130,20 @@ class _OrderScreenState extends State<OrderScreen> {
                         onChanged: (p0) {
                           context.read<DashboardCubit>().selectedStore(p0);
                           //context.read<OrderCubit>().orders();
+                          final orderCubit = context.read<OrderCubit>();
+                          final state = orderCubit.state;
+
+                          orderCubit.orders(
+                            req: OrderRequest(
+                              storeId: p0.storeId,
+                              fromDate: parsedDate(
+                                state.fromDate ?? DateTime.now(),
+                              ),
+                              toDate: parsedDate(
+                                state.toDate ?? DateTime.now(),
+                              ),
+                            ),
+                          );
                         },
                       ),
                       4.verticalSpace,
