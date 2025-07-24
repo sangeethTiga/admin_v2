@@ -155,8 +155,7 @@ class DeliveryChargeScreen extends StatelessWidget {
                           int localIndex = entry.key;
                           var e = entry.value;
 
-                          int globalIndex =
-                              (state.currentPage ?? 0) + localIndex + 1;
+                          int globalIndex = localIndex + 1;
 
                           return {
                             "#": globalIndex,

@@ -197,11 +197,13 @@ class ExpenseReportScreen extends StatelessWidget {
                                         "#",
                                         "INV.NO",
                                         "TRANSACTION DATE",
-                                        "DESCRIPTION",
+
                                         "ACCOUNT HEAD",
+                                        "DESCRIPTION",
                                         "AMOUNT",
                                       ],
-                                      columnFlex: [0, 10, 14, 13, 11, 9],
+                                      columnFlex: [0, 9, 14, 11, 13, 9],
+                                      // columnFlex: [0, 10, 14, 13, 11, 9],
                                       data:
                                           state.expenseReport
                                               ?.asMap()
@@ -221,10 +223,11 @@ class ExpenseReportScreen extends StatelessWidget {
                                                         e.acTransactionDate ??
                                                             '',
                                                       ),
-                                                  'DESCRIPTION':
-                                                      e.description ?? '',
+
                                                   "ACCOUNT HEAD":
                                                       e.accountHeadName ?? '',
+                                                  'DESCRIPTION':
+                                                      e.description ?? '',
                                                   'AMOUNT': e.amount ?? '',
                                                 };
                                               })

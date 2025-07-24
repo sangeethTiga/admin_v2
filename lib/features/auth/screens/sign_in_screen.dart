@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -33,6 +32,8 @@ class SignInScreen extends StatelessWidget {
             await AuthUtils.instance.writeAccessTokens(
               state.authResponse?.user?.token ?? '',
             );
+
+            Future.delayed(const Duration(milliseconds: 200));
            Future.delayed(const Duration(milliseconds: 200));
             context.read<DashboardCubit>().store();
             context.read<DashboardCubit>().loadOrderGraph();

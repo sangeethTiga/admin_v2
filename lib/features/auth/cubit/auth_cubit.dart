@@ -4,14 +4,13 @@ import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 part 'auth_state.dart';
-
+ 
 @injectable
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepositories _authRepositories;
   AuthCubit(this._authRepositories) : super(InitialAuthState());
-
+ 
   Future<void> authSigIn({
     required String email,
     required String password,
@@ -32,7 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthState(isLoading: ApiFetchStatus.idle));
     }
   }
-
+ 
   Future<void> clearLogin() async {
     emit(state.copyWith(authResponse: null, isMakeItNull: true));
   }
