@@ -299,7 +299,7 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
+      final currentPage = isLoadMore ? ((state.currentPage) + limit) : 0;
 
       final res = await _reportRepositories.loadDeliveryCharge(
         pageFirstResult: currentPage,
