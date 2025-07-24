@@ -22,7 +22,6 @@ class DashboardScreen extends StatefulWidget {
   @override
   State<DashboardScreen> createState() => DashboardScreenState();
 }
-
 class DashboardScreenState extends State<DashboardScreen>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   late final ScrollController _scrollController;
@@ -38,8 +37,8 @@ class DashboardScreenState extends State<DashboardScreen>
     _initializeControllers();
     _preloadDashboardData();
   }
-
-  void _initializeControllers() {
+ 
+   void _initializeControllers() {
     _scrollController = ScrollController();
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 300),
