@@ -68,7 +68,7 @@ class RevenueGraph extends StatelessWidget {
                             rev.monthname?.substring(0, 3) ?? '',
                         yValueMapper: (rev, _) => rev.income?.toDouble() ?? 0,
                         color: Colors.cyan,
-                        width: 0.9.w,
+                        width: 0.9,
                       ),
                       ColumnSeries<RevenueResponse, String>(
                         name: 'Expense',
@@ -77,7 +77,7 @@ class RevenueGraph extends StatelessWidget {
                             rev.monthname?.substring(0, 3) ?? '',
                         yValueMapper: (rev, _) => rev.expense?.toDouble() ?? 0,
                         color: Colors.pinkAccent,
-                        width: 0.9.w,
+                        width: 0.9,
                       ),
                     ],
                   ),
