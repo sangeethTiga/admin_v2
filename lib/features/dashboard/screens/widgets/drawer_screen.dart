@@ -144,7 +144,7 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
-      icon: Icons.show_chart_outlined,
+      icon: Icons.stacked_line_chart_sharp,
       title: Text('Sales'),
       onTap: (context) {
         context.read<ReportCubit>().initState();
@@ -300,7 +300,7 @@ class _DrawerContent extends StatelessWidget {
     //   },
     // ),
     _buildDrawerItem(
-      icon: Icons.loop_sharp,
+      icon: Icons.moving_sharp,
       title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {
