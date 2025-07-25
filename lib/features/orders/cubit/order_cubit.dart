@@ -222,4 +222,8 @@ class OrderCubit extends Cubit<OrderState> {
       emit(state.copyWith(isLoading: ApiFetchStatus.failed));
     }
   }
+  
+  void initStates() {
+    emit(state.copyWith(fromDate: DateTime.now(), toDate: DateTime.now()));
+  }
 }

@@ -647,7 +647,7 @@ Future<void> _showMyDialog(BuildContext context) async {
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Cancel'),
+            child: Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -692,4 +692,9 @@ String formatAmount(String raw) {
   } else {
     return value.toStringAsFixed(2);
   }
+}
+
+String formatPrice(Object? value) {
+  final parsed = (value is num) ? value.toDouble() : 0.0;
+  return parsed.toStringAsFixed(2);
 }

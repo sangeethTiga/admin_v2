@@ -56,9 +56,10 @@ class _DrawerContent extends StatelessWidget {
         _buildDrawerHeader(),
         _buildReportsSection(),
         _buildOrders(),
+        _buildInventory(storeId),
         _buildOffersSection(),
         _buildTopStoresSection(),
-        _buildInventory(storeId),
+
         _buildLogoutSection(context),
       ],
     );
@@ -130,6 +131,19 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
+      icon: Icons.currency_exchange_outlined,
+      title: Text('Profit/Loss'),
+      route: routeProfitloss,
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadProfitAndLoss(
+          storeId: selectedStore?.storeId,
+        );
+
+        context.push(routeProfitloss);
+      },
+    ),
+    _buildDrawerItem(
       icon: Icons.show_chart_outlined,
       title: Text('Sales'),
       onTap: (context) {
@@ -140,31 +154,6 @@ class _DrawerContent extends StatelessWidget {
         context.push(routeSale);
       },
       // route: routeDeliveryCharge,
-    ),
-    _buildDrawerItem(
-      icon: Icons.delivery_dining_sharp,
-      title: Text('Delivery Charge'),
-      onTap: (context) {
-        context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadDeliveryChargeReport(
-          storeId: selectedStore?.storeId,
-        );
-        context.push(routeDeliveryCharge);
-      },
-      // route: routeDeliveryCharge,
-    ),
-    _buildDrawerItem(
-      icon: Icons.flatware,
-      title: Text('Parcel Charge'),
-      route: routeParcel,
-      onTap: (context) {
-        context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadParcelCharge(
-          storeId: selectedStore?.storeId,
-        );
-        context.read<DashboardCubit>().orderOption(selectedStore?.storeId, 0);
-        context.push(routeParcel);
-      },
     ),
     _buildDrawerItem(
       icon: Icons.assessment_outlined,
@@ -189,65 +178,6 @@ class _DrawerContent extends StatelessWidget {
         final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
         context.read<ReportCubit>().initState();
         _navigateToExpense(storeId ?? 0, accountId ?? 0, date, context);
-        // final state = context.read<DashboardCubit>().state;
-        // final selectedId = selectedAccount?.accountHeadId;
-
-        // AccountDataResponse? account;
-        // try {
-        //   account = state.accountList?.firstWhere(
-        //     (e) => e.accountHeadId == selectedId,
-        //   );
-        // } catch (_) {
-        //   account = null;
-        // }
-
-        // if (account != null &&
-        //     account.accountHeadId != state.selectedAccount?.accountHeadId) {
-        //   context.read<DashboardCubit>().selectedAccount(account);
-        // }
-        // context.read<ReportCubit>().loadExpenseReport(
-        //   storeId: selectedStore?.storeId,
-        // );
-
-        // context.push(routeExpense);
-      },
-    ),
-
-    _buildDrawerItem(
-      icon: Icons.bar_chart_sharp,
-      title: Text('Tax Report'),
-      onTap: (context) {
-        context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadTaxReport(
-          storeId: selectedStore?.storeId,
-        );
-        context.push(routeTax);
-      },
-      // route: routeTax,
-    ),
-    _buildDrawerItem(
-      icon: Icons.people,
-      title: Text('Customers'),
-      onTap: (context) {
-        context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadCustomersReport(
-          storeId: selectedStore?.storeId,
-        );
-        context.push(routeCustomers);
-      },
-      // route: routeTax,
-    ),
-    _buildDrawerItem(
-      icon: Icons.currency_exchange_outlined,
-      title: Text('Profit/Loss'),
-      route: routeProfitloss,
-      onTap: (context) {
-        context.read<ReportCubit>().initState();
-        context.read<ReportCubit>().loadProfitAndLoss(
-          storeId: selectedStore?.storeId,
-        );
-
-        context.push(routeProfitloss);
       },
     ),
     _buildDrawerItem(
@@ -260,8 +190,58 @@ class _DrawerContent extends StatelessWidget {
         );
         context.push(routePurchase);
       },
+    ),
+    _buildDrawerItem(
+      icon: Icons.people,
+      title: Text('Customers'),
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadCustomersReport(
+          storeId: selectedStore?.storeId,
+        );
+        context.push(routeCustomers);
+      },
+    ),
+
+    _buildDrawerItem(
+      icon: Icons.delivery_dining_sharp,
+      title: Text('Delivery Charge'),
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadDeliveryChargeReport(
+          storeId: selectedStore?.storeId,
+        );
+        context.push(routeDeliveryCharge);
+      },
+      // route: routeDeliveryCharge,
+    ),
+
+    // _buildDrawerItem(
+    //   icon: Icons.flatware,
+    //   title: Text('Parcel Charge'),
+    //   route: routeParcel,
+    //   onTap: (context) {
+    //     context.read<ReportCubit>().initState();
+    //     context.read<ReportCubit>().loadParcelCharge(
+    //       storeId: selectedStore?.storeId,
+    //     );
+    //     context.read<DashboardCubit>().orderOption(selectedStore?.storeId, 0);
+    //     context.push(routeParcel);
+    //   },
+    // ),
+    _buildDrawerItem(
+      icon: Icons.bar_chart_sharp,
+      title: Text('Tax Report'),
+      onTap: (context) {
+        context.read<ReportCubit>().initState();
+        context.read<ReportCubit>().loadTaxReport(
+          storeId: selectedStore?.storeId,
+        );
+        context.push(routeTax);
+      },
       // route: routeTax,
     ),
+
     _buildDrawerItem(
       icon: Icons.category,
       title: Text('Category Sales'),
@@ -320,7 +300,7 @@ class _DrawerContent extends StatelessWidget {
     //   },
     // ),
     _buildDrawerItem(
-      icon: Icons.add_box_sharp,
+      icon: Icons.loop_sharp,
       title: Text('Most Selling Products'),
       route: routeSellingProducts,
       onTap: (context) {

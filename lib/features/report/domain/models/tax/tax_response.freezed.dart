@@ -21,8 +21,8 @@ TaxResponse _$TaxResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaxResponse {
-  @JsonKey(name: "total_tax_collected", fromJson: parseInt)
-  int? get totalTaxCollected => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+  double? get totalTaxCollected => throw _privateConstructorUsedError;
   @JsonKey(name: "total_tax_paid")
   int? get totalTaxPaid => throw _privateConstructorUsedError;
   @JsonKey(name: "net_payable")
@@ -46,8 +46,8 @@ abstract class $TaxResponseCopyWith<$Res> {
   ) = _$TaxResponseCopyWithImpl<$Res, TaxResponse>;
   @useResult
   $Res call({
-    @JsonKey(name: "total_tax_collected", fromJson: parseInt)
-    int? totalTaxCollected,
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+    double? totalTaxCollected,
     @JsonKey(name: "total_tax_paid") int? totalTaxPaid,
     @JsonKey(name: "net_payable") double? netPayable,
   });
@@ -77,7 +77,7 @@ class _$TaxResponseCopyWithImpl<$Res, $Val extends TaxResponse>
             totalTaxCollected: freezed == totalTaxCollected
                 ? _value.totalTaxCollected
                 : totalTaxCollected // ignore: cast_nullable_to_non_nullable
-                      as int?,
+                      as double?,
             totalTaxPaid: freezed == totalTaxPaid
                 ? _value.totalTaxPaid
                 : totalTaxPaid // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ abstract class _$$TaxResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(name: "total_tax_collected", fromJson: parseInt)
-    int? totalTaxCollected,
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+    double? totalTaxCollected,
     @JsonKey(name: "total_tax_paid") int? totalTaxPaid,
     @JsonKey(name: "net_payable") double? netPayable,
   });
@@ -132,7 +132,7 @@ class __$$TaxResponseImplCopyWithImpl<$Res>
         totalTaxCollected: freezed == totalTaxCollected
             ? _value.totalTaxCollected
             : totalTaxCollected // ignore: cast_nullable_to_non_nullable
-                  as int?,
+                  as double?,
         totalTaxPaid: freezed == totalTaxPaid
             ? _value.totalTaxPaid
             : totalTaxPaid // ignore: cast_nullable_to_non_nullable
@@ -150,7 +150,7 @@ class __$$TaxResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TaxResponseImpl implements _TaxResponse {
   const _$TaxResponseImpl({
-    @JsonKey(name: "total_tax_collected", fromJson: parseInt)
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
     this.totalTaxCollected,
     @JsonKey(name: "total_tax_paid") this.totalTaxPaid,
     @JsonKey(name: "net_payable") this.netPayable,
@@ -160,8 +160,8 @@ class _$TaxResponseImpl implements _TaxResponse {
       _$$TaxResponseImplFromJson(json);
 
   @override
-  @JsonKey(name: "total_tax_collected", fromJson: parseInt)
-  final int? totalTaxCollected;
+  @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+  final double? totalTaxCollected;
   @override
   @JsonKey(name: "total_tax_paid")
   final int? totalTaxPaid;
@@ -208,8 +208,8 @@ class _$TaxResponseImpl implements _TaxResponse {
 
 abstract class _TaxResponse implements TaxResponse {
   const factory _TaxResponse({
-    @JsonKey(name: "total_tax_collected", fromJson: parseInt)
-    final int? totalTaxCollected,
+    @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+    final double? totalTaxCollected,
     @JsonKey(name: "total_tax_paid") final int? totalTaxPaid,
     @JsonKey(name: "net_payable") final double? netPayable,
   }) = _$TaxResponseImpl;
@@ -218,8 +218,8 @@ abstract class _TaxResponse implements TaxResponse {
       _$TaxResponseImpl.fromJson;
 
   @override
-  @JsonKey(name: "total_tax_collected", fromJson: parseInt)
-  int? get totalTaxCollected;
+  @JsonKey(name: "total_tax_collected", fromJson: parseNumberAsDouble)
+  double? get totalTaxCollected;
   @override
   @JsonKey(name: "total_tax_paid")
   int? get totalTaxPaid;

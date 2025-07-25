@@ -84,15 +84,19 @@ class AccountResponse {
 }
 
 List<AccountResponse> accountList = [
+   AccountResponse(name: 'Day Summary', image: daySummary),
+   AccountResponse(name: 'Orders', image: orders),
+    AccountResponse(name: 'Profit/Loss', image: profit),
   AccountResponse(name: 'Sales', image: sales),
   AccountResponse(name: 'Revenue', image: revenue),
   AccountResponse(name: 'Expense', image: expense),
-  AccountResponse(name: 'Orders', image: orders),
-  AccountResponse(name: 'Product', image: product),
-  AccountResponse(name: 'Profit/loss', image: profit),
+   AccountResponse(name: 'Purchase', image: purchase),
+  
+  AccountResponse(name: 'Products', image: product),
+ 
   AccountResponse(name: 'Customers', image: customer),
-  AccountResponse(name: 'Day Summary', image: daySummary),
-  AccountResponse(name: 'Purchase', image: purchase),
+ 
+ 
 ];
 
 class StatusName {

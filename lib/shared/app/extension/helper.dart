@@ -155,15 +155,15 @@ void navigateToFeature(
     final today = _formatDate(DateTime.now());
 
     switch (featureName) {
-      case 'Product':
+      case 'Products':
         _navigateToProducts(storeId ?? 0, context);
-      case 'Profit/loss':
+      case 'Profit/Loss':
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadProfitAndLoss(storeId: storeId);
         _navigateToProfitLoss(storeId ?? 0, today, context);
       case 'Orders':
-        context.read<ReportCubit>().initState();
-        context.read<OrderCubit>().orders(orderId: orderId, storeId: storeId);
+        context.read<OrderCubit>().initStates();
+
         _navigateToOrders(storeId ?? 0, today, context);
       case 'Sales':
         context.read<ReportCubit>().initState();
@@ -227,12 +227,12 @@ void _navigateToProfitLoss(int storeId, String date, BuildContext context) {
   }
 }
 
-void _navigateToOrders(int storeId, String date, BuildContext context) {
+void _navigateToOrders(int storeId, String date, BuildContext context) async {
   try {
     final orderCubit = context.read<OrderCubit>();
     orderCubit.orderStatus();
-    orderCubit.orders(
-       isEdit: false,
+    await orderCubit.orders(
+      isEdit: false,
       req: OrderRequest(storeId: storeId, fromDate: date, toDate: date),
     );
     context.push(routeOrders);
