@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -45,7 +44,7 @@ class SignInScreen extends StatelessWidget {
                 content: Text(state.errorMessage ?? "Invalid credentials"),
                 backgroundColor: Colors.red,
               ),
-            );  
+            );
           }
         },
         builder: (context, state) {
@@ -105,8 +104,8 @@ class SignInScreen extends StatelessWidget {
                       isLoading: ApiFetchStatus.loading == state.isLoading,
                       onPressed: () {
                         context.read<AuthCubit>().authSigIn(
-                          email: emailController.text,
-                          password: passwordController.text,
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
                         );
                       },
                     ),

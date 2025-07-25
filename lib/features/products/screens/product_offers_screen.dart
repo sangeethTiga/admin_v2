@@ -59,244 +59,256 @@ class ProductOffersScreen extends StatelessWidget {
         },
       ),
       appBar: AppbarWidget(title: 'Product Offers'),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            dividerWidget(height: 6.h),
-            MainPadding(
-              child: Column(
-                children: [
-                  commonStoreDropDown(
-                    onChanged: (p0) {
-                      context.read<DashboardCubit>().selectedStore(p0);
-                      context.read<ReportCubit>().loadProductOffers(
-                        storeId: p0.storeId,
-                      );
-                      context.read<ReportCubit>().loadProductName(
-                        storeId: p0.storeId,
-                      );
-                      context.read<ReportCubit>().loadSpecialOffer(
-                        storeId: p0.storeId,
-                      );
-                    },
-                  ),
-
-                  8.verticalSpace,
-                  BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: DatePickerContainer(
-                              value: apiFormat.format(
-                                state.fromDate ?? DateTime.now(),
-                              ),
-                              //  firstDate: state.fromDate ?? DateTime.now(),
-                              hintText: '',
-                              changeDate: (DateTime pickedDate) {
-                                context.read<ReportCubit>().changeFromDate(
-                                  pickedDate,
-                                );
-                              },
-                            ),
-                          ),
-                          12.horizontalSpace,
-                          Expanded(
-                            child: DatePickerContainer(
-                              value: apiFormat.format(
-                                state.fromDate ?? DateTime.now(),
-                              ),
-                              hintText: '',
-                              changeDate: (DateTime pickedDate) {
-                                context.read<ReportCubit>().changeToDate(
-                                  pickedDate,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  12.verticalSpace,
-                  TextFeildWidget(
-                    onChanged: (value) {
-                      final offers = context.read<ReportCubit>();
-                      final productOffers = offers.state.productOffers ?? [];
-                      if (value!.isEmpty) {
-                        offers.state.copyWith(filteredProducts: productOffers);
-                      } else {
-                        final filtered = productOffers.where((product) {
-                          return product.productName?.toLowerCase().contains(
-                                value.toLowerCase(),
-                              ) ??
-                              false;
-                        }).toList();
-                        offers.emit(
-                          offers.state.copyWith(filteredProducts: filtered),
-                        );
-                      }
-                    },
-                    borderColor: kBlack,
-                    hight: 48.h,
-                    fillColor: kWhite,
-                    inputBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                    ),
-                    prefix: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: SvgPicture.asset('assets/icons/Search.svg'),
-                    ),
-                    hintText: 'Search product offers',
-                  ),
-                  16.verticalSpace,
-                  BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      if (state.isProductOffers == ApiFetchStatus.loading) {
-                        return productOfferShimmer();
-                      }
-
-                      final productOffers =
-                          state.filteredProducts ?? state.productOffers ?? [];
-
-                      if (productOffers.isEmpty) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20.h),
-                          child: Text(
-                            'No product offers available.',
-                            style: FontPalette.hW500S14,
-                          ),
-                        );
-                      }
-
-                      return ListView.builder(
-                        itemCount: productOffers.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, i) {
-                          final offer = productOffers[i];
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 12.h),
-                            padding: EdgeInsets.symmetric(vertical: 12.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.r),
-                              color: kWhite,
-                              border: Border.all(color: kLightBorderColor),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 12.w,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        offer.productName ?? '',
-                                        style: FontPalette.hW700S13.copyWith(
-                                          color: kBlack,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      GestureDetector(
-                                        onTap: () async {
-                                          context.push(
-                                            routeCreate,
-                                            extra: {
-                                              'storeId': context
-                                                  .read<DashboardCubit>()
-                                                  .state
-                                                  .selectedStore
-                                                  ?.storeId,
-                                              'is_edit': true,
-                                              "offer_data": offer,
-                                              'is_edit_search': true,
-                                            },
-                                          );
-                                        },
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/icons/Edit.svg',
-                                            ),
-                                            3.horizontalSpace,
-                                            Text(
-                                              'Edit',
-                                              style: FontPalette.hW700S14
-                                                  .copyWith(
-                                                    color: kPrimaryColor,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                dividerWidget(height: 2.h),
-                                10.verticalSpace,
-                                rowWidget(
-                                  name: 'Offer',
-                                  status: offer.offerTypeName ?? '',
-                                ),
-                                8.verticalSpace,
-                                rowWidget(
-                                  name: 'Offer price',
-                                  status:
-                                      offer.offerPrice?.toStringAsFixed(2) ??
-                                      '0.00',
-                                ),
-                                8.verticalSpace,
-                                rowWidget(
-                                  name: 'Discount',
-                                  status:
-                                      offer.offerPricePercentage?.toString() ??
-                                      '0',
-                                ),
-                                8.verticalSpace,
-                                rowWidget(
-                                  name: 'From date',
-                                  status: offer.offerFromDate != null
-                                      ? formatDate(offer.offerFromDate!)
-                                      : '',
-                                ),
-                                8.verticalSpace,
-                                rowWidget(
-                                  name: 'To date',
-                                  status: offer.offerToDate != null
-                                      ? formatDate(offer.offerToDate!)
-                                      : '',
-                                ),
-                                8.verticalSpace,
-                                rowWidget(
-                                  name: 'Status',
-                                  status: offer.offerStatus ?? '',
-                                  statusColor: () {
-                                    final status = offer.offerStatus
-                                        ?.toLowerCase();
-                                    if (status == 'active') {
-                                      return kPrimaryColor;
-                                    }
-                                    if (status == 'coming soon') {
-                                      return kBlueColor;
-                                    }
-                                    return kRedColor;
-                                  }(),
-                                ),
-                              ],
-                            ),
+      body: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                dividerWidget(height: 6.h),
+                MainPadding(
+                  child: Column(
+                    children: [
+                      commonStoreDropDown(
+                        onChanged: (p0) {
+                          context.read<DashboardCubit>().selectedStore(p0);
+                          context.read<ReportCubit>().loadProductOffers(
+                            storeId: p0.storeId,
+                          );
+                          context.read<ReportCubit>().loadProductName(
+                            storeId: p0.storeId,
+                          );
+                          context.read<ReportCubit>().loadSpecialOffer(
+                            storeId: p0.storeId,
                           );
                         },
-                      );
-                    },
+                      ),
+
+                      8.verticalSpace,
+                      BlocBuilder<ReportCubit, ReportState>(
+                        builder: (context, state) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: DatePickerContainer(
+                                  value: apiFormat.format(
+                                    state.fromDate ?? DateTime.now(),
+                                  ),
+                                  //  firstDate: state.fromDate ?? DateTime.now(),
+                                  hintText: '',
+                                  changeDate: (DateTime pickedDate) {
+                                    context.read<ReportCubit>().changeFromDate(
+                                      pickedDate,
+                                    );
+                                  },
+                                ),
+                              ),
+                              12.horizontalSpace,
+                              Expanded(
+                                child: DatePickerContainer(
+                                  value: apiFormat.format(
+                                    state.fromDate ?? DateTime.now(),
+                                  ),
+                                  hintText: '',
+                                  changeDate: (DateTime pickedDate) {
+                                    context.read<ReportCubit>().changeToDate(
+                                      pickedDate,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      12.verticalSpace,
+                      TextFeildWidget(
+                        onChanged: (value) {
+                          final offers = context.read<ReportCubit>();
+                          final productOffers =
+                              offers.state.productOffers ?? [];
+                          if (value!.isEmpty) {
+                            offers.state.copyWith(
+                              filteredProducts: productOffers,
+                            );
+                          } else {
+                            final filtered = productOffers.where((product) {
+                              return product.productName
+                                      ?.toLowerCase()
+                                      .contains(value.toLowerCase()) ??
+                                  false;
+                            }).toList();
+                            offers.emit(
+                              offers.state.copyWith(filteredProducts: filtered),
+                            );
+                          }
+                        },
+                        borderColor: kBlack,
+                        hight: 48.h,
+                        fillColor: kWhite,
+                        inputBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                        ),
+                        prefix: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: SvgPicture.asset('assets/icons/Search.svg'),
+                        ),
+                        hintText: 'Search product offers',
+                      ),
+                      16.verticalSpace,
+                      BlocBuilder<ReportCubit, ReportState>(
+                        builder: (context, state) {
+                          if (state.isProductOffers == ApiFetchStatus.loading) {
+                            return productOfferShimmer();
+                          }
+
+                          final productOffers =
+                              state.filteredProducts ??
+                              state.productOffers ??
+                              [];
+
+                          if (productOffers.isEmpty) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: Text(
+                                'No product offers available.',
+                                style: FontPalette.hW500S14,
+                              ),
+                            );
+                          }
+
+                          return ListView.builder(
+                            itemCount: productOffers.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, i) {
+                              final offer = productOffers[i];
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 12.h),
+                                padding: EdgeInsets.symmetric(vertical: 12.h),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  color: kWhite,
+                                  border: Border.all(color: kLightBorderColor),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 12.w,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            offer.productName ?? '',
+                                            style: FontPalette.hW700S13
+                                                .copyWith(color: kBlack),
+                                          ),
+                                          const Spacer(),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              context.push(
+                                                routeCreate,
+                                                extra: {
+                                                  'storeId': context
+                                                      .read<DashboardCubit>()
+                                                      .state
+                                                      .selectedStore
+                                                      ?.storeId,
+                                                  'is_edit': true,
+                                                  "offer_data": offer,
+                                                  'is_edit_search': true,
+                                                },
+                                              );
+                                            },
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/icons/Edit.svg',
+                                                ),
+                                                3.horizontalSpace,
+                                                Text(
+                                                  'Edit',
+                                                  style: FontPalette.hW700S14
+                                                      .copyWith(
+                                                        color: kPrimaryColor,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    dividerWidget(height: 2.h),
+                                    10.verticalSpace,
+                                    rowWidget(
+                                      name: 'Offer',
+                                      status: offer.offerTypeName ?? '',
+                                    ),
+                                    8.verticalSpace,
+                                    rowWidget(
+                                      name: 'Offer price',
+                                      status:
+                                          offer.offerPrice?.toStringAsFixed(
+                                            2,
+                                          ) ??
+                                          '0.00',
+                                    ),
+                                    8.verticalSpace,
+                                    rowWidget(
+                                      name: 'Discount',
+                                      status:
+                                          offer.offerPricePercentage
+                                              ?.toString() ??
+                                          '0',
+                                    ),
+                                    8.verticalSpace,
+                                    rowWidget(
+                                      name: 'From date',
+                                      status: offer.offerFromDate != null
+                                          ? formatDate(offer.offerFromDate!)
+                                          : '',
+                                    ),
+                                    8.verticalSpace,
+                                    rowWidget(
+                                      name: 'To date',
+                                      status: offer.offerToDate != null
+                                          ? formatDate(offer.offerToDate!)
+                                          : '',
+                                    ),
+                                    8.verticalSpace,
+                                    rowWidget(
+                                      name: 'Status',
+                                      status: offer.offerStatus ?? '',
+                                      statusColor: () {
+                                        final status = offer.offerStatus
+                                            ?.toLowerCase();
+                                        if (status == 'active') {
+                                          return kPrimaryColor;
+                                        }
+                                        if (status == 'coming soon') {
+                                          return kBlueColor;
+                                        }
+                                        return kRedColor;
+                                      }(),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
