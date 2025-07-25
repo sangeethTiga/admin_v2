@@ -617,7 +617,7 @@ class ReportCubit extends Cubit<ReportState> {
     int? storeId,
     String? fromDate,
     String? toDate,
-    int page = 1,
+    //int page = 1,
     int limit = 20,
     bool isLoadMore = false,
     int? purchaseType,
@@ -625,12 +625,9 @@ class ReportCubit extends Cubit<ReportState> {
     String? query,
   }) async {
     try {
-      final isSearchchanged = (query ?? '') != (state.lastSearch ?? '');
-      final currentPage = isLoadMore && !isSearchchanged
-          ? (state.currentPage) + 1
-          : 1;
-      final offset = (currentPage - 1) * limit;
-      if (isLoadMore && !isSearchchanged) {
+      if (isLoadMore) {
+        emit(state.copyWith(isLoadingMore: true));
+      } else {
         emit(
           state.copyWith(
             isPurchaseReport: ApiFetchStatus.loading,
@@ -640,29 +637,54 @@ class ReportCubit extends Cubit<ReportState> {
             isLoadingMore: false,
           ),
         );
-      } else {
-        emit(state.copyWith(isLoadingMore: true));
       }
+      final currentPage = isLoadMore ? ((state.currentPage ?? 0) + limit) : 0;
+
+      // final isSearchchanged = (query ?? '') != (state.lastSearch ?? '');
+      // final currentPage = isLoadMore && !isSearchchanged
+      //     ? (state.currentPage) + 1
+      //     : 1;
+      // final offset = (currentPage - 1) * limit;
+      // if (isLoadMore && !isSearchchanged) {
+      //   emit(
+      //     state.copyWith(
+      //       isPurchaseReport: ApiFetchStatus.loading,
+      //       purchaseReport: [],
+      //       currentPage: 0,
+      //       hasMoreData: false,
+      //       isLoadingMore: false,
+      //     ),
+      //   );
+      // } else {
+      //   emit(state.copyWith(isLoadingMore: true));
+      // }
       final res = await _reportRepositories.loadPurchaseReport(
         supplierId: supplierId ?? 0,
         storeId: storeId ?? 0,
         fromDate: parsedDate(state.fromDate ?? DateTime.now()),
         toDate: parsedDate(state.toDate ?? DateTime.now()),
-        pageFirstLimit: offset,
+        pageFirstLimit: currentPage,
         resultPerPage: limit,
         purchaseType: purchaseType ?? 0,
         query: query ?? '',
       );
       log("TYPE ID  -= -= -= $res.data");
-      if (res.data != null && res.data!.isNotEmpty) {
-        final updatedList = (isLoadMore && !isSearchchanged)
-            ? <PurchaseResponse>[
-                ...(state.purchaseReport ?? []),
-                ...(res.data as List<PurchaseResponse>),
-              ]
-            : res.data as List<PurchaseResponse>;
-
+      if (res.data != null && (res.data?.isNotEmpty ?? false)) {
+        List<PurchaseResponse> updatedList;
+                if (isLoadMore) {
+          updatedList = [...(state.purchaseReport ?? []), ...res.data!];
+        } else {
+          updatedList = res.data!;
+        }
         final hasMoreData = res.data!.length >= limit;
+        // final updatedList = (isLoadMore && !isSearchchanged)
+        //     ? <PurchaseResponse>[
+        //         ...(state.purchaseReport ?? []),
+        //         ...(res.data as List<PurchaseResponse>),
+        //       ]
+        //     : res.data as List<PurchaseResponse>;
+
+        // final hasMoreData = res.data!.length >= limit;
 
         emit(
           state.copyWith(
@@ -677,7 +699,7 @@ class ReportCubit extends Cubit<ReportState> {
       } else {
         emit(
           state.copyWith(
-            isPurchaseReport: ApiFetchStatus.success,
+            isPurchaseReport: ApiFetchStatus.failed,
             isLoadingMore: false,
             hasMoreData: false,
             lastSearch: query,

@@ -53,6 +53,7 @@ class SalesReportScreen extends StatelessWidget {
                             context.read<DashboardCubit>().getWaiters();
                             context.read<DashboardCubit>().getKiosk();
                             context.read<DashboardCubit>().getCashier();
+                            context.read<DashboardCubit>().clearData();
                           },
                           icon: Icon(Icons.tune_outlined),
                         ),
@@ -62,42 +63,39 @@ class SalesReportScreen extends StatelessWidget {
                 ),
                 10.verticalSpace,
 
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return BlocBuilder<DashboardCubit, DashboardState>(
-                      builder: (context, dash) {
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: DatePickerContainer(
-                                labelText: 'From Date',
-                                value: apiFormat.format(
-                                  dash.fromDate ?? DateTime.now(),
-                                ),
-                                changeDate: (DateTime pickedDate) {
-                                  context.read<DashboardCubit>().changeFromDate(
-                                    pickedDate,
-                                  );
-                                },
-                              ),
+                BlocBuilder<DashboardCubit, DashboardState>(
+                  builder: (context, dash) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: DatePickerContainer(
+                            labelText: 'From Date',
+                            initialDate: dash.fromDate??DateTime.now(),
+                            value: apiFormat.format(
+                              dash.fromDate ?? DateTime.now(),
                             ),
-                            12.horizontalSpace,
-                            Expanded(
-                              child: DatePickerContainer(
-                                value: apiFormat.format(
-                                  dash.toDate ?? DateTime.now(),
-                                ),
-                                labelText: 'To Date',
-                                changeDate: (DateTime pickedDate) {
-                                  context.read<DashboardCubit>().changeToDate(
-                                    pickedDate,
-                                  );
-                                },
-                              ),
+                            changeDate: (DateTime pickedDate) {
+                              context.read<DashboardCubit>().changeFromDate(
+                                pickedDate,
+                              );
+                            },
+                          ),
+                        ),
+                        12.horizontalSpace,
+                        Expanded(
+                          child: DatePickerContainer(
+                            value: apiFormat.format(
+                              dash.toDate ?? DateTime.now(),
                             ),
-                          ],
-                        );
-                      },
+                            labelText: 'To Date',
+                            changeDate: (DateTime pickedDate) {
+                              context.read<DashboardCubit>().changeToDate(
+                                pickedDate,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
@@ -120,10 +118,11 @@ class SalesReportScreen extends StatelessWidget {
                               selectedPaymentMethodId: '',
                               selectedCashierId: '',
                               selectedDeliveryAgentId: '',
-                              selectedGroupBy: '',
+                              selectedGroupBy:'month',
                               selectedKIOSK: '',
                               selectedShiftId: '',
                               selectedWaiterId: '',
+
                             );
                           },
                           buttonText: 'View Report',

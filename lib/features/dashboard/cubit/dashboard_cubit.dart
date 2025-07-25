@@ -313,6 +313,8 @@ class DashboardCubit extends Cubit<DashboardState> {
         selectMonth: durationMonths.first,
         selectedGroupBy: Dates(),
         selectedPaymethod: PaymentMethodResponse(),
+        fromDate: DateTime.now(),
+        toDate: DateTime.now()
       ),
     );
   }

@@ -214,6 +214,22 @@ class _DatePickerContainerState extends State<DatePickerContainer> {
     super.initState();
     _initFunction();
   }
+    @override
+
+   void didUpdateWidget(covariant DatePickerContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      setState(() {
+        pickedDate = widget.value;
+        try {
+          selectedDate = apiFormat.parse(widget.value ?? '');
+        } catch (_) {
+          selectedDate = DateTime.now();
+        }
+      });
+    }
+  }
+
 
   void _initFunction() {
     if (widget.value == null) {
@@ -440,6 +456,7 @@ final apiFormat = DateFormat('yyyy-MM-dd');
       child: child!,
     );
   }
+  
 
   Widget datePick(String title, VoidCallback onTap) {
     return InkWell(
@@ -458,5 +475,7 @@ final apiFormat = DateFormat('yyyy-MM-dd');
         ),
       ),
     );
+    
   }
+  
 

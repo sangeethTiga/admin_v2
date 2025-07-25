@@ -28,204 +28,211 @@ class PurchaseScreen extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
     return Scaffold(
       appBar: AppbarWidget(title: 'Purchase Report'),
-      body: Column(
-        children: [
-          dividerWidget(height: 6.h),
-          MainPadding(
-            top: 0.h,
-            child: Column(
-              children: [
-                commonStoreDropDown(
-                  onChanged: (p0) {
-                    context.read<DashboardCubit>().selectedStore(p0);
-                  },
-                ),
-
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return DropDownFieldWidget(
-                      isLoading: false,
-                      // prefixIcon: Container(
-                      //   margin: EdgeInsets.only(left: 12.w),
-                      //   child
-                      //   : SvgPicture.asset(
-                      //     'assets/icons/package-box-pin-location.svg',
-                      //     width: 20.w,
-                      //     height: 20.h,
-                      //     fit: BoxFit.contain,
-                      //   ),
-                      // ),
-                      borderColor: kBlack,
-                      labelText: 'Purchase type',
-                      value:
-                          state.selectedPurchaseType ??
-                          PurchaseType(id: 0, name: 'All'),
-
-                      items: purchaseTypes.map((value) {
-                        return DropdownMenuItem<PurchaseType>(
-                          value: value,
-                          child: Text(value.name ?? ''),
-                        );
-                      }).toList(),
-
-                      fillColor: const Color(0XFFEFF1F1),
-
-                      onChanged: (purchase) {
-                        context.read<CommonCubit>().selectedPurchase(purchase);
-                        context.read<ReportCubit>().changePucrhaeType(purchase);
-                        context.read<ReportCubit>().loadPurchaseReport(
-                          storeId: state.selectedStore?.storeId,
-                          fromDate: '',
-                          toDate: '',
-                          purchaseType: purchase?.id,
-                        );
+      body: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              dividerWidget(height: 6.h),
+              MainPadding(
+                top: 0.h,
+                child: Column(
+                  children: [
+                    commonStoreDropDown(
+                      onChanged: (p0) {
+                        context.read<DashboardCubit>().selectedStore(p0);
                       },
-                    );
-                  },
-                ),
-                8.verticalSpace,
+                    ),
 
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: DatePickerContainer(
-                            labelText: 'From Date',
-                            value: apiFormat.format(
-                              state.fromDate ?? DateTime.now(),
-                            ),
-                            changeDate: (DateTime pickDate) {
-                              context.read<ReportCubit>().changeFromDate(
-                                pickDate,
-                              );
-                            },
-                          ),
-                        ),
-                        12.horizontalSpace,
-                        Expanded(
-                          child: DatePickerContainer(
-                            labelText: 'To Date',
-                            value: apiFormat.format(
-                              state.toDate ?? DateTime.now(),
-                            ),
-                            changeDate: (DateTime pickDate) {
-                              context.read<ReportCubit>().changeToDate(
-                                pickDate,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                8.verticalSpace,
-                TextFeildWidget(
-                  onChanged: (value) {
-                    final storeId =
-                        context
-                            .read<DashboardCubit>()
-                            .state
-                            .selectedStore
-                            ?.storeId ??
-                        0;
-                    context.read<ReportCubit>().loadPurchaseReport(
-                      storeId: storeId,
-                      query: value,
-                      page: 1,
-                      isLoadMore: false,
-                    );
-                  },
-                  borderColor: kBlack,
-                  hight: 48.h,
-                  fillColor: kWhite,
-                  inputBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Color(0XFFB7C6C2)),
-                  ),
-                  prefix: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset('assets/icons/Search.svg'),
-                  ),
-                  hintText: 'Search Supplier',
-                ),
+                    BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, state) {
+                        return DropDownFieldWidget(
+                          //  isLoading: false,
+                          // prefixIcon: Container(
+                          //   margin: EdgeInsets.only(left: 12.w),
+                          //   child
+                          //   : SvgPicture.asset(
+                          //     'assets/icons/package-box-pin-location.svg',
+                          //     width: 20.w,
+                          //     height: 20.h,
+                          //     fit: BoxFit.contain,
+                          //   ),
+                          // ),
+                          borderColor: kBlack,
+                          labelText: 'Purchase type',
+                          value:
+                              state.selectedPurchaseType ??
+                              PurchaseType(id: 0, name: 'All'),
 
-                12.verticalSpace,
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                    return BlocBuilder<ReportCubit, ReportState>(
-                      builder: (context, reportState) {
-                        return CustomMaterialBtton(
-                          onPressed: () {
+                          items: purchaseTypes.map((value) {
+                            return DropdownMenuItem<PurchaseType>(
+                              value: value,
+                              child: Text(value.name ?? ''),
+                            );
+                          }).toList(),
+
+                          fillColor: const Color(0XFFEFF1F1),
+
+                          onChanged: (purchase) {
+                            context.read<CommonCubit>().selectedPurchase(
+                              purchase,
+                            );
+                            context.read<ReportCubit>().changePucrhaeType(
+                              purchase,
+                            );
                             context.read<ReportCubit>().loadPurchaseReport(
-                              page: 0,
                               storeId: state.selectedStore?.storeId,
-                              query: reportState.lastSearch,
+                              fromDate: '',
+                              toDate: '',
+                              purchaseType: purchase?.id,
                             );
                           },
-                          buttonText: 'View Report',
                         );
                       },
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
+                    ),
+                    8.verticalSpace,
 
-          Expanded(
-            child: MainPadding(
-              child: BlocBuilder<CommonCubit, CommonState>(
-                builder: (context, store) {
-                  return BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
+                    BlocBuilder<ReportCubit, ReportState>(
+                      builder: (context, state) {
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: DatePickerContainer(
+                                labelText: 'From Date',
+                                value: apiFormat.format(
+                                  state.fromDate ?? DateTime.now(),
+                                ),
+                                changeDate: (DateTime pickDate) {
+                                  context.read<ReportCubit>().changeFromDate(
+                                    pickDate,
+                                  );
+                                },
+                              ),
+                            ),
+                            12.horizontalSpace,
+                            Expanded(
+                              child: DatePickerContainer(
+                                labelText: 'To Date',
+                                value: apiFormat.format(
+                                  state.toDate ?? DateTime.now(),
+                                ),
+                                changeDate: (DateTime pickDate) {
+                                  context.read<ReportCubit>().changeToDate(
+                                    pickDate,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    8.verticalSpace,
+                    TextFeildWidget(
+                      onChanged: (value) {
+                        final storeId =
+                            context
+                                .read<DashboardCubit>()
+                                .state
+                                .selectedStore
+                                ?.storeId ??
+                            0;
+                        context.read<ReportCubit>().loadPurchaseReport(
+                          storeId: storeId,
+                          query: value,
+
+                          //  isLoadMore: false,
+                        );
+                      },
+                      borderColor: kBlack,
+                      hight: 48.h,
+                      fillColor: kWhite,
+                      inputBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Color(0XFFB7C6C2)),
+                      ),
+                      prefix: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset('assets/icons/Search.svg'),
+                      ),
+                      hintText: 'Search Supplier',
+                    ),
+
+                    12.verticalSpace,
+                    BlocBuilder<DashboardCubit, DashboardState>(
+                      builder: (context, state) {
+                        return BlocBuilder<ReportCubit, ReportState>(
+                          builder: (context, reportState) {
+                            return CustomMaterialBtton(
+                              onPressed: () {
+                                context.read<ReportCubit>().loadPurchaseReport(
+                                  storeId: state.selectedStore?.storeId,
+                                  query: reportState.lastSearch,
+                                );
+                              },
+                              buttonText: 'View Report',
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              Expanded(
+                child: MainPadding(
+                  child: BlocBuilder<CommonCubit, CommonState>(
+                    builder: (context, store) {
                       return BlocBuilder<ReportCubit, ReportState>(
                         builder: (context, state) {
-                          return Column(
-                            children: [
-                              Expanded(
-                                child: NotificationListener<ScrollNotification>(
-                                  onNotification:
-                                      (ScrollNotification scrollInfo) {
-                                        final maxScroll =
-                                            scrollInfo.metrics.maxScrollExtent;
-                                        final currentScroll =
-                                            scrollInfo.metrics.pixels;
-                                        final threshold = maxScroll - 100;
+                          return BlocBuilder<ReportCubit, ReportState>(
+                            builder: (context, state) {
+                              return Column(
+                                children: [
+                                  Expanded(
+                                    child: NotificationListener<ScrollNotification>(
+                                      onNotification:
+                                          (ScrollNotification scrollInfo) {
+                                            final maxScroll = scrollInfo
+                                                .metrics
+                                                .maxScrollExtent;
+                                            final currentScroll =
+                                                scrollInfo.metrics.pixels;
+                                            final threshold = maxScroll - 100;
 
-                                        final atBottom =
-                                            currentScroll >= threshold;
+                                            final atBottom =
+                                                currentScroll >= threshold;
 
-                                        if (scrollInfo
-                                                is ScrollEndNotification &&
-                                            atBottom) {
-                                          final reportState = context
-                                              .read<ReportCubit>()
-                                              .state;
+                                            if (scrollInfo
+                                                    is ScrollEndNotification &&
+                                                atBottom) {
+                                              final reportState = context
+                                                  .read<ReportCubit>()
+                                                  .state;
 
-                                          if (reportState.hasMoreData == true &&
-                                              reportState.isLoadingMore !=
-                                                  true) {
-                                            _loadMoreData(context);
-                                          }
+                                              if (reportState.hasMoreData ==
+                                                      true &&
+                                                  reportState.isLoadingMore !=
+                                                      true) {
+                                                _loadMoreData(context);
+                                              }
 
-                                          if (reportState.hasMoreData ==
-                                                  false &&
-                                              reportState
-                                                      .purchaseReport
-                                                      ?.isNotEmpty ==
-                                                  true) {
-                                            showNoMoreData.value = true;
-                                          }
-                                        }
-                                        if (scrollController.hasClients &&
-                                            scrollController
-                                                    .position
-                                                    .userScrollDirection ==
-                                                ScrollDirection.forward) {
-                                          showNoMoreData.value = false;
-                                        }
+                                              if (reportState.hasMoreData ==
+                                                      false &&
+                                                  reportState
+                                                          .purchaseReport
+                                                          ?.isNotEmpty ==
+                                                      true) {
+                                                showNoMoreData.value = true;
+                                              }
+                                            }
+                                            if (scrollController.hasClients &&
+                                                scrollController
+                                                        .position
+                                                        .userScrollDirection ==
+                                                    ScrollDirection.forward) {
+                                              showNoMoreData.value = false;
+                                            }
 
                                         return false;
                                       },
@@ -243,62 +250,66 @@ class PurchaseScreen extends StatelessWidget {
                                       "Invoice",
                                     ],
 
-                                    columnFlex: [1, 3, 3, 2, 3, 2],
-                                    data:
-                                        state.purchaseReport?.map((e) {
-                                          int index =
-                                              state.purchaseReport?.indexOf(
-                                                e,
-                                              ) ??
-                                              0;
-                                          return {
-                                            '#': index + 1,
-                                            'Purchase Date':
-                                                e.purchaseDate ?? '',
-                                            'Supplier': e.supplierName ?? '',
-                                            'Amount': e.totalamount.toString(),
-                                            'Payment Method':
-                                                e.payMethodName ?? '',
-                                            'Invoice': e.invoiceNumber ?? '',
-                                          };
-                                        }).toList() ??
-                                        [],
+                                        columnFlex: [1, 3, 3, 2, 3, 2],
+                                        data:
+                                            state.purchaseReport?.map((e) {
+                                              int index =
+                                                  state.purchaseReport?.indexOf(
+                                                    e,
+                                                  ) ??
+                                                  0;
+                                              return {
+                                                '#': index + 1,
+                                                'Purchase Date':
+                                                    e.purchaseDate ?? '',
+                                                'Supplier':
+                                                    e.supplierName ?? '',
+                                                'Amount': e.totalamount
+                                                    .toString(),
+                                                'Payment Method':
+                                                    e.payMethodName ?? '',
+                                                'Invoice':
+                                                    e.invoiceNumber ?? '',
+                                              };
+                                            }).toList() ??
+                                            [],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              // if (state.isLoadingMore == true)
-                              //   Container(
-                              //     padding: EdgeInsets.all(16.w),
-                              //     child: CircularProgressIndicator(),
-                              //   ),
-
-                              // ValueListenableBuilder<bool>(
-                              //   valueListenable: showNoMoreData,
-                              //   builder: (context, value, _) {
-                              //     if (!value) return SizedBox.shrink();
-                              //     return Padding(
-                              //       padding: EdgeInsets.all(16.w),
-                              //       child: Text(
-                              //         'No more data',
-                              //         style: TextStyle(
-                              //           fontSize: 12.sp,
-                              //           color: Colors.grey,
-                              //         ),
-                              //       ),
-                              //     );
-                              //   },
-                              // ),
-                            ],
+                                  if (state.isLoadingMore == true)
+                                    Container(
+                                      padding: EdgeInsets.all(16.w),
+                                       child: CircularProgressIndicator(),
+                                    ),
+                                  ValueListenableBuilder<bool>(
+                                    valueListenable: showNoMoreData,
+                                    builder: (context, value, _) {
+                                      if (!value) return SizedBox.shrink();
+                                      return Padding(
+                                        padding: EdgeInsets.all(16.w),
+                                        child: Text(
+                                          'No more data',
+                                          style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
                       );
                     },
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -353,7 +364,6 @@ void _loadMoreData(BuildContext context) {
     context.read<ReportCubit>().loadPurchaseReport(
       storeId: dashboardState.selectedStore?.storeId,
       isLoadMore: true,
-      page: reportState.currentPage,
       query: reportState.lastSearch,
     );
   }
