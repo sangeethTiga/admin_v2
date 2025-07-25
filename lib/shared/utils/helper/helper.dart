@@ -60,6 +60,8 @@ class Helper {
       await _deleteAppDir();
       await AuthUtils.instance.deleteAll();
       context.read<AuthCubit>().clearLogin();
+          await Future.delayed(const Duration(milliseconds: 100));
+
 
       if (!context.mounted) return;
 

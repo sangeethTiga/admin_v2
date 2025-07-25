@@ -5,7 +5,7 @@ class ApiEndpoints {
       '/api/store?user_id=$custId&page_first_result=0&result_per_page=50';
 
   static String salesReport({
-    int? selectedStoreId,
+   int? selectedStoreId,
     String? fromDate,
     String? toDate,
     String? selectedDeliveryAgentId,
@@ -16,8 +16,7 @@ class ApiEndpoints {
     String? selectedCashierId,
     String? selectedKIOSK,
     String? selectedGroupBy,
-
-    int? selectedDuration,
+  int? selectedDuration,
   }) {
     var queryStrinng = '';
     if (selectedDuration == 5) {

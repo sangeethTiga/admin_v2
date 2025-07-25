@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -41,7 +42,7 @@ class SignInScreen extends StatelessWidget {
           } else if (state.isLoading == ApiFetchStatus.failed) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage ?? "Invalid credentials"),
+                content: Text("Invalid Username Or Password"),
                 backgroundColor: Colors.red,
               ),
             );

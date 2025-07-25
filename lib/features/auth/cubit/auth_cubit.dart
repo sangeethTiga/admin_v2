@@ -37,6 +37,8 @@
 //   }
 // }
 
+import 'dart:math';
+
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
 import 'package:admin_v2/features/auth/domain/repoitories/auth_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -62,8 +64,9 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
+      print('auth res-==-=-${res.data}');
 
-      if (res.data != null && res.data?.status == "success") {
+      if (res.data != null && res.data?.errorCode ==0) {
         emit(
           AuthState(isLoading: ApiFetchStatus.success, authResponse: res.data),
         );
