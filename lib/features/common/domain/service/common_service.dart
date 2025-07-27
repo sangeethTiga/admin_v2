@@ -2,7 +2,6 @@ import 'package:admin_v2/features/common/domain/models/account/account_response.
 import 'package:admin_v2/features/common/domain/models/deliveryOption/option_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/common/domain/repositores/common_repostories.dart';
-
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
@@ -18,7 +17,10 @@ class CommonService implements CommonRepostories {
     final networkProvider = await NetworkProvider.create();
 
     final res = await networkProvider.get(
-      ApiEndpoints.store(user?.user?.userRoleId ?? 0),
+      ApiEndpoints.store(
+        user?.user?.companyUsersId ?? 0,
+        user?.user?.userRoleId ?? 0,
+      ),
     );
     switch (res.statusCode) {
       case 200:
@@ -78,6 +80,4 @@ class CommonService implements CommonRepostories {
   Future<ResponseResult<List<PurchaseType>>> purchaseType() {
     throw UnimplementedError();
   }
-
-
 }
