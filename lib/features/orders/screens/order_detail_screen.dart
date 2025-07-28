@@ -185,7 +185,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           6.verticalSpace,
 
                           Text(
-                            'Unit price : AED ${data?.orderItemPrice ?? 0}',
+                            'Unit price : AED ${(double.tryParse(data?.orderItemPrice ?? '0') ?? 0).toStringAsFixed(2)}',
                             style: FontPalette.hW500S13,
                           ),
                           4.verticalSpace,
@@ -629,7 +629,7 @@ Future<void> _showMyDialog(BuildContext context) async {
                       ),
                       6.verticalSpace,
                       Text(
-                        'Unit price: AED ${data.orderItemPrice ?? 0}',
+                        'Unit price: AED ${(double.tryParse(data.orderItemPrice ?? '0') ?? 0).toStringAsFixed(2)}',
                         style: FontPalette.hW500S13,
                       ),
                       4.verticalSpace,
