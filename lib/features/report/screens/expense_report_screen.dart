@@ -195,14 +195,14 @@ class ExpenseReportScreen extends StatelessWidget {
                                           ApiFetchStatus.loading,
                                       headers: [
                                         "#",
-                                        "INVOICE NO",
+                                        "INVOICE NUMBER",
                                         "TRANSACTION DATE",
 
                                         "ACCOUNT HEAD",
-                                        "DESCRIPTION",
+                                        //"DESCRIPTION",
                                         "AMOUNT",
                                       ],
-                                      columnFlex: [0, 12, 20, 13, 18, 12],
+                                      columnFlex: [0, 14, 20, 16, 12],
                                       // columnFlex: [0, 10, 14, 13, 11, 9],
                                       data:
                                           state.expenseReport
@@ -216,7 +216,7 @@ class ExpenseReportScreen extends StatelessWidget {
 
                                                 return {
                                                   '#': globalIndex,
-                                                  'INVOICE NO':
+                                                  'INVOICE NUMBER':
                                                       e.invoiceNumber ?? '',
                                                   'TRANSACTION DATE':
                                                       formatDateString(
@@ -226,8 +226,8 @@ class ExpenseReportScreen extends StatelessWidget {
 
                                                   "ACCOUNT HEAD":
                                                       e.accountHeadName ?? '',
-                                                  'DESCRIPTION':
-                                                      e.description ?? '',
+                                                  // 'DESCRIPTION':
+                                                  //     e.description ?? '',
                                                   'AMOUNT': e.amount ?? '',
                                                 };
                                               })
