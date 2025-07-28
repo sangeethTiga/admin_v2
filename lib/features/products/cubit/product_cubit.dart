@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
@@ -14,7 +13,6 @@ import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-
 part 'product_state.dart';
 
 @injectable
@@ -31,7 +29,7 @@ class ProductCubit extends Cubit<ProductState> {
     int? filterId,
     bool isLoadMore = false,
     bool isPreservelist = false,
-    int limit = 20,
+    int limit = 50,
   }) async {
     try {
       if (isLoadMore) {
