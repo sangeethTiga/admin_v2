@@ -195,14 +195,14 @@ class ExpenseReportScreen extends StatelessWidget {
                                           ApiFetchStatus.loading,
                                       headers: [
                                         "#",
-                                        "INV.NO",
+                                        "INVOICE NO",
                                         "TRANSACTION DATE",
 
                                         "ACCOUNT HEAD",
                                         "DESCRIPTION",
                                         "AMOUNT",
                                       ],
-                                      columnFlex: [0, 9, 14, 11, 13, 9],
+                                      columnFlex: [0, 12, 20, 13, 18, 12],
                                       // columnFlex: [0, 10, 14, 13, 11, 9],
                                       data:
                                           state.expenseReport
@@ -216,7 +216,7 @@ class ExpenseReportScreen extends StatelessWidget {
 
                                                 return {
                                                   '#': globalIndex,
-                                                  'INV.NO':
+                                                  'INVOICE NO':
                                                       e.invoiceNumber ?? '',
                                                   'TRANSACTION DATE':
                                                       formatDateString(

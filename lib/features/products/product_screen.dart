@@ -237,7 +237,7 @@ class _ProductScreenState extends State<ProductScreen> {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, common) {
         return DropDownFieldWidget(
-          isLoading: false,
+          isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
           borderColor: kBlack,
           hintText: 'All Products',
           value: state.selectProduct,
@@ -419,7 +419,30 @@ class _ProductScreenState extends State<ProductScreen> {
     if (isLoading && products.isEmpty) {
       return _buildShimmerList();
     }
-
+    if (!isLoading && products.isEmpty) {
+      final filterName = state.selectProduct?.name ?? 'select filter';
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.only(top: 32.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Icon(
+                  Icons.inventory,
+                  size: 64.w,
+                  color: Colors.grey[400],
+                 ),
+              ),
+              Text(
+                'No products found for $filterName',
+                style: FontPalette.hW500S16.copyWith(color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Column(
       children: [
         Expanded(
