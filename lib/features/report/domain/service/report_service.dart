@@ -359,7 +359,10 @@ class ReportService implements ReportRepositories {
     final int userId = user?.user?.companyUsersId ?? 0;
     final int roleId = user?.user?.userRoleId ?? 0;
     final res = await networkProvider.get(
-      ApiEndpoints.topStores(userId, roleId),
+      ApiEndpoints.topStores(
+        user?.user?.userRoleId ?? 0,
+        user?.user?.companyUsersId ?? 0,
+      ),
     );
     switch (res.statusCode) {
       case 200:
@@ -445,8 +448,6 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required int pageFirstLimit,
     required int resultPerPage,
-  
-  
   }) async {
     final networkProvider = await NetworkProvider.create();
     final res = await networkProvider.get(

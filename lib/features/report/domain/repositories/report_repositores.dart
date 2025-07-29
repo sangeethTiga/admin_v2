@@ -21,7 +21,7 @@ import 'package:admin_v2/features/report/domain/models/profit/profitloss_respons
 import 'package:admin_v2/features/report/domain/models/purchase/purchase_response.dart';
 import 'package:admin_v2/features/report/domain/models/revenue/revenue_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart'
-show SaleOnDeals;
+    show SaleOnDeals;
 import 'package:admin_v2/features/report/domain/models/sale_deals/sale_on_deals_response.dart';
 import 'package:admin_v2/features/report/domain/models/sales/sales_report_response.dart';
 import 'package:admin_v2/features/report/domain/models/specialOffer/special_offer_response.dart';
@@ -51,7 +51,7 @@ abstract class ReportRepositories {
 
   Future<ResponseResult<List<ReveneReportResponse>>> loadRevenueReport({
     required int pageFirstResult,
-     required int resultPerPage,
+    required int resultPerPage,
     required int storeId,
     required String fromDate,
     required String toDate,
@@ -129,9 +129,6 @@ abstract class ReportRepositories {
     required String toDate,
     required int pageFirstLimit,
     required int resultPerPage,
-
-
-
   });
 
   Future<ResponseResult<TaxResponse>> loadTaxReport({
@@ -187,7 +184,6 @@ abstract class ReportRepositories {
     required int storeId,
     required int admin,
     required String query,
-    
   });
 
   Future<ResponseResult<List<DaySummaryResponse>>> loadDaySummary({
