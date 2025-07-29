@@ -61,7 +61,7 @@ class ProductOffersScreen extends StatelessWidget {
       appBar: AppbarWidget(title: 'Product Offers'),
       body: BlocBuilder<ReportCubit, ReportState>(
         builder: (context, state) {
-          
+          context.read<ReportCubit>().loadProductReport();
           return SingleChildScrollView(
             child: Column(
               children: [
