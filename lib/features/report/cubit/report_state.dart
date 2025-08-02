@@ -89,6 +89,8 @@ class ReportState extends Equatable {
   final DateTime? selectedOfferToDate;
   final TimeOfDay? selectedOfferToTime;
   final ApiFetchStatus? isOfferEdit;
+  final String? lastSearchQuery;
+  final int? lastFilterId;
 
   const ReportState({
     this.salesReport,
@@ -181,6 +183,8 @@ class ReportState extends Equatable {
     this.selectedOfferTime,
     this.selectedOfferToDate,
     this.selectedOfferToTime,
+    this.lastSearchQuery,
+    this.lastFilterId = 0,
   });
 
   ReportState copyWith({
@@ -277,6 +281,10 @@ class ReportState extends Equatable {
     TimeOfDay? selectedOfferToTime,
     ApiFetchStatus? isOfferEdit,
     bool? isMakeItNull = false,
+    String? lastSearchQuery,
+     int? lastFilterId,
+
+ 
   }) {
     return ReportState(
       salesReport: salesReport ?? this.salesReport,
@@ -367,6 +375,8 @@ class ReportState extends Equatable {
       selectedOfferToDate: selectedOfferToDate ?? this.selectedOfferToDate,
       selectedOfferToTime: selectedOfferToTime ?? this.selectedOfferToTime,
       isOfferEdit: isOfferEdit ?? this.isOfferEdit,
+      lastSearchQuery: lastSearchQuery ?? this.lastSearch,
+      lastFilterId: lastFilterId ?? this.lastFilterId,
     );
   }
 
@@ -455,6 +465,8 @@ class ReportState extends Equatable {
     selectedOfferToTime,
     selectedOfferToDate,
     isOfferEdit,
+    lastSearchQuery,
+    lastFilterId,
   ];
 }
 

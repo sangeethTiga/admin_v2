@@ -330,12 +330,15 @@ class _DrawerContent extends StatelessWidget {
           title: Text('Product Offers'),
           route: routeProductOffers,
           onTap: (context) {
+            final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
             context.read<ReportCubit>().loadProductName(
               storeId: selectedStore?.storeId,
             );
             context.read<ReportCubit>().initState();
             context.read<ReportCubit>().loadProductOffers(
               storeId: selectedStore?.storeId,
+              fromDate: date,
+              toDate: date,
             );
 
             context.push(routeProductOffers);
