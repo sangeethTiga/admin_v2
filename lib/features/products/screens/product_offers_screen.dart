@@ -61,7 +61,6 @@ class ProductOffersScreen extends StatelessWidget {
       appBar: AppbarWidget(title: 'Product Offers'),
       body: BlocBuilder<ReportCubit, ReportState>(
         builder: (context, state) {
-          context.read<ReportCubit>().loadProductReport();
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -100,6 +99,21 @@ class ProductOffersScreen extends StatelessWidget {
                                     context.read<ReportCubit>().changeFromDate(
                                       pickedDate,
                                     );
+                                    // final date = DateFormat(
+                                    //   'yyyy-MM-dd',
+                                    // ).format(DateTime.now());
+                                    final storeId = context
+                                        .read<DashboardCubit>()
+                                        .state
+                                        .selectedStore
+                                        ?.storeId;
+                                    context
+                                        .read<ReportCubit>()
+                                        .loadProductOffers(
+                                          storeId: storeId,
+                                          // fromDate: date,
+                                          // toDate: date,
+                                        );
                                   },
                                 ),
                               ),
@@ -107,13 +121,28 @@ class ProductOffersScreen extends StatelessWidget {
                               Expanded(
                                 child: DatePickerContainer(
                                   value: apiFormat.format(
-                                    state.fromDate ?? DateTime.now(),
+                                    state.toDate ?? DateTime.now(),
                                   ),
                                   hintText: '',
                                   changeDate: (DateTime pickedDate) {
                                     context.read<ReportCubit>().changeToDate(
                                       pickedDate,
                                     );
+                                    // final date = DateFormat(
+                                    //   'yyyy-MM-dd',
+                                    // ).format(DateTime.now());
+                                    final storeId = context
+                                        .read<DashboardCubit>()
+                                        .state
+                                        .selectedStore
+                                        ?.storeId;
+                                    context
+                                        .read<ReportCubit>()
+                                        .loadProductOffers(
+                                          storeId: storeId,
+                                          // fromDate: date,
+                                          // toDate: date,
+                                        );
                                   },
                                 ),
                               ),
@@ -124,24 +153,15 @@ class ProductOffersScreen extends StatelessWidget {
                       12.verticalSpace,
                       TextFeildWidget(
                         onChanged: (value) {
-                          final offers = context.read<ReportCubit>();
-                          final productOffers =
-                              offers.state.productOffers ?? [];
-                          if (value!.isEmpty) {
-                            offers.state.copyWith(
-                              filteredProducts: productOffers,
-                            );
-                          } else {
-                            final filtered = productOffers.where((product) {
-                              return product.productName
-                                      ?.toLowerCase()
-                                      .contains(value.toLowerCase()) ??
-                                  false;
-                            }).toList();
-                            offers.emit(
-                              offers.state.copyWith(filteredProducts: filtered),
-                            );
-                          }
+                          final storeId = context
+                              .read<DashboardCubit>()
+                              .state
+                              .selectedStore
+                              ?.storeId;
+                          context.read<ReportCubit>().loadProductOffers(
+                            storeId: storeId,
+                            search: value,
+                          );
                         },
                         borderColor: kBlack,
                         hight: 48.h,
@@ -413,3 +433,21 @@ Widget productOfferShimmer() {
     },
   );
 }
+            // final offers = context.read<ReportCubit>();
+                          // final productOffers =
+                          //     offers.state.productOffers ?? [];
+                          // if (value!.isEmpty) {
+                          //   offers.state.copyWith(
+                          //     filteredProducts: productOffers,
+                          //   );
+                          // } else {
+                          //   final filtered = productOffers.where((product) {
+                          //     return product.productName
+                          //             ?.toLowerCase()
+                          //             .contains(value.toLowerCase()) ??
+                          //         false;
+                          //   }).toList();
+                          //   // offers.emit(
+                          //   //   offers.state.copyWith(filteredProducts: filtered),
+                          //   // );
+                          // }

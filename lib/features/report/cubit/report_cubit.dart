@@ -671,7 +671,7 @@ class ReportCubit extends Cubit<ReportState> {
       log("TYPE ID  -= -= -= $res.data");
       if (res.data != null && (res.data?.isNotEmpty ?? false)) {
         List<PurchaseResponse> updatedList;
-                if (isLoadMore) {
+        if (isLoadMore) {
           updatedList = [...(state.purchaseReport ?? []), ...res.data!];
         } else {
           updatedList = res.data!;
@@ -1069,7 +1069,7 @@ class ReportCubit extends Cubit<ReportState> {
       emit(state.copyWith(isLoadingMore: true));
     } else {
       emit(
-        state.copyWith(
+        state.copyWith( 
           isProductOffers: ApiFetchStatus.loading,
           productOffers: [],
           currentPage: 0,
@@ -1132,6 +1132,37 @@ class ReportCubit extends Cubit<ReportState> {
     );
   }
 
+  void searchProducts(String query) {
+    final allProducts = state.productOffers ?? [];
+
+    if (query.isEmpty) {
+      emit(state.copyWith(filteredProducts: allProducts));
+    } else {
+      final filtered = allProducts.where((product) {
+        final productName = product.productName?.toLowerCase() ?? '';
+        final productCode = product.productCode?.toLowerCase() ?? '';
+
+        final queryLower = query.toLowerCase();
+        return productName.contains(queryLower) ||
+            productCode.contains(queryLower);
+      }).toList();
+
+      emit(state.copyWith(filteredProducts: filtered));
+    }
+  }
+  bool _isNewSearch(
+    int storeId,
+
+    String search,
+
+    int filterId,
+  ) {
+    return state.lastStoreId != storeId ||
+ 
+        state.lastSearchQuery != search ||
+  
+        state.lastFilterId != filterId;
+  }
   Future<void> loadSpecialOffer({int? storeId}) async {
     emit(state.copyWith(isSpecialOffer: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadSpecialOffer(
