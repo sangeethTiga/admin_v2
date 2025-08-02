@@ -284,7 +284,7 @@ class MostSellingProducts extends StatelessWidget {
                                         "Total Sales",
                                         "Profit",
                                       ],
-                                      columnFlex: [1, 4, 2, 3, 2, 2, 2],
+                                      columnFlex: [2, 9, 4, 4, 4, 4, 4],
                                       data:
                                           state.productsReport
                                               ?.asMap()
