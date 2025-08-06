@@ -150,7 +150,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                       "Offer Price",
                       "Total",
                     ],
-                    columnFlex: [0, 6, 7, 6, 3, 3],
+                    columnFlex: [2, 5, 7, 6, 3, 3],
 
                     data:
                         state.salesDealsReport?.map((e) {
