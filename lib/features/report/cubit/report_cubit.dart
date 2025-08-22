@@ -835,7 +835,7 @@ class ReportCubit extends Cubit<ReportState> {
         );
       }
 
-      final int offset = page * limit;
+      
       final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
 
       final res = await _reportRepositories.loadSaleOnDealsReport(
@@ -1246,7 +1246,7 @@ class ReportCubit extends Cubit<ReportState> {
         ),
       );
     }
-    final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
+    // final currentPage = isLoadMore ? (state.currentPage) + limit : 1;
     emit(state.copyWith(isSupplierReport: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadSuppliers(
       storeId: storeId ?? 0,

@@ -20,7 +20,7 @@ class CommonVerticalTableWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: headers.map((header) {
-  int headerIndex = headers.indexOf(header);
+  // int headerIndex = headers.indexOf(header);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

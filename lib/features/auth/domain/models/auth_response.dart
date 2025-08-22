@@ -53,3 +53,5 @@ class Privilage with _$Privilage {
   factory Privilage.fromJson(Map<String, dynamic> json) =>
       _$PrivilageFromJson(json);
 }
+
+

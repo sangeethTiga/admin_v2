@@ -164,3 +164,8 @@ List<Product> products = [
   Product(filterId: 9, name: 'Sellable'),
   Product(filterId: 10, name: 'POS Only'),
 ];
+class AppTypeId {
+  static const int user = 1;
+  static const int admin = 2;
+  static const int vendor = 3;
+}

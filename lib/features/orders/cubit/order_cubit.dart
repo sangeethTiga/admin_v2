@@ -124,13 +124,12 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   void applyFiltersToData(Map<String, List<int>> filters, int? storeId) {
-    print('Applying filters to data...');
-    print('Received filters: $filters');
+   
 
     int? selectedPaymentType = filters['Payment Type']?.isNotEmpty == true
         ? filters['Payment Type']!.first
         : null;
-    print('```````Payment Type filters: $selectedPaymentType}');
+
     int? selectedWaiter = filters['Waiters']?.isNotEmpty == true
         ? filters['Waiters']!.first
         : null;
@@ -211,7 +210,7 @@ class OrderCubit extends Cubit<OrderState> {
         storeId: storeId,
       );
       if (result.data != null) {
-        print('serch-=-==-${result.data}');
+    
 
         emit(state.copyWith(orderList: result.data));
         emit(state.copyWith(isLoading: ApiFetchStatus.success));

@@ -74,6 +74,11 @@ dependencies:
   cherry_toast: ^1.13.0
   dropdown_search: ^5.0.6
   flutter_launcher_icons: ^0.14.4
+  firebase_core: ^4.0.0
+  firebase_messaging: ^16.0.0
+  googleapis: ^14.0.0
+  device_info_plus: ^11.5.0
+  another_flushbar: ^1.12.30
  
 flutter_launcher_icons:
   android: "launcher_icon"
