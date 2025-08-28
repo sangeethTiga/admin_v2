@@ -9,7 +9,7 @@ import 'package:admin_v2/features/products/screens/create_offer_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/category_sales_report_screen.dart';
-import 'package:admin_v2/features/report/screens/chequeTrans_screen.dart';
+import 'package:admin_v2/features/report/screens/cheque_trans_screen.dart';
 import 'package:admin_v2/features/report/screens/customers_report_screen.dart';
 import 'package:admin_v2/features/report/screens/day_summary_report_screen.dart';
 import 'package:admin_v2/features/report/screens/delivery_charge_screen.dart';

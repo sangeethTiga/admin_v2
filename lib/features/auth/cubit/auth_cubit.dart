@@ -6,7 +6,7 @@ import 'package:admin_v2/features/auth/domain/repoitories/auth_repositories.dart
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:injectable/injectable.dart';
 
 part 'auth_state.dart';
