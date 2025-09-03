@@ -234,21 +234,21 @@ class PurchaseScreen extends StatelessWidget {
                                               showNoMoreData.value = false;
                                             }
 
-                                        return false;
-                                      },
-                                  child: CommonTableWidget( 
-                                    controller: scrollController,
-                                    isLoading:
-                                        state.isPurchaseReport ==
-                                        ApiFetchStatus.loading,
-                                    headers: [
-                                      "#",
-                                      "Purchase Date",
-                                      "Supplier",
-                                      "Amount",
-                                      "Payment Method",
-                                      "Invoice",
-                                    ],
+                                            return false;
+                                          },
+                                      child: CommonTableWidget(
+                                        controller: scrollController,
+                                        isLoading:
+                                            state.isPurchaseReport ==
+                                            ApiFetchStatus.loading,
+                                        headers: [
+                                          "#",
+                                          "Purchase Date",
+                                          "Supplier",
+                                          "Amount",
+                                          "Payment Method",
+                                          "Invoice",
+                                        ],
 
                                         columnFlex: [1, 3, 3, 2, 3, 2],
                                         data:
@@ -279,7 +279,7 @@ class PurchaseScreen extends StatelessWidget {
                                   if (state.isLoadingMore == true)
                                     Container(
                                       padding: EdgeInsets.all(16.w),
-                                       child: CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(),
                                     ),
                                   ValueListenableBuilder<bool>(
                                     valueListenable: showNoMoreData,

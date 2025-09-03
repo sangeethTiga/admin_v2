@@ -247,8 +247,8 @@ class SearchableDropdownWidget<T> extends StatefulWidget {
     this.borderColor,
     this.isLoading = false,
     this.isEdit = false,
-    this.isEnable=false,
-    this.readOnly=false
+    this.isEnable = false,
+    this.readOnly = false,
   });
 
   @override

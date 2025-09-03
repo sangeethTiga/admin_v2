@@ -1,10 +1,13 @@
 import 'dart:developer';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
+import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
-import 'package:admin_v2/features/products/domain/models/product/product_response.dart';
+import 'package:admin_v2/features/products/domain/models/main_category/main_category_response.dart';
+import 'package:admin_v2/features/products/domain/models/product/product_response.dart'  hide Image;
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
+import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart';
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
@@ -24,6 +27,7 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> product({
     int? storeId,
     int? catId,
+    int? unitId,
     String? search,
     String? barCode,
     int? filterId,
@@ -51,6 +55,7 @@ class ProductCubit extends Cubit<ProductState> {
       final res = await _productRepositories.products(
         storeId: storeId,
         catId: catId,
+
         search: search,
         barCode: barCode,
         filterId: state.selectProduct?.filterId,
@@ -275,6 +280,41 @@ class ProductCubit extends Cubit<ProductState> {
 
   Future<void> changeCategory(CategoryResponse cate) async {
     emit(state.copyWith(selectCategory: cate));
+  }
+
+  Future<void> unit() async {
+    try {
+      final res = await _productRepositories.unit();
+      if (res.data != null) {
+        emit(state.copyWith(unit: res.data));
+      }
+    } catch (e, s) {
+      log('$e,$s');
+    }
+  }
+
+  Future<void> changeUnit(UnitResponse unit) async {
+    emit(state.copyWith(selectedUnit: unit));
+  }
+
+  Future<void> createProduct({required CreateProductResponse create}) async {
+    emit(state.copyWith(isCreated: ApiFetchStatus.loading));
+    final res = await _productRepositories.createProduct(create);
+
+    if (res.data != null) {
+      emit(state.copyWith(isCreated: ApiFetchStatus.success));
+    } else {
+      emit(state.copyWith(isCreated: ApiFetchStatus.failed));
+    }
+    emit(state.copyWith(isCreated: ApiFetchStatus.failed));
+  }
+
+  void togglePurchasable(bool value) {
+    emit(state.copyWith(isPurchasable: value));
+  }
+
+  void toggleSellable(bool value) {
+    emit(state.copyWith(isSellable: value));
   }
 
   Future<void> totalStockCalculation(

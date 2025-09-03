@@ -91,6 +91,10 @@ class ApiEndpoints {
   static String stockStatus = '/api/product-item-conditions';
   static String stockUpdate = '/api/bulk-stock-update';
   static String category(int storeId) => '/api/categories?store_id=$storeId';
+  static String mainCategory(int storeId, int parentCategoryId) =>
+      'api/main-categories?parent_category_id=0&store_id=$storeId';
+  static String unit() => '/api/unit';
+  static String createProduct() => '/api/product';
 
   static String parcelCharge(
     int pageFirstLimit,

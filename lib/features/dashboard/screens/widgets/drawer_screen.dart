@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/common/domain/models/account/account_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -59,7 +58,6 @@ class _DrawerContent extends StatelessWidget {
         _buildInventory(storeId),
         _buildOffersSection(),
         _buildTopStoresSection(),
-
         _buildLogoutSection(context),
       ],
     );

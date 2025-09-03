@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:core';
-
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
 import 'package:admin_v2/features/common/cubit/common_cubit.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
@@ -31,9 +30,7 @@ Future<void> main() async {
           create: (context) => getIt<ReportCubit>(),
           child: TaxScreen(),
         ),
-        BlocProvider<OrderCubit>.value(
-          value: getIt<OrderCubit>(), // Use .value instead of create
-        ),
+        BlocProvider<OrderCubit>.value(value: getIt<OrderCubit>()),
         BlocProvider(create: (context) => getIt<ProductCubit>()),
       ],
       child: MyApp(),

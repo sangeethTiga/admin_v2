@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:admin_v2/features/products/widgets/variant_stock_update.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
+import 'package:admin_v2/shared/routes/routes.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
 import 'package:admin_v2/shared/widgets/appbar/appbar.dart';
 import 'package:admin_v2/shared/widgets/common_widgets/common_show_dialogue/common_show_dialogue.dart';
@@ -24,6 +26,7 @@ import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -98,16 +101,18 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  void _loadInitialData() {
-    final dashboardState = context.read<DashboardCubit>().state;
-    if (dashboardState.selectedStore?.storeId != null) {
-      context.read<ProductCubit>().product(
-        storeId: dashboardState.selectedStore?.storeId,
-        search: '',
-        isLoadMore: false,
-      );
-    }
-  }
+void _loadInitialData() {
+  final dashboardState = context.read<DashboardCubit>().state;
+  final productState = context.read<ProductCubit>().state;
+
+  context.read<ProductCubit>().product(
+    storeId: dashboardState.selectedStore?.storeId,
+    catId: productState.selectCategory?.details?.categoryId,
+    search: '',
+    isLoadMore: false,
+  );
+}
+
 
   void _loadMoreData() {
     final productState = context.read<ProductCubit>().state;
@@ -157,6 +162,34 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: BlocBuilder<ProductCubit, ProductState>(
+        builder: (context, state) {
+          return FloatingActionButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.r),
+            ),
+            backgroundColor: kPrimaryColor,
+
+            onPressed: () async {
+              final storeId = context
+                  .read<DashboardCubit>()
+                  .state
+                  .selectedStore
+                  ?.storeId;
+              context.read<ProductCubit>().catgeory(storeId ?? 0);
+              context.read<ProductCubit>().unit();
+
+              final result = await context.push(routeCreateProduct);
+
+              if (result == 'refresh') {
+                _loadInitialData(); 
+              }
+            },
+
+            child: Icon(Icons.add, color: kWhite, size: 25.h),
+          );
+        },
+      ),
       appBar: const AppbarWidget(title: 'Products'),
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
@@ -431,7 +464,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   Icons.inventory,
                   size: 64.w,
                   color: Colors.grey[400],
-                 ),
+                ),
               ),
               Text(
                 'No products found for $filterName',

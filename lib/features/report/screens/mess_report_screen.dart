@@ -32,116 +32,118 @@ class MessReportScreen extends StatelessWidget {
                 ),
 
                 12.verticalSpace,
-                BlocBuilder<ReportCubit, ReportState>(
-                  builder: (context, state) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: DatePickerContainer(
-                            value: apiFormat.format(
-                              state.fromDate ?? DateTime.now(),
-                            ),
-                            hintText: '',
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeFromDate(
-                                pickedDate,
-                              );
-                            },
-                          ),
-                        ),
-                        12.horizontalSpace,
-                        Expanded(
-                          child: DatePickerContainer(
-                            hintText: '',
-                            value: apiFormat.format(
-                              state.toDate ?? DateTime.now(),
-                            ),
-                            changeDate: (DateTime pickedDate) {
-                              context.read<ReportCubit>().changeToDate(
-                                pickedDate,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                _handleDate(),
 
                 10.verticalSpace,
+                _viewResult(),
 
-                BlocBuilder<DashboardCubit, DashboardState>(
-                  builder: (context, state) {
-                    return CustomMaterialBtton(
-                      onPressed: () {
-                        context.read<ReportCubit>().loadMessReport(
-                          storeId: state.selectedStore?.storeId,
-                        );
-                      },
-                      buttonText: 'View Report',
-                    );
-                  },
-                ),
                 10.verticalSpace,
               ],
             ),
           ),
 
-          Expanded(
-            child: MainPadding(
-              child: BlocBuilder<DashboardCubit, DashboardState>(
-                builder: (context, store) {
-                  return BlocBuilder<ReportCubit, ReportState>(
-                    builder: (context, state) {
-                      return
-                      //  NotificationListener<ScrollNotification>(
-                      //   onNotification: (ScrollNotification scrollInfo) {
-                      //     if (scrollInfo.metrics.pixels >=
-                      //             scrollInfo.metrics.maxScrollExtent - 50 &&
-                      //         state.isMessReport != ApiFetchStatus.loading) {
-                      //       context.read<ReportCubit>().loadMessReport(
-                      //         isLoadMore: true,
-                      //         storeId: store.selectedStore?.storeId,
-                      //       );
-                      //     }
-                      //     return false;
-                      //   },
-                      //   child:
-                      CommonTableWidget(
-                        isLoading: state.isMessReport == ApiFetchStatus.loading,
-                        headers: [
-                          "#",
-                          "Customer Name ",
-                          // "Meal Name",
-                          "Store Name",
-                          "Advance Amount ",
-                          "Balance Amount",
-                        ],
+          Expanded(child: _buildCommonTable()),
+        ],
+      ),
+    );
+  }
 
-                        columnFlex: [1, 2, 2, 2, 2],
-                        data:
-                            state.messReport?.map((e) {
-                              int index = state.messReport?.indexOf(e) ?? 0;
-                              return {
-                                '#': index + 1,
-                                'Customer Name ': e.custName ?? '',
-                                // 'Meal Name': e. ?? '',
-                                'Store Name': e.storeName ?? '',
-                                'Advance Amount ': e.advanceAmount ?? '',
-                                'Balance Amount': e.balanceAmt ?? '',
-                                // Placeholder for action button
-                              };
-                            }).toList() ??
-                            [],
-                      );
-                      //);
-                    },
-                  );
+  Widget _handleDate() {
+    return BlocBuilder<ReportCubit, ReportState>(
+      builder: (context, state) {
+        return Row(
+          children: [
+            Expanded(
+              child: DatePickerContainer(
+                value: apiFormat.format(state.fromDate ?? DateTime.now()),
+                hintText: '',
+                changeDate: (DateTime pickedDate) {
+                  context.read<ReportCubit>().changeFromDate(pickedDate);
                 },
               ),
             ),
-          ),
-        ],
+            12.horizontalSpace,
+            Expanded(
+              child: DatePickerContainer(
+                hintText: '',
+                value: apiFormat.format(state.toDate ?? DateTime.now()),
+                changeDate: (DateTime pickedDate) {
+                  context.read<ReportCubit>().changeToDate(pickedDate);
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _viewResult() {
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (context, state) {
+        return CustomMaterialBtton(
+          onPressed: () {
+            context.read<ReportCubit>().loadMessReport(
+              storeId: state.selectedStore?.storeId,
+            );
+          },
+          buttonText: 'View Report',
+        );
+      },
+    );
+  }
+
+  Widget _buildCommonTable() {
+    return MainPadding(
+      child: BlocBuilder<DashboardCubit, DashboardState>(
+        builder: (context, store) {
+          return BlocBuilder<ReportCubit, ReportState>(
+            builder: (context, state) {
+              return
+              //  NotificationListener<ScrollNotification>(
+              //   onNotification: (ScrollNotification scrollInfo) {
+              //     if (scrollInfo.metrics.pixels >=
+              //             scrollInfo.metrics.maxScrollExtent - 50 &&
+              //         state.isMessReport != ApiFetchStatus.loading) {
+              //       context.read<ReportCubit>().loadMessReport(
+              //         isLoadMore: true,
+              //         storeId: store.selectedStore?.storeId,
+              //       );
+              //     }
+              //     return false;
+              //   },
+              //   child:
+              CommonTableWidget(
+                isLoading: state.isMessReport == ApiFetchStatus.loading,
+                headers: [
+                  "#",
+                  "Customer Name ",
+                  // "Meal Name",
+                  "Store Name",
+                  "Advance Amount ",
+                  "Balance Amount",
+                ],
+
+                columnFlex: [1, 2, 2, 2, 2],
+                data:
+                    state.messReport?.map((e) {
+                      int index = state.messReport?.indexOf(e) ?? 0;
+                      return {
+                        '#': index + 1,
+                        'Customer Name ': e.custName ?? '',
+                        // 'Meal Name': e. ?? '',
+                        'Store Name': e.storeName ?? '',
+                        'Advance Amount ': e.advanceAmount ?? '',
+                        'Balance Amount': e.balanceAmt ?? '',
+                        // Placeholder for action button
+                      };
+                    }).toList() ??
+                    [],
+              );
+              //);
+            },
+          );
+        },
       ),
     );
   }

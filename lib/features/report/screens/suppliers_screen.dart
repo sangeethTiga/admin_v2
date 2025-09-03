@@ -32,6 +32,7 @@ class SuppliersReportScreen extends StatelessWidget {
                   onChanged: (p0) {
                     context.read<DashboardCubit>().selectedStore(p0);
                   },
+                  
                 ),
 
                 8.verticalSpace,

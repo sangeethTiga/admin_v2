@@ -7,6 +7,7 @@ import 'package:admin_v2/features/orders/screens/order_screen.dart';
 import 'package:admin_v2/features/products/product_screen.dart';
 import 'package:admin_v2/features/products/screens/create_offer_screen.dart';
 import 'package:admin_v2/features/products/screens/product_offers_screen.dart';
+import 'package:admin_v2/features/products/widgets/create_product.dart';
 import 'package:admin_v2/features/profitloss/screens/profit_loss_screen.dart';
 import 'package:admin_v2/features/report/screens/category_sales_report_screen.dart';
 import 'package:admin_v2/features/report/screens/chequeTrans_screen.dart';
@@ -53,6 +54,10 @@ class RouteGenerator {
         GoRoute(
           path: routeProducts,
           builder: (context, state) => ProductScreen(),
+        ),
+             GoRoute(
+          path: routeCreateProduct,
+          builder: (context, state) => CreateProduct(),
         ),
         GoRoute(
           path: routeProfitloss,
@@ -105,6 +110,7 @@ class RouteGenerator {
             return CreateOfferScreen(data: data);
           },
         ),
+
         GoRoute(
           path: routePurchase,
           builder: (context, state) => PurchaseScreen(),

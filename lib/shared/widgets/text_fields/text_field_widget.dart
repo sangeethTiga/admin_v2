@@ -209,7 +209,7 @@ class AddressTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h, left: 12.w, right: 12.w),
-      height: 48.h,
+       height: 18.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(color: Color(0XFFB7C6C2)),

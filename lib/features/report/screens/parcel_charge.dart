@@ -160,7 +160,7 @@ class ParcelCharge extends StatelessWidget {
   }
 
   Widget _commonTable() {
-    final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
+   final ValueNotifier<bool> showNoMoreData = ValueNotifier(false);
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
         final ScrollController scrollController = ScrollController();

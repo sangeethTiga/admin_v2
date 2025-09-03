@@ -2,6 +2,7 @@ const String routeRoot = '/splash';
 const String routeMain = '/home';
 const String routeProductOffers = '/product-offers';
 const String routeProducts = '/product';
+const String routeCreateProduct = '/createProduct';
 const String routeProfitloss = '/profitloss';
 const String routeDeliveryCharge = '/delivery-charge';
 const String routeOrders = '/orders-data';

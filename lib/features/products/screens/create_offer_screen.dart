@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/domain/models/createOffer/create_offer_response.dart';
 import 'package:admin_v2/features/report/domain/models/editoffer/edit_offer_response.dart';
@@ -114,7 +113,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
   void _updateDiscountFromOfferPrice(ReportState state) {
     final offerText = double.tryParse(offerPrice.text) ?? 0.0;
-    final productText = state.selectedProductName?.productPrice;
+    final productText = state.selectedProductName?.productPrice; 
 
     final offerPrices = offerText;
     final productPrice = productText ?? 0;
@@ -241,7 +240,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   value: state.selectedProductName,
                                   items: state.getProductName ?? [],
                                   topLabelText: 'Product Name',
-                                  hintText: 'Search and select product...',
+                                  hintText: 'Search and select product...', 
                                   isEnable: false,
                                   displayText: (product) =>
                                       product.productName ?? '',

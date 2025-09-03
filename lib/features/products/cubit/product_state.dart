@@ -6,6 +6,15 @@ class ProductState extends Equatable {
   final ProductResponse? selectedProduct;
   final List<StockStatusResponse>? stockStatusList;
   final List<CategoryResponse>? categoryList;
+  final List<MainCategoryResponse>? mainCategory;
+  final MainCategoryResponse? selectMainCategory;
+  final List<UnitResponse>? unit;
+  final UnitResponse? selectedUnit;
+  final bool isPurchasable;
+  final bool isSellable;
+  final ApiFetchStatus? isCreated;
+  final List<Image>? images;
+
   final List<VariantsResponse>? variantList;
   final CategoryResponse? selectCategory;
   final ProductResponse? scannedProduct;
@@ -60,6 +69,7 @@ class ProductState extends Equatable {
     this.prodList,
     this.selectProduct,
     this.updatedProduct,
+    this.images,
 
     this.isMostSelling,
     this.sellingProductsReport,
@@ -73,6 +83,13 @@ class ProductState extends Equatable {
     this.lastStoreId = 0,
     this.lastCatId = 0,
     this.lastFilterId = 0,
+    this.mainCategory,
+    this.selectMainCategory,
+    this.unit,
+    this.selectedUnit,
+    this.isPurchasable = false,
+    this.isSellable = false,
+    this.isCreated,
   });
 
   ProductState copyWith({
@@ -98,6 +115,7 @@ class ProductState extends Equatable {
     List<Product>? prodList,
     Product? selectProduct,
     ProductResponse? updatedProduct,
+    List<Image>? images,
 
     List<MostSellingResponse>? sellingProductsReport,
     ApiFetchStatus? isMostSelling,
@@ -113,6 +131,14 @@ class ProductState extends Equatable {
     int? lastCatId,
     int? lastFilterId,
     bool? isMakeItNull = false,
+    List<MainCategoryResponse>? mainCategory,
+    MainCategoryResponse? selectMainCategory,
+    List<UnitResponse>? unit,
+    UnitResponse? selectedUnit,
+
+    bool? isPurchasable,
+    bool? isSellable,
+    ApiFetchStatus? isCreated,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -150,6 +176,14 @@ class ProductState extends Equatable {
     lastStoreId: lastStoreId ?? this.lastStoreId,
     lastCatId: lastCatId ?? this.lastCatId,
     lastFilterId: lastFilterId ?? this.lastFilterId,
+    mainCategory: mainCategory ?? this.mainCategory,
+    selectMainCategory: selectMainCategory ?? this.selectMainCategory,
+    isPurchasable: isPurchasable ?? this.isPurchasable,
+    isSellable: isSellable ?? this.isSellable,
+    unit: unit ?? this.unit,
+    selectedUnit: selectedUnit ?? this.selectedUnit,
+    isCreated: isCreated ?? this.isCreated,
+    images: images ?? this.images,
   );
 
   @override
@@ -186,6 +220,14 @@ class ProductState extends Equatable {
     lastSearchQuery,
     lastBarCode,
     lastStoreId,
+    mainCategory,
+    selectMainCategory,
+    isPurchasable,
+    isSellable,
+    unit,
+    selectedUnit,
+    isCreated,
+    images,
   ];
 }
 
