@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
+import 'package:admin_v2/features/auth/domain/models/notifications_response.dart';
 import 'package:admin_v2/features/auth/domain/repoitories/auth_repositories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
@@ -18,10 +19,38 @@ class AuthService implements AuthRepositories {
       ApiEndpoints.commonSign,
       data: {'user_email': email, 'password': password},
     );
+    
     switch (res.statusCode) {
       case 200:
       case 201:
         return ResponseResult(data: AuthResponse.fromJson(res.data));
+      default:
+        throw Exception('error');
+    }
+  }
+
+  @override
+  Future<ResponseResult<NotificationsRequest>> registerNotificationResponse({
+    required String deviceFcmToken,
+    required String uniqueDeviceId,
+    required int appTypeId,
+    required int customerId,
+  }) async {
+    final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.post(
+      ApiEndpoints.notification,
+      data: {
+        'device_fcm_token': deviceFcmToken,
+        'unique_device_id': uniqueDeviceId,
+        'app_type_id': appTypeId,
+        'customer_id': customerId,
+      },
+    );
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        return ResponseResult(data: NotificationsRequest.fromJson(res.data));
       default:
         throw Exception('error');
     }

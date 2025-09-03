@@ -3,7 +3,7 @@ class ApiEndpoints {
   static String commonSign = 'https://cab.resto.qa/api/get-admin-api';
   static String store(int custId, int roleId) =>
       '/api/store?role_id=$roleId&user_id=$custId&page_first_result=0&result_per_page=50';
-
+  static String notification = '/api/register_notification_device';
   static String salesReport({
     int? selectedStoreId,
     String? fromDate,
@@ -233,7 +233,7 @@ class ApiEndpoints {
   static String getDeliveryAgent(int deliveryPartnerId, int storeId) =>
       '/api/delivery_agent?delivery_partner_id=$deliveryPartnerId&store_id=$storeId';
   static String getPaymethod() => '/api/payment_method';
-  static String getWaiters(int storeId) =>
+  static String getWaiters(int storeId) =>  
       '/api/store_users?store_id=$storeId&role_id=9';
   static String getKiosk(int storeId) => '/api/kiosk?store_id=$storeId';
   static String getCashier(int storeId) =>

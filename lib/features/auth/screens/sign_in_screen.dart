@@ -30,6 +30,7 @@ class SignInScreen extends StatelessWidget {
             await AuthUtils.instance.writeUserData(
               state.authResponse ?? AuthResponse(),
             );
+            final user = await AuthUtils.instance.readUserData();
             await AuthUtils.instance.writeAccessTokens(
               state.authResponse?.user?.token ?? '',
             );
@@ -37,7 +38,9 @@ class SignInScreen extends StatelessWidget {
             context.read<DashboardCubit>().store();
             context.read<DashboardCubit>().loadOrderGraph();
             context.read<DashboardCubit>().loadRevenueGraph();
-
+            // context.read<AuthCubit>().registerNotificationDevice(
+            //   customerId: user?.user?.companyUsersId ?? 0,
+            // );
             context.push(routeMain);
           } else if (state.isLoading == ApiFetchStatus.failed) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -103,11 +106,18 @@ class SignInScreen extends StatelessWidget {
                     ),
                     CustomMaterialBtton(
                       isLoading: ApiFetchStatus.loading == state.isLoading,
-                      onPressed: () {
+                      onPressed: () async {
+                        final user = await AuthUtils.instance.readUserData();
+                        await AuthUtils.instance.writeAccessTokens(
+                          state.authResponse?.user?.token ?? '',
+                        );
                         context.read<AuthCubit>().authSigIn(
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                         );
+                        // context.read<AuthCubit>().registerNotificationDevice(
+                        //   customerId: user?.user?.companyUsersId ?? 0,
+                        // );
                       },
                     ),
                   ],

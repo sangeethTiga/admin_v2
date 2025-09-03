@@ -3,7 +3,7 @@
 //     final customerSearchResponse = customerSearchResponseFromMap(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
+
 
 part 'custSearch_response.freezed.dart';
 part 'custSearch_response.g.dart';

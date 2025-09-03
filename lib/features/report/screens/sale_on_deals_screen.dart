@@ -150,7 +150,7 @@ class SaleOnDealsScreen extends StatelessWidget {
                       "Offer Price",
                       "Total",
                     ],
-                    columnFlex: [0, 5, 6, 6, 3, 3],
+                    columnFlex: [2, 5, 7, 6, 3, 3],
 
                     data:
                         state.salesDealsReport?.map((e) {
@@ -264,11 +264,7 @@ void _loadMoreData(BuildContext context) {
   final reportState = context.read<ReportCubit>().state;
   final dashboardState = context.read<DashboardCubit>().state;
 
-  print('_loadMoreData called');
-  print('hasMoreData: ${reportState.hasMoreData}');
-  print('isLoadingMore: ${reportState.isLoadingMore}');
-  print('currentPage: ${reportState.currentPage}');
-  print('total records: ${reportState.customersReport?.length}');
+
 
   if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
     context.read<ReportCubit>().loadSalesDealsReport(

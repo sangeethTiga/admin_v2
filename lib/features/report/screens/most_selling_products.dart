@@ -284,7 +284,7 @@ class MostSellingProducts extends StatelessWidget {
                                         "Total Sales",
                                         "Profit",
                                       ],
-                                      columnFlex: [1, 4, 2, 3, 2, 2, 2],
+                                      columnFlex: [2, 9, 4, 4, 4, 4, 4],
                                       data:
                                           state.productsReport
                                               ?.asMap()
@@ -396,11 +396,6 @@ void _loadMoreData(BuildContext context) {
   final reportState = context.read<ReportCubit>().state;
   final dashboardState = context.read<DashboardCubit>().state;
 
-  print('_loadMoreData called');
-  print('hasMoreData: ${reportState.hasMoreData}');
-  print('isLoadingMore: ${reportState.isLoadingMore}');
-  print('currentPage: ${reportState.currentPage}');
-  print('total records: ${reportState.productsReport?.length}');
 
   if (reportState.hasMoreData == true && reportState.isLoadingMore != true) {
     context.read<ReportCubit>().loadProductReport(

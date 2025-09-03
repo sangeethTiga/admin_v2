@@ -355,8 +355,8 @@ class ReportService implements ReportRepositories {
   }) async {
     final networkProvider = await NetworkProvider.create();
     final user = await AuthUtils.instance.readUserData();
-    final int userId = user?.user?.companyUsersId ?? 0;
-    final int roleId = user?.user?.userRoleId ?? 0;
+    // final int userId = user?.user?.companyUsersId ?? 0;
+    // final int roleId = user?.user?.userRoleId ?? 0;
     final res = await networkProvider.get(
       ApiEndpoints.topStores(
         user?.user?.userRoleId ?? 0,

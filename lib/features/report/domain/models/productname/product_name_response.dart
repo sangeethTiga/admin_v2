@@ -1,9 +1,4 @@
 
-// To parse this JSON data, do
-//
-//     final productNameResponse = productNameResponseFromJson(jsonString);
-
-import 'package:admin_v2/shared/utils/helper/helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 
