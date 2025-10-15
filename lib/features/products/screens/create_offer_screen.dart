@@ -70,11 +70,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     final offerTypes = cubit.state.specialOffer ?? [];
     if (offerTypes.isNotEmpty) {
       final selectedOfferType = offerTypes.firstWhere(
-        (type) => type.prodOfferTypeId == offer.prodOfferTypeId,
+        (type) => type.offerTypeId == offer.offerTypeId,
         orElse: () => SpecialOfferResponse(),
       );
 
-      log('Setting selected offer type: ${selectedOfferType.offerTypeName}');
       cubit.changeOffeType(selectedOfferType);
     }
 
@@ -300,7 +299,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                           SpecialOfferResponse
                                         >(
                                           value: e,
-                                          child: Text(e.offerTypeName ?? ''),
+                                          child: Text(e.offerType ?? ''),
                                         );
                                       }).toList() ??
                                       [],
@@ -527,7 +526,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         deliveryPartnerId: 0,
         maxOrderQty: 0,
         offerTypeId: 0,
-        prodOfferTypeId: state.selectedType?.prodOfferTypeId,
+        prodOfferTypeId: state.selectedType?.offerTypeId,
         updatedBy: 0,
         resourceId: state.selectedType?.resourceId ?? 0,
         prodVarCode: state.selectedProductName?.prodVarCode.toString(),
@@ -556,7 +555,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         deliveryPartnerId: 0,
         maxOrderQty: 0,
         priceTypeId: 1,
-        prodOfferTypeId: state.selectedType?.prodOfferTypeId,
+        prodOfferTypeId: state.selectedType?.offerTypeId,
         prodVarCode: state.selectedProductName?.prodVarCode?.toString() ?? "0",
         resourceId: 0,
         couponId: 0,
