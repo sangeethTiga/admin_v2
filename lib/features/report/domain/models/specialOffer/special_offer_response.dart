@@ -13,8 +13,7 @@ part 'special_offer_response.g.dart';
 @freezed
 class SpecialOfferResponse with _$SpecialOfferResponse {
     const factory SpecialOfferResponse({
-        @JsonKey(name: "offer_type_id")
-         int ?offerTypeId,
+        @JsonKey(name: "offer_type_id") int ?offerTypeId,
         @JsonKey(name: "offer_type")
          String ?offerType,
         @JsonKey(name: "resource_id")

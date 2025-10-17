@@ -17,6 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class CreateProduct extends StatefulWidget {
   const CreateProduct({super.key});
@@ -95,6 +97,13 @@ class _CreateProductState extends State<CreateProduct> {
                         ),
                       ],
                     ),
+                    CustomMaterialBtton(
+                      buttonText: 'Select Image',
+                      onPressed: () {
+                        _showImagePickerOptions(context);
+                      },
+                    ),
+
                     18.verticalSpace,
 
                     CustomMaterialBtton(
@@ -139,8 +148,8 @@ class _CreateProductState extends State<CreateProduct> {
                                 ]
                               : [],
 
-                           productImages: productState.images ?? [],
-                    
+                          productImages: productState.images ?? [],
+
                           productName: productName.text.trim(),
                           productCode: productCode.text.trim(),
                           volume: quantity.toString(),
@@ -159,8 +168,8 @@ class _CreateProductState extends State<CreateProduct> {
 
                         context.read<ProductCubit>().createProduct(
                           create: createProductData,
-                        ); 
-                           context.pop('refresh');
+                        );
+                        context.pop('refresh');
                       },
                     ),
                   ],
@@ -297,6 +306,52 @@ class _CreateProductState extends State<CreateProduct> {
         );
       },
     );
+  }
+
+  void _showImagePickerOptions(BuildContext context) {
+    final ImagePicker picker = ImagePicker();
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.camera_alt),
+                title: Text('Take Photo'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.photo_library),
+                title: Text('Choose from Gallery'),
+                onTap: () async {
+                  // final currentContext = context;
+                  // Navigator.pop(currentContext);
+
+                  // final XFile? image = await picker.pickImage(
+                  //   source: ImageSource.gallery,
+                  // );
+                  // if (image != null) {
+                  //   currentContext.read<ProductCubit>().addImage(image.path);
+                  // }
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _handlePickedImage(BuildContext context, XFile image) {
+    final imagePath = image.path;
+
+    context.read<ProductCubit>().addImage(imagePath);
   }
 
   Widget _buildCheckbox() {

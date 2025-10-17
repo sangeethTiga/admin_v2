@@ -160,8 +160,8 @@ class ApiEndpoints {
 
   static String topStores(int roleId, int userId) =>
       '/api/topallstores?role_id=$roleId&user_id=$userId';
-  static String offers(int storeId) =>
-      '/api/product_offer_type?store_id=$storeId';
+  // static String offers(int storeId) =>
+  //     '/api/product_offer_type?store_id=$storeId';
   static String cheque(
     int storeId,
     String status,
@@ -225,8 +225,8 @@ class ApiEndpoints {
 
   static String getVariant(int productId) =>
       '/api/product_variantdetail/$productId';
-  static String specialOffer(int storeId) =>
-      '/api/product_offer_type?store_id=$storeId';
+  // static String specialOffer(int storeId) =>
+  //     '/api/product_offer_type?store_id=$storeId';
   static String editOffer(int prodOfferId) => '/api/product_offer/$prodOfferId';
   static String createOffer() => '/api/product_offer';
 
@@ -246,4 +246,5 @@ class ApiEndpoints {
       '/api/order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
   static String customerSearch(int storeId, String custSearch) =>
       '/api/customerreport?store_id=$storeId&cust_name=$custSearch';
+   static String getOfferType()=>'/api/offer_type';
 }

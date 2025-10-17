@@ -32,6 +32,8 @@ class CreateOfferScreen extends StatefulWidget {
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final TextEditingController offerPrice = TextEditingController();
   final TextEditingController offerPercentage = TextEditingController();
+  final TextEditingController customOfferTypeController =
+      TextEditingController();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
   bool get isEdit => widget.data?['is_edit'] == true;
@@ -69,7 +71,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
     final offerTypes = cubit.state.specialOffer ?? [];
     if (offerTypes.isNotEmpty) {
-      final selectedOfferType = offerTypes.firstWhere(
+      final selectedOfferType = offerTypes.firstWhere( 
         (type) => type.offerTypeId == offer.offerTypeId,
         orElse: () => SpecialOfferResponse(),
       );
@@ -112,7 +114,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
   void _updateDiscountFromOfferPrice(ReportState state) {
     final offerText = double.tryParse(offerPrice.text) ?? 0.0;
-    final productText = state.selectedProductName?.productPrice; 
+    final productText = state.selectedProductName?.productPrice;
 
     final offerPrices = offerText;
     final productPrice = productText ?? 0;
@@ -239,7 +241,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   value: state.selectedProductName,
                                   items: state.getProductName ?? [],
                                   topLabelText: 'Product Name',
-                                  hintText: 'Search and select product...', 
+                                  hintText: 'Search and select product...',
                                   isEnable: false,
                                   displayText: (product) =>
                                       product.productName ?? '',
@@ -290,19 +292,27 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             BlocBuilder<ReportCubit, ReportState>(
                               builder: (context, state) {
                                 return DropDownFieldWidget(
-                                  topLabelText: 'Offers',
+                                  topLabelText: 'Offer Type',
                                   value: state.selectedType,
                                   hintText: 'Select Offer Type',
-                                  items:
-                                      state.specialOffer?.map((e) {
-                                        return DropdownMenuItem<
-                                          SpecialOfferResponse
-                                        >(
-                                          value: e,
-                                          child: Text(e.offerType ?? ''),
-                                        );
-                                      }).toList() ??
-                                      [],
+                                  items: [
+                                    ...?state.specialOffer?.map(
+                                      (e) =>
+                                          DropdownMenuItem<
+                                            SpecialOfferResponse
+                                          >(
+                                            value: e,
+                                            child: Text(e.offerType ?? ''),
+                                          ),
+                                    ),
+                                    DropdownMenuItem<SpecialOfferResponse>(
+                                      value: SpecialOfferResponse(
+                                        offerTypeId:  state.selectedType?.offerTypeId,
+                                        offerType: ' Custom Offer Type ',
+                                      ),
+                                      child: Text('Custom Offer Type'),
+                                    ),
+                                  ],
                                   borderColor: kBlack,
                                   fillColor: const Color(0XFFEFF1F1),
                                   onChanged: (p0) {
@@ -315,6 +325,21 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             ),
                             10.verticalSpace,
 
+              
+                              TextFeildWidget(
+                                controller: customOfferTypeController,
+                                topLabelText: 'Offer Title',
+                                hintText: 'Enter Offer Title',
+                                borderColor: kBlack,
+                                hight: 48.h,
+                                fillColor: kWhite,
+                                inputBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  borderSide: const BorderSide(
+                                    color: Color(0XFFB7C6C2),
+                                  ),
+                                ),
+                              ),
                             TextFeildWidget(
                               controller: offerPrice,
                               topLabelText: 'Offer Price',
@@ -520,13 +545,13 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         storeId: widget.data?['storeId'] ?? 0,
         productId: state.selectedProductName?.productId,
         branchId: 0,
-        couponId: 0,
 
+        // couponId: 0,
         createdBy: 1,
         deliveryPartnerId: 0,
         maxOrderQty: 0,
-        offerTypeId: 0,
-        prodOfferTypeId: state.selectedType?.offerTypeId,
+        offerTypeId: state.selectedType?.offerTypeId,
+        // prodOfferTypeId: state.selectedType?.offerTypeId,
         updatedBy: 0,
         resourceId: state.selectedType?.resourceId ?? 0,
         prodVarCode: state.selectedProductName?.prodVarCode.toString(),
@@ -549,16 +574,17 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         offerPricePercentage: int.tryParse(offerPercentage.text),
         offerFromDate: startDateTime,
         offerToDate: endDateTime,
-        offerTypeId: 0,
+        offerTypeId: state.selectedType?.offerTypeId,
         createdBy: 1,
         updatedBy: 1,
         deliveryPartnerId: 0,
         maxOrderQty: 0,
         priceTypeId: 1,
-        prodOfferTypeId: state.selectedType?.offerTypeId,
+        // prodOfferTypeId:
+        // state.selectedType?.offerTypeId,
         prodVarCode: state.selectedProductName?.prodVarCode?.toString() ?? "0",
         resourceId: 0,
-        couponId: 0,
+        // couponId: 0,
         isSingleProductOffer: 1,
       );
 
