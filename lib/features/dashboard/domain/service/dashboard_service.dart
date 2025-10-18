@@ -16,7 +16,7 @@ class DashboardService implements DashboardRepositories {
     required int storeArray,
     required int userId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final body = {
       "date_range_id": dateRangeId,
       "role_id": roleId,
@@ -48,7 +48,7 @@ class DashboardService implements DashboardRepositories {
     required String storeArray,
     required int userId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final body = {
       "date_range_id": dateRangeId,
       "role_id": roleId,
@@ -76,7 +76,7 @@ class DashboardService implements DashboardRepositories {
   Future<ResponseResult<List<MostSellingResponse>>> loadProductsCategory({
     required int storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.categoryProduct(storeId),
     );

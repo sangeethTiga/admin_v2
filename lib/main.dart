@@ -8,6 +8,7 @@ import 'package:admin_v2/features/orders/cubit/order_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
 import 'package:admin_v2/features/report/cubit/report_cubit.dart';
 import 'package:admin_v2/features/report/screens/tax_screen.dart';
+import 'package:admin_v2/firebase_options.dart';
 import 'package:admin_v2/my_app.dart';
 import 'package:admin_v2/shared/dependency_injection/injectable.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,7 +41,7 @@ void notificationTapBackground(NotificationResponse notification) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin

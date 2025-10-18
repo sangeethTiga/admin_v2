@@ -253,10 +253,10 @@ class ProductOrderItem with _$ProductOrderItem {
     @JsonKey(name: "kot_id") int? kotId,
     @JsonKey(name: "kot_name") String? kotName,
     @JsonKey(name: "prod_menu_order") int? prodMenuOrder,
-    @JsonKey(name: "prod_height") int? prodHeight,
-    @JsonKey(name: "prod_width") int? prodWidth,
-    @JsonKey(name: "prod_length") int? prodLength,
-    @JsonKey(name: "prod_weight") int? prodWeight,
+    @JsonKey(name: "prod_height",fromJson: parseInt) int? prodHeight,
+    @JsonKey(name: "prod_width",fromJson: parseInt) int? prodWidth,
+    @JsonKey(name: "prod_length",fromJson: parseInt) int? prodLength,
+    @JsonKey(name: "prod_weight",fromJson: parseInt) int? prodWeight,
     @JsonKey(name: "reorder_qty") int? reorderQty,
     @JsonKey(name: "prod_seo_title") String? prodSeoTitle,
     @JsonKey(name: "prod_seo_keyword") String? prodSeoKeyword,
@@ -399,5 +399,11 @@ double? parseNumberAsDouble(dynamic value) {
   if (value is int) return value.toDouble();
   if (value is String) return double.tryParse(value);
 
+  return null;
+}
+int? parseInt(dynamic value) {
+  if (value is int) return value;
+  if (value is String) return int.tryParse(value);
+  if (value is double) return value.toInt();
   return null;
 }

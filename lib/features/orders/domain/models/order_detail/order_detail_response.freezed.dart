@@ -4300,13 +4300,13 @@ mixin _$ProductOrderItem {
   String? get kotName => throw _privateConstructorUsedError;
   @JsonKey(name: "prod_menu_order")
   int? get prodMenuOrder => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_height")
+  @JsonKey(name: "prod_height", fromJson: parseInt)
   int? get prodHeight => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_width")
+  @JsonKey(name: "prod_width", fromJson: parseInt)
   int? get prodWidth => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_length")
+  @JsonKey(name: "prod_length", fromJson: parseInt)
   int? get prodLength => throw _privateConstructorUsedError;
-  @JsonKey(name: "prod_weight")
+  @JsonKey(name: "prod_weight", fromJson: parseInt)
   int? get prodWeight => throw _privateConstructorUsedError;
   @JsonKey(name: "reorder_qty")
   int? get reorderQty => throw _privateConstructorUsedError;
@@ -4465,10 +4465,10 @@ abstract class $ProductOrderItemCopyWith<$Res> {
     @JsonKey(name: "kot_id") int? kotId,
     @JsonKey(name: "kot_name") String? kotName,
     @JsonKey(name: "prod_menu_order") int? prodMenuOrder,
-    @JsonKey(name: "prod_height") int? prodHeight,
-    @JsonKey(name: "prod_width") int? prodWidth,
-    @JsonKey(name: "prod_length") int? prodLength,
-    @JsonKey(name: "prod_weight") int? prodWeight,
+    @JsonKey(name: "prod_height", fromJson: parseInt) int? prodHeight,
+    @JsonKey(name: "prod_width", fromJson: parseInt) int? prodWidth,
+    @JsonKey(name: "prod_length", fromJson: parseInt) int? prodLength,
+    @JsonKey(name: "prod_weight", fromJson: parseInt) int? prodWeight,
     @JsonKey(name: "reorder_qty") int? reorderQty,
     @JsonKey(name: "prod_seo_title") String? prodSeoTitle,
     @JsonKey(name: "prod_seo_keyword") String? prodSeoKeyword,
@@ -5116,10 +5116,10 @@ abstract class _$$ProductOrderItemImplCopyWith<$Res>
     @JsonKey(name: "kot_id") int? kotId,
     @JsonKey(name: "kot_name") String? kotName,
     @JsonKey(name: "prod_menu_order") int? prodMenuOrder,
-    @JsonKey(name: "prod_height") int? prodHeight,
-    @JsonKey(name: "prod_width") int? prodWidth,
-    @JsonKey(name: "prod_length") int? prodLength,
-    @JsonKey(name: "prod_weight") int? prodWeight,
+    @JsonKey(name: "prod_height", fromJson: parseInt) int? prodHeight,
+    @JsonKey(name: "prod_width", fromJson: parseInt) int? prodWidth,
+    @JsonKey(name: "prod_length", fromJson: parseInt) int? prodLength,
+    @JsonKey(name: "prod_weight", fromJson: parseInt) int? prodWeight,
     @JsonKey(name: "reorder_qty") int? reorderQty,
     @JsonKey(name: "prod_seo_title") String? prodSeoTitle,
     @JsonKey(name: "prod_seo_keyword") String? prodSeoKeyword,
@@ -5746,10 +5746,10 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
     @JsonKey(name: "kot_id") this.kotId,
     @JsonKey(name: "kot_name") this.kotName,
     @JsonKey(name: "prod_menu_order") this.prodMenuOrder,
-    @JsonKey(name: "prod_height") this.prodHeight,
-    @JsonKey(name: "prod_width") this.prodWidth,
-    @JsonKey(name: "prod_length") this.prodLength,
-    @JsonKey(name: "prod_weight") this.prodWeight,
+    @JsonKey(name: "prod_height", fromJson: parseInt) this.prodHeight,
+    @JsonKey(name: "prod_width", fromJson: parseInt) this.prodWidth,
+    @JsonKey(name: "prod_length", fromJson: parseInt) this.prodLength,
+    @JsonKey(name: "prod_weight", fromJson: parseInt) this.prodWeight,
     @JsonKey(name: "reorder_qty") this.reorderQty,
     @JsonKey(name: "prod_seo_title") this.prodSeoTitle,
     @JsonKey(name: "prod_seo_keyword") this.prodSeoKeyword,
@@ -5997,16 +5997,16 @@ class _$ProductOrderItemImpl implements _ProductOrderItem {
   @JsonKey(name: "prod_menu_order")
   final int? prodMenuOrder;
   @override
-  @JsonKey(name: "prod_height")
+  @JsonKey(name: "prod_height", fromJson: parseInt)
   final int? prodHeight;
   @override
-  @JsonKey(name: "prod_width")
+  @JsonKey(name: "prod_width", fromJson: parseInt)
   final int? prodWidth;
   @override
-  @JsonKey(name: "prod_length")
+  @JsonKey(name: "prod_length", fromJson: parseInt)
   final int? prodLength;
   @override
-  @JsonKey(name: "prod_weight")
+  @JsonKey(name: "prod_weight", fromJson: parseInt)
   final int? prodWeight;
   @override
   @JsonKey(name: "reorder_qty")
@@ -6570,10 +6570,10 @@ abstract class _ProductOrderItem implements ProductOrderItem {
     @JsonKey(name: "kot_id") final int? kotId,
     @JsonKey(name: "kot_name") final String? kotName,
     @JsonKey(name: "prod_menu_order") final int? prodMenuOrder,
-    @JsonKey(name: "prod_height") final int? prodHeight,
-    @JsonKey(name: "prod_width") final int? prodWidth,
-    @JsonKey(name: "prod_length") final int? prodLength,
-    @JsonKey(name: "prod_weight") final int? prodWeight,
+    @JsonKey(name: "prod_height", fromJson: parseInt) final int? prodHeight,
+    @JsonKey(name: "prod_width", fromJson: parseInt) final int? prodWidth,
+    @JsonKey(name: "prod_length", fromJson: parseInt) final int? prodLength,
+    @JsonKey(name: "prod_weight", fromJson: parseInt) final int? prodWeight,
     @JsonKey(name: "reorder_qty") final int? reorderQty,
     @JsonKey(name: "prod_seo_title") final String? prodSeoTitle,
     @JsonKey(name: "prod_seo_keyword") final String? prodSeoKeyword,
@@ -6797,16 +6797,16 @@ abstract class _ProductOrderItem implements ProductOrderItem {
   @JsonKey(name: "prod_menu_order")
   int? get prodMenuOrder;
   @override
-  @JsonKey(name: "prod_height")
+  @JsonKey(name: "prod_height", fromJson: parseInt)
   int? get prodHeight;
   @override
-  @JsonKey(name: "prod_width")
+  @JsonKey(name: "prod_width", fromJson: parseInt)
   int? get prodWidth;
   @override
-  @JsonKey(name: "prod_length")
+  @JsonKey(name: "prod_length", fromJson: parseInt)
   int? get prodLength;
   @override
-  @JsonKey(name: "prod_weight")
+  @JsonKey(name: "prod_weight", fromJson: parseInt)
   int? get prodWeight;
   @override
   @JsonKey(name: "reorder_qty")

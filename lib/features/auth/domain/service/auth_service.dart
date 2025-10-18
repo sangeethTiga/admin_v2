@@ -3,6 +3,7 @@ import 'package:admin_v2/features/auth/domain/models/notifications_response.dart
 import 'package:admin_v2/features/auth/domain/repoitories/auth_repositories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
+import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 import 'package:injectable/injectable.dart';
 
@@ -13,9 +14,9 @@ class AuthService implements AuthRepositories {
     String? email,
     String? password,
   }) async {
-    final networkProvider = await NetworkProvider.create(isCommon: true);
+    final networkProvider =  NetworkProvider;
 
-    final res = await networkProvider.post(
+    final res = await NetworkProvider().post(
       ApiEndpoints.commonSign,
       data: {'user_email': email, 'password': password},
     );
@@ -32,19 +33,19 @@ class AuthService implements AuthRepositories {
   @override
   Future<ResponseResult<NotificationsRequest>> registerNotificationResponse({
     required String deviceFcmToken,
-    required String uniqueDeviceId,
-    required int appTypeId,
-    required int customerId,
+    // required String uniqueDeviceId,
+    // required int appTypeId,
+    // required int customerId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
-
+    final networkProvider = await NetworkProvider();
+    final user = await AuthUtils.instance.readUserData();
     final res = await networkProvider.post(
       ApiEndpoints.notification,
       data: {
         'device_fcm_token': deviceFcmToken,
-        'unique_device_id': uniqueDeviceId,
-        'app_type_id': appTypeId,
-        'customer_id': customerId,
+        'unique_device_id': 0XFFDEADBEEF,
+        'app_type_id': 1,
+        'customer_id': user?.user?.companyUsersId?? 0,
       },
     );
     switch (res.statusCode) {

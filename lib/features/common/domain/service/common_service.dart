@@ -14,7 +14,7 @@ class CommonService implements CommonRepostories {
   @override
   Future<ResponseResult<List<StoreResponse>>> storeList() async {
     final user = await AuthUtils.instance.readUserData();
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.store(
@@ -37,7 +37,7 @@ class CommonService implements CommonRepostories {
 
   @override
   Future<ResponseResult<List<AccountDataResponse>>> account() async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.account);
     switch (res.statusCode) {
@@ -58,7 +58,7 @@ class CommonService implements CommonRepostories {
     required int storeId,
     required int appTypeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.orderOption(storeId, appTypeId),

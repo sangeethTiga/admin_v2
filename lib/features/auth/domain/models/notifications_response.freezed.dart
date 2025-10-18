@@ -26,7 +26,7 @@ mixin _$NotificationsRequest {
   @JsonKey(name: "unique_device_id")
   String? get uniqueDeviceId => throw _privateConstructorUsedError;
   @JsonKey(name: "app_type_id")
-  int? get appTypeId => throw _privateConstructorUsedError;
+  int? get appTypeId => throw _privateConstructorUsedError; //customerId =>companyUsersId//
   @JsonKey(name: "customer_id")
   int? get customerId => throw _privateConstructorUsedError;
 
@@ -183,6 +183,7 @@ class _$NotificationsRequestImpl implements _NotificationsRequest {
   @override
   @JsonKey(name: "app_type_id")
   final int? appTypeId;
+  //customerId =>companyUsersId//
   @override
   @JsonKey(name: "customer_id")
   final int? customerId;
@@ -254,7 +255,7 @@ abstract class _NotificationsRequest implements NotificationsRequest {
   String? get uniqueDeviceId;
   @override
   @JsonKey(name: "app_type_id")
-  int? get appTypeId;
+  int? get appTypeId; //customerId =>companyUsersId//
   @override
   @JsonKey(name: "customer_id")
   int? get customerId;
