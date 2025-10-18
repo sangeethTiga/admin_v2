@@ -10,6 +10,8 @@ import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_
 import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart';
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
+import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
+//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/utils/result.dart';
@@ -171,6 +173,38 @@ class ProductService implements ProductRepositories {
 
         if (decoded is Map<String, dynamic>) {
           return ResponseResult(data: CreateProductResponse.fromJson(decoded));
+        } else {
+          return ResponseResult(error: 'Unexpected response format: $decoded');
+        }
+
+      default:
+        return ResponseResult(error: '');
+    }
+  }
+
+ 
+ @override
+  
+  Future<ResponseResult<ProductImageListResponse>> uploadProductImage(
+    ProductImageListResponse? product,
+  ) async {
+    final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.post(
+      ApiEndpoints.uploadProductImage(),
+      data: product?.toJson(),
+    );
+
+    switch (res.statusCode) {
+      case 200:
+      case 201:
+        dynamic decoded = res.data;
+        if (res.data is String) {
+          decoded = jsonDecode(res.data);
+        }
+
+        if (decoded is Map<String, dynamic>) {
+          return ResponseResult(data: ProductImageListResponse.fromJson(decoded));
         } else {
           return ResponseResult(error: 'Unexpected response format: $decoded');
         }

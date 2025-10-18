@@ -7,6 +7,8 @@ import 'package:admin_v2/features/products/domain/models/stock_status/stock_stat
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
 import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart';
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
+import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
+//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart';
 import 'package:admin_v2/shared/utils/result.dart';
 
 abstract class ProductRepositories {
@@ -35,6 +37,9 @@ abstract class ProductRepositories {
   Future<ResponseResult<List<UnitResponse>>> unit();
     Future<ResponseResult<CreateProductResponse>> createProduct(
     CreateProductResponse? product,
+  );
+  Future<ResponseResult<ProductImageListResponse>> uploadProductImage(
+    ProductImageListResponse? product,
   );
 
   Future<ResponseResult<List<VariantsResponse>>> getVariant(int productId);

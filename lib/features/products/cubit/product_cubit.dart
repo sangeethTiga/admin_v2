@@ -11,6 +11,7 @@ import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/features/report/domain/models/mostSellingProducts/most_selling_response.dart';
+import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
@@ -199,7 +200,7 @@ class ProductCubit extends Cubit<ProductState> {
   //   }
   // }
 
-  void searchProducts(String query) {
+  void searchProducts(String query) {  
     final allProducts = state.productList ?? [];
 
     if (query.isEmpty) {
@@ -308,10 +309,63 @@ class ProductCubit extends Cubit<ProductState> {
     }
     emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
-void addImage(Image image) {
-  final updatedImages = [...?state.images, image];
-  emit(state.copyWith(images: updatedImages));
+// void addImage(Image image) {
+//   final updatedImages = [...?state.images, image];
+//   emit(state.copyWith(images: updatedImages));
+// }
+void addImage(ProductImageListResponse image) {
+  final updatedImages = state.productImage, image;
+  emit(state.copyWith(productImage: updatedImages));
 }
+
+
+
+//   Future<void> uploadProductImage(ProductImageListResponse imageRequest) async {
+//   try {
+//     emit(state.copyWith(isImageUploading: true));
+
+//     final result = await _productRepositories.uploadProductImage(imageRequest);
+
+//     if (result.data != null) {
+
+//       final uploadedImage = ProductImageListResponse(
+//         referenceId: result.data?.referenceId ?? 0,
+//         imageUrl: result.data?.imageUrl ?? '',
+//       );
+
+//       addImage(uploadedImage);
+//       emit(state.copyWith(isImageUploading: false));
+//       log('Image uploaded successfully: ${uploadedImage.imageUrl}');
+//     } else {
+//       emit(state.copyWith(isImageUploading: false));
+//       log('Image upload failed: No data returned');
+//     }
+//   } catch (e, s) {
+//     log('Error uploading image: $e', stackTrace: s);
+//     emit(state.copyWith(isImageUploading: false));
+//   }
+// }
+
+Future<void> uploadProductImage(ProductImageListResponse imageRequest) async {
+  try {
+    emit(state.copyWith(isImageUploading: true));
+
+    final result = await _productRepositories.uploadProductImage(imageRequest);
+
+    if (result.data != null) {
+      addImage(result.data!); // directly add the response
+      emit(state.copyWith(isImageUploading: false));
+      log('Image uploaded successfully: ${result.data!.imageUrl}');
+    } else {
+      emit(state.copyWith(isImageUploading: false));
+      log('Image upload failed: No data returned');
+    }
+  } catch (e, s) {
+    log('Error uploading image: $e', stackTrace: s);
+    emit(state.copyWith(isImageUploading: false));
+  }
+}
+
 
   void togglePurchasable(bool value) {
     emit(state.copyWith(isPurchasable: value));

@@ -40,39 +40,39 @@ void notificationTapBackground(NotificationResponse notification) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // await flutterLocalNotificationsPlugin
-  //     .resolvePlatformSpecificImplementation<
-  //       AndroidFlutterLocalNotificationsPlugin
-  //     >()
-  //     ?.createNotificationChannel(_channel);
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await Firebase.initializeApp();
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >()
+      ?.createNotificationChannel(_channel);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  // await SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  //   DeviceOrientation.portraitDown,
-  // ]);
-  // const AndroidInitializationSettings androidSettings =
-  //     AndroidInitializationSettings('skyaio_icon');
-  // final InitializationSettings initializationSettings = InitializationSettings(
-  //   android: androidSettings,
-  // );
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  const AndroidInitializationSettings androidSettings =
+      AndroidInitializationSettings('skyaio_icon');
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: androidSettings,
+  );
 
-  // await flutterLocalNotificationsPlugin.initialize(
-  //   initializationSettings,
-  //   onDidReceiveNotificationResponse:
-  //       (NotificationResponse notificationResponse) async {
-  //         print(
-  //           'Notification tapped:=-=-=-=-=-${notificationResponse.payload}',
-  //         );
-  //       },
-  //   onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
-  // );
-  // //=-==-=-=listen foreground messages-=-=-=-//
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   print('Received a message in foreground: ${message.notification?.title}');
-  //   _showLocalNotification(message);
-  // });
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse:
+        (NotificationResponse notificationResponse) async {
+          print(
+            'Notification tapped:=-=-=-=-=-${notificationResponse.payload}',
+          );
+        },
+    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  );
+  //=-==-=-=listen foreground messages-=-=-=-//
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Received a message in foreground: ${message.notification?.title}');
+    _showLocalNotification(message);
+  });
    configureDependencies();
   runApp(
     MultiBlocProvider(
