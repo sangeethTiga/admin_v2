@@ -21,21 +21,21 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _isAndroidPermissionGranted();
-    requestPermission();
-    getToken();
+  //  requestPermission();
+    //getToken();
     listenToMessages();
   }
 
   bool _notificationsEnabled = false;
-  void requestPermission() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-    print('user permission:${settings.authorizationStatus}');
-  }
+  // void requestPermission() async {
+  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //   NotificationSettings settings = await messaging.requestPermission(
+  //     alert: true,
+  //     badge: true,
+  //     sound: true,
+  //   );
+  //   print('user permission:${settings.authorizationStatus}');
+  // }
 
   Future<void> _isAndroidPermissionGranted() async {
     if (Platform.isAndroid) {
@@ -52,10 +52,10 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void getToken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    print('Token-=-==-=-=-=1234:$token');
-  }
+  // void getToken() async {
+  //   String? token = await FirebaseMessaging.instance.getToken();
+  //   print('Token-=-==-=-=-=1234:$token');
+  // }
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
