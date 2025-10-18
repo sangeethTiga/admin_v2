@@ -120,7 +120,7 @@ class RouteGenerator {
           builder: (context, state) => SaleOnDealsScreen(),
         ),
         GoRoute(path: routeTopStores, builder: (context, state) => TopStores()),
-        GoRoute(path: routeOffers, builder: (context, state) => ProductOffer()),
+        // GoRoute(path: routeOffers, builder: (context, state) => ProductOffer()),
         GoRoute(
           path: routeCheque,
           builder: (context, state) => ChequetransScreen(),

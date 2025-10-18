@@ -140,9 +140,9 @@ abstract class ReportRepositories {
     required int roleId,
     required int userId,
   });
-  Future<ResponseResult<List<OffersResponse>>> loadOffers({
-    required int storeId,
-  });
+  // Future<ResponseResult<List<OffersResponse>>> loadOffers({
+  //   required int storeId,
+  // });
   Future<ResponseResult<List<ChequeTrans>>> loadCheque({
     required int storeId,
     required String status,
@@ -200,9 +200,9 @@ abstract class ReportRepositories {
     required String search,
   });
 
-  Future<ResponseResult<List<SpecialOfferResponse>>> loadSpecialOffer({
-    required int storeId,
-  });
+  Future<ResponseResult<List<SpecialOfferResponse>>> loadSpecialOffer(
+
+  );
   Future<ResponseResult<EditOfferResponse>> loadEditOffer(
     EditOfferResponse req,
     int? prodOfferId,

@@ -316,6 +316,21 @@ class ProductCubit extends Cubit<ProductState> {
   void toggleSellable(bool value) {
     emit(state.copyWith(isSellable: value));
   }
+void addImage(String path) {
+  final updatedImages = List<Image>.from(state.images ?? []);
+
+  updatedImages.add(
+    Image(
+      large: path,
+      medium: path,
+      small: path,
+    ),
+  );
+
+  emit(state.copyWith(images: updatedImages));
+}
+
+
 
   Future<void> totalStockCalculation(
     double totalStock,

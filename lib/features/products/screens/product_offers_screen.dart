@@ -44,7 +44,7 @@ class ProductOffersScreen extends StatelessWidget {
                   .selectedStore
                   ?.storeId;
               if (storeId != null) {
-                context.read<ReportCubit>().loadSpecialOffer(storeId: storeId);
+                context.read<ReportCubit>().loadSpecialOffer();
                 context.read<ReportCubit>().loadProductName(storeId: storeId);
               }
 
@@ -77,9 +77,9 @@ class ProductOffersScreen extends StatelessWidget {
                           context.read<ReportCubit>().loadProductName(
                             storeId: p0.storeId,
                           );
-                          context.read<ReportCubit>().loadSpecialOffer(
-                            storeId: p0.storeId,
-                          );
+                       //   context.read<ReportCubit>().loadSpecialOffer(
+                          //   storeId: p0.storeId,
+                          // );
                         },
                       ),
 

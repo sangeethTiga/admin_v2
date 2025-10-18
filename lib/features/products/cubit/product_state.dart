@@ -71,6 +71,7 @@ class ProductState extends Equatable {
     this.updatedProduct,
     this.images,
 
+
     this.isMostSelling,
     this.sellingProductsReport,
     this.selectedProducts,
@@ -116,6 +117,7 @@ class ProductState extends Equatable {
     Product? selectProduct,
     ProductResponse? updatedProduct,
     List<Image>? images,
+    List<String>?image,
 
     List<MostSellingResponse>? sellingProductsReport,
     ApiFetchStatus? isMostSelling,
@@ -184,6 +186,7 @@ class ProductState extends Equatable {
     selectedUnit: selectedUnit ?? this.selectedUnit,
     isCreated: isCreated ?? this.isCreated,
     images: images ?? this.images,
+
   );
 
   @override
@@ -228,6 +231,7 @@ class ProductState extends Equatable {
     selectedUnit,
     isCreated,
     images,
+
   ];
 }
 

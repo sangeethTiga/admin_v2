@@ -419,26 +419,26 @@ class ReportService implements ReportRepositories {
     }
   }
 
-  @override
-  Future<ResponseResult<List<OffersResponse>>> loadOffers({
-    required int storeId,
-  }) async {
-    final networkProvider = await NetworkProvider();
-    final res = await networkProvider.get(ApiEndpoints.offers(storeId));
-    switch (res.statusCode) {
-      case 200:
-      case 201:
-        return ResponseResult(
-          data: (res.data is List)
-              ? List<OffersResponse>.from(
-                  res.data.map((e) => OffersResponse.fromJson(e)),
-                )
-              : [],
-        );
-      default:
-        return ResponseResult(error: '');
-    }
-  }
+  // @override
+  // Future<ResponseResult<List<OffersResponse>>> loadOffers({
+  //   required int storeId,
+  // }) async {
+  //   final networkProvider = await NetworkProvider.create();
+  //   final res = await networkProvider.get(ApiEndpoints.offers(storeId));
+  //   switch (res.statusCode) {
+  //     case 200:
+  //     case 201:
+  //       return ResponseResult(
+  //         data: (res.data is List)
+  //             ? List<OffersResponse>.from(
+  //                 res.data.map((e) => OffersResponse.fromJson(e)),
+  //               )
+  //             : [],
+  //       );
+  //     default:
+  //       return ResponseResult(error: '');
+  //   }
+  // }
 
   @override
   Future<ResponseResult<List<SaleOnDeals>>> loadSaleOnDealsReport({
@@ -766,12 +766,12 @@ class ReportService implements ReportRepositories {
   }
 
   @override
-  Future<ResponseResult<List<SpecialOfferResponse>>> loadSpecialOffer({
-    required int storeId,
-  }) async {
+  Future<ResponseResult<List<SpecialOfferResponse>>> loadSpecialOffer(
+ 
+  ) async {
     final networkProvider = await NetworkProvider();
 
-    final res = await networkProvider.get(ApiEndpoints.specialOffer(storeId));
+    final res = await networkProvider.get(ApiEndpoints.getOfferType());
 
     switch (res.statusCode) {
       case 200:
@@ -999,4 +999,6 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
+  
+
 }

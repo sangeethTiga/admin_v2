@@ -784,32 +784,32 @@ class ReportCubit extends Cubit<ReportState> {
     emit(state.copyWith(isTopStores: ApiFetchStatus.failed));
   }
 
-  Future<void> loadOffers({int? storeId, bool isLoadMore = false}) async {
-    if (!isLoadMore) {
-      emit(
-        state.copyWith(isOffersReport: ApiFetchStatus.loading, offerReport: []),
-      );
-    }
-    // emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
-    final res = await _reportRepositories.loadOffers(storeId: storeId ?? 0);
+  // Future<void> loadOffers({int? storeId, bool isLoadMore = false}) async {
+  //   if (!isLoadMore) {
+  //     emit(
+  //       state.copyWith(isOffersReport: ApiFetchStatus.loading, offerReport: []),
+  //     );
+  //   }
+  //   // emit(state.copyWith(isOffersReport: ApiFetchStatus.loading));
+  //   final res = await _reportRepositories.loadOffers(storeId: storeId ?? 0);
 
-    log('Response data: ${res.data}');
-    if (res.data != null) {
-      final List<OffersResponse> fetchedList = res.data!;
+  //   log('Response data: ${res.data}');
+  //   if (res.data != null) {
+  //     final List<OffersResponse> fetchedList = res.data!;
 
-      final List<OffersResponse> newList = isLoadMore
-          ? <OffersResponse>[...?state.offerReport, ...fetchedList]
-          : fetchedList;
+  //     final List<OffersResponse> newList = isLoadMore
+  //         ? <OffersResponse>[...?state.offerReport, ...fetchedList]
+  //         : fetchedList;
 
-      emit(
-        state.copyWith(
-          offerReport: newList,
-          isOffersReport: ApiFetchStatus.success,
-        ),
-      );
-    }
-    emit(state.copyWith(isOffersReport: ApiFetchStatus.failed));
-  }
+  //     emit(
+  //       state.copyWith(
+  //         offerReport: newList,
+  //         isOffersReport: ApiFetchStatus.success,
+  //       ),
+  //     );
+  //   }
+  //   emit(state.copyWith(isOffersReport: ApiFetchStatus.failed));
+  // }
 
   Future<void> loadSalesDealsReport({
     int page = 1,
@@ -1162,10 +1162,10 @@ class ReportCubit extends Cubit<ReportState> {
   
         state.lastFilterId != filterId;
   }
-  Future<void> loadSpecialOffer({int? storeId}) async {
+  Future<void> loadSpecialOffer() async {
     emit(state.copyWith(isSpecialOffer: ApiFetchStatus.loading));
     final res = await _reportRepositories.loadSpecialOffer(
-      storeId: storeId ?? 0,
+    
     );
 
     log('/////SPECIAL OFFER////: ${res.data}');
