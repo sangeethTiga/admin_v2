@@ -1,10 +1,13 @@
+import 'dart:convert' show base64Encode;
 import 'dart:developer';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
+import 'package:admin_v2/features/products/domain/models/company/company_response.dart';
 import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/main_category/main_category_response.dart';
-import 'package:admin_v2/features/products/domain/models/product/product_response.dart'  hide Image;
+import 'package:admin_v2/features/products/domain/models/product/product_response.dart'
+    hide Image;
 import 'package:admin_v2/features/products/domain/models/stock_status/stock_status_response.dart';
 import 'package:admin_v2/features/products/domain/models/stock_update_req/stock_update_request.dart';
 import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart';
@@ -16,6 +19,7 @@ import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/app/list/common_map.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 part 'product_state.dart';
 
@@ -200,7 +204,7 @@ class ProductCubit extends Cubit<ProductState> {
   //   }
   // }
 
-  void searchProducts(String query) {  
+  void searchProducts(String query) {
     final allProducts = state.productList ?? [];
 
     if (query.isEmpty) {
@@ -308,64 +312,119 @@ class ProductCubit extends Cubit<ProductState> {
       emit(state.copyWith(isCreated: ApiFetchStatus.failed));
     }
     emit(state.copyWith(isCreated: ApiFetchStatus.failed));
+
+
+
   }
-// void addImage(Image image) {
-//   final updatedImages = [...?state.images, image];
-//   emit(state.copyWith(images: updatedImages));
-// }
-void addImage(ProductImageListResponse image) {
-  final updatedImages = state.productImage, image;
+    void  removeProductImage(int index) {
+  final updatedImages = List<ProductImageListResponse>.from(state.productImage!);
+  updatedImages.removeAt(index);
   emit(state.copyWith(productImage: updatedImages));
 }
 
 
+  Future<void> fetchCompanies() async {
+    emit(state.copyWith(status: ApiFetchStatus.loading));
 
-//   Future<void> uploadProductImage(ProductImageListResponse imageRequest) async {
-//   try {
-//     emit(state.copyWith(isImageUploading: true));
+    try {
+      final result = await _productRepositories.company();
+       log('✅ CDN RESULT: ${result.data}');
 
-//     final result = await _productRepositories.uploadProductImage(imageRequest);
 
-//     if (result.data != null) {
+      if (result.data != null && result.data!.isNotEmpty) {
+        final firstCompany = result.data!.first;
+        emit(state.copyWith(
+          status: ApiFetchStatus.success,
+          companies: result.data,
+          cdnUrl: firstCompany.cdnUrl,
+          errorMessage: null,
+        ));
+      } else {
+        emit(state.copyWith(
+ 
+          errorMessage: "No companies found",
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+ 
+        errorMessage: e.toString(),
+      ));
+    }
+  }
 
-//       final uploadedImage = ProductImageListResponse(
-//         referenceId: result.data?.referenceId ?? 0,
-//         imageUrl: result.data?.imageUrl ?? '',
-//       );
 
-//       addImage(uploadedImage);
-//       emit(state.copyWith(isImageUploading: false));
-//       log('Image uploaded successfully: ${uploadedImage.imageUrl}');
-//     } else {
-//       emit(state.copyWith(isImageUploading: false));
-//       log('Image upload failed: No data returned');
-//     }
-//   } catch (e, s) {
-//     log('Error uploading image: $e', stackTrace: s);
-//     emit(state.copyWith(isImageUploading: false));
-//   }
-// }
-
-Future<void> uploadProductImage(ProductImageListResponse imageRequest) async {
+  Future<void> uploadProductImage({
+  required int userId,
+  required int resourceType,
+  required int companyId,
+  required XFile imageFile,
+  required int storeId,
+}) async {
   try {
     emit(state.copyWith(isImageUploading: true));
 
-    final result = await _productRepositories.uploadProductImage(imageRequest);
+    final result = await _productRepositories.uploadProductImage(
+      file: imageFile,
+      userId: userId,
+      resourceType: resourceType,
+      companyId: companyId,
+      storeId: storeId,
+
+    );
 
     if (result.data != null) {
-      addImage(result.data!); // directly add the response
-      emit(state.copyWith(isImageUploading: false));
-      log('Image uploaded successfully: ${result.data!.imageUrl}');
+      log('✅ Image uploaded successfully: ${result.data}');
+
+      final updatedImages = List<ProductImageListResponse>.from(
+        state.productImage ?? [],
+      )..add(result.data!);
+
+      emit(
+        state.copyWith(
+          productImage: updatedImages,
+          isImageUploading: false,
+        ),
+      );
     } else {
+      log('⚠️ Image upload failed: ${result.error}');
       emit(state.copyWith(isImageUploading: false));
-      log('Image upload failed: No data returned');
     }
   } catch (e, s) {
-    log('Error uploading image: $e', stackTrace: s);
+    log('❌ Image upload error: $e', stackTrace: s);
     emit(state.copyWith(isImageUploading: false));
   }
 }
 
+
+
+  // Future<void> _companyRes(Emitter<ProductState> emit) async {
+  //   try {
+  //     final res = await _productRepositories.company();
+
+  //     if (res.data != null && res.data!.isNotEmpty) {
+  //       final companyList = res.data!;
+  //       final currencyCode = companyList.first.currencyCode;
+
+
+
+
+  //       emit(
+  //         state.copyWith(
+  //           companyRes: companyList,
+  //           currencyCode: savedCodes,
+  //           currencyTag: savedTag,
+  //         ),
+  //       );
+
+  //       // log('Saved currency codes: $savedCodes');
+
+  //       log('Notification registered successfully.');
+  //     }
+  //   } catch (e, s) {
+  //     log('Error during notification: $e', stackTrace: s);
+  //   }
+  // }
 
   void togglePurchasable(bool value) {
     emit(state.copyWith(isPurchasable: value));
@@ -374,9 +433,6 @@ Future<void> uploadProductImage(ProductImageListResponse imageRequest) async {
   void toggleSellable(bool value) {
     emit(state.copyWith(isSellable: value));
   }
-
-
-
 
   Future<void> totalStockCalculation(
     double totalStock,
@@ -398,6 +454,37 @@ Future<void> uploadProductImage(ProductImageListResponse imageRequest) async {
   Future<void> closeButton() async {
     emit(state.copyWith(totalStock: 0));
   }
+
+
+
+  //  Future<void> _companyRes( Emitter<ProductState> emit) async {
+  //   try {
+  //     final res = await _productRepositories.company();
+
+  //     if (res.data != null && res.data!.isNotEmpty) {
+  //       final companyList = res.data!;
+  //       final currencyCode = companyList.first.currencyCode;
+
+  //       // Save to DB
+
+  //       final savedCodes = await DBHelper.getCurrency();
+  //       final savedTag = await DBHelper.getCurrencyCode();
+  //       emit(
+  //         state.copyWith(
+  //           companyRes: companyList,
+  //           currencyCode: savedCodes,
+  //           currencyTag: savedTag,
+  //         ),
+  //       );
+
+  //       log('Saved currency codes: $savedCodes');
+
+  //       log('Notification registered successfully.');
+  //     }
+  //   } catch (e, s) {
+  //     log('Error during notification: $e', stackTrace: s);
+  //   }
+  // }
 
   // Future<void> updateProduct(
   //   EditUpdateResponse updateProduct,

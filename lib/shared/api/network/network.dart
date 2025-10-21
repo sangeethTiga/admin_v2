@@ -11,6 +11,9 @@ class NetworkProvider {
   final Dio _dio;
   final bool isCommon;
   static final Map<String, Response> _cache = {};
+    Dio get dio => _dio;
+
+ // var dio;
 
   NetworkProvider._(this._dio, this.isCommon);
 

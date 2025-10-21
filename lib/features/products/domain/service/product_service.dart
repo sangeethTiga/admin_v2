@@ -1,6 +1,9 @@
 import 'dart:convert';
+//import 'dart:math';
+import 'dart:developer';
 
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
+import 'package:admin_v2/features/products/domain/models/company/company_response.dart';
 import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/main_category/main_category_response.dart';
@@ -11,10 +14,12 @@ import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
-//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart';
+//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart'; 
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/utils/result.dart';
+import 'package:dio/dio.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: ProductRepositories)
@@ -181,38 +186,70 @@ class ProductService implements ProductRepositories {
         return ResponseResult(error: '');
     }
   }
-
- 
- @override
-  
-  Future<ResponseResult<ProductImageListResponse>> uploadProductImage(
-    ProductImageListResponse? product,
-  ) async {
+@override
+Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
+  required XFile file,
+  required int userId,
+  required int resourceType,
+  required int companyId,
+      required int storeId,
+}) async {
+  try {
     final networkProvider = await NetworkProvider.create();
 
-    final res = await networkProvider.post(
+    log('Uploading image with userId: $userId, resourceType: $resourceType, companyId: $companyId');
+
+    final formData = FormData.fromMap({
+      'User_id': userId.toString(),
+      'resource_type': resourceType.toString(),
+      'company_id': companyId.toString(),
+      'store_id':storeId,
+      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+    });
+
+    final res = await networkProvider.dio.post(
       ApiEndpoints.uploadProductImage(),
-      data: product?.toJson(),
+      data: formData,
+      options: Options(headers: {
+        'Authorization': 'Bearer your_actual_token_here',
+        'Content-Type': 'multipart/form-data',
+      }),
     );
 
-    switch (res.statusCode) {
-      case 200:
-      case 201:
-        dynamic decoded = res.data;
-        if (res.data is String) {
-          decoded = jsonDecode(res.data);
-        }
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      final decoded = res.data is String ? jsonDecode(res.data) : res.data;
+      log('✅ Response from server: $decoded');
 
-        if (decoded is Map<String, dynamic>) {
-          return ResponseResult(data: ProductImageListResponse.fromJson(decoded));
-        } else {
-          return ResponseResult(error: 'Unexpected response format: $decoded');
-        }
-
-      default:
-        return ResponseResult(error: '');
+      if (decoded is List && decoded.isNotEmpty) {
+        return ResponseResult(
+          data: ProductImageListResponse.fromJson(decoded.first),
+        );
+      } else {
+        return ResponseResult(error: 'Unexpected response format');
+      }
+    } else {
+      return ResponseResult(error: 'Failed with status ${res.statusCode}');
     }
+  } catch (e, s) {
+    log('❌ Exception during image upload: $e', stackTrace: s);
+    return ResponseResult(error: e.toString());
   }
+}
+
+
+  // if (res.statusCode == 200 || res.statusCode == 201) {
+  //   final decoded = res.data is String ? jsonDecode(res.data) : res.data;
+  //   if (decoded is Map<String, dynamic>) {
+  //     return ResponseResult(data: ProductImageListResponse.fromJson(decoded));
+  //   }
+  //   return ResponseResult(error: 'Unexpected response: $decoded');
+  // } else {
+  //   return ResponseResult(error: 'Failed with status ${res.statusCode}');
+  // }
+
+
+
+
 
   @override
   Future<ResponseResult<EditUpdateResponse>> updateProduct(
@@ -262,4 +299,24 @@ class ProductService implements ProductRepositories {
         return ResponseResult(data: []);
     }
   }
+
+
+  @override
+  Future<ResponseResult<List<CompanyResponse>>> company() async {
+    final networkProvider = await NetworkProvider.create();
+
+    final res = await networkProvider.get(ApiEndpoints.company);
+    switch (res.statusCode) {
+      case 201:
+      case 200:
+        return ResponseResult(
+          data: List<CompanyResponse>.from(
+            res.data.map((e) => CompanyResponse.fromJson(e)),
+          ).toList(),
+        );
+      default:
+        throw ResponseResult(data: res.statusMessage);
+    }
+  }
+
 }

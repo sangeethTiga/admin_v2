@@ -44,7 +44,12 @@ class ProductState extends Equatable {
   final int? lastStoreId;
   final int? lastCatId;
   final int? lastFilterId;
-  final  ProductImageListResponse? productImage;
+  final List <ProductImageListResponse>? productImage;
+
+      final List<CompanyResponse>? companies;
+  final String? cdnUrl;
+  final String? errorMessage;
+    final ApiFetchStatus? status;
 
   const ProductState({
     this.isProduct,
@@ -93,6 +98,11 @@ class ProductState extends Equatable {
     this.isSellable = false,
     this.isCreated,
     this.productImage,
+        this.companies,
+    this.cdnUrl,
+    this.errorMessage,
+    this.status,
+
   });
 
   ProductState copyWith({
@@ -138,11 +148,17 @@ class ProductState extends Equatable {
     MainCategoryResponse? selectMainCategory,
     List<UnitResponse>? unit,
     UnitResponse? selectedUnit,
-    ProductImageListResponse?productImage,
+    List<ProductImageListResponse>?productImage,
 
     bool? isPurchasable,
     bool? isSellable,
     ApiFetchStatus? isCreated,
+    List<CompanyResponse>?companyRes,
+        List<CompanyResponse>? companies,
+    String? cdnUrl,
+    String? errorMessage,
+    
+    ApiFetchStatus? status,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -190,6 +206,11 @@ class ProductState extends Equatable {
 
     isImageUploading: isImageUploading ?? this.isImageUploading,
     productImage: productImage ?? this.productImage,
+          companies: companies ?? this.companies,
+      cdnUrl: cdnUrl ?? this.cdnUrl,
+      errorMessage: errorMessage ?? this.errorMessage,
+      status: status ?? this.status
+
 
   );
 
@@ -236,6 +257,10 @@ class ProductState extends Equatable {
     isCreated,
 
     productImage,
+    companies,
+    cdnUrl,
+    errorMessage,
+    status
 
   ];
 }

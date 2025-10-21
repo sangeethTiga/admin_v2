@@ -1,4 +1,5 @@
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
+import 'package:admin_v2/features/products/domain/models/company/company_response.dart';
 import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart';
 import 'package:admin_v2/features/products/domain/models/edit_update_req/edit_update_response.dart';
 import 'package:admin_v2/features/products/domain/models/main_category/main_category_response.dart';
@@ -10,6 +11,7 @@ import 'package:admin_v2/features/products/domain/models/variant_response/varian
 import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
 //import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart';
 import 'package:admin_v2/shared/utils/result.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class ProductRepositories {
   Future<ResponseResult<List<ProductResponse>>> products({
@@ -38,9 +40,14 @@ abstract class ProductRepositories {
     Future<ResponseResult<CreateProductResponse>> createProduct(
     CreateProductResponse? product,
   );
-  Future<ResponseResult<ProductImageListResponse>> uploadProductImage(
-    ProductImageListResponse? product,
-  );
+Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
+  required XFile file,
+  required int userId,
+  required int resourceType,
+  required int companyId,
+  required int storeId,
+});
+  Future<ResponseResult<List<CompanyResponse>>> company();
 
   Future<ResponseResult<List<VariantsResponse>>> getVariant(int productId);
 }

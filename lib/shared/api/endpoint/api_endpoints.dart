@@ -248,4 +248,5 @@ class ApiEndpoints {
       '/api/customerreport?store_id=$storeId&cust_name=$custSearch';
    static String getOfferType()=>'/api/offer_type';
    static String uploadProductImage()=>'/api/media';
+     static String company = 'company';
 }
