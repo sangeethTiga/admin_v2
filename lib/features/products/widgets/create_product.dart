@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
@@ -18,7 +20,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart'
+    as model;
 
 class CreateProduct extends StatefulWidget {
   const CreateProduct({super.key});
@@ -97,12 +100,12 @@ class _CreateProductState extends State<CreateProduct> {
                         ),
                       ],
                     ),
-                    CustomMaterialBtton(
-                      buttonText: 'Select Image',
-                      onPressed: () {
-                        _showImagePickerOptions(context);
-                      },
-                    ),
+                    // CustomMaterialBtton(
+                    //   buttonText: 'Select Image',
+                    //   onPressed: () {
+                    //     _showImagePickerOptions(context);
+                    //   },
+                    // ),
 
                     18.verticalSpace,
 
@@ -324,21 +327,29 @@ class _CreateProductState extends State<CreateProduct> {
               ListTile(
                 leading: Icon(Icons.camera_alt),
                 title: Text('Take Photo'),
-                onTap: () {},
+                onTap: () async {
+                  Navigator.pop(context);
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.camera,
+                  );
+                          if (image != null) {
+                  _handlePickedImage(image);
+                }
+                },
               ),
               ListTile(
                 leading: Icon(Icons.photo_library),
                 title: Text('Choose from Gallery'),
                 onTap: () async {
-                  // final currentContext = context;
-                  // Navigator.pop(currentContext);
+                  final currentContext = context;
+                  Navigator.pop(currentContext);
 
-                  // final XFile? image = await picker.pickImage(
-                  //   source: ImageSource.gallery,
-                  // );
-                  // if (image != null) {
-                  //   currentContext.read<ProductCubit>().addImage(image.path);
-                  // }
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+                   if (image != null) {
+                  _handlePickedImage(image);
+                }
                 },
               ),
             ],
@@ -347,12 +358,50 @@ class _CreateProductState extends State<CreateProduct> {
       },
     );
   }
+void _handlePickedImage(XFile imageFile) async {
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text('Image Selected'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(child: Text(' ${imageFile.name}')),
+          const SizedBox(height: 12),
+          // Image.file(
+          //   File(imageFile.path),
+          //   height: 100,
+          //   fit: BoxFit.cover,
+          // ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(), // Close dialog
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            // Create product image model
+            final productImage = model.Image(
+              large: imageFile.path,
+              medium: imageFile.path,
+              small: imageFile.path,
+            );
 
-  void _handlePickedImage(BuildContext context, XFile image) {
-    final imagePath = image.path;
+            context.read<ProductCubit>().addImage(productImage);
 
-    context.read<ProductCubit>().addImage(imagePath);
-  }
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: const Text('Upload'),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
 
   Widget _buildCheckbox() {
     return BlocBuilder<ProductCubit, ProductState>(
@@ -471,4 +520,5 @@ class _CreateProductState extends State<CreateProduct> {
     productCubit.changeStore(store ?? StoreResponse());
     productCubit.product(storeId: store?.storeId);
   }
+  
 }

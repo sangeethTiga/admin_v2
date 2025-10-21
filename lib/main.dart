@@ -74,7 +74,7 @@ Future<void> main() async {
     print('Received a message in foreground: ${message.notification?.title}');
     _showLocalNotification(message);
   });
-  configureDependencies();
+   configureDependencies();
   runApp(
     MultiBlocProvider(
       providers: [

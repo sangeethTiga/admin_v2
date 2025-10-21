@@ -308,6 +308,10 @@ class ProductCubit extends Cubit<ProductState> {
     }
     emit(state.copyWith(isCreated: ApiFetchStatus.failed));
   }
+void addImage(Image image) {
+  final updatedImages = [...?state.images, image];
+  emit(state.copyWith(images: updatedImages));
+}
 
   void togglePurchasable(bool value) {
     emit(state.copyWith(isPurchasable: value));
@@ -316,19 +320,7 @@ class ProductCubit extends Cubit<ProductState> {
   void toggleSellable(bool value) {
     emit(state.copyWith(isSellable: value));
   }
-void addImage(String path) {
-  final updatedImages = List<Image>.from(state.images ?? []);
 
-  updatedImages.add(
-    Image(
-      large: path,
-      medium: path,
-      small: path,
-    ),
-  );
-
-  emit(state.copyWith(images: updatedImages));
-}
 
 
 

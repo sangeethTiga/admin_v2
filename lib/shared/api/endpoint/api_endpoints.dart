@@ -246,5 +246,5 @@ class ApiEndpoints {
       'order_search?order_number=$search&store_id=$storeId&page_first_result=0&result_per_page=30';
   static String customerSearch(int storeId, String custSearch) =>
       'customerreport?store_id=$storeId&cust_name=$custSearch';
-        static String getOfferType()=>'/api/offer_type';
+        static String getOfferType()=>'offer_type';
 }
