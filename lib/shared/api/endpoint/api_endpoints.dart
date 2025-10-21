@@ -247,4 +247,8 @@ class ApiEndpoints {
   static String customerSearch(int storeId, String custSearch) =>
       'customerreport?store_id=$storeId&cust_name=$custSearch';
         static String getOfferType()=>'offer_type';
+      // '/api/customerreport?store_id=$storeId&cust_name=$custSearch';
+  //  static String getOfferType()=>'/api/offer_type';
+   static String uploadProductImage()=>'/api/media';
+     static String company = 'company';
 }

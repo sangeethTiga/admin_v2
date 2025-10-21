@@ -13,8 +13,8 @@ class ProductState extends Equatable {
   final bool isPurchasable;
   final bool isSellable;
   final ApiFetchStatus? isCreated;
-  final List<Image>? images;
 
+  final bool? isImageUploading;
   final List<VariantsResponse>? variantList;
   final CategoryResponse? selectCategory;
   final ProductResponse? scannedProduct;
@@ -30,7 +30,6 @@ class ProductState extends Equatable {
   final String? quantity;
   final String? price;
   final List<Product>? prodList;
-
   final Product? selectProduct;
   final ProductResponse? updatedProduct;
   final List<MostSellingResponse>? sellingProductsReport;
@@ -45,6 +44,12 @@ class ProductState extends Equatable {
   final int? lastStoreId;
   final int? lastCatId;
   final int? lastFilterId;
+  final List <ProductImageListResponse>? productImage;
+
+      final List<CompanyResponse>? companies;
+  final String? cdnUrl;
+  final String? errorMessage;
+    final ApiFetchStatus? status;
 
   const ProductState({
     this.isProduct,
@@ -69,7 +74,8 @@ class ProductState extends Equatable {
     this.prodList,
     this.selectProduct,
     this.updatedProduct,
-    this.images,
+
+    this.isImageUploading,
 
 
     this.isMostSelling,
@@ -91,6 +97,12 @@ class ProductState extends Equatable {
     this.isPurchasable = false,
     this.isSellable = false,
     this.isCreated,
+    this.productImage,
+        this.companies,
+    this.cdnUrl,
+    this.errorMessage,
+    this.status,
+
   });
 
   ProductState copyWith({
@@ -116,12 +128,11 @@ class ProductState extends Equatable {
     List<Product>? prodList,
     Product? selectProduct,
     ProductResponse? updatedProduct,
-    List<Image>? images,
-    List<String>?image,
 
     List<MostSellingResponse>? sellingProductsReport,
     ApiFetchStatus? isMostSelling,
     MostSellingResponse? selectedProducts,
+    bool?isImageUploading,
 
     bool? isLoadingMore,
     bool? hasMoreData,
@@ -137,10 +148,17 @@ class ProductState extends Equatable {
     MainCategoryResponse? selectMainCategory,
     List<UnitResponse>? unit,
     UnitResponse? selectedUnit,
+    List<ProductImageListResponse>?productImage,
 
     bool? isPurchasable,
     bool? isSellable,
     ApiFetchStatus? isCreated,
+    List<CompanyResponse>?companyRes,
+        List<CompanyResponse>? companies,
+    String? cdnUrl,
+    String? errorMessage,
+    
+    ApiFetchStatus? status,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -185,7 +203,14 @@ class ProductState extends Equatable {
     unit: unit ?? this.unit,
     selectedUnit: selectedUnit ?? this.selectedUnit,
     isCreated: isCreated ?? this.isCreated,
-    images: images ?? this.images,
+
+    isImageUploading: isImageUploading ?? this.isImageUploading,
+    productImage: productImage ?? this.productImage,
+          companies: companies ?? this.companies,
+      cdnUrl: cdnUrl ?? this.cdnUrl,
+      errorMessage: errorMessage ?? this.errorMessage,
+      status: status ?? this.status
+
 
   );
 
@@ -230,7 +255,12 @@ class ProductState extends Equatable {
     unit,
     selectedUnit,
     isCreated,
-    images,
+
+    productImage,
+    companies,
+    cdnUrl,
+    errorMessage,
+    status
 
   ];
 }

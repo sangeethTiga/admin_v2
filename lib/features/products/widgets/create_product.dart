@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
-import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart';
+import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart'
+    hide Image;
 import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart';
+import 'package:admin_v2/features/products/widgets/image_picker.dart';
+
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
 import 'package:admin_v2/shared/themes/font_palette.dart';
@@ -19,9 +22,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:image_picker/image_picker.dart';
-import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart'
-    as model;
 
 class CreateProduct extends StatefulWidget {
   const CreateProduct({super.key});
@@ -106,6 +108,71 @@ class _CreateProductState extends State<CreateProduct> {
                     //     _showImagePickerOptions(context);
                     //   },
                     // ),
+                    BlocBuilder<ProductCubit, ProductState>(
+                      builder: (context, state) {
+                        if (state.productImage == null ||
+                            state.productImage!.isEmpty) {
+                          return SizedBox.shrink();
+                        }
+
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Wrap(
+                            spacing: 8,
+                            children: state.productImage!.asMap().entries.map((
+                              entry,
+                            ) {
+                              final index = entry.key;
+                              final img = entry.value;
+
+                              return Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.network(
+                                      img.resourceLargeName ?? '',
+                                      width: 960,
+                                      height: 720,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) => Icon(
+                                            Icons.broken_image,
+                                            size: 80,
+                                          ),
+                                    ),
+                                  ),
+                                  // Cross Button
+                                  Positioned(
+                                    top: 4,
+                                    right: 4,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        context
+                                            .read<ProductCubit>()
+                                            .removeProductImage(index);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.6),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.close,
+                                          size: 14,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      },
+                    ),
 
                     18.verticalSpace,
 
@@ -151,8 +218,7 @@ class _CreateProductState extends State<CreateProduct> {
                                 ]
                               : [],
 
-                          productImages: productState.images ?? [],
-
+                          // productImages: productState.images ?? [],
                           productName: productName.text.trim(),
                           productCode: productCode.text.trim(),
                           volume: quantity.toString(),
@@ -332,9 +398,9 @@ class _CreateProductState extends State<CreateProduct> {
                   final XFile? image = await picker.pickImage(
                     source: ImageSource.camera,
                   );
-                          if (image != null) {
-                  _handlePickedImage(image);
-                }
+                  if (image != null) {
+                    _handlePickedImage(image);
+                  }
                 },
               ),
               ListTile(
@@ -347,9 +413,9 @@ class _CreateProductState extends State<CreateProduct> {
                   final XFile? image = await picker.pickImage(
                     source: ImageSource.gallery,
                   );
-                   if (image != null) {
-                  _handlePickedImage(image);
-                }
+                  if (image != null) {
+                    _handlePickedImage(image);
+                  }
                 },
               ),
             ],
@@ -358,50 +424,18 @@ class _CreateProductState extends State<CreateProduct> {
       },
     );
   }
-void _handlePickedImage(XFile imageFile) async {
-  showDialog(
-    context: context,
-    builder: (_) => AlertDialog(
-      title: Text('Image Selected'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Center(child: Text(' ${imageFile.name}')),
-          const SizedBox(height: 12),
-          // Image.file(
-          //   File(imageFile.path),
-          //   height: 100,
-          //   fit: BoxFit.cover,
-          // ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(), // Close dialog
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            // Create product image model
-            final productImage = model.Image(
-              large: imageFile.path,
-              medium: imageFile.path,
-              small: imageFile.path,
-            );
 
-            context.read<ProductCubit>().addImage(productImage);
+  void _handlePickedImage(XFile imageFile) async {
+    final shouldUpload = await showDialog<bool>(
+      context: context,
+      builder: (context) => UploadConfirmationDialog(imageFile: imageFile),
+    );
 
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          child: const Text('Upload'),
-        ),
-      ],
-    ),
-  );
-}
+    // if (shouldUpload == true) {
 
-
-
+    //   await context.read<ProductCubit>().uploadProductImage(imageFile);
+    // }
+  }
 
   Widget _buildCheckbox() {
     return BlocBuilder<ProductCubit, ProductState>(
@@ -520,5 +554,4 @@ void _handlePickedImage(XFile imageFile) async {
     productCubit.changeStore(store ?? StoreResponse());
     productCubit.product(storeId: store?.storeId);
   }
-  
 }

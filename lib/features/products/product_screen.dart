@@ -178,6 +178,7 @@ void _loadInitialData() {
                   ?.storeId;
               context.read<ProductCubit>().catgeory(storeId ?? 0);
               context.read<ProductCubit>().unit();
+              context.read<ProductCubit>().fetchCompanies();
 
               final result = await context.push(routeCreateProduct);
 

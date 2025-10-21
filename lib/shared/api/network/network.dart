@@ -13,6 +13,9 @@ import 'package:dio_smart_retry/dio_smart_retry.dart';
 class NetworkProvider {
   final Dio _dio;
   static final Map<String, Response> _cache = {};
+    Dio get dio => _dio;
+
+ // var dio;
 
   NetworkProvider()
     : _dio = Dio(

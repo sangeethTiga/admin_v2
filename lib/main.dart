@@ -58,7 +58,31 @@ Future<void> main() async {
   final InitializationSettings initializationSettings = InitializationSettings(
     android: androidSettings,
   );
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  const AndroidInitializationSettings androidSettings =
+      AndroidInitializationSettings('skyaio_icon');
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: androidSettings,
+  );
 
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse:
+        (NotificationResponse notificationResponse) async {
+          print(
+            'Notification tapped:=-=-=-=-=-${notificationResponse.payload}',
+          );
+        },
+    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  );
+  //=-==-=-=listen foreground messages-=-=-=-//
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Received a message in foreground: ${message.notification?.title}');
+    _showLocalNotification(message);
+  });
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
     onDidReceiveNotificationResponse:
