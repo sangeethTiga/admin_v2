@@ -7,6 +7,8 @@ import 'package:admin_v2/features/products/domain/models/create_product/create_p
     hide Image;
 import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart';
 import 'package:admin_v2/features/products/widgets/image_picker.dart';
+import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart'
+    as model;
 
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -125,15 +127,21 @@ class _CreateProductState extends State<CreateProduct> {
                               final index = entry.key;
                               final img = entry.value;
 
+                              final cdnUrl = state.cdnUrl ?? '';
+                              final imageUrl =
+                                  '$cdnUrl${img.resourceMediumPath ?? ''}${img.resourceMediumName ?? ''}';
+                              print('URL>>>>:${cdnUrl}');
+                              print('imagee:${imageUrl}');
+
                               return Stack(
                                 alignment: Alignment.topRight,
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8),
                                     child: Image.network(
-                                      img.resourceLargeName ?? '',
-                                      width: 960,
-                                      height: 720,
+                                      imageUrl,
+                                      width: 90,
+                                      height: 90,
                                       fit: BoxFit.cover,
                                       errorBuilder:
                                           (context, error, stackTrace) => Icon(
@@ -142,7 +150,6 @@ class _CreateProductState extends State<CreateProduct> {
                                           ),
                                     ),
                                   ),
-                                  // Cross Button
                                   Positioned(
                                     top: 4,
                                     right: 4,
@@ -202,6 +209,7 @@ class _CreateProductState extends State<CreateProduct> {
                         final createProductData = CreateProductResponse(
                           brandId: 0,
                           createdBy: 1,
+                          updatedBy: 1,
 
                           isActive: 1,
                           productCategories:
@@ -217,8 +225,23 @@ class _CreateProductState extends State<CreateProduct> {
                                       .categoryId!,
                                 ]
                               : [],
+                          productImages: productState.productImage?.map((img) {
+                            final cdnUrl = productState.cdnUrl ?? '';
+                            return model.Image(
+                              resourceId: img.resourceId,
+                     
+                              prodVarId: 0,
+                           
+                              large:
+                                  '$cdnUrl${img.resourceLargePath ?? ''}${img.resourceLargeName ?? ''}',
+                              medium:
+                                  '$cdnUrl${img.resourceMediumPath ?? ''}${img.resourceMediumName ?? ''}',
+                              small:
+                                  '$cdnUrl${img.resourceSmallPath ?? ''}${img.resourceSmallName ?? ''}',
+                            );
+                          }).toList(),
 
-                          // productImages: productState.images ?? [],
+                       
                           productName: productName.text.trim(),
                           productCode: productCode.text.trim(),
                           volume: quantity.toString(),

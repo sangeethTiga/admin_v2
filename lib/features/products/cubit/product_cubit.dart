@@ -323,35 +323,37 @@ class ProductCubit extends Cubit<ProductState> {
 }
 
 
-  Future<void> fetchCompanies() async {
-    emit(state.copyWith(status: ApiFetchStatus.loading));
+Future<void> fetchCompanies() async {
+  emit(state.copyWith(
+    //status: ApiFetchStatus.loading
+    ));
 
-    try {
-      final result = await _productRepositories.company();
-       log('✅ CDN RESULT: ${result.data}');
+  try {
+    final result = await _productRepositories.company();
+    log('✅ CDN RESULT: ${result.data}');
 
+    if (result.data != null && result.data!.isNotEmpty) {
+      final cdnUrl = result.data!.first.cdnUrl;
 
-      if (result.data != null && result.data!.isNotEmpty) {
-        final firstCompany = result.data!.first;
-        emit(state.copyWith(
-          status: ApiFetchStatus.success,
-          companies: result.data,
-          cdnUrl: firstCompany.cdnUrl,
-          errorMessage: null,
-        ));
-      } else {
-        emit(state.copyWith(
- 
-          errorMessage: "No companies found",
-        ));
-      }
-    } catch (e) {
       emit(state.copyWith(
- 
-        errorMessage: e.toString(),
+        //status: ApiFetchStatus.success,
+        cdnUrl: cdnUrl,
+        errorMessage: null,
+      ));
+    } else {
+      emit(state.copyWith(
+   //  status: ApiFetchStatus.failed,
+        errorMessage: "No companies found",
       ));
     }
+  } catch (e) {
+    emit(state.copyWith(
+    //  status: ApiFetchStatus.failed,
+      errorMessage: e.toString(),
+    ));
   }
+}
+
 
 
   Future<void> uploadProductImage({

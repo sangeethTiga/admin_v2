@@ -14,7 +14,7 @@ import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
-//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart'; 
+//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/utils/result.dart';
@@ -157,7 +157,6 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  
   Future<ResponseResult<CreateProductResponse>> createProduct(
     CreateProductResponse? product,
   ) async {
@@ -186,56 +185,60 @@ class ProductService implements ProductRepositories {
         return ResponseResult(error: '');
     }
   }
-@override
-Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
-  required XFile file,
-  required int userId,
-  required int resourceType,
-  required int companyId,
-      required int storeId,
-}) async {
-  try {
-    final networkProvider = await NetworkProvider.create();
 
-    log('Uploading image with userId: $userId, resourceType: $resourceType, companyId: $companyId');
+  @override
+  Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
+    required XFile file,
+    required int userId,
+    required int resourceType,
+    required int companyId,
+    required int storeId,
+  }) async {
+    try {
+      final networkProvider = await NetworkProvider.create();
 
-    final formData = FormData.fromMap({
-      'User_id': userId.toString(),
-      'resource_type': resourceType.toString(),
-      'company_id': companyId.toString(),
-      'store_id':storeId,
-      'file': await MultipartFile.fromFile(file.path, filename: file.name),
-    });
+      log(
+        'Uploading image with userId: $userId, resourceType: $resourceType, companyId: $companyId',
+      );
 
-    final res = await networkProvider.dio.post(
-      ApiEndpoints.uploadProductImage(),
-      data: formData,
-      options: Options(headers: {
-        'Authorization': 'Bearer your_actual_token_here',
-        'Content-Type': 'multipart/form-data',
-      }),
-    );
+      final formData = FormData.fromMap({
+        'User_id': userId.toString(),
+        'resource_type': resourceType.toString(),
+        'company_id': companyId.toString(),
+        'store_id': storeId,
+        'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      });
 
-    if (res.statusCode == 200 || res.statusCode == 201) {
-      final decoded = res.data is String ? jsonDecode(res.data) : res.data;
-      log('✅ Response from server: $decoded');
+      final res = await networkProvider.dio.post(
+        ApiEndpoints.uploadProductImage(),
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer your_actual_token_here',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
 
-      if (decoded is List && decoded.isNotEmpty) {
-        return ResponseResult(
-          data: ProductImageListResponse.fromJson(decoded.first),
-        );
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        final decoded = res.data is String ? jsonDecode(res.data) : res.data;
+        log('✅ Response from server: $decoded');
+
+        if (decoded is List && decoded.isNotEmpty) {
+          return ResponseResult(
+            data: ProductImageListResponse.fromJson(decoded.first),
+          );
+        } else {
+          return ResponseResult(error: 'Unexpected response format');
+        }
       } else {
-        return ResponseResult(error: 'Unexpected response format');
+        return ResponseResult(error: 'Failed with status ${res.statusCode}');
       }
-    } else {
-      return ResponseResult(error: 'Failed with status ${res.statusCode}');
+    } catch (e, s) {
+      log('❌ Exception during image upload: $e', stackTrace: s);
+      return ResponseResult(error: e.toString());
     }
-  } catch (e, s) {
-    log('❌ Exception during image upload: $e', stackTrace: s);
-    return ResponseResult(error: e.toString());
   }
-}
-
 
   // if (res.statusCode == 200 || res.statusCode == 201) {
   //   final decoded = res.data is String ? jsonDecode(res.data) : res.data;
@@ -246,10 +249,6 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
   // } else {
   //   return ResponseResult(error: 'Failed with status ${res.statusCode}');
   // }
-
-
-
-
 
   @override
   Future<ResponseResult<EditUpdateResponse>> updateProduct(
@@ -300,12 +299,15 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
     }
   }
 
-
   @override
   Future<ResponseResult<List<CompanyResponse>>> company() async {
     final networkProvider = await NetworkProvider.create();
 
-    final res = await networkProvider.get(ApiEndpoints.company);
+    final res = await networkProvider.get(ApiEndpoints.company());
+    // log(">>> RAW RESPONSE object//: $res");
+    // log(">>> STATUS CODE,,,: ${res.statusCode}");
+    // log(">>> RESPONSE DATA???: ${res.data}");
+    // log(">>> DATA TYPE---: ${res.data.runtimeType}");
     switch (res.statusCode) {
       case 201:
       case 200:
@@ -314,9 +316,9 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
             res.data.map((e) => CompanyResponse.fromJson(e)),
           ).toList(),
         );
+
       default:
         throw ResponseResult(data: res.statusMessage);
     }
   }
-
 }
