@@ -62,11 +62,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  const AndroidInitializationSettings androidSettings =
-      AndroidInitializationSettings('skyaio_icon');
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: androidSettings,
-  );
+
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
