@@ -13,7 +13,7 @@ import 'package:injectable/injectable.dart';
 class OrderService implements OrderRepositories {
   @override
   Future<ResponseResult<List<OrderStatusResponse>>> orderStatus() async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.status);
     switch (res.statusCode) {
@@ -37,7 +37,7 @@ class OrderService implements OrderRepositories {
     int? orderStatusId,
     int? storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final Response res;
     if (isEdit == true) {
       res = await networkProvider.put(
@@ -73,7 +73,7 @@ class OrderService implements OrderRepositories {
 
   @override
   Future<ResponseResult<OrderDetailResponse>> orderDetail(int orderId) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(ApiEndpoints.orderDetail(orderId));
     switch (res.statusCode) {
       case 200:
@@ -89,7 +89,7 @@ class OrderService implements OrderRepositories {
     int? storeId,
     String? search,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.searchOrder(storeId ?? 0, search ?? ''),
     );
@@ -113,7 +113,7 @@ class OrderService implements OrderRepositories {
     int? orderStatusId,
     int? storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.put(
       ApiEndpoints.orderList(orderId: orderId),
       data: {

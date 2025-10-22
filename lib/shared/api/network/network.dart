@@ -1,89 +1,136 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:admin_v2/shared/app/extension/helper.dart';
+import 'package:admin_v2/shared/constants/base_url.dart';
 import 'package:admin_v2/shared/utils/auth/auth_utils.dart';
+
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 
 class NetworkProvider {
   final Dio _dio;
-  final bool isCommon;
   static final Map<String, Response> _cache = {};
     Dio get dio => _dio;
 
  // var dio;
 
-  NetworkProvider._(this._dio, this.isCommon);
-
-  static Future<NetworkProvider> create({bool isCommon = false}) async {
-    final url = isCommon ? '' : await baseUrl;
-
-    final dio = Dio(
-      BaseOptions(baseUrl: url, headers: {"Content-Type": "application/json"}),
-    );
-
-    dio.interceptors.add(
+  NetworkProvider()
+    : _dio = Dio(
+        BaseOptions(
+          baseUrl:baseUrl1,
+          headers: {"Content-Type": "application/json"},
+        ),
+      ) {
+    _dio.interceptors.add(
       RetryInterceptor(
-        dio: dio,
+        dio: _dio,
         logPrint: print,
         retries: 3,
         retryEvaluator: (error, attempt) {
-          final status = error.response?.statusCode;
-          return !(status == 403 || status == 401 || status == 400);
+          if (error.response?.statusCode == 403 ||
+              error.response?.statusCode == 401 ||
+              (error.response?.statusCode == 400)) {
+            return false;
+          }
+          return true;
         },
       ),
     );
-
-    dio.interceptors.add(
+    _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          String fullUrl = '${dio.options.baseUrl}${options.path}';
-          log('➡️ Request: $fullUrl');
+          log(
+            '------------------------------------------------------------------------------------------------',
+          );
+          String fullUrl = baseUrl1 + options.path;
+          log('Full URL: $fullUrl');
           if (options.contentType == 'multipart/form-data') {
-            log('Request Data = ${options.data}');
+            log('Request = ${options.data}', name: options.path);
           } else {
-            log('Request Data = ${jsonEncode(options.data)}');
+            log('Request = ${jsonEncode(options.data)}', name: options.path);
           }
+          log(
+            '------------------------------------------------------------------------------------------------',
+          );
 
-          if (!options.headers.containsKey('auth')) {
-            final token = await AuthUtils.instance.readAccessToken;
-            log("Token =- =-= -= -=$token");
-            if (token?.isNotEmpty ?? false) {
-              options.headers['Authorization'] = 'Bearer $token';
+          if (options.headers.containsKey('auth')) {
+            options.headers.remove('auth');
+          } else {
+            final String? token = await AuthUtils.instance.readAccessToken;
+
+            log("Access token  $token");
+            if (token != null && token != "") {
+              options.headers.addEntries(
+                {'Authorization': 'Bearer $token'}.entries,
+              );
             }
+
+            log("token $token");
           }
 
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          log('✅ Response: ${response.data}');
+          log(
+            '************************************************************************************************',
+          );
+          log(
+            'Response = ${response.data.toString()}',
+            name: response.requestOptions.path,
+          );
+          log(
+            '************************************************************************************************',
+          );
+
           return handler.next(response);
         },
         onError: (error, handler) async {
-          log('❌ Error ${error.response?.statusCode}: ${error.response}');
+          if (error.error is SocketException ||
+              error.type == DioExceptionType.connectionError) {
+            return handler.reject(
+              DioException(
+                requestOptions: error.requestOptions,
+                error: 'No internet connection. Please check your network.',
+                type: DioExceptionType.connectionError,
+              ),
+            );
+          }
+
+          log(
+            'Error-Response [${error.response?.statusCode}] = ${error.response.toString()}',
+            name: error.requestOptions.path,
+          );
 
           if (error.response?.statusCode == 403 &&
               !error.requestOptions.extra.containsKey('retry')) {
             try {
-              String? newToken = await _refreshToken();
-              error.requestOptions.headers['Authorization'] =
-                  'Bearer $newToken';
-              error.requestOptions.extra['retry'] = true;
-
-              final response = await dio.request(
-                error.requestOptions.path,
-                options: Options(
-                  method: error.requestOptions.method,
-                  headers: error.requestOptions.headers,
-                ),
-                data: error.requestOptions.data,
-                queryParameters: error.requestOptions.queryParameters,
-              );
-
-              return handler.resolve(response);
-            } catch (e) {
+              String? accessToken = await _refreshToken();
+              if (accessToken != null) {
+                error.requestOptions.headers['Authorization'] =
+                    'Bearer $accessToken';
+                error.requestOptions.extra['retry'] = true;
+                final response = await _dio.request(
+                  error.requestOptions.path,
+                  options: Options(
+                    method: error.requestOptions.method,
+                    headers: error.requestOptions.headers,
+                    responseType: error.requestOptions.responseType,
+                  ),
+                  queryParameters: error.requestOptions.queryParameters,
+                );
+                return handler.resolve(response);
+              } else {
+                return handler.reject(
+                  DioException(
+                    requestOptions: error.requestOptions,
+                    error: 'Failed to refresh token',
+                  ),
+                );
+              }
+            } catch (refreshError) {
               return handler.reject(
                 DioException(
                   requestOptions: error.requestOptions,
@@ -91,14 +138,20 @@ class NetworkProvider {
                 ),
               );
             }
+          } else {
+            return handler.next(
+              DioException(
+                requestOptions: error.requestOptions,
+                response: error.response,
+                error:
+                    Helper().errorMapping(error.response) ??
+                    'Unknown error occurred',
+              ),
+            );
           }
-
-          return handler.next(error);
         },
       ),
     );
-
-    return NetworkProvider._(dio, isCommon);
   }
 
   Future<Response<T>> _makeRequest<T>(
@@ -183,8 +236,8 @@ class NetworkProvider {
       }
 
       return response;
-    } catch (e) {
-      return Future.error(e);
+    } catch (error) {
+      return Future.error(error);
     }
   }
 
@@ -195,15 +248,17 @@ class NetworkProvider {
     CancelToken? cancelToken,
     void Function(int, int)? onReceiveProgress,
     bool force = false,
-  }) => _makeRequest<T>(
-    'GET',
-    path,
-    queryParameters: queryParameters,
-    options: options,
-    cancelToken: cancelToken,
-    onReceiveProgress: onReceiveProgress,
-    force: force,
-  );
+  }) async {
+    return _makeRequest<T>(
+      'GET',
+      path,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
+      force: force,
+    );
+  }
 
   Future<Response<T>> post<T>(
     String path, {
@@ -215,17 +270,19 @@ class NetworkProvider {
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
     bool force = false,
-  }) => _makeRequest<T>(
-    'POST',
-    path,
-    data: data ?? formData,
-    queryParameters: queryParameters,
-    options: options,
-    cancelToken: cancelToken,
-    onSendProgress: onSendProgress,
-    onReceiveProgress: onReceiveProgress,
-    force: force,
-  );
+  }) async {
+    return _makeRequest<T>(
+      'POST',
+      path,
+      data: data ?? formData,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      force: force,
+    );
+  }
 
   Future<Response<T>> put<T>(
     String path, {
@@ -236,17 +293,19 @@ class NetworkProvider {
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
     bool force = false,
-  }) => _makeRequest<T>(
-    'PUT',
-    path,
-    data: data,
-    queryParameters: queryParameters,
-    options: options,
-    cancelToken: cancelToken,
-    onSendProgress: onSendProgress,
-    onReceiveProgress: onReceiveProgress,
-    force: force,
-  );
+  }) async {
+    return _makeRequest<T>(
+      'PUT',
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+      force: force,
+    );
+  }
 
   Future<Response<T>> delete<T>(
     String path, {
@@ -255,15 +314,17 @@ class NetworkProvider {
     Options? options,
     CancelToken? cancelToken,
     bool force = false,
-  }) => _makeRequest<T>(
-    'DELETE',
-    path,
-    data: data,
-    queryParameters: queryParameters,
-    options: options,
-    cancelToken: cancelToken,
-    force: force,
-  );
+  }) async {
+    return _makeRequest<T>(
+      'DELETE',
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      force: force,
+    );
+  }
 
   Future<Response<T>> patch<T>(
     String path, {
@@ -272,15 +333,17 @@ class NetworkProvider {
     Options? options,
     CancelToken? cancelToken,
     bool force = false,
-  }) => _makeRequest<T>(
-    'PATCH',
-    path,
-    data: data,
-    queryParameters: queryParameters,
-    options: options,
-    cancelToken: cancelToken,
-    force: force,
-  );
+  }) async {
+    return _makeRequest<T>(
+      'PATCH',
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      force: force,
+    );
+  }
 
   Future<Response<T>> formData<T>(
     String path, {
@@ -290,6 +353,7 @@ class NetworkProvider {
     CancelToken? cancelToken,
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
+    bool force = false,
   }) async {
     return _dio.post<T>(
       path,
@@ -302,34 +366,71 @@ class NetworkProvider {
     );
   }
 
+  Future<Response<T>> retryRequest<T>(RequestOptions requestOptions) async {
+    final Completer<Response<T>> responseCompleter = Completer<Response<T>>();
+
+    responseCompleter.complete(request<T>(requestOptions));
+
+    return responseCompleter.future;
+  }
+
+  Future<Response<T>> request<T>(RequestOptions requestOptions) async {
+    return _dio.request<T>(
+      requestOptions.path,
+      cancelToken: requestOptions.cancelToken,
+      data: requestOptions.data,
+      onReceiveProgress: requestOptions.onReceiveProgress,
+      onSendProgress: requestOptions.onSendProgress,
+      queryParameters: requestOptions.queryParameters,
+      options: Options(
+        method: requestOptions.method,
+        sendTimeout: requestOptions.sendTimeout,
+        receiveTimeout: requestOptions.receiveTimeout,
+        extra: requestOptions.extra,
+        headers: requestOptions.headers,
+        responseType: requestOptions.responseType,
+        contentType: requestOptions.contentType,
+        validateStatus: requestOptions.validateStatus,
+        receiveDataWhenStatusError: requestOptions.receiveDataWhenStatusError,
+        followRedirects: requestOptions.followRedirects,
+        maxRedirects: requestOptions.maxRedirects,
+        persistentConnection: requestOptions.persistentConnection,
+        requestEncoder: requestOptions.requestEncoder,
+        responseDecoder: requestOptions.responseDecoder,
+        listFormat: requestOptions.listFormat,
+      ),
+    );
+  }
+
   String _generateCacheKey(
     String method,
     String url,
     Map<String, dynamic> data,
   ) {
-    return '$method|$url|${jsonEncode(data)}';
+    final methodString = method.toString();
+    final dataString = jsonEncode(data);
+    return '$methodString|$url|$dataString';
   }
 
-  static Future<String?> _refreshToken() async {
-    log('🔄 Refresh token called');
+  Future<String?> _refreshToken() async {
+    log('refresh token called');
     try {
-      // final refreshToken = await AuthUtils.instance.readRefreshTokens;
-      final response = await Dio().post(
-        "${await baseUrl}/users/login/refresh/",
-        data: {"refresh": ''}, // put real token here
+      // String? refreshToken = await AuthUtils.instance.readRefreshTokens;
+      Response response = await Dio().post(
+        "${baseUrl1}/users/login/refresh/",
+        data: {"refresh": ''},
       );
       if (response.statusCode == 200) {
-        final newAccessToken = response.data['access'];
-        // Save new tokens if needed
-        return newAccessToken;
+        String? newAuthToken = response.data['access'];
+        // String? newRefreshToken = response.data['refresh'];
+        // await AuthUtils.instance.writeAccessTokens(newAuthToken ?? '');
+        // await AuthUtils.instance.writeRefreshTokens(newRefreshToken ?? '');
+        return newAuthToken;
+      } else {
+        return null;
       }
     } catch (e) {
-      log('🔁 Refresh token failed: $e');
+      return null;
     }
-    return null;
   }
-}
-
-Future<String> get baseUrl async {
-  return AuthUtils.instance.readUserData().then((value) => value?.apiUrl ?? '');
 }

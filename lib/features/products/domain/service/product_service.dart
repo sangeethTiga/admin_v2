@@ -34,7 +34,7 @@ class ProductService implements ProductRepositories {
     int? pageFirstResult,
     int? resultPerPage,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.proudtcList(
@@ -62,7 +62,7 @@ class ProductService implements ProductRepositories {
 
   @override
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus() async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.stockStatus);
     switch (res.statusCode) {
@@ -82,7 +82,7 @@ class ProductService implements ProductRepositories {
   Future<ResponseResult<dynamic>> stockUpdate({
     StockUpdateRequest? request,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
 
     final res = await networkProvider.post(
       ApiEndpoints.stockUpdate,
@@ -99,7 +99,7 @@ class ProductService implements ProductRepositories {
 
   @override
   Future<ResponseResult<List<CategoryResponse>>> category(int storeId) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.category(storeId));
     switch (res.statusCode) {
@@ -120,7 +120,7 @@ class ProductService implements ProductRepositories {
     int storeId,
     int parentCategoryId,
   ) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.mainCategory(storeId, parentCategoryId),
@@ -140,7 +140,7 @@ class ProductService implements ProductRepositories {
 
   @override
   Future<ResponseResult<List<UnitResponse>>> unit() async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.unit());
     switch (res.statusCode) {
@@ -160,7 +160,7 @@ class ProductService implements ProductRepositories {
   Future<ResponseResult<CreateProductResponse>> createProduct(
     CreateProductResponse? product,
   ) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
 
     final res = await networkProvider.post(
       ApiEndpoints.createProduct(),
@@ -256,7 +256,7 @@ class ProductService implements ProductRepositories {
     int? productId,
     int? mainCategoryId,
   ) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
     final res = await networkProvider.post(
       ApiEndpoints.updateProduct(productId!),
       data: request?.toJson(),
@@ -284,7 +284,7 @@ class ProductService implements ProductRepositories {
   Future<ResponseResult<List<VariantsResponse>>> getVariant(
     int productId,
   ) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = NetworkProvider();
     final res = await networkProvider.get(ApiEndpoints.getVariant(productId));
     switch (res.statusCode) {
       case 200:

@@ -54,7 +54,7 @@ class ReportService implements ReportRepositories {
     required String? selectedGroupBy,
     required int? selectedDuration,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.salesReport(
@@ -93,7 +93,7 @@ class ReportService implements ReportRepositories {
     required String fromDate,
     required String toDate,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.revenueReport(
@@ -126,7 +126,7 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required int accountId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.expenseReport(
         pageFirstResult,
@@ -156,7 +156,7 @@ class ReportService implements ReportRepositories {
     required String fromDate,
     required String toDate,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.profitLoss(storeId, fromDate, toDate),
     );
@@ -182,7 +182,7 @@ class ReportService implements ReportRepositories {
     required int resultPerPage,
     required int pageFirstResult,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.deliveryCharge(
         storeId,
@@ -216,7 +216,7 @@ class ReportService implements ReportRepositories {
     required String filterValue,
     required int filterId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.customersReport(
         pageFirstResult,
@@ -246,7 +246,7 @@ class ReportService implements ReportRepositories {
     required String fromDate,
     required String toDate,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.categorySalesReport(storeId, fromDate, toDate),
     );
@@ -272,7 +272,7 @@ class ReportService implements ReportRepositories {
     required int storeId,
     required int orderOptionId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.parcelCharge(
@@ -306,7 +306,7 @@ class ReportService implements ReportRepositories {
     required int pageFirstResult,
     required int resultPerPage,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.userShiftReport(
         storeId,
@@ -335,7 +335,7 @@ class ReportService implements ReportRepositories {
     required String toDate,
     required int storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.taxReport(fromDate, toDate, storeId),
     );
@@ -353,7 +353,7 @@ class ReportService implements ReportRepositories {
     required int roleId,
     required int userId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final user = await AuthUtils.instance.readUserData();
     // final int userId = user?.user?.companyUsersId ?? 0;
     // final int roleId = user?.user?.userRoleId ?? 0;
@@ -389,7 +389,7 @@ class ReportService implements ReportRepositories {
     int? supplierId,
     String? query,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.purchaseReport(
         storeId: storeId ?? 0,
@@ -448,7 +448,7 @@ class ReportService implements ReportRepositories {
     required int pageFirstLimit,
     required int resultPerPage,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.salesDealsReport(
         storeId,
@@ -482,7 +482,7 @@ class ReportService implements ReportRepositories {
     required String fromChequeDate,
     required String toChequeDate,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.cheque(
         storeId,
@@ -517,7 +517,7 @@ class ReportService implements ReportRepositories {
     // required String fromChequeDate,
     // required String toChequeDate,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.chequeStatus(
         // storeId,
@@ -552,7 +552,7 @@ class ReportService implements ReportRepositories {
     required String query,
     required int mealPlansId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.messReport(
         pageFirstResult,
@@ -581,7 +581,7 @@ class ReportService implements ReportRepositories {
   // Future<ResponseResult<List<MostSellingResponse>>> loadSellingProducts({
   //   required int storeId,
   // }) async {
-  //   final networkProvider = await NetworkProvider.create();
+  //   final networkProvider = await NetworkProvider();
   //   final res = await networkProvider.get(
   //     ApiEndpoints.categoryProduct(storeId),
   //   );
@@ -610,7 +610,7 @@ class ReportService implements ReportRepositories {
     String? searchText,
     int? categoryId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final user = await AuthUtils.instance.readUserData();
     final int userId = user?.user?.companyUsersId ?? 0;
     final int roleId = user?.user?.userRoleId ?? 0;
@@ -648,7 +648,7 @@ class ReportService implements ReportRepositories {
     required int admin,
     required String query,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.supplierReport(storeId, admin, query),
     );
@@ -670,7 +670,7 @@ class ReportService implements ReportRepositories {
   //   required int storeId,
   //   required String toDate,
   // }) async {
-  //   final networkProvider = await NetworkProvider.create();
+  //   final networkProvider = await NetworkProvider();
   //   final res = await networkProvider.get(
   //     ApiEndpoints.daySummary(storeId, toDate),
   //   );
@@ -705,7 +705,7 @@ class ReportService implements ReportRepositories {
     required int storeId,
     required String toDate,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.daySummary(storeId, toDate),
     );
@@ -737,7 +737,7 @@ class ReportService implements ReportRepositories {
     required int resultPerPage,
     required String search,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.productOffers(
         fromDate,
@@ -769,7 +769,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<List<SpecialOfferResponse>>> loadSpecialOffer(
  
   ) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.getOfferType());
 
@@ -792,7 +792,7 @@ class ReportService implements ReportRepositories {
     int? prodOfferId,
     int? storeId,
   ) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.put(
       ApiEndpoints.editOffer(prodOfferId ?? 0),
@@ -828,9 +828,8 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<CreateOfferResponse>> createProductOffer(
     CreateOfferResponse? offer,
   ) async {
-    final networkProvider = await NetworkProvider.create();
 
-    final res = await networkProvider.post(
+    final res = await NetworkProvider().post(
       ApiEndpoints.createOffer(),
       data: offer?.toJson(),
     );
@@ -859,7 +858,7 @@ class ReportService implements ReportRepositories {
     required int deliveryPartnerId,
     required int storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.getDeliveryAgent(deliveryPartnerId, storeId),
     );
@@ -878,7 +877,7 @@ class ReportService implements ReportRepositories {
 
   @override
   Future<ResponseResult<List<PaymentMethodResponse>>> getPaymethod() async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.getPaymethod());
     switch (res.statusCode) {
@@ -898,7 +897,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<List<WaitersResponse>>> getWaiters({
     required int storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(ApiEndpoints.getWaiters(storeId));
     switch (res.statusCode) {
       case 200:
@@ -917,7 +916,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<List<KioskResponse>>> getKiosk({
     required int storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(ApiEndpoints.getKiosk(storeId));
     switch (res.statusCode) {
       case 200:
@@ -936,7 +935,7 @@ class ReportService implements ReportRepositories {
   Future<ResponseResult<List<CashierResponse>>> getCashier({
     required int storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(ApiEndpoints.getCashier(storeId));
     switch (res.statusCode) {
       case 200:
@@ -956,7 +955,7 @@ class ReportService implements ReportRepositories {
     required String query,
     required int storeId,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.getProductName(query, storeId),
     );
@@ -983,7 +982,7 @@ class ReportService implements ReportRepositories {
     int? storeId,
     String? custSearch,
   }) async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(
       ApiEndpoints.customerSearch(storeId ?? 0, custSearch ?? ''),
     );
@@ -1000,4 +999,6 @@ class ReportService implements ReportRepositories {
         return ResponseResult(data: []);
     }
   }
+  
+
 }

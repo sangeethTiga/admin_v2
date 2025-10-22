@@ -9,8 +9,8 @@ abstract class AuthRepositories {
   });
   Future<ResponseResult<NotificationsRequest>> registerNotificationResponse({
      required String deviceFcmToken,
-    required String uniqueDeviceId,
-    required int appTypeId,
-    required int customerId,
+    // required String uniqueDeviceId,
+    // required int appTypeId,
+    // required int customerId,
   });
 }

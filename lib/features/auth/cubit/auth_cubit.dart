@@ -6,6 +6,7 @@ import 'package:admin_v2/features/auth/domain/repoitories/auth_repositories.dart
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:injectable/injectable.dart';
 
@@ -27,7 +28,8 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-
+      final customerId = res.data?.user?.companyUsersId;
+ await registerNotificationDevice(customerId: customerId?? 0);
       if (res.data != null && res.data?.errorCode == 0) {
         final authData = res.data!;
         emit(
@@ -57,30 +59,30 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(authResponse: null, isMakeItNull: true));
   }
 
-  // Future<void> registerNotificationDevice({required int customerId}) async {
-  //   // final deviceInfo =await DeviceInfoPlugin();
+  Future<void> registerNotificationDevice({required int customerId}) async {
+    // final deviceInfo =await DeviceInfoPlugin();
 
-  //   emit(AuthState(isLoading: ApiFetchStatus.loading));
-  //   try {
-  //     await FirebaseMessaging.instance.requestPermission();
-  //     final fcmToken = await FirebaseMessaging.instance.getToken();
+    emit(AuthState(isLoading: ApiFetchStatus.loading));
+    try {
+      await FirebaseMessaging.instance.requestPermission();
+      final fcmToken = await FirebaseMessaging.instance.getToken();
 
-  //     final res = await _authRepositories.registerNotificationResponse(
-  //       deviceFcmToken: fcmToken ?? '',
-  //       uniqueDeviceId: 'Test Marwa',
-  //       appTypeId: 2,
-  //       customerId: customerId,
-  //     );
-  //     emit(
-  //       AuthState(
-  //         isLoading: ApiFetchStatus.success,
-  //         notificationsRequest: res.data,
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     emit(
-  //       AuthState(isLoading: ApiFetchStatus.failed, errorMessage: e.toString()),
-  //     );
-  //   }
-  // }
+      final res = await _authRepositories.registerNotificationResponse(
+        deviceFcmToken: fcmToken ?? '',
+        // uniqueDeviceId: 'Test Marwa',
+        // appTypeId: 2,
+        // customerId: customerId,
+      );
+      emit(
+        AuthState(
+          isLoading: ApiFetchStatus.success,
+          notificationsRequest: res.data,
+        ),
+      );
+    } catch (e) {
+      emit(
+        AuthState(isLoading: ApiFetchStatus.failed, errorMessage: e.toString()),
+      );
+    }
+  }
 }
