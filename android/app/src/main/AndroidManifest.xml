@@ -9,7 +9,7 @@
     <application
         android:label="Skyaio Admin"
         android:name="${applicationName}"
-        android:icon="@mipmap/skyaio_icon">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
