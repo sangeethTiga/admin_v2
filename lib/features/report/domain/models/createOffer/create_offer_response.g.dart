@@ -40,6 +40,7 @@ _$CreateOfferResponseImpl _$$CreateOfferResponseImplFromJson(
       : DateTime.parse(json['updated_at'] as String),
   deliveryPartnerId: (json['delivery_partner_id'] as num?)?.toInt(),
   isSingleProductOffer: (json['is_single_product_offers'] as num?)?.toInt(),
+  offerTitle: json['offer_title'] as String?,
 );
 
 Map<String, dynamic> _$$CreateOfferResponseImplToJson(
@@ -68,4 +69,5 @@ Map<String, dynamic> _$$CreateOfferResponseImplToJson(
   'updated_at': instance.updatedAt?.toIso8601String(),
   'delivery_partner_id': instance.deliveryPartnerId,
   'is_single_product_offers': instance.isSingleProductOffer,
+  'offer_title': instance.offerTitle,
 };

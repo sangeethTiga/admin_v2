@@ -32,6 +32,7 @@ class CreateOfferScreen extends StatefulWidget {
 class _CreateOfferScreenState extends State<CreateOfferScreen> {
   final TextEditingController offerPrice = TextEditingController();
   final TextEditingController offerPercentage = TextEditingController();
+  final TextEditingController offerTitleController = TextEditingController();
   final TextEditingController customOfferTypeController =
       TextEditingController();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
@@ -71,7 +72,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
     final offerTypes = cubit.state.specialOffer ?? [];
     if (offerTypes.isNotEmpty) {
-      final selectedOfferType = offerTypes.firstWhere( 
+      final selectedOfferType = offerTypes.firstWhere(
         (type) => type.offerTypeId == offer.offerTypeId,
         orElse: () => SpecialOfferResponse(),
       );
@@ -291,55 +292,66 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
                             BlocBuilder<ReportCubit, ReportState>(
                               builder: (context, state) {
-                                return DropDownFieldWidget(
-                                  topLabelText: 'Offer Type',
-                                  value: state.selectedType,
-                                  hintText: 'Select Offer Type',
-                                  items: [
-                                    ...?state.specialOffer?.map(
-                                      (e) =>
-                                          DropdownMenuItem<
-                                            SpecialOfferResponse
-                                          >(
-                                            value: e,
-                                            child: Text(e.offerType ?? ''),
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    DropDownFieldWidget(
+                                      topLabelText: 'Offer Type',
+                                      value: state.selectedType,
+                                      hintText: 'Select Offer Type',
+                                      items: [
+                                        ...?state.specialOffer?.map(
+                                          (e) =>
+                                              DropdownMenuItem<
+                                                SpecialOfferResponse
+                                              >(
+                                                value: e,
+                                                child: Text(e.offerType ?? ''),
+                                              ),
+                                        ),
+                                        DropdownMenuItem<SpecialOfferResponse>(
+                                          value: SpecialOfferResponse(
+                                            offerType: 'Custom Offer Type',
                                           ),
+                                          child: const Text(
+                                            'Custom Offer Type',
+                                          ),
+                                        ),
+                                      ],
+                                      borderColor: kBlack,
+                                      fillColor: const Color(0XFFEFF1F1),
+                                      onChanged: (p0) {
+                                        context
+                                            .read<ReportCubit>()
+                                            .changeOffeType(p0);
+                                      },
                                     ),
-                                    DropdownMenuItem<SpecialOfferResponse>(
-                                      value: SpecialOfferResponse(
-                                        offerTypeId:  state.selectedType?.offerTypeId,
-                                        offerType: ' Custom Offer Type ',
+
+                                    10.verticalSpace,
+
+                                    if (state.selectedType?.offerType ==
+                                        'Custom Offer Type')
+                                      TextFeildWidget(
+                                        controller: offerTitleController,
+                                        topLabelText: 'Offer Title',
+                                        hintText: 'Enter Offer Title',
+                                        borderColor: kBlack,
+                                        hight: 48.h,
+                                        fillColor: kWhite,
+                                        inputBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.r,
+                                          ),
+                                          borderSide: const BorderSide(
+                                            color: Color(0XFFB7C6C2),
+                                          ),
+                                        ),
                                       ),
-                                      child: Text('Custom Offer Type'),
-                                    ),
                                   ],
-                                  borderColor: kBlack,
-                                  fillColor: const Color(0XFFEFF1F1),
-                                  onChanged: (p0) {
-                                    context.read<ReportCubit>().changeOffeType(
-                                      p0,
-                                    );
-                                  },
                                 );
                               },
                             ),
-                            10.verticalSpace,
 
-              
-                              // TextFeildWidget(
-                              //   controller: customOfferTypeController,
-                              //   topLabelText: 'Offer Title',
-                              //   hintText: 'Enter Offer Title',
-                              //   borderColor: kBlack,
-                              //   hight: 48.h,
-                              //   fillColor: kWhite,
-                              //   inputBorder: OutlineInputBorder(
-                              //     borderRadius: BorderRadius.circular(8.r),
-                              //     borderSide: const BorderSide(
-                              //       color: Color(0XFFB7C6C2),
-                              //     ),
-                              //   ),
-                              // ),
                             TextFeildWidget(
                               controller: offerPrice,
                               topLabelText: 'Offer Price',
@@ -566,6 +578,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         widget.data?['storeId'] ?? 0,
       );
     } else {
+      final bool isCustomOffer =
+          state.selectedType?.offerType == 'Custom Offer Type';
       final createOfferData = CreateOfferResponse(
         storeId: widget.data?['storeId'],
         productId: state.selectedProductName?.productId,
@@ -574,19 +588,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         offerPricePercentage: int.tryParse(offerPercentage.text),
         offerFromDate: startDateTime,
         offerToDate: endDateTime,
-        offerTypeId: state.selectedType?.offerTypeId,
+
+        offerTitle: isCustomOffer ? offerTitleController.text.trim() : state.selectedType?.offerType,
+        
+
         createdBy: 1,
         updatedBy: 1,
         deliveryPartnerId: 0,
         maxOrderQty: 0,
         priceTypeId: 1,
-        // prodOfferTypeId:
-        // state.selectedType?.offerTypeId,
         prodVarCode: state.selectedProductName?.prodVarCode?.toString() ?? "0",
         resourceId: 0,
-        // couponId: 0,
         isSingleProductOffer: 1,
       );
+      log('Offer title: "${offerTitleController.text}"');
 
       context.read<ReportCubit>().createProductOffer(offer: createOfferData);
     }
