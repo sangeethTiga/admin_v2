@@ -190,34 +190,37 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
   required int userId,
   required int resourceType,
   required int companyId,
-      required int storeId,
+  required int storeId,
 }) async {
   try {
     final networkProvider = await NetworkProvider();
- 
+
     log('Uploading image with userId: $userId, resourceType: $resourceType, companyId: $companyId');
- 
+
     final formData = FormData.fromMap({
       'User_id': userId.toString(),
       'resource_type': resourceType.toString(),
       'company_id': companyId.toString(),
-      'store_id':storeId,
-      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      'store_id': storeId.toString(),
+      'file': await MultipartFile.fromFile(
+        file.path,
+        filename: file.name,
+      ),
     });
- 
+
     final res = await networkProvider.dio.post(
-      ApiEndpoints.uploadProductImage(),
+      ApiEndpoints.uploadProductImage(), // ✅ make sure this doesn’t repeat `/api`
       data: formData,
       options: Options(headers: {
         'Authorization': 'Bearer your_actual_token_here',
         'Content-Type': 'multipart/form-data',
       }),
     );
- 
+
     if (res.statusCode == 200 || res.statusCode == 201) {
       final decoded = res.data is String ? jsonDecode(res.data) : res.data;
       log('✅ Response from server: $decoded');
- 
+
       if (decoded is List && decoded.isNotEmpty) {
         return ResponseResult(
           data: ProductImageListResponse.fromJson(decoded.first),
@@ -233,6 +236,7 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
     return ResponseResult(error: e.toString());
   }
 }
+
  
  
 
