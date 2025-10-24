@@ -106,13 +106,13 @@ class _CreateProductState extends State<CreateProduct> {
                     ),
 
                     18.verticalSpace,
-                    CustomMaterialBtton(
+                    // CustomMaterialBtton(
 
-                      buttonText: 'Select Image',
-                      onPressed: () {
-                        _showImagePickerOptions(context);
-                      },
-                    ),
+                    //   buttonText: 'Select Image',
+                    //   onPressed: () {
+                    //     _showImagePickerOptions(context);
+                    //   },
+                    // ),
                     BlocBuilder<ProductCubit, ProductState>(
                       builder: (context, state) {
                         if (state.productImage == null ||
@@ -232,9 +232,9 @@ class _CreateProductState extends State<CreateProduct> {
                             final cdnUrl = productState.cdnUrl ?? '';
                             return model.Image(
                               resourceId: img.resourceId,
-                     
+
                               prodVarId: 0,
-                           
+
                               large:
                                   '$cdnUrl${img.resourceLargePath ?? ''}${img.resourceLargeName ?? ''}',
                               medium:
@@ -244,7 +244,6 @@ class _CreateProductState extends State<CreateProduct> {
                             );
                           }).toList(),
 
-                       
                           productName: productName.text.trim(),
                           productCode: productCode.text.trim(),
                           volume: quantity.toString(),

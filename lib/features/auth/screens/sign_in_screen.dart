@@ -31,7 +31,7 @@ class SignInScreen extends StatelessWidget {
             );
             final user = await AuthUtils.instance.readUserData();
             await AuthUtils.instance.writeAccessTokens(
-              state.authResponse?.token?? '',
+              state.authResponse?.token ?? '',
             );
 
             context.read<DashboardCubit>().store();
@@ -41,14 +41,16 @@ class SignInScreen extends StatelessWidget {
             //   customerId: user?.user?.companyUsersId ?? 0,
             // );
             context.push(routeMain);
-          } else if (state.isLoading == ApiFetchStatus.failed) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Invalid Username Or Password"),
-                backgroundColor: Colors.red,
-              ),
-            );
           }
+
+          // else if (state.isLoading == ApiFetchStatus.failed) {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     SnackBar(
+          //       content: Text("Invalid Username Or Password"),
+          //       backgroundColor: Colors.red,
+          //     ),
+          //   );
+          // }
         },
         builder: (context, state) {
           return Column(
