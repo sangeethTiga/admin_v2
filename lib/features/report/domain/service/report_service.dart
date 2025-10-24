@@ -359,8 +359,8 @@ class ReportService implements ReportRepositories {
     // final int roleId = user?.user?.userRoleId ?? 0;
     final res = await networkProvider.get(
       ApiEndpoints.topStores(
-        user?.user?.userRoleId ?? 0,
-        user?.user?.companyUsersId ?? 0,
+        user?.userRoleId ?? 0,
+        user?.companyUsersId ?? 0,
       ),
     );
     switch (res.statusCode) {
@@ -612,8 +612,8 @@ class ReportService implements ReportRepositories {
   }) async {
     final networkProvider = await NetworkProvider();
     final user = await AuthUtils.instance.readUserData();
-    final int userId = user?.user?.companyUsersId ?? 0;
-    final int roleId = user?.user?.userRoleId ?? 0;
+    final int userId = user?.companyUsersId ??0;
+    final int roleId = user?.userRoleId ??0;
     final res = await networkProvider.get(
       ApiEndpoints.productReport(
         pageFirstResult ?? 0,

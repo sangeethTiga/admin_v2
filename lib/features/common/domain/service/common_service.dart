@@ -18,8 +18,8 @@ class CommonService implements CommonRepostories {
 
     final res = await networkProvider.get(
       ApiEndpoints.store(
-        user?.user?.companyUsersId ?? 0,
-        user?.user?.userRoleId ?? 0,
+        user?.companyUsersId ?? 0,
+        user?.userRoleId ?? 0,
       ),
     );
     switch (res.statusCode) {

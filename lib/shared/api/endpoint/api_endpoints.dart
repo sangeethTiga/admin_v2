@@ -1,6 +1,6 @@
 class ApiEndpoints {
   ApiEndpoints._();
-   static String commonSign = 'https://cab.resto.qa/api/get-admin-api';
+  static String commonSign = 'companyUserlogin';
   static String store(int custId, int roleId) =>
       'store?role_id=$roleId&user_id=$custId&page_first_result=0&result_per_page=50';
   static String notification = 'register_notification_device';
@@ -249,6 +249,6 @@ class ApiEndpoints {
         static String getOfferType()=>'offer_type';
       // '/api/customerreport?store_id=$storeId&cust_name=$custSearch';
   //  static String getOfferType()=>'/api/offer_type';
-   static String uploadProductImage()=>'/api/media';
-     static String company = 'company';
+   static String uploadProductImage()=>'media';
+     static String company() =>'company';
 }

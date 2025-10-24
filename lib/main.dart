@@ -25,7 +25,6 @@ const AndroidNotificationChannel _channel = AndroidNotificationChannel(
   'High Importance Notifications',
   description: 'used for important notifications',
   importance: Importance.high,
-  
 );
 
 @pragma('vm:entry-point')
@@ -58,39 +57,42 @@ Future<void> main() async {
   final InitializationSettings initializationSettings = InitializationSettings(
     android: androidSettings,
   );
- 
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-    onDidReceiveNotificationResponse:
-        (NotificationResponse notificationResponse) async {
-          print(
-            'Notification tapped:=-=-=-=-=-${notificationResponse.payload}',
-          );
-        },
-    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
-  );
+  // await flutterLocalNotificationsPlugin.initialize(
+  //   initializationSettings,
+  //   onDidReceiveNotificationResponse:
+  //       (NotificationResponse notificationResponse) async {
+  //         print(
+  //           'Notification tapped:=-=-=-=-=-${notificationResponse.payload}',
+  //         );
+  //       },
+  //   onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  // );
   //=-==-=-=listen foreground messages-=-=-=-//
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Received a message in foreground: ${message.notification?.title}');
     _showLocalNotification(message);
   });
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-    onDidReceiveNotificationResponse:
-        (NotificationResponse notificationResponse) async {
-          print(
-            'Notification tapped:=-=-=-=-=-${notificationResponse.payload}',
-          );
-        },
-    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
-  );
+  // await flutterLocalNotificationsPlugin.initialize(
+  //   initializationSettings,
+  //   onDidReceiveNotificationResponse:
+  //       (NotificationResponse notificationResponse) async {
+  //         print(
+  //           'Notification tapped:=-=-=-=-=-${notificationResponse.payload}',
+  //         );
+  //       },
+  //   onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  // );
   //=-==-=-=listen foreground messages-=-=-=-//
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Received a message in foreground: ${message.notification?.title}');
     _showLocalNotification(message);
   });
-   configureDependencies();
+  configureDependencies();
   runApp(
     MultiBlocProvider(
       providers: [

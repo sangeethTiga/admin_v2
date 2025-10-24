@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
+
+import 'package:admin_v2/features/auth/domain/models/authresponse/auth_response.dart';
 import 'package:admin_v2/features/auth/domain/models/notifications_response.dart';
 import 'package:admin_v2/features/auth/domain/repoitories/auth_repositories.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
@@ -28,9 +29,9 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      final customerId = res.data?.user?.companyUsersId;
+      final customerId = res.data?.companyUsersId;
  await registerNotificationDevice(customerId: customerId?? 0);
-      if (res.data != null && res.data?.errorCode == 0) {
+      if (res.data != null) {
         final authData = res.data!;
         emit(
           AuthState(isLoading: ApiFetchStatus.success, authResponse: res.data),
@@ -41,7 +42,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           AuthState(
             isLoading: ApiFetchStatus.failed,
-            errorMessage: res.data?.errorMessage ?? "Login failed",
+        
           ),
         );
       }

@@ -101,18 +101,17 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-void _loadInitialData() {
-  final dashboardState = context.read<DashboardCubit>().state;
-  final productState = context.read<ProductCubit>().state;
+  void _loadInitialData() {
+    final dashboardState = context.read<DashboardCubit>().state;
+    final productState = context.read<ProductCubit>().state;
 
-  context.read<ProductCubit>().product(
-    storeId: dashboardState.selectedStore?.storeId,
-    catId: productState.selectCategory?.details?.categoryId,
-    search: '',
-    isLoadMore: false,
-  );
-}
-
+    context.read<ProductCubit>().product(
+      storeId: dashboardState.selectedStore?.storeId,
+      catId: productState.selectCategory?.details?.categoryId,
+      search: '',
+      isLoadMore: false,
+    );
+  }
 
   void _loadMoreData() {
     final productState = context.read<ProductCubit>().state;
@@ -171,6 +170,7 @@ void _loadInitialData() {
             backgroundColor: kPrimaryColor,
 
             onPressed: () async {
+            // final cdnUrl = state.cdnUrl;
               final storeId = context
                   .read<DashboardCubit>()
                   .state
@@ -179,11 +179,12 @@ void _loadInitialData() {
               context.read<ProductCubit>().catgeory(storeId ?? 0);
               context.read<ProductCubit>().unit();
               context.read<ProductCubit>().fetchCompanies();
+          //    Text(cdnUrl ?? 'No CDN URL found');
 
               final result = await context.push(routeCreateProduct);
 
               if (result == 'refresh') {
-                _loadInitialData(); 
+                _loadInitialData();
               }
             },
 

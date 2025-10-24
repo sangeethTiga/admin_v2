@@ -49,77 +49,184 @@ class _DrawerContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final int storeId =
         context.read<DashboardCubit>().state.selectedStore?.storeId ?? 0;
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        _buildDrawerHeader(),
-        _buildReportsSection(),
-        _buildOrders(),
-        _buildInventory(storeId),
-        _buildOffersSection(),
-        _buildTopStoresSection(),
-        _buildLogoutSection(context),
-      ],
+    return Container(
+      color: Colors.grey[50],
+      child: Column(
+        children: [
+          _buildDrawerHeader(),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+              children: [
+                _buildReportsSection(),
+                SizedBox(height: 8.h),
+                _buildOrders(),
+                SizedBox(height: 8.h),
+                _buildInventory(storeId),
+                SizedBox(height: 8.h),
+                _buildOffersSection(),
+                SizedBox(height: 8.h),
+                _buildTopStoresSection(),
+                SizedBox(height: 16.h),
+              ],
+            ),
+          ),
+          _buildLogoutSection(context),
+        ],
+      ),
     );
   }
 
   Widget _buildDrawerHeader() {
-    return DrawerHeader(
-      margin: const EdgeInsets.only(bottom: 0, top: 0),
-      decoration: BoxDecoration(color: kPrimaryColor),
-      child: FutureBuilder(
-        future: userDataFuture,
-        builder: (context, snapshot) {
-          final userData = snapshot.data?.user;
-          return Column(
-            spacing: 5.h,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Admin',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              if (userData != null) ...[
-                _buildUserInfo('Name', userData.userName),
-                _buildUserInfo('Email', userData.userEmail),
-                _buildUserInfo('Phone', userData.userPhone?.toString()),
-              ],
-            ],
-          );
-        },
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [kPrimaryColor, kPrimaryColor.withOpacity(0.8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+          child: FutureBuilder(
+            future: userDataFuture,
+            builder: (context, snapshot) {
+              final userData = snapshot.data;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(12.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Icon(
+                      Icons.admin_panel_settings_rounded,
+                      color: Colors.white,
+                      size: 32.sp,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Text(
+                    'Admin Panel',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  if (userData != null) ...[
+                    SizedBox(height: 12.h),
+                    _buildUserInfoRow(Icons.person_outline, userData.userName),
+                    SizedBox(height: 6.h),
+                    _buildUserInfoRow(Icons.email_outlined, userData.userEmail),
+                    if (userData.userPhone != null) ...[
+                      SizedBox(height: 6.h),
+                      _buildUserInfoRow(
+                        Icons.phone_outlined,
+                        userData.userPhone?.toString(),
+                      ),
+                    ],
+                  ],
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildUserInfo(String label, String? value) {
+  Widget _buildUserInfoRow(IconData icon, String? value) {
     if (value == null || value.isEmpty) return const SizedBox.shrink();
 
-    return Text(
-      value,
-      style: TextStyle(color: Colors.white, fontSize: 16.sp),
-      overflow: TextOverflow.ellipsis,
+    return Row(
+      children: [
+        Icon(icon, color: Colors.white70, size: 16.sp),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: Text(
+            value,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.9),
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildReportsSection() {
-    return ExpansionTile(
-      leading: const Icon(Icons.add_chart_sharp),
-      title: const Text(
-        'Reports',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
+    return _buildModernExpansionTile(
+      icon: Icons.analytics_rounded,
+      title: 'Reports',
+      iconColor: Colors.blue,
       children: _reportsItems,
+    );
+  }
+
+  Widget _buildModernExpansionTile({
+    required IconData icon,
+    required String title,
+    required List<Widget> children,
+    Color? iconColor,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Theme(
+        data: ThemeData(
+          dividerColor: Colors.transparent,
+          splashColor: Colors.grey[100],
+        ),
+        child: ExpansionTile(
+          tilePadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+          childrenPadding: EdgeInsets.only(bottom: 8.h),
+          leading: Container(
+            padding: EdgeInsets.all(8.w),
+            decoration: BoxDecoration(
+              color: (iconColor ?? kPrimaryColor).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Icon(icon, color: iconColor ?? kPrimaryColor, size: 20.sp),
+          ),
+          title: Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 15.sp,
+              color: Colors.grey[800],
+            ),
+          ),
+          iconColor: Colors.grey[600],
+          collapsedIconColor: Colors.grey[600],
+          children: children,
+        ),
+      ),
     );
   }
 
   List<Widget> get _reportsItems => [
     _buildDrawerItem(
-      icon: Icons.library_books_outlined,
-      title: Text('Day Summary'),
+      icon: Icons.calendar_today_outlined,
+      title: 'Day Summary',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadDaySummary(
@@ -129,21 +236,19 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
-      icon: Icons.currency_exchange_outlined,
-      title: Text('Profit/Loss'),
-      route: routeProfitloss,
+      icon: Icons.trending_up_rounded,
+      title: 'Profit/Loss',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadProfitAndLoss(
           storeId: selectedStore?.storeId,
         );
-
         context.push(routeProfitloss);
       },
     ),
     _buildDrawerItem(
-      icon: Icons.stacked_line_chart_sharp,
-      title: Text('Sales'),
+      icon: Icons.shopping_cart_outlined,
+      title: 'Sales',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadSalesReport(
@@ -151,25 +256,21 @@ class _DrawerContent extends StatelessWidget {
         );
         context.push(routeSale);
       },
-      // route: routeDeliveryCharge,
     ),
     _buildDrawerItem(
-      icon: Icons.assessment_outlined,
-      title: Text('Revenue Report'),
-      route: routeRevenue,
+      icon: Icons.account_balance_wallet_outlined,
+      title: 'Revenue Report',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadReveneueReport(
           storeId: selectedStore?.storeId,
         );
-
         context.push(routeRevenue);
       },
     ),
     _buildDrawerItem(
-      icon: Icons.attach_money_rounded,
-      title: Text('Expense Report'),
-      route: routeExpense,
+      icon: Icons.receipt_long_outlined,
+      title: 'Expense Report',
       onTap: (context) {
         final accountId = selectedAccount?.accountHeadId;
         final storeId = selectedStore?.storeId;
@@ -179,8 +280,8 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
-      icon: Icons.shopping_cart,
-      title: Text('Purchase'),
+      icon: Icons.shopping_bag_outlined,
+      title: 'Purchase',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadPurchaseReport(
@@ -190,8 +291,8 @@ class _DrawerContent extends StatelessWidget {
       },
     ),
     _buildDrawerItem(
-      icon: Icons.people,
-      title: Text('Customers'),
+      icon: Icons.people_outline,
+      title: 'Customers',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadCustomersReport(
@@ -200,10 +301,9 @@ class _DrawerContent extends StatelessWidget {
         context.push(routeCustomers);
       },
     ),
-
     _buildDrawerItem(
-      icon: Icons.delivery_dining_sharp,
-      title: Text('Delivery Charge'),
+      icon: Icons.delivery_dining_outlined,
+      title: 'Delivery Charge',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadDeliveryChargeReport(
@@ -211,25 +311,10 @@ class _DrawerContent extends StatelessWidget {
         );
         context.push(routeDeliveryCharge);
       },
-      // route: routeDeliveryCharge,
     ),
-
-    // _buildDrawerItem(
-    //   icon: Icons.flatware,
-    //   title: Text('Parcel Charge'),
-    //   route: routeParcel,
-    //   onTap: (context) {
-    //     context.read<ReportCubit>().initState();
-    //     context.read<ReportCubit>().loadParcelCharge(
-    //       storeId: selectedStore?.storeId,
-    //     );
-    //     context.read<DashboardCubit>().orderOption(selectedStore?.storeId, 0);
-    //     context.push(routeParcel);
-    //   },
-    // ),
     _buildDrawerItem(
-      icon: Icons.bar_chart_sharp,
-      title: Text('Tax Report'),
+      icon: Icons.pie_chart_outline,
+      title: 'Tax Report',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadTaxReport(
@@ -237,12 +322,10 @@ class _DrawerContent extends StatelessWidget {
         );
         context.push(routeTax);
       },
-      // route: routeTax,
     ),
-
     _buildDrawerItem(
-      icon: Icons.category,
-      title: Text('Category Sales'),
+      icon: Icons.category_outlined,
+      title: 'Category Sales',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadCategorySalesReport(
@@ -250,32 +333,10 @@ class _DrawerContent extends StatelessWidget {
         );
         context.push(routeCategorySales);
       },
-      //  route: routeCategorySales,
     ),
-    // _buildDrawerItem(
-    //   icon: Icons.dining_rounded,
-    //   title: 'Mess Report',
-    //   route: routeMess,
-    // ),
-    // _buildDrawerItem(
-    //   icon: Icons.people,
-    //   title: Text('Supplier'),
-    //   onTap: (context) {
-    //     context.read<ReportCubit>().loadSuppliersReport(
-    //       storeId: selectedStore?.storeId,
-    //     );
-    //     context.push(routeSupplier);
-    //   },
-    // ),
-    // _buildDrawerItem(
-    //   icon: Icons.account_circle_outlined,
-    //   title: 'User Shift',
-    //   route: routeUserShift,
-    // ),
     _buildDrawerItem(
-      icon: Icons.shopify_outlined,
-      title: Text('Sale on Deals'),
-      route: routeSaleDeals,
+      icon: Icons.local_offer_outlined,
+      title: 'Sale on Deals',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         context.read<ReportCubit>().loadSalesDealsReport(
@@ -284,49 +345,30 @@ class _DrawerContent extends StatelessWidget {
         context.push(routeSaleDeals);
       },
     ),
-    // _buildDrawerItem(
-    //   icon: Icons.money_rounded,
-    //   title: Text('Cheque Transaction'),
-    //   route: routeCheque,
-    //   onTap: (context) {
-    //     context.read<ReportCubit>().initState();
-    //     context.read<ReportCubit>().loadChequeTrans(
-    //       storeId: selectedStore?.storeId,
-    //     );
-    //     context.read<ReportCubit>().loadStatus();
-    //     context.push(routeCheque);
-    //   },
-    // ),
     _buildDrawerItem(
-      icon: Icons.moving_sharp,
-      title: Text('Most Selling Products'),
-      route: routeSellingProducts,
+      icon: Icons.star_outline,
+      title: 'Most Selling Products',
       onTap: (context) {
         context.read<ReportCubit>().initState();
         final productCubit = context.read<ReportCubit>();
-
         context.read<DashboardCubit>().loadProductsCategory(
           selectedStore?.storeId,
         );
         productCubit.loadProductReport(storeId: selectedStore?.storeId ?? 0);
-
         context.push(routeSellingProducts);
       },
     ),
   ];
 
   Widget _buildOffersSection() {
-    return ExpansionTile(
-      title: const Text(
-        'Offers',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
-      leading: const Icon(Icons.paid_sharp),
+    return _buildModernExpansionTile(
+      icon: Icons.local_offer_rounded,
+      title: 'Offers',
+      iconColor: Colors.orange,
       children: [
         _buildDrawerItem(
-          icon: Icons.discount,
-          title: Text('Product Offers'),
-          route: routeProductOffers,
+          icon: Icons.discount_outlined,
+          title: 'Product Offers',
           onTap: (context) {
             final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
             context.read<ReportCubit>().loadProductName(
@@ -338,41 +380,22 @@ class _DrawerContent extends StatelessWidget {
               fromDate: date,
               toDate: date,
             );
-
             context.push(routeProductOffers);
-
-            // context.read<ReportCubit>().loadProductOffers(
-            //   storeId: selectedStore?.storeId,
-            // );
-            // context.push(routeProductOffers);
           },
         ),
-        // _buildDrawerItem(
-        //   icon: Icons.discount_outlined,
-        //   title: Text('Offer'),
-        //   route: routeOffers,
-        //   onTap: (context) {
-        //     context.read<ReportCubit>().loadOffers(
-        //       storeId: selectedStore?.storeId,
-        //     );
-        //     context.push(routeOffers);
-        //   },
-        // ),
       ],
     );
   }
 
   Widget _buildInventory(int storeId) {
-    return ExpansionTile(
-      title: const Text(
-        'Inventory',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-      ),
-      leading: const Icon(Icons.inventory),
+    return _buildModernExpansionTile(
+      icon: Icons.inventory_2_rounded,
+      title: 'Inventory',
+      iconColor: Colors.green,
       children: [
         _buildDrawerItem(
-          icon: Icons.widgets_sharp,
-          title: Text('Products'),
+          icon: Icons.widgets_outlined,
+          title: 'Products',
           onTap: (context) {
             final productCubit = context.read<ProductCubit>();
             productCubit.product(storeId: storeId);
@@ -388,82 +411,157 @@ class _DrawerContent extends StatelessWidget {
   }
 
   Widget _buildTopStoresSection() {
-    return _buildDrawerItem(
-      icon: Icons.home_work_outlined,
-      title: Text(
-        'Top Stores',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      route: routeTopStores,
-      onTap: (context) {
-        context.read<ReportCubit>().loadTopStores();
-        context.push(routeTopStores);
-      },
+      child: _buildDrawerItem(
+        icon: Icons.store_rounded,
+        title: 'Top Stores',
+        showLeadingContainer: true,
+        iconColor: Colors.purple,
+        onTap: (context) {
+          context.read<ReportCubit>().loadTopStores();
+          context.push(routeTopStores);
+        },
+      ),
     );
   }
 
   Widget _buildOrders() {
-    return _buildDrawerItem(
-      icon: Icons.shopping_bag_outlined,
-      title: Text(
-        'Orders',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      route: routeOrders,
-      onTap: (context) {
-        final storeId = selectedStore?.storeId;
-        final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-        _navigateToOrders(storeId ?? 0, date, context);
-        context.push(routeOrders);
-      },
+      child: _buildDrawerItem(
+        icon: Icons.shopping_bag_rounded,
+        title: 'Orders',
+        showLeadingContainer: true,
+        iconColor: Colors.teal,
+        onTap: (context) {
+          final storeId = selectedStore?.storeId;
+          final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+          _navigateToOrders(storeId ?? 0, date, context);
+        },
+      ),
     );
   }
 
   Widget _buildDrawerItem({
     required IconData icon,
-    required Widget title,
+    required String title,
     String? route,
     void Function(BuildContext)? onTap,
+    bool showLeadingContainer = false,
+    Color? iconColor,
   }) {
     return Builder(
-      builder: (context) => ListTile(
-        leading: Icon(icon),
-        title: title,
-        onTap: () {
-          if (onTap != null) {
-            onTap(context);
-          } else if (route != null) {
-            context.push(route);
-          }
-        },
-        dense: true,
+      builder: (context) => Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            if (onTap != null) {
+              onTap(context);
+            } else if (route != null) {
+              context.push(route);
+            }
+          },
+          borderRadius: BorderRadius.circular(8.r),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+            child: Row(
+              children: [
+                if (showLeadingContainer)
+                  Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      color: (iconColor ?? kPrimaryColor).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(
+                      icon,
+                      color: iconColor ?? kPrimaryColor,
+                      size: 20.sp,
+                    ),
+                  )
+                else
+                  Icon(icon, color: Colors.grey[600], size: 20.sp),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: Colors.grey[400], size: 20.sp),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildLogoutSection(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(12.w),
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: () => _showLogoutConfirmation(context),
-
           borderRadius: BorderRadius.circular(12.r),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.r),
-              color: kWhite,
+              border: Border.all(color: const Color(0xFFFFE5E5)),
+              color: const Color(0xFFFFF5F5),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset('assets/icons/Exit, Log out.svg'),
-                8.horizontalSpace,
+                Icon(
+                  Icons.logout_rounded,
+                  color: const Color(0xFFDC2626),
+                  size: 20.sp,
+                ),
+                SizedBox(width: 12.w),
                 Text(
-                  'Sign out',
-                  style: FontPalette.hW500S14.copyWith(
-                    color: const Color(0XFFAE270F),
+                  'Sign Out',
+                  style: TextStyle(
+                    color: const Color(0xFFDC2626),
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
@@ -512,35 +610,99 @@ class _DrawerContent extends StatelessWidget {
   void _showLogoutConfirmation(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.r),
+            borderRadius: BorderRadius.circular(16.r),
           ),
-          title: Text(
-            'Confirm Logout',
-            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-          ),
-          content: Text(
-            'Are you sure you want to sign out?',
-            style: TextStyle(fontSize: 15.sp),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text('Cancel', style: TextStyle(fontSize: 21)),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Close the dialog
-                Helper().logout(context); // Proceed to logout
-              },
-              child: const Text(
-                'Logout',
-                style: TextStyle(color: kRedColor, fontSize: 21),
+          contentPadding: EdgeInsets.all(24.w),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF5F5),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.logout_rounded,
+                  color: const Color(0xFFDC2626),
+                  size: 32.sp,
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 20.h),
+              Text(
+                'Sign Out',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[800],
+                ),
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'Are you sure you want to sign out from your account?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.grey[600],
+                  height: 1.5,
+                ),
+              ),
+              SizedBox(height: 24.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                          side: BorderSide(color: Colors.grey[300]!),
+                        ),
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                        Helper().logout(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFDC2626),
+                        padding: EdgeInsets.symmetric(vertical: 14.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        'Sign Out',
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

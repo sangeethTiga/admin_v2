@@ -22,9 +22,8 @@ CompanyResponse _$CompanyResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CompanyResponse {
   @JsonKey(name: "company_id")
-  int? get companyId => throw _privateConstructorUsedError;
-  @JsonKey(name: "android_ver")
-  String? get androidVer => throw _privateConstructorUsedError; // @JsonKey(name: "android_ver_critical") int? androidVerCritical,
+  int? get companyId => throw _privateConstructorUsedError; // @JsonKey(name: "android_ver") String? androidVer,
+  // @JsonKey(name: "android_ver_critical") int? androidVerCritical,
   // @JsonKey(name: "ios_ver") String? iosVer,
   // @JsonKey(name: "ios_ver_critical") int? iosVerCritical,
   // @JsonKey(name: "comp_light_logo") dynamic compLightLogo,
@@ -184,7 +183,6 @@ abstract class $CompanyResponseCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: "company_id") int? companyId,
-    @JsonKey(name: "android_ver") String? androidVer,
     @JsonKey(name: "cdn_url") String? cdnUrl,
     @JsonKey(name: "LargeLightLogo") dynamic largeLightLogo,
     @JsonKey(name: "MediumLightLogo") dynamic mediumLightLogo,
@@ -217,7 +215,6 @@ class _$CompanyResponseCopyWithImpl<$Res, $Val extends CompanyResponse>
   @override
   $Res call({
     Object? companyId = freezed,
-    Object? androidVer = freezed,
     Object? cdnUrl = freezed,
     Object? largeLightLogo = freezed,
     Object? mediumLightLogo = freezed,
@@ -238,10 +235,6 @@ class _$CompanyResponseCopyWithImpl<$Res, $Val extends CompanyResponse>
                 ? _value.companyId
                 : companyId // ignore: cast_nullable_to_non_nullable
                       as int?,
-            androidVer: freezed == androidVer
-                ? _value.androidVer
-                : androidVer // ignore: cast_nullable_to_non_nullable
-                      as String?,
             cdnUrl: freezed == cdnUrl
                 ? _value.cdnUrl
                 : cdnUrl // ignore: cast_nullable_to_non_nullable
@@ -311,7 +304,6 @@ abstract class _$$CompanyResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: "company_id") int? companyId,
-    @JsonKey(name: "android_ver") String? androidVer,
     @JsonKey(name: "cdn_url") String? cdnUrl,
     @JsonKey(name: "LargeLightLogo") dynamic largeLightLogo,
     @JsonKey(name: "MediumLightLogo") dynamic mediumLightLogo,
@@ -343,7 +335,6 @@ class __$$CompanyResponseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? companyId = freezed,
-    Object? androidVer = freezed,
     Object? cdnUrl = freezed,
     Object? largeLightLogo = freezed,
     Object? mediumLightLogo = freezed,
@@ -364,10 +355,6 @@ class __$$CompanyResponseImplCopyWithImpl<$Res>
             ? _value.companyId
             : companyId // ignore: cast_nullable_to_non_nullable
                   as int?,
-        androidVer: freezed == androidVer
-            ? _value.androidVer
-            : androidVer // ignore: cast_nullable_to_non_nullable
-                  as String?,
         cdnUrl: freezed == cdnUrl
             ? _value.cdnUrl
             : cdnUrl // ignore: cast_nullable_to_non_nullable
@@ -430,7 +417,6 @@ class __$$CompanyResponseImplCopyWithImpl<$Res>
 class _$CompanyResponseImpl implements _CompanyResponse {
   const _$CompanyResponseImpl({
     @JsonKey(name: "company_id") this.companyId,
-    @JsonKey(name: "android_ver") this.androidVer,
     @JsonKey(name: "cdn_url") this.cdnUrl,
     @JsonKey(name: "LargeLightLogo") this.largeLightLogo,
     @JsonKey(name: "MediumLightLogo") this.mediumLightLogo,
@@ -452,9 +438,7 @@ class _$CompanyResponseImpl implements _CompanyResponse {
   @override
   @JsonKey(name: "company_id")
   final int? companyId;
-  @override
-  @JsonKey(name: "android_ver")
-  final String? androidVer;
+  // @JsonKey(name: "android_ver") String? androidVer,
   // @JsonKey(name: "android_ver_critical") int? androidVerCritical,
   // @JsonKey(name: "ios_ver") String? iosVer,
   // @JsonKey(name: "ios_ver_critical") int? iosVerCritical,
@@ -612,7 +596,7 @@ class _$CompanyResponseImpl implements _CompanyResponse {
 
   @override
   String toString() {
-    return 'CompanyResponse(companyId: $companyId, androidVer: $androidVer, cdnUrl: $cdnUrl, largeLightLogo: $largeLightLogo, mediumLightLogo: $mediumLightLogo, smallLightLogo: $smallLightLogo, customerSplash: $customerSplash, adminSplash: $adminSplash, deliverySplash: $deliverySplash, ogImage: $ogImage, contactUsUrl: $contactUsUrl, driverRegUrl: $driverRegUrl, sellerRegUrl: $sellerRegUrl, defaultStoreId: $defaultStoreId, smsGatewayEnabled: $smsGatewayEnabled)';
+    return 'CompanyResponse(companyId: $companyId, cdnUrl: $cdnUrl, largeLightLogo: $largeLightLogo, mediumLightLogo: $mediumLightLogo, smallLightLogo: $smallLightLogo, customerSplash: $customerSplash, adminSplash: $adminSplash, deliverySplash: $deliverySplash, ogImage: $ogImage, contactUsUrl: $contactUsUrl, driverRegUrl: $driverRegUrl, sellerRegUrl: $sellerRegUrl, defaultStoreId: $defaultStoreId, smsGatewayEnabled: $smsGatewayEnabled)';
   }
 
   @override
@@ -622,8 +606,6 @@ class _$CompanyResponseImpl implements _CompanyResponse {
             other is _$CompanyResponseImpl &&
             (identical(other.companyId, companyId) ||
                 other.companyId == companyId) &&
-            (identical(other.androidVer, androidVer) ||
-                other.androidVer == androidVer) &&
             (identical(other.cdnUrl, cdnUrl) || other.cdnUrl == cdnUrl) &&
             const DeepCollectionEquality().equals(
               other.largeLightLogo,
@@ -667,7 +649,6 @@ class _$CompanyResponseImpl implements _CompanyResponse {
   int get hashCode => Object.hash(
     runtimeType,
     companyId,
-    androidVer,
     cdnUrl,
     const DeepCollectionEquality().hash(largeLightLogo),
     const DeepCollectionEquality().hash(mediumLightLogo),
@@ -703,7 +684,6 @@ class _$CompanyResponseImpl implements _CompanyResponse {
 abstract class _CompanyResponse implements CompanyResponse {
   const factory _CompanyResponse({
     @JsonKey(name: "company_id") final int? companyId,
-    @JsonKey(name: "android_ver") final String? androidVer,
     @JsonKey(name: "cdn_url") final String? cdnUrl,
     @JsonKey(name: "LargeLightLogo") final dynamic largeLightLogo,
     @JsonKey(name: "MediumLightLogo") final dynamic mediumLightLogo,
@@ -724,10 +704,8 @@ abstract class _CompanyResponse implements CompanyResponse {
 
   @override
   @JsonKey(name: "company_id")
-  int? get companyId;
-  @override
-  @JsonKey(name: "android_ver")
-  String? get androidVer; // @JsonKey(name: "android_ver_critical") int? androidVerCritical,
+  int? get companyId; // @JsonKey(name: "android_ver") String? androidVer,
+  // @JsonKey(name: "android_ver_critical") int? androidVerCritical,
   // @JsonKey(name: "ios_ver") String? iosVer,
   // @JsonKey(name: "ios_ver_critical") int? iosVerCritical,
   // @JsonKey(name: "comp_light_logo") dynamic compLightLogo,

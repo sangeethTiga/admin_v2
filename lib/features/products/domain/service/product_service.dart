@@ -1,7 +1,6 @@
 import 'dart:convert';
 //import 'dart:math';
 import 'dart:developer';
-
 import 'package:admin_v2/features/products/domain/models/category/category_response.dart';
 import 'package:admin_v2/features/products/domain/models/company/company_response.dart';
 import 'package:admin_v2/features/products/domain/models/create_product/create_product_response.dart';
@@ -14,7 +13,7 @@ import 'package:admin_v2/features/products/domain/models/unit/unit_response.dart
 import 'package:admin_v2/features/products/domain/models/variant_response/variants_response.dart';
 import 'package:admin_v2/features/products/domain/repositories/product_repositories.dart';
 import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
-//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart'; 
+//import 'package:admin_v2/features/report/domain/models/productimage/product_image.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
 import 'package:admin_v2/shared/api/network/network.dart';
 import 'package:admin_v2/shared/utils/result.dart';
@@ -34,9 +33,8 @@ class ProductService implements ProductRepositories {
     int? pageFirstResult,
     int? resultPerPage,
   }) async {
-    final networkProvider = NetworkProvider();
 
-    final res = await networkProvider.get(
+    final res = await NetworkProvider().get(
       ApiEndpoints.proudtcList(
         storeId ?? 0,
         catId ?? 0,
@@ -62,7 +60,7 @@ class ProductService implements ProductRepositories {
 
   @override
   Future<ResponseResult<List<StockStatusResponse>>> stockStatus() async {
-    final networkProvider = NetworkProvider();
+    final networkProvider =  NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.stockStatus);
     switch (res.statusCode) {
@@ -82,7 +80,7 @@ class ProductService implements ProductRepositories {
   Future<ResponseResult<dynamic>> stockUpdate({
     StockUpdateRequest? request,
   }) async {
-    final networkProvider = NetworkProvider();
+    final networkProvider =  NetworkProvider();
 
     final res = await networkProvider.post(
       ApiEndpoints.stockUpdate,
@@ -99,7 +97,7 @@ class ProductService implements ProductRepositories {
 
   @override
   Future<ResponseResult<List<CategoryResponse>>> category(int storeId) async {
-    final networkProvider = NetworkProvider();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.category(storeId));
     switch (res.statusCode) {
@@ -120,7 +118,7 @@ class ProductService implements ProductRepositories {
     int storeId,
     int parentCategoryId,
   ) async {
-    final networkProvider = NetworkProvider();
+    final networkProvider =  NetworkProvider();
 
     final res = await networkProvider.get(
       ApiEndpoints.mainCategory(storeId, parentCategoryId),
@@ -140,7 +138,7 @@ class ProductService implements ProductRepositories {
 
   @override
   Future<ResponseResult<List<UnitResponse>>> unit() async {
-    final networkProvider = NetworkProvider();
+    final networkProvider =  NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.unit());
     switch (res.statusCode) {
@@ -157,11 +155,10 @@ class ProductService implements ProductRepositories {
   }
 
   @override
-  
   Future<ResponseResult<CreateProductResponse>> createProduct(
     CreateProductResponse? product,
   ) async {
-    final networkProvider = NetworkProvider();
+    final networkProvider =  NetworkProvider();
 
     final res = await networkProvider.post(
       ApiEndpoints.createProduct(),
@@ -186,13 +183,14 @@ class ProductService implements ProductRepositories {
         return ResponseResult(error: '');
     }
   }
+
 @override
 Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
   required XFile file,
   required int userId,
   required int resourceType,
   required int companyId,
-      required int storeId,
+  required int storeId,
 }) async {
   try {
     final networkProvider = await NetworkProvider();
@@ -203,12 +201,15 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
       'User_id': userId.toString(),
       'resource_type': resourceType.toString(),
       'company_id': companyId.toString(),
-      'store_id':storeId,
-      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      'store_id': storeId.toString(),
+      'file': await MultipartFile.fromFile(
+        file.path,
+        filename: file.name,
+      ),
     });
 
     final res = await networkProvider.dio.post(
-      ApiEndpoints.uploadProductImage(),
+      ApiEndpoints.uploadProductImage(), // ✅ make sure this doesn’t repeat `/api`
       data: formData,
       options: Options(headers: {
         'Authorization': 'Bearer your_actual_token_here',
@@ -236,18 +237,8 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
   }
 }
 
-
-  // if (res.statusCode == 200 || res.statusCode == 201) {
-  //   final decoded = res.data is String ? jsonDecode(res.data) : res.data;
-  //   if (decoded is Map<String, dynamic>) {
-  //     return ResponseResult(data: ProductImageListResponse.fromJson(decoded));
-  //   }
-  //   return ResponseResult(error: 'Unexpected response: $decoded');
-  // } else {
-  //   return ResponseResult(error: 'Failed with status ${res.statusCode}');
-  // }
-
-
+ 
+ 
 
 
 
@@ -257,7 +248,7 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
     int? productId,
     int? mainCategoryId,
   ) async {
-    final networkProvider = NetworkProvider();
+    final networkProvider =  NetworkProvider();
     final res = await networkProvider.post(
       ApiEndpoints.updateProduct(productId!),
       data: request?.toJson(),
@@ -285,7 +276,7 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
   Future<ResponseResult<List<VariantsResponse>>> getVariant(
     int productId,
   ) async {
-    final networkProvider = NetworkProvider();
+    final networkProvider = await NetworkProvider();
     final res = await networkProvider.get(ApiEndpoints.getVariant(productId));
     switch (res.statusCode) {
       case 200:
@@ -300,12 +291,15 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
     }
   }
 
-
   @override
   Future<ResponseResult<List<CompanyResponse>>> company() async {
-    final networkProvider = await NetworkProvider();
+    final networkProvider =  NetworkProvider();
 
-    final res = await networkProvider.get(ApiEndpoints.company);
+    final res = await networkProvider.get(ApiEndpoints.company());
+    // log(">>> RAW RESPONSE object//: $res");
+    // log(">>> STATUS CODE,,,: ${res.statusCode}");
+    // log(">>> RESPONSE DATA???: ${res.data}");
+    // log(">>> DATA TYPE---: ${res.data.runtimeType}");
     switch (res.statusCode) {
       case 201:
       case 200:
@@ -314,9 +308,9 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
             res.data.map((e) => CompanyResponse.fromJson(e)),
           ).toList(),
         );
+
       default:
         throw ResponseResult(data: res.statusMessage);
     }
   }
-
 }

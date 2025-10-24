@@ -10,7 +10,6 @@ _$CompanyResponseImpl _$$CompanyResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$CompanyResponseImpl(
   companyId: (json['company_id'] as num?)?.toInt(),
-  androidVer: json['android_ver'] as String?,
   cdnUrl: json['cdn_url'] as String?,
   largeLightLogo: json['LargeLightLogo'],
   mediumLightLogo: json['MediumLightLogo'],
@@ -30,7 +29,6 @@ Map<String, dynamic> _$$CompanyResponseImplToJson(
   _$CompanyResponseImpl instance,
 ) => <String, dynamic>{
   'company_id': instance.companyId,
-  'android_ver': instance.androidVer,
   'cdn_url': instance.cdnUrl,
   'LargeLightLogo': instance.largeLightLogo,
   'MediumLightLogo': instance.mediumLightLogo,

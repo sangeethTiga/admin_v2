@@ -71,7 +71,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
 
     final offerTypes = cubit.state.specialOffer ?? [];
     if (offerTypes.isNotEmpty) {
-      final selectedOfferType = offerTypes.firstWhere( 
+      final selectedOfferType = offerTypes.firstWhere(
         (type) => type.offerTypeId == offer.offerTypeId,
         orElse: () => SpecialOfferResponse(),
       );
@@ -307,7 +307,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                     ),
                                     DropdownMenuItem<SpecialOfferResponse>(
                                       value: SpecialOfferResponse(
-                                        offerTypeId:  state.selectedType?.offerTypeId,
+                                        offerTypeId:
+                                            state.selectedType?.offerTypeId,
                                         offerType: ' Custom Offer Type ',
                                       ),
                                       child: Text('Custom Offer Type'),
@@ -325,21 +326,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             ),
                             10.verticalSpace,
 
-              
-                              TextFeildWidget(
-                                controller: customOfferTypeController,
-                                topLabelText: 'Offer Title',
-                                hintText: 'Enter Offer Title',
-                                borderColor: kBlack,
-                                hight: 48.h,
-                                fillColor: kWhite,
-                                inputBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(
-                                    color: Color(0XFFB7C6C2),
-                                  ),
-                                ),
-                              ),
+                            // TextFeildWidget(
+                            //   controller: customOfferTypeController,
+                            //   topLabelText: 'Offer Title',
+                            //   hintText: 'Enter Offer Title',
+                            //   borderColor: kBlack,
+                            //   hight: 48.h,
+                            //   fillColor: kWhite,
+                            //   inputBorder: OutlineInputBorder(
+                            //     borderRadius: BorderRadius.circular(8.r),
+                            //     borderSide: const BorderSide(
+                            //       color: Color(0XFFB7C6C2),
+                            //     ),
+                            //   ),
+                            // ),
                             TextFeildWidget(
                               controller: offerPrice,
                               topLabelText: 'Offer Price',

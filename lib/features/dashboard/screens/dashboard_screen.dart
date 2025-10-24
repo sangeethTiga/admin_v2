@@ -28,6 +28,7 @@ class DashboardScreenState extends State<DashboardScreen>
   late final ScrollController _scrollController;
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
+  late final Animation<Offset> _slideAnimation;
 
   @override
   bool get wantKeepAlive => true;
@@ -42,19 +43,28 @@ class DashboardScreenState extends State<DashboardScreen>
   void _initializeControllers() {
     _scrollController = ScrollController();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
+      ),
     );
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.2, 1.0, curve: Curves.easeOutCubic),
+          ),
+        );
     _animationController.forward();
   }
 
   void _preloadDashboardData() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final dashboardCubit = context.read<DashboardCubit>();
-
       if (dashboardCubit.state.selectedStore != null) {
         _loadGraphData();
       }
@@ -78,9 +88,13 @@ class DashboardScreenState extends State<DashboardScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar: buildAppBar(),
       drawer: buildDrawer(),
-      body: FadeTransition(opacity: _fadeAnimation, child: _buildBody()),
+      body: FadeTransition(
+        opacity: _fadeAnimation,
+        child: SlideTransition(position: _slideAnimation, child: _buildBody()),
+      ),
     );
   }
 
@@ -93,42 +107,34 @@ class DashboardScreenState extends State<DashboardScreen>
             previous.apiFetchStatus != current.apiFetchStatus,
         builder: (context, state) {
           return RefreshIndicator(
+            backgroundColor: Colors.white,
+            color: Theme.of(context).primaryColor,
             onRefresh: _onRefresh,
             child: SingleChildScrollView(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: StoreDropdown(
-                          selectedStore: state.selectedStore,
-                          storeList: state.storeList,
-                          isLoading:
-                              state.apiFetchStatus == ApiFetchStatus.loading,
-                          onStoreChanged: _onStoreChanged,
-                        ),
-                      ),
-                      90.horizontalSpace,
-                      SizedBox(
-                        width: 100.w,
-                        child: DateDropdown(
-                          selectedDate: state.selectDate,
-                          onDateChanged: (v) {
-                            _onDateChanged(v);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  10.verticalSpace,
+                  16.verticalSpace,
+                  _buildHeaderSection(state),
+                  24.verticalSpace,
                   _buildDashboardGrid(state),
-                  20.verticalSpace,
-                  if (state.revenueReport?.isNotEmpty ?? false) RevenueGraph(),
-                  20.verticalSpace,
-                  if (state.ordersReport?.isNotEmpty ?? false) OrdersGraph(),
+                  24.verticalSpace,
+                  if (state.revenueReport?.isNotEmpty ?? false)
+                    _buildGraphContainer(
+                      title: 'Revenue Analytics',
+                      icon: Icons.trending_up,
+                      child: RevenueGraph(),
+                    ),
+                  24.verticalSpace,
+                  if (state.ordersReport?.isNotEmpty ?? false)
+                    _buildGraphContainer(
+                      title: 'Orders Overview',
+                      icon: Icons.shopping_bag_outlined,
+                      child: OrdersGraph(),
+                    ),
+                  24.verticalSpace,
                 ],
               ),
             ),
@@ -138,33 +144,209 @@ class DashboardScreenState extends State<DashboardScreen>
     );
   }
 
+  Widget _buildHeaderSection(DashboardState state) {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Dashboard Overview',
+            style: FontPalette.hW700S13.copyWith(
+              fontSize: 18.sp,
+              color: const Color(0xFF1A1A1A),
+            ),
+          ),
+          16.verticalSpace,
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: StoreDropdown(
+                  selectedStore: state.selectedStore,
+                  storeList: state.storeList,
+                  isLoading: state.apiFetchStatus == ApiFetchStatus.loading,
+                  onStoreChanged: _onStoreChanged,
+                ),
+              ),
+              12.horizontalSpace,
+              Expanded(
+                flex: 2,
+                child: DateDropdown(
+                  selectedDate: state.selectDate,
+                  onDateChanged: _onDateChanged,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildDashboardGrid(DashboardState state) {
+    if (state.apiFetchStatus == ApiFetchStatus.loading) {
+      return _buildLoadingGrid();
+    }
+
     return GridView.builder(
       shrinkWrap: true,
       itemCount: accountList.length,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 8.w,
-        mainAxisSpacing: 8.h,
-        childAspectRatio: 1.23,
+        crossAxisSpacing: 12.w,
+        mainAxisSpacing: 12.h,
+        childAspectRatio: 1.15,
       ),
       itemBuilder: (context, index) {
-        return _DashboardGridItem(
-          data: accountList[index],
-          selectedStore: state.selectedStore,
-          selectedAccount: state.selectedAccount,
-          onTap: () {
-            navigateToFeature(
-              accountList[index].name ?? '',
-              context,
-              storeId: state.selectedStore?.storeId,
-              accountId: state.selectedAccount?.accountHeadId,
+        return TweenAnimationBuilder<double>(
+          duration: Duration(milliseconds: 400 + (index * 100)),
+          tween: Tween(begin: 0.0, end: 1.0),
+          curve: Curves.easeOutBack,
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: value,
+              child: Opacity(
+                opacity: value.clamp(0.0, 1.0),
+                child: _DashboardGridItem(
+                  data: accountList[index],
+                  selectedStore: state.selectedStore,
+                  selectedAccount: state.selectedAccount,
+                  onTap: () {
+                    navigateToFeature(
+                      accountList[index].name ?? '',
+                      context,
+                      storeId: state.selectedStore?.storeId,
+                      accountId: state.selectedAccount?.accountHeadId,
+                    );
+                    context.read<DashboardCubit>().initState();
+                  },
+                ),
+              ),
             );
-            context.read<DashboardCubit>().initState();
           },
         );
       },
+    );
+  }
+
+  Widget _buildLoadingGrid() {
+    return GridView.builder(
+      shrinkWrap: true,
+      itemCount: 6,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12.w,
+        mainAxisSpacing: 12.h,
+        childAspectRatio: 1.15,
+      ),
+      itemBuilder: (context, index) {
+        return _buildShimmerCard();
+      },
+    );
+  }
+
+  Widget _buildShimmerCard() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 70.w,
+            height: 70.h,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+          ),
+          12.verticalSpace,
+          Container(
+            width: 100.w,
+            height: 16.h,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGraphContainer({
+    required String title,
+    required IconData icon,
+    required Widget child,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.w),
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8.w),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 20.sp,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                12.horizontalSpace,
+                Text(
+                  title,
+                  style: FontPalette.hW700S13.copyWith(
+                    fontSize: 16.sp,
+                    color: const Color(0xFF1A1A1A),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          child,
+        ],
+      ),
     );
   }
 
@@ -191,7 +373,7 @@ class DashboardScreenState extends State<DashboardScreen>
   }
 }
 
-class _DashboardGridItem extends StatelessWidget {
+class _DashboardGridItem extends StatefulWidget {
   final AccountResponse data;
   final StoreResponse? selectedStore;
   final dynamic selectedAccount;
@@ -205,28 +387,122 @@ class _DashboardGridItem extends StatelessWidget {
   });
 
   @override
+  State<_DashboardGridItem> createState() => _DashboardGridItemState();
+}
+
+class _DashboardGridItemState extends State<_DashboardGridItem>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  bool _isPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8.r),
+    return GestureDetector(
+      onTapDown: (_) {
+        setState(() => _isPressed = true);
+        _controller.forward();
+      },
+      onTapUp: (_) {
+        setState(() => _isPressed = false);
+        _controller.reverse();
+        widget.onTap();
+      },
+      onTapCancel: () {
+        setState(() => _isPressed = false);
+        _controller.reverse();
+      },
+      child: ScaleTransition(
+        scale: _scaleAnimation,
         child: Container(
+          alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: const Color(0XFFEFF1F1),
-            borderRadius: BorderRadius.circular(8.r),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.white, Colors.white.withOpacity(0.95)],
+            ),
+            borderRadius: BorderRadius.circular(16.r),
+            boxShadow: [
+              BoxShadow(
+                color: _isPressed
+                    ? Colors.black.withOpacity(0.08)
+                    : Colors.black.withOpacity(0.04),
+                blurRadius: _isPressed ? 8 : 12,
+                offset: Offset(0, _isPressed ? 2 : 4),
+              ),
+            ],
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              SvgPicture.asset(data.image ?? '', width: 90.w, height: 66.h),
-              8.verticalSpace,
-              Text(
-                data.name ?? '',
-                style: FontPalette.hW700S13,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              Positioned(
+                top: -20,
+                right: -20,
+                child: Container(
+                  width: 120.w,
+                  height: 80.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor.withOpacity(0.03),
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 130.w,
+                    height: 90.h,
+                    padding: EdgeInsets.all(12.w),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: SvgPicture.asset(
+                      widget.data.image ?? '',
+                      width: 80.w,
+                      height: 60.h,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).primaryColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                  12.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: Text(
+                      widget.data.name ?? '',
+                      style: FontPalette.hW700S13.copyWith(
+                        fontSize: 14.sp,
+                        color: const Color(0xFF1A1A1A),
+                        height: 1.3,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

@@ -50,6 +50,9 @@ class ProductState extends Equatable {
   final String? cdnUrl;
   final String? errorMessage;
     final ApiFetchStatus? status;
+      final String? resourceMediumPath;
+  final String? originalFilename;
+  final List<Image>? images;
 
   const ProductState({
     this.isProduct,
@@ -74,7 +77,7 @@ class ProductState extends Equatable {
     this.prodList,
     this.selectProduct,
     this.updatedProduct,
-
+this.images,
     this.isImageUploading,
 
 
@@ -102,6 +105,8 @@ class ProductState extends Equatable {
     this.cdnUrl,
     this.errorMessage,
     this.status,
+    this.originalFilename,
+    this.resourceMediumPath,
 
   });
 
@@ -157,8 +162,11 @@ class ProductState extends Equatable {
         List<CompanyResponse>? companies,
     String? cdnUrl,
     String? errorMessage,
+    String?originalFilename,
+    String?resourceMediumPath,
+    List<Image>?images
     
-    ApiFetchStatus? status,
+  //  ApiFetchStatus? status,
   }) => ProductState(
     isProduct: isProduct ?? this.isProduct,
     productList: productList ?? this.productList,
@@ -209,7 +217,10 @@ class ProductState extends Equatable {
           companies: companies ?? this.companies,
       cdnUrl: cdnUrl ?? this.cdnUrl,
       errorMessage: errorMessage ?? this.errorMessage,
-      status: status ?? this.status
+      status: status ?? this.status,
+      originalFilename: originalFilename ?? this.originalFilename,
+      resourceMediumPath: resourceMediumPath ?? this.resourceMediumPath,
+      images: images ?? this.images
 
 
   );
@@ -260,7 +271,9 @@ class ProductState extends Equatable {
     companies,
     cdnUrl,
     errorMessage,
-    status
+    status,
+    resourceMediumPath,
+    images,
 
   ];
 }

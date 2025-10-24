@@ -33,6 +33,7 @@ class CreateOfferResponse with _$CreateOfferResponse {
     @JsonKey(name: "updated_at") DateTime? updatedAt,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
     @JsonKey(name: "is_single_product_offers") int? isSingleProductOffer,
+    @JsonKey(name: "offer_title") String? offerTitle,
   }) = _CreateOfferResponse;
 
   factory CreateOfferResponse.fromJson(Map<String, dynamic> json) =>
