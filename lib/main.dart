@@ -58,15 +58,7 @@ Future<void> main() async {
   final InitializationSettings initializationSettings = InitializationSettings(
     android: androidSettings,
   );
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-  const AndroidInitializationSettings androidSettings =
-      AndroidInitializationSettings('skyaio_icon');
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: androidSettings,
-  );
+ 
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,

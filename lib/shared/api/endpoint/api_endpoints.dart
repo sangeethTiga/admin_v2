@@ -1,6 +1,6 @@
 class ApiEndpoints {
   ApiEndpoints._();
-  static String commonSign = 'https://cab.resto.qa/api/get-admin-api';
+   static String commonSign = 'https://cab.resto.qa/api/get-admin-api';
   static String store(int custId, int roleId) =>
       'store?role_id=$roleId&user_id=$custId&page_first_result=0&result_per_page=50';
   static String notification = 'register_notification_device';

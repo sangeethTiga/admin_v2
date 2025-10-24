@@ -195,7 +195,7 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
       required int storeId,
 }) async {
   try {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     log('Uploading image with userId: $userId, resourceType: $resourceType, companyId: $companyId');
 
@@ -303,7 +303,7 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
 
   @override
   Future<ResponseResult<List<CompanyResponse>>> company() async {
-    final networkProvider = await NetworkProvider.create();
+    final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.company);
     switch (res.statusCode) {
