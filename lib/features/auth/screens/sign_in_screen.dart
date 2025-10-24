@@ -1,7 +1,6 @@
 import 'dart:developer';
-
 import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
-import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
+import 'package:admin_v2/features/auth/domain/models/authresponse/auth_response.dart';
 import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
 import 'package:admin_v2/shared/app/enums/api_fetch_status.dart';
 import 'package:admin_v2/shared/constants/colors.dart';
@@ -28,11 +27,11 @@ class SignInScreen extends StatelessWidget {
           if (state.isLoading == ApiFetchStatus.success) {
             log('Success');
             await AuthUtils.instance.writeUserData(
-              state.authResponse ?? AuthResponse(),
+              state.authResponse ?? AuthResponseDetails(),
             );
             final user = await AuthUtils.instance.readUserData();
             await AuthUtils.instance.writeAccessTokens(
-              state.authResponse?.user?.token ?? '',
+              state.authResponse?.token?? '',
             );
 
             context.read<DashboardCubit>().store();
@@ -109,7 +108,7 @@ class SignInScreen extends StatelessWidget {
                       onPressed: () async {
                         final user = await AuthUtils.instance.readUserData();
                         await AuthUtils.instance.writeAccessTokens(
-                          state.authResponse?.user?.token ?? '',
+                          state.authResponse?.token ?? '',
                         );
                         context.read<AuthCubit>().authSigIn(
                           email: emailController.text.trim(),

@@ -2,7 +2,7 @@ part of 'auth_cubit.dart';
 
 class AuthState extends Equatable {
   final ApiFetchStatus? isLoading;
-  final AuthResponse? authResponse;
+  final AuthResponseDetails? authResponse;
   final bool isMakeItNull;
   final String? errorMessage;
   final NotificationsRequest? notificationsRequest;
@@ -17,7 +17,7 @@ class AuthState extends Equatable {
 
   AuthState copyWith({
     ApiFetchStatus? isLoading,
-    AuthResponse? authResponse,
+    AuthResponseDetails? authResponse,
     bool? isMakeItNull,
     String? errorMessage,
     NotificationsRequest? notificationsRequest

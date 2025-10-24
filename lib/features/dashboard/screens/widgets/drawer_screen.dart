@@ -70,7 +70,8 @@ class _DrawerContent extends StatelessWidget {
       child: FutureBuilder(
         future: userDataFuture,
         builder: (context, snapshot) {
-          final userData = snapshot.data?.user;
+          final userData = snapshot.data;
+
           return Column(
             spacing: 5.h,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +79,7 @@ class _DrawerContent extends StatelessWidget {
               Text(
                 'Admin',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.white, 
                   fontSize: 24.sp,
                   fontWeight: FontWeight.bold,
                 ),

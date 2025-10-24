@@ -1,4 +1,4 @@
-import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
+import 'package:admin_v2/features/auth/domain/models/authresponse/auth_response.dart';
 import 'package:admin_v2/features/auth/domain/models/notifications_response.dart';
 import 'package:admin_v2/features/auth/domain/repoitories/auth_repositories.dart';
 import 'package:admin_v2/shared/api/endpoint/api_endpoints.dart';
@@ -10,21 +10,21 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: AuthRepositories)
 class AuthService implements AuthRepositories {
   @override
-  Future<ResponseResult<AuthResponse>> signIn({
+  Future<ResponseResult<AuthResponseDetails>> signIn({
     String? email,
     String? password,
   }) async {
-    final networkProvider =  NetworkProvider;
+    final networkProvider =  NetworkProvider();
 
     final res = await NetworkProvider().post(
       ApiEndpoints.commonSign,
-      data: {'user_email': email, 'password': password},
+      data: {'user_name': email, 'user_pwd': password, 'app_type_id':"2"},
     );
     
     switch (res.statusCode) {
       case 200:
       case 201:
-        return ResponseResult(data: AuthResponse.fromJson(res.data));
+        return ResponseResult(data: AuthResponseDetails.fromJson(res.data));
       default:
         throw Exception('error');
     }
@@ -45,7 +45,7 @@ class AuthService implements AuthRepositories {
         'device_fcm_token': deviceFcmToken,
         'unique_device_id': 0XFFDEADBEEF,
         'app_type_id': 1,
-        'customer_id': user?.user?.companyUsersId?? 0,
+        'customer_id': user?.companyUsersId?? 0,
       },
     );
     switch (res.statusCode) {

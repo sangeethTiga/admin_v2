@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
+//import 'package:admin_v2/features/auth/domain/models/auth_response.dart';
+import 'package:admin_v2/features/auth/domain/models/authresponse/auth_response.dart';
 import 'package:admin_v2/features/common/domain/models/store/store_response.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -10,15 +11,15 @@ class AuthUtils {
 
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
-  Future<void> writeUserData(AuthResponse user) async {
+  Future<void> writeUserData(AuthResponseDetails user) async {
     await _writeSecure('user', jsonEncode(user.toJson()));
   }
 
-  Future<AuthResponse?> readUserData() async {
+  Future<AuthResponseDetails?> readUserData() async {
     final String? userData = await _readSecure('user');
     if (userData != null) {
       final Map<String, dynamic> userMap = jsonDecode(userData);
-      return AuthResponse.fromJson(userMap);
+      return AuthResponseDetails.fromJson(userMap);
     }
     return null;
   }

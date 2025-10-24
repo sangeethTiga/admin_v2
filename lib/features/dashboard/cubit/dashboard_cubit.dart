@@ -99,10 +99,10 @@ class DashboardCubit extends Cubit<DashboardState> {
 
     final res = await _dashboardRepositories.loadRevenueGraph(
       dateRangeId: state.selectMonth?.id.toString() ?? " ",
-      roleId: userAssign?.user?.userRoleId ?? 1,
+      roleId: userAssign?.userRoleId?? 1,
       storeArray: state.selectedStore!.storeId.toString(),
 
-      userId: userAssign?.user?.companyUsersId ?? 0,
+      userId: userAssign?.companyUsersId?? 0,
     );
 
     if (res.data != null) {
@@ -136,9 +136,9 @@ class DashboardCubit extends Cubit<DashboardState> {
     final userAssign = await AuthUtils.instance.readUserData();
     final res = await _dashboardRepositories.ordersGraph(
       dateRangeId: state.selectMonth?.id.toString() ?? '',
-      roleId: userAssign?.user?.userRoleId ?? 1,
+      roleId: userAssign?.userRoleId ?? 1,
       storeArray: state.selectedStore?.storeId ?? 0,
-      userId: userAssign?.user?.companyUsersId ?? 0,
+      userId: userAssign?.companyUsersId?? 0,
     );
     if (res.data != null) {
       // final List<OrdersGraphResponse> fetchedList = res.data!;
