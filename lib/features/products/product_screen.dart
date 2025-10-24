@@ -179,6 +179,7 @@ class _ProductScreenState extends State<ProductScreen> {
               context.read<ProductCubit>().catgeory(storeId ?? 0);
               context.read<ProductCubit>().unit();
               context.read<ProductCubit>().fetchCompanies();
+       
           //    Text(cdnUrl ?? 'No CDN URL found');
 
               final result = await context.push(routeCreateProduct);

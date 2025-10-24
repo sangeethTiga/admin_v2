@@ -326,20 +326,20 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                             10.verticalSpace,
 
               
-                              TextFeildWidget(
-                                controller: customOfferTypeController,
-                                topLabelText: 'Offer Title',
-                                hintText: 'Enter Offer Title',
-                                borderColor: kBlack,
-                                hight: 48.h,
-                                fillColor: kWhite,
-                                inputBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(
-                                    color: Color(0XFFB7C6C2),
-                                  ),
-                                ),
-                              ),
+                              // TextFeildWidget(
+                              //   controller: customOfferTypeController,
+                              //   topLabelText: 'Offer Title',
+                              //   hintText: 'Enter Offer Title',
+                              //   borderColor: kBlack,
+                              //   hight: 48.h,
+                              //   fillColor: kWhite,
+                              //   inputBorder: OutlineInputBorder(
+                              //     borderRadius: BorderRadius.circular(8.r),
+                              //     borderSide: const BorderSide(
+                              //       color: Color(0XFFB7C6C2),
+                              //     ),
+                              //   ),
+                              // ),
                             TextFeildWidget(
                               controller: offerPrice,
                               topLabelText: 'Offer Price',

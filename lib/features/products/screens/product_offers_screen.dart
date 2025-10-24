@@ -229,6 +229,7 @@ class ProductOffersScreen extends StatelessWidget {
                                           const Spacer(),
                                           GestureDetector(
                                             onTap: () async {
+                                              context.read<ReportCubit>().loadSpecialOffer();
                                               context.push(
                                                 routeCreate,
                                                 extra: {

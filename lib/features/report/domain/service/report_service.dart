@@ -772,6 +772,10 @@ class ReportService implements ReportRepositories {
     final networkProvider = await NetworkProvider();
 
     final res = await networkProvider.get(ApiEndpoints.getOfferType());
+        log(">>> RAW RESPONSE object//: $res");
+    log(">>> STATUS CODE,,,: ${res.statusCode}");
+    log(">>> RESPONSE DATA???: ${res.data}");
+    log(">>> DATA TYPE---: ${res.data.runtimeType}");
 
     switch (res.statusCode) {
       case 200:

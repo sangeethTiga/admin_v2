@@ -327,7 +327,7 @@ Future<void> fetchCompanies() async {
   emit(state.copyWith(
     //status: ApiFetchStatus.loading
     ));
-
+  
   try {
     final result = await _productRepositories.company();
     log('✅ CDN RESULT: ${result.data}');

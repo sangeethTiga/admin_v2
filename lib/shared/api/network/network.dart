@@ -15,7 +15,6 @@ class NetworkProvider {
   static final Map<String, Response> _cache = {};
     Dio get dio => _dio;
 
- // var dio;
 
   NetworkProvider()
     : _dio = Dio(
