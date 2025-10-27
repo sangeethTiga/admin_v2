@@ -48,6 +48,7 @@ class EditOfferResponse with _$EditOfferResponse {
         int? updatedBy,
         @JsonKey(name: "delivery_partner_id")
         int? deliveryPartnerId,
+        @JsonKey(name: "offer_title") String? offerTitle,
       
   
     }) = _EditOfferResponse;

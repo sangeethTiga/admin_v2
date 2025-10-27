@@ -30,6 +30,7 @@ _$EditOfferResponseImpl _$$EditOfferResponseImplFromJson(
   createdBy: (json['created_by'] as num?)?.toInt(),
   updatedBy: (json['updated_by'] as num?)?.toInt(),
   deliveryPartnerId: (json['delivery_partner_id'] as num?)?.toInt(),
+  offerTitle: json['offer_title'] as String?,
 );
 
 Map<String, dynamic> _$$EditOfferResponseImplToJson(
@@ -52,4 +53,5 @@ Map<String, dynamic> _$$EditOfferResponseImplToJson(
   'created_by': instance.createdBy,
   'updated_by': instance.updatedBy,
   'delivery_partner_id': instance.deliveryPartnerId,
+  'offer_title': instance.offerTitle,
 };

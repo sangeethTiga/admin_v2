@@ -545,6 +545,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     }
 
     if (isEdit) {
+            final bool isCustomOffer =
+          state.selectedType?.offerType == 'Custom Offer Type';
       final fromDate =
           context.read<ReportCubit>().state.selectedOfferDate ?? DateTime.now();
       final toDate =
@@ -557,6 +559,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         storeId: widget.data?['storeId'] ?? 0,
         productId: state.selectedProductName?.productId,
         branchId: 0,
+        
+        offerTitle: isCustomOffer ? offerTitleController.text.trim() : state.selectedType?.offerType,
 
         // couponId: 0,
         createdBy: 1,

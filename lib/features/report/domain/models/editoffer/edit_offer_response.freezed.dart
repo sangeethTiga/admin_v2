@@ -55,6 +55,8 @@ mixin _$EditOfferResponse {
   int? get updatedBy => throw _privateConstructorUsedError;
   @JsonKey(name: "delivery_partner_id")
   int? get deliveryPartnerId => throw _privateConstructorUsedError;
+  @JsonKey(name: "offer_title")
+  String? get offerTitle => throw _privateConstructorUsedError;
 
   /// Serializes this EditOfferResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -91,6 +93,7 @@ abstract class $EditOfferResponseCopyWith<$Res> {
     @JsonKey(name: "created_by") int? createdBy,
     @JsonKey(name: "updated_by") int? updatedBy,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
+    @JsonKey(name: "offer_title") String? offerTitle,
   });
 }
 
@@ -126,6 +129,7 @@ class _$EditOfferResponseCopyWithImpl<$Res, $Val extends EditOfferResponse>
     Object? createdBy = freezed,
     Object? updatedBy = freezed,
     Object? deliveryPartnerId = freezed,
+    Object? offerTitle = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -197,6 +201,10 @@ class _$EditOfferResponseCopyWithImpl<$Res, $Val extends EditOfferResponse>
                 ? _value.deliveryPartnerId
                 : deliveryPartnerId // ignore: cast_nullable_to_non_nullable
                       as int?,
+            offerTitle: freezed == offerTitle
+                ? _value.offerTitle
+                : offerTitle // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -230,6 +238,7 @@ abstract class _$$EditOfferResponseImplCopyWith<$Res>
     @JsonKey(name: "created_by") int? createdBy,
     @JsonKey(name: "updated_by") int? updatedBy,
     @JsonKey(name: "delivery_partner_id") int? deliveryPartnerId,
+    @JsonKey(name: "offer_title") String? offerTitle,
   });
 }
 
@@ -264,6 +273,7 @@ class __$$EditOfferResponseImplCopyWithImpl<$Res>
     Object? createdBy = freezed,
     Object? updatedBy = freezed,
     Object? deliveryPartnerId = freezed,
+    Object? offerTitle = freezed,
   }) {
     return _then(
       _$EditOfferResponseImpl(
@@ -335,6 +345,10 @@ class __$$EditOfferResponseImplCopyWithImpl<$Res>
             ? _value.deliveryPartnerId
             : deliveryPartnerId // ignore: cast_nullable_to_non_nullable
                   as int?,
+        offerTitle: freezed == offerTitle
+            ? _value.offerTitle
+            : offerTitle // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -361,6 +375,7 @@ class _$EditOfferResponseImpl implements _EditOfferResponse {
     @JsonKey(name: "created_by") this.createdBy,
     @JsonKey(name: "updated_by") this.updatedBy,
     @JsonKey(name: "delivery_partner_id") this.deliveryPartnerId,
+    @JsonKey(name: "offer_title") this.offerTitle,
   });
 
   factory _$EditOfferResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -417,10 +432,13 @@ class _$EditOfferResponseImpl implements _EditOfferResponse {
   @override
   @JsonKey(name: "delivery_partner_id")
   final int? deliveryPartnerId;
+  @override
+  @JsonKey(name: "offer_title")
+  final String? offerTitle;
 
   @override
   String toString() {
-    return 'EditOfferResponse(productId: $productId, couponId: $couponId, storeId: $storeId, branchId: $branchId, prodVarCode: $prodVarCode, resourceId: $resourceId, prodOfferTypeId: $prodOfferTypeId, priceTypeId: $priceTypeId, maxOrderQty: $maxOrderQty, offerPrice: $offerPrice, offerPricePercentage: $offerPricePercentage, offerFromDate: $offerFromDate, offerToDate: $offerToDate, offerTypeId: $offerTypeId, createdBy: $createdBy, updatedBy: $updatedBy, deliveryPartnerId: $deliveryPartnerId)';
+    return 'EditOfferResponse(productId: $productId, couponId: $couponId, storeId: $storeId, branchId: $branchId, prodVarCode: $prodVarCode, resourceId: $resourceId, prodOfferTypeId: $prodOfferTypeId, priceTypeId: $priceTypeId, maxOrderQty: $maxOrderQty, offerPrice: $offerPrice, offerPricePercentage: $offerPricePercentage, offerFromDate: $offerFromDate, offerToDate: $offerToDate, offerTypeId: $offerTypeId, createdBy: $createdBy, updatedBy: $updatedBy, deliveryPartnerId: $deliveryPartnerId, offerTitle: $offerTitle)';
   }
 
   @override
@@ -460,7 +478,9 @@ class _$EditOfferResponseImpl implements _EditOfferResponse {
             (identical(other.updatedBy, updatedBy) ||
                 other.updatedBy == updatedBy) &&
             (identical(other.deliveryPartnerId, deliveryPartnerId) ||
-                other.deliveryPartnerId == deliveryPartnerId));
+                other.deliveryPartnerId == deliveryPartnerId) &&
+            (identical(other.offerTitle, offerTitle) ||
+                other.offerTitle == offerTitle));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -484,6 +504,7 @@ class _$EditOfferResponseImpl implements _EditOfferResponse {
     createdBy,
     updatedBy,
     deliveryPartnerId,
+    offerTitle,
   );
 
   /// Create a copy of EditOfferResponse
@@ -522,6 +543,7 @@ abstract class _EditOfferResponse implements EditOfferResponse {
     @JsonKey(name: "created_by") final int? createdBy,
     @JsonKey(name: "updated_by") final int? updatedBy,
     @JsonKey(name: "delivery_partner_id") final int? deliveryPartnerId,
+    @JsonKey(name: "offer_title") final String? offerTitle,
   }) = _$EditOfferResponseImpl;
 
   factory _EditOfferResponse.fromJson(Map<String, dynamic> json) =
@@ -578,6 +600,9 @@ abstract class _EditOfferResponse implements EditOfferResponse {
   @override
   @JsonKey(name: "delivery_partner_id")
   int? get deliveryPartnerId;
+  @override
+  @JsonKey(name: "offer_title")
+  String? get offerTitle;
 
   /// Create a copy of EditOfferResponse
   /// with the given fields replaced by the non-null parameter values.
