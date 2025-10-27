@@ -194,6 +194,7 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
 }) async {
   try {
     final networkProvider = await NetworkProvider();
+    
 
     log('Uploading image with userId: $userId, resourceType: $resourceType, companyId: $companyId');
 
@@ -209,7 +210,7 @@ Future<ResponseResult<ProductImageListResponse>> uploadProductImage({
     });
 
     final res = await networkProvider.dio.post(
-      ApiEndpoints.uploadProductImage(), // ✅ make sure this doesn’t repeat `/api`
+      ApiEndpoints.uploadProductImage(), 
       data: formData,
       options: Options(headers: {
         'Authorization': 'Bearer your_actual_token_here',

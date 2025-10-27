@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:io' show File;
-import 'package:admin_v2/features/auth/cubit/auth_cubit.dart';
-import 'package:admin_v2/features/dashboard/cubit/dashboard_cubit.dart';
+
 import 'package:admin_v2/features/products/cubit/product_cubit.dart';
-import 'package:admin_v2/features/report/domain/models/productimage/product_image_response.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,6 +35,24 @@ class UploadConfirmationDialog extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () async {
+            final file = File(imageFile.path);
+            final int fileSizeInBytes = await file.length();
+            final double fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+
+            if (fileSizeInMB > 2) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'The selected image is too large (${fileSizeInMB.toStringAsFixed(2)} MB). '
+                    'Please choose an image smaller than 2MB.',
+                  ),
+                  backgroundColor: Colors.redAccent,
+                ),
+              );
+              return;
+            }
+
+            // If size is okay, proceed to upload
             _uploadImage(context, imageFile);
             Navigator.of(context).pop();
           },
@@ -48,6 +64,7 @@ class UploadConfirmationDialog extends StatelessWidget {
 
   void _uploadImage(BuildContext context, XFile imageFile) async {
     final productState = context.read<ProductCubit>().state;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -56,7 +73,7 @@ class UploadConfirmationDialog extends StatelessWidget {
 
     try {
       await context.read<ProductCubit>().uploadProductImage(
-        storeId:15,
+        storeId: 15,
         userId: 1,
         resourceType: 1,
         companyId: 1,
@@ -64,7 +81,7 @@ class UploadConfirmationDialog extends StatelessWidget {
       );
       Navigator.of(context).pop();
     } catch (e) {
-      // Navigator.of(context).pop();
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Error uploading image: $e')));
