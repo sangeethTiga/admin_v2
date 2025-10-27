@@ -114,14 +114,14 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
   }
 
   void _updateDiscountFromOfferPrice(ReportState state) {
+    if (_isUpdating) return;
+    _isUpdating = true;
+
     final offerText = double.tryParse(offerPrice.text) ?? 0.0;
-    final productText = state.selectedProductName?.productPrice;
+    final productPrice = state.selectedProductName?.productPrice ?? 0.0;
 
-    final offerPrices = offerText;
-    final productPrice = productText ?? 0;
-
-    if ((offerPrices) > 0 && productPrice > 0) {
-      if (offerPrices > productPrice) {
+    if (offerText > 0 && productPrice > 0) {
+      if (offerText > productPrice) {
         _scaffoldMessengerKey.currentState?.clearSnackBars();
         _scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
@@ -135,12 +135,48 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
           ),
         );
       } else {
-        final discount = ((productPrice - offerPrices) / productPrice) * 100;
+        final discount = ((productPrice - offerText) / productPrice) * 100;
         offerPercentage.text = discount.toStringAsFixed(0);
       }
     } else {
-      offerPercentage.text = '';
+      offerPercentage.clear();
     }
+
+    _isUpdating = false;
+  }
+
+  bool _isUpdating = false;
+
+  void _updateOfferPriceFromDiscount(ReportState state) {
+    if (_isUpdating) return;
+    _isUpdating = true;
+
+    final discountText = double.tryParse(offerPercentage.text) ?? 0;
+    final productPrice = state.selectedProductName?.productPrice ?? 0;
+
+    if (discountText > 0 && productPrice > 0) {
+      if (discountText >= 100) {
+        _scaffoldMessengerKey.currentState?.clearSnackBars();
+        _scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(
+            content: const Text('Discount cannot be 100% or more.'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      } else {
+        final offerPriceValue =
+            productPrice - ((discountText / 100) * productPrice);
+
+        offerPrice.text = offerPriceValue.round().toString();
+      }
+    } else if (discountText == 0) {
+      offerPrice.clear();
+    }
+
+    _isUpdating = false;
   }
 
   void _clearFormData() {
@@ -193,48 +229,8 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                         top: 8.h,
                         child: Column(
                           children: [
-                            // BlocBuilder<ReportCubit, ReportState>(
-                            //   builder: (context, state) {
-                            //     return DropDownFieldWidget(
-                            //       value: state.selectedProductName,
-                            //       topLabelText: 'Product Name',
-                            //       hintText: 'Select Product',
-                            //       items:
-                            //           state.getProductName?.map((e) {
-                            //             return DropdownMenuItem<
-                            //               ProductNameResponse
-                            //             >(
-                            //               value: e,
-                            //               child: Text(e.productName ?? ''),
-                            //             );
-                            //           }).toList() ??
-                            //           [],
-                            //       borderColor: kBlack,
-                            //       fillColor: const Color(0XFFEFF1F1),
-                            //       onChanged: (p0) {
-                            //         context.read<ReportCubit>().changeProducts(
-                            //           p0,
-                            //         );
-                            //       },
-                            //     );
-                            //   },
-                            // ),
                             BlocBuilder<ReportCubit, ReportState>(
                               builder: (context, state) {
-                                // if (widget.data?['is_edit_search'] == true) {
-                                //   return ReadOnlySearchableDropdown<
-                                //     ProductNameResponse
-                                //   >(
-                                //     value: state.selectedProductName,
-                                //     topLabelText: 'Product Name',
-                                //     hintText: 'No product selected',
-                                //     displayText: (product) =>
-                                //         product.productName ?? '',
-                                //     fillColor: const Color(0XFFEFF1F1),
-                                //     borderColor: kBlack,
-                                //   );
-                                // }
-
                                 return SearchableDropdownWidget<
                                   ProductNameResponse
                                 >(
@@ -384,7 +380,11 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
                                   color: Color(0XFFB7C6C2),
                                 ),
                               ),
+                              onChanged: (p0) {
+                                _updateOfferPriceFromDiscount(state);
+                              },
                             ),
+
                             15.verticalSpace,
 
                             Row(
@@ -545,7 +545,7 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
     }
 
     if (isEdit) {
-            final bool isCustomOffer =
+      final bool isCustomOffer =
           state.selectedType?.offerType == 'Custom Offer Type';
       final fromDate =
           context.read<ReportCubit>().state.selectedOfferDate ?? DateTime.now();
@@ -559,8 +559,10 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         storeId: widget.data?['storeId'] ?? 0,
         productId: state.selectedProductName?.productId,
         branchId: 0,
-        
-        offerTitle: isCustomOffer ? offerTitleController.text.trim() : state.selectedType?.offerType,
+
+        offerTitle: isCustomOffer
+            ? offerTitleController.text.trim()
+            : state.selectedType?.offerType,
 
         // couponId: 0,
         createdBy: 1,
@@ -593,8 +595,9 @@ class _CreateOfferScreenState extends State<CreateOfferScreen> {
         offerFromDate: startDateTime,
         offerToDate: endDateTime,
 
-        offerTitle: isCustomOffer ? offerTitleController.text.trim() : state.selectedType?.offerType,
-        
+        offerTitle: isCustomOffer
+            ? offerTitleController.text.trim()
+            : state.selectedType?.offerType,
 
         createdBy: 1,
         updatedBy: 1,

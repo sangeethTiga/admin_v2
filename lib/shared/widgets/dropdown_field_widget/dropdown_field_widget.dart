@@ -371,25 +371,27 @@ class _SearchableDropdownWidgetState<T>
                       icon: Icon(Icons.clear, size: 18.sp, color: Colors.grey),
                       onPressed: _clearSelection,
                     ),
-                  IconButton(
-                    icon: Icon(
-                      _isExpanded
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      size: 20.sp,
-                      color: Colors.grey,
+
+                  if (_searchController.text.isEmpty)
+                    IconButton(
+                      icon: Icon(
+                        _isExpanded
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        size: 20.sp,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isExpanded = !_isExpanded;
+                        });
+                        if (_isExpanded) {
+                          _focusNode.requestFocus();
+                        } else {
+                          _focusNode.unfocus();
+                        }
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _isExpanded = !_isExpanded;
-                      });
-                      if (_isExpanded) {
-                        _focusNode.requestFocus();
-                      } else {
-                        _focusNode.unfocus();
-                      }
-                    },
-                  ),
                 ],
               ),
             ),

@@ -106,13 +106,13 @@ class _CreateProductState extends State<CreateProduct> {
                     ),
 
                     18.verticalSpace,
-                     CustomMaterialBtton(
+                    //  CustomMaterialBtton(
 
-                        buttonText: 'Select Image',
-                        onPressed: () {
-                          _showImagePickerOptions(context);
-                        },
-                      ),
+                    //     buttonText: 'Select Image',
+                    //     onPressed: () {
+                    //       _showImagePickerOptions(context);
+                    //     },
+                    //   ),
                     BlocBuilder<ProductCubit, ProductState>(
                       builder: (context, state) {
                         if (state.productImage == null ||
